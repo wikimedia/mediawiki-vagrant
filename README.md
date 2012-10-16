@@ -1,4 +1,4 @@
 wmf-vagrant
 ===========
 
-WMF Vagrant
+Skeleton Vagrant config for WMF.
