@@ -1,0 +1,4 @@
+wmf-vagrant
+===========
+
+WMF Vagrant
