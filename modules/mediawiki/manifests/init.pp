@@ -7,10 +7,15 @@ class mediawiki {
 		owner => root,
 		group => root,
 		content => template('apache/sites/wiki'),
-		ensure => present;
+		ensure => present,
+		require => Package["apache2"];
 	} ->
 
-	apache::enable_site { "wiki": name => "wiki" }
+	apache::enable_site { "wiki":
+		name => "wiki",
+		require => File["/etc/apache2/sites-available/wiki"]
+	}
+
 	apache::disable_site { "default": name => "default" }
 
 	file { '/srv/mediawiki/orig':                                                                               
