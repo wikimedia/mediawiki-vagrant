@@ -23,7 +23,7 @@ Vagrant::Config.run do |config|
 	Vagrant::Config.run do |config|
 
 		config.vm.provision :puppet do |puppet|
-			# puppet.options = "--verbose --debug"
+			puppet.options = "--verbose --debug"
 			puppet.manifest_file = "base.pp"
 			puppet.manifests_path = "manifests"
 			puppet.module_path = "modules"

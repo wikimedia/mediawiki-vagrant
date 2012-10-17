@@ -23,7 +23,7 @@ class mediawiki {
 	}
 
 	exec { 'mediawiki_setup':
-		require => [Package["mysql-server"], Package["apache2"]],
+		require => [Package["mysql-server"], Exec["mysql-set-password"], Package["apache2"]],
 		creates => "/srv/mediawiki/orig/LocalSettings.php",
 		command => "/usr/bin/php /srv/mediawiki/maintenance/install.php testwiki admin --pass vagrant --dbname testwiki --dbuser root --dbpass vagrant --server $mwserver --scriptpath '/srv/mediawiki' --confpath '/srv/mediawiki/orig/'",
 		logoutput => "on_failure";
