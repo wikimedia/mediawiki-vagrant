@@ -15,5 +15,6 @@ include generic
 include memcached
 include mysql
 include php
+include phpsh
 include apache
 include mediawiki

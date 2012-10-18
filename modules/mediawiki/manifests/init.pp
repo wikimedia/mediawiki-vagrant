@@ -18,10 +18,6 @@ class mediawiki {
 
 	apache::disable_site { "default": name => "default"; }
 
-	file { '/srv/mediawiki/orig':                                                                               
-		ensure => 'directory';
-	}
-
 	exec { 'mediawiki_setup':
 		require => [Package["mysql-server"], Exec["mysql-set-password"], Package["apache2"]],
 		creates => "/srv/LocalSettings.php",
@@ -34,7 +30,7 @@ class mediawiki {
 	}
 
 	file { '/var/www/srv/mediawiki':
-		require => [File['/var/www/srv']],
+		require => File['/var/www/srv'],
 		ensure  => 'link',
 		target  => '/srv/mediawiki';
 	}
