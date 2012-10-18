@@ -6,17 +6,17 @@ class mediawiki {
 		mode => 644,
 		owner => root,
 		group => root,
-		content => template('apache/sites/wiki'),
+		content => template("apache/sites/wiki"),
 		ensure => present,
 		require => Package["apache2"];
 	} ->
 
 	apache::enable_site { "wiki":
 		name => "wiki",
-		require => File["/etc/apache2/sites-available/wiki"]
+		require => File["/etc/apache2/sites-available/wiki"];
 	}
 
-	apache::disable_site { "default": name => "default" }
+	apache::disable_site { "default": name => "default"; }
 
 	file { '/srv/mediawiki/orig':                                                                               
 		ensure => 'directory';
@@ -24,8 +24,8 @@ class mediawiki {
 
 	exec { 'mediawiki_setup':
 		require => [Package["mysql-server"], Exec["mysql-set-password"], Package["apache2"]],
-		creates => "/srv/mediawiki/orig/LocalSettings.php",
-		command => "/usr/bin/php /srv/mediawiki/maintenance/install.php testwiki admin --pass vagrant --dbname testwiki --dbuser root --dbpass vagrant --server $mwserver --scriptpath '/srv/mediawiki' --confpath '/srv/mediawiki/orig/'",
+		creates => "/srv/LocalSettings.php",
+		command => "/usr/bin/php /srv/mediawiki/maintenance/install.php testwiki admin --pass vagrant --dbname testwiki --dbuser root --dbpass vagrant --server $mwserver --scriptpath '/srv/mediawiki' --confpath '/srv/'",
 		logoutput => "on_failure";
 	} ->
 

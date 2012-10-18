@@ -12,7 +12,7 @@ You'll need to install [Vagrant][0] and [VirtualBox][1] (>= 4.1).
 
 ```bash
 git clone https://github.com/atdt/wmf-vagrant.git
-cd ./wmf-vagrant:
+cd ./wmf-vagrant
 git submodule update --init
 vagrant up
 ```
@@ -24,6 +24,8 @@ VM, which is running Ubuntu Precise 32-bit.
 
 The `mediawiki/` sub-folder in the repository is mounted as `/srv/mediawiki`,
 and port 8080 on the host is forwarded to port 80 on the guest.
+
+The MySQL root password and the MediaWiki admin password are both "vagrant".
 
   [0]: http://vagrantup.com/v1/docs/getting-started/index.html
   [1]: https://www.virtualbox.org/wiki/Downloads

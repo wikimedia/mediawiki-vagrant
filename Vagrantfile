@@ -17,17 +17,18 @@ Vagrant::Config.run do |config|
 	# Forward tcp://host:8080 => tcp://guest:80
 	config.vm.forward_port 80, 8080
 
-	# Mount "./mediawiki" as "/srv/mediawiki" in the guest VM.
-	config.vm.share_folder "mediawiki", "/srv/mediawiki", "mediawiki"
+	# Mount working folder as "/vagrant" in guest VM.
+	config.vm.share_folder "vagrant", "/srv", "."
 
-	Vagrant::Config.run do |config|
+	# To enable NFS, see: http://vagrantup.com/v1/docs/nfs.html
+	# NFS improves the performance of file sharing considerably,
+	# but requires admin rights to install on OS X.
 
-		config.vm.provision :puppet do |puppet|
-			puppet.options = "--verbose --debug"
-			puppet.manifest_file = "base.pp"
-			puppet.manifests_path = "manifests"
-			puppet.module_path = "modules"
-		end
+	config.vm.provision :puppet do |puppet|
+		puppet.options = ["--verbose", "--debug"]
+		puppet.manifest_file = "base.pp"
+		puppet.manifests_path = "manifests"
+		puppet.module_path = "modules"
 	end
 
 end
