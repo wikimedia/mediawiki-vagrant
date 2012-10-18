@@ -5,10 +5,10 @@
 ###
 ###  Changes to this file will be clobbered by Puppet.
 ###  If you need to hand-edit local settings, modify
-###  the included orig/LocalSettings.php.
+###  LocalSettings.php in the Vagrant project root.
 ###
 #####################################################################
 
-require( 'orig/LocalSettings.php' );
+require( '../LocalSettings.php' );
 
 $wgArticlePath      = "/wiki/$1";

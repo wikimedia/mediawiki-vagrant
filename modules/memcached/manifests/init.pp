@@ -1,6 +1,6 @@
 class memcached {
 
-	$memcached_size = '200'
+	$memcached_size = '200' # Mb
 	$memcached_port = '11000'
 	$memcached_ip = '0.0.0.0'
 
@@ -17,7 +17,8 @@ class memcached {
 
 	service { memcached:
 		require => Package[memcached],
-		enable     => true,
+		enable => true,
 		ensure => running;
 	}
+
 }
