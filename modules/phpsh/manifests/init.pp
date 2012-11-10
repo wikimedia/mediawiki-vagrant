@@ -1,10 +1,12 @@
 class phpsh {
 
 	package { "python-pip":
-		ensure => latest;
+		require => Exec["apt-update"],
+		ensure  => latest;
 	}
 
 	package { "exuberant-ctags":
+		require => Exec["apt-update"],
 		ensure => latest;
 	}
 

@@ -6,7 +6,8 @@ class apache {
 	} ->
 
 	package { "apache2":
-		ensure => present;
+		require => Exec["apt-update"],
+		ensure  => present;
 	}
 
 	service { "apache2":

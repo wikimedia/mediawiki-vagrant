@@ -3,7 +3,8 @@ class mysql {
 	$password = "vagrant"
 
 	package { "mysql-server":
-		ensure => installed
+		require => Exec["apt-update"],
+		ensure  => installed;
 	}
 
 	service { "mysql":
