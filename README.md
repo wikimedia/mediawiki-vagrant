@@ -25,7 +25,15 @@ VM, which is running Ubuntu Precise 32-bit.
 The `mediawiki/` sub-folder in the repository is mounted as `/srv/mediawiki`,
 and port 8080 on the host is forwarded to port 80 on the guest.
 
-The MySQL root password and the MediaWiki admin password are both "vagrant".
+The MySQL root credentials are:
+
+* Username: root
+* Password: vagrant
+
+The MediaWiki credentials are:
+
+* Username: admin
+* Password: vagrant
 
   [0]: http://vagrantup.com/v1/docs/getting-started/index.html
   [1]: https://www.virtualbox.org/wiki/Downloads
