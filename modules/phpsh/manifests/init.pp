@@ -17,8 +17,8 @@ class phpsh {
 		command => "pip install https://github.com/facebook/phpsh/tarball/master";
 	}
 
-	file { '/etc/phpsh':
-		ensure => 'directory';
+	file { "/etc/phpsh":
+		ensure => "directory";
 	}
 
 	file { "/etc/phpsh/rc.php":
