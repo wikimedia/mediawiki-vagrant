@@ -12,3 +12,5 @@
 require( '../LocalSettings.php' );
 
 $wgArticlePath      = "/wiki/$1";
+
+$wgGroupPermissions['*']['createpage'] = false;
