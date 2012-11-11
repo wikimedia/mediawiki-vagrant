@@ -1,8 +1,8 @@
 class apache {
 
-	file { '/var/log/apache2/error.log':
-	   ensure => 'link',
-	   target => '/srv/apache2-error.log';
+	file { "/var/log/apache2/error.log":
+	   ensure => "link",
+	   target => "/srv/apache2-error.log";
 	} ->
 
 	package { "apache2":
