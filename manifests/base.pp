@@ -6,8 +6,15 @@ class generic {
 	group { 'puppet':
 		ensure => 'present'
 	}
-	exec { 'apt-get update':
-		command => '/usr/bin/apt-get update'
+
+	# Replace geo-specific URLs with generic ones.
+	exec { 'fix-sources':
+		command => "sed -i'' -e 's/us\\.archive/archive/g' /etc/apt/sources.list"
+	}
+
+	exec { 'apt-update':
+		require => Exec['fix-sources'],
+		command => '/usr/bin/apt-get update';
 	}
 }
 
