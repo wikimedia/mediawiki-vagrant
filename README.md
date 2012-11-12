@@ -11,7 +11,7 @@ You'll need to install [Vagrant][0] and [VirtualBox][1] (>= 4.1).
 ## Installation ##
 
 ```bash
-git clone https://github.com/atdt/wmf-vagrant.git
+git clone https://github.com/wikimedia/wmf-vagrant.git
 cd ./wmf-vagrant
 git submodule update --init
 vagrant up
