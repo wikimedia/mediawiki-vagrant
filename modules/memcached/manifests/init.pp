@@ -4,7 +4,7 @@ class memcached {
 	$memcached_port = "11000"
 	$memcached_ip = "0.0.0.0"
 
-	package { memcached:
+	package { ["memcached", "libmemcached6"]:
 		require => Exec["apt-update"],
 		ensure  => latest;
 	}
@@ -17,7 +17,7 @@ class memcached {
 	} ->
 
 	service { memcached:
-		require => Package[memcached],
+		require => Package["memcached"],
 		enable => true,
 		ensure => running;
 	}

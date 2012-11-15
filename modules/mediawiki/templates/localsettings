@@ -1,7 +1,6 @@
 <?php
 #####################################################################
 ### THIS FILE IS MANAGED BY PUPPET
-### puppet:///templates/mediawiki/labs-localsettings
 ###
 ###  Changes to this file will be clobbered by Puppet.
 ###  If you need to hand-edit local settings, modify
@@ -14,3 +13,7 @@ require( '../LocalSettings.php' );
 $wgArticlePath      = "/wiki/$1";
 
 $wgGroupPermissions['*']['createpage'] = false;
+
+# Memcached
+$wgMainCacheType = CACHE_MEMCACHED;
+$wgMemCachedServers = array( "127.0.0.1:11211" );
