@@ -35,6 +35,12 @@ class mediawiki {
 		target  => "/srv/mediawiki";
 	}
 
+	# Logo derived from [[:commons:File:Wikidata_Logo_TMg_Hexagon_Cube.svg]] by TMg.
+	file { "/var/www/srv/vagrant-wmf-logo.png":
+		source => "puppet:///modules/mediawiki/vagrant-wmf-logo.png",
+		ensure => present;
+	}
+
 	file { "/srv/mediawiki/LocalSettings.php":
 		require => Exec["mediawiki_setup"],
 		content => template("mediawiki/localsettings"),
