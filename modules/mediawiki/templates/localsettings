@@ -10,7 +10,8 @@
 
 require( '../LocalSettings.php' );
 
-$wgArticlePath      = "/wiki/$1";
+$wgArticlePath = "/wiki/$1";
+$wgLogo = '/srv/vagrant-wmf-logo.png';
 
 $wgGroupPermissions['*']['createpage'] = false;
 

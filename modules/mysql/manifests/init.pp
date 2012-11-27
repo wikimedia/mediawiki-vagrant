@@ -17,7 +17,7 @@ class mysql {
 	exec { "mysql-set-password":
 		subscribe => Service["mysql"],
 		unless   => "mysqladmin -uroot -p${password} status",
-		command => "mysqladmin -uroot password ${password}",
+		command => "mysqladmin -uroot -p'' password ${password}",
 	}
 
 }
