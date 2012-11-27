@@ -20,7 +20,7 @@ git submodule update --init
 vagrant up
 ```
 
-It'll take some time, because it'll need to fetch the base precise32 box if you
+It'll take some time, because it'll need to fetch the base precise64 box if you
 don't already have it. Once it's done, you should be able to browse to
 http://127.0.0.1:8080/w/ and see a vanilla MediaWiki install, served by the guest
 VM, which is running Ubuntu Precise 64-bit.
