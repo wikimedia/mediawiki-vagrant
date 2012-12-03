@@ -1,4 +1,4 @@
-[![wmf-vagrant][0]][1]
+![wmf-vagrant](https://raw.github.com/wikimedia/wmf-vagrant/master/modules/mediawiki/files/vagrant-wmf-logo.png)
 
 
 MediaWiki Vagrant
@@ -9,7 +9,7 @@ A portable MediaWiki development environment.
 
 ## Prerequisites ##
 
-You'll need to install [Vagrant][2] and [VirtualBox][3] (>= 4.1).
+You'll need to install [Vagrant](http://vagrantup.com/v1/docs/getting-started/index.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) (>= 4.1).
 
 ## Installation ##
 
@@ -39,8 +39,3 @@ The MediaWiki credentials are:
 * Password: vagrant
 
 To SSH into your VM, simply type `vagrant ssh`.
-
-  [0]: https://raw.github.com/wikimedia/wmf-vagrant/master/modules/mediawiki/files/vagrant-wmf-logo.png
-  [1]: http://travis-ci.org/atdt/snoflake
-  [2]: http://vagrantup.com/v1/docs/getting-started/index.html
-  [3]: https://www.virtualbox.org/wiki/Downloads
