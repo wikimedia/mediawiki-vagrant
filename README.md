@@ -11,6 +11,8 @@ A portable MediaWiki development environment.
 
 You'll need to install [Vagrant](http://vagrantup.com/v1/docs/getting-started/index.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) (>= 4.1).
 
+You must enable hardware virtualization (VT-x or AMD-V).  This is often a BIOS setting.
+
 ## Installation ##
 
 ```bash
