@@ -8,7 +8,7 @@
 ###
 #####################################################################
 
-require( '../LocalSettings.php' );
+require( __DIR__ . '/../LocalSettings.php' );
 
 $wgArticlePath = "/wiki/$1";
 $wgLogo = '/srv/vagrant-wmf-logo.png';
