@@ -17,4 +17,4 @@ $wgGroupPermissions['*']['createpage'] = false;
 
 # Memcached
 $wgMainCacheType = CACHE_MEMCACHED;
-$wgMemCachedServers = array( "127.0.0.1:11211" );
+$wgMemCachedServers = array( "127.0.0.1:11000" );
