@@ -41,6 +41,11 @@ class mediawiki {
 		ensure => present;
 	}
 
+	file { "/var/www/favicon.ico":
+		source   => "puppet:///modules/mediawiki/favicon.ico",
+		ensure => present;
+	}
+
 	file { "/srv/mediawiki/LocalSettings.php":
 		require => Exec["mediawiki_setup"],
 		content => template("mediawiki/localsettings"),
