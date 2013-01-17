@@ -18,7 +18,10 @@ Vagrant::Config.run do |config|
 	config.vm.forward_port 80, 8080
 
 	# Mount working folder as "/vagrant" in guest VM.
-	config.vm.share_folder "vagrant", "/srv", "."
+	config.vm.share_folder "vagrant", "/srv", ".",
+		:owner => 'vagrant',
+		:group => 'www-data',
+		:extra => 'dmode=770,fmode=770'
 
 	# To enable NFS, see: http://vagrantup.com/v1/docs/nfs.html
 	# NFS improves the performance of file sharing considerably,
