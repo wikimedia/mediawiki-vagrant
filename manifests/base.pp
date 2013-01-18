@@ -4,7 +4,7 @@ Exec {
 
 class generic { 
 	group { 'puppet':
-		ensure => 'present'
+		ensure => present
 	}
 
 	# Replace geo-specific URLs with generic ones.
@@ -15,6 +15,10 @@ class generic {
 	exec { 'apt-update':
 		require => Exec['fix-sources'],
 		command => '/usr/bin/apt-get update';
+	}
+
+	package { 'git':
+		ensure => present
 	}
 }
 
