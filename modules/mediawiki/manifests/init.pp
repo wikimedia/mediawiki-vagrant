@@ -29,6 +29,11 @@ class mediawiki {
 		ensure => "directory";
 	}
 
+	line { mw_install_path:
+		file => "/home/vagrant/.profile",
+		line => "export MW_INSTALL_PATH=/srv/mediawiki"
+	}
+
 	file { "/var/www/srv/mediawiki":
 		require => File["/var/www/srv"],
 		ensure  => "link",
@@ -50,5 +55,9 @@ class mediawiki {
 		require => Exec["mediawiki_setup"],
 		content => template("mediawiki/localsettings"),
 		ensure => present;
+	}
+
+	exec { "/srv/mediawiki/tests/phpunit/install-phpunit.sh":
+		require => Exec["mediawiki_setup"],
 	}
 }
