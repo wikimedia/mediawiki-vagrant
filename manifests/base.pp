@@ -2,6 +2,12 @@ Exec {
 	path => ["/usr/bin", "/bin", "/usr/sbin", "/sbin", "/usr/local/bin", "/usr/local/sbin"]
 }
 
+define line($file, $line) {
+	exec { "/bin/echo '${line}' >> '${file}'":
+		unless => "/bin/grep '${line}' '${file}'"
+	}
+}
+
 class generic { 
 	group { 'puppet':
 		ensure => present
