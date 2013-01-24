@@ -11,7 +11,12 @@ A portable MediaWiki development environment.
 
 You'll need to install [Vagrant](http://vagrantup.com/v1/docs/getting-started/index.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) (>= 4.1).
 
-You must enable hardware virtualization (VT-x or AMD-V).  This is often a BIOS setting.
+**IMPORTANT**: You must enable hardware virtualization (VT-x or AMD-V).  This
+is often a BIOS setting. If you don't do that, you'll probably get an error in
+the last step of the installation, 'vagrant up'. You can verify this by trying
+to launch the VM from the VirtualBox GUI. If an error message appears that says
+something about "VT-X", you need to reboot the host machine and enable the BIOS
+setting that allows hardware virtualization.
 
 ## Installation ##
 
@@ -41,3 +46,4 @@ The MediaWiki credentials are:
 * Password: vagrant
 
 To SSH into your VM, simply type `vagrant ssh`.
+
