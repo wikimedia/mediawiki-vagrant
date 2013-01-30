@@ -21,8 +21,8 @@ setting that allows hardware virtualization.
 ## Installation ##
 
 ```bash
-git clone https://github.com/wikimedia/wmf-vagrant.git
-cd ./wmf-vagrant
+git clone https://github.com/wikimedia/mediawiki-vagrant.git
+cd ./mediawiki-vagrant
 git submodule update --init
 vagrant up
 ```
