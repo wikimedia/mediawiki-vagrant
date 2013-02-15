@@ -1,4 +1,4 @@
-![wmf-vagrant](https://raw.github.com/wikimedia/wmf-vagrant/master/modules/mediawiki/files/vagrant-wmf-logo.png)
+![mediawiki-vagrant](https://raw.github.com/wikimedia/mediawiki-vagrant/master/modules/mediawiki/files/vagrant-wmf-logo.png)
 
 
 MediaWiki Vagrant
@@ -21,8 +21,8 @@ setting that allows hardware virtualization.
 ## Installation ##
 
 ```bash
-git clone https://github.com/wikimedia/wmf-vagrant.git
-cd ./wmf-vagrant
+git clone https://github.com/wikimedia/mediawiki-vagrant.git
+cd ./mediawiki-vagrant
 git submodule update --init
 vagrant up
 ```
