@@ -1,0 +1,36 @@
+# vim: filetype=apache sts=4 sw=4 autoindent
+<VirtualHost *>
+    ServerName vagrant
+    ServerAdmin http://www.mediawiki.org/wiki/Vagrant
+    DocumentRoot "/var/www"
+
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride None
+    </Directory>
+
+    <Directory /var/www/>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    <Directory /vagrant/mediawiki/>
+        AllowOverride All
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    AllowEncodedSlashes on
+    RewriteEngine On
+
+    Alias /wiki /var/www/w/index.php
+    RewriteRule ^/$ /w/index.php
+    RewriteRule ^/w/$ /w/index.php
+
+    ErrorLog "/vagrant/logs/apache-error.log"
+    LogLevel error
+
+    ServerSignature Off
+</VirtualHost>

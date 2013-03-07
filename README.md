@@ -1,4 +1,4 @@
-![mediawiki-vagrant](https://raw.github.com/wikimedia/mediawiki-vagrant/master/modules/mediawiki/files/vagrant-wmf-logo.png)
+![mediawiki-vagrant](http://upload.wikimedia.org/wikipedia/commons/thumb/c/c0/MediaWiki_Vagrant.svg/200px-MediaWiki_Vagrant.svg.png)
 
 
 MediaWiki Vagrant
@@ -9,7 +9,9 @@ A portable MediaWiki development environment.
 
 ## Prerequisites ##
 
-You'll need to install [Vagrant](http://vagrantup.com/v1/docs/getting-started/index.html) and [VirtualBox](https://www.virtualbox.org/wiki/Downloads) (>= 4.1).
+You'll need to install
+[Vagrant](http://vagrantup.com/v1/docs/getting-started/index.html) and
+[VirtualBox](https://www.virtualbox.org/wiki/Downloads) (>= 4.1).
 
 **IMPORTANT**: You must enable hardware virtualization (VT-x or AMD-V).  This
 is often a BIOS setting. If you don't do that, you'll probably get an error in
@@ -23,7 +25,6 @@ setting that allows hardware virtualization.
 ```bash
 git clone https://github.com/wikimedia/mediawiki-vagrant.git
 cd ./mediawiki-vagrant
-git submodule update --init
 vagrant up
 ```
 
@@ -32,7 +33,7 @@ don't already have it. Once it's done, you should be able to browse to
 http://127.0.0.1:8080/w/ and see a vanilla MediaWiki install, served by the guest
 VM, which is running Ubuntu Precise 64-bit.
 
-The `mediawiki/` sub-folder in the repository is mounted as `/srv/mediawiki`,
+The `mediawiki/` sub-folder in the repository is mounted as `/vagrant/mediawiki`,
 and port 8080 on the host is forwarded to port 80 on the guest.
 
 The MySQL root credentials are:
@@ -46,4 +47,3 @@ The MediaWiki credentials are:
 * Password: vagrant
 
 To SSH into your VM, simply type `vagrant ssh`.
-

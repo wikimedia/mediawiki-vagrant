@@ -1,0 +1,10 @@
+# memcached default config file
+-d
+-m <%= size_mb %>
+-p <%= port %>
+-u nobody
+-l <%= iface %>
+-c 20000
+-n 5
+-f 1.05
+logfile /var/log/memcached.log

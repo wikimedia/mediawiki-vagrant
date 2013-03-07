@@ -1,3 +1,4 @@
 .vagrant
 LocalSettings.php
-apache2-error.log
+tags
+mediawiki

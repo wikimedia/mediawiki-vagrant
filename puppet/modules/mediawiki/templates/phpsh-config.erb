@@ -1,0 +1,7 @@
+# See https://github.com/facebook/phpsh/blob/master/src/config.sample
+
+[General]
+UndefinedFunctionCheck: yes
+
+[Debugging]
+Xdebug: <%= `php-config --extension-dir` %=>/xdebug.so

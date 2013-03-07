@@ -1,0 +1,6 @@
+#!/bin/sh
+toilet --gay -w 100 -f ascii12 MediaWiki
+printf " * For a database shell, run '\033[33mmysql\033[0m'.\n"
+printf " * To interactively evaluate PHP and MediaWiki code, run '\033[33mphpsh\033[0m'.\n"
+printf " * For help, visit \033[34;4mhttps://mediawiki.org\033[0m or \033[33m#mediawiki\033[0m on chat.freenode.net.\n\n"
+/usr/bin/landscape-sysinfo --exclude-sysinfo-plugins=LandscapeLink

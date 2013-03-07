@@ -1,3 +1,0 @@
-[submodule "mediawiki"]
-	path = mediawiki
-	url = git://github.com/wikimedia/mediawiki-core.git

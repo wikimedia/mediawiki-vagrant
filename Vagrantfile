@@ -1,37 +1,56 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-Vagrant::Config.run do |config|
+# Check if the host environment supports NFS.
+def host_supports_nfs?
+    system( '( nfsstat || nfsiostat ) &>/dev/null' ) and not $?.exitstatus
+end
 
-	config.vm.box = "precise64"
-	config.vm.box_url = "http://files.vagrantup.com/precise64.box"
 
-	# Boot with a GUI so you can see the screen. (Default is headless)
-	# config.vm.boot_mode = :gui
+Vagrant.configure('2') do |config|
 
-	# Assign this VM to a bridged network, allowing you to connect directly to a
-	# network using the host's network device. This makes the VM appear as another
-	# physical device on your network.
-	config.vm.network :bridged
+    config.vm.hostname = 'mediawiki-vagrant'
+    config.package.name = 'mediawiki.box'
 
-	# Forward tcp://host:8080 => tcp://guest:80
-	config.vm.forward_port 80, 8080
+    config.vm.box = 'precise-cloud'
+    config.vm.box_url = 'http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
 
-	# Mount working folder as "/vagrant" in guest VM.
-	config.vm.share_folder "vagrant", "/srv", ".",
-		:owner => 'vagrant',
-		:group => 'www-data',
-		:extra => 'dmode=770,fmode=770'
+    config.vm.network :private_network,
+        ip: '10.11.12.13'
 
-	# To enable NFS, see: http://vagrantup.com/v1/docs/nfs.html
-	# NFS improves the performance of file sharing considerably,
-	# but requires admin rights to install on OS X.
+    config.vm.network :forwarded_port,
+        guest: 80,
+        host: 8080,
+        id: 'http',
+        auto_correct: true
 
-	config.vm.provision :puppet do |puppet|
-		puppet.options = ["--verbose", "--debug"]
-		puppet.manifest_file = "base.pp"
-		puppet.manifests_path = "manifests"
-		puppet.module_path = "modules"
-	end
+    config.vm.synced_folder '.', '/vagrant',
+        owner: 'vagrant',
+        group: 'www-data',
+        extra: 'dmode=770,fmode=770',
+        nfs: host_supports_nfs?
+
+    config.vm.synced_folder 'mediawiki', '/var/www/w',
+        owner: 'vagrant',
+        group: 'www-data',
+        extra: 'dmode=770,fmode=770',
+        create: true,
+        nfs: host_supports_nfs?
+
+    config.vm.provider :virtualbox do |vb|
+        vb.customize ['modifyvm', :id, '--memory', '512']
+    end
+
+    config.vm.provision :shell do |s|
+        # Silence 'stdin: is not a tty' error on Puppet run
+        s.inline = 'sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile'
+    end
+
+    config.vm.provision :puppet do |puppet|
+        puppet.module_path = 'puppet/modules'
+        puppet.manifests_path = 'puppet/manifests'
+        puppet.manifest_file = 'site.pp'
+        puppet.options = '--verbose'  # Add '--debug' for more output
+    end
 
 end

@@ -1,0 +1,3 @@
+# Sendfile must be disabled due to a bug in Vagrant.
+# See <https://github.com/mitchellh/vagrant/issues/351>.
+EnableSendfile Off
