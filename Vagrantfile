@@ -6,7 +6,6 @@ def host_supports_nfs?
     system( '( nfsstat || nfsiostat ) &>/dev/null' ) and not $?.exitstatus
 end
 
-
 Vagrant.configure('2') do |config|
 
     config.vm.hostname = 'mediawiki-vagrant'
@@ -38,7 +37,8 @@ Vagrant.configure('2') do |config|
         nfs: host_supports_nfs?
 
     config.vm.provider :virtualbox do |vb|
-        vb.customize ['modifyvm', :id, '--memory', '512']
+        # See http://www.virtualbox.org/manual/ch08.html for additional options.
+        vb.customize ['modifyvm', :id, '--memory', '512', '--ostype', 'Ubuntu_64']
     end
 
     config.vm.provision :shell do |s|
@@ -50,7 +50,7 @@ Vagrant.configure('2') do |config|
         puppet.module_path = 'puppet/modules'
         puppet.manifests_path = 'puppet/manifests'
         puppet.manifest_file = 'site.pp'
-        puppet.options = '--verbose'  # Add '--debug' for more output
+        puppet.options = ['--verbose', ARGV.delete('--debug')].compact
     end
 
 end

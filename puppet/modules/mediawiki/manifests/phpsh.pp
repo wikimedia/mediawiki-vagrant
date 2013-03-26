@@ -8,8 +8,14 @@ class mediawiki::phpsh {
 	exec { 'pip-install-phpsh':
 		creates => '/usr/local/bin/phpsh',
 		command => 'pip install https://github.com/facebook/phpsh/tarball/master',
-		onlyif  => 'ping -c1 -W0.5 -q github.com',  # only if GitHub is reachable
+		onlyif  => 'ping -c1 -w0.5 -q github.com',  # only if GitHub is reachable
 		require => Package['php5', 'python-pip'],
+	}
+
+	file { '/etc/profile.d/phpsh.sh':
+		ensure => file,
+		mode   => '0755',
+		source => 'puppet:///modules/mediawiki/phpsh.sh',
 	}
 
 	file { '/etc/phpsh':

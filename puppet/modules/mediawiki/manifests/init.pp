@@ -22,6 +22,16 @@ class mediawiki(
 		ensure => absent,
 	}
 
+	# If an auto-generated LocalSettings.php file exists but the database it
+	# refers to is missing, assume it is residual of a discarded instance and
+	# delete it.
+	exec { 'check-settings':
+		command => 'rm /vagrant/mediawiki/LocalSettings.php 2>/dev/null || true',
+		require => [ Package['php5'], Exec['fetch-mediawiki'], Service['mysql'] ],
+		unless  => 'php /vagrant/mediawiki/maintenance/eval.php <<<"wfGetDB(-1)" &>/dev/null',
+		before  => Exec['mediawiki-setup'],
+	}
+
 	apache::site { 'wiki':
 		ensure  => present,
 		content => template('mediawiki/mediawiki-apache-site.erb'),
