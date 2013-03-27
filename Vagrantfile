@@ -1,11 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-# Check if the host environment supports NFS.
-def host_supports_nfs?
-    system( '( nfsstat || nfsiostat ) &>/dev/null' ) and not $?.exitstatus
-end
-
 Vagrant.configure('2') do |config|
 
     config.vm.hostname = 'mediawiki-vagrant'
@@ -26,15 +21,13 @@ Vagrant.configure('2') do |config|
     config.vm.synced_folder '.', '/vagrant',
         owner: 'vagrant',
         group: 'www-data',
-        extra: 'dmode=770,fmode=770',
-        nfs: host_supports_nfs?
+        extra: 'dmode=770,fmode=770'
 
     config.vm.synced_folder 'mediawiki', '/var/www/w',
         owner: 'vagrant',
         group: 'www-data',
         extra: 'dmode=770,fmode=770',
-        create: true,
-        nfs: host_supports_nfs?
+        create: true
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
