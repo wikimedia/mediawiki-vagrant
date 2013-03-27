@@ -50,7 +50,7 @@ Vagrant.configure('2') do |config|
         puppet.module_path = 'puppet/modules'
         puppet.manifests_path = 'puppet/manifests'
         puppet.manifest_file = 'site.pp'
-        puppet.options = ['--verbose', ARGV.delete('--debug')].compact
+        puppet.options = '--verbose'  # Add '--debug' for more output
     end
 
 end
