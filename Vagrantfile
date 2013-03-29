@@ -6,8 +6,13 @@ Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant'
     config.package.name = 'mediawiki.box'
 
+    # Note: If you rely on Vagrant to retrieve the box, it will not
+    # verify SSL certificates. If this concerns you, you can retrieve
+    # the file using another tool that implements SSL properly, and then
+    # point Vagrant to the downloaded file:
+    #   $ vagrant box add precise-cloud /path/to/file/precise.box
     config.vm.box = 'precise-cloud'
-    config.vm.box_url = 'http://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
+    config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
 
     config.vm.network :private_network,
         ip: '10.11.12.13'
