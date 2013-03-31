@@ -27,7 +27,7 @@ class mediawiki(
 	# delete it.
 	exec { 'check-settings':
 		command => 'rm /vagrant/mediawiki/LocalSettings.php 2>/dev/null || true',
-		require => [ Package['php5'], Exec['fetch-mediawiki'], Service['mysql'] ],
+		require => [ Package['php5'], Exec['git-clone-mediawiki'], Service['mysql'] ],
 		unless  => 'php /vagrant/mediawiki/maintenance/eval.php <<<"wfGetDB(-1)" &>/dev/null',
 		before  => Exec['mediawiki-setup'],
 	}
@@ -38,7 +38,7 @@ class mediawiki(
 	}
 
 	exec { 'mediawiki-setup':
-		require     => Exec['set-mysql-password', 'fetch-mediawiki'],
+		require     => Exec['set-mysql-password', 'git-clone-mediawiki'],
 		creates     => '/vagrant/mediawiki/LocalSettings.php',
 		cwd         => '/vagrant/mediawiki/maintenance/',
 		command     => "php install.php ${wiki} ${admin} --pass ${pass} --dbname ${dbname} --dbuser ${dbuser} --dbpass ${dbpass} --server ${server} --scriptpath '/w'",

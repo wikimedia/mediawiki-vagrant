@@ -1,50 +1,28 @@
 # Clone MediaWiki via Git
 class mediawiki::git(
-	$repository = 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git',
-	$branch = 'master',
-	$depth = 1
+	$remote = 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git'
 ) {
+
+	exec { 'add-git-core-ppa':
+		command => 'add-apt-repository --yes ppa:git-core/ppa && apt-get update',
+		creates => '/etc/apt/sources.list.d/git-core-ppa-precise.list',
+		before  => Package['git'],
+	}
 
 	package { 'git':
 		ensure => latest,
+		before => Exec['git-clone-mediawiki'],
 	}
 
-	file { '/vagrant/mediawiki':
-		ensure => 'directory',
-		owner  => 'vagrant',
-		mode   => '0770',
-		group  => 'www-data',
-	}
-
-	# Git < 1.7.10 pulls all branches; 1.7.10 versions added '--single-branch'.
-	# This difference means having to count and fetch ~3,000 objects / 19 MB or
-	# ~50,000 objects and >100MB. The workaround here is to initialize an empty
-	# directory and fetch a remote branch into it.
-	#
-	# See https://bugzilla.wikimedia.org/46041 for more information.
-
-	exec { 'initialize-empty-repository':
-		creates => '/vagrant/mediawiki/.git',
-		command => 'git init',
-		cwd     => '/vagrant/mediawiki',
-	}
-
-	exec { 'fetch-mediawiki':
+	exec { 'git-clone-mediawiki':
 		creates   => '/vagrant/mediawiki/.git/refs/remotes',
-		command   => "git fetch --depth=${depth} ${repository} ${branch}:refs/remotes/origin/${branch}",
-		cwd       => '/vagrant/mediawiki',
+		command   => "git clone ${remote} /vagrant/mediawiki",
 		logoutput => true,
 	}
 
-	exec { 'checkout-master':
-		creates => '/vagrant/mediawiki/README',
-		command => "git checkout ${branch}",
-		cwd     => '/vagrant/mediawiki',
+	exec { 'install-git-review':
+		command => 'pip install -U git-review',
+		unless  => 'which git-review',
+		require => Package['python-pip', 'git'],
 	}
-
-	File['/vagrant/mediawiki'] -> Exec['initialize-empty-repository']
-	Package['git'] -> Exec['initialize-empty-repository']
-	Package['git'] -> Exec['fetch-mediawiki']
-	Exec['initialize-empty-repository'] -> Exec['fetch-mediawiki']
-	Exec['fetch-mediawiki'] -> Exec['checkout-master']
 }
