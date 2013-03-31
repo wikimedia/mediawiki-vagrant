@@ -14,16 +14,16 @@ define apache::site( $site = $title, $ensure = 'present', $content = undef ) {
 				}
 			}
 			exec { "/usr/sbin/a2ensite -qf ${site}":
-				returns => [0, 1],
 				require => Package['apache2'],
 				notify  => Exec['reload-apache2'],
+				unless  => "a2dissite <<<'' | head -1 | cut -c 19- | grep -w ${site}"
 			}
 		}
 		absent: {
 			exec { "/usr/sbin/a2dissite -qf ${site}":
-				returns => [0, 1],
 				require => Package['apache2'],
 				notify  => Exec['reload-apache2'],
+				onlyif  => "a2dissite <<<'' | head -1 | cut -c 19- | grep -w ${site}"
 			}
 		}
 	}
