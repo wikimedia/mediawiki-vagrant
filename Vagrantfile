@@ -1,5 +1,23 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+require 'rbconfig'
+
+def windows?
+    RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+end
+
+def get_virtualbox_version
+    begin
+        if windows?
+            ver = `"%ProgramFiles%\\Oracle\\VirtualBox\\VBoxManage" -v`
+        else
+            ver = `VBoxManage -v`
+        end
+    rescue
+        ''
+    end
+    ver.gsub(/r.*/m, '')
+end
 
 Vagrant.configure('2') do |config|
 
@@ -48,7 +66,8 @@ Vagrant.configure('2') do |config|
         puppet.module_path = 'puppet/modules'
         puppet.manifests_path = 'puppet/manifests'
         puppet.manifest_file = 'site.pp'
-        puppet.options = '--verbose'  # Add '--debug' for more output
+        puppet.options = '--verbose'  # Add ' --debug' for more output
+        puppet.facter = { 'virtualbox_version' => get_virtualbox_version }
     end
 
 end

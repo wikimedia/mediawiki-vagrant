@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+VIRTUALBOX_VERSION="$(</etc/virtualbox-version)"
+BASE_URL="http://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}"
+GUEST_ADDITIONS_ISO="VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso"
+GUEST_ADDITIONS_VERSION="$(modinfo -Fversion vboxguest)"
+
+warn () {
+	printf "$(tput setaf 1)%s$(tput sgr0)\n" "$1" >&2
+}
+
+notice () {
+	printf "$(tput setaf 4)%s$(tput sgr0)\n" "$1"
+}
+
+[[ ! $SUDO_COMMAND ]] && {
+    sudo $0
+    exit $?
+}
+
+# Check if Guest additions need to be updated.
+
+[[ ! $VIRTUALBOX_VERSION ]] && {
+    warn 'Cannot determine host VirtualBox version.'
+    exit 1
+}
+
+[[ $GUEST_ADDITIONS_VERSION == "$VIRTUALBOX_VERSION" && $1 != "--force" ]] && {
+    notice 'Guest additions already up-to-date.' >&2
+    exit 0
+}
+
+
+# Download the Guest additions ISO.
+
+cd /tmp
+notice "Downloading ${GUEST_ADDITIONS_ISO}..."
+curl -LOf "${BASE_URL}/${GUEST_ADDITIONS_ISO}" || {
+    warn 'Unable to retrieve guest additions.'
+    exit 1
+}
+
+
+# Verify integrity of downloaded ISO using MD5 checksum
+
+( curl -Lfs "${BASE_URL}/MD5SUMS" | grep "${GUEST_ADDITIONS_ISO}" | md5sum -c ) || {
+    warn 'Could not verify data integrity of guest additions ISO.'
+    rm "${GUEST_ADDITIONS_ISO}"
+    exit 1
+}
+
+
+# Mount Guest additions ISO
+
+MOUNTPOINT="$(mktemp -d guest-additions.XXXXXX)"
+mount -o loop,ro "${GUEST_ADDITIONS_ISO}" "${MOUNTPOINT}" || {
+    warn 'Unable to mount guest additions ISO.'
+    exit 1
+}
+
+
+# Purge conflicting packages and ensure pre-requisites are installed.
+
+notice "Installing dependencies..."
+apt-get -y -q install "dkms" "linux-headers-$(uname -r)" || {
+    warn 'Unable to install pre-requisite packages.'
+    exit 1
+}
+notice "Removing conflicting packages..."
+apt-get -y -q purge virtualbox-guest-dkms virtualbox-guest-utils virtualbox-guest-x11
+
+
+# Run the installer
+
+notice "Running installer. Ignore any warnings about missing X11."
+cd "${MOUNTPOINT}"
+./VBoxLinuxAdditions.run --nox11 -- --force && {
+    notice 'All done. Shutting down. Run "vagrant up" to start the machine.'
+    shutdown -h now
+}

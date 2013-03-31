@@ -1,6 +1,8 @@
 # Provides small enhancements to the shell, such as color prompt and MOTD.
 class misc {
 
+	include virtualbox
+
 	file { '/etc/profile.d/color.sh':
 		ensure => file,
 		mode   => '0755',
