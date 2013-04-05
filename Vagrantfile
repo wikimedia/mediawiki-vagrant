@@ -12,9 +12,9 @@ end
 def get_virtualbox_version
     begin
         if windows?
-            ver = `"%ProgramFiles%\\Oracle\\VirtualBox\\VBoxManage" -v`
+            ver = `"%ProgramFiles%\\Oracle\\VirtualBox\\VBoxManage" -v 2>NULL`
         else
-            ver = `VBoxManage -v`
+            ver = `VBoxManage -v 2>/dev/null`
         end
     rescue
         ver = ''
@@ -51,7 +51,11 @@ Vagrant.configure('2') do |config|
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
-        vb.customize ['modifyvm', :id, '--memory', '512', '--ostype', 'Ubuntu_64']
+        vb.customize ['modifyvm', :id, '--memory', '512']
+        vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
+
+        # If you are on a single-core system, comment out the following line:
+        vb.customize ["modifyvm", :id, '--cpus', '2']
     end
 
     config.vm.provision :shell do |s|
