@@ -39,3 +39,10 @@ foreach( $wgProfilerParams as $param => $cls ) {
 		$wgProfiler['class'] = $cls;
 	}
 }
+
+// Load configuration snippets from ./settings. See settings/README.
+foreach( glob( __DIR__ . '/settings/*.php' ) as $snippet ) {
+	if ( !include_once( $snippet ) ) {
+		echo "Failed to load \"$snippet\".\n";
+	}
+}

@@ -1,0 +1,27 @@
+<?php
+
+// Configuration for VisualEditor extension.
+// Instructions from <http://www.mediawiki.org/wiki/Extension:VisualEditor>.
+
+require_once("$IP/extensions/VisualEditor/VisualEditor.php");
+
+// Create VisualEditor namespace
+define( 'NS_VISUALEDITOR', 2500 );
+define( 'NS_VISUALEDITOR_TALK', 2501 );
+$wgExtraNamespaces[NS_VISUALEDITOR] = 'VisualEditor';
+$wgExtraNamespaces[NS_VISUALEDITOR_TALK] = 'VisualEditor_talk';
+
+// Allow using VisualEditor in the main namespace only (default)
+$wgVisualEditorNamespaces = array( NS_MAIN );
+
+// Restrict VisualEditor to the VisualEditor namespace
+$wgVisualEditorNamespaces = array();
+$wgVisualEditorNamespaces[] = NS_VISUALEDITOR;
+
+// Enable by default for everybody
+$wgDefaultUserOptions['visualeditor-enable'] = 1;
+
+// Don't allow users to disable it
+$wgHiddenPrefs[] = 'visualeditor-enable';
+
+// vim: set ft=php:

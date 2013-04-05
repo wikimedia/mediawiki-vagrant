@@ -1,0 +1,27 @@
+                      _
+                     //
+       .-""""-.    ;(_\
+      /        \   /\_/
+     |    .---./  /  /
+      \ C'  '>'| /  /   PHP files placed in this directory will be
+       ';   - / /  /    automatically loaded, in alphabetical order, by
+       __)---;/`  /     LocalSettings.php.
+   _.-' \`"""`|  /
+ .'    _/      \/       Rather than clutter LocalSettings.php with the
+ \  -;'|       |        configuration variables and require statements for every
+  '-._/-.      |        extension you wish to load, collect all the configurations
+      \(-\     |        in a single file and place it in this directory. This
+       |-------|        makes it quite easy to keep your settings organized, to
+       |    J  |        remove or temporarily disable the additional settings, and
+       |    |  |        to share settings with others.
+       |    ;  |
+       |   /|  \        This directory is accessible as
+       | _/ T  /        '/vagrant/settings' in the guest environment.
+       |  | |  |
+       |  | |__|_       Because the files load alphabeticallly, you can use a
+       |__| '-.__)      two-digit prefix to tweak the load order -- e.g.:
+  jgs  \__)
+                            settings/
+                            ├── 10-RunFirst.php
+                            ├── 20-SomeExtension.php
+                            └── 99-RunLast.php
