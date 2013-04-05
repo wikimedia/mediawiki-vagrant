@@ -23,6 +23,12 @@ class mediawiki(
 		ensure => absent,
 	}
 
+	file { '/etc/apache2/sites-enabled/000-default':
+		ensure  => absent,
+		require => Package['apache2'],
+		before  => Exec['mediawiki-setup'],
+	}
+
 	# If an auto-generated LocalSettings.php file exists but the database it
 	# refers to is missing, assume it is residual of a discarded instance and
 	# delete it.
