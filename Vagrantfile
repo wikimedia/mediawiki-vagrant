@@ -14,7 +14,7 @@ def get_virtualbox_version
             ver = `VBoxManage -v`
         end
     rescue
-        ''
+        ver = ''
     end
     ver.gsub(/r.*/m, '')
 end

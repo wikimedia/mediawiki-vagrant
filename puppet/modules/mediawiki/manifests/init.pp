@@ -78,8 +78,9 @@ class mediawiki(
 	}
 
 	file { '/var/www/favicon.ico':
-		ensure => file,
-		source => 'puppet:///modules/mediawiki/favicon.ico',
+		ensure  => file,
+		require => Package['apache2'],
+		source  => 'puppet:///modules/mediawiki/favicon.ico',
 	}
 
 	exec { 'configure-phpunit':

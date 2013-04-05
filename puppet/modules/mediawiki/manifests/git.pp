@@ -17,11 +17,12 @@ class mediawiki::git(
 	exec { 'git-clone-mediawiki':
 		creates   => '/vagrant/mediawiki/.git/refs/remotes',
 		command   => "git clone ${remote} /vagrant/mediawiki",
+		timeout   => 0,
 		logoutput => true,
 	}
 
 	exec { 'install-git-review':
-		command => 'pip install -U git-review',
+		command => 'pip install git-review',
 		unless  => 'which git-review',
 		require => Package['python-pip', 'git'],
 	}
