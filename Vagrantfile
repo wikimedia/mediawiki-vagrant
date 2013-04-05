@@ -63,8 +63,17 @@ Vagrant.configure('2') do |config|
         puppet.module_path = 'puppet/modules'
         puppet.manifests_path = 'puppet/manifests'
         puppet.manifest_file = 'site.pp'
-        puppet.options = '--verbose'  # Add ' --debug' for more output
-        puppet.facter = { 'virtualbox_version' => get_virtualbox_version }
+        puppet.options = '--verbose'
+
+        # For more output, uncomment the following line:
+        # puppet.options << ' --debug'
+
+        # Windows's Command Prompt has poor support for ANSI escape sequences.
+        puppet.options << ' --color=false' if windows?
+
+        puppet.facter = {
+            'virtualbox_version' => get_virtualbox_version
+        }
     end
 
 end

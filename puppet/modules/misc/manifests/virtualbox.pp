@@ -19,12 +19,14 @@ class misc::virtualbox {
 		mode   => '0755',
 	}
 
-	file { '/etc/virtualbox-version':
-		ensure  => present,
-		content => inline_template("<%= scope.lookupvar('::virtualbox_version') %>\n"),
-		owner   => 'root',
-		group   => 'root',
-		mode    => '0444',
+	if ( $::virtualbox_version =~ /[\d.]+/ ) {
+		file { '/etc/virtualbox-version':
+			ensure  => present,
+			content => inline_template("<%= scope.lookupvar('::virtualbox_version') %>\n"),
+			owner   => 'root',
+			group   => 'root',
+			mode    => '0444',
+		}
 	}
 
 	# Prerequisites for building new versions of guest additions.
