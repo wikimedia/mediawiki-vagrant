@@ -10,24 +10,20 @@
     </Directory>
 
     <Directory /var/www/>
-        Options Indexes FollowSymLinks MultiViews
-        AllowOverride None
-        Order allow,deny
-        allow from all
     </Directory>
 
     <Directory /vagrant/mediawiki/>
-        AllowOverride All
-        Order allow,deny
-        allow from all
+        # See <https://github.com/mitchellh/vagrant/issues/351>.
+        EnableSendfile Off
     </Directory>
 
     AllowEncodedSlashes on
-    RewriteEngine On
 
-    Alias /wiki /var/www/w/index.php
-    RewriteRule ^/$ /w/index.php
-    RewriteRule ^/w/$ /w/index.php
+    RewriteEngine On
+    RewriteRule ^/$ /w/index.php [R=301]
+
+    Alias /wiki "/vagrant/mediawiki/index.php"
+    Alias /w "/vagrant/mediawiki"
 
     ErrorLog "/vagrant/logs/apache-error.log"
     LogLevel error

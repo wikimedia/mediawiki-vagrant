@@ -13,6 +13,12 @@ File {
 	group => 'root',
 }
 
+if ( $::virtualbox_version ) {
+	notice("Detected VirtualBox version ${::virtualbox_version}")
+} else {
+	warning('Could not determine VirtualBox version.')
+}
+
 exec { 'update-package-index':
 	# run 'apt-get update', but no more than once every 24h
 	command => 'apt-get update',
