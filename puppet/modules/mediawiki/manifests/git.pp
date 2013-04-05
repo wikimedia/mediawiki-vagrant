@@ -1,7 +1,13 @@
 # Clone MediaWiki via Git
 class mediawiki::git(
-	$remote = 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git'
+	$remote = 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git',
+	$shallow = false
 ) {
+
+	$git_extra_args = $shallow ? {
+		true    => '--depth=1',
+		default => '',
+	}
 
 	exec { 'add-git-core-ppa':
 		command => 'add-apt-repository --yes ppa:git-core/ppa && apt-get update',
@@ -16,7 +22,7 @@ class mediawiki::git(
 
 	exec { 'git-clone-mediawiki':
 		creates   => '/vagrant/mediawiki/.git/refs/remotes',
-		command   => "git clone ${remote} /vagrant/mediawiki",
+		command   => "git clone ${git_extra_args} ${remote} /vagrant/mediawiki",
 		timeout   => 0,
 		logoutput => true,
 	}

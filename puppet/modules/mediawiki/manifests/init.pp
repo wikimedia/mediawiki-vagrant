@@ -13,10 +13,11 @@ class mediawiki(
 		dbname   => $dbname,
 		password => $pass,
 	}
-
-	include git
-	include php
-	include phpsh
+	class { 'git':
+		shallow => true,
+	}
+	class { 'php': }
+	class { 'phpsh': }
 
 	apache::site { 'default':
 		ensure => absent,
