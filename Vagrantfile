@@ -2,10 +2,13 @@
 # vi: set ft=ruby :
 require 'rbconfig'
 
+# Check if we're running on Windows.
 def windows?
     RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
 end
 
+# Get VirtualBox's version string by capturing the output of 'VBoxManage -v'.
+# Returns empty string if unable to determine version.
 def get_virtualbox_version
     begin
         if windows?

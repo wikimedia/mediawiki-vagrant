@@ -34,4 +34,15 @@ class misc {
 		refreshonly => true,
 	}
 
+	# Small, nifty, useful things
+	package { [ 'ack-grep', 'htop', 'curl', 'tree' ]:
+		ensure => present,
+	}
+
+	file { '/home/vagrant/.bash_aliases':
+		ensure => present,
+		mode   => '0755',
+		source => 'puppet:///modules/misc/bash_aliases',
+	}
+
 }
