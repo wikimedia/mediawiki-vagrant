@@ -46,12 +46,6 @@ Vagrant.configure('2') do |config|
         group: 'www-data',
         extra: 'dmode=770,fmode=770'
 
-    config.vm.synced_folder 'mediawiki', '/var/www/w',
-        owner: 'vagrant',
-        group: 'www-data',
-        extra: 'dmode=770,fmode=770',
-        create: true
-
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
         vb.customize ['modifyvm', :id, '--memory', '512', '--ostype', 'Ubuntu_64']
