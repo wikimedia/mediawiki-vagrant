@@ -84,3 +84,9 @@ Vagrant.configure('2') do |config|
     end
 
 end
+
+begin
+    require_relative 'extra-vagrant-settings.rb'
+rescue LoadError
+    # No local Vagrantfile overrides.
+end

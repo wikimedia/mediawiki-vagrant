@@ -1,4 +1,5 @@
 .vagrant
-LocalSettings.php
+/extra-vagrant-settings.rb
+/LocalSettings.php
 tags
 /mediawiki/
