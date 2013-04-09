@@ -45,6 +45,7 @@ Vagrant.configure('2') do |config|
         auto_correct: true
 
     config.vm.synced_folder '.', '/vagrant',
+        id: 'vagrant-root',
         owner: 'vagrant',
         group: 'www-data',
         extra: 'dmode=770,fmode=770'
