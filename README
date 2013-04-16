@@ -53,3 +53,15 @@ From there, run `phpsh` to interactively evaluate PHP code in a MediaWiki
 context, or `mysql` to get an authenticated SQL shell on your wiki's database.
 
 The admin account on MediaWiki is `admin` / `vagrant`.
+
+## Updating
+
+When the vagrant Virtual Machine is running, it will periodically run puppet
+(an open source confiugration management tool) to update its configuration,
+which keeps various software packages up to date. Puppet will not update the
+MediaWiki version.
+
+To pick up other changes to the install, on the host computer in the directory
+with the vagrant files run `git pull` and then `vagrant reload`.  The latter
+will restart the VM.
+
