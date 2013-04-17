@@ -44,5 +44,4 @@ class misc {
 		mode   => '0755',
 		source => 'puppet:///modules/misc/bash_aliases',
 	}
-
 }
