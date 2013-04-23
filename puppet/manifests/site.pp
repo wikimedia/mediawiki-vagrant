@@ -8,9 +8,10 @@ Package {
 }
 
 File {
-	mode  => '0644',
-	owner => 'root',
-	group => 'root',
+	backup => false,
+	owner  => 'root',
+	group  => 'root',
+	mode   => '0644',
 }
 
 if ( $::virtualbox_version ) {

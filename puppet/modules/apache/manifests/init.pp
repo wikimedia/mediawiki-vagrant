@@ -14,14 +14,8 @@ class apache {
 
 	service { 'apache2':
 		ensure     => running,
+		provider   => 'init',
 		require    => Package['apache2', 'libapache2-mod-php5'],
 		hasrestart => true,
 	}
-
-	exec { 'reload-apache2':
-		command     => 'service apache2 reload',
-		refreshonly => true,
-		before      => Service['apache2'],
-	}
-
 }

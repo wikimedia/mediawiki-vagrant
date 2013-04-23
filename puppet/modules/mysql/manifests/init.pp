@@ -1,5 +1,8 @@
 # MySQL class. Provisions ~/.my.cnf for convinience.
-class mysql( $password = 'vagrant', $dbname = undef ) {
+class mysql(
+	$password = 'vagrant',
+	$dbname   = undef
+) {
 
 	package { 'mysql-server':
 		ensure => latest,
@@ -8,6 +11,7 @@ class mysql( $password = 'vagrant', $dbname = undef ) {
 	service { 'mysql':
 		ensure     => running,
 		hasrestart => true,
+		require    => Package['mysql-server'],
 	}
 
 	exec { 'set-mysql-password':

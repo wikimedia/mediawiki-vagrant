@@ -50,7 +50,7 @@ class mediawiki(
 		cwd         => '/vagrant/mediawiki/maintenance/',
 		command     => "php install.php ${wiki} ${admin} --pass ${pass} --dbname ${dbname} --dbuser ${dbuser} --dbpass ${dbpass} --server ${server} --scriptpath '/w'",
 		logoutput   => on_failure,
-		notify      => Exec['reload-apache2'],
+		notify      => Service['apache2'],
 	}
 
 
