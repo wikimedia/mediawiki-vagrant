@@ -30,7 +30,7 @@ group { 'puppet':
 	ensure => present,
 }
 
-class { 'memcached': }
 class { 'misc': }
 class { 'git': }
+class { 'memcached': }
 class { 'mediawiki': }

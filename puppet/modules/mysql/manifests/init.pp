@@ -1,4 +1,3 @@
-# MySQL class. Provisions ~/.my.cnf for convinience.
 class mysql(
 	$password = 'vagrant',
 	$dbname   = undef
@@ -15,12 +14,10 @@ class mysql(
 	}
 
 	exec { 'set-mysql-password':
-		unless  => "mysqladmin -u root -p\"${password}\" status",
 		command => "mysqladmin -u root password \"${password}\"",
+		unless  => "mysqladmin -u root -p\"${password}\" status",
+		require => Service['mysql'],
 	}
-
-	Package['mysql-server'] -> Service['mysql']
-	Service['mysql'] -> Exec['set-mysql-password']
 
 	file { '/home/vagrant/.my.cnf':
 		ensure  => file,
@@ -30,6 +27,4 @@ class mysql(
 		replace => no,
 		content => template('mysql/my.cnf.erb'),
 	}
-
-
 }

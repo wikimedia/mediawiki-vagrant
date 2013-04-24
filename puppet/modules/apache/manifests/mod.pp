@@ -7,15 +7,15 @@ define apache::mod(
 
 	case $ensure {
 		present: {
-			exec { "/usr/sbin/a2enmod ${mod}":
-				unless  => "test -f /etc/apache2/mods-enabled/${mod}.load",
+			exec { "a2enmod ${mod}":
+				unless  => "apache2ctl -M | grep -q ${mod}",
 				require => Package['apache2'],
 				notify  => Service['apache2'],
 			}
 		}
 		absent: {
-			exec { "/usr/sbin/a2dismod ${mod}":
-				onlyif  => "test -f /etc/apache2/mods-enabled/${mod}.load",
+			exec { "a2dismod ${mod}":
+				onlyif  => "apache2ctl -M | grep -q ${mod}",
 				require => Package['apache2'],
 				notify  => Service['apache2'],
 			}

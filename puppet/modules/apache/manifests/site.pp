@@ -14,20 +14,22 @@ define apache::site(
 					ensure  => file,
 					content => $content,
 					require => Package['apache2'],
-					before  => Exec["/usr/sbin/a2ensite -qf ${site}"],
+					before  => Exec["enable ${site}"],
 				}
 			}
-			exec { "/usr/sbin/a2ensite -qf ${site}":
-				require => Package['apache2'],
+			exec { "enable ${title}":
+				command => "a2ensite -qf ${site}",
 				notify  => Service['apache2'],
-				unless  => "a2dissite <<<'' | head -1 | cut -c 19- | grep -w ${site}"
+				require => Package['apache2'],
+				unless  => "a2dissite <<<'' | head -1 | cut -c 19- | grep -w ${site}",
 			}
 		}
 		absent: {
-			exec { "/usr/sbin/a2dissite -qf ${site}":
-				require => Package['apache2'],
+			exec { "disable ${title}":
+				command => "a2dissite -qf ${site}",
 				notify  => Service['apache2'],
-				onlyif  => "a2dissite <<<'' | head -1 | cut -c 19- | grep -w ${site}"
+				require => Package['apache2'],
+				onlyif  => "a2dissite <<<'' | head -1 | cut -c 19- | grep -w ${site}",
 			}
 		}
 	}
