@@ -1,0 +1,21 @@
+
+
+user_metrics puppet module for MediaWiki vagrant VM.
+
+This uses the MediaWiki database set up by the MediaWiki
+module to host a user_metrics dev instance.  See:
+https://metrics.wikimedia.org for the production version.
+
+Usage:
+
+In your site.pp:
+
+  class { 'user_metrics': }
+
+Then run
+
+  vagrant provision
+
+That should set up a user_metrics flask web app running in
+WSGI in apache.  It will be accessible at http://10.11.12.13:8121.
+
