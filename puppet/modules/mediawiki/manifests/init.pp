@@ -9,19 +9,22 @@ class mediawiki(
 	$server = 'http://127.0.0.1:8080',
 ) {
 
+	class { 'php': }
+	class { 'phpsh': }
 	class { 'mysql':
 		dbname   => $dbname,
 		password => $pass,
 	}
-	class { 'git':
-		shallow => true,
-	}
-	class { 'php': }
-	class { 'phpsh': }
 
 	apache::site { 'default':
 		ensure => absent,
 	}
+
+	git::clone { 'mediawiki':
+		remote    => 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git',
+		directory => '/vagrant/mediawiki',
+	}
+
 
 	file { '/etc/apache2/sites-enabled/000-default':
 		ensure  => absent,
@@ -34,7 +37,7 @@ class mediawiki(
 	# delete it.
 	exec { 'check-settings':
 		command => 'rm /vagrant/mediawiki/LocalSettings.php 2>/dev/null || true',
-		require => [ Package['php5'], Exec['git-clone-mediawiki'], Service['mysql'] ],
+		require => [ Package['php5'], Git::Clone['mediawiki'], Service['mysql'] ],
 		unless  => 'php /vagrant/mediawiki/maintenance/eval.php <<<"wfGetDB(-1)" &>/dev/null',
 		before  => Exec['mediawiki-setup'],
 	}
@@ -45,7 +48,7 @@ class mediawiki(
 	}
 
 	exec { 'mediawiki-setup':
-		require     => Exec['set-mysql-password', 'git-clone-mediawiki'],
+		require     => [ Exec['set-mysql-password'], Git::Clone['mediawiki'] ],
 		creates     => '/vagrant/mediawiki/LocalSettings.php',
 		cwd         => '/vagrant/mediawiki/maintenance/',
 		command     => "php install.php ${wiki} ${admin} --pass ${pass} --dbname ${dbname} --dbuser ${dbuser} --dbpass ${dbpass} --server ${server} --scriptpath '/w'",

@@ -32,4 +32,5 @@ group { 'puppet':
 
 class { 'memcached': }
 class { 'misc': }
+class { 'git': }
 class { 'mediawiki': }

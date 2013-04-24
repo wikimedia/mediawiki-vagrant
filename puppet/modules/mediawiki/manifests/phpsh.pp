@@ -33,7 +33,7 @@ class mediawiki::phpsh {
 	}
 
 	exec { 'generate-ctags':
-		require => [ Package['exuberant-ctags'], Exec['git-clone-mediawiki'] ],
+		require => [ Package['exuberant-ctags'], Git::Clone['mediawiki'] ],
 		command => 'ctags --languages=php --recurse -f /vagrant/mediawiki/tags /vagrant/mediawiki',
 		creates => '/vagrant/mediawiki/tags',
 	}
