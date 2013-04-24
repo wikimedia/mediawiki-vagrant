@@ -4,9 +4,10 @@ class apache {
 	}
 
 	file { '/etc/apache2/conf.d/disable-sendfile':
-		ensure => file,
-		source => 'puppet:///modules/apache/disable-sendfile',
-		notify => Package['apache2'],
+		ensure  => file,
+		source  => 'puppet:///modules/apache/disable-sendfile',
+		require => Package['apache2'],
+		notify  => Service['apache2'],
 	}
 
 	service { 'apache2':
