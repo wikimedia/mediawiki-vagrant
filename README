@@ -14,7 +14,7 @@ and an interactive interpreter. Best of all, because the configuration is
 automated and contained in a virtual environment, mistakes are easy to undo.
 
 
-## Prerequisites
+## Install
 
 You'll need to install recent versions of Vagrant and VirtualBox.
 
@@ -26,9 +26,6 @@ Next, you'll need a copy of the mediawiki-vagrant project files.
  * zip: https://github.com/wikimedia/mediawiki-vagrant/archive/master.zip
  * tar.gz: https://gerrit.wikimedia.org/r/gitweb?p=mediawiki/vagrant.git;a=snapshot;h=HEAD;sf=tgz
  * Git: `git clone https://gerrit.wikimedia.org/r/mediawiki/vagrant`
-
-
-## Installation
 
 If you download the zip file or tarball, you will need to extract it to a
 directory of your choice. Once you do that, open up a terminal or a
@@ -44,7 +41,7 @@ If it all worked, you should be able to browse to http://localhost:8080/ and
 see the main page of your MediaWiki instance.
 
 
-## Usage
+## Use
 
 To access a command shell on your virtual environment, run `vagrant ssh` from
 the root mediawiki-vagrant directory or any of its subdirectories.
@@ -54,14 +51,23 @@ context, or `mysql` to get an authenticated SQL shell on your wiki's database.
 
 The admin account on MediaWiki is `admin` / `vagrant`.
 
-## Updating
 
-When the vagrant Virtual Machine is running, it will periodically run puppet
-(an open source confiugration management tool) to update its configuration,
-which keeps various software packages up to date. Puppet will not update the
-MediaWiki version.
+## Update
+
+When the vagrant Virtual Machine is running, it will periodically run Puppet
+(an open source configuration management tool) to update its configuration,
+which keeps various software packages up to date. To avoid clobbering any
+changes you may have made to MediaWiki's source code, Puppet will not update
+MediaWiki.
 
 To pick up other changes to the install, on the host computer in the directory
 with the vagrant files run `git pull` and then `vagrant reload`.  The latter
 will restart the VM.
 
+
+## Troubleshoot
+
+Stuck? Here's where to get help.
+
+ * http://www.mediawiki.org/wiki/Mediawiki-Vagrant#Troubleshooting
+ * irc://chat.freenode.net/#mediawiki
