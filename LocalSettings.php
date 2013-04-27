@@ -6,8 +6,13 @@ ini_set( 'display_errors', 1 );
 
 $wgArticlePath = "/wiki/$1";
 
+// Show the debug toolbar if 'debug' is set on the request, either as a
+// parameter or a cookie.
+if ( !empty( $_REQUEST['debug'] ) ) {
+	$wgDebugToolbar = true;
+}
+
 // Expose debug info for PHP errors.
-$wgDebugToolbar = true;
 $wgShowExceptionDetails = true;
 $wgDebugLogFile = __DIR__ . '/vagrant/logs/mediawiki-debug.log';
 
