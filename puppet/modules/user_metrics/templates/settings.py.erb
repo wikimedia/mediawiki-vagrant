@@ -4,6 +4,7 @@ from pkg_resources import WorkingSet , DistributionNotFound, VersionConflict
 from os.path import exists
 from urllib2 import urlopen
 import json
+import os
 
 # Get working set of Python modules
 working_set = WorkingSet()
@@ -16,8 +17,8 @@ __instance_host__ = '<%= site_name %>'
 __instance_port__ = 5000
 
 __project_home__            = '<%= user_metrics_path %>'
-__web_home__                = ''.join([__project_home__, 'user_metrics/api/'])
-__data_file_dir__           = ''.join([__project_home__, 'data/'])
+__web_home__                = os.path.join(__project_home__, 'user_metrics/api/')
+__data_file_dir__           = os.path.join(__project_home__, 'data/')
 
 __query_module__            = 'user_metrics.query.query_calls_sql'
 __user_thread_max__         = 50
