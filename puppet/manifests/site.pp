@@ -34,3 +34,9 @@ class { 'misc': }
 class { 'git': }
 class { 'memcached': }
 class { 'mediawiki': }
+
+# Optional classes
+# Uncomment a line and run 'vagrant provision' to enable a class.
+
+# Selenium browser tests for MediaWiki
+# class { 'browsertests': }
