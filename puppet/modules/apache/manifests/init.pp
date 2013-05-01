@@ -3,8 +3,13 @@ class apache {
 		ensure  => present,
 	}
 
+	file { '/etc/apache2/ports.conf':
+		source  => 'puppet:///modules/apache/ports.conf',
+		require => Package['apache2'],
+		notify  => Service['apache2'],
+	}
+
 	file { '/etc/apache2/conf.d/disable-sendfile':
-		ensure  => file,
 		source  => 'puppet:///modules/apache/disable-sendfile',
 		require => Package['apache2'],
 		notify  => Service['apache2'],
