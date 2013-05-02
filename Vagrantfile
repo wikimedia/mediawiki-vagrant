@@ -52,7 +52,7 @@ Vagrant.configure('2') do |config|
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
-        vb.customize ['modifyvm', :id, '--memory', '512']
+        vb.customize ['modifyvm', :id, '--memory', '768']
         vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
 
         # To boot the VM in graphical mode, uncomment the following line:
