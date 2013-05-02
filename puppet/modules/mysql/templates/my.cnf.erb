@@ -1,10 +1,11 @@
 [client]
 user = "root"
 password = "<%= @password %>"
+
+[mysql]
 pager = "less -inSFX"
 prompt = "(\R:\m)\_\u@\h:[\d]>\_"
 
-[mysql]
 <% if @dbname %>
 database = "<%= @dbname %>"
 <% end %>
