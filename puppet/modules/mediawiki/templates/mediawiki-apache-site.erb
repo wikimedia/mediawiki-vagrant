@@ -1,5 +1,8 @@
 # vim: filetype=apache sts=4 sw=4 autoindent
-
+#
+# Apache site configuration for MediaWiki
+# This file is managed by Puppet.
+#
 <VirtualHost *>
     ServerName vagrant
     ServerAdmin http://www.mediawiki.org/wiki/Vagrant
@@ -28,6 +31,4 @@
 
     ErrorLog "/vagrant/logs/apache-error.log"
     LogLevel error
-
-    ServerSignature Off
 </VirtualHost>

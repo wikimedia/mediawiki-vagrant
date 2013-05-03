@@ -1,6 +1,27 @@
+# == Class: mysql
+#
+# Configures a local MySQL database server and a ~/.my.cnf file for the
+# Vagrant user.
+#
+# === Parameters
+#
+# [*password*]
+#   Password for the root MySQL account.
+#
+# [*dbname*]
+#   If defined, the 'mysql' command-line client will be configured to
+#   use this database by default (default: undefined).
+#
+# === Examples
+#
+#  class { 'mysql':
+#      password => 'r00tp455w0rd',
+#      dbname   => 'wiki',
+#  }
+#
 class mysql(
 	$password = 'vagrant',
-	$dbname   = undef
+	$dbname   = undef,
 ) {
 
 	package { 'mysql-server':

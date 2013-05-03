@@ -1,7 +1,11 @@
-# See https://github.com/facebook/phpsh/blob/master/src/config.sample
-
+# Configuration file for phpsh.
+# See <https://github.com/facebook/phpsh/blob/master/src/config.sample>.
+# This file is managed by Puppet.
+#
 [General]
 UndefinedFunctionCheck: yes
 
 [Debugging]
-Xdebug: <%= `php-config --extension-dir` %=>/xdebug.so
+<%- if File.executable?('/usr/bin/php-config') %>
+Xdebug: <%= `php-config --extension-dir`.strip %>/xdebug.so
+<%- end %>

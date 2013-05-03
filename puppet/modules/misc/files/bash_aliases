@@ -1,2 +1,5 @@
+# Bash aliases
+# This file is managed by Puppet.
+#
 alias ..="cd .."
 alias ack=ack-grep

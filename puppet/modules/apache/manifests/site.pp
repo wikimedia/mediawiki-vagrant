@@ -1,8 +1,32 @@
-# Apache site resource type.
+# == Define: apache::site
+#
+# Manages Apache site configurations.
+#
+# === Parameters
+#
+# [*ensure*]
+#   If 'present', site will be enabled; if 'absent', disabled. The
+#   default is 'present'.
+#
+# [*site*]
+#   Name of site. The resource title will be used if this is
+#   unspecified.
+#
+# [*content*]
+#   If defined, will be used as the content of the site configuration
+#   file. Undefined by default.
+#
+# === Examples
+#
+#  apache::site { 'wiki':
+#    ensure  => present,
+#    content => template('mediawiki/mediawiki-apache-site.erb'),
+#  }
+#
 define apache::site(
-	$site    = $title,
 	$ensure  = 'present',
-	$content = undef
+	$site    = $title,
+	$content = undef,
 ) {
 
 	include apache
@@ -31,6 +55,9 @@ define apache::site(
 				require => Package['apache2'],
 				onlyif  => "a2dissite <<<'' | head -1 | cut -c 19- | grep -w ${site}",
 			}
+		}
+		default: {
+			fail("'ensure' may be 'present' or 'absent' (got: '${ensure}').")
 		}
 	}
 }

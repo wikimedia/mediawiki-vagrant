@@ -5,6 +5,10 @@
 # session you use to connect to your Vagrant instance. You can do so by
 # running 'vagrant ssh -- -X'.
 #
+# This module is not enabled by default. To enable it, uncomment the
+# reference to this module in puppet/manifests/extra.pp and run 'vagrant
+# provision'.
+#
 # === Parameters
 #
 # [*selenium_password*]
@@ -15,6 +19,15 @@
 #
 # [*install_location*]
 #   The browsertests repository will be cloned to this local path.
+#
+# === Examples
+#
+#  Configure the browser tests to run against Wikimedia's beta cluster
+#  (see <http://www.mediawiki.org/wiki/Beta_cluster>):
+#
+#    class { 'browsertests':
+#        mediawiki_url    => 'http://deployment.wikimedia.beta.wmflabs.org/wiki/',
+#    }
 #
 class browsertests(
 	$selenium_password = 'vagrant',
@@ -34,7 +47,7 @@ class browsertests(
 	# Sets MEDIAWIKI_URL environment variable for all users.
 	file { '/etc/profile.d/mediawiki-url.sh':
 		content => template('browsertests/mediawiki-url.sh.erb'),
-		mode   => '0755',
+		mode    => '0755',
 	}
 
 	# Store the password for the 'Selenium_user' MediaWiki account.

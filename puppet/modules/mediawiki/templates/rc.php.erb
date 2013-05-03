@@ -1,5 +1,13 @@
 <?php
 # vim: ft=php
+#
+# Configure phpsh codebase modes
+#
+#   'phpsh' (no args) -> MediaWiki codebase
+#   'phpsh -c none'   -> Vanilla PHP
+#
+# This file is managed by Puppet.
+#
 switch ($___phpsh___codebase_mode) {
 case '':
 	// MediaWiki codebase mode

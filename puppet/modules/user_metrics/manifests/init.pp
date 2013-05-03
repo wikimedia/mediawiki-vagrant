@@ -1,6 +1,15 @@
-# Dev site for https://metrics.wikimedia.org
-# Include this class in your site.pp and run vagrant provision.
-# The site will be available at http://10.11.12.13:8182
+# == Class: user_metrics
+#
+# Configures a development instance of the User Metrics API.
+# See <https://metrics.wikimedia.org>. This module is not included by
+# default. To use it, uncomment the following line in
+# puppet/manifests/extra.pp and run 'vagrant provision':
+#
+#  # class { 'user_metrics': }
+#
+# The site will be available at <http://10.11.12.13:8182>. You may wish
+# to forward the port so that it is accessible from the host environment.
+# See 'Vagrantfile' for detail.
 #
 class user_metrics {
 	require mysql

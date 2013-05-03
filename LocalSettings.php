@@ -1,4 +1,13 @@
 <?php
+/**
+ * MediaWiki configuration
+ *
+ * To customize your MediaWiki instance, you may change the content of this
+ * file. See settings/README for an alternate way of managing small snippets of
+ * configuration data, such as extension invocations.
+ *
+ * This file is part of Mediawiki-Vagrant.
+ */
 
 // Enable error reporting
 error_reporting( -1 );

@@ -1,4 +1,39 @@
-# Install MediaWiki using MySQL and Apache
+# == Class: mediawiki
+#
+# Provision a MediaWiki instance powered by MySQL, served by Apache, and
+# customized for development work.
+#
+# === Parameters
+
+# [*wiki*]
+#   Wiki name (default: 'devwiki').
+#
+# [*admin*]
+#   User name for the initial admin account (default: 'admin').
+#
+# [*pass*]
+#   Initial password for admin account (default: 'vagrant').
+#
+# [*dbname*]
+#   Logical MySQL database name.
+#
+# [*dbuser*]
+#   MySQL user to use to connect to the database (default: 'root').
+#
+# [*dbpass*]
+#   Password for MySQL account (default: 'vagrant').
+#
+# [*server*]
+#   Full base URL of host (default: 'http://127.0.0.1:8080').
+#
+# === Examples
+#
+#  class { 'mediawiki':
+#       wiki  => 'mobiledevwiki',
+#       admin => 'mobiledev',
+#       pass  => 'secret',
+#  }
+#
 class mediawiki(
 	$wiki   = 'devwiki',
 	$admin  = 'admin',
@@ -8,7 +43,6 @@ class mediawiki(
 	$dbpass = 'vagrant',
 	$server = 'http://127.0.0.1:8080',
 ) {
-
 	class { 'php': }
 	class { 'phpsh': }
 	class { 'mysql':
@@ -92,7 +126,7 @@ class mediawiki(
 		source  => 'puppet:///modules/mediawiki/favicon.ico',
 	}
 
-	exec { 'configure-phpunit':
+	exec { 'configure phpunit':
 		creates => '/usr/bin/phpunit',
 		command => '/vagrant/mediawiki/tests/phpunit/install-phpunit.sh',
 		require => Exec['mediawiki setup'],

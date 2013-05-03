@@ -1,5 +1,25 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
+#
+# Vagrantfile for Mediawiki-Vagrant
+# ---------------------------------
+# http://www.mediawiki.org/wiki/Mediawiki-Vagrant
+#
+# This file contains the Vagrant configurations for provisioning a MediaWiki
+# development instance. Vagrant file uses Ruby as a configuration language.
+#
+# If you would like to customize the configuration of your Virtual Machine,
+# rather than override the values defined in this file, simply create a file
+# called 'Vagrantfile-extra' in this folder and it will be automatically
+# loaded. In case of conflict, values in the 'extra' file will superceded
+# any values in this file. 'Vagrantfile-extra' is ignored by git.
+#
+# Please report bugs in this file on Wikimedia's Bugzilla:
+# https://bugzilla.wikimedia.org/enter_bug.cgi?product=Tools&component=Vagrant
+#
+# Patches and contributions are welcome!
+# http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
+#
 require 'rbconfig'
 
 # Check if we're running on Windows.
@@ -87,7 +107,7 @@ Vagrant.configure('2') do |config|
 end
 
 begin
-    require_relative 'extra-vagrant-settings.rb'
+    require_relative 'Vagrantfile-extra'
 rescue LoadError
     # No local Vagrantfile overrides.
 end

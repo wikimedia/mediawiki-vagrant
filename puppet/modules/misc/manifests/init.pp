@@ -1,6 +1,10 @@
-# Provides small enhancements to the shell, such as color prompt and MOTD.
+# == Class: misc
+#
+# Provides various small enhancements to user experience: a color
+# prompt, a helpful MOTD banner, bash aliases, and some commonly-used
+# command-line tools, like 'ack' and 'curl'.
+#
 class misc {
-
 	include misc::virtualbox
 	include misc::wikimedia
 

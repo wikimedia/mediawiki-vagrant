@@ -1,4 +1,8 @@
 #!/bin/sh
+#
+# MOTD banner, shown when user connects via 'vagrant ssh'.
+# This file is managed by Puppet.
+#
 toilet --gay -w 100 -f ascii12 MediaWiki
 printf " * MediaWiki is located at \033[33;1m/vagrant/mediawiki\033[0m.\n"
 printf " * To interactively evaluate PHP and MediaWiki code, run '\033[33mphpsh\033[0m'.\n"

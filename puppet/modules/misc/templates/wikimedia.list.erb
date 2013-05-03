@@ -1,3 +1,5 @@
-# Wikimedia APT repository
+# Wikimedia apt package repository source file.
+# This file is managed by Puppet.
+#
 deb http://apt.wikimedia.org/wikimedia <%= scope.lookupvar('::lsbdistcodename') %>-wikimedia main universe
 deb-src http://apt.wikimedia.org/wikimedia <%= scope.lookupvar('::lsbdistcodename') %>-wikimedia main universe

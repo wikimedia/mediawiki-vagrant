@@ -1,4 +1,7 @@
-# PHP dependencies for MediaWiki
+# == Class: mediawiki::php
+#
+# Configures PHP and PHP-related dependencies for MediaWiki.
+#
 class mediawiki::php {
 	include apache
 

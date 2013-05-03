@@ -71,3 +71,9 @@ Stuck? Here's where to get help.
 
  * http://www.mediawiki.org/wiki/Mediawiki-Vagrant#Troubleshooting
  * irc://chat.freenode.net/#mediawiki
+
+Please report any bugs on Wikimedia's Bugzilla:
+https://bugzilla.wikimedia.org/enter_bug.cgi?product=Tools&component=Vagrant
+
+Patches and contributions are welcome!
+See <http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker> for details.

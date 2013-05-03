@@ -1,5 +1,10 @@
 #!/usr/bin/env bash
-
+# Script for prompting the user to upgrade the version of VirtualBox Guest
+# Additions if the installed version lags behind the version of VirtualBox
+# running on the host.
+#
+# This file is managed by Puppet.
+#
 [ -z "$BASH_VERSION" -o -z "$PS1" ] && return
 
 VIRTUALBOX_VERSION="$(</etc/virtualbox-version)"

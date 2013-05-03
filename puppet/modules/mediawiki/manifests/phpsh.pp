@@ -1,6 +1,9 @@
-# Provides interactive PHP shell (REPL) with MediaWiki integration
+# == Class: mediawiki::phpsh
+#
+# Installs phpsh, an interactive PHP shell, and configures it for use
+# with the MediaWiki codebase.
+#
 class mediawiki::phpsh {
-
 	package { [ 'python-pip', 'exuberant-ctags' ]:
 		ensure => latest,
 	}
@@ -8,7 +11,6 @@ class mediawiki::phpsh {
 	exec { 'pip install phpsh':
 		creates => '/usr/local/bin/phpsh',
 		command => 'pip install https://github.com/facebook/phpsh/tarball/master',
-		onlyif  => 'ping -c1 -w0.5 -q github.com',  # only if GitHub is reachable
 		require => Package['php5', 'python-pip'],
 	}
 
@@ -37,5 +39,4 @@ class mediawiki::phpsh {
 		command => 'ctags --languages=php --recurse -f /vagrant/mediawiki/tags /vagrant/mediawiki',
 		creates => '/vagrant/mediawiki/tags',
 	}
-
 }

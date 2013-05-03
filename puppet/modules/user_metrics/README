@@ -1,21 +1,17 @@
+User Metrics API Puppet Module
+------------------------------
 
+This Puppet module configures a development instance of the User Metrics API.
+See <https://metrics.wikimedia.org> for more information about the User Metrics
+API.
 
-user_metrics puppet module for MediaWiki vagrant VM.
+This module is not enabled by default. To enable it, uncomment the following
+line in puppet/manifests/extra.pp:
 
-This uses the MediaWiki database set up by the MediaWiki
-module to host a user_metrics dev instance.  See:
-https://metrics.wikimedia.org for the production version.
+  # class { 'user_metrics': }
 
-Usage:
-
-In your site.pp:
-
-  class { 'user_metrics': }
-
-Then run
-
-  vagrant provision
-
-That should set up a user_metrics flask web app running in
-WSGI in apache.  It will be accessible at http://10.11.12.13:8121.
-
+Then run 'vagrant provision'. That should set up a User Metrics API WSGI app
+using the Flask framework and Apache as HTTP server. It will be accessible at
+http://10.11.12.13:8121. You may wish to forward this port so that it is
+accessible from the host environment. See the examples in the file
+'Vagrantfile' in the repository root directory.
