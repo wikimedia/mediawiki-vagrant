@@ -43,19 +43,25 @@ class browsertests(
 		require => Git::Clone['qa/browsertests'],
 	}
 
-	package { [ 'firefox', 'ruby1.9.1-full', 'ruby-bundler' ]:
+	# The browser tests run by simulating user input against a real
+	# browser -- specifically, Firefox.
+	package { 'firefox':
 		ensure => present,
 	}
 
-	exec { 'set default ruby':
+	package { [ 'ruby1.9.1-full', 'ruby-bundler' ]:
+		ensure => present,
+	}
+
+	exec { 'use ruby 1.9.1':
 		command => 'update-alternatives --set ruby /usr/bin/ruby1.9.1',
-		unless  => 'update-alternatives --query ruby | grep "Value: /usr/bin/ruby1.9.1"',
-		require => Package['ruby1.9.1-full'],
+		unless  => 'readlink /etc/alternatives/ruby | grep 1.9',
+		require => Package['ruby1.9.1-full', 'ruby-bundler'],
 	}
 
 	exec { 'bundle install':
 		cwd     => '/srv/browsertests',
 		unless  => 'bundle check',
-		require => [ Exec['set default ruby'], Git::Clone['qa/browsertests'] ],
+		require => [ Exec['use ruby 1.9.1'], Git::Clone['qa/browsertests'] ],
 	}
 }

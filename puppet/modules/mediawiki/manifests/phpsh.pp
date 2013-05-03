@@ -5,7 +5,7 @@ class mediawiki::phpsh {
 		ensure => latest,
 	}
 
-	exec { 'pip-install-phpsh':
+	exec { 'pip install phpsh':
 		creates => '/usr/local/bin/phpsh',
 		command => 'pip install https://github.com/facebook/phpsh/tarball/master',
 		onlyif  => 'ping -c1 -w0.5 -q github.com',  # only if GitHub is reachable

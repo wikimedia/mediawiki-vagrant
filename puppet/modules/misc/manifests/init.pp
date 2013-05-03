@@ -27,10 +27,10 @@ class misc {
 		ensure => present,
 		mode   => '0755',
 		source => 'puppet:///modules/misc/60-mediawiki-vagrant',
-		notify => Exec['update-motd'],
+		notify => Exec['update motd'],
 	}
 
-	exec { 'update-motd':
+	exec { 'update motd':
 		command     => 'run-parts --lsbsysinit /etc/update-motd.d > /run/motd',
 		refreshonly => true,
 	}

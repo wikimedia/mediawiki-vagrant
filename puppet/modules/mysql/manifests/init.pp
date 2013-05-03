@@ -13,7 +13,7 @@ class mysql(
 		require    => Package['mysql-server'],
 	}
 
-	exec { 'set-mysql-password':
+	exec { 'set mysql password':
 		command => "mysqladmin -u root password \"${password}\"",
 		unless  => "mysqladmin -u root -p\"${password}\" status",
 		require => Service['mysql'],

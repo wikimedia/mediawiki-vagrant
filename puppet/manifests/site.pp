@@ -4,7 +4,7 @@ Exec {
 }
 
 Package {
-	require => Exec['update-package-index'],
+	require => Exec['update package index'],
 }
 
 File {
@@ -20,7 +20,7 @@ if ( $::virtualbox_version ) {
 	warning('Could not determine VirtualBox version.')
 }
 
-exec { 'update-package-index':
+exec { 'update package index':
 	# run 'apt-get update', but no more than once every 24h
 	command => 'apt-get update',
 	unless  => 'bash -c \'(( $(date +%s) - $(stat -c %Y /var/lib/apt/periodic/update-success-stamp) < 86400 ))\''
@@ -30,9 +30,9 @@ group { 'puppet':
 	ensure => present,
 }
 
-class { 'misc': }
 class { 'git': }
 class { 'memcached': }
+class { 'misc': }
 class { 'mediawiki': }
 
 # Optional classes
@@ -40,3 +40,6 @@ class { 'mediawiki': }
 
 # Selenium browser tests for MediaWiki
 # class { 'browsertests': }
+
+# User metrics API
+# class { 'user_metrics': }
