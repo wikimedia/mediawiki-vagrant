@@ -1,6 +1,5 @@
 # PHP dependencies for MediaWiki
 class mediawiki::php {
-
 	include apache
 
 	package { [
@@ -22,5 +21,4 @@ class mediawiki::php {
 	apache::mod { 'php5':
 		ensure => present,
 	}
-
 }

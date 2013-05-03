@@ -13,10 +13,10 @@ working_set = WorkingSet()
 # Project settings
 # ================
 
-__instance_host__ = '<%= site_name %>'
+__instance_host__ = '<%= @site_name %>'
 __instance_port__ = 5000
 
-__project_home__            = '<%= user_metrics_path %>'
+__project_home__            = '<%= @user_metrics_path %>'
 __web_home__                = os.path.join(__project_home__, 'user_metrics/api/')
 __data_file_dir__           = os.path.join(__project_home__, 'data/')
 
@@ -28,9 +28,9 @@ __time_series_thread_max__  = 6
 __cohort_data_instance__    = 'cohorts'
 __cohort_db__               = 'usertags'
 __cohort_meta_db__          = 'usertags_meta'
-__cohort_meta_instance__    = '<%= user_metrics_db_name %>'
+__cohort_meta_instance__    = '<%= @user_metrics_db_name %>'
 
-__secret_key__ = '<%= secret_key %>'
+__secret_key__ = '<%= @secret_key %>'
 
 try:
     working_set.require('Flask-Login>=0.1.2')

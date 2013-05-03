@@ -1,5 +1,4 @@
 define git::clone($directory, $remote=undef) {
-
 	include git
 
 	$url = $remote ? {
@@ -8,7 +7,7 @@ define git::clone($directory, $remote=undef) {
 	}
 
 	exec { "git clone ${title}":
-		command   => "git clone ${options} ${url} ${directory}",
+		command   => "git clone ${url} ${directory}",
 		creates   => "${directory}/.git/refs/remotes",
 		require   => Package['git'],
 		logoutput => true,

@@ -52,7 +52,6 @@ class mediawiki(
 		creates     => '/vagrant/mediawiki/LocalSettings.php',
 		cwd         => '/vagrant/mediawiki/maintenance/',
 		command     => "php install.php ${wiki} ${admin} --pass ${pass} --dbname ${dbname} --dbuser ${dbuser} --dbpass ${dbpass} --server ${server} --scriptpath '/w'",
-		logoutput   => on_failure,
 		notify      => Service['apache2'],
 	}
 

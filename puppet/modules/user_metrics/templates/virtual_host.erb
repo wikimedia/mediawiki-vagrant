@@ -11,11 +11,11 @@
 
 Listen 8182
 <VirtualHost *:8182>
-  ServerName <%= site_name %>
+  ServerName <%= @site_name %>
   ServerAdmin http://www.mediawiki.org/wiki/Vagrant
 
-  WSGIDaemonProcess api user=<%= metrics_user %> group=www-data threads=5 python-path=<%= user_metrics_path %>
-  WSGIScriptAlias / <%= document_root %>/api.wsgi
+  WSGIDaemonProcess api user=<%= @metrics_user %> group=www-data threads=5 python-path=<%= @user_metrics_path %>
+  WSGIScriptAlias / <%= @document_root %>/api.wsgi
 
   <Directory <%= document_root %>>
       WSGIProcessGroup api
