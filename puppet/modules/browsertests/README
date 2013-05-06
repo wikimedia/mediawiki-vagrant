@@ -15,8 +15,8 @@ requirements have already been configured for you.
 
 Before you can run the tests, however, you will need to enable this Puppet
 module and trigger a Puppet run. This is simple to do. Simply edit
-puppet/manifests/extra.pp and uncomment the following line by removing the hash
-symbol:
+puppet/manifests/extras.pp and uncomment the following line by removing the
+hash symbol:
 
       # class { 'browsertests': }
 

@@ -54,4 +54,4 @@ class { 'misc': }
 class { 'mediawiki': }
 
 # Load any optional modules that have been enabled.
-import 'extra.pp'
+import 'extras.pp'

@@ -6,8 +6,8 @@
 # running 'vagrant ssh -- -X'.
 #
 # This module is not enabled by default. To enable it, uncomment the
-# reference to this module in puppet/manifests/extra.pp and run 'vagrant
-# provision'.
+# reference to this module in puppet/manifests/extras.pp and run
+# 'vagrant provision'.
 #
 # === Parameters
 #

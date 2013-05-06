@@ -6,7 +6,7 @@ See <https://metrics.wikimedia.org> for more information about the User Metrics
 API.
 
 This module is not enabled by default. To enable it, uncomment the following
-line in puppet/manifests/extra.pp:
+line in puppet/manifests/extras.pp:
 
   # class { 'user_metrics': }
 

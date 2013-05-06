@@ -3,7 +3,7 @@
 # Configures a development instance of the User Metrics API.
 # See <https://metrics.wikimedia.org>. This module is not included by
 # default. To use it, uncomment the following line in
-# puppet/manifests/extra.pp and run 'vagrant provision':
+# puppet/manifests/extras.pp and run 'vagrant provision':
 #
 #  # class { 'user_metrics': }
 #
