@@ -9,7 +9,7 @@
 # be omitted from individual resources. Also configures Puppet to log
 # the command's output if it was unsuccessful.
 Exec {
-	path      => ['/bin', '/usr/bin', '/usr/sbin/', '/usr/local/bin'],
+	path      => [ '/bin', '/usr/bin', '/usr/sbin/', '/usr/local/bin' ],
 	logoutput => on_failure,
 }
 

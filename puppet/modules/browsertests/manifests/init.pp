@@ -36,7 +36,7 @@ class browsertests(
 ) {
 
 	git::clone { 'qa/browsertests':
-		directory => '/srv/browsertests'
+		directory => '/srv/browsertests',
 	}
 
 	mediawiki::user { 'Selenium_user':

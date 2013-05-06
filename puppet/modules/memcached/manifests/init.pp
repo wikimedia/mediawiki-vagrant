@@ -22,7 +22,7 @@
 class memcached(
 	$size_mb = 200,
 	$port    = 11211,
-	$iface   = '0.0.0.0'
+	$iface   = '0.0.0.0',
 ) {
 
 	package { [ 'memcached', 'libmemcached6' ]:
