@@ -11,6 +11,10 @@ prompt = "(\R:\m)\_\u@\h:[\d]>\_"
 <% if @default_db_name -%>
 database = "<%= @default_db_name %>"
 <% end -%>
+local-infile=1
 comments = true
 show-warnings = true
 default-character-set = utf8
+
+[mysqld]
+local-infile=1
