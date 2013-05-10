@@ -42,6 +42,7 @@ class mediawiki(
 	$dbuser = 'root',
 	$dbpass = 'vagrant',
 	$server = 'http://127.0.0.1:8080',
+	$dir    = '/vagrant/mediawiki',
 ) {
 	class { 'php': }
 	class { 'phpsh': }
@@ -56,7 +57,7 @@ class mediawiki(
 
 	git::clone { 'mediawiki':
 		remote    => 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git',
-		directory => '/vagrant/mediawiki',
+		directory => $dir,
 	}
 
 
@@ -70,9 +71,9 @@ class mediawiki(
 	# refers to is missing, assume it is residual of a discarded instance and
 	# delete it.
 	exec { 'check settings':
-		command => 'rm /vagrant/mediawiki/LocalSettings.php 2>/dev/null || true',
+		command => "rm ${dir}/LocalSettings.php 2>/dev/null || true",
 		require => [ Package['php5'], Git::Clone['mediawiki'], Service['mysql'] ],
-		unless  => 'php /vagrant/mediawiki/maintenance/eval.php <<<"wfGetDB(-1)" &>/dev/null',
+		unless  => "php ${dir}/maintenance/eval.php <<<\"wfGetDB(-1)\" &>/dev/null",
 		before  => Exec['mediawiki setup'],
 	}
 
@@ -83,8 +84,8 @@ class mediawiki(
 
 	exec { 'mediawiki setup':
 		require     => [ Exec['set mysql password'], Git::Clone['mediawiki'] ],
-		creates     => '/vagrant/mediawiki/LocalSettings.php',
-		cwd         => '/vagrant/mediawiki/maintenance/',
+		creates     => "${dir}/LocalSettings.php",
+		cwd         => "${dir}/maintenance/",
 		command     => "php install.php ${wiki} ${admin} --pass ${pass} --dbname ${dbname} --dbuser ${dbuser} --dbpass ${dbpass} --server ${server} --scriptpath '/w'",
 		notify      => Service['apache2'],
 	}
@@ -92,12 +93,12 @@ class mediawiki(
 
 	exec { 'require extra settings':
 		require => Exec['mediawiki setup'],
-		command => 'echo "require_once( \'/vagrant/LocalSettings.php\' );" >>/vagrant/mediawiki/LocalSettings.php',
-		unless  => 'grep "/vagrant/LocalSettings.php" /vagrant/mediawiki/LocalSettings.php',
+		command => "echo \"require_once( \'/vagrant/LocalSettings.php\' );\" >>${dir}/LocalSettings.php",
+		unless  => "grep \"/vagrant/LocalSettings.php\" ${dir}/LocalSettings.php",
 	}
 
 	exec { 'set mediawiki install path':
-		command => 'echo "export MW_INSTALL_PATH=/vagrant/mediawiki" >> ~vagrant/.profile',
+		command => "echo \"export MW_INSTALL_PATH=${dir}\" >> ~vagrant/.profile",
 		unless  => 'grep MW_INSTALL_PATH ~vagrant/.profile 2>/dev/null',
 	}
 
@@ -128,7 +129,7 @@ class mediawiki(
 
 	exec { 'configure phpunit':
 		creates => '/usr/bin/phpunit',
-		command => '/vagrant/mediawiki/tests/phpunit/install-phpunit.sh',
+		command => "${dir}/tests/phpunit/install-phpunit.sh",
 		require => Exec['mediawiki setup'],
 	}
 }
