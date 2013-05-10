@@ -1,0 +1,31 @@
+<?php
+## Debug
+## http://www.mediawiki.org/wiki/Manual:How_to_debug
+
+// Tools
+$wgDebugToolbar = false;
+
+// Types
+$wgShowDebug = false;
+$wgDebugToolbar = true;
+$wgShowExceptionDetails = true;
+#$wgDebugRedirects = false;
+#$wgShowSQLErrors = true;
+#$wgDebugDumpSql  = true;
+#$wgMemCachedDebug = false;
+#$wgShowDBErrorBacktrace = false;
+
+// Log files
+$mwLogDir = __DIR__ . '/../logs';
+$wgDebugLogFile = "$mwLogDir/mediawiki-debug.log";
+$wgDBerrorLog = "$mwLogDir/dberror.log";
+#$wgRateLimitLog = "$mwLogDir/ratelimit.log";
+$wgDebugLogFile = "$mwLogDir/debug.log";
+#$wgDebugLogGroups['somegroup'] = "$mwLogDir/debug-somegroup.log"
+
+// ResourceLoader
+#$wgDebugRawPage = true;
+#$wgResourceLoaderMaxage['versioned']['server'] = 1;
+#$wgResourceLoaderMaxage['versioned']['client'] = 1;
+#$wgResourceLoaderMaxage['unversioned']['server'] = 1;
+#$wgResourceLoaderMaxage['unversioned']['client'] = 1;

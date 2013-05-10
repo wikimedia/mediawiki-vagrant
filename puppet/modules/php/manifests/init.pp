@@ -25,4 +25,10 @@ class php {
 	@apache::mod { 'php5':
 		ensure => present,
 	}
+
+	file { '/etc/php5/conf.d/development.ini':
+		ensure => present,
+		content => template('mediawiki/php-development-settings.ini'),
+		notify => Service['apache2'],
+	}
 }
