@@ -1,0 +1,19 @@
+<?php
+// Loader for "<%= @extension %>" MediaWiki extension.
+// This file is managed by Puppet.
+require_once "<%= @extension_dir.sub( /^#{scope.lookupvar('mediawiki::dir')}/, '$IP' ) %>/<%= @entrypoint %>";
+
+<%=
+case @settings
+when Hash
+    @settings.map { |k,v|
+        "$#{k} = #{v.respond_to?(:to_i) && v.to_i == v ? v : v.inspect};"
+    }.join("\n")
+when Array
+	@settings.map { |v|
+		v =~ /;$/ ? v : v + ';'
+	}.join("\n")
+else
+    @settings
+end
+%>
