@@ -35,7 +35,7 @@ define mediawiki::user(
 	}
 
 	exec { "mediawiki user ${username}":
-		cwd     => '/vagrant/mediawiki/maintenance',
+		cwd     => "${mediawiki::dir}/maintenance",
 		command => "php createAndPromote.php ${options} ${username} ${password}",
 		returns => [ 0, 1 ],
 		require => Exec['mediawiki setup', 'set mediawiki install path'],

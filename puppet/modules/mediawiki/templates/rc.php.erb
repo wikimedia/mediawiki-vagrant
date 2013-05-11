@@ -11,9 +11,8 @@
 switch ($___phpsh___codebase_mode) {
 case '':
 	// MediaWiki codebase mode
-	chdir( '/vagrant/mediawiki' );
-	include_once( '/etc/phpsh/rc.php' );
-	include_once( '/vagrant/mediawiki/index.php' );
+	chdir( '<%= scope.lookupvar("mediawiki::dir") %>' );
+	include_once( '<%= scope.lookupvar("mediawiki::dir") %>/index.php' );
 	break;
 case 'none':
 	// Vanilla PHP

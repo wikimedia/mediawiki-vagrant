@@ -5,23 +5,23 @@
 #
 # === Parameters
 #
-# [*password*]
+# [*root_password*]
 #   Password for the root MySQL account.
 #
-# [*dbname*]
+# [*default_db_name*]
 #   If defined, the 'mysql' command-line client will be configured to
 #   use this database by default (default: undefined).
 #
 # === Examples
 #
 #  class { 'mysql':
-#      password => 'r00tp455w0rd',
-#      dbname   => 'wiki',
+#      root_password   => 'r00tp455w0rd',
+#      default_db_name => 'wiki',
 #  }
 #
 class mysql(
-	$password = 'vagrant',
-	$dbname   = undef,
+	$root_password,
+	$default_db_name = undef,
 ) {
 
 	package { 'mysql-server':
@@ -35,8 +35,8 @@ class mysql(
 	}
 
 	exec { 'set mysql password':
-		command => "mysqladmin -u root password \"${password}\"",
-		unless  => "mysqladmin -u root -p\"${password}\" status",
+		command => "mysqladmin -u root password \"${root_password}\"",
+		unless  => "mysqladmin -u root -p\"${root_password}\" status",
 		require => Service['mysql'],
 	}
 

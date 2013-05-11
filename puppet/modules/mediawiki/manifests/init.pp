@@ -1,55 +1,43 @@
 # == Class: mediawiki
 #
-# Provision a MediaWiki instance powered by MySQL, served by Apache, and
-# customized for development work.
+# Provision MediaWiki, MediaWiki is a free software open source wiki
+# package written in PHP, originally for use on Wikipedia.
 #
 # === Parameters
-
-# [*wiki*]
-#   Wiki name (default: 'devwiki').
 #
-# [*admin*]
-#   User name for the initial admin account (default: 'admin').
+# [*wiki_name*]
+#   The name of your site (example: 'Wikipedia').
 #
-# [*pass*]
-#   Initial password for admin account (default: 'vagrant').
+# [*admin_user*]
+#   User name for the initial admin account.
 #
-# [*dbname*]
+# [*admin_pass*]
+#   Initial password for admin account.
+#
+# [*db_name*]
 #   Logical MySQL database name.
 #
-# [*dbuser*]
-#   MySQL user to use to connect to the database (default: 'root').
+# [*db_user*]
+#   MySQL user to use to connect to the database.
 #
-# [*dbpass*]
-#   Password for MySQL account (default: 'vagrant').
+# [*db_pass*]
+#   Password for MySQL account.
 #
-# [*server*]
+# [*server_url*]
 #   Full base URL of host (default: 'http://127.0.0.1:8080').
 #
-# === Examples
-#
-#  class { 'mediawiki':
-#       wiki  => 'mobiledevwiki',
-#       admin => 'mobiledev',
-#       pass  => 'secret',
-#  }
-#
 class mediawiki(
-	$wiki   = 'devwiki',
-	$admin  = 'admin',
-	$pass   = 'vagrant',
-	$dbname = 'wiki',
-	$dbuser = 'root',
-	$dbpass = 'vagrant',
-	$server = 'http://127.0.0.1:8080',
-	$dir    = '/vagrant/mediawiki',
+	$wiki_name,
+	$admin_user,
+	$admin_pass,
+	$db_name,
+	$db_pass,
+	$db_user,
+	$dir,
+	$server_url,
 ) {
 	class { 'php': }
 	class { 'phpsh': }
-	class { 'mysql':
-		dbname   => $dbname,
-		password => $pass,
-	}
 
 	apache::site { 'default':
 		ensure => absent,
@@ -59,7 +47,6 @@ class mediawiki(
 		remote    => 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git',
 		directory => $dir,
 	}
-
 
 	file { '/etc/apache2/sites-enabled/000-default':
 		ensure  => absent,
@@ -77,7 +64,7 @@ class mediawiki(
 		before  => Exec['mediawiki setup'],
 	}
 
-	apache::site { 'wiki':
+	apache::site { $wiki_name:
 		ensure  => present,
 		content => template('mediawiki/mediawiki-apache-site.erb'),
 	}
@@ -86,10 +73,9 @@ class mediawiki(
 		require     => [ Exec['set mysql password'], Git::Clone['mediawiki'] ],
 		creates     => "${dir}/LocalSettings.php",
 		cwd         => "${dir}/maintenance/",
-		command     => "php install.php ${wiki} ${admin} --pass ${pass} --dbname ${dbname} --dbuser ${dbuser} --dbpass ${dbpass} --server ${server} --scriptpath '/w'",
+		command     => "php install.php ${wiki_name} ${admin} --pass ${pass} --dbname ${db_name} --dbuser ${db_user} --dbpass ${db_pass} --server ${server_url} --scriptpath '/w'",
 		notify      => Service['apache2'],
 	}
-
 
 	exec { 'require extra settings':
 		require => Exec['mediawiki setup'],
@@ -103,9 +89,9 @@ class mediawiki(
 	}
 
 	exec { 'set default database':
-		command => "echo 'database = \"${dbname}\"' >> /home/vagrant/.my.cnf",
+		command => "echo 'database = \"${db_name}\"' >> /home/vagrant/.my.cnf",
 		require => [ Exec['mediawiki setup'], File['/home/vagrant/.my.cnf'] ],
-		unless  => "grep 'database = \"${dbname}\"' /home/vagrant/.my.cnf",
+		unless  => "grep 'database = \"${db_name}\"' /home/vagrant/.my.cnf",
 	}
 
 	apache::mod { 'alias':

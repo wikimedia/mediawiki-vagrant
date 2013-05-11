@@ -28,10 +28,10 @@ class misc {
 	}
 
 	file { '/etc/update-motd.d/60-mediawiki-vagrant':
-		ensure => present,
-		mode   => '0755',
-		source => 'puppet:///modules/misc/60-mediawiki-vagrant',
-		notify => Exec['update motd'],
+		ensure  => present,
+		mode    => '0755',
+		source  => 'puppet:///modules/misc/60-mediawiki-vagrant',
+		notify  => Exec['update motd'],
 	}
 
 	exec { 'update motd':

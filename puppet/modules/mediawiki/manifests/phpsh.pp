@@ -4,6 +4,8 @@
 # with the MediaWiki codebase.
 #
 class mediawiki::phpsh {
+	include mediawiki
+
 	package { [ 'python-pip', 'exuberant-ctags' ]:
 		ensure => latest,
 	}
@@ -36,7 +38,7 @@ class mediawiki::phpsh {
 
 	exec { 'generate-ctags':
 		require => [ Package['exuberant-ctags'], Git::Clone['mediawiki'] ],
-		command => 'ctags --languages=php --recurse -f /vagrant/mediawiki/tags /vagrant/mediawiki',
-		creates => '/vagrant/mediawiki/tags',
+		command => "ctags --languages=php --recurse -f ${mediawiki::dir}/tags ${mediawiki::dir}",
+		creates => "${mediawiki::dir}/tags",
 	}
 }

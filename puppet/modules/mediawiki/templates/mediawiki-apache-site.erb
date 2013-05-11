@@ -16,7 +16,7 @@
     <Directory /var/www/>
     </Directory>
 
-    <Directory /vagrant/mediawiki/>
+	<Directory <%= scope.lookupvar('mediawiki::dir') %>>
         # See <https://github.com/mitchellh/vagrant/issues/351>.
         EnableSendfile Off
     </Directory>
@@ -26,8 +26,8 @@
     RewriteEngine On
     RewriteRule ^/$ /w/index.php [R=301]
 
-    Alias /wiki "/vagrant/mediawiki/index.php"
-    Alias /w "/vagrant/mediawiki"
+	Alias /wiki "<%= scope.lookupvar('mediawiki::dir') %>/index.php"
+	Alias /w "<%= scope.lookupvar('mediawiki::dir') %>"
 
     ErrorLog "/vagrant/logs/apache-error.log"
     LogLevel error

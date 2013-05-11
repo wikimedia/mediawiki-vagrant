@@ -8,7 +8,7 @@
 [ -z "$BASH_VERSION" -o -z "$PS1" ] && return
 phpsh () {
   (
-    cd /vagrant/mediawiki
+    cd $MW_INSTALL_PATH
     command phpsh "$@"
   )
 }

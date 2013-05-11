@@ -3,14 +3,14 @@
 #
 [client]
 user = "root"
-password = "<%= @password %>"
+password = "<%= @root_password %>"
 
 [mysql]
 pager = "less -inSFX"
 prompt = "(\R:\m)\_\u@\h:[\d]>\_"
 
-<% if @dbname %>
-database = "<%= @dbname %>"
+<% if @default_db_name %>
+database = "<%= @default_db_name %>"
 <% end %>
 comments = true
 show-warnings = true
