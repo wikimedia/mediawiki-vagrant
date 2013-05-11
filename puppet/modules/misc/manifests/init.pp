@@ -6,7 +6,6 @@
 #
 class misc {
 	include misc::virtualbox
-	include misc::wikimedia
 
 	file { '/etc/profile.d/color.sh':
 		ensure => file,
@@ -22,7 +21,8 @@ class misc {
 		ensure => absent,
 	}
 
-	package { ['toilet', 'toilet-fonts']:
+	# Look, I didn't pick the name..
+	package { [ 'toilet', 'toilet-fonts' ]:
 		ensure => present,
 		before => File['/etc/update-motd.d/60-mediawiki-vagrant'],
 	}

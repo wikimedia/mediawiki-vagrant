@@ -21,24 +21,15 @@
 class git(
 	$urlformat = 'https://gerrit.wikimedia.org/r/p/%s.git',
 ) {
-	exec { 'git-core ppa':
-		command => 'add-apt-repository --yes ppa:git-core/ppa',
-		notify  => Exec['apt-get update'],
-		creates => '/etc/apt/sources.list.d/git-core-ppa-precise.list',
-		before  => Package['git'],
-	}
-
 	package { 'git':
 		ensure  => latest,
-		require => Exec['git-core ppa'],
+		require => Apt::Ppa['git-core/ppa'],
 	}
 
-	exec { 'pip install git-review':
-		unless  => 'which git-review',
-		require => Package['python-pip', 'git'],
+	package { 'git-review':
+		ensure   => latest,
+		provider => 'apt',
 	}
 
-	exec { 'apt-get update':
-		refreshonly => true,
-	}
+	Git::Clone <| |>
 }

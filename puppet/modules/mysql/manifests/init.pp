@@ -25,7 +25,7 @@ class mysql(
 ) {
 
 	package { 'mysql-server':
-		ensure => latest,
+		ensure => present,
 	}
 
 	service { 'mysql':

@@ -6,14 +6,14 @@
 class mediawiki::phpsh {
 	include mediawiki
 
-	package { [ 'python-pip', 'exuberant-ctags' ]:
-		ensure => latest,
+	package { 'exuberant-ctags':
+		ensure => present,
 	}
 
-	exec { 'pip install phpsh':
-		creates => '/usr/local/bin/phpsh',
-		command => 'pip install https://github.com/facebook/phpsh/tarball/master',
-		require => Package['php5', 'python-pip'],
+	package { 'phpsh':
+		ensure   => '1.3.1',
+		provider => pip,
+		require  => Package['php5'],
 	}
 
 	file { '/etc/profile.d/phpsh.sh':
@@ -28,16 +28,10 @@ class mediawiki::phpsh {
 
 	file { '/etc/phpsh/rc.php':
 		content => template('mediawiki/rc.php.erb'),
-		require => File['/etc/phpsh'],
-	}
-
-	file { '/etc/phpsh/config':
-		content => template('mediawiki/phpsh-config.erb'),
-		require => [ File['/etc/phpsh'], Package['php5-xdebug'] ],
 	}
 
 	exec { 'generate-ctags':
-		require => [ Package['exuberant-ctags'], Git::Clone['mediawiki'] ],
+		require => [ Package['exuberant-ctags'], Git::Clone['mediawiki/core'] ],
 		command => "ctags --languages=php --recurse -f ${mediawiki::dir}/tags ${mediawiki::dir}",
 		creates => "${mediawiki::dir}/tags",
 	}

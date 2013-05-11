@@ -13,7 +13,6 @@
 #
 class user_metrics {
 	require mysql
-	require misc::wikimedia
 
 	$site_name         = 'metrics.vagrant'
 	$user_metrics_path = '/vagrant/user_metrics'
@@ -92,7 +91,7 @@ class user_metrics {
 		ensure => present,
 	}
 
-	apache::mod { 'wsgi':
+	@apache::mod { 'wsgi':
 		require => Package['libapache2-mod-wsgi'],
 	}
 

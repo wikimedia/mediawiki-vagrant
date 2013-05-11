@@ -10,10 +10,6 @@
 # [*password*]
 #   Password for the new account.
 #
-# [*force*]
-#   Boolean. If true, pass '--force' arg to createAndPromote.php, which
-#   instructs it to clobber any existing password.
-#
 # === Examples
 #
 #  Create a MediaWiki account for user 'sumana':
@@ -24,20 +20,14 @@
 #
 define mediawiki::user(
 	$password,
-	$force     = false,
 	$username  = $title,
 ) {
 	include mediawiki
 
-	$options = $force ? {
-		true    => '--force',
-		default => '',
-	}
-
 	exec { "mediawiki user ${username}":
 		cwd     => "${mediawiki::dir}/maintenance",
-		command => "php createAndPromote.php ${options} ${username} ${password}",
-		returns => [ 0, 1 ],
+		command => "php createAndPromote.php ${username} ${password}",
+		unless  => "php createAndPromote.php ${username} 2>&1 | grep -q '^Account exists'",
 		require => Exec['mediawiki setup', 'set mediawiki install path'],
 	}
 }

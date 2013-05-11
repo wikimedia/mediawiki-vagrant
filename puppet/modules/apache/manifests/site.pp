@@ -28,13 +28,18 @@ define apache::site(
 	$site    = $title,
 	$content = undef,
 ) {
-
 	include apache
+
+	if ( $site == 'default' ) {
+		$site_file = '000-default'
+	} else {
+		$site_file = $site
+	}
 
 	case $ensure {
 		present: {
 			if ( $content ) {
-				file { "/etc/apache2/sites-available/${site}":
+				file { "/etc/apache2/sites-available/${site_file}":
 					ensure  => file,
 					content => $content,
 					require => Package['apache2'],
@@ -43,17 +48,17 @@ define apache::site(
 			}
 			exec { "enable ${title}":
 				command => "a2ensite -qf ${site}",
+				unless  => "test -L /etc/apache2/sites-enabled/${site_file}",
 				notify  => Service['apache2'],
 				require => Package['apache2'],
-				unless  => "a2dissite <<<'' | head -1 | cut -c 19- | grep -w ${site}",
 			}
 		}
 		absent: {
 			exec { "disable ${title}":
 				command => "a2dissite -qf ${site}",
+				onlyif  => "test -L /etc/apache2/sites-enabled/${site_file}",
 				notify  => Service['apache2'],
 				require => Package['apache2'],
-				onlyif  => "a2dissite <<<'' | head -1 | cut -c 19- | grep -w ${site}",
 			}
 		}
 		default: {

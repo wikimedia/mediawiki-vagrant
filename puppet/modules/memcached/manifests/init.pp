@@ -25,8 +25,8 @@ class memcached(
 	$iface   = '0.0.0.0',
 ) {
 
-	package { [ 'memcached', 'libmemcached6' ]:
-		ensure  => latest,
+	package { 'memcached':
+		ensure  => present,
 	}
 
 	file { '/etc/memcached.conf':

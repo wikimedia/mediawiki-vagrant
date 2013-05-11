@@ -3,8 +3,12 @@
 # Configures Apache HTTP Server
 #
 class apache {
-	package { ['apache2', 'libapache2-mod-php5']:
+	package { 'apache2':
 		ensure  => present,
+	}
+
+	package { 'libapache2-mod-php5':
+		ensure => present,
 	}
 
 	file { '/etc/apache2/ports.conf':
@@ -27,4 +31,7 @@ class apache {
 		require    => Package['apache2'],
 		hasrestart => true,
 	}
+
+	 Apache::Mod <| |>
+	 Apache::Site <| |>
 }

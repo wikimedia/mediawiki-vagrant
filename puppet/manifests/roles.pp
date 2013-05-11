@@ -16,6 +16,9 @@
 # == Class: role::generic
 # Configures common tools and shell enhancements.
 class role::generic {
+	class { '::apt':
+		stage => first,
+	}
 	class { '::misc': }
 	class { '::git': }
 }

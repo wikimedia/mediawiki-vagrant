@@ -79,25 +79,24 @@ Vagrant.configure('2') do |config|
         # vb.gui = true
 
         # If you are on a single-core system, comment out the following line:
-        vb.customize ["modifyvm", :id, '--cpus', '2']
-    end
-
-    config.vm.provision :shell do |s|
-        # Silence 'stdin: is not a tty' error on Puppet run
-        s.inline = 'sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile'
+        vb.customize ['modifyvm', :id, '--cpus', '2']
     end
 
     config.vm.provision :puppet do |puppet|
         puppet.module_path = 'puppet/modules'
         puppet.manifests_path = 'puppet/manifests'
         puppet.manifest_file = 'site.pp'
-        puppet.options = '--verbose'
+
+        puppet.options = [
+            '--verbose',
+            '--templatedir', '/vagrant/puppet/templates',
+        ]
 
         # For more output, uncomment the following line:
-        # puppet.options << ' --debug'
+        # puppet.options << '--debug'
 
         # Windows's Command Prompt has poor support for ANSI escape sequences.
-        puppet.options << ' --color=false' if windows?
+        puppet.options << '--color=false' if windows?
 
         puppet.facter = {
             'virtualbox_version' => get_virtualbox_version

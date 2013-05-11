@@ -81,7 +81,7 @@ define mediawiki::extension(
 		default => $directory,
 	}
 
-	git::clone { "mediawiki/extensions/${extension}":
+	@git::clone { "mediawiki/extensions/${extension}":
 		directory => $extension_dir,
 	}
 

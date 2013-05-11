@@ -21,7 +21,7 @@ class mediawiki::php {
 		ensure => present,
 	}
 
-	apache::mod { 'php5':
+	@apache::mod { 'php5':
 		ensure => present,
 	}
 }

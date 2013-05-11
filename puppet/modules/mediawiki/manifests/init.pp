@@ -1,80 +1,65 @@
 # == Class: mediawiki
 #
-# Provision MediaWiki, MediaWiki is a free software open source wiki
-# package written in PHP, originally for use on Wikipedia.
+# MediaWiki is a free software open source wiki package written in PHP,
+# originally for use on Wikipedia.
 #
 # === Parameters
 #
 # [*wiki_name*]
-#   The name of your site (example: 'Wikipedia').
+#   The name of your site (default: 'devwiki').
 #
 # [*admin_user*]
-#   User name for the initial admin account.
+#   User name for the initial admin account (default: 'admin').
 #
 # [*admin_pass*]
-#   Initial password for admin account.
+#   Initial password for admin account (default: 'vagrant').
 #
 # [*db_name*]
-#   Logical MySQL database name.
+#   Logical MySQL database name (default: 'devwiki').
 #
 # [*db_user*]
-#   MySQL user to use to connect to the database.
+#   MySQL user to use to connect to the database (default: 'root').
 #
 # [*db_pass*]
-#   Password for MySQL account.
+#   Password for MySQL account (default: 'vagrant').
 #
 # [*server_url*]
 #   Full base URL of host (default: 'http://127.0.0.1:8080').
 #
 class mediawiki(
-	$wiki_name,
-	$admin_user,
-	$admin_pass,
-	$db_name,
-	$db_pass,
-	$db_user,
-	$dir,
-	$server_url,
+	$wiki_name  = 'devwiki',
+	$admin_user = 'admin',
+	$admin_pass = 'vagrant',
+	$db_name    = 'devwiki',
+	$db_pass    = 'vagrant',
+	$db_user    = 'root',
+	$dir        = '/vagrant/mediawiki',
+	$server_url = 'http://127.0.0.1:8080',
 ) {
+	Exec { environment => "MW_INSTALL_PATH=${dir}" }
+
+	class { 'apache': }
 	class { 'php': }
 	class { 'phpsh': }
 
-	apache::site { 'default':
-		ensure => absent,
-	}
-
-	git::clone { 'mediawiki':
-		remote    => 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git',
+	@git::clone { 'mediawiki/core':
 		directory => $dir,
-	}
-
-	file { '/etc/apache2/sites-enabled/000-default':
-		ensure  => absent,
-		require => Package['apache2'],
-		before  => Exec['mediawiki setup'],
 	}
 
 	# If an auto-generated LocalSettings.php file exists but the database it
 	# refers to is missing, assume it is residual of a discarded instance and
 	# delete it.
 	exec { 'check settings':
-		command => "rm ${dir}/LocalSettings.php 2>/dev/null || true",
-		require => [ Package['php5'], Git::Clone['mediawiki'], Service['mysql'] ],
-		unless  => "php ${dir}/maintenance/eval.php <<<\"wfGetDB(-1)\" &>/dev/null",
-		before  => Exec['mediawiki setup'],
-	}
-
-	apache::site { $wiki_name:
-		ensure  => present,
-		content => template('mediawiki/mediawiki-apache-site.erb'),
+		command => "rm ${dir}/LocalSettings.php || true",
+		notify  => Exec['mediawiki setup'],
+		require => [ Package['php5'], Git::Clone['mediawiki/core'], Service['mysql'] ],
+		unless  => "php ${dir}/maintenance/sql.php </dev/null",
 	}
 
 	exec { 'mediawiki setup':
-		require     => [ Exec['set mysql password'], Git::Clone['mediawiki'] ],
+		require     => [ Exec['set mysql password'], Git::Clone['mediawiki/core'] ],
 		creates     => "${dir}/LocalSettings.php",
-		cwd         => "${dir}/maintenance/",
-		command     => "php install.php ${wiki_name} ${admin} --pass ${pass} --dbname ${db_name} --dbuser ${db_user} --dbpass ${db_pass} --server ${server_url} --scriptpath '/w'",
-		notify      => Service['apache2'],
+		command     => "php ${dir}/maintenance/install.php ${wiki_name} ${admin} --pass ${pass} --dbname ${db_name} --dbuser ${db_user} --dbpass ${db_pass} --server ${server_url} --scriptpath '/w'",
 	}
 
 	exec { 'require extra settings':
@@ -84,33 +69,14 @@ class mediawiki(
 	}
 
 	exec { 'set mediawiki install path':
-		command => "echo \"export MW_INSTALL_PATH=${dir}\" >> ~vagrant/.profile",
-		unless  => 'grep MW_INSTALL_PATH ~vagrant/.profile 2>/dev/null',
+		command => "echo \"export MW_INSTALL_PATH=${dir}\" >> /home/vagrant/.profile",
+		unless  => 'grep -q MW_INSTALL_PATH /home/vagrant/.profile',
 	}
 
-	exec { 'set default database':
-		command => "echo 'database = \"${db_name}\"' >> /home/vagrant/.my.cnf",
-		require => [ Exec['mediawiki setup'], File['/home/vagrant/.my.cnf'] ],
-		unless  => "grep 'database = \"${db_name}\"' /home/vagrant/.my.cnf",
-	}
-
-	apache::mod { 'alias':
-		ensure => present,
-	}
-
-	apache::mod { 'rewrite':
-		ensure => present,
-	}
-
-	file { '/var/www/mediawiki-vagrant.png':
+	file { 'mediawiki-vagrant logo':
 		ensure => file,
+		path   => '/var/www/mediawiki-vagrant.png',
 		source => 'puppet:///modules/mediawiki/mediawiki-vagrant.png',
-	}
-
-	file { '/var/www/favicon.ico':
-		ensure  => file,
-		require => Package['apache2'],
-		source  => 'puppet:///modules/mediawiki/favicon.ico',
 	}
 
 	exec { 'configure phpunit':
