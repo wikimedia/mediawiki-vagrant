@@ -81,7 +81,7 @@ class redis(
 		ensure    => running,
 		provider  => init,
 		subscribe => File['/etc/redis/redis.conf'],
-		require  => [
+		require   => [
 			File['/etc/redis/redis.conf', '/srv/redis'],
 			Package['redis-server'],
 		],

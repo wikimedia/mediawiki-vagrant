@@ -6,7 +6,7 @@
 # === Parameters
 #
 # [*root_password*]
-#   Password for the root MySQL account.
+#   Password for the root MySQL account (default: 'vagrant').
 #
 # [*default_db_name*]
 #   If defined, the 'mysql' command-line client will be configured to
@@ -20,7 +20,7 @@
 #  }
 #
 class mysql(
-	$root_password,
+	$root_password = 'vagrant',
 	$default_db_name = undef,
 ) {
 
