@@ -1,0 +1,10 @@
+# Configuration file for Redis, an in-memory key-value store.
+# This file is managed by Puppet.
+
+<%=
+    @defaults.merge(@settings).select { |k,v|
+        v and v.to_s != 'undef'
+    }.map { |k,v|
+        [k.tr('_','-')].push(v).flatten.join(' ')
+    }.sort.join("\n")
+%>
