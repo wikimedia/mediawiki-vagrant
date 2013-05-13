@@ -33,7 +33,10 @@ $wgShowSQLErrors = true;
 // Profiling
 $wgDebugProfiling = false;
 
+// Images
 $wgLogo = '/mediawiki-vagrant.png';
+$wgUseInstantCommons = true;
+$wgEnableUploads = true;
 
 $wgGroupPermissions['*']['createpage'] = false;
 
