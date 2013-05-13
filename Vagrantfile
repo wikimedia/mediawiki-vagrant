@@ -68,7 +68,7 @@ Vagrant.configure('2') do |config|
         id: 'vagrant-root',
         owner: 'vagrant',
         group: 'www-data',
-        extra: 'dmode=770,fmode=770'
+        extra: 'dmode=775,fmode=775'
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
