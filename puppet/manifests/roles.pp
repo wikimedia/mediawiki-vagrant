@@ -79,8 +79,8 @@ class role::eventlogging {
 }
 
 # == Class: role::mobilefrontend
-# Configures this machine to run the Wikimedia Foundation's set of
-# Selenium browser tests for MediaWiki instances.
+# Configures MobileFrontend, the MediaWiki extension which powers
+# Wikimedia mobile sites.
 class role::mobilefrontend {
 	include role::mediawiki
 	include role::eventlogging
@@ -123,6 +123,8 @@ class role::echo {
 }
 
 # == Class: role::visualeditor
+# Provisions the VisualEditor extension, backed by a local
+# Parsoid instance.
 class role::visualeditor {
 	include role::mediawiki
 
