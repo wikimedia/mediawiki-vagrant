@@ -41,7 +41,6 @@ class browsertests(
 
 	mediawiki::user { 'Selenium_user':
 		password => $selenium_password,
-		force    => true,
 	}
 
 	# Sets MEDIAWIKI_URL environment variable for all users.
