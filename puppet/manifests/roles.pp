@@ -10,22 +10,23 @@
 # To enable a particular role on your instance, include it in the
 # mediawiki-vagrant node definition in 'site.pp'.
 #
-#
 
 
 # == Class: role::generic
 # Configures common tools and shell enhancements.
 class role::generic {
-	class { '::apt':
+	class { 'apt':
 		stage => first,
 	}
-	class { '::misc': }
-	class { '::git': }
+	class { 'misc': }
+	class { 'git': }
 }
 
 # == Class: role::mediawiki
 # Provisions a MediaWiki instance powered by PHP, MySQL, and memcached.
 class role::mediawiki {
+	include role::generic
+
 	$wiki_name = 'devwiki'
 	$server_url = 'http://127.0.0.1:8080'
 	$dir = '/vagrant/mediawiki'
@@ -56,12 +57,87 @@ class role::mediawiki {
 		dir        => $dir,
 		server_url => $server_url,
 	}
+
+}
+
+# == Class: role::eventlogging
+# This role sets up the EventLogging extension for MediaWiki such that
+# events are validated against production schemas but logged locally.
+class role::eventlogging {
+	include role::mediawiki
+
+	mediawiki::extension { 'EventLogging':
+		priority => 5,
+		settings => {
+			# Work with production schemas but log locally:
+			wgEventLoggingBaseUri        => 'http://localhost:8100/event.gif',
+			wgEventLoggingFile           => '/vagrant/logs/eventlogging.log',
+			wgEventLoggingSchemaIndexUri => 'http://meta.wikimedia.org/w/index.php',
+			wgEventLoggingDBname         => 'metawiki',
+		}
+	}
+}
+
+# == Class: role::mobilefrontend
+# Configures this machine to run the Wikimedia Foundation's set of
+# Selenium browser tests for MediaWiki instances.
+class role::mobilefrontend {
+	include role::mediawiki
+	include role::eventlogging
+
+	mediawiki::extension { 'MobileFrontend':
+		settings => {
+			wgMFForceSecureLogin => false,
+			wgMFLogEvents        => true,
+		}
+	}
+}
+
+# == Class: role::gettingstarted
+# Configures the GettingStarted extension and its dependency, redis.
+class role::gettingstarted {
+	include role::mediawiki
+	include role::eventlogging
+
+	class { 'redis': }
+
+	mediawiki::extension { 'GettingStarted':
+		settings => {
+			wgGettingStartedRedis => '127.0.0.1',
+		},
+	}
+}
+
+# == Class: role::echo
+# Configures Echo, a MediaWiki notification framework.
+class role::echo {
+	include role::mediawiki
+	include role::eventlogging
+
+	mediawiki::extension { 'Echo':
+		needs_update => true,
+		settings     => {
+			wgEchoEnableEmailBatch => false,
+		},
+	}
+}
+
+# == Class: role::visualeditor
+class role::visualeditor {
+	include role::mediawiki
+
+	class { '::mediawiki::parsoid': }
+	mediawiki::extension { 'VisualEditor':
+		settings => template('ve-config.php.erb'),
+	}
 }
 
 # == Class: role::browsertests
 # Configures this machine to run the Wikimedia Foundation's set of
 # Selenium browser tests for MediaWiki instances.
 class role::browsertests {
+	include role::mediawiki
+
 	class { '::browsertests': }
 }
 
@@ -70,5 +146,7 @@ class role::browsertests {
 # interface for obtaining aggregate measurements of user activity on
 # MediaWiki sites.
 class role::umapi {
+	include role::mediawiki
+
 	class { '::user_metrics': }
 }

@@ -1,0 +1,14 @@
+// http://www.mediawiki.org/wiki/Extension:VisualEditor#Basic_setup_instructions
+
+define( 'NS_VISUALEDITOR', 2500 );
+define( 'NS_VISUALEDITOR_TALK', 2501 );
+$wgExtraNamespaces[NS_VISUALEDITOR] = 'VisualEditor';
+$wgExtraNamespaces[NS_VISUALEDITOR_TALK] = 'VisualEditor_talk';
+
+$wgVisualEditorNamespaces = array();
+$wgVisualEditorNamespaces[] = NS_VISUALEDITOR;
+
+$wgDefaultUserOptions['visualeditor-enable'] = 1;
+$wgHiddenPrefs[] = 'visualeditor-enable';
+
+$wgVisualEditorParsoidURL = 'http://localhost:<%= scope.lookupvar("mediawiki::parsoid::port") %>';

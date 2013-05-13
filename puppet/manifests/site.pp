@@ -21,6 +21,13 @@ import 'base.pp'
 import 'roles.pp'
 
 node 'mediawiki-vagrant' {
-	include role::generic
 	include role::mediawiki
+
+	# include role::visualeditor
+	# include role::browsertests
+	# include role::echo
+	# include role::eventlogging
+	# include role::gettingstarted
+	# include role::mobilefrontend
+	# include role::umapi
 }
