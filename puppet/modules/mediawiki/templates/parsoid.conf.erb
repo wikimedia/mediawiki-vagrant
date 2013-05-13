@@ -1,0 +1,20 @@
+# vim: set ft=upstart:
+
+# Upstart job configuration for Parsoid
+# This file is managed by Puppet
+
+description "Parsoid HTTP service"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+
+setuid "www-data"
+setgid "www-data"
+
+env VCAP_APP_PORT="<%= @port %>"
+env NODE_PATH="<%= @parsoid_path %>/js/node_modules"
+
+chdir "<%= @dir %>/js"
+exec node api/server.js 
+
+respawn
