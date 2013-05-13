@@ -8,10 +8,9 @@ password = "<%= @root_password %>"
 [mysql]
 pager = "less -inSFX"
 prompt = "(\R:\m)\_\u@\h:[\d]>\_"
-
-<% if @default_db_name %>
+<% if @default_db_name -%>
 database = "<%= @default_db_name %>"
-<% end %>
+<% end -%>
 comments = true
 show-warnings = true
 default-character-set = utf8

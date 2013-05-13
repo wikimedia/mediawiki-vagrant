@@ -40,7 +40,7 @@ class misc {
 	}
 
 	# Small, nifty, useful things
-	package { [ 'ack-grep', 'htop', 'curl', 'tree' ]:
+	package { [ 'ack-grep', 'htop', 'curl' ]:
 		ensure => present,
 	}
 

@@ -45,7 +45,6 @@ class mysql(
 		owner   => 'vagrant',
 		group   => 'vagrant',
 		mode    => '0600',
-		replace => no,
 		content => template('mysql/my.cnf.erb'),
 	}
 }

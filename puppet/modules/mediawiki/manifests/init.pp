@@ -59,7 +59,7 @@ class mediawiki(
 	exec { 'mediawiki setup':
 		require     => [ Exec['set mysql password'], Git::Clone['mediawiki/core'] ],
 		creates     => "${dir}/LocalSettings.php",
-		command     => "php ${dir}/maintenance/install.php ${wiki_name} ${admin} --pass ${pass} --dbname ${db_name} --dbuser ${db_user} --dbpass ${db_pass} --server ${server_url} --scriptpath '/w'",
+		command     => "php ${dir}/maintenance/install.php ${wiki_name} ${admin_user} --pass ${admin_pass} --dbname ${db_name} --dbuser ${db_user} --dbpass ${db_pass} --server ${server_url} --scriptpath '/w'",
 	}
 
 	exec { 'require extra settings':
@@ -84,4 +84,11 @@ class mediawiki(
 		command => "${dir}/tests/phpunit/install-phpunit.sh",
 		require => Exec['mediawiki setup'],
 	}
+
+	exec { 'update database':
+		command     => "php ${dir}/maintenance/update.php --quick",
+		refreshonly => true,
+	}
+
+	Exec['mediawiki setup'] -> Mediawiki::Extension <| |>
 }

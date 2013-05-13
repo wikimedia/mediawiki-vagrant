@@ -29,6 +29,11 @@
 #   default is 10. You only need to override the default if you want
 #   this extension to load before or after some other extension.
 #
+# [*needs_update*]
+#   If true, run MediaWiki's database update maintenance script
+#   (maintenance/update.php) after configuring the extension. False by
+#   default.
+#
 # [*settings*]
 #   This parameter contains configuration settings for the extension.
 #   Settings may be specified as a hash, array, or string. See examples
@@ -68,11 +73,12 @@
 #   }
 #
 define mediawiki::extension(
-	$ensure     = present,
-	$extension  = $title,
-	$entrypoint = "${title}.php",
-	$priority   = 10,
-	$settings   = {},
+	$ensure       = present,
+	$extension    = $title,
+	$entrypoint   = "${title}.php",
+	$priority     = 10,
+	$needs_update = false,
+	$settings     = {},
 ) {
 	include mediawiki
 
@@ -95,5 +101,12 @@ define mediawiki::extension(
 		owner   => 'vagrant',
 		group   => 'www-data',
 		mode    => '0770',
+		require => Git::Clone["mediawiki/extensions/${extension}"],
+	}
+
+	if $needs_update {
+		# If the extension requires a schema migration, set up the
+		# setting file resource to notify update.php.
+		File["/vagrant/settings/${settings_file}"] ~> Exec['update database']
 	}
 }

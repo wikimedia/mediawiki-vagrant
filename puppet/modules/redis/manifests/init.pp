@@ -43,6 +43,8 @@ class redis(
 	$persist    = false,
 	$settings   = {},
 ) {
+	include redis::php
+
 	$save = $persist ? {
 		true    => [ '60', '1' ],
 		default => undef,
