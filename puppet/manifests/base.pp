@@ -9,6 +9,13 @@
 # <http://docs.puppetlabs.com/puppet/2.7/reference/lang_defaults.html>.
 #
 
+# By adding a stage => 'first' / 'last' parameter to your class
+# declaration, you can tell Puppet to instantiate the class (and its
+# resources) at the very beginning of its run or the very end. By
+# default, only the 'apt' class runs in a different stage, to ensure
+# other classes fetch the right packages. Everything else runs in 'main'.
+# For more information, see:
+# <http://docs.puppetlabs.com/puppet/2.7/reference/lang_run_stages.html>
 stage { 'first': }
 stage { 'last': }
 
