@@ -7,10 +7,26 @@
 class misc {
 	include misc::virtualbox
 
-	file { '/etc/profile.d/color.sh':
-		ensure => file,
-		mode   => '0755',
-		source => 'puppet:///modules/misc/color.sh',
+	# This solves the 'stdin: not a tty' error message, which is caused
+	# by a call to 'mesg n' in /root/.profile. Sadly it'll still appear
+	# once, since profile is sourced before Puppet can run. That sucks,
+	# because first impressions do count. Fix it and you get a cookie.
+	exec { 'update profile':
+		command => 'sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile',
+		onlyif  => 'grep -q "^mesg n" /root/.profile',
+	}
+
+	file { '/var/lib/cloud/instance/locale-check.skip':
+		ensure => present,
+	}
+
+	file {
+		'/etc/profile.d/locale.sh':
+			mode   => '0755',
+			source => 'puppet:///modules/misc/locale.sh';
+		'/etc/profile.d/color.sh':
+			mode   => '0755',
+			source => 'puppet:///modules/misc/color.sh';
 	}
 
 	file { [
