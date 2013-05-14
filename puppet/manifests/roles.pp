@@ -28,7 +28,7 @@ class role::mediawiki {
 	include role::generic
 
 	$wiki_name = 'devwiki'
-	$server_url = 'http://127.0.0.1:8080'
+	$server_url = "http://127.0.0.1:${::forwarded_port}"
 	$dir = '/vagrant/mediawiki'
 
 	# Database access

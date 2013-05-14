@@ -32,7 +32,9 @@
 #   (default: '/srv/images').
 #
 # [*server_url*]
-#   Full base URL of host (default: 'http://127.0.0.1:8080').
+#   Full base URL of host. Defaults to 'http://127.0.0.1:8080' (or an
+#   alternate port if 'FORWARDED_PORT' in Vagrantfile has been
+#   overridden).
 #
 class mediawiki(
 	$wiki_name  = 'devwiki',
@@ -43,7 +45,7 @@ class mediawiki(
 	$db_user    = 'root',
 	$dir        = '/vagrant/mediawiki',
 	$upload_dir = '/srv/images',
-	$server_url = 'http://127.0.0.1:8080',
+	$server_url = "http://127.0.0.1:${::forwarded_port}",
 ) {
 	Exec { environment => "MW_INSTALL_PATH=${dir}" }
 

@@ -12,7 +12,7 @@ class apache {
 	}
 
 	file { '/etc/apache2/ports.conf':
-		source  => 'puppet:///modules/apache/ports.conf',
+		content => template('apache/ports.conf.erb'),
 		require => Package['apache2'],
 		notify  => Service['apache2'],
 	}
