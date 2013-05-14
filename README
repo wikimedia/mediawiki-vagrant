@@ -19,7 +19,8 @@ automated and contained in a virtual environment, mistakes are easy to undo.
 You'll need to install recent versions of Vagrant and VirtualBox.
 
  * VirtualBox: https://www.virtualbox.org/wiki/Downloads
- * Vagrant: http://downloads.vagrantup.com/
+ * Vagrant: http://downloads.vagrantup.com/ (version 1.2.2 or higher is
+   required!)
 
 Next, you'll need a copy of the mediawiki-vagrant project files.
 
