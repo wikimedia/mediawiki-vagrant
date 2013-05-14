@@ -39,7 +39,7 @@ def get_virtualbox_version
     rescue
         ver = ''
     end
-    ver.gsub(/r.*/m, '')
+    /[\d\.]+/.match(ver).to_s
 end
 
 Vagrant.configure('2') do |config|
