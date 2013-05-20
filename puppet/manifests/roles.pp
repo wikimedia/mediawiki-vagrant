@@ -152,3 +152,24 @@ class role::umapi {
 
 	class { '::user_metrics': }
 }
+
+# == Class: role::uploadwizard
+# Configures a MediaWiki instance with UploadWizard, a JavaScript-driven
+# wizard interface for uploading multiple files.
+class role::uploadwizard {
+	include role::mediawiki
+
+	package { 'imagemagick':
+		ensure => present,
+	}
+
+	mediawiki::extension { 'UploadWizard':
+		require  => Package['imagemagick'],
+		settings => {
+			wgEnableUploads       => true,
+			wgUseImageMagick      => true,
+			wgUploadNavigationUrl => '/wiki/Special:UploadWizard',
+			wgUseInstantCommons   => true,
+		},
+	}
+}

@@ -23,6 +23,7 @@ import 'roles.pp'
 node 'mediawiki-vagrant' {
 	include role::mediawiki
 
+	# include role::uploadwizard
 	# include role::visualeditor
 	# include role::browsertests
 	# include role::echo
