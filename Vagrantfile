@@ -67,8 +67,7 @@ Vagrant.configure('2') do |config|
     config.vm.synced_folder '.', '/vagrant',
         id: 'vagrant-root',
         owner: 'vagrant',
-        group: 'www-data',
-        extra: 'dmode=775,fmode=775'
+        group: 'www-data'
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.

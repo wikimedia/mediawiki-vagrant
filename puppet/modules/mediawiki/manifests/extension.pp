@@ -96,7 +96,6 @@ define mediawiki::extension(
 		# over the file.
 		owner   => 'vagrant',
 		group   => 'www-data',
-		mode    => '0770',
 		require => Git::Clone["mediawiki/extensions/${extension}"],
 	}
 
