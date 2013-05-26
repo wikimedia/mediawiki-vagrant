@@ -75,5 +75,6 @@ class browsertests(
 		cwd     => '/srv/browsertests',
 		unless  => 'bundle check',
 		require => [ Exec['use ruby 1.9.1'], Git::Clone['qa/browsertests'] ],
+		timeout => 0,
 	}
 }
