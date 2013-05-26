@@ -10,8 +10,9 @@ appropriately.
 
 To run the browser tests with Mediawiki-Vagrant, you will need X11 support in
 host environment as well as an SSH client capable of forwarding an X11
-connection. If you are running a modern Linux distribution or OS X, these
-requirements have already been configured for you.
+connection. If you are running a modern Linux distribution, these requirements
+have already been configured for you. On OS X, you will need to download the
+latest version of XQuartz from <http://xquartz.macosforge.org/landing/>.
 
 Before you can run the tests, however, you will need to enable this Puppet
 module and trigger a Puppet run. This is simple to do. Simply edit
