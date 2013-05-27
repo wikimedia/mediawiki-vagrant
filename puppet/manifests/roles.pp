@@ -66,7 +66,7 @@ class role::mediawiki {
 class role::eventlogging {
 	include role::mediawiki
 
-	mediawiki::extension { 'EventLogging':
+	@mediawiki::extension { 'EventLogging':
 		priority => 5,
 		settings => {
 			# Work with production schemas but log locally:
@@ -85,7 +85,7 @@ class role::mobilefrontend {
 	include role::mediawiki
 	include role::eventlogging
 
-	mediawiki::extension { 'MobileFrontend':
+	@mediawiki::extension { 'MobileFrontend':
 		settings => {
 			wgMFForceSecureLogin => false,
 			wgMFLogEvents        => true,
@@ -101,7 +101,7 @@ class role::gettingstarted {
 
 	class { 'redis': }
 
-	mediawiki::extension { 'GettingStarted':
+	@mediawiki::extension { 'GettingStarted':
 		settings => {
 			wgGettingStartedRedis => '127.0.0.1',
 		},
@@ -114,7 +114,7 @@ class role::echo {
 	include role::mediawiki
 	include role::eventlogging
 
-	mediawiki::extension { 'Echo':
+	@mediawiki::extension { 'Echo':
 		needs_update => true,
 		settings     => {
 			wgEchoEnableEmailBatch => false,
@@ -129,7 +129,7 @@ class role::visualeditor {
 	include role::mediawiki
 
 	class { '::mediawiki::parsoid': }
-	mediawiki::extension { 'VisualEditor':
+	@mediawiki::extension { 'VisualEditor':
 		settings => template('ve-config.php.erb'),
 	}
 }
@@ -159,11 +159,9 @@ class role::umapi {
 class role::uploadwizard {
 	include role::mediawiki
 
-	package { 'imagemagick':
-		ensure => present,
-	}
+	package { 'imagemagick': }
 
-	mediawiki::extension { 'UploadWizard':
+	@mediawiki::extension { 'UploadWizard':
 		require  => Package['imagemagick'],
 		settings => {
 			wgEnableUploads       => true,
@@ -171,5 +169,32 @@ class role::uploadwizard {
 			wgUploadNavigationUrl => '/wiki/Special:UploadWizard',
 			wgUseInstantCommons   => true,
 		},
+	}
+}
+
+
+# == Class: role::scribunto
+# Configures Scribunto, an extension for embedding scripting languages
+# in MediaWiki.
+class role::scribunto {
+	include role::mediawiki
+
+	$extras = [ 'CodeEditor', 'WikiEditor', 'SyntaxHighlight_GeSHi' ]
+	@mediawiki::extension { $extras: }
+
+	package { 'php-luasandbox':
+		notify => Service['apache2'],
+	}
+
+	@mediawiki::extension { 'Scribunto':
+		settings => {
+			wgScribuntoDefaultEngine => 'luasandbox',
+			wgScribuntoUseGeSHi      => true,
+			wgScribuntoUseCodeEditor => true,
+		},
+		require  => [
+			Package['php-luasandbox'],
+			Mediawiki::Extension[$extras],
+		],
 	}
 }
