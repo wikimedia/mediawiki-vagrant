@@ -16,10 +16,10 @@ latest version of XQuartz from <http://xquartz.macosforge.org/landing/>.
 
 Before you can run the tests, however, you will need to enable this Puppet
 module and trigger a Puppet run. This is simple to do. Simply edit
-puppet/manifests/extras.pp and uncomment the following line by removing the
+puppet/manifests/site.pp and uncomment the following line by removing the
 hash symbol:
 
-      # class { 'browsertests': }
+      # include role::browsertests
 
 Once you've done that, save the file, and run 'vagrant provision'. (If you
 virtual machine is not running, you'll be prompted to run 'vagrant up' first;
