@@ -32,4 +32,5 @@ node 'mediawiki-vagrant' {
 	# include role::gettingstarted
 	# include role::mobilefrontend
 	# include role::umapi
+	# include role::remote_debug
 }

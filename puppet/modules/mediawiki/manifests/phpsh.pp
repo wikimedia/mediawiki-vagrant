@@ -5,6 +5,7 @@
 #
 class mediawiki::phpsh {
 	include mediawiki
+	include php
 
 	package { 'exuberant-ctags':
 		ensure => present,

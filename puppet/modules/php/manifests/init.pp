@@ -1,10 +1,10 @@
-# == Class: mediawiki::php
+# == Class: php
 #
-# Configures PHP and PHP-related dependencies for MediaWiki.
+# This module configures the PHP 5 scripting language and some of its
+# popular extensions. PHP is the primary language in which MediaWiki is
+# implemented.
 #
-class mediawiki::php {
-	include apache
-
+class php {
 	package { [
 		'php5',
 		'php-apc',
@@ -21,6 +21,7 @@ class mediawiki::php {
 		ensure => present,
 	}
 
+	include apache
 	@apache::mod { 'php5':
 		ensure => present,
 	}

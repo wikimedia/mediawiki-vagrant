@@ -198,3 +198,30 @@ class role::scribunto {
 		],
 	}
 }
+
+
+# == Class: role::remote_debug
+# This class enables support for remote debugging of PHP code using
+# Xdebug. Remote debugging allows you to interactively walk through your
+# code as executes. Remote debugging is most useful when used in
+# conjunction with a PHP IDE such as PhpStorm. The IDE is installed on
+# your machine, not the Vagrant VM.
+#
+# NOTE: This role currently requires that you manually configure
+# port forwarding for port 9000. See <http://goo.gl/mx36a>.
+class role::remote_debug {
+	include php
+
+	php::ini { 'remote_debug':
+		settings => {
+			'xdebug.idekey'              => 'default',
+			'xdebug.remote_autostart'    => '1',
+			'xdebug.remote_connect_back' => '1',
+			'xdebug.remote_enable'       => '1',
+			'xdebug.remote_handler'      => 'dbgp',
+			'xdebug.remote_mode'         => 'req',
+			'xdebug.remote_port'         => '9000',
+		},
+		require => Package['php5-xdebug'],
+	}
+}

@@ -1,0 +1,12 @@
+; This file is managed by Puppet.
+
+<%=
+case @settings
+when Hash
+    @settings.sort.map { |k,v| "#{k} = #{v}" }.join("\n")
+when Array
+    @settings.join("\n")
+else
+    @settings
+end
+%>

@@ -38,9 +38,10 @@ class mediawiki(
 ) {
 	Exec { environment => "MW_INSTALL_PATH=${dir}" }
 
-	class { 'apache': }
-	class { 'php': }
-	class { 'phpsh': }
+	include ::php
+
+	include mediawiki::phpsh
+	include mediawiki::apache
 
 	@git::clone { 'mediawiki/core':
 		directory => $dir,
