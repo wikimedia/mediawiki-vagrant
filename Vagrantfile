@@ -10,9 +10,9 @@
 #
 # If you would like to customize the configuration of your Virtual Machine,
 # rather than override the values defined in this file, simply create a file
-# called 'Vagrantfile-extra' in this folder and it will be automatically
+# called 'Vagrantfile-extra.rb' in this folder and it will be automatically
 # loaded. In case of conflict, values in the 'extra' file will superceded
-# any values in this file. 'Vagrantfile-extra' is ignored by git.
+# any values in this file. 'Vagrantfile-extra.rb' is ignored by git.
 #
 # Please report bugs in this file on Wikimedia's Bugzilla:
 # https://bugzilla.wikimedia.org/enter_bug.cgi?product=Tools&component=Vagrant
@@ -44,7 +44,7 @@ end
 
 Vagrant.configure('2') do |config|
 
-    config.vm.hostname = 'mediawiki-vagrant'
+    config.vm.hostname = 'mediawiki-vagrant.dev'
     config.package.name = 'mediawiki.box'
 
     # Note: If you rely on Vagrant to retrieve the box, it will not
@@ -59,10 +59,12 @@ Vagrant.configure('2') do |config|
         ip: '10.11.12.13'
 
     config.vm.network :forwarded_port,
-        guest: 80,
-        host: 8080,
-        id: 'http',
-        auto_correct: true
+        guest: 80, host: 8080, id: 'http'
+
+    # To enable remote debugging via Xdebug, uncomment these two lines and add
+    # the 'remote_debug' role in puppet/manifests/site.pp:
+    # config.vm.network :forwarded_port,
+    #    guest: 9000, host: 9000, id: 'xdebug'
 
     config.vm.synced_folder '.', '/vagrant',
         id: 'vagrant-root',
