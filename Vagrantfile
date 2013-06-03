@@ -32,7 +32,7 @@ end
 def get_virtualbox_version
     begin
         if windows?
-            ver = `"%ProgramFiles%\\Oracle\\VirtualBox\\VBoxManage" -v 2>NULL`
+            ver = `"%ProgramFiles%\\Oracle\\VirtualBox\\VBoxManage" -v 2>NUL`
         else
             ver = `VBoxManage -v 2>/dev/null`
         end
