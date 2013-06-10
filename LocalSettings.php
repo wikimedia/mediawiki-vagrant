@@ -13,6 +13,8 @@
 error_reporting( -1 );
 ini_set( 'display_errors', 1 );
 
+$wgUploadDirectory = '/srv/images';
+$wgUploadPath = '/images';
 $wgArticlePath = "/wiki/$1";
 
 // Show the debug toolbar if 'debug' is set on the request, either as a

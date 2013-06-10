@@ -23,6 +23,14 @@
 # [*db_pass*]
 #   Password for MySQL account (default: 'vagrant').
 #
+# [*dir*]
+#   The system path to which MediaWiki files have been installed
+#   (default: '/vagrant/mediawiki').
+#
+# [*upload_dir*]
+#   The file system path of the folder where files will be uploaded
+#   (default: '/srv/images').
+#
 # [*server_url*]
 #   Full base URL of host (default: 'http://127.0.0.1:8080').
 #
@@ -34,6 +42,7 @@ class mediawiki(
 	$db_pass    = 'vagrant',
 	$db_user    = 'root',
 	$dir        = '/vagrant/mediawiki',
+	$upload_dir = '/srv/images',
 	$server_url = 'http://127.0.0.1:8080',
 ) {
 	Exec { environment => "MW_INSTALL_PATH=${dir}" }
@@ -57,8 +66,15 @@ class mediawiki(
 		unless  => "php ${dir}/maintenance/sql.php </dev/null",
 	}
 
+	file { $upload_dir:
+		ensure => directory,
+		owner  => 'vagrant',
+		group  => 'www-data',
+		mode   => '0775',
+	}
+
 	exec { 'mediawiki setup':
-		require     => [ Exec['set mysql password'], Git::Clone['mediawiki/core'] ],
+		require     => [ Exec['set mysql password'], Git::Clone['mediawiki/core'], File[$upload_dir] ],
 		creates     => "${dir}/LocalSettings.php",
 		command     => "php ${dir}/maintenance/install.php ${wiki_name} ${admin_user} --pass ${admin_pass} --dbname ${db_name} --dbuser ${db_user} --dbpass ${db_pass} --server ${server_url} --scriptpath '/w'",
 	}

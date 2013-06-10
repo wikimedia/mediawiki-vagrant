@@ -16,9 +16,10 @@
     <Directory /var/www/>
     </Directory>
 
-	<Directory <%= scope.lookupvar('mediawiki::dir') %>>
-        # See <https://github.com/mitchellh/vagrant/issues/351>.
-        EnableSendfile Off
+    <Directory <%= scope.lookupvar('mediawiki::dir') %>>
+    </Directory>
+
+    <Directory <%= scope.lookupvar('mediawiki::upload_dir') %>>
     </Directory>
 
     AllowEncodedSlashes on
@@ -26,8 +27,9 @@
     RewriteEngine On
     RewriteRule ^/$ /w/index.php [R=301]
 
-	Alias /wiki "<%= scope.lookupvar('mediawiki::dir') %>/index.php"
-	Alias /w "<%= scope.lookupvar('mediawiki::dir') %>"
+    Alias /wiki "<%= scope.lookupvar('mediawiki::dir') %>/index.php"
+    Alias /w "<%= scope.lookupvar('mediawiki::dir') %>"
+    Alias /images "<%= scope.lookupvar('mediawiki::upload_dir') %>"
 
     ErrorLog "/vagrant/logs/apache-error.log"
     LogLevel error
