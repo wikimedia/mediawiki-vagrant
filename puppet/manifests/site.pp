@@ -11,7 +11,7 @@
 # knows how to configure a machine to fulfill various other roles which
 # are not enabled by default.
 #
-# To enable an optional role, simply uncomment its delcaration below by
+# To enable an optional role, simply uncomment its declaration below by
 # removing the leading '#' symbol and saving this file. Then, run
 # 'vagrant up' to ensure your machine is active, and then 'vagrant
 # provision' to apply the updated configuration to your instance.
@@ -24,6 +24,8 @@ node 'mediawiki-vagrant' {
 	include role::mediawiki
 
 	# include role::scribunto
+	# include role::wikieditor
+	# include role::proofreadpage
 	# include role::uploadwizard
 	# include role::visualeditor
 	# include role::browsertests
