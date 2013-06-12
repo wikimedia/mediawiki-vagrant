@@ -199,6 +199,58 @@ class role::scribunto {
 	}
 }
 
+# == Class: role::wikieditor
+# Configures WikiEditor, an extension which enable an extendable editing
+# toolbar and interface
+class role::wikieditor {
+
+	@mediawiki::extension { 'WikiEditor':
+		settings => [
+			'$wgDefaultUserOptions["usebetatoolbar"] = 1',
+			'$wgDefaultUserOptions["usebetatoolbar-cgd"] = 1',
+			'$wgDefaultUserOptions["wikieditor-preview"] = 1',
+			'$wgDefaultUserOptions["wikieditor-publish"] = 1',
+		],
+	}
+}
+
+# == Class: role::proofreadpage
+# Configures ProodreadPage, an extension to allow the proofreading of a text
+# in comparison with scanned images.
+class role::proofreadpage {
+	include role::mediawiki
+
+	php::ini { 'proofreadpage':
+		settings => {
+			'upload_max_filesize' => '50M',
+			'post_max_size' => '50M',
+		},
+	}
+
+	$packages = [ 'djvulibre-bin', 'ghostscript', 'netpbm' ]
+	package { $packages: }
+
+	$extras = [ 'LabeledSectionTransclusion', 'ParserFunctions', 'Cite' ]
+	@mediawiki::extension { $extras: }
+
+	@mediawiki::extension { 'ProofreadPage':
+		needs_update => true,
+		settings => [
+			'$wgEnableUploads = true',
+			'$wgFileExtensions = array_merge( $wgFileExtensions, array(\'pdf\', \'djvu\') )',
+			'$wgMaxShellMemory = 300000',
+			'$wgDjvuDump = "djvudump"',
+			'$wgDjvuRenderer = "ddjvu"',
+			'$wgDjvuTxt = "djvutxt"',
+			'$wgDjvuPostProcessor = "ppmtojpeg"',
+			'$wgDjvuOutputExtension = "jpg"',
+		],
+		require  => [
+			Package[$packages],
+			Mediawiki::Extension[$extras],
+		],
+	}
+}
 
 # == Class: role::remote_debug
 # This class enables support for remote debugging of PHP code using
