@@ -40,6 +40,12 @@ File {
 	mode   => '0644',
 }
 
+file { '/srv':
+	owner  => 'vagrant',
+	group  => 'www-data',
+	mode   => '0755',
+}
+
 package { 'python-pip':
 	ensure => present,
 }

@@ -12,6 +12,9 @@
 #   Remote URL for the repository. If unspecified, the resource title
 #   will be interpolated into $git::urlformat.
 #
+# [*user*]
+#   Execute git-clone as this user. Defaults to 'vagrant'.
+#
 # === Examples
 #
 #  Clone VisualEditor to MediaWiki extension path:
@@ -20,7 +23,7 @@
 #      directory => '/vagrant/mediawiki/extensions/VisualEditor',
 #  }
 #
-define git::clone($directory, $remote=undef) {
+define git::clone($directory, $remote=undef, $user='vagrant') {
 	include git
 
 	$url = $remote ? {
@@ -32,7 +35,7 @@ define git::clone($directory, $remote=undef) {
 		command   => "git clone ${url} ${directory}",
 		creates   => "${directory}/.git/refs/remotes",
 		require   => Package['git'],
-		logoutput => true,
+		user      => $user,
 		timeout   => 0,
 	}
 }
