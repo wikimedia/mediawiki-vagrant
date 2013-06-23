@@ -62,11 +62,12 @@ class redis(
 	}
 
 	package { 'redis-server':
-		ensure => '2:2.6.3-wmf1',
+		ensure => '2:2.6.0-rc7-wmf1',
 	}
 
 	file { '/srv/redis':
 		ensure  => directory,
+		require => Package['redis-server'],
 		owner   => 'redis',
 		group   => 'redis',
 		mode    => '0755',
