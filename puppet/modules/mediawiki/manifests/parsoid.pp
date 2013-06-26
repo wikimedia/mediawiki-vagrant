@@ -52,7 +52,7 @@ class mediawiki::parsoid(
 		require    => Package['nodejs', 'npm'],
 	}
 
-	exec { 'npm install parsoid':
+	exec { 'install parsoid':
 		command   => 'npm install',
 		onlyif    => 'npm list --json | grep -q \'"missing": true\'',
 		cwd       => "${dir}/js",
@@ -67,7 +67,7 @@ class mediawiki::parsoid(
 	file { '/etc/init/parsoid.conf':
 		ensure  => present,
 		content => template('mediawiki/parsoid.conf.erb'),
-		require => Exec['npm install parsoid'],
+		require => Exec['install parsoid'],
 	}
 
 	file { '/etc/init.d/parsoid':
@@ -81,7 +81,7 @@ class mediawiki::parsoid(
 		provider  => 'upstart',
 		subscribe => File['/etc/init/parsoid.conf', "${dir}/js/api/localsettings.js"],
 		require   => [
-			Exec['npm install parsoid'],
+			Exec['install parsoid'],
 			File['/etc/init/parsoid.conf', "${dir}/js/api/localsettings.js"],
 		],
 	}

@@ -15,8 +15,7 @@ $wgExtraNamespaces[NS_VISUALEDITOR_TALK] = 'VisualEditor_talk';
 $wgVisualEditorNamespaces = array( NS_MAIN );
 
 // Restrict VisualEditor to the VisualEditor namespace
-$wgVisualEditorNamespaces = array();
-$wgVisualEditorNamespaces[] = NS_VISUALEDITOR;
+$wgVisualEditorNamespaces = array( NS_MAIN, NS_USER, NS_VISUALEDITOR );
 
 // Enable by default for everybody
 $wgDefaultUserOptions['visualeditor-enable'] = 1;
