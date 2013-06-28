@@ -6,46 +6,44 @@
 # === Parameters
 #
 # [*wiki_name*]
-#   The name of your site (default: 'devwiki').
+#   The name of your site (example: 'devwiki').
 #
 # [*admin_user*]
-#   User name for the initial admin account (default: 'admin').
+#   User name for the initial admin account (example: 'admin').
 #
 # [*admin_pass*]
-#   Initial password for admin account (default: 'vagrant').
+#   Initial password for admin account (example: 'secret123').
 #
 # [*db_name*]
-#   Logical MySQL database name (default: 'devwiki').
+#   Logical MySQL database name (example: 'devwiki').
 #
 # [*db_user*]
-#   MySQL user to use to connect to the database (default: 'root').
+#   MySQL user to use to connect to the database (example: 'wikidb').
 #
 # [*db_pass*]
-#   Password for MySQL account (default: 'vagrant').
+#   Password for MySQL account (example: 'secret123').
 #
 # [*dir*]
 #   The system path to which MediaWiki files have been installed
-#   (default: '/vagrant/mediawiki').
+#   (example: '/srv/mediawiki').
 #
 # [*upload_dir*]
 #   The file system path of the folder where files will be uploaded
-#   (default: '/srv/images').
+#   (example: '/srv/mediawiki/images').
 #
 # [*server_url*]
-#   Full base URL of host. Defaults to 'http://127.0.0.1:8080' (or an
-#   alternate port if 'FORWARDED_PORT' in Vagrantfile has been
-#   overridden).
+#   Full base URL of host (example: 'http://mywiki.net:8080').
 #
 class mediawiki(
-	$wiki_name  = 'devwiki',
-	$admin_user = 'admin',
-	$admin_pass = 'vagrant',
-	$db_name    = 'devwiki',
-	$db_pass    = 'vagrant',
-	$db_user    = 'root',
-	$dir        = '/vagrant/mediawiki',
-	$upload_dir = '/srv/images',
-	$server_url = "http://127.0.0.1:${::forwarded_port}",
+	$wiki_name,
+	$admin_user,
+	$admin_pass,
+	$db_name,
+	$db_pass,
+	$db_user,
+	$dir,
+	$upload_dir,
+	$server_url,
 ) {
 	Exec { environment => "MW_INSTALL_PATH=${dir}" }
 

@@ -28,8 +28,12 @@ class role::mediawiki {
 	include role::generic
 
 	$wiki_name = 'devwiki'
+
+	# 'forwarded_port' defaults to 8080, but may be overridden by
+	# changing the value of 'FORWARDED_PORT' in Vagrantfile.
 	$server_url = "http://127.0.0.1:${::forwarded_port}"
 	$dir = '/vagrant/mediawiki'
+	$upload_dir = '/srv/images'
 
 	# Database access
 	$db_name = 'wiki'
@@ -55,6 +59,7 @@ class role::mediawiki {
 		db_pass    => $db_pass,
 		db_user    => $db_user,
 		dir        => $dir,
+		upload_dir => $upload_dir,
 		server_url => $server_url,
 	}
 
