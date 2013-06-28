@@ -38,7 +38,7 @@ You'll now have to wait a bit, as Vagrant needs to retrieve the base image from
 Canonical, retrieve some additional packages, and install and configure each of
 them in turn.
 
-If it all worked, you should be able to browse to http://localhost:8080/ and
+If it all worked, you should be able to browse to http://127.0.0.1:8080/ and
 see the main page of your MediaWiki instance.
 
 
