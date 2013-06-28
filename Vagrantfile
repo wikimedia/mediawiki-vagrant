@@ -58,8 +58,11 @@ Vagrant.configure('2') do |config|
     config.vm.network :private_network,
         ip: '10.11.12.13'
 
+    # The port on the host that should be forwarded to the guest's HTTP server.
+    FORWARDED_PORT = 8080
+
     config.vm.network :forwarded_port,
-        guest: 80, host: 8080, id: 'http'
+        guest: 80, host: FORWARDED_PORT, id: 'http'
 
     # To enable remote debugging via Xdebug, uncomment these two lines and add
     # the 'remote_debug' role in puppet/manifests/site.pp:
@@ -100,7 +103,8 @@ Vagrant.configure('2') do |config|
         puppet.options << '--color=false' if windows?
 
         puppet.facter = {
-            'virtualbox_version' => get_virtualbox_version
+            'virtualbox_version' => get_virtualbox_version,
+            'forwarded_port' => FORWARDED_PORT,
         }
     end
 
