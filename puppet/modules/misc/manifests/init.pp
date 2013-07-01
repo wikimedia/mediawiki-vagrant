@@ -24,6 +24,9 @@ class misc {
 		'/etc/profile.d/locale.sh':
 			mode   => '0755',
 			source => 'puppet:///modules/misc/locale.sh';
+		'/etc/profile.d/gem-home.sh':
+			mode   => '0755',
+			source => 'puppet:///modules/misc/gem-home.sh';
 		'/etc/profile.d/color.sh':
 			mode   => '0755',
 			source => 'puppet:///modules/misc/color.sh';

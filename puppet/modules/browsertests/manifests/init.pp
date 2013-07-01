@@ -71,10 +71,12 @@ class browsertests(
 		require => Package['ruby1.9.1-full', 'ruby-bundler'],
 	}
 
-	exec { 'bundle install':
-		cwd     => '/srv/browsertests',
-		unless  => 'bundle check',
-		require => [ Exec['use ruby 1.9.1'], Git::Clone['qa/browsertests'] ],
-		timeout => 0,
+	exec { 'install browsertests bundle':
+		command     => 'bundle install --path /home/vagrant/.gem',
+		cwd         => '/srv/browsertests',
+		user        => 'vagrant',
+		unless      => 'bundle check',
+		require     => [ Exec['use ruby 1.9.1'], Git::Clone['qa/browsertests'] ],
+		timeout     => 0,
 	}
 }
