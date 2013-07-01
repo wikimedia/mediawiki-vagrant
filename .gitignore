@@ -1,5 +1,8 @@
 .vagrant
 /Vagrantfile-extra.rb
 /LocalSettings.php
-tags
 /mediawiki/
+/settings.d
+!/settings.d/README
+!/settings.d/10-VisualEditor.php-sample
+!/settings.d/puppet-managed/README

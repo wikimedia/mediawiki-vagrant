@@ -27,6 +27,10 @@
 #   The system path to which MediaWiki files have been installed
 #   (example: '/srv/mediawiki').
 #
+# [*settings_dir*]
+#   Directory to use for configuration fragments.
+#   (example: '/srv/mediawiki/settings.d').
+#
 # [*upload_dir*]
 #   The file system path of the folder where files will be uploaded
 #   (example: '/srv/mediawiki/images').
@@ -42,6 +46,7 @@ class mediawiki(
 	$db_pass,
 	$db_user,
 	$dir,
+	$settings_dir,
 	$upload_dir,
 	$server_url,
 ) {
@@ -51,6 +56,8 @@ class mediawiki(
 
 	include mediawiki::phpsh
 	include mediawiki::apache
+
+	$managed_settings_dir = "${settings_dir}/puppet-managed"
 
 	@git::clone { 'mediawiki/core':
 		directory => $dir,
@@ -66,11 +73,22 @@ class mediawiki(
 		unless  => "php ${dir}/maintenance/sql.php </dev/null",
 	}
 
-	file { $upload_dir:
+	file { [ $upload_dir, $settings_dir ]:
 		ensure => directory,
 		owner  => 'vagrant',
 		group  => 'www-data',
-		mode   => '0775',
+		mode   => '0755',
+	}
+
+	file { "${settings_dir}/puppet-managed":
+		ensure  => directory,
+		owner   => 'vagrant',
+		group   => 'www-data',
+		mode    => undef,
+		recurse => true,
+		purge   => true,
+		force   => true,
+		source  => 'puppet:///modules/mediawiki/mediawiki-settings.d-empty',
 	}
 
 	exec { 'mediawiki setup':

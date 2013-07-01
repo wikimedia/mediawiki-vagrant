@@ -3,8 +3,8 @@
  * MediaWiki configuration
  *
  * To customize your MediaWiki instance, you may change the content of this
- * file. See settings/README for an alternate way of managing small snippets of
- * configuration data, such as extension invocations.
+ * file. See settings.d/README for an alternate way of managing small snippets
+ * of configuration data, such as extension invocations.
  *
  * This file is part of Mediawiki-Vagrant.
  */
@@ -59,9 +59,9 @@ foreach( $wgProfilerParams as $param => $cls ) {
 	}
 }
 
-// Load configuration snippets from ./settings. See settings/README.
-foreach( glob( __DIR__ . '/settings/*.php' ) as $snippet ) {
-	if ( !include_once( $snippet ) ) {
-		echo "Failed to load \"$snippet\".\n";
-	}
+// Load configuration fragments from /vagrant/settings.d
+foreach( array_merge(
+	glob( __DIR__ . '/settings.d/*.php' ),
+	glob( __DIR__ . '/settings.d/puppet-managed/*.php' ) ) as $conffile ) {
+	include_once $conffile;
 }

@@ -16,7 +16,7 @@
        |    |  |        to share settings with others.
        |    ;  |
        |   /|  \        This directory is accessible as
-       | _/ T  /        '/vagrant/settings' in the guest environment.
+       | _/ T  /        '/vagrant/settings.d' in the guest environment.
        |  | |  |
        |  | |__|_       Because the files load alphabeticallly, you can use a
        |__| '-.__)      two-digit prefix to tweak the load order -- e.g.:

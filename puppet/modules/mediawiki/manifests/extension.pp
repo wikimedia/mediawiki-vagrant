@@ -83,12 +83,15 @@ define mediawiki::extension(
 	include mediawiki
 
 	$extension_dir = "${mediawiki::dir}/extensions/${extension}"
+
 	@git::clone { "mediawiki/extensions/${extension}":
 		directory => $extension_dir,
 	}
 
-	$settings_file = sprintf('%.2d-%s.php', $priority, $extension)
-	file { "/vagrant/settings/${settings_file}":
+	$settings_file = sprintf('%s/%.2d-%s.php',
+		$mediawiki::managed_settings_dir, $priority, $extension)
+
+	file { $settings_file:
 		ensure  => $ensure,
 		content => template('mediawiki/extension-loader.php.erb'),
 		# Because the file resides on a shared folder, any other owner
@@ -102,6 +105,6 @@ define mediawiki::extension(
 	if $needs_update {
 		# If the extension requires a schema migration, set up the
 		# setting file resource to notify update.php.
-		File["/vagrant/settings/${settings_file}"] ~> Exec['update database']
+		File[$settings_file] ~> Exec['update database']
 	}
 }

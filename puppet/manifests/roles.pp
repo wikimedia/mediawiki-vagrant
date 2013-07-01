@@ -33,6 +33,7 @@ class role::mediawiki {
 	# changing the value of 'FORWARDED_PORT' in Vagrantfile.
 	$server_url = "http://127.0.0.1:${::forwarded_port}"
 	$dir = '/vagrant/mediawiki'
+	$settings_dir = '/vagrant/settings.d'
 	$upload_dir = '/srv/images'
 
 	# Database access
@@ -52,15 +53,16 @@ class role::mediawiki {
 	}
 
 	class { '::mediawiki':
-		wiki_name  => $wiki_name,
-		admin_user => $admin_user,
-		admin_pass => $admin_pass,
-		db_name    => $db_name,
-		db_pass    => $db_pass,
-		db_user    => $db_user,
-		dir        => $dir,
-		upload_dir => $upload_dir,
-		server_url => $server_url,
+		wiki_name    => $wiki_name,
+		admin_user   => $admin_user,
+		admin_pass   => $admin_pass,
+		db_name      => $db_name,
+		db_pass      => $db_pass,
+		db_user      => $db_user,
+		dir          => $dir,
+		settings_dir => $settings_dir,
+		upload_dir   => $upload_dir,
+		server_url   => $server_url,
 	}
 
 }
