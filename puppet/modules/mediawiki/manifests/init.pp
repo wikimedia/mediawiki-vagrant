@@ -67,7 +67,7 @@ class mediawiki(
 	# refers to is missing, assume it is residual of a discarded instance and
 	# delete it.
 	exec { 'check settings':
-		command => "rm ${dir}/LocalSettings.php || true",
+		command => "rm -f ${dir}/LocalSettings.php",
 		notify  => Exec['mediawiki setup'],
 		require => [ Package['php5'], Git::Clone['mediawiki/core'], Service['mysql'] ],
 		unless  => "php ${dir}/maintenance/sql.php </dev/null",
