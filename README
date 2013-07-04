@@ -65,6 +65,9 @@ To pick up other changes to the install, on the host computer in the directory
 with the vagrant files run `git pull` and then `vagrant reload`.  The latter
 will restart the VM.
 
+## Settings
+
+For information about settings, see settings.d/README.
 
 ## Troubleshoot
 

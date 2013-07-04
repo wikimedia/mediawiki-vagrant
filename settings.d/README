@@ -18,9 +18,14 @@
        |   /|  \        This directory is accessible as
        | _/ T  /        '/vagrant/settings.d' in the guest environment.
        |  | |  |
-       |  | |__|_       Because the files load alphabeticallly, you can use a
-       |__| '-.__)      two-digit prefix to tweak the load order -- e.g.:
-  jgs  \__)
+       |  | |__|_       There are two separate groups of settings, Puppet-managed
+       |__| '-.__)      settings and custom settings.  All Puppet-managed settings
+  jgs  \__)             are loaded after the custom settings have finished loading.
+
+                        Within each settings group, the settings are loaded
+                        alphabetically.  Thus, you can use a two-digit prefix to
+                        tweak the load order. E.g.:
+
                             settings/
                             ├── 10-RunFirst.php
                             ├── 20-SomeExtension.php
