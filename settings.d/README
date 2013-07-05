@@ -2,31 +2,37 @@
                      //
        .-""""-.    ;(_\
       /        \   /\_/
-     |    .---./  /  /
-      \ C'  '>'| /  /   PHP files placed in this directory will be
-       ';   - / /  /    automatically loaded, in alphabetical order, by
-       __)---;/`  /     LocalSettings.php.
-   _.-' \`"""`|  /
- .'    _/      \/       Rather than clutter LocalSettings.php with the
- \  -;'|       |        configuration variables and require statements for every
-  '-._/-.      |        extension you wish to load, collect all the configurations
-      \(-\     |        in a single file and place it in this directory. This
-       |-------|        makes it quite easy to keep your settings organized, to
-       |    J  |        remove or temporarily disable the additional settings, and
-       |    |  |        to share settings with others.
-       |    ;  |
-       |   /|  \        This directory is accessible as
-       | _/ T  /        '/vagrant/settings.d' in the guest environment.
-       |  | |  |
-       |  | |__|_       There are two separate groups of settings, Puppet-managed
-       |__| '-.__)      settings and custom settings.  All Puppet-managed settings
-  jgs  \__)             are loaded after the custom settings have finished loading.
+     |    .---./  /  /                     ,                   /)
+      \ C'  '>'| /  /       _    _ _/__/_   __   _   _       _(/
+       ';   - / /  /       /_)__(/_(__(___(_/ (_(_/_/_)_ o  (_(_
+       __)---;/`  /      --------------------- .-/ ----------------
+   _.-' \`"""`|  /                            (_/
+ .'    _/      \/
+ \  -;'|       |  This directory is mounted as '/vagrant/settings.d' in the
+  '-._/-.      |  guest environment. MediaWiki will automatically load any PHP
+      \(-\     |  files in this directory in lexical order.
+       |-------|
+       |    J  |  As an alternative to managing all MediaWiki settings in a
+       |    |  |  single large file, consider grouping your configurations by
+       |    ;  |  component or theme, and creating a separate PHP file for
+       |   /|  \  each group. This makes it quite easy to keep your settings
+       | _/ T  /  organized, to temporarily disable specific configurations,
+       |  | |  |  and to share settings with others.
+       |  | |__|_
+       |__| '-.__)  Because the files are loaded in lexical order, you can
+  jgs  \__)        control the order in which your configurations are set by
+            adopting the habit of adding a two-digit prefix to each file name.
 
-                        Within each settings group, the settings are loaded
-                        alphabetically.  Thus, you can use a two-digit prefix to
-                        tweak the load order. E.g.:
+    For example:
 
-                            settings/
-                            ├── 10-RunFirst.php
-                            ├── 20-SomeExtension.php
-                            └── 99-RunLast.php
+        settings.d/
+        ├── 10-RunFirst.php
+        ├── 20-SomeExtension.php
+        └── 99-RunLast.php
+
+Note that the settings files in settings.d/puppet-managed are automatically
+created and destroyed by Puppet in response to your Puppet configuration. Don't
+put your custom settings there, because Puppet will erase or override them.
+Keep your custom settings files in this directory instead. Settings files in
+this directory will load *after* any Puppet-managed files, so you can override
+any unwanted settings that are set by Puppet.

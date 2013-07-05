@@ -61,7 +61,7 @@ foreach( $wgProfilerParams as $param => $cls ) {
 
 // Load configuration fragments from /vagrant/settings.d
 foreach( array_merge(
-	glob( __DIR__ . '/settings.d/*.php' ),
-	glob( __DIR__ . '/settings.d/puppet-managed/*.php' ) ) as $conffile ) {
+	glob( __DIR__ . '/settings.d/puppet-managed/*.php' ),
+	glob( __DIR__ . '/settings.d/*.php' ) ) as $conffile ) {
 	include_once $conffile;
 }
