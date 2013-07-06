@@ -219,6 +219,7 @@ class role::umapi {
 # wizard interface for uploading multiple files.
 class role::uploadwizard {
 	include role::mediawiki
+	include role::eventlogging
 
 	package { 'imagemagick': }
 
