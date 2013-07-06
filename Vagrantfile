@@ -94,6 +94,8 @@ Vagrant.configure('2') do |config|
         puppet.options = [
             '--verbose',
             '--templatedir', '/vagrant/puppet/templates',
+            '--node_terminus', 'exec',
+            '--external_nodes', '/vagrant/puppet/extra/puppet-classifier',
         ]
 
         # For more output, uncomment the following line:

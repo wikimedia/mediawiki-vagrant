@@ -1,0 +1,36 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+  This script outputs the source for a starter 'Roles.yaml' file.
+  The output enumerates all available optional roles.
+
+"""
+import json
+import subprocess
+
+
+nonoptional_roles = ('role::generic', 'role::mediawiki')
+command = ('puppet', 'resource_type', 'search', 'role::',
+           '--manifestdir=/vagrant/puppet/manifests')
+resources = json.loads(subprocess.check_output(command))
+roles = sorted(r['name'] for r in resources if r['name']
+               not in nonoptional_roles)
+
+print('''\
+# Optional roles for MediaWiki-Vagrant
+# ------------------------------------
+# The roles listed below represent software components that MediaWiki-Vagrant
+# can configure but which are not enabled by default. To enable an optional
+# role, simply uncomment its line below by removing the '#' symbol. Then run
+# 'vagrant up' followed by 'vagrant provision'.
+#
+# If you are a developer working on MediaWiki or related software, you can
+# contribute a role for your project. See <puppet/manifests/roles.pp> for
+# some examples.
+#
+# To report a bug with one of these roles, go to:
+# <https://bugs.wikimedia.org/enter_bug.cgi?product=Tools&component=Vagrant>
+---
+classes:''')
+for role in roles:
+    print('# - %s' % role)

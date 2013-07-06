@@ -1,5 +1,6 @@
 .vagrant
 /Vagrantfile-extra.rb
+/Roles.yaml
 /LocalSettings.php
 /mediawiki/
 /settings.d

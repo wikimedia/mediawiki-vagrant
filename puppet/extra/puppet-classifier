@@ -1,0 +1,19 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+  This script loads optional roles from 'Roles.yaml', provided such a file
+  exists and contains valid YAML. Puppet invokes this script as its External
+  Node Classifier. See <http://docs.puppetlabs.com/guides/external_nodes.html>
+  for details.
+
+"""
+import io
+import yaml
+
+manifest = dict(classes=[])
+try:
+    with io.open('/vagrant/Roles.yaml', encoding='utf-8') as f:
+        manifest.update(yaml.load(f))
+except:
+    pass
+print(yaml.dump(manifest))

@@ -50,4 +50,9 @@ package { 'python-pip':
     ensure => present,
 }
 
+exec { 'generate Roles.yaml':
+    command => 'ruby /vagrant/puppet/extra/enumerate-roles > /vagrant/Roles.yaml',
+    creates => '/vagrant/Roles.yaml',
+}
+
 Package['python-pip'] -> Package <| provider == pip |>
