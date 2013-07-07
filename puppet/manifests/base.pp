@@ -25,8 +25,8 @@ Stage['first'] -> Stage['main'] -> Stage['last']
 # be omitted from individual resources. Also configures Puppet to log
 # the command's output if it was unsuccessful.
 Exec {
-	logoutput => on_failure,
-	path      => [ '/bin', '/usr/bin', '/usr/local/bin', '/usr/sbin/' ],
+    logoutput => on_failure,
+    path      => [ '/bin', '/usr/bin', '/usr/local/bin', '/usr/sbin/' ],
 }
 
 Package { ensure => present, }
@@ -34,20 +34,20 @@ Package { ensure => present, }
 # Declare default uid / gid and permissions for file resources, and
 # tells Puppet not to back up configuration files by default.
 File {
-	backup => false,
-	owner  => 'root',
-	group  => 'root',
-	mode   => '0644',
+    backup => false,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
 }
 
 file { '/srv':
-	owner  => 'vagrant',
-	group  => 'www-data',
-	mode   => '0755',
+    owner  => 'vagrant',
+    group  => 'www-data',
+    mode   => '0755',
 }
 
 package { 'python-pip':
-	ensure => present,
+    ensure => present,
 }
 
 Package['python-pip'] -> Package <| provider == pip |>

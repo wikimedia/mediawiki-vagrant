@@ -19,17 +19,17 @@
 #  }
 #
 class git(
-	$urlformat = 'https://gerrit.wikimedia.org/r/p/%s.git',
+    $urlformat = 'https://gerrit.wikimedia.org/r/p/%s.git',
 ) {
-	package { 'git':
-		ensure  => latest,
-		require => Apt::Ppa['git-core/ppa'],
-	}
+    package { 'git':
+        ensure  => latest,
+        require => Apt::Ppa['git-core/ppa'],
+    }
 
-	package { 'git-review':
-		ensure   => latest,
-		provider => 'apt',
-	}
+    package { 'git-review':
+        ensure   => latest,
+        provider => 'apt',
+    }
 
-	Git::Clone <| |>
+    Git::Clone <| |>
 }

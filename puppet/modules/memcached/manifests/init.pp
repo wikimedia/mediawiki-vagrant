@@ -20,23 +20,23 @@
 #  }
 #
 class memcached(
-	$size_mb = 200,
-	$port    = 11211,
-	$iface   = '0.0.0.0',
+    $size_mb = 200,
+    $port    = 11211,
+    $iface   = '0.0.0.0',
 ) {
 
-	package { 'memcached':
-		ensure  => present,
-	}
+    package { 'memcached':
+        ensure  => present,
+    }
 
-	file { '/etc/memcached.conf':
-		content => template('memcached/memcached.conf.erb'),
-		notify  => Service['memcached'],
-	}
+    file { '/etc/memcached.conf':
+        content => template('memcached/memcached.conf.erb'),
+        notify  => Service['memcached'],
+    }
 
-	service { 'memcached':
-		ensure    => running,
-		enable    => true,
-		require   => Package['memcached'],
-	}
+    service { 'memcached':
+        ensure    => running,
+        enable    => true,
+        require   => Package['memcached'],
+    }
 }

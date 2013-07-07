@@ -21,19 +21,19 @@
 #  }
 #
 define git::clone($directory, $remote=undef) {
-	include git
+    include git
 
-	$url = $remote ? {
-		undef   => sprintf($git::urlformat, $title),
-		default => $remote,
-	}
+    $url = $remote ? {
+        undef   => sprintf($git::urlformat, $title),
+        default => $remote,
+    }
 
-	exec { "git clone ${title}":
-		command     => "git clone ${url} ${directory}",
-		creates     => "${directory}/.git/refs/remotes",
-		require     => Package['git'],
-		user        => 'vagrant',
-		environment => 'HOME=/home/vagrant',
-		timeout     => 0,
-	}
+    exec { "git clone ${title}":
+        command     => "git clone ${url} ${directory}",
+        creates     => "${directory}/.git/refs/remotes",
+        require     => Package['git'],
+        user        => 'vagrant',
+        environment => 'HOME=/home/vagrant',
+        timeout     => 0,
+    }
 }

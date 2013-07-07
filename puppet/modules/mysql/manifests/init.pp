@@ -20,31 +20,31 @@
 #  }
 #
 class mysql(
-	$root_password = 'vagrant',
-	$default_db_name = undef,
+    $root_password = 'vagrant',
+    $default_db_name = undef,
 ) {
 
-	package { 'mysql-server':
-		ensure => present,
-	}
+    package { 'mysql-server':
+        ensure => present,
+    }
 
-	service { 'mysql':
-		ensure     => running,
-		hasrestart => true,
-		require    => Package['mysql-server'],
-	}
+    service { 'mysql':
+        ensure     => running,
+        hasrestart => true,
+        require    => Package['mysql-server'],
+    }
 
-	exec { 'set mysql password':
-		command => "mysqladmin -u root password \"${root_password}\"",
-		unless  => "mysqladmin -u root -p\"${root_password}\" status",
-		require => Service['mysql'],
-	}
+    exec { 'set mysql password':
+        command => "mysqladmin -u root password \"${root_password}\"",
+        unless  => "mysqladmin -u root -p\"${root_password}\" status",
+        require => Service['mysql'],
+    }
 
-	file { '/home/vagrant/.my.cnf':
-		ensure  => file,
-		owner   => 'vagrant',
-		group   => 'vagrant',
-		mode    => '0600',
-		content => template('mysql/my.cnf.erb'),
-	}
+    file { '/home/vagrant/.my.cnf':
+        ensure  => file,
+        owner   => 'vagrant',
+        group   => 'vagrant',
+        mode    => '0600',
+        content => template('mysql/my.cnf.erb'),
+    }
 }

@@ -5,33 +5,33 @@
 # implemented.
 #
 class php {
-	include apache
+    include apache
 
-	package { [
-		'php5',
-		'php-apc',
-		'php-pear',
-		'php5-cli',
-		'php5-dev',
-		'php5-gd',
-		'php5-intl',
-		'php5-mcrypt',
-		'php5-memcached',
-		'php5-mysql',
-		'php5-xdebug'
-	]:
-		ensure => present,
-	}
+    package { [
+        'php5',
+        'php-apc',
+        'php-pear',
+        'php5-cli',
+        'php5-dev',
+        'php5-gd',
+        'php5-intl',
+        'php5-mcrypt',
+        'php5-memcached',
+        'php5-mysql',
+        'php5-xdebug'
+    ]:
+        ensure => present,
+    }
 
-	@apache::mod { 'php5':
-		ensure => present,
-	}
+    @apache::mod { 'php5':
+        ensure => present,
+    }
 
-	php::ini { 'debug output':
-		settings => {
-			display_errors         => true,
-			display_startup_errors => true,
-			error_reporting        => -1,
-		}
-	}
+    php::ini { 'debug output':
+        settings => {
+            display_errors         => true,
+            display_startup_errors => true,
+            error_reporting        => -1,
+        }
+    }
 }

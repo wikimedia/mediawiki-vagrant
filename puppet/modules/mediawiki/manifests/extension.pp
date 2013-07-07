@@ -73,38 +73,38 @@
 #   }
 #
 define mediawiki::extension(
-	$ensure       = present,
-	$extension    = $title,
-	$entrypoint   = "${title}.php",
-	$priority     = 10,
-	$needs_update = false,
-	$settings     = {},
+    $ensure       = present,
+    $extension    = $title,
+    $entrypoint   = "${title}.php",
+    $priority     = 10,
+    $needs_update = false,
+    $settings     = {},
 ) {
-	include mediawiki
+    include mediawiki
 
-	$extension_dir = "${mediawiki::dir}/extensions/${extension}"
+    $extension_dir = "${mediawiki::dir}/extensions/${extension}"
 
-	@git::clone { "mediawiki/extensions/${extension}":
-		directory => $extension_dir,
-	}
+    @git::clone { "mediawiki/extensions/${extension}":
+        directory => $extension_dir,
+    }
 
-	$settings_file = sprintf('%s/%.2d-%s.php',
-		$mediawiki::managed_settings_dir, $priority, $extension)
+    $settings_file = sprintf('%s/%.2d-%s.php',
+        $mediawiki::managed_settings_dir, $priority, $extension)
 
-	file { $settings_file:
-		ensure  => $ensure,
-		content => template('mediawiki/extension-loader.php.erb'),
-		# Because the file resides on a shared folder, any other owner
-		# or mode will cause VirtualBox and Puppet to play tug-o'-war
-		# over the file.
-		owner   => 'vagrant',
-		group   => 'www-data',
-		require => Git::Clone["mediawiki/extensions/${extension}"],
-	}
+    file { $settings_file:
+        ensure  => $ensure,
+        content => template('mediawiki/extension-loader.php.erb'),
+        # Because the file resides on a shared folder, any other owner
+        # or mode will cause VirtualBox and Puppet to play tug-o'-war
+        # over the file.
+        owner   => 'vagrant',
+        group   => 'www-data',
+        require => Git::Clone["mediawiki/extensions/${extension}"],
+    }
 
-	if $needs_update {
-		# If the extension requires a schema migration, set up the
-		# setting file resource to notify update.php.
-		File[$settings_file] ~> Exec['update database']
-	}
+    if $needs_update {
+        # If the extension requires a schema migration, set up the
+        # setting file resource to notify update.php.
+        File[$settings_file] ~> Exec['update database']
+    }
 }

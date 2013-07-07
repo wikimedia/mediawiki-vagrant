@@ -31,58 +31,58 @@
 #  }
 #
 class mediawiki::parsoid(
-	$dir                  = '/srv/parsoid',
-	$port                 = 8000,
-	$use_php_preprocessor = true,
-	$use_selser           = true,
-	$allow_cors           = '*',
+    $dir                  = '/srv/parsoid',
+    $port                 = 8000,
+    $use_php_preprocessor = true,
+    $use_selser           = true,
+    $allow_cors           = '*',
 ) {
-	include mediawiki
+    include mediawiki
 
-	package { 'nodejs':
-		ensure => '0.8.2-1chl1~precise1',
-	}
+    package { 'nodejs':
+        ensure => '0.8.2-1chl1~precise1',
+    }
 
-	package { 'npm':
-		ensure => '1.1.39-1chl1~precise1',
-	}
+    package { 'npm':
+        ensure => '1.1.39-1chl1~precise1',
+    }
 
-	@git::clone { 'mediawiki/extensions/Parsoid':
-		directory  => $dir,
-		require    => Package['nodejs', 'npm'],
-	}
+    @git::clone { 'mediawiki/extensions/Parsoid':
+        directory  => $dir,
+        require    => Package['nodejs', 'npm'],
+    }
 
-	exec { 'install parsoid':
-		command   => 'npm install',
-		onlyif    => 'npm list --json | grep -q \'"missing": true\'',
-		cwd       => "${dir}/js",
-		require   => Git::Clone['mediawiki/extensions/Parsoid'],
-	}
+    exec { 'install parsoid':
+        command   => 'npm install',
+        onlyif    => 'npm list --json | grep -q \'"missing": true\'',
+        cwd       => "${dir}/js",
+        require   => Git::Clone['mediawiki/extensions/Parsoid'],
+    }
 
-	file { "${dir}/js/api/localsettings.js":
-		content => template('mediawiki/parsoid.localsettings.js.erb'),
-		require => Git::Clone['mediawiki/extensions/Parsoid'],
-	}
+    file { "${dir}/js/api/localsettings.js":
+        content => template('mediawiki/parsoid.localsettings.js.erb'),
+        require => Git::Clone['mediawiki/extensions/Parsoid'],
+    }
 
-	file { '/etc/init/parsoid.conf':
-		ensure  => present,
-		content => template('mediawiki/parsoid.conf.erb'),
-		require => Exec['install parsoid'],
-	}
+    file { '/etc/init/parsoid.conf':
+        ensure  => present,
+        content => template('mediawiki/parsoid.conf.erb'),
+        require => Exec['install parsoid'],
+    }
 
-	file { '/etc/init.d/parsoid':
-		ensure  => link,
-		target  => '/lib/init/upstart-job',
-		require => File['/etc/init/parsoid.conf'],
-	}
+    file { '/etc/init.d/parsoid':
+        ensure  => link,
+        target  => '/lib/init/upstart-job',
+        require => File['/etc/init/parsoid.conf'],
+    }
 
-	service { 'parsoid':
-		ensure    => running,
-		provider  => 'upstart',
-		subscribe => File['/etc/init/parsoid.conf', "${dir}/js/api/localsettings.js"],
-		require   => [
-			Exec['install parsoid'],
-			File['/etc/init/parsoid.conf', "${dir}/js/api/localsettings.js"],
-		],
-	}
+    service { 'parsoid':
+        ensure    => running,
+        provider  => 'upstart',
+        subscribe => File['/etc/init/parsoid.conf', "${dir}/js/api/localsettings.js"],
+        require   => [
+            Exec['install parsoid'],
+            File['/etc/init/parsoid.conf', "${dir}/js/api/localsettings.js"],
+        ],
+    }
 }

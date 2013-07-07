@@ -39,52 +39,52 @@
 #  }
 #
 class redis(
-	$max_memory = '16mb',
-	$persist    = false,
-	$settings   = {},
+    $max_memory = '16mb',
+    $persist    = false,
+    $settings   = {},
 ) {
-	include redis::php
+    include redis::php
 
-	$save = $persist ? {
-		true    => [ '60', '1' ],
-		default => undef,
-	}
+    $save = $persist ? {
+        true    => [ '60', '1' ],
+        default => undef,
+    }
 
-	$defaults = {
-		daemonize  => 'yes',
-		pidfile    => '/var/run/redis/redis-server.pid',
-		logfile    => '/var/log/redis/redis-server.log',
-		dir        => '/srv/redis',
-		dbfilename => 'redis-db.rdb',
-		maxmemory  => $max_memory,
-		maxclients => 1000,
-		save       => $save,
-	}
+    $defaults = {
+        daemonize  => 'yes',
+        pidfile    => '/var/run/redis/redis-server.pid',
+        logfile    => '/var/log/redis/redis-server.log',
+        dir        => '/srv/redis',
+        dbfilename => 'redis-db.rdb',
+        maxmemory  => $max_memory,
+        maxclients => 1000,
+        save       => $save,
+    }
 
-	package { 'redis-server':
-		ensure => '2:2.6.0-rc7-wmf1',
-	}
+    package { 'redis-server':
+        ensure => '2:2.6.0-rc7-wmf1',
+    }
 
-	file { '/srv/redis':
-		ensure  => directory,
-		require => Package['redis-server'],
-		owner   => 'redis',
-		group   => 'redis',
-		mode    => '0755',
-	}
+    file { '/srv/redis':
+        ensure  => directory,
+        require => Package['redis-server'],
+        owner   => 'redis',
+        group   => 'redis',
+        mode    => '0755',
+    }
 
-	file { '/etc/redis/redis.conf':
-		content => template('redis/redis.conf.erb'),
-		require => Package['redis-server'],
-	}
+    file { '/etc/redis/redis.conf':
+        content => template('redis/redis.conf.erb'),
+        require => Package['redis-server'],
+    }
 
-	service { 'redis-server':
-		ensure    => running,
-		provider  => init,
-		subscribe => File['/etc/redis/redis.conf'],
-		require   => [
-			File['/etc/redis/redis.conf', '/srv/redis'],
-			Package['redis-server'],
-		],
-	}
+    service { 'redis-server':
+        ensure    => running,
+        provider  => init,
+        subscribe => File['/etc/redis/redis.conf'],
+        require   => [
+            File['/etc/redis/redis.conf', '/srv/redis'],
+            Package['redis-server'],
+        ],
+    }
 }

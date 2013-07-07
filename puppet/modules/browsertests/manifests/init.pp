@@ -30,53 +30,53 @@
 #    }
 #
 class browsertests(
-	$selenium_password = 'vagrant',
-	$mediawiki_url     = 'http://127.0.0.1/wiki/',
-	$install_location  = '/srv/browsertests',
+    $selenium_password = 'vagrant',
+    $mediawiki_url     = 'http://127.0.0.1/wiki/',
+    $install_location  = '/srv/browsertests',
 ) {
 
-	git::clone { 'qa/browsertests':
-		directory => '/srv/browsertests',
-	}
+    git::clone { 'qa/browsertests':
+        directory => '/srv/browsertests',
+    }
 
-	mediawiki::user { 'Selenium_user':
-		password => $selenium_password,
-	}
+    mediawiki::user { 'Selenium_user':
+        password => $selenium_password,
+    }
 
-	# Sets MEDIAWIKI_URL environment variable for all users.
-	file { '/etc/profile.d/mediawiki-url.sh':
-		content => template('browsertests/mediawiki-url.sh.erb'),
-		mode    => '0755',
-	}
+    # Sets MEDIAWIKI_URL environment variable for all users.
+    file { '/etc/profile.d/mediawiki-url.sh':
+        content => template('browsertests/mediawiki-url.sh.erb'),
+        mode    => '0755',
+    }
 
-	# Store the password for the 'Selenium_user' MediaWiki account.
-	file { "${install_location}/config/secret.yml":
-		content => template('browsertests/secret.yml.erb'),
-		require => Git::Clone['qa/browsertests'],
-	}
+    # Store the password for the 'Selenium_user' MediaWiki account.
+    file { "${install_location}/config/secret.yml":
+        content => template('browsertests/secret.yml.erb'),
+        require => Git::Clone['qa/browsertests'],
+    }
 
-	# The browser tests run by simulating user input against a real
-	# browser -- specifically, Firefox.
-	package { 'firefox':
-		ensure => present,
-	}
+    # The browser tests run by simulating user input against a real
+    # browser -- specifically, Firefox.
+    package { 'firefox':
+        ensure => present,
+    }
 
-	package { [ 'ruby1.9.1-full', 'ruby-bundler' ]:
-		ensure => present,
-	}
+    package { [ 'ruby1.9.1-full', 'ruby-bundler' ]:
+        ensure => present,
+    }
 
-	exec { 'use ruby 1.9.1':
-		command => 'update-alternatives --set ruby /usr/bin/ruby1.9.1',
-		unless  => 'readlink /etc/alternatives/ruby | grep 1.9',
-		require => Package['ruby1.9.1-full', 'ruby-bundler'],
-	}
+    exec { 'use ruby 1.9.1':
+        command => 'update-alternatives --set ruby /usr/bin/ruby1.9.1',
+        unless  => 'readlink /etc/alternatives/ruby | grep 1.9',
+        require => Package['ruby1.9.1-full', 'ruby-bundler'],
+    }
 
-	exec { 'install browsertests bundle':
-		command     => 'bundle install --path /home/vagrant/.gem',
-		cwd         => '/srv/browsertests',
-		user        => 'vagrant',
-		unless      => 'bundle check',
-		require     => [ Exec['use ruby 1.9.1'], Git::Clone['qa/browsertests'] ],
-		timeout     => 0,
-	}
+    exec { 'install browsertests bundle':
+        command     => 'bundle install --path /home/vagrant/.gem',
+        cwd         => '/srv/browsertests',
+        user        => 'vagrant',
+        unless      => 'bundle check',
+        require     => [ Exec['use ruby 1.9.1'], Git::Clone['qa/browsertests'] ],
+        timeout     => 0,
+    }
 }
