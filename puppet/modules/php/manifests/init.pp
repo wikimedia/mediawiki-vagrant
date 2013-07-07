@@ -5,6 +5,8 @@
 # implemented.
 #
 class php {
+	include apache
+
 	package { [
 		'php5',
 		'php-apc',
@@ -21,14 +23,15 @@ class php {
 		ensure => present,
 	}
 
-	include apache
 	@apache::mod { 'php5':
 		ensure => present,
 	}
 
-	file { '/etc/php5/conf.d/development.ini':
-		ensure => present,
-		content => template('mediawiki/php-development-settings.ini'),
-		notify => Service['apache2'],
+	php::ini { 'debug output':
+		settings => {
+			display_errors         => true,
+			display_startup_errors => true,
+			error_reporting        => -1,
+		}
 	}
 }

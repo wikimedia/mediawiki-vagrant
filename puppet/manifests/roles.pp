@@ -64,7 +64,6 @@ class role::mediawiki {
 		upload_dir   => $upload_dir,
 		server_url   => $server_url,
 	}
-
 }
 
 # == Class: role::fundraising

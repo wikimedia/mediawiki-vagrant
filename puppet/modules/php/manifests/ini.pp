@@ -38,13 +38,14 @@
 
 #
 define php::ini (
-    $settings,
+	$settings,
 	$ensure = present,
 ) {
 	include php
 	include apache
 
-	file { "/etc/php5/conf.d/${name}.ini":
+	$basename = inline_template('<%= @title.gsub(/\W/, "-").downcase %>')
+	file { "/etc/php5/conf.d/${basename}.ini":
 		ensure  => $ensure,
 		content => template('php/conffile.ini.erb'),
 		require => Package['php5'],
