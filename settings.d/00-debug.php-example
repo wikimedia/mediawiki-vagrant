@@ -7,7 +7,6 @@ $wgDebugToolbar = false;
 
 // Types
 $wgShowDebug = false;
-$wgDebugToolbar = true;
 $wgShowExceptionDetails = true;
 #$wgDebugRedirects = false;
 #$wgShowSQLErrors = true;
