@@ -5,5 +5,7 @@
 /mediawiki/
 /settings.d
 !/settings.d/README
-!/settings.d/10-VisualEditor.php-sample
 !/settings.d/puppet-managed/README
+/puppet/manifests/manifests.d
+!/puppet/manifests/manifests.d/README
+!/puppet/manifests/manifests.d/dummy.pp
