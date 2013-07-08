@@ -22,25 +22,12 @@
 #
 require 'rbconfig'
 
-# Check if we're running on Windows.
-def windows?
-    RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
-end
 
-# Get VirtualBox's version string by capturing the output of 'VBoxManage -v'.
-# Returns empty string if unable to determine version.
-def get_virtualbox_version
-    begin
-        if windows?
-            ver = `"%ProgramFiles%\\Oracle\\VirtualBox\\VBoxManage" -v 2>NUL`
-        else
-            ver = `VBoxManage -v 2>/dev/null`
-        end
-    rescue
-        ver = ''
-    end
-    /[\d\.]+/.match(ver).to_s
-end
+is_windows = RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
+virtualbox_version = /[\d\.]+/.match(is_windows ?
+    `"%ProgramFiles%\\Oracle\\VirtualBox\\VBoxManage" -v 2>NUL` :
+    `VBoxManage -v 2>/dev/null`).to_s rescue nil
+
 
 Vagrant.configure('2') do |config|
 
@@ -102,10 +89,10 @@ Vagrant.configure('2') do |config|
         # puppet.options << '--debug'
 
         # Windows's Command Prompt has poor support for ANSI escape sequences.
-        puppet.options << '--color=false' if windows?
+        puppet.options << '--color=false' if is_windows
 
         puppet.facter = {
-            'virtualbox_version' => get_virtualbox_version,
+            'virtualbox_version' => virtualbox_version,
             'forwarded_port' => FORWARDED_PORT,
         }
     end
