@@ -16,6 +16,10 @@ class misc {
         onlyif  => 'grep -q "^mesg n" /root/.profile',
     }
 
+    file { '/var/lib/cloud/instance/':
+        ensure => directory,
+    }
+
     file { '/var/lib/cloud/instance/locale-check.skip':
         ensure => present,
     }
