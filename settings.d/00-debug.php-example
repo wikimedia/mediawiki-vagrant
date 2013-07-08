@@ -1,30 +1,53 @@
 <?php
-## Debug
-## http://www.mediawiki.org/wiki/Manual:How_to_debug
 
+/**
+ * Debug settings for MediaWiki
+ *
+ * This file contains various MediaWiki configurations designed to assist
+ * feature development, profiling, and debugging work. To enable these
+ * settings, remove the '-example' suffix from this file's name. For an
+ * overview of using settings.d/ to manage MediaWiki configurations, see the
+ * README file in this folder. For a detailed description of the configuration
+ * variables set below, and a survey of some common debugging techniques, see
+ * <http://www.mediawiki.org/wiki/Manual:How_to_debug>.
+ */
+
+//
 // Tools
+//
+
 $wgDebugToolbar = false;
 
-// Types
+
+//
+// Output settings
+//
+
 $wgShowDebug = false;
 $wgShowExceptionDetails = true;
-#$wgDebugRedirects = false;
-#$wgShowSQLErrors = true;
-#$wgDebugDumpSql  = true;
-#$wgMemCachedDebug = false;
-#$wgShowDBErrorBacktrace = false;
+// $wgDebugRedirects = false;
+// $wgShowSQLErrors = true;
+// $wgDebugDumpSql  = true;
+// $wgMemCachedDebug = false;
+// $wgShowDBErrorBacktrace = false;
 
-// Log files
+
+//
+// Logging
+//
+
 $mwLogDir = __DIR__ . '/../logs';
 $wgDebugLogFile = "$mwLogDir/mediawiki-debug.log";
 $wgDBerrorLog = "$mwLogDir/dberror.log";
-#$wgRateLimitLog = "$mwLogDir/ratelimit.log";
+// $wgRateLimitLog = "$mwLogDir/ratelimit.log";
 $wgDebugLogFile = "$mwLogDir/debug.log";
-#$wgDebugLogGroups['somegroup'] = "$mwLogDir/debug-somegroup.log"
+// $wgDebugLogGroups['somegroup'] = "$mwLogDir/debug-somegroup.log"
 
-// ResourceLoader
-#$wgDebugRawPage = true;
-#$wgResourceLoaderMaxage['versioned']['server'] = 1;
-#$wgResourceLoaderMaxage['versioned']['client'] = 1;
-#$wgResourceLoaderMaxage['unversioned']['server'] = 1;
-#$wgResourceLoaderMaxage['unversioned']['client'] = 1;
+
+// ResourceLoader-specific
+
+// $wgDebugRawPage = true;
+// $wgResourceLoaderMaxage['versioned']['server'] = 1;
+// $wgResourceLoaderMaxage['versioned']['client'] = 1;
+// $wgResourceLoaderMaxage['unversioned']['server'] = 1;
+// $wgResourceLoaderMaxage['unversioned']['client'] = 1;
