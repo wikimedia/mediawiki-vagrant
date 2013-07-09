@@ -274,11 +274,18 @@ class role::wikieditor {
     }
 }
 
+class role::parserfunctions {
+    include role::mediawiki
+
+    @mediawiki::extension { 'ParserFunctions': }
+}
+
 # == Class: role::proofreadpage
 # Configures ProodreadPage, an extension to allow the proofreading of a text
 # in comparison with scanned images.
 class role::proofreadpage {
     include role::mediawiki
+    include role::parserfunctions
 
     php::ini { 'proofreadpage':
         settings => {
@@ -290,7 +297,7 @@ class role::proofreadpage {
     $packages = [ 'djvulibre-bin', 'ghostscript', 'netpbm' ]
     package { $packages: }
 
-    $extras = [ 'LabeledSectionTransclusion', 'ParserFunctions', 'Cite' ]
+    $extras = [ 'LabeledSectionTransclusion', 'Cite' ]
     @mediawiki::extension { $extras: }
 
     @mediawiki::extension { 'ProofreadPage':
