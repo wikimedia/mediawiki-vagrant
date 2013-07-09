@@ -51,7 +51,7 @@ package { 'python-pip':
 }
 
 exec { 'generate Roles.yaml':
-    command => 'ruby /vagrant/puppet/extra/enumerate-roles > /vagrant/Roles.yaml',
+    command => '/vagrant/puppet/extra/enumerate-roles > /vagrant/Roles.yaml',
     creates => '/vagrant/Roles.yaml',
 }
 
