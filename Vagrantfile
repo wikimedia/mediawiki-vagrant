@@ -100,7 +100,7 @@ Vagrant.configure('2') do |config|
 end
 
 begin
+    # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
     require_relative 'Vagrantfile-extra'
 rescue LoadError
-    # No local Vagrantfile overrides.
 end

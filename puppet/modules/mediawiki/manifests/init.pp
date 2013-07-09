@@ -73,7 +73,14 @@ class mediawiki(
         unless  => "php ${dir}/maintenance/sql.php </dev/null",
     }
 
-    file { [ $upload_dir, $settings_dir ]:
+    file { $settings_dir:
+        ensure => directory,
+        owner  => 'vagrant',
+        group  => 'www-data',
+        mode   => '0755',
+    }
+
+    file { $upload_dir:
         ensure => directory,
         owner  => 'vagrant',
         group  => 'www-data',
