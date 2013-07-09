@@ -77,7 +77,7 @@ class mediawiki(
         ensure => directory,
         owner  => 'vagrant',
         group  => 'www-data',
-        mode   => '0755',
+        mode   => '0775',
     }
 
     file { "${settings_dir}/puppet-managed":
