@@ -1,4 +1,5 @@
-.vagrant
+/.vagrant
+/no-update
 /Vagrantfile-extra.rb
 /Roles.yaml
 /LocalSettings.php

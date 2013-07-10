@@ -99,8 +99,20 @@ Vagrant.configure('2') do |config|
 
 end
 
+# If it has been a week or more since remote commits have been fetched,
+# run 'git fetch origin', unless the user disabled automatic fetching.
+unless ENV.has_key? 'MWV_NO_UPDATE' or
+    File.exists? File.expand_path('../no-update', __FILE__)
+    begin
+        ref = File.expand_path('../.git/FETCH_HEAD', __FILE__)
+        system('git fetch origin') if Time.now - File.mtime(ref) > 604800
+    rescue
+    end
+end
+
 begin
     # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
     require_relative 'Vagrantfile-extra'
 rescue LoadError
+    # File does not exist.
 end
