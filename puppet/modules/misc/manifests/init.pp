@@ -34,6 +34,9 @@ class misc {
         '/etc/profile.d/color.sh':
             mode   => '0755',
             source => 'puppet:///modules/misc/color.sh';
+        '/etc/profile.d/check-mediawiki-vagrant.sh':
+            mode   => '0755',
+            source => 'puppet:///modules/misc/check-mediawiki-vagrant.sh',
     }
 
     file { [
