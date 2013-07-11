@@ -79,10 +79,12 @@ Vagrant.configure('2') do |config|
         puppet.manifest_file = 'site.pp'
 
         puppet.options = [
-            '--verbose',
             '--templatedir', '/vagrant/puppet/templates',
             '--node_terminus', 'exec',
             '--external_nodes', '/vagrant/puppet/extra/puppet-classifier',
+            '--verbose',
+            '--logdest', '/vagrant/logs/puppet.log',
+            '--logdest', 'console',
         ]
 
         # For more output, uncomment the following line:
