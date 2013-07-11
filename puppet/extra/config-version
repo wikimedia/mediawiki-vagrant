@@ -1,0 +1,19 @@
+#!/bin/bash
+# Prior to each Puppet run, Puppet will invoke this script to determine the
+# configuration version. This script will generate a version string of the
+# format 'NNNNNNNNNN.XXXXXXX', where 'NNN..' is the current UTC UNIX time and
+# 'XXX..' is the short SHA1 hash of the HEAD commit of MediaWiki-Vagrant.
+#
+# If no Git info is available (as would happen if MediaWiki-Vagrant was
+# obtained via a tarball, rather than git-clone), the second field is set to
+# 'no-git'.
+#
+# Puppet uses the configuration version as a label for its log output.
+# Including the timestamp and commit in the version makes it easier to
+# correlate logs to specific changes.
+#
+# For more information, see the Puppet manual:
+# <http://docs.puppetlabs.com/references/latest/configuration.html#configversion>
+#
+HEAD="$(git --git-dir="/vagrant/.git" rev-parse --short HEAD 2>/dev/null)"
+echo "$(date -u +%s).${HEAD:-no-git}"
