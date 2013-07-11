@@ -159,7 +159,9 @@ class role::gettingstarted {
     include role::mediawiki
     include role::eventlogging
 
-    class { 'redis': }
+    class { 'redis':
+        persist => true,
+    }
 
     @mediawiki::extension { 'GettingStarted':
         settings => {
