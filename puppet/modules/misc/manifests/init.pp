@@ -47,6 +47,10 @@ class misc {
         ensure => absent,
     }
 
+    file { '/etc/logrotate.d/mediawiki-vagrant':
+        source => 'puppet:///modules/misc/mediawiki-vagrant.logrotate',
+    }
+
     # Look, I didn't pick the name..
     package { [ 'toilet', 'toilet-fonts' ]:
         ensure => present,

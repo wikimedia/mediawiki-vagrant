@@ -1,0 +1,6 @@
+/vagrant/logs/* {
+	rotate 0
+	nocreate
+	missingok
+	size 1M
+}
