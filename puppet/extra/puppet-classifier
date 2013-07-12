@@ -17,13 +17,14 @@ import yaml
 empty = dict(classes=[])
 
 try:
-    with io.open('/vagrant/Roles.yaml', encoding='utf-8') as f:
+    with io.open('../../Roles.yaml', encoding='utf-8') as f:
         manifest = yaml.load(f)
     if not isinstance(manifest, dict):
         raise ValueError('Manifest document must be a mapping.')
-    if not isinstance(manifest.get('classes'), list):
-        raise ValueError('Manifest document must define a "classes" key that '
-                         'has a list of classes as its value.')
+    if manifest.get('classes') is None:
+        manifest['classes'] = []
+    if not isinstance(manifest['classes'], list):
+        raise ValueError('"classes" must be a list or null.')
 except IOError:
     # OK -- No Roles.yaml file.
     print(yaml.dump(empty))
