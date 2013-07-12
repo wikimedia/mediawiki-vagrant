@@ -20,17 +20,11 @@
 # Patches and contributions are welcome!
 # http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
 #
-require 'rbconfig'
-
-
-is_windows = RbConfig::CONFIG['host_os'] =~ /mswin|mingw|cygwin/
-virtualbox_version = /[\d\.]+/.match(is_windows ?
-    `"%ProgramFiles%\\Oracle\\VirtualBox\\VBoxManage" -v 2>NUL` :
-    `VBoxManage -v 2>/dev/null`).to_s rescue nil
+$: << File.dirname(__FILE__)
+require 'lib/mediawiki_vagrant'
 
 
 Vagrant.configure('2') do |config|
-
     config.vm.hostname = 'mediawiki-vagrant.dev'
     config.package.name = 'mediawiki.box'
 
@@ -51,8 +45,8 @@ Vagrant.configure('2') do |config|
     config.vm.network :forwarded_port,
         guest: 80, host: FORWARDED_PORT, id: 'http'
 
-    # To enable remote debugging via Xdebug, uncomment these two lines and add
-    # the 'remote_debug' role in puppet/manifests/site.pp:
+    # To enable remote debugging via Xdebug, uncomment these two lines
+    # and enable the 'remote_debug' role:
     # config.vm.network :forwarded_port,
     #    guest: 9000, host: 9000, id: 'xdebug'
 
@@ -84,7 +78,7 @@ Vagrant.configure('2') do |config|
             '--external_nodes', '/vagrant/puppet/extra/puppet-classifier',
             '--verbose',
             '--config_version', '/vagrant/puppet/extra/config-version',
-            '--logdest', '/vagrant/logs/puppet.log',
+            '--logdest', "/vagrant/logs/puppet/puppet.#{commit||'unknown'}.log",
             '--logdest', 'console',
         ]
 
@@ -92,30 +86,19 @@ Vagrant.configure('2') do |config|
         # puppet.options << '--debug'
 
         # Windows's Command Prompt has poor support for ANSI escape sequences.
-        puppet.options << '--color=false' if is_windows
+        puppet.options << '--color=false' if windows?
 
         puppet.facter = {
             'virtualbox_version' => virtualbox_version,
             'forwarded_port' => FORWARDED_PORT,
         }
     end
-
 end
 
-# If it has been a week or more since remote commits have been fetched,
-# run 'git fetch origin', unless the user disabled automatic fetching.
-unless ENV.has_key? 'MWV_NO_UPDATE' or
-    File.exists? File.expand_path('../no-update', __FILE__)
-    begin
-        ref = File.expand_path('../.git/FETCH_HEAD', __FILE__)
-        system('git fetch origin') if Time.now - File.mtime(ref) > 604800
-    rescue
-    end
-end
 
 begin
     # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
-    require_relative 'Vagrantfile-extra'
+    require 'Vagrantfile-extra'
 rescue LoadError
     # File does not exist.
 end
