@@ -17,7 +17,7 @@ import yaml
 empty = dict(classes=[])
 
 try:
-    with io.open('../../Roles.yaml', encoding='utf-8') as f:
+    with io.open('/vagrant/Roles.yaml', encoding='utf-8') as f:
         manifest = yaml.load(f)
     if not isinstance(manifest, dict):
         raise ValueError('Manifest document must be a mapping.')
