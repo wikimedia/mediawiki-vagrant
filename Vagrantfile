@@ -20,7 +20,7 @@
 # Patches and contributions are welcome!
 # http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
 #
-$: << File.dirname(__FILE__)
+$: << File.expand_path('..', __FILE__)
 require 'lib/mediawiki_vagrant'
 
 
