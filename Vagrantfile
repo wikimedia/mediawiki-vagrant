@@ -20,9 +20,8 @@
 # Patches and contributions are welcome!
 # http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
 #
-$: << File.expand_path('..', __FILE__)
-require 'lib/mediawiki_vagrant'
-
+$DIR = File.expand_path('..', __FILE__); $: << File.join($DIR, 'lib')
+require 'mediawiki-vagrant'
 
 Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
@@ -98,7 +97,7 @@ end
 
 begin
     # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
-    require 'Vagrantfile-extra'
+    require File.join($DIR, 'Vagrantfile-extra')
 rescue LoadError
-    # File does not exist.
+    # OK. File does not exist.
 end
