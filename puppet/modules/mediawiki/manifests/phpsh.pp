@@ -17,9 +17,7 @@ class mediawiki::phpsh {
         require  => Package['php5'],
     }
 
-    file { '/etc/profile.d/phpsh.sh':
-        ensure => file,
-        mode   => '0755',
+    env::profile { 'phpsh':
         source => 'puppet:///modules/mediawiki/phpsh.sh',
     }
 

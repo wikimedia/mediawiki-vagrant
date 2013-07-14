@@ -44,9 +44,8 @@ class browsertests(
     }
 
     # Sets MEDIAWIKI_URL environment variable for all users.
-    file { '/etc/profile.d/mediawiki-url.sh':
-        content => template('browsertests/mediawiki-url.sh.erb'),
-        mode    => '0755',
+    shell::var { 'MEDIAWIKI_URL':
+        value => $mediawiki_url,
     }
 
     # Store the password for the 'Selenium_user' MediaWiki account.

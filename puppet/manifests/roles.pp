@@ -18,6 +18,7 @@ class role::generic {
     class { 'apt':
         stage => first,
     }
+    class { 'env': }
     class { 'misc': }
     class { 'git': }
 }

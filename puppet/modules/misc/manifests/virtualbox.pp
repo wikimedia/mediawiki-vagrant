@@ -10,9 +10,7 @@
 class misc::virtualbox {
     # Upon starting an interactive shell, check guest additions version and
     # prompt the user to update if out-of-date.
-    file { '/etc/profile.d/check-guest-additions.sh':
-        ensure => file,
-        mode   => '0755',
+    env::profile { 'check guest additions':
         source => 'puppet:///modules/misc/check-guest-additions.sh',
     }
 

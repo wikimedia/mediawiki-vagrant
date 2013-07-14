@@ -110,9 +110,8 @@ class mediawiki(
         unless  => "grep \"/vagrant/LocalSettings.php\" ${dir}/LocalSettings.php",
     }
 
-    exec { 'set mediawiki install path':
-        command => "echo \"export MW_INSTALL_PATH=${dir}\" >> /home/vagrant/.profile",
-        unless  => 'grep -q MW_INSTALL_PATH /home/vagrant/.profile',
+    env::var { 'MW_INSTALL_PATH':
+        value => $dir,
     }
 
     file { 'mediawiki-vagrant logo':

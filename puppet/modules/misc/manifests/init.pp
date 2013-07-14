@@ -24,18 +24,14 @@ class misc {
         ensure => present,
     }
 
-    file {
-        '/etc/profile.d/locale.sh':
-            mode   => '0755',
+    env::profile {
+        'local':
             source => 'puppet:///modules/misc/locale.sh';
-        '/etc/profile.d/gem-home.sh':
-            mode   => '0755',
+        'gem home':
             source => 'puppet:///modules/misc/gem-home.sh';
-        '/etc/profile.d/color.sh':
-            mode   => '0755',
+        'color':
             source => 'puppet:///modules/misc/color.sh';
-        '/etc/profile.d/check-mediawiki-vagrant.sh':
-            mode   => '0755',
+        'check mediawiki-vagrant':
             source => 'puppet:///modules/misc/check-mediawiki-vagrant.sh';
     }
 
