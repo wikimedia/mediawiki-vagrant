@@ -1,0 +1,4 @@
+#!/bin/bash
+. /etc/profile.d/puppet-managed/set_mw_install_path.sh
+cd "$MW_INSTALL_PATH"
+php tests/phpunit/phpunit.php --testdox "$@"

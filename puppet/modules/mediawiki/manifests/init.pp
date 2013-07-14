@@ -126,6 +126,12 @@ class mediawiki(
         require => Exec['mediawiki setup'],
     }
 
+    file { '/usr/local/bin/run-mediawiki-tests':
+        source  => 'puppet:///modules/mediawiki/run-mediawiki-tests',
+        mode    => '0755',
+        require => Exec['configure phpunit'],
+    }
+
     exec { 'update database':
         command     => "php ${dir}/maintenance/update.php --quick",
         refreshonly => true,
