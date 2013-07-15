@@ -12,7 +12,7 @@ switch ($___phpsh___codebase_mode) {
 case '':
 	// MediaWiki codebase mode
 	chdir( '<%= scope.lookupvar("mediawiki::dir") %>' );
-	include_once( '<%= scope.lookupvar("mediawiki::dir") %>/index.php' );
+	include_once 'index.php';
 	break;
 case 'none':
 	// Vanilla PHP

@@ -7,10 +7,6 @@ class mediawiki::phpsh {
     include mediawiki
     include php
 
-    package { 'exuberant-ctags':
-        ensure => present,
-    }
-
     package { 'phpsh':
         ensure   => '1.3.1',
         provider => pip,
@@ -28,11 +24,5 @@ class mediawiki::phpsh {
     file { '/etc/phpsh/rc.php':
         require => Package['phpsh'],
         content => template('mediawiki/rc.php.erb'),
-    }
-
-    exec { 'generate-ctags':
-        require => [ Package['exuberant-ctags'], Git::Clone['mediawiki/core'] ],
-        command => "ctags --languages=php --recurse -f ${mediawiki::dir}/tags ${mediawiki::dir}",
-        creates => "${mediawiki::dir}/tags",
     }
 }

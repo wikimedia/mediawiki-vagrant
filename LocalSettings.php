@@ -16,6 +16,7 @@ ini_set( 'display_errors', 1 );
 $wgUploadDirectory = '/srv/images';
 $wgUploadPath = '/images';
 $wgArticlePath = "/wiki/$1";
+$wgMaxShellMemory = 1024 * 512;
 
 // Show the debug toolbar if 'debug' is set on the request, either as a
 // parameter or a cookie.
