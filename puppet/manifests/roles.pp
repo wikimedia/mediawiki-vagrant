@@ -155,7 +155,9 @@ class role::mobilefrontend {
 }
 
 # == Class: role::guidedtour
-# Configures the GuidedTour extension
+# Configures Guided Tour, a MediaWiki extension which provides a
+# framework for creating "guided tours", or interactive tutorials
+# for MediaWiki features.
 class role::guidedtour {
     include role::mediawiki
 
@@ -163,7 +165,9 @@ class role::guidedtour {
 }
 
 # == Class: role::gettingstarted
-# Configures the GettingStarted extension and its dependencies, redis, EventLogging and GuidedTour.
+# Configures the GettingStarted extension and its dependencies: redis,
+# EventLogging and GuidedTour. GettingStarted adds a special page which
+# presents introductory content and tasks to newly-registered editors.
 class role::gettingstarted {
     include role::mediawiki
     include role::eventlogging
