@@ -88,7 +88,7 @@ apt-get -y -q purge virtualbox-guest-dkms virtualbox-guest-utils virtualbox-gues
 
 # Run the installer
 
-notice "Running installer. Ignore any warnings about missing X11."
+notice "Running installer. Ignore any warnings about the 'Window System' or missing 'X.Org' or 'XFree86'."
 cd "${MOUNTPOINT}"
 ./VBoxLinuxAdditions.run --nox11 -- --force && {
     notice 'All done. Shutting down. Run "vagrant up" to start the machine.'
