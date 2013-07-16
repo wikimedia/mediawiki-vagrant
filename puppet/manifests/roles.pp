@@ -154,11 +154,20 @@ class role::mobilefrontend {
     }
 }
 
+# == Class: role::guidedtour
+# Configures the GuidedTour extension
+class role::guidedtour {
+    include role::mediawiki
+
+    @mediawiki::extension { 'GuidedTour': }
+}
+
 # == Class: role::gettingstarted
-# Configures the GettingStarted extension and its dependency, redis.
+# Configures the GettingStarted extension and its dependencies, redis, EventLogging and GuidedTour.
 class role::gettingstarted {
     include role::mediawiki
     include role::eventlogging
+    include role::guidedtour
 
     class { 'redis':
         persist => true,
