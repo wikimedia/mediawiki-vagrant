@@ -26,7 +26,7 @@ if ( !empty( $_REQUEST['debug'] ) ) {
 
 // Expose debug info for PHP errors.
 $wgShowExceptionDetails = true;
-$wgDebugLogFile = __DIR__ . '/vagrant/logs/mediawiki-debug.log';
+$wgDebugLogFile = '/vagrant/logs/mediawiki-debug.log';
 
 // Expose debug info for SQL errors.
 $wgDebugDumpSql = true;
