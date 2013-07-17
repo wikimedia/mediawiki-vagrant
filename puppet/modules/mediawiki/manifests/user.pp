@@ -28,6 +28,6 @@ define mediawiki::user(
         cwd     => "${mediawiki::dir}/maintenance",
         command => "php createAndPromote.php ${username} ${password}",
         unless  => "php createAndPromote.php ${username} 2>&1 | grep -q '^Account exists'",
-        require => Exec['mediawiki setup', 'set mediawiki install path'],
+        require => [ Exec['mediawiki setup'], Env::Var['MW_INSTALL_PATH'] ],
     }
 }
