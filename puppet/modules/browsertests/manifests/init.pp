@@ -44,7 +44,7 @@ class browsertests(
     }
 
     # Sets MEDIAWIKI_URL environment variable for all users.
-    shell::var { 'MEDIAWIKI_URL':
+    env::var { 'MEDIAWIKI_URL':
         value => $mediawiki_url,
     }
 
