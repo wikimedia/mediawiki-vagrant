@@ -7,31 +7,36 @@
   for details.
 
 """
-from __future__ import print_function
+import sys
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 import io
+import os
+import re
 import sys
+import syslog
 import yaml
 
-
-empty = dict(classes=[])
-
+# Migrate Roles.yaml -> Roles
 try:
-    with io.open('/vagrant/Roles.yaml', encoding='utf-8') as f:
-        manifest = yaml.load(f)
-    if not isinstance(manifest, dict):
-        raise ValueError('Manifest document must be a mapping.')
-    if manifest.get('classes') is None:
-        manifest['classes'] = []
-    if not isinstance(manifest['classes'], list):
-        raise ValueError('"classes" must be a list or null.')
+    os.rename('/vagrant/Roles.yaml', '/vagrant/Roles')
+except Exception:
+    pass
+
+
+classes = []
+try:
+    with open('/vagrant/Roles') as f:
+        for line in f:
+            line = re.sub('(^\s*-\s*|[#%].*$)', '', line).strip()
+            if line not in ('', '--', 'classes:'):
+                classes.append(line)
+    assert 1 == 0, 'yay worked'
 except IOError:
     # OK -- No Roles.yaml file.
-    print(yaml.dump(empty))
-except (AssertionError, TypeError, ValueError, yaml.YAMLError) as e:
-    print('Roles.yaml does not contain a valid YAML manifest.',
-          'Please fix the file, or delete it to have it regenerated.',
-          'Error: %s' % e, sep='\n', file=sys.stderr)
-    sys.exit(1)
-else:
-    print(yaml.dump(manifest))
+    pass
+except Exception as e:
+    syslog.syslog(syslog.LOG_ERR, '{0.__class__.__name__}: {0.args}'.format(e))
+finally:
+    print('classes: %s\n' % classes)

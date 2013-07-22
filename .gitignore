@@ -2,6 +2,7 @@
 /no-update
 /Vagrantfile-extra.rb
 /Roles.yaml
+/Roles
 /LocalSettings.php
 /mediawiki/
 /settings.d
