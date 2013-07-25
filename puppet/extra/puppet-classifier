@@ -14,9 +14,7 @@ sys.setdefaultencoding('utf-8')
 import io
 import os
 import re
-import sys
 import syslog
-import yaml
 
 # Migrate Roles.yaml -> Roles
 try:
@@ -32,7 +30,6 @@ try:
             line = re.sub('(^\s*-\s*|[#%].*$)', '', line).strip()
             if line not in ('', '--', 'classes:'):
                 classes.append(line)
-    assert 1 == 0, 'yay worked'
 except IOError:
     # OK -- No Roles.yaml file.
     pass
