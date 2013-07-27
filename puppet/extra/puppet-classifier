@@ -15,6 +15,7 @@ import io
 import os
 import re
 import syslog
+import yaml
 
 # Migrate Roles.yaml -> Roles
 try:
@@ -24,6 +25,7 @@ except Exception:
 
 
 classes = []
+manifest = {'classes': classes}
 try:
     with open('/vagrant/Roles') as f:
         for line in f:
@@ -34,6 +36,7 @@ except IOError:
     # OK -- No Roles.yaml file.
     pass
 except Exception as e:
-    syslog.syslog(syslog.LOG_ERR, '{0.__class__.__name__}: {0.args}'.format(e))
+    err = '{0.__class__.__name__}: {0.args}'.format(e)
+    syslog.syslog(syslog.LOG_ERR, err)
 finally:
-    print('classes: %s\n' % classes)
+    print(yaml.dump(manifest))
