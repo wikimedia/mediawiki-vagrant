@@ -34,6 +34,9 @@ Vagrant.configure('2') do |config|
     #   $ vagrant box add precise-cloud /path/to/file/precise.box
     config.vm.box = 'precise-cloud'
     config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
+    if config.vm.respond_to? 'box_download_insecure'  # Vagrant 1.2.6+
+        config.vm.box_download_insecure = true
+    end
 
     config.vm.network :private_network,
         ip: '10.11.12.13'
