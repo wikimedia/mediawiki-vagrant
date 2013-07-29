@@ -77,8 +77,6 @@ Vagrant.configure('2') do |config|
 
         puppet.options = [
             '--templatedir', '/vagrant/puppet/templates',
-            '--node_terminus', 'exec',
-            '--external_nodes', '/vagrant/puppet/extra/puppet-classifier',
             '--verbose',
             '--config_version', '/vagrant/puppet/extra/config-version',
             '--logdest', "/vagrant/logs/puppet/puppet.#{commit||'unknown'}.log",

@@ -50,9 +50,4 @@ package { 'python-pip':
     ensure => present,
 }
 
-exec { 'generate roles file':
-    command => '/vagrant/puppet/extra/enumerate-roles > /vagrant/Roles',
-    creates => '/vagrant/Roles',
-}
-
 Package['python-pip'] -> Package <| provider == pip |>
