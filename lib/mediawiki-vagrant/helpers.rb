@@ -2,15 +2,26 @@
 # Helper methods for MediaWiki-Vagrant
 #
 require 'rbconfig'
+require 'pathname'
 
+## Shortcuts
+
+$VP = Pathname.new($DIR)  # Vagrant path
+$IP = $VP + 'mediawiki'   # MediaWiki path
+$PP = $VP + 'puppet'      # Puppet path
+
+
+# Are we running on windows?
 def windows?
     RbConfig::CONFIG['host_os'] =~ /mswin|msys|mingw32|windows/i
 end
 
+# Get short SHA1 of installed MediaWiki-Vagrant, if available.
 def commit
-    File.read("#{$DIR}/.git/refs/heads/master")[0..7] rescue nil
+	$VP.join('.git/refs/heads/master').read[0..8] rescue nil
 end
 
+# Try to ascertain the version of VirtualBox installed on the host.
 def virtualbox_version
     cmd = windows? ?
         '"%ProgramFiles%\\Oracle\\VirtualBox\\VBoxManage" -v 2>NUL' :
@@ -20,9 +31,11 @@ end
 
 # If it has been a week or more since remote commits have been fetched,
 # run 'git fetch origin', unless the user disabled automatic fetching.
+# You can disable automatic fetching by creating an empty 'no-updates'
+# file in the root directory of your repository.
 def update
-    unless ENV.has_key? 'MWV_NO_UPDATE' or File.exist? "#{$DIR}/no-update"
-        system('git fetch origin') if Time.now - File.mtime("#{$DIR}/.git/FETCH_HEAD") > 604800 rescue nil
+    unless ENV.has_key? 'MWV_NO_UPDATE' or File.exist?($VP + 'no-update')
+        system('git fetch origin') if Time.now - File.mtime($VP + '.git/FETCH_HEAD') > 604800 rescue nil
     end
 end
 
@@ -52,7 +65,7 @@ def update_roles(roles)
 end
 
 # Migrate the content of old 'Roles' / 'Roles.yaml' files
-[File.join($DIR, 'Roles'), File.join($DIR, 'Roles.yaml')].each do |roles_file|
+[$VP + 'Roles', $VP + 'Roles.yaml'].each do |roles_file|
 	begin
 		roles = IO.readlines(roles_file).map { |line|
 			/^[^#]*role::(\S+)/.match(line) and $1
