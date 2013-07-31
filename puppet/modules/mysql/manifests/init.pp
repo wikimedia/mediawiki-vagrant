@@ -36,7 +36,7 @@ class mysql(
 
     exec { 'set mysql password':
         command => "mysqladmin -u root password \"${root_password}\"",
-        unless  => "mysqladmin -u root -p\"${root_password}\" status",
+        unless  => "mysqladmin -u root -p\"${root_password}\" ping",
         require => Service['mysql'],
     }
 
@@ -47,4 +47,8 @@ class mysql(
         mode    => '0600',
         content => template('mysql/my.cnf.erb'),
     }
+
+    # Create databases before creating users. User resources sometime
+    # depend on databases for GRANTs, but the reverse is never true.
+    Mysql::Db <| |> -> Mysql::User <| |>
 }
