@@ -36,7 +36,7 @@ class mysql(
 
     exec { 'set mysql password':
         command => "mysqladmin -u root password \"${root_password}\"",
-        unless  => "mysqladmin -u root -p\"${root_password}\" ping",
+        unless  => "mysqladmin -u root -p\"${root_password}\" status",
         require => Service['mysql'],
     }
 
