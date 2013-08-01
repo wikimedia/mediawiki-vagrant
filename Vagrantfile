@@ -8,6 +8,9 @@
 # This file contains the Vagrant configurations for provisioning a MediaWiki
 # development instance. Vagrant file uses Ruby as a configuration language.
 #
+# The file's structure and content are described in the Vagrant docs:
+# http://docs.vagrantup.com/v2/vagrantfile/index.html
+#
 # If you would like to customize the configuration of your Virtual Machine,
 # rather than override the values defined in this file, simply create a file
 # called 'Vagrantfile-extra.rb' in this folder and it will be automatically
@@ -99,6 +102,7 @@ end
 
 begin
     # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
+    # See 'support/Vagrantfile-extra.rb' for an example.
     require File.join($DIR, 'Vagrantfile-extra')
 rescue LoadError
     # OK. File does not exist.
