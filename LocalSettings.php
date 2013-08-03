@@ -47,6 +47,7 @@ $wgGroupPermissions['*']['createpage'] = false;
 $wgMainCacheType = CACHE_MEMCACHED;
 $wgMemCachedServers = array( '127.0.0.1:11211' );
 
+$wgLegacyJavaScriptGlobals = false;
 $wgEnableJavaScriptTest = true;
 
 $wgProfilerParams = array(
