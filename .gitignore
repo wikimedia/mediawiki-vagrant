@@ -1,4 +1,5 @@
 /.vagrant
+/.rbenv-version
 /no-update
 /Vagrantfile-extra.rb
 /Roles.yaml
