@@ -3,7 +3,29 @@
 # MOTD banner, shown when user connects via 'vagrant ssh'.
 # This file is managed by Puppet.
 #
-toilet --gay -w 100 -f ascii12 MediaWiki
+
+rainbow_pipe () {
+  local i=0 c
+  while IFS= read data; do
+    c=$(( 31 + ($i % 7) ))
+    IFS=";" printf "\033[%sm" $c 1
+    printf "%s\033[0m\n" "${data}"
+    i=$((i+1))
+  done
+}
+rainbow_pipe <<'EOM'
+                 /
+            .,. /
+          ,mmmmn   ___  ___           _  _         _    _  _  _     _
+  ,._   .,###"nI)  |  \\/  |          | |(_)       | |  | |(_)| |   (_)
+ # ###########     | .  . |  ___   __| | _   __ _ | |  | | _ | | __ _
+ # ############""  | |\\/| | / _ \\ / _` || | / _` || |/\\| || || |/ /| |
+"  ####     #  ./  | |  | ||  __/| (_| || || (_| |\\  /\\  /| ||   < | |
+   #'(#     #  "   \\_|  |_/ \\___| \\__,_||_| \\__,_| \\/  \\/ |_||_|\\_\\|_|
+   #  ")     #
+   #,  '"    '"
+EOM
+echo
 printf " * MediaWiki is located at \033[33;1m/vagrant/mediawiki\033[0m.\n"
 printf " * To interactively evaluate PHP and MediaWiki code, run '\033[33mphpsh\033[0m'.\n"
 printf " * For a database shell, run '\033[33mmysql\033[0m'.\n"
