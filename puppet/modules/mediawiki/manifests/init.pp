@@ -137,5 +137,6 @@ class mediawiki(
         refreshonly => true,
     }
 
-    Exec['mediawiki setup'] -> Mediawiki::Extension <| |>
+    Mediawiki::Extension <| |>
+    Mediawiki::Settings <| |>
 }

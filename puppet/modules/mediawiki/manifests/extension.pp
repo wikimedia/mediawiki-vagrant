@@ -82,29 +82,21 @@ define mediawiki::extension(
 ) {
     include mediawiki
 
-    $extension_dir = "${mediawiki::dir}/extensions/${extension}"
-
     @git::clone { "mediawiki/extensions/${extension}":
-        directory => $extension_dir,
+        directory => "${mediawiki::dir}/extensions/${extension}",
     }
 
-    $settings_file = sprintf('%s/%.2d-%s.php',
-        $mediawiki::managed_settings_dir, $priority, $extension)
-
-    file { $settings_file:
-        ensure  => $ensure,
-        content => template('mediawiki/extension-loader.php.erb'),
-        # Because the file resides on a shared folder, any other owner
-        # or mode will cause VirtualBox and Puppet to play tug-o'-war
-        # over the file.
-        owner   => 'vagrant',
-        group   => 'www-data',
-        require => Git::Clone["mediawiki/extensions/${extension}"],
+    @mediawiki::settings { $extension:
+        ensure       => $ensure,
+        header       => sprintf('include_once "$IP/extensions/%s/%s";', $extension, $entrypoint),
+        values       => $settings,
+        priority     => $priority,
+        require      => Git::Clone["mediawiki/extensions/${extension}"],
     }
 
     if $needs_update {
         # If the extension requires a schema migration, set up the
-        # setting file resource to notify update.php.
-        File[$settings_file] ~> Exec['update database']
+        # settings file resource to notify update.php.
+        Mediawiki::Settings[$extension] ~> Exec['update database']
     }
 }

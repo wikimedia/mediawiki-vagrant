@@ -1,0 +1,24 @@
+<?php
+// MediaWiki settings for <%= @title.tr('_', ' ') %>.
+// This file is managed by Puppet.
+<%= @header %>
+<%=
+case @values
+when Hash
+	@values.sort.map { |k,v|
+		v = case
+		when v.respond_to?(:to_i) && v.to_i.to_s == v then v
+		when v.is_a?(Array) then v.inspect.gsub(/^\[(.*)\]$/, 'array( \\1 )')
+		else v.inspect
+		end
+		"$#{k} = #{v};"
+	}.join("\n")
+when Array
+	@values.map { |v|
+		v =~ /;$/ ? v : v + ';'
+	}.join("\n")
+else
+	@values
+end
+%>
+<%= @footer %>
