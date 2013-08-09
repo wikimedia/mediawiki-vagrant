@@ -16,6 +16,10 @@
 #   If defined, will be used as the content of the site configuration
 #   file. Undefined by default.
 #
+# [*source*]
+#   Path to file containing configuration directives. Undefined by
+#   default.
+#
 # === Examples
 #
 #  apache::site { 'wiki':
@@ -27,6 +31,7 @@ define apache::site(
     $ensure  = 'present',
     $site    = $title,
     $content = undef,
+    $source  = undef,
 ) {
     include apache
 
@@ -38,14 +43,28 @@ define apache::site(
 
     case $ensure {
         present: {
-            if ( $content ) {
-                file { "/etc/apache2/sites-available/${site_file}":
-                    ensure  => file,
-                    content => $content,
-                    require => Package['apache2'],
-                    before  => Exec["enable ${site}"],
-                }
+            file { "/etc/apache2/site.d/${site}":
+                ensure  => directory,
+                recurse => true,
+                purge   => true,
+                force   => true,
+                before  => File["/etc/apache2/sites-available/${site_file}"],
             }
+
+            apache::conf { $site:
+                ensure  => $ensure,
+                site    => $site,
+                content => $content,
+                source  => $source,
+            }
+
+            file { "/etc/apache2/sites-available/${site_file}":
+                ensure  => file,
+                content => template('apache/site.conf.erb'),
+                require => Package['apache2'],
+                before  => Exec["enable ${site}"],
+            }
+
             exec { "enable ${title}":
                 command => "a2ensite -qf ${site}",
                 unless  => "test -L /etc/apache2/sites-enabled/${site_file}",

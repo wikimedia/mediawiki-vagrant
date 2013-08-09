@@ -19,10 +19,12 @@ class apache {
 
     # Set EnableSendfile to 'Off' to work around a bug with Vagrant.
     # See <https://github.com/mitchellh/vagrant/issues/351>.
-    file { '/etc/apache2/conf.d/disable-sendfile':
-        source  => 'puppet:///modules/apache/disable-sendfile',
-        require => Package['apache2'],
-        notify  => Service['apache2'],
+    apache::conf { 'disable sendfile':
+        content => 'EnableSendfile Off',
+    }
+
+    file { '/etc/apache2/site.d':
+        ensure => directory,
     }
 
     service { 'apache2':
@@ -33,5 +35,6 @@ class apache {
     }
 
      Apache::Mod <| |>
+     Apache::Conf <| |>
      Apache::Site <| |>
 }
