@@ -360,3 +360,23 @@ class role::remote_debug {
         require => Package['php5-xdebug'],
     }
 }
+
+# == Class: role::multimedia
+# This class configures MediaWiki for multimedia development.
+class role::multimedia {
+    include role::mediawiki
+
+    # Enable dynamic thumbnail generation via the thumb.php
+    # script for 404 thumb images.
+    @mediawiki::settings { 'thumb.php on 404':
+        values => {
+            wgThumbnailScriptPath      => false,
+            wgGenerateThumbnailOnParse => false,
+        },
+    }
+
+    @apache::conf { 'thumb.php on 404':
+        site    => $mediawiki::wiki_name,
+        content => template('thumb_on_404.conf.erb'),
+    }
+}

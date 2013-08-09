@@ -6,12 +6,6 @@ class mediawiki::apache {
     include ::mediawiki
     include ::apache
 
-    file { '/etc/apache2/sites-enabled/000-default':
-        ensure  => absent,
-        require => Package['apache2'],
-        before  => Exec['mediawiki setup'],
-    }
-
     @apache::site { 'default':
         ensure => absent,
     }
