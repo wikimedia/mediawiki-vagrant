@@ -82,6 +82,7 @@ Vagrant.configure('2') do |config|
             '--templatedir', '/vagrant/puppet/templates',
             '--verbose',
             '--config_version', '/vagrant/puppet/extra/config-version',
+            '--fileserverconfig', '/vagrant/puppet/extra/fileserver.conf',
             '--logdest', "/vagrant/logs/puppet/puppet.#{commit||'unknown'}.log",
             '--logdest', 'console',
         ]
