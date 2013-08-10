@@ -24,7 +24,8 @@ class apache {
     }
 
     file { '/etc/apache2/site.d':
-        ensure => directory,
+        ensure  => directory,
+        require => Package['apache2'],
     }
 
     service { 'apache2':
