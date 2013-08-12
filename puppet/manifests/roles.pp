@@ -7,9 +7,6 @@
 # a role below and submitting it as a patch to the Mediawiki-Vagrant
 # project.
 #
-# To enable a particular role on your instance, include it in the
-# mediawiki-vagrant node definition in 'site.pp'.
-#
 
 
 # == Class: role::generic
