@@ -4,6 +4,10 @@
 #
 # === Parameters
 #
+# [*listen*]
+#   The address and optional port to direct to this virutal host. The default
+#   is '*'.
+#
 # [*ensure*]
 #   If 'present', site will be enabled; if 'absent', disabled. The
 #   default is 'present'.
@@ -28,6 +32,7 @@
 #  }
 #
 define apache::site(
+    $listen  = '*',
     $ensure  = 'present',
     $site    = $title,
     $content = undef,
@@ -51,7 +56,7 @@ define apache::site(
                 before  => File["/etc/apache2/sites-available/${site_file}"],
             }
 
-            apache::conf { $site:
+            apache::conf { "000-${site}":
                 ensure  => $ensure,
                 site    => $site,
                 content => $content,

@@ -3,34 +3,32 @@
 # Apache site configuration for MediaWiki
 # This file is managed by Puppet.
 #
-<VirtualHost *>
-    ServerName vagrant
-    ServerAdmin http://www.mediawiki.org/wiki/Vagrant
-    DocumentRoot "/var/www"
+ServerName vagrant
+ServerAdmin http://www.mediawiki.org/wiki/Vagrant
+DocumentRoot "/var/www"
 
-    <Directory />
-        Options FollowSymLinks
-        AllowOverride None
-    </Directory>
+<Directory />
+    Options FollowSymLinks
+    AllowOverride None
+</Directory>
 
-    <Directory /var/www/>
-    </Directory>
+<Directory /var/www/>
+</Directory>
 
-    <Directory <%= scope.lookupvar('mediawiki::dir') %>>
-    </Directory>
+<Directory <%= scope.lookupvar('mediawiki::dir') %>>
+</Directory>
 
-    <Directory <%= scope.lookupvar('mediawiki::upload_dir') %>>
-    </Directory>
+<Directory <%= scope.lookupvar('mediawiki::upload_dir') %>>
+</Directory>
 
-    AllowEncodedSlashes on
+AllowEncodedSlashes on
 
-    RewriteEngine On
-    RewriteRule ^/$ /w/index.php [R=301]
+RewriteEngine On
+RewriteRule ^/$ /w/index.php [R=301]
 
-    Alias /wiki "<%= scope.lookupvar('mediawiki::dir') %>/index.php"
-    Alias /w "<%= scope.lookupvar('mediawiki::dir') %>"
-    Alias /images "<%= scope.lookupvar('mediawiki::upload_dir') %>"
+Alias /wiki "<%= scope.lookupvar('mediawiki::dir') %>/index.php"
+Alias /w "<%= scope.lookupvar('mediawiki::dir') %>"
+Alias /images "<%= scope.lookupvar('mediawiki::upload_dir') %>"
 
-    ErrorLog "/vagrant/logs/apache-error.log"
-    LogLevel error
-</VirtualHost>
+ErrorLog "/vagrant/logs/apache-error.log"
+LogLevel error
