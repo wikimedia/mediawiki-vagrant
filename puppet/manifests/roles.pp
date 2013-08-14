@@ -377,3 +377,18 @@ class role::multimedia {
         content => template('thumb_on_404.conf.erb'),
     }
 }
+
+# == Class: role::education
+# Configures the Education Program extension & its dependencies.
+class role::education {
+    include role::mediawiki
+
+    @mediawiki::extension { 'cldr':
+        priority => 20,
+    }
+
+    @mediawiki::extension { 'EducationProgram':
+        needs_update => true,
+        priority     => 30,    # load *after* CLDR
+    }
+}
