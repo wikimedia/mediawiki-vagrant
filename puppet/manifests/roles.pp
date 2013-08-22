@@ -62,6 +62,8 @@ class role::mediawiki {
         upload_dir   => $upload_dir,
         server_url   => $server_url,
     }
+
+    @mediawiki::extension { 'Vector': }
 }
 
 # == Class: role::fundraising
