@@ -67,3 +67,11 @@ foreach( array_merge(
 	glob( __DIR__ . '/settings.d/*.php' ) ) as $conffile ) {
 	include_once $conffile;
 }
+
+// XXX: Is this a bug in core? (ori-l, 27-Aug-2013)
+$wgHooks['GetIP'][] = function ( &$ip ) {
+	if ( PHP_SAPI === 'cli' ) {
+		$ip = '127.0.0.1';
+	}
+	return true;
+};
