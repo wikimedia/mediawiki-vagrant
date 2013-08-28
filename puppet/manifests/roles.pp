@@ -233,6 +233,13 @@ class role::uploadwizard {
     include role::mediawiki
     include role::eventlogging
 
+    php::ini { 'uploadsize':
+        settings                => {
+            upload_max_filesize => '100M',
+            post_max_size       => '100M',
+        }
+    }
+
     package { 'imagemagick': }
 
     @mediawiki::extension { 'UploadWizard':
