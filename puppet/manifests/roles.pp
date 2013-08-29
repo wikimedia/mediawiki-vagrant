@@ -242,6 +242,8 @@ class role::uploadwizard {
 
     package { 'imagemagick': }
 
+    @mediawiki::extension { [ 'CodeEditor', 'WikiEditor' ]: }
+
     @mediawiki::extension { 'UploadWizard':
         require  => Package['imagemagick'],
         settings => {
