@@ -1,4 +1,6 @@
 # This file is managed by Puppet.
 
 Listen 80
-Listen <%= scope.lookupvar("::forwarded_port") %>
+<% if @forwarded_port -%>
+Listen <%= @forwarded_port %>
+<%- end -%>
