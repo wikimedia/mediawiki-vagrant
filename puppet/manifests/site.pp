@@ -9,6 +9,6 @@ import 'base.pp'
 import 'roles.pp'
 import 'manifests.d/*.pp'
 
-node 'mediawiki-vagrant' {
+node default {
     include role::mediawiki
 }
