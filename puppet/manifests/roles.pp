@@ -232,15 +232,7 @@ class role::umapi {
 class role::uploadwizard {
     include role::mediawiki
     include role::eventlogging
-
-    php::ini { 'uploadsize':
-        settings                => {
-            upload_max_filesize => '100M',
-            post_max_size       => '100M',
-        }
-    }
-
-    package { 'imagemagick': }
+    include role::multimedia
 
     @mediawiki::extension { [ 'CodeEditor', 'WikiEditor' ]: }
 
@@ -371,6 +363,16 @@ class role::remote_debug {
 # This class configures MediaWiki for multimedia development.
 class role::multimedia {
     include role::mediawiki
+
+    # Increase php upload size from default puny 2MB
+    php::ini { 'uploadsize':
+        settings                => {
+            upload_max_filesize => '100M',
+            post_max_size       => '100M',
+        }
+    }
+
+    package { 'imagemagick': }
 
     # Enable dynamic thumbnail generation via the thumb.php
     # script for 404 thumb images.
