@@ -361,6 +361,9 @@ class role::remote_debug {
 
 # == Class: role::multimedia
 # This class configures MediaWiki for multimedia development.
+# It is meant to contain general configuration of shared use to other
+# extensions that are commonly used by the multimedia team in development and
+# testing.
 class role::multimedia {
     include role::mediawiki
 
@@ -401,5 +404,15 @@ class role::education {
     @mediawiki::extension { 'EducationProgram':
         needs_update => true,
         priority     => 30,    # load *after* CLDR
+    }
+}
+
+# == Class: role::betafeatures
+# Configures the BetaFeatures extension
+class role::betafeatures {
+    include role::mediawiki
+
+    @mediawiki::extension { 'BetaFeatures':
+        priority     => 5,     # load before most extensions
     }
 }
