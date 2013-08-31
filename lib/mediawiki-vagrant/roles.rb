@@ -1,4 +1,6 @@
 module MediaWikiVagrant
+    COMMIT_CHANGES = "Ok. Run 'vagrant provision' to commit your changes."
+
     class ListRoles < Vagrant.plugin(2, :command)
         def execute
             @env.ui.info "Available roles:\n\n"
@@ -28,7 +30,7 @@ module MediaWikiVagrant
                 end
             end
             update_roles(roles_enabled + @argv)
-            @env.ui.info "Ok. Run 'vagrant provision' to commit your changes."
+            @env.ui.info COMMIT_CHANGES
             return 0
         end
     end
@@ -48,7 +50,7 @@ module MediaWikiVagrant
                 end
             end
             update_roles(enabled - @argv)
-            @env.ui.info "Ok."
+            @env.ui.info COMMIT_CHANGES
             return 0
         end
     end
@@ -62,6 +64,7 @@ module MediaWikiVagrant
             end
             update_roles []
             @env.ui.warn "All roles were disabled."
+            @env.ui.info COMMIT_CHANGES
             return 0
         end
     end
