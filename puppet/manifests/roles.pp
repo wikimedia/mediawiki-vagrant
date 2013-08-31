@@ -295,8 +295,8 @@ class role::parserfunctions {
 }
 
 # == Class: role::proofreadpage
-# Configures ProodreadPage, an extension to allow the proofreading of a text
-# in comparison with scanned images.
+# Configures ProodreadPage, an extension to allow the proofreading of
+# a text in comparison with scanned images.
 class role::proofreadpage {
     include role::mediawiki
     include role::parserfunctions
@@ -362,14 +362,14 @@ class role::remote_debug {
 # == Class: role::multimedia
 # This class configures MediaWiki for multimedia development.
 # It is meant to contain general configuration of shared use to other
-# extensions that are commonly used by the multimedia team in development and
-# testing.
+# extensions that are commonly used by the multimedia team in
+# development and testing.
 class role::multimedia {
     include role::mediawiki
 
-    # Increase php upload size from default puny 2MB
+    # Increase PHP upload size from default puny 2MB
     php::ini { 'uploadsize':
-        settings                => {
+        settings => {
             upload_max_filesize => '100M',
             post_max_size       => '100M',
         }
@@ -413,6 +413,6 @@ class role::betafeatures {
     include role::mediawiki
 
     @mediawiki::extension { 'BetaFeatures':
-        priority     => 5,     # load before most extensions
+        priority => 5,  # load before most extensions
     }
 }
