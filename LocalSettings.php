@@ -44,8 +44,13 @@ $wgEnableUploads = true;
 $wgGroupPermissions['*']['createpage'] = false;
 
 // Caching
-$wgMainCacheType = CACHE_MEMCACHED;
-$wgMemCachedServers = array( '127.0.0.1:11211' );
+$wgObjectCaches['redis'] = array(
+    'class' => 'RedisBagOStuff',
+    'servers' => array( '127.0.0.1:6379' ),
+    'persistent' => true,
+);
+$wgMainCacheType = 'redis';
+$wgSessionCacheType = 'redis';
 
 $wgLegacyJavaScriptGlobals = false;
 $wgEnableJavaScriptTest = true;

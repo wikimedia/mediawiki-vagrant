@@ -21,7 +21,7 @@ class role::generic {
 }
 
 # == Class: role::mediawiki
-# Provisions a MediaWiki instance powered by PHP, MySQL, and memcached.
+# Provisions a MediaWiki instance powered by PHP, MySQL, and redis.
 class role::mediawiki {
     include role::generic
 
@@ -43,7 +43,9 @@ class role::mediawiki {
     $admin_user = 'admin'
     $admin_pass = 'vagrant'
 
-    class { '::memcached': }
+    class { '::redis':
+        persist => true
+    }
 
     class { '::mysql':
         default_db_name => $db_name,
@@ -164,17 +166,13 @@ class role::guidedtour {
 }
 
 # == Class: role::gettingstarted
-# Configures the GettingStarted extension and its dependencies: redis,
+# Configures the GettingStarted extension and its dependencies:
 # EventLogging and GuidedTour. GettingStarted adds a special page which
 # presents introductory content and tasks to newly-registered editors.
 class role::gettingstarted {
     include role::mediawiki
     include role::eventlogging
     include role::guidedtour
-
-    class { 'redis':
-        persist => true,
-    }
 
     @mediawiki::extension { 'GettingStarted':
         settings => {
