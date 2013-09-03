@@ -416,3 +416,22 @@ class role::betafeatures {
         priority => 5,  # load before most extensions
     }
 }
+
+# == Class: role::pdfhandler
+#
+class role::pdfhandler {
+    include role::multimedia
+
+    package { [ 'ghostscript', 'xpdf-utils', ]: }
+
+    @mediawiki::extension { 'PdfHandler':
+        needs_update  => true,
+        settings      => [
+            '$wgEnableUploads = true',
+            '$wgMaxShellMemory = 300000',
+            '$wgFileExtensions[] = \'pdf\'',
+        ],
+        require       => Package['ghostscript', 'imagemagick', 'xpdf-utils'],
+    }
+}
+
