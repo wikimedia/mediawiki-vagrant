@@ -9,6 +9,14 @@ when Hash
 		v = case
 		when v.respond_to?(:to_i) && v.to_i.to_s == v then v
 		when v.is_a?(Array) then v.inspect.gsub(/^\[(.*)\]$/, 'array( \\1 )')
+		when v.is_a?(Hash) then "array(\n" + v.sort.map { |k,v|
+			v = case
+			when v.respond_to?(:to_i) && v.to_i.to_s == v then v
+			when v.is_a?(Array) then v.inspect.gsub(/^\[(.*)\]$/, 'array( \\1 )')
+			else v.inspect
+			end
+			"\t'#{k}' => #{v},"
+		}.join("\n") + ')'
 		else v.inspect
 		end
 		"$#{k} = #{v};"

@@ -243,6 +243,13 @@ class role::uploadwizard {
             wgUseImageMagick      => true,
             wgUploadNavigationUrl => '/wiki/Special:UploadWizard',
             wgUseInstantCommons   => true,
+            wgUploadWizardConfig  => {
+              altUploadForm       => 'Special:Upload',
+              autoCategory        => 'Uploaded with UploadWizard',
+              enableChunked       => 'opt-in',
+              enableFormData      => true,
+              enableMultipleFiles => true,
+            },
         },
     }
 }
