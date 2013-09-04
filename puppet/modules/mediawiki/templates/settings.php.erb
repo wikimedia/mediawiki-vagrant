@@ -3,30 +3,30 @@
 // This file is managed by Puppet.
 <%= @header %>
 <%=
-case @values
-when Hash
-	@values.sort.map { |k,v|
-		v = case
-		when v.respond_to?(:to_i) && v.to_i.to_s == v then v
-		when v.is_a?(Array) then v.inspect.gsub(/^\[(.*)\]$/, 'array( \\1 )')
-		when v.is_a?(Hash) then "array(\n" + v.sort.map { |k,v|
-			v = case
-			when v.respond_to?(:to_i) && v.to_i.to_s == v then v
-			when v.is_a?(Array) then v.inspect.gsub(/^\[(.*)\]$/, 'array( \\1 )')
-			else v.inspect
-			end
-			"\t'#{k}' => #{v},"
-		}.join("\n") + ')'
-		else v.inspect
+	def phpize(o)
+		case o
+		when nil then
+			'NULL'
+		when Array
+			'array( ' + o.map { |x| phpize(x) }.join(', ') + ' )'
+		when Hash
+			'array( ' + o.sort.map { |k,v| k.to_pson + ' => ' + phpize(v) }.join(', ') + ' )'
+		else
+			o.include?('.') ? Float(o).to_s : Integer(o).to_s rescue o.to_pson
 		end
-		"$#{k} = #{v};"
-	}.join("\n")
-when Array
-	@values.map { |v|
-		v =~ /;$/ ? v : v + ';'
-	}.join("\n")
-else
-	@values
-end
+	end
+
+	case @values
+	when Hash
+		@values.sort.map { |k,v|
+			"$#{k} = #{phpize(v)};"
+		}.join("\n")
+	when Array
+		@values.map { |v|
+			v =~ /;$/ ? v : v + ';'
+		}.join("\n")
+	else
+		@values
+	end
 %>
 <%= @footer %>
