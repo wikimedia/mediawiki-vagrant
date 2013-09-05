@@ -234,7 +234,7 @@ class role::uploadwizard {
     include role::eventlogging
     include role::multimedia
 
-    @mediawiki::extension { [ 'CodeEditor', 'WikiEditor' ]: }
+    @mediawiki::extension { [ 'CodeEditor', 'WikiEditor', 'Campaigns' ]: }
 
     @mediawiki::extension { 'UploadWizard':
         require  => Package['imagemagick'],
