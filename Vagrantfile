@@ -18,7 +18,7 @@
 # any values in this file. 'Vagrantfile-extra.rb' is ignored by git.
 #
 # Please report bugs in this file on Wikimedia's Bugzilla:
-# https://bugzilla.wikimedia.org/enter_bug.cgi?product=Tools&component=Vagrant
+# https://bugzilla.wikimedia.org/enter_bug.cgi?product=MediaWiki-Vagrant
 #
 # Patches and contributions are welcome!
 # http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
