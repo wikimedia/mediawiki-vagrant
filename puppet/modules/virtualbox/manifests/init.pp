@@ -1,4 +1,4 @@
-# == Class: misc::virtualbox
+# == Class: virtualbox
 #
 # Provides a set of helpers for managing upgrades of VirtualBox Guest
 # Additions. This includes populating a file in /etc/virtualbox-version
@@ -7,17 +7,17 @@
 # the user to upgrade if it is. Upgrading is done using an
 # 'update-guest-additions' script which is also installed by this module.
 #
-class misc::virtualbox {
+class virtualbox {
     # Upon starting an interactive shell, check guest additions version and
     # prompt the user to update if out-of-date.
     env::profile { 'check guest additions':
-        source => 'puppet:///modules/misc/check-guest-additions.sh',
+        source => 'puppet:///modules/virtualbox/check-guest-additions.sh',
     }
 
     # Shell script for updating guest additions.
     file { '/bin/update-guest-additions':
         ensure => present,
-        source => 'puppet:///modules/misc/update-guest-additions',
+        source => 'puppet:///modules/virtualbox/update-guest-additions',
         owner  => 'root',
         group  => 'root',
         mode   => '0755',

@@ -94,9 +94,10 @@ Vagrant.configure('2') do |config|
         puppet.options << '--color=false' if windows?
 
         puppet.facter = {
+            'forwarded_port'     => FORWARDED_PORT,
+            'vagrant_provider'   => 'virtualbox',
             'virtualbox_version' => virtualbox_version,
             'shared_apt_cache'   => '/vagrant/apt-cache/',
-            'forwarded_port'     => FORWARDED_PORT,
         }
     end
 end

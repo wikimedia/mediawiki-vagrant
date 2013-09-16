@@ -5,8 +5,6 @@
 # command-line tools, like 'ack' and 'curl'.
 #
 class misc {
-    include misc::virtualbox
-
     # This solves the 'stdin: not a tty' error message, which is caused
     # by a call to 'mesg n' in /root/.profile. Sadly it'll still appear
     # once, since profile is sourced before Puppet can run. That sucks,
@@ -14,6 +12,10 @@ class misc {
     exec { 'update profile':
         command => 'sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile',
         onlyif  => 'grep -q "^mesg n" /root/.profile',
+    }
+
+    if $vagrant_provider == 'virtualbox' {
+        class { 'virtualbox': }
     }
 
     file { '/var/lib/cloud/instance/':
