@@ -7,7 +7,11 @@
 # a role below and submitting it as a patch to the Mediawiki-Vagrant
 # project.
 #
-
+# *Note*:: If your role depends on packages, please create a package
+#   class for each dependency in packages.pp rather than declare the
+#   package resource in the role itself. This allows packages to be
+#   used by multiple roles.
+#
 
 # == Class: role::generic
 # Configures common tools and shell enhancements.
@@ -74,10 +78,9 @@ class role::mediawiki {
 # DonationInterface extensions.
 class role::fundraising {
     include role::mediawiki
+    include packages::rsyslog
 
     $rsyslog_max_message_size = '64k'
-
-    package { 'rsyslog': }
 
     service { 'rsyslog':
         ensure     => running,
@@ -260,13 +263,10 @@ class role::uploadwizard {
 # in MediaWiki.
 class role::scribunto {
     include role::mediawiki
+    include packages::php_luasandbox
 
     $extras = [ 'CodeEditor', 'WikiEditor', 'SyntaxHighlight_GeSHi' ]
     @mediawiki::extension { $extras: }
-
-    package { 'php-luasandbox':
-        notify => Service['apache2'],
-    }
 
     @mediawiki::extension { 'Scribunto':
         settings => {
@@ -274,6 +274,7 @@ class role::scribunto {
             wgScribuntoUseGeSHi      => true,
             wgScribuntoUseCodeEditor => true,
         },
+        notify   => Service['apache2'],
         require  => [
             Package['php-luasandbox'],
             Mediawiki::Extension[$extras],
@@ -308,15 +309,16 @@ class role::proofreadpage {
     include role::mediawiki
     include role::parserfunctions
 
+    include packages::djvulibre_bin
+    include packages::ghostscript
+    include packages::netpbm
+
     php::ini { 'proofreadpage':
         settings => {
             'upload_max_filesize' => '50M',
             'post_max_size' => '50M',
         },
     }
-
-    $packages = [ 'djvulibre-bin', 'ghostscript', 'netpbm' ]
-    package { $packages: }
 
     $extras = [ 'LabeledSectionTransclusion', 'Cite' ]
     @mediawiki::extension { $extras: }
@@ -334,7 +336,7 @@ class role::proofreadpage {
             '$wgDjvuOutputExtension = "jpg"',
         ],
         require  => [
-            Package[$packages],
+            Package['djvulibre-bin', 'ghostscript', 'netpbm'],
             Mediawiki::Extension[$extras],
         ],
     }
@@ -374,6 +376,8 @@ class role::remote_debug {
 class role::multimedia {
     include role::mediawiki
 
+    include packages::imagemagick
+
     # Increase PHP upload size from default puny 2MB
     php::ini { 'uploadsize':
         settings => {
@@ -381,8 +385,6 @@ class role::multimedia {
             post_max_size       => '100M',
         }
     }
-
-    package { 'imagemagick': }
 
     # Enable dynamic thumbnail generation via the thumb.php
     # script for 404 thumb images.
@@ -426,19 +428,25 @@ class role::betafeatures {
 
 # == Class: role::pdfhandler
 #
+# The PdfHandler extension shows uploaded PDF files in a multipage
+# preview layout. With the Proofread Page extension enabled, PDFs can be
+# displayed side-by-side with text for transcribing books and other
+# documents, as is commonly done with DjVu files (particularly in
+# Wikisource).
 class role::pdfhandler {
     include role::multimedia
 
-    package { [ 'ghostscript', 'xpdf-utils', ]: }
+    include packages::ghostscript
+    include packages::poppler_utils
+    include packages::imagemagick
 
     @mediawiki::extension { 'PdfHandler':
-        needs_update  => true,
-        settings      => [
+        needs_update => true,
+        require      => Package['ghostscript', 'imagemagick', 'poppler-utils'],
+        settings     => [
             '$wgEnableUploads = true',
             '$wgMaxShellMemory = 300000',
             '$wgFileExtensions[] = \'pdf\'',
         ],
-        require       => Package['ghostscript', 'imagemagick', 'xpdf-utils'],
     }
 }
-

@@ -6,6 +6,7 @@
 # virtual machine.
 #
 import 'base.pp'
+import 'packages.pp'
 import 'roles.pp'
 import 'manifests.d/*.pp'
 
