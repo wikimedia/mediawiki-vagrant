@@ -164,6 +164,7 @@ class role::mobilefrontend {
 # for MediaWiki features.
 class role::guidedtour {
     include role::mediawiki
+    include role::eventlogging
 
     @mediawiki::extension { 'GuidedTour': }
 }
