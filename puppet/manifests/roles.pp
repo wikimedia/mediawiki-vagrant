@@ -132,6 +132,7 @@ class role::fundraising {
 # events are validated against production schemas but logged locally.
 class role::eventlogging {
     include role::mediawiki
+    include role::geshi
 
     @mediawiki::extension { 'EventLogging':
         priority => 5,
@@ -272,16 +273,23 @@ class role::codeeditor {
     @mediawiki::extension { 'CodeEditor': }
 }
 
+# == Class: role::geshi
+# Configures SyntaxHighlight_GeSHi, an extension for syntax-highlighting
+class role::geshi {
+    include role::mediawiki
+
+    @mediawiki::extension { 'SyntaxHighlight_GeSHi' : }
+}
+
 # == Class: role::scribunto
 # Configures Scribunto, an extension for embedding scripting languages
 # in MediaWiki.
 class role::scribunto {
     include role::mediawiki
     include role::codeeditor
+    include role::geshi
 
     include packages::php_luasandbox
-
-    @mediawiki::extension { 'SyntaxHighlight_GeSHi': }
 
     @mediawiki::extension { 'Scribunto':
         settings => {
@@ -291,8 +299,9 @@ class role::scribunto {
         },
         notify   => Service['apache2'],
         require  => [
-            Package['php-luasandbox'],
+            Mediawiki::Extension['CodeEditor'],
             Mediawiki::Extension['SyntaxHighlight_GeSHi'],
+            Package['php-luasandbox'],
         ],
     }
 }
