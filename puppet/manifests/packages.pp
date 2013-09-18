@@ -40,3 +40,11 @@ class packages::djvulibre_bin {
 class packages::netpbm {
     package { 'netpbm': }
 }
+
+class packages::mediawiki_math {
+    package { 'mediawiki-math': }
+}
+
+class packages::ocaml_native_compilers {
+    package { 'ocaml-native-compilers': }
+}
