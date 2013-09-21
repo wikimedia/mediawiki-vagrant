@@ -11,15 +11,9 @@
 
 # By adding a stage => 'first' / 'last' parameter to your class
 # declaration, you can tell Puppet to instantiate the class (and its
-# resources) at the very beginning of its run or the very end. By
-# default, only the 'apt' class runs in a different stage, to ensure
-# other classes fetch the right packages. Everything else runs in 'main'.
-# For more information, see:
+# resources) at the very beginning of its run or the very end. See:
 # <http://docs.puppetlabs.com/puppet/2.7/reference/lang_run_stages.html>
-stage { 'first': }
-stage { 'last': }
-
-Stage['first'] -> Stage['main'] -> Stage['last']
+stage { 'first': } -> Stage['main'] -> stage { 'last': }
 
 # Declares a default search path for executables, allowing the path to
 # be omitted from individual resources. Also configures Puppet to log
@@ -29,7 +23,13 @@ Exec {
     path      => [ '/bin', '/usr/bin', '/usr/local/bin', '/usr/sbin/' ],
 }
 
-Package { ensure => present, }
+Service {
+    ensure => running,
+}
+
+Package {
+    ensure => present,
+}
 
 # Declare default uid / gid and permissions for file resources, and
 # tells Puppet not to back up configuration files by default.
@@ -46,8 +46,10 @@ file { '/srv':
     mode   => '0755',
 }
 
-package { 'python-pip':
-    ensure => present,
-}
+package { 'python-pip': } -> Package <| provider == pip |>
 
-Package['python-pip'] -> Package <| provider == pip |>
+if $::shared_apt_cache {
+    file { '/etc/apt/apt.conf.d/20shared-cache':
+        content => "Dir::Cache::archives \"${::shared_apt_cache}\";\n",
+    } -> Package <| |>
+}

@@ -14,3 +14,5 @@
 !/puppet/manifests/manifests.d/dummy.pp
 /logs
 !/logs/puppet/.gitignore
+/apt-cache
+!/apt-cache/partial/.gitignore

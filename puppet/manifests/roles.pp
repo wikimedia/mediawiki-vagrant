@@ -16,12 +16,10 @@
 # == Class: role::generic
 # Configures common tools and shell enhancements.
 class role::generic {
-    class { 'apt':
-        stage => first,
-    }
-    class { 'env': }
-    class { 'misc': }
-    class { 'git': }
+    include ::apt
+    include ::env
+    include ::git
+    include ::misc
 }
 
 # == Class: role::mediawiki
@@ -464,15 +462,13 @@ class role::math {
 
     @mediawiki::extension { 'Math':
         needs_update => true,
+        before       => Exec['compile texvc'],
     }
 
     exec { 'compile texvc':
         command => 'make',
-        cwd     => "/vagrant/mediawiki/extensions/Math/math",
-        creates => "/vagrant/mediawiki/extensions/Math/math/texvc",
-        require => [
-          Package['mediawiki-math', 'ocaml-native-compilers'],
-          Mediawiki::Extension['Math'],
-        ],
+        cwd     => '/vagrant/mediawiki/extensions/Math/math',
+        creates => '/vagrant/mediawiki/extensions/Math/math/texvc',
+        require => Package['mediawiki-math', 'ocaml-native-compilers'],
     }
 }

@@ -21,4 +21,6 @@ class apt {
         require => Exec['add wikimedia apt key'],
         notify  => Exec['apt-get update'],
     }
+
+    Apt::Ppa <| |> ~> Exec['apt-get update'] -> Package <| |>
 }

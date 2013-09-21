@@ -95,7 +95,8 @@ Vagrant.configure('2') do |config|
 
         puppet.facter = {
             'virtualbox_version' => virtualbox_version,
-            'forwarded_port' => FORWARDED_PORT,
+            'shared_apt_cache'   => '/vagrant/apt-cache/',
+            'forwarded_port'     => FORWARDED_PORT,
         }
     end
 end
