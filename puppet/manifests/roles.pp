@@ -414,10 +414,7 @@ class role::multimedia {
 # Configures the Education Program extension & its dependencies.
 class role::education {
     include role::mediawiki
-
-    @mediawiki::extension { 'cldr':
-        priority => 20,
-    }
+    include role::cldr
 
     @mediawiki::extension { 'EducationProgram':
         needs_update => true,
@@ -488,7 +485,65 @@ class role::math {
 # Chromium is the open source web browser project from which Google
 # Chrome draws its source code. This role provisions a browser instance
 # that runs in headless mode and that can be automated by various tools.
-#
 class role::chromium {
     include ::chromium
+}
+
+# == Class: role::cldr
+# The CLDR extension provides functions to localize the names of languages,
+# countries, and currencies based on their language code, using data extracted
+# from the Common Locale Data Repository (CLDR), a project of the Unicode
+# Consortium to provide locale data in the XML format for use in computer
+# applications.
+class role::cldr {
+    @mediawiki::extension { 'cldr':
+        priority => 20,
+    }
+}
+
+# == Class: role::mleb
+# The MediaWiki language extension bundle (MLEB) provides an easy way to bring
+# ultimate language support to your MediaWiki. This role will install latest
+# Universal Language Selector(ULS), Translate, Localisation Update, Clean
+# Changes, Babel and CLDR MediaWiki extensions. What's more, Interwiki will be
+# installed and configured so that MediaWiki can show the cross wiki link on
+# the left sidebar.
+class role::mleb {
+    include role::mediawiki
+    include role::cldr
+
+    @mediawiki::extension { 'Babel':
+        require  => MediaWiki::Extension['cldr'],
+    }
+
+    @mediawiki::extension { 'LocalisationUpdate':
+        settings => {
+            wgLocalisationUpdateDirectory => '$IP/cache',
+        },
+    }
+
+    @mediawiki::extension { 'CleanChanges':
+        settings => [ '$wgDefaultUserOptions["usenewrc"] = 1' ],
+    }
+
+    @mediawiki::extension { 'Translate':
+        needs_update => true,
+        settings     => [
+            '$wgGroupPermissions["sysop"]["pagetranslation"] = true',
+            '$wgGroupPermissions["sysop"]["translate-manage"] = true',
+            '$wgTranslateDocumentationLanguageCode = "qqq"',
+            '$wgExtraLanguageNames["qqq"] = "Message documentation"',
+        ],
+    }
+
+    @mediawiki::extension { 'Interwiki':
+        settings => [ '$wgGroupPermissions["sysop"]["interwiki"] = true' ],
+    }
+
+    @mediawiki::extension { 'UniversalLanguageSelector':
+        settings => {
+            wgULSEnable => true,
+        },
+        require  => Mediawiki::Extension['Interwiki'],
+    }
 }
