@@ -195,6 +195,10 @@ class role::echo {
             wgEchoEnableEmailBatch => false,
         },
     }
+
+    @mediawiki::extension { 'Thanks':
+        require => Mediawiki::Extension['Echo'],
+    }
 }
 
 # == Class: role::visualeditor
