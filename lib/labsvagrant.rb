@@ -1,5 +1,10 @@
 #!/usr/bin/env ruby
-require 'helpers'
+
+# This hack is required since < ruby1.9 do not support require_relative
+require 'pathname'
+SCRIPT_ROOT = File.dirname(Pathname.new(__FILE__).realpath)
+
+require "#{SCRIPT_ROOT}/mediawiki-vagrant/helpers.rb"
 
 case ARGV.shift
 when "list-roles"
