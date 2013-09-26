@@ -5,7 +5,7 @@ require 'rbconfig'
 require 'pathname'
 
 ## Shortcuts
-
+$DIR = $DIR || '/vagrant' # Set default if not already set
 $VP = Pathname.new($DIR)  # Vagrant path
 $IP = $VP + 'mediawiki'   # MediaWiki path
 $PP = $VP + 'puppet'      # Puppet path
