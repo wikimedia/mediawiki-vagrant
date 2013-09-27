@@ -27,7 +27,6 @@
 # === Examples
 #
 #  class { 'chromium':
-#     remote_debugging_port => 9000,
 #     extra_args            => '--user-data-dir=/srv/chromium',
 #  }
 #

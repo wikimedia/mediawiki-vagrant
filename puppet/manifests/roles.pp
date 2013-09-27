@@ -1,11 +1,15 @@
 # == Roles for Mediawiki-Vagrant
 #
 # A 'role' represents a set of software configurations required for
-# giving this machine some special function. If you'd like to use the
-# Vagrant-Mediawiki codebase to describe a development environment that
-# you could then share with other developers, you should do so by adding
-# a role below and submitting it as a patch to the Mediawiki-Vagrant
-# project.
+# giving this machine some special function. Vagrant has several
+# commands to manage enabled roles:
+#
+#   vagrant disable-role | enable-role | list-roles | reset-roles
+#
+# If you'd like to use the Vagrant-Mediawiki codebase to describe
+# a development environment that you could then share with other
+# developers, you should do so by adding a role below and submitting
+# it as a patch to the Mediawiki-Vagrant project.
 #
 # *Note*:: If your role depends on packages, please create a package
 #   class for each dependency in packages.pp rather than declare the
@@ -352,20 +356,22 @@ class role::proofreadpage {
 # conjunction with a PHP IDE such as PhpStorm. The IDE is installed on
 # your machine, not the Vagrant VM.
 #
-# NOTE: This role currently requires that you manually configure
-# port forwarding for port 9000. See <http://goo.gl/mx36a>.
+# -- To use, enable this role from shell:
+#    vagrant enable-role remote_debug
+# -- In your IDE, enable "Start Listening for PHP Debug Connections"
+# -- For firefox, install
+#    https://addons.mozilla.org/en-US/firefox/addon/the-easiest-xdebug
+#    and click "Enable Debug" icon in the Add-on bar
+# -- Set breakpoints
+# -- Navigate to localhost:8080/...
+#
 class role::remote_debug {
     include php
 
     php::ini { 'remote_debug':
         settings => {
-            'xdebug.idekey'              => 'default',
-            'xdebug.remote_autostart'    => '1',
             'xdebug.remote_connect_back' => '1',
             'xdebug.remote_enable'       => '1',
-            'xdebug.remote_handler'      => 'dbgp',
-            'xdebug.remote_mode'         => 'req',
-            'xdebug.remote_port'         => '9000',
         },
         require => Package['php5-xdebug'],
     }

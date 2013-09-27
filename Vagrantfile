@@ -50,11 +50,6 @@ Vagrant.configure('2') do |config|
     config.vm.network :forwarded_port,
         guest: 80, host: FORWARDED_PORT, id: 'http'
 
-    # To enable remote debugging via Xdebug, uncomment these two lines
-    # and enable the 'remote_debug' role:
-    # config.vm.network :forwarded_port,
-    #    guest: 9000, host: 9000, id: 'xdebug'
-
     config.vm.synced_folder '.', '/vagrant',
         id: 'vagrant-root',
         owner: 'vagrant',
