@@ -32,6 +32,7 @@ class apache {
         ensure     => running,
         provider   => 'init',
         require    => Package['apache2'],
+        hasstatus  => true,
         hasrestart => true,
     }
 
