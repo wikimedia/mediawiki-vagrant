@@ -14,7 +14,7 @@ class misc {
         onlyif  => 'grep -q "^mesg n" /root/.profile',
     }
 
-    if $vagrant_provider == 'virtualbox' {
+    if $::provider_name == 'virtualbox' {
         class { 'virtualbox': }
     }
 

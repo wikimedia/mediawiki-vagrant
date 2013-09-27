@@ -21,14 +21,6 @@ def commit
 	$VP.join('.git/refs/heads/master').read[0..8] rescue nil
 end
 
-# Try to ascertain the version of VirtualBox installed on the host.
-def virtualbox_version
-    cmd = windows? ?
-        '"%ProgramFiles%\\Oracle\\VirtualBox\\VBoxManage" -v 2>NUL' :
-        'VBoxManage -v 2>/dev/null'
-    `#{cmd}`[/[\d\.]+/] rescue nil
-end
-
 # If it has been a week or more since remote commits have been fetched,
 # run 'git fetch origin', unless the user disabled automatic fetching.
 # You can disable automatic fetching by creating an empty 'no-updates'

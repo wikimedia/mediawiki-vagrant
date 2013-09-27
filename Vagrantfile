@@ -93,10 +93,8 @@ Vagrant.configure('2') do |config|
         # Windows's Command Prompt has poor support for ANSI escape sequences.
         puppet.options << '--color=false' if windows?
 
-        puppet.facter = {
+        puppet.facter = $FACTER = {
             'forwarded_port'     => FORWARDED_PORT,
-            'vagrant_provider'   => 'virtualbox',
-            'virtualbox_version' => virtualbox_version,
             'shared_apt_cache'   => '/vagrant/apt-cache/',
         }
     end

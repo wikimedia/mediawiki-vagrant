@@ -34,5 +34,10 @@ module MediaWikiVagrant
             DisableRole
         end
 
+        action_hook(self::ALL_ACTIONS) do |hook|
+            require 'mediawiki-vagrant/middleware'
+            hook.before(Vagrant::Action::Builtin::Provision, Middleware)
+        end
+
     end
 end

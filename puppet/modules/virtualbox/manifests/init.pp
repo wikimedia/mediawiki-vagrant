@@ -23,14 +23,12 @@ class virtualbox {
         mode   => '0755',
     }
 
-    if ( $::virtualbox_version =~ /[\d.]+/ ) {
-        file { '/etc/virtualbox-version':
-            ensure  => present,
-            content => $::virtualbox_version,
-            owner   => 'root',
-            group   => 'root',
-            mode    => '0444',
-        }
+    file { '/etc/virtualbox-version':
+        ensure  => present,
+        content => $::provider_version,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
     }
 
     # Prerequisites for building new versions of guest additions.
