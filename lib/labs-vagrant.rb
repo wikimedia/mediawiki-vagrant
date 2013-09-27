@@ -7,7 +7,7 @@ SCRIPT_ROOT = File.dirname(Pathname.new(__FILE__).realpath)
 require "#{SCRIPT_ROOT}/mediawiki-vagrant/helpers.rb"
 
 case ARGV.shift
-when "list-roles"
+when 'list-roles'
     puts "Available roles:\n\n"
     enabled = roles_enabled
     roles_available.each { |role|
@@ -17,15 +17,15 @@ when "list-roles"
     puts "\nRoles marked with '*' are enabled."
     puts 'Use "labsvagrant enable-role" & "labsvagrant disable-role" to customize.'
 
-when "reset-roles"
+when 'reset-roles'
     if not ARGV.empty? or ['-h', '--help'].include? ARGV.first
         puts 'Disable all optional roles.'
         puts 'USAGE: labsvagrant reset-roles'
     end
     update_roles []
-    puts "All roles were disabled."
+    puts 'All roles were disabled.'
     puts COMMIT_CHANGES
-when "enable-role"
+when 'enable-role'
     if ARGV.empty? or ['-h', '--help'].include? ARGV.first
         puts 'Enable an optional role (run "labsvagrant list-roles" for a list).'
         puts 'USAGE: labsvagrant enable-role ROLE'
@@ -39,8 +39,7 @@ when "enable-role"
         end
     end
     update_roles(roles_enabled + ARGV)
-
-when "disable-role"
+when 'disable-role'
     if ARGV.empty? or ['-h', '--help'].include? ARGV.first
         puts 'Disable one or more optional roles.'
         puts 'USAGE: labsvagrant disable-role ROLE'
@@ -53,8 +52,8 @@ when "disable-role"
         end
     end
     update_roles(enabled - ARGV)
-when "provision"
-    puppet_path = "/vagrant/puppet"
+when 'provision'
+    puppet_path = '/vagrant/puppet'
     exec "puppet apply \
         --modulepath #{puppet_path}/modules \
         --manifestdir #{puppet_path}/manifests \
@@ -65,5 +64,4 @@ when "provision"
         --logdest console \
         --detailed-exitcodes \
         #{puppet_path}/manifests/site.pp"
-
 end
