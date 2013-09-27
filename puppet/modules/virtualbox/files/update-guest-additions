@@ -17,11 +17,6 @@ notice () {
 	printf "$(tput setaf 4)%s$(tput sgr0)\n" "$1"
 }
 
-[[ ! -r "/etc/virtualbox-version" ]] && {
-    warn 'Cannot determine host VirtualBox version.'
-    exit 1
-}
-
 # Re-run under 'sudo' if not invoked with 'sudo'.
 
 [[ ! $SUDO_COMMAND ]] && {
@@ -29,19 +24,30 @@ notice () {
     exit $?
 }
 
-VIRTUALBOX_VERSION="$(</etc/virtualbox-version)"
+# Allow VirtualBox version to be specified via '--virtualbox-version'
+# command-line argument:
+[[ "$*" =~ --virtualbox-version.([0-9][0-9.]+) ]] && {
+    VIRTUALBOX_VERSION="${BASH_REMATCH[1]}"
+}
+
+# If the version was not specified as a command-line argument, try to
+# read it from /etc/virtualbox-version:
+[[ ! $VIRTUALBOX_VERSION && -r "/etc/virtualbox-version" ]] && {
+    VIRTUALBOX_VERSION="$(</etc/virtualbox-version)"
+}
+
+[[ ! $VIRTUALBOX_VERSION ]] && {
+    warn 'Cannot determine host VirtualBox version! You can specify it using --virtualbox-version.'
+    exit 1
+}
+
 BASE_URL="http://download.virtualbox.org/virtualbox/${VIRTUALBOX_VERSION}"
 GUEST_ADDITIONS_ISO="VBoxGuestAdditions_${VIRTUALBOX_VERSION}.iso"
 GUEST_ADDITIONS_VERSION="$(modinfo -Fversion vboxguest)"
 
 # Check if Guest additions need to be updated.
 
-[[ ! $VIRTUALBOX_VERSION ]] && {
-    warn 'Cannot determine host VirtualBox version.'
-    exit 1
-}
-
-[[ $GUEST_ADDITIONS_VERSION == "$VIRTUALBOX_VERSION" && $1 != "--force" ]] && {
+[[ $GUEST_ADDITIONS_VERSION == "$VIRTUALBOX_VERSION" && ! "$*" =~ --force ]] && {
     notice 'Guest additions already up-to-date.' >&2
     exit 0
 }
