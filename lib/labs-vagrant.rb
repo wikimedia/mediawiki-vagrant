@@ -24,7 +24,6 @@ when 'reset-roles'
     end
     update_roles []
     puts 'All roles were disabled.'
-    puts COMMIT_CHANGES
 when 'enable-role'
     if ARGV.empty? or ['-h', '--help'].include? ARGV.first
         puts 'Enable an optional role (run "labsvagrant list-roles" for a list).'
