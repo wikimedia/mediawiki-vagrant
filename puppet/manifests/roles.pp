@@ -529,6 +529,7 @@ class role::mleb {
     @mediawiki::extension { 'Translate':
         needs_update => true,
         settings     => [
+            '$wgGroupPermissions["*"]["translate"] = true',
             '$wgGroupPermissions["sysop"]["pagetranslation"] = true',
             '$wgGroupPermissions["sysop"]["translate-manage"] = true',
             '$wgTranslateDocumentationLanguageCode = "qqq"',
