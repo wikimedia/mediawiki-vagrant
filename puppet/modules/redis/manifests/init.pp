@@ -80,7 +80,8 @@ class redis(
 
     service { 'redis-server':
         ensure    => running,
-        provider  => init,
+        enable    => true,
+        provider  => 'debian',
         subscribe => File['/etc/redis/redis.conf'],
         require   => [
             File['/etc/redis/redis.conf', '/srv/redis'],

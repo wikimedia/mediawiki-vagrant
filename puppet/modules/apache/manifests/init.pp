@@ -30,9 +30,9 @@ class apache {
 
     service { 'apache2':
         ensure     => running,
-        provider   => 'init',
+        enable     => true,
+        provider   => 'debian',
         require    => Package['apache2'],
-        hasstatus  => true,
         hasrestart => true,
     }
 
