@@ -30,5 +30,8 @@ Alias /wiki "<%= scope.lookupvar('mediawiki::dir') %>/index.php"
 Alias /w "<%= scope.lookupvar('mediawiki::dir') %>"
 Alias /images "<%= scope.lookupvar('mediawiki::upload_dir') %>"
 
-ErrorLog "/vagrant/logs/apache-error.log"
+# Causes Apache to fail to start when it initializes before /vagrant has
+# been mounted:
+# ErrorLog "/vagrant/logs/apache-error.log"
+
 LogLevel error
