@@ -569,7 +569,7 @@ class role::antispam {
             '$wgGroupPermissions["sysop"]["abusefilter-modify-restricted"] = true',
             '$wgGroupPermissions["sysop"]["abusefilter-revert"] = true',
         ],
-        require => MediaWiki::Extension['AntiSpoof'],
+        require => Mediawiki::Extension['AntiSpoof'],
     }
 
     @mediawiki::extension { 'SpamBlacklist':
