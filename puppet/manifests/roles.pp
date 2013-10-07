@@ -578,3 +578,24 @@ class role::antispam {
         },
     }
 }
+
+# == Class: role::cirrussearch
+# The CirrusSearch extension implements searching for MediaWiki using Elasticsearch.
+class role::cirrussearch {
+    include role::mediawiki
+    include packages::elasticsearch
+
+    @mediawiki::extension { 'Elastica': }
+
+    @mediawiki::extension { 'CirrusSearch':
+        require => Package['elasticsearch'],
+    }
+
+    exec { 'update elastica submodule':
+        cwd     => "${mediawiki::dir}/extensions/Elastica",
+        command => 'git submodule update --init Elastica',
+        require => Mediawiki::Extension['Elastica'],
+        unless  => 'git submodule status Elastica | grep -q head',
+        before  => Mediawiki::Extension['CirrusSearch'],
+    }
+}
