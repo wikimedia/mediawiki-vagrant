@@ -243,6 +243,7 @@ class role::uploadwizard {
     include role::mediawiki
     include role::eventlogging
     include role::multimedia
+    include role::codeeditor
 
     @mediawiki::extension { 'Campaigns': }
 
@@ -264,16 +265,24 @@ class role::uploadwizard {
     }
 }
 
+# == Class: role::codeeditor #
+# Configures CodeEditor, extension for using ACE for editing code
+class role::codeeditor {
+    include role::mediawiki
+    include role::wikieditor
+
+    @mediawiki::extension { 'CodeEditor': }
+}
 
 # == Class: role::scribunto
 # Configures Scribunto, an extension for embedding scripting languages
 # in MediaWiki.
 class role::scribunto {
     include role::mediawiki
+    include role::codeeditor
     include packages::php_luasandbox
 
-    $extras = [ 'CodeEditor', 'WikiEditor', 'SyntaxHighlight_GeSHi' ]
-    @mediawiki::extension { $extras: }
+    @mediawiki::extension { 'SyntaxHighlight_GeSHi': }
 
     @mediawiki::extension { 'Scribunto':
         settings => {
@@ -284,7 +293,7 @@ class role::scribunto {
         notify   => Service['apache2'],
         require  => [
             Package['php-luasandbox'],
-            Mediawiki::Extension[$extras],
+            Mediawiki::Extension['SyntaxHighlight_GeSHi'],
         ],
     }
 }
