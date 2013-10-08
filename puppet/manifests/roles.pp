@@ -136,11 +136,8 @@ class role::eventlogging {
     @mediawiki::extension { 'EventLogging':
         priority => 5,
         settings => {
-            # Work with production schemas but log locally:
             wgEventLoggingBaseUri        => 'http://localhost:8100/event.gif',
             wgEventLoggingFile           => '/vagrant/logs/eventlogging.log',
-            wgEventLoggingSchemaIndexUri => 'http://meta.wikimedia.org/w/index.php',
-            wgEventLoggingDBname         => 'metawiki',
         }
     }
 }
@@ -206,8 +203,8 @@ class role::echo {
 }
 
 # == Class: role::visualeditor
-# Provisions the VisualEditor extension, backed by a local
-# Parsoid instance.
+# Provisions the VisualEditor extension, backed by a local Parsoid
+# instance.
 class role::visualeditor {
     include role::mediawiki
 
@@ -281,6 +278,7 @@ class role::codeeditor {
 class role::scribunto {
     include role::mediawiki
     include role::codeeditor
+
     include packages::php_luasandbox
 
     @mediawiki::extension { 'SyntaxHighlight_GeSHi': }
@@ -313,6 +311,9 @@ class role::wikieditor {
     }
 }
 
+# == Class: role::parserfunctions
+# The ParserFunctions extension enhances the wikitext parser with
+# helpful functions, mostly related to logic and string-handling.
 class role::parserfunctions {
     include role::mediawiki
 
@@ -332,29 +333,28 @@ class role::proofreadpage {
 
     php::ini { 'proofreadpage':
         settings => {
-            'upload_max_filesize' => '50M',
-            'post_max_size' => '50M',
+            upload_max_filesize => '50M',
+            post_max_size       => '50M',
         },
     }
 
-    $extras = [ 'LabeledSectionTransclusion', 'Cite' ]
-    @mediawiki::extension { $extras: }
+    @mediawiki::extension { [ 'LabeledSectionTransclusion', 'Cite' ]:
+        before => Mediawiki::Extension['ProofreadPage'],
+    }
 
     @mediawiki::extension { 'ProofreadPage':
+        require      => Package['djvulibre-bin', 'ghostscript', 'netpbm'],
         needs_update => true,
-        settings => [
+        settings     => [
             '$wgEnableUploads = true',
-            '$wgFileExtensions = array_merge( $wgFileExtensions, array(\'pdf\', \'djvu\') )',
+            '$wgFileExtensions[] = "djvu"',
+            '$wgFileExtensions[] = "pdf"',
             '$wgMaxShellMemory = 300000',
             '$wgDjvuDump = "djvudump"',
             '$wgDjvuRenderer = "ddjvu"',
             '$wgDjvuTxt = "djvutxt"',
             '$wgDjvuPostProcessor = "ppmtojpeg"',
             '$wgDjvuOutputExtension = "jpg"',
-        ],
-        require  => [
-            Package['djvulibre-bin', 'ghostscript', 'netpbm'],
-            Mediawiki::Extension[$extras],
         ],
     }
 }
@@ -382,10 +382,10 @@ class role::remote_debug {
 
     php::ini { 'remote_debug':
         settings => {
-            'xdebug.remote_connect_back' => '1',
-            'xdebug.remote_enable'       => '1',
+            'xdebug.remote_connect_back' => 1,
+            'xdebug.remote_enable'       => 1,
         },
-        require => Package['php5-xdebug'],
+        require  => Package['php5-xdebug'],
     }
 }
 
@@ -525,7 +525,7 @@ class role::mleb {
     include role::cldr
 
     @mediawiki::extension { 'Babel':
-        require  => MediaWiki::Extension['cldr'],
+        require  => Mediawiki::Extension['cldr'],
     }
 
     @mediawiki::extension { 'LocalisationUpdate':
@@ -535,7 +535,9 @@ class role::mleb {
     }
 
     @mediawiki::extension { 'CleanChanges':
-        settings => [ '$wgDefaultUserOptions["usenewrc"] = 1' ],
+        settings => [
+            '$wgDefaultUserOptions["usenewrc"] = 1',
+        ],
     }
 
     @mediawiki::extension { 'Translate':
@@ -572,6 +574,7 @@ class role::antispam {
 
     @mediawiki::extension { 'AbuseFilter':
         needs_update => true,
+        require      => Mediawiki::Extension['AntiSpoof'],
         settings     => [
             '$wgGroupPermissions["sysop"]["abusefilter-modify"] = true',
             '$wgGroupPermissions["*"]["abusefilter-log-detail"] = true',
@@ -581,7 +584,6 @@ class role::antispam {
             '$wgGroupPermissions["sysop"]["abusefilter-modify-restricted"] = true',
             '$wgGroupPermissions["sysop"]["abusefilter-revert"] = true',
         ],
-        require => Mediawiki::Extension['AntiSpoof'],
     }
 
     @mediawiki::extension { 'SpamBlacklist':
@@ -592,7 +594,8 @@ class role::antispam {
 }
 
 # == Class: role::cirrussearch
-# The CirrusSearch extension implements searching for MediaWiki using Elasticsearch.
+# The CirrusSearch extension implements searching for MediaWiki using
+# Elasticsearch.
 class role::cirrussearch {
     include role::mediawiki
     include packages::elasticsearch
@@ -625,7 +628,7 @@ class role::massmessage {
 
     @mediawiki::extension { 'LiquidThreads':
         needs_update => true,
-        settings => {
+        settings     => {
             wgLqtTalkPages => false,
         },
     }
