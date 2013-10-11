@@ -101,7 +101,7 @@ class mediawiki(
     exec { 'mediawiki setup':
         require     => [ Exec['set mysql password'], Git::Clone['mediawiki/core'], File[$upload_dir] ],
         creates     => "${dir}/LocalSettings.php",
-        command     => "php ${dir}/maintenance/install.php ${wiki_name} ${admin_user} --pass ${admin_pass} --dbname ${db_name} --dbuser ${db_user} --dbpass ${db_pass} --server ${server_url} --scriptpath '/w'",
+        command     => "php ${dir}/maintenance/install.php ${wiki_name} ${admin_user} --pass ${admin_pass} --dbname ${db_name} --dbuser ${db_user} --dbpass ${db_pass} --scriptpath '/w'",
     }
 
     exec { 'require extra settings':
