@@ -17,7 +17,6 @@ class php {
         'php5-gd',
         'php5-intl',
         'php5-mcrypt',
-        'php5-memcached',
         'php5-mysql',
         'php5-xdebug'
     ]:
