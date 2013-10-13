@@ -55,16 +55,3 @@ def update_roles(roles)
         }.join("\n")
     }
 end
-
-# Migrate the content of old 'Roles' / 'Roles.yaml' files
-[$VP + 'Roles', $VP + 'Roles.yaml'].each do |roles_file|
-	begin
-		roles = IO.readlines(roles_file).map { |line|
-			/^[^#]*role::(\S+)/.match(line) and $1
-		}.compact.sort.uniq - ['generic', 'mediawiki']
-		update_roles(roles + roles_enabled)
-		File.delete(roles_file)
-	rescue Errno::ENOENT
-		# OK -- nothing to migrate.
-	end
-end
