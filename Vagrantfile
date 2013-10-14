@@ -55,6 +55,13 @@ Vagrant.configure('2') do |config|
         owner: 'vagrant',
         group: 'www-data'
 
+    # www-data needs to write to the logs, but doesn't need write
+    # access for all of /vagrant
+    config.vm.synced_folder './logs', '/vagrant/logs',
+        id: 'vagrant-logs',
+        owner: 'www-data',
+        group: 'www-data'
+
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
         vb.customize ['modifyvm', :id, '--memory', '768']
