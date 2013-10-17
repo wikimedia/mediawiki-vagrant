@@ -35,7 +35,11 @@ class role::mediawiki {
 
     # 'forwarded_port' defaults to 8080, but may be overridden by
     # changing the value of 'FORWARDED_PORT' in Vagrantfile.
-    $server_url = "http://127.0.0.1:${::forwarded_port}"
+    $server_url = $::forwarded_port ? {
+        undef   => undef,
+        default => "http://127.0.0.1:${::forwarded_port}",
+    }
+
     $dir = '/vagrant/mediawiki'
     $settings_dir = '/vagrant/settings.d'
     $upload_dir = '/srv/images'
@@ -70,6 +74,7 @@ class role::mediawiki {
         upload_dir   => $upload_dir,
         server_url   => $server_url,
     }
+
 
     @mediawiki::extension { 'Vector': }
 }

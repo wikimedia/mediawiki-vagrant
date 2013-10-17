@@ -48,7 +48,7 @@ class mediawiki(
     $dir,
     $settings_dir,
     $upload_dir,
-    $server_url,
+    $server_url = undef,
 ) {
     Exec { environment => "MW_INSTALL_PATH=${dir}" }
 
@@ -58,6 +58,15 @@ class mediawiki(
     include mediawiki::apache
 
     $managed_settings_dir = "${settings_dir}/puppet-managed"
+
+    $installer_args = {
+        dbname     => $db_name,
+        dbpass     => $db_pass,
+        dbuser     => $db_user,
+        pass       => $admin_pass,
+        scriptpath => '/w',
+        server     => $server_url,
+    }
 
     @git::clone { 'mediawiki/core':
         directory => $dir,
@@ -101,7 +110,7 @@ class mediawiki(
     exec { 'mediawiki setup':
         require     => [ Exec['set mysql password'], Git::Clone['mediawiki/core'], File[$upload_dir] ],
         creates     => "${dir}/LocalSettings.php",
-        command     => "php ${dir}/maintenance/install.php ${wiki_name} ${admin_user} --pass ${admin_pass} --dbname ${db_name} --dbuser ${db_user} --dbpass ${db_pass} --scriptpath '/w'",
+        command     => template('mediawiki/install.php.erb'),
     }
 
     exec { 'require extra settings':
