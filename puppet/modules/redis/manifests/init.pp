@@ -51,14 +51,15 @@ class redis(
     }
 
     $defaults = {
-        daemonize  => 'yes',
-        pidfile    => '/var/run/redis/redis-server.pid',
-        logfile    => '/var/log/redis/redis-server.log',
-        dir        => '/srv/redis',
-        dbfilename => 'redis-db.rdb',
-        maxmemory  => $max_memory,
-        maxclients => 1000,
-        save       => $save,
+        daemonize        => 'yes',
+        pidfile          => '/var/run/redis/redis-server.pid',
+        logfile          => '/var/log/redis/redis-server.log',
+        dir              => '/srv/redis',
+        dbfilename       => 'redis-db.rdb',
+        maxmemory        => $max_memory,
+        maxmemory_policy => 'allkeys-lru',
+        maxclients       => 1000,
+        save             => $save,
     }
 
     package { 'redis-server':

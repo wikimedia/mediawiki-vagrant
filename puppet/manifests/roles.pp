@@ -54,7 +54,8 @@ class role::mediawiki {
     $admin_pass = 'vagrant'
 
     class { '::redis':
-        persist => true
+        persist    => true,
+        max_memory => '64M',
     }
 
     class { '::mysql':
