@@ -1,0 +1,11 @@
+# vim: filetype=apache sts=4 sw=4 autoindent
+#
+# Apache site configuration for XHProf
+# This file is managed by Puppet.
+#
+
+<Directory /usr/share/php/xhprof_html>
+</Directory>
+
+Alias /xhprof "/usr/share/php/xhprof_html"
+
