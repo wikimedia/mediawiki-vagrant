@@ -41,6 +41,8 @@ $wgLogo = '/mediawiki-vagrant.png';
 $wgUseInstantCommons = true;
 $wgEnableUploads = true;
 
+// User settings and permissions
+$wgAllowUserJs = true;
 $wgGroupPermissions['*']['createpage'] = false;
 
 // Caching
