@@ -63,7 +63,7 @@ class redis(
     }
 
     package { 'redis-server':
-        ensure => '2:2.6.0-rc7-wmf1',
+        ensure => present,
     }
 
     file { '/srv/redis':
