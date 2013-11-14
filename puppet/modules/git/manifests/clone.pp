@@ -29,7 +29,7 @@ define git::clone($directory, $remote=undef) {
     }
 
     exec { "git clone ${title}":
-        command     => "git clone ${url} ${directory}",
+        command     => "git clone --recursive ${url} ${directory}",
         creates     => "${directory}/.git/refs/remotes",
         require     => Package['git'],
         user        => 'vagrant',
