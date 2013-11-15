@@ -8,6 +8,9 @@
 #   Name for target directory for repository content. It should not
 #   refer to an existing directory.
 #
+# [*branch*]
+#   Name of branch to check out. Defaults to 'master'.
+#
 # [*remote*]
 #   Remote URL for the repository. If unspecified, the resource title
 #   will be interpolated into $git::urlformat.
@@ -20,7 +23,11 @@
 #      directory => '/vagrant/mediawiki/extensions/VisualEditor',
 #  }
 #
-define git::clone($directory, $remote=undef) {
+define git::clone(
+    $directory,
+    $branch = 'master',
+    $remote = undef,
+) {
     include git
 
     $url = $remote ? {
@@ -29,7 +36,7 @@ define git::clone($directory, $remote=undef) {
     }
 
     exec { "git clone ${title}":
-        command     => "git clone --recursive ${url} ${directory}",
+        command     => "git clone --recursive --branch ${branch} ${url} ${directory}",
         creates     => "${directory}/.git",
         require     => Package['git'],
         user        => 'vagrant',

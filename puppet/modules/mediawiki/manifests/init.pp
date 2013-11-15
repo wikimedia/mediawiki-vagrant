@@ -23,6 +23,9 @@
 # [*db_pass*]
 #   Password for MySQL account (example: 'secret123').
 #
+# [*branch*]
+#   Version to check out
+#
 # [*dir*]
 #   The system path to which MediaWiki files have been installed
 #   (example: '/srv/mediawiki').
@@ -48,6 +51,7 @@ class mediawiki(
     $dir,
     $settings_dir,
     $upload_dir,
+    $branch     = undef,
     $server_url = undef,
 ) {
     Exec { environment => "MW_INSTALL_PATH=${dir}" }
@@ -70,6 +74,7 @@ class mediawiki(
 
     @git::clone { 'mediawiki/core':
         directory => $dir,
+        branch    => $branch,
     }
 
     # If an auto-generated LocalSettings.php file exists but the database it
