@@ -52,3 +52,11 @@ class packages::ocaml_native_compilers {
 class packages::elasticsearch {
     package { 'elasticsearch': }
 }
+
+class packages::ffmpeg {
+    package { 'ffmpeg': }
+}
+
+class packages::ffmpeg2theora {
+    package { 'ffmpeg2theora': }
+}
