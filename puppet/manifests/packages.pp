@@ -49,10 +49,6 @@ class packages::ocaml_native_compilers {
     package { 'ocaml-native-compilers': }
 }
 
-class packages::elasticsearch {
-    package { 'elasticsearch': }
-}
-
 class packages::ffmpeg {
     package { 'ffmpeg': }
 }

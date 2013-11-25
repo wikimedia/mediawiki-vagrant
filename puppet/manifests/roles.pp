@@ -635,12 +635,13 @@ class role::antispam {
 # Elasticsearch.
 class role::cirrussearch {
     include role::mediawiki
-    include packages::elasticsearch
+
+    class { '::elasticsearch': }
 
     @mediawiki::extension { 'Elastica': }
 
     @mediawiki::extension { 'CirrusSearch':
-        require => Package['elasticsearch'],
+        require => Service['elasticsearch'],
     }
 
     exec { 'update elastica submodule':
