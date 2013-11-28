@@ -14,6 +14,11 @@ module MediaWikiVagrant
             RunTests
         end
 
+        command 'git-update' do
+            require 'mediawiki-vagrant/git-update'
+            GitUpdates
+        end
+
         command 'list-roles' do
             require 'mediawiki-vagrant/roles'
             ListRoles

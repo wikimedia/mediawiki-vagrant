@@ -146,6 +146,11 @@ class mediawiki(
         require => Exec['configure phpunit'],
     }
 
+    file { '/usr/local/bin/run-git-update':
+        source  => 'puppet:///modules/mediawiki/run-git-update',
+        mode    => '0755',
+    }
+
     exec { 'update database':
         command     => "php ${dir}/maintenance/update.php --quick",
         refreshonly => true,

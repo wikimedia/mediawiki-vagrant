@@ -1,0 +1,34 @@
+#!/bin/bash
+. /etc/profile.d/puppet-managed/set_mw_install_path.sh
+
+function pull {
+  echo
+  branch=$(expr $(git symbolic-ref HEAD) : 'refs/heads/\(.*\)')
+  if [ -n "$branch" ]; then
+    remote=$(git config branch.$branch.remote)
+    if [ -n "$remote" ]; then
+        # Convert remote git url from ssh:// to anonymous https://
+        url=$(git config --get remote.$remote.url | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
+        git pull $url
+    else
+        echo -e "\e[1;31m ************* Remote not found for branch '$branch' in $(pwd)\e[0m"
+    fi
+  else
+    echo -e "\e[1;31m ************* Unable to get current branch in $(pwd)\e[0m"
+  fi
+}
+
+
+cd "$MW_INSTALL_PATH"
+pull
+
+for f in extensions/*
+do
+ if [[ -d $f ]]; then
+  pushd $f > /dev/null
+  pull
+  popd > /dev/null
+ fi
+done
+
+php maintenance/update.php --quick
