@@ -158,8 +158,9 @@ class role::mobilefrontend {
 
     @mediawiki::extension { 'MobileFrontend':
         settings => {
-            wgMFForceSecureLogin => false,
-            wgMFLogEvents        => true,
+            wgMFForceSecureLogin     => false,
+            wgMFLogEvents            => true,
+            wgMFAutodetectMobileView => true,
         }
     }
 }
