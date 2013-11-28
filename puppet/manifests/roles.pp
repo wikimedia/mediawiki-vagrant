@@ -36,7 +36,7 @@ class role::mediawiki {
     # 'forwarded_port' defaults to 8080, but may be overridden by
     # changing the value of 'FORWARDED_PORT' in Vagrantfile.
     $server_url = $::forwarded_port ? {
-        undef   => undef,
+        undef   => 'http://127.0.0.1',
         default => "http://127.0.0.1:${::forwarded_port}",
     }
 
