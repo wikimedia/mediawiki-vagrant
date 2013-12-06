@@ -37,11 +37,12 @@ $wgShowExceptionDetails = true;
 //
 
 $mwLogDir = __DIR__ . '/../logs';
-$wgDebugLogFile = "$mwLogDir/mediawiki-debug.log";
+$wgDebugLogFile = "$mwLogDir/debug.log";
 $wgDBerrorLog = "$mwLogDir/dberror.log";
 // $wgRateLimitLog = "$mwLogDir/ratelimit.log";
-$wgDebugLogFile = "$mwLogDir/debug.log";
-// $wgDebugLogGroups['somegroup'] = "$mwLogDir/debug-somegroup.log"
+$wgDebugLogGroups['exception'] = "$mwLogDir/exception.log";
+$wgDebugLogGroups['resourceloader'] = "$mwLogDir/resourceloader.log";
+// $wgDebugLogGroups['somegroup'] = "$mwLogDir/somegroup.log"
 
 
 // ResourceLoader-specific
