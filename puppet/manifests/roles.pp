@@ -703,3 +703,25 @@ class role::timedmediahandler {
         ],
     }
 }
+
+# == Class: role::commonsmetadata
+# This role provisions the CommonsMetadata extension,
+# which adds image metadata extracted from the
+# description page to the imageinfo API.
+class role::commonsmetadata {
+    include role::mediawiki
+    include role::multimedia
+
+    @mediawiki::extension { 'CommonsMetadata': }
+}
+
+# == Class: role::multimediaviewer
+# This role provisions the MultimediaViewer extension,
+# which shows images and their metadata in a lightbox
+# when the user clicks on the thumbnails.
+class role::multimediaviewer {
+    include role::mediawiki
+    include role::multimedia
+
+    @mediawiki::extension { 'MultimediaViewer': }
+}
