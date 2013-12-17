@@ -23,7 +23,7 @@ module MediaWikiVagrant
                 return 0
             end
             avail = roles_available
-            @argv.map!(&:downcase)
+            @argv = @argv.take_while { |r| r != '--' }.map(&:downcase)
             @argv.each do |r|
                 if not avail.include? r
                     @env.ui.error "'#{r}' is not a valid role."
@@ -44,7 +44,7 @@ module MediaWikiVagrant
                 return 0
             end
             enabled = roles_enabled
-            @argv.map!(&:downcase)
+            @argv = @argv.take_while { |r| r != '--' }.map(&:downcase)
             @argv.each do |r|
                 if not enabled.include? r
                     @env.ui.error "'#{r}' is not enabled."
