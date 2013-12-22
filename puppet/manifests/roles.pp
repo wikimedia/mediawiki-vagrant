@@ -259,6 +259,7 @@ class role::uploadwizard {
             wgUseImageMagick      => true,
             wgUploadNavigationUrl => '/wiki/Special:UploadWizard',
             wgUseInstantCommons   => true,
+            wgApiFrameOptions     => 'SAMEORIGIN',
             wgUploadWizardConfig  => {
               altUploadForm       => 'Special:Upload',
               autoCategory        => 'Uploaded with UploadWizard',
