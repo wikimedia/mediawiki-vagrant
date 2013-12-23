@@ -28,7 +28,7 @@ class git(
 
     package { 'git-review':
         ensure   => latest,
-        provider => 'apt',
+        provider => pip,
     }
 
     Git::Clone <| |>
