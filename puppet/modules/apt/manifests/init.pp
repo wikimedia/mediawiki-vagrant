@@ -9,7 +9,14 @@ class apt {
         refreshonly => true,
     }
 
-    apt::ppa { 'git-core/ppa': }
+    exec { 'add ubuntu git maintainers apt key':
+        command => 'apt-key add /vagrant/puppet/modules/apt/files/ubuntu-git-maintainers.key',
+        unless  => 'apt-key list | grep -q "Launchpad PPA for Ubuntu Git Maintainers"',
+    }
+
+    apt::ppa { 'git-core/ppa':
+        require => Exec['add ubuntu git maintainers apt key'],
+    }
 
     exec { 'add wikimedia apt key':
         command => 'apt-key add /vagrant/puppet/modules/apt/files/wikimedia.key',
