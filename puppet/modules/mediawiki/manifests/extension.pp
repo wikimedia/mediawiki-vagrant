@@ -34,6 +34,10 @@
 #   (maintenance/update.php) after configuring the extension. False by
 #   default.
 #
+# [*branch*]
+#   Specifies which branch of the extension's Git repository should be
+#   cloned. Defaults to 'master'.
+#
 # [*settings*]
 #   This parameter contains configuration settings for the extension.
 #   Settings may be specified as a hash, array, or string. See examples
@@ -78,12 +82,14 @@ define mediawiki::extension(
     $entrypoint   = "${title}.php",
     $priority     = 10,
     $needs_update = false,
+    $branch       = undef,
     $settings     = {},
 ) {
     include mediawiki
 
     @git::clone { "mediawiki/extensions/${extension}":
         directory => "${mediawiki::dir}/extensions/${extension}",
+        branch    => $branch,
         require   => Git::Clone['mediawiki/core'],
     }
 
