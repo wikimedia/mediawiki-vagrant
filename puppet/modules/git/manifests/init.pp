@@ -27,7 +27,7 @@ class git(
     }
 
     package { 'git-review':
-        ensure   => latest,
+        ensure   => '1.23',
         provider => pip,
     }
 
