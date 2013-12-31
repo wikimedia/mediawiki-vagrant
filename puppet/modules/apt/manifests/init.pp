@@ -18,6 +18,8 @@ class apt {
         require => Exec['add ubuntu git maintainers apt key'],
     }
 
+    # Configure Wikimedia's apt repository as an apt source
+
     exec { 'add wikimedia apt key':
         command => 'apt-key add /vagrant/puppet/modules/apt/files/wikimedia.key',
         unless  => 'apt-key list | grep -q Wikimedia',
@@ -26,6 +28,19 @@ class apt {
     file { '/etc/apt/sources.list.d/wikimedia.list':
         content => template('apt/wikimedia.list.erb'),
         require => Exec['add wikimedia apt key'],
+        notify  => Exec['apt-get update'],
+    }
+
+    # Configure HHVM's apt repository as an apt source
+
+    exec { 'add hhvm apt key':
+        command => 'apt-key add /vagrant/puppet/modules/apt/files/hhvm.key',
+        unless  => 'apt-key list | grep -q hhvm',
+    }
+
+    file { '/etc/apt/sources.list.d/hhvm.list':
+        content => template('apt/hhvm.list.erb'),
+        require => Exec['add hhvm apt key'],
         notify  => Exec['apt-get update'],
     }
 
