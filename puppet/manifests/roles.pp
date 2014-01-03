@@ -485,6 +485,8 @@ class role::multimedia {
 class role::education {
     include role::mediawiki
     include role::cldr
+    include role::echo
+    include role::parserfunctions
 
     @mediawiki::extension { 'EducationProgram':
         needs_update => true,
