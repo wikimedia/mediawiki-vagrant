@@ -497,7 +497,8 @@ class role::betafeatures {
     include role::mediawiki
 
     @mediawiki::extension { 'BetaFeatures':
-        priority => 5,  # load before most extensions
+        needs_update => true,
+        priority     => 5,  # load before most extensions
     }
 }
 
