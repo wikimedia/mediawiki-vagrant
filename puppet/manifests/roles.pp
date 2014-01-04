@@ -138,7 +138,7 @@ class role::eventlogging {
     include role::geshi
 
     @mediawiki::extension { 'EventLogging':
-        priority => 5,
+        priority => $LOAD_EARLY,
         settings => {
             wgEventLoggingBaseUri        => 'http://localhost:8100/event.gif',
             wgEventLoggingFile           => '/vagrant/logs/eventlogging.log',
@@ -487,7 +487,7 @@ class role::education {
 
     @mediawiki::extension { 'EducationProgram':
         needs_update => true,
-        priority     => 30,    # load *after* CLDR
+        priority     => $LOAD_LAST,  # load *after* CLDR
     }
 }
 
@@ -498,7 +498,7 @@ class role::betafeatures {
 
     @mediawiki::extension { 'BetaFeatures':
         needs_update => true,
-        priority     => 5,  # load before most extensions
+        priority     => $LOAD_EARLY,
     }
 }
 
@@ -567,7 +567,7 @@ class role::chromium {
 # applications.
 class role::cldr {
     @mediawiki::extension { 'cldr':
-        priority => 20,
+        priority => $LOAD_LATER,
     }
 }
 

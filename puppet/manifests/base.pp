@@ -15,6 +15,14 @@
 # <http://docs.puppetlabs.com/puppet/2.7/reference/lang_run_stages.html>
 stage { 'first': } -> Stage['main'] -> stage { 'last': }
 
+# Human-readable constants which may be used in lieu of literal numbers
+# for specifying loading priority of resource types which support this
+# notion (like mediawiki::extension and mediawiki::settings).
+$LOAD_EARLY  = 5
+$LOAD_NORMAL = 10
+$LOAD_LATER  = 15
+$LOAD_LAST   = 20
+
 # Declares a default search path for executables, allowing the path to
 # be omitted from individual resources. Also configures Puppet to log
 # the command's output if it was unsuccessful.
