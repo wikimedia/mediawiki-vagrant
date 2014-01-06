@@ -53,7 +53,10 @@ define apache::site(
                 recurse => true,
                 purge   => true,
                 force   => true,
-                before  => File["/etc/apache2/sites-available/${site_file}"],
+                before  => [
+                    File["/etc/apache2/sites-available/${site_file}"],
+                    Misc::Evergreen['apache2'],
+                ],
             }
 
             apache::conf { "000-${site}":

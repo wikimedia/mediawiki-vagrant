@@ -762,10 +762,10 @@ class role::multimediaviewer {
 }
 
 # == Class: role::hhvm
-# This role will eventually configure your MediaWiki instance to run
-# under HHVM. It is still a work-in-progress. At the moment it merely
-# installs the latest HHVM packages from the upstream apt repository.
+# This role will configure your MediaWiki instance to run under HHVM.
+# under HHVM.
 class role::hhvm {
+    include role::mediawiki
     include ::hhvm
 }
 

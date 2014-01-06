@@ -1,0 +1,52 @@
+# This file is managed by puppet
+#
+PidFile = /var/run/hhvm/pid
+
+# Have experienced issues with load.php returning partial results
+# on large results with gzip enabled
+
+Server {
+  Type = fastcgi
+  Port = 9000
+  SourceRoot = <%= scope.lookupvar('role::mediawiki::dir') %>
+  DefaultDocument = index.php
+  GzipCompressionLevel = 0
+}
+
+Log {
+  Level = Warning
+  AlwaysLogUnhandledExceptions = true
+  RuntimeErrorReportingLevel = 8191
+  UseLogFile = true
+  UseSyslog = false
+  File = /vagrant/logs/hhvm-error.log
+  Access {
+    * {
+      File = /var/log/hhvm/access.log
+      Format = %h %l %u % t \”%r\” %>s %b
+    }
+  }
+}
+
+Repo {
+  Central {
+    Path = /vagrant/logs/.hhvm.hhbc
+  }
+}
+
+#include "/usr/share/hhvm/hdf/static.mime-types.hdf"
+StaticFile {
+  FilesMatch {
+    * {
+      pattern = .*\.(dll|exe)
+      headers {
+        * = Content-Disposition: attachment
+      }
+    }
+  }
+  Extensions : StaticMimeTypes
+}
+
+MySQL {
+  TypedResults = false
+}

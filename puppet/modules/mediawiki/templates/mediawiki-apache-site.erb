@@ -6,6 +6,7 @@
 ServerName vagrant
 ServerAdmin http://www.mediawiki.org/wiki/Vagrant
 DocumentRoot "/var/www"
+LogLevel error
 
 <Directory />
     Options FollowSymLinks
@@ -29,9 +30,25 @@ RewriteRule ^/$ /w/index.php [R=301]
 Alias /wiki "<%= scope.lookupvar('mediawiki::dir') %>/index.php"
 Alias /w "<%= scope.lookupvar('mediawiki::dir') %>"
 Alias /images "<%= scope.lookupvar('mediawiki::upload_dir') %>"
+Alias /mediawiki-vagrant.png /var/www/mediawiki-vagrant.png
+Alias /favicon.ico /var/www/favicon.ico
 
-# Causes Apache to fail to start when it initializes before /vagrant has
-# been mounted:
-# ErrorLog "/vagrant/logs/apache-error.log"
+<IfDefine HHVM>
+    # FIXME: HHVM seems to require that PHP files be part of the docroot
+    # file hierarchy, but this means that /index.php and /api.php are
+    # valid entrypoints.
+    DocumentRoot "<%= scope.lookupvar('mediawiki::dir') %>"
 
-LogLevel error
+    # Remove the default PHP type and handler.
+    RemoveHandler .php
+    RemoveType .php
+
+    # Configure HHVM to handle PHP
+    AddType application/php5-fastcgi .php
+    Action application/php5-fastcgi /php5-hhvm
+    Alias /php5-hhvm /usr/lib/cgi-bin/php5-hhvm
+    FastCgiExternalServer /usr/lib/cgi-bin/php5-hhvm -host 127.0.0.1:9000
+    <FilesMatch "\.php$">
+        SetHandler application/php5-fastcgi
+    </FilesMatch>
+</IfDefine>

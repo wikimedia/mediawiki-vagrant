@@ -15,9 +15,8 @@ class mediawiki::apache {
     apache::site { $mediawiki::wiki_name:
         ensure  => present,
         content => template('mediawiki/mediawiki-apache-site.erb'),
-        require => [ Apache::Mod['alias'], Apache::Mod['rewrite'] ],
+        require => Apache::Mod['alias', 'rewrite'],
     }
-
 
     file { '/var/www/favicon.ico':
         ensure  => file,

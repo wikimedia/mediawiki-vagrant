@@ -25,6 +25,11 @@ class apt {
         unless  => 'apt-key list | grep -q Wikimedia',
     }
 
+    file { '/etc/apt/sources.list.d/multiverse.list':
+        content => template('apt/multiverse.list.erb'),
+        notify  => Exec['apt-get update'],
+    }
+
     file { '/etc/apt/sources.list.d/wikimedia.list':
         content => template('apt/wikimedia.list.erb'),
         require => Exec['add wikimedia apt key'],

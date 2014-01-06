@@ -5,5 +5,34 @@
 # work-in-progress.
 #
 class hhvm {
-    package { 'hhvm': }
+    include ::apache
+    include ::apache::mods::actions
+    include ::apache::mods::alias
+    include ::apache::mods::fastcgi
+
+    package { 'hhvm-nightly':
+        require => Apache::Mod['actions', 'alias', 'fastcgi'],
+    }
+
+    # Define an 'HHVM' flag, the presence of which can be checked
+    # with <IfDefine> directives. This allows Apache site config
+    # files to provide HHVM-specific configuration blocks.
+    apache::env { 'hhvm':
+        content => 'export APACHE_ARGUMENTS="${APACHE_ARGUMENTS:- }-D HHVM"',
+        require => Service['hhvm'],
+    }
+
+    file { '/etc/hhvm/server.hdf':
+        ensure  => file,
+        content => template( 'hhvm/server.hdf.erb'),
+        require => Package['hhvm-nightly'],
+        notify  => Service['hhvm'],
+    }
+
+    service { 'hhvm':
+        ensure   => running,
+        provider => debian,
+        enable   => true,
+        require  => File['/etc/hhvm/server.hdf'],
+    }
 }

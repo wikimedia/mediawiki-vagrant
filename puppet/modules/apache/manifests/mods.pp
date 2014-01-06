@@ -22,11 +22,15 @@ class apache::mods::php5 {
 
 # mod_wsgi
 class apache::mods::wsgi {
-    package { 'libapache2-mod-wsgi':
-        ensure => present,
-    }
+    package { 'libapache2-mod-wsgi': } -> apache::mod { 'wsgi': }
+}
 
-    apache::mod { 'wsgi':
-        require => Package['libapache2-mod-wsgi'],
-    }
+# mod_fastcgi
+class apache::mods::fastcgi {
+    package { 'libapache2-mod-fastcgi': } -> apache::mod { 'fastcgi': }
+}
+
+# mod_actions
+class apache::mods::actions {
+    apache::mod { 'actions': }
 }
