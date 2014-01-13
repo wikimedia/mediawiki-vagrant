@@ -25,9 +25,11 @@ $LOAD_LAST   = 20
 
 # Declares a default search path for executables, allowing the path to
 # be omitted from individual resources. Also configures Puppet to log
-# the command's output if it was unsuccessful.
+# the command's output if it was unsuccessful. Finally, set timeout to
+# 900 seconds, which is three times Puppet's default.
 Exec {
     logoutput => on_failure,
+    timeout   => 900,
     path      => [ '/bin', '/usr/bin', '/usr/local/bin', '/usr/sbin/' ],
 }
 
