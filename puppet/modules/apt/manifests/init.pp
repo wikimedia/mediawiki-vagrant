@@ -35,7 +35,7 @@ class apt {
 
     exec { 'add hhvm apt key':
         command => 'apt-key add /vagrant/puppet/modules/apt/files/hhvm.key',
-        unless  => 'apt-key list | grep -q hhvm',
+        unless  => 'apt-key list | grep -q 1BE7A449',
     }
 
     file { '/etc/apt/sources.list.d/hhvm.list':
