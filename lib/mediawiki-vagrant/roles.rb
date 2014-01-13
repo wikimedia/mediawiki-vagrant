@@ -59,7 +59,7 @@ module MediaWikiVagrant
 
     class ResetRoles < Vagrant.plugin(2, :command)
         def execute
-            if not @argv.empty? or ['-h', '--help'].include? @argv.first
+            if ['-h', '--help'].include? @argv.first
                 @env.ui.info 'Disable all optional roles.'
                 @env.ui.info 'USAGE: vagrant reset-roles'
                 return 0
