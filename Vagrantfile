@@ -96,6 +96,7 @@ Vagrant.configure('2') do |config|
         puppet.options << '--color=false' if windows?
 
         puppet.facter = $FACTER = {
+            'fqdn'               => config.vm.hostname,
             'forwarded_port'     => FORWARDED_PORT,
             'shared_apt_cache'   => '/vagrant/apt-cache/',
         }
