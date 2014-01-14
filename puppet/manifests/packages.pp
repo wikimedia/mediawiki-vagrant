@@ -56,3 +56,7 @@ class packages::ffmpeg {
 class packages::ffmpeg2theora {
     package { 'ffmpeg2theora': }
 }
+
+class packages::java {
+    package { 'openjdk-7-jdk': }
+}
