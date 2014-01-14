@@ -1,5 +1,5 @@
 module MediaWikiVagrant
-    COMMIT_CHANGES = "Ok. Run 'vagrant provision' to commit your changes."
+    COMMIT_CHANGES = "Ok. Run 'vagrant provision' to apply your changes."
 
     class ListRoles < Vagrant.plugin(2, :command)
         def execute
