@@ -26,6 +26,12 @@
 $DIR = File.expand_path('..', __FILE__); $: << File.join($DIR, 'lib')
 require 'mediawiki-vagrant'
 
+begin
+    require 'vagrant-vbguest'
+rescue Exception => msg
+    puts "[Warning] Failed to load vagrant-vbguest plugin: #{msg}"
+end
+
 Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
     config.package.name = 'mediawiki.box'
