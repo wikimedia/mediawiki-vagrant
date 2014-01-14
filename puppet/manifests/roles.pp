@@ -266,6 +266,11 @@ class role::uploadwizard {
     include role::multimedia
     include role::codeeditor
 
+    # API smoke test dependencies
+    include packages::pil
+    include packages::poster
+    include packages::wikitools
+
     @mediawiki::extension { 'Campaigns': }
 
     @mediawiki::extension { 'UploadWizard':

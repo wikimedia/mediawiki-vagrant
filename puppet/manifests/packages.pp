@@ -60,3 +60,44 @@ class packages::ffmpeg2theora {
 class packages::java {
     package { 'openjdk-7-jdk': }
 }
+
+class packages::python_dev {
+    package { 'python-dev': }
+}
+
+class packages::zlib1g_dev {
+    package { 'zlib1g-dev': }
+}
+
+class packages::wikitools {
+    package { 'wikitools':
+        ensure   => '1.1',
+        provider => 'pip',
+    }
+}
+
+class packages::poster {
+    package { 'poster':
+        ensure   => '0.8',
+        provider => 'pip',
+    }
+}
+
+class packages::pil {
+    include packages::zlib1g_dev
+    include packages::python_dev
+
+    # Workaround for 'pip install pil' failing to find libz.so and thus
+    # installing without zlib support. See <http://goo.gl/eWJc24>.
+    file { '/usr/lib/libz.so':
+        ensure => link,
+        target => "/usr/lib/${::hardwaremodel}}-linux-gnu/libz.so",
+        before => Package['pil'],
+    }
+
+    package { 'pil':
+        ensure   => '1.1.7',
+        provider => 'pip',
+        require  => Package['python-dev', 'zlib1g-dev'],
+    }
+}
