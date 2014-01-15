@@ -78,7 +78,7 @@ class packages::wikitools {
 
 class packages::poster {
     package { 'poster':
-        ensure   => '0.8',
+        ensure   => '0.8.0',
         provider => 'pip',
     }
 }
@@ -91,7 +91,7 @@ class packages::pil {
     # installing without zlib support. See <http://goo.gl/eWJc24>.
     file { '/usr/lib/libz.so':
         ensure => link,
-        target => "/usr/lib/${::hardwaremodel}}-linux-gnu/libz.so",
+        target => "/usr/lib/${::hardwaremodel}-linux-gnu/libz.so",
         before => Package['pil'],
     }
 
