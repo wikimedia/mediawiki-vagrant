@@ -1,0 +1,28 @@
+Contributors:
+
+Adam Roses Wight <awight@wikimedia.org>
+Andrew Otto <acotto@gmail.com>
+Bryan Davis <bd808@wikimedia.org>
+Chad Horohoe <chadh@wikimedia.org>
+Chris Steipp <csteipp@wikimedia.org>
+Diederik van Liere <dvanliere@wikimedia.org>
+Erick Guan <fantasticfears@gmail.com>
+Erik Bernhardson <ebernhardson@wikimedia.org>
+Gergő Tisza <gtisza@wikimedia.org>
+Grunny <mwgrunny@gmail.com>
+Jeremy Baron <jeremy@tuxmachine.com>
+Kunal Mehta <legoktm@gmail.com>
+Mark A. Hershberger <mah@everybody.org>
+Mark Holmquist <mtraceur@member.fsf.org>
+Matthew Flaschen <mflaschen@wikimedia.org>
+Munaf Assaf <munaf.assaf@gmail.com>
+Ori Livneh <ori@wikimedia.org>
+Patrick Reilly <preilly@php.net>
+S Page <spage@wikimedia.org>
+Sage Ross <ragesoss@gmail.com>
+Thibaut Horel <thibaut.horel@gmail.com>
+Timo Tijhof <krinklemail@gmail.com>
+Tyler Romeo <tylerromeo@gmail.com>
+Yuri Astrakhan <yurik@wikimedia.org>
+Yuvi Panda <yuvipanda@gmail.com>
+Zeljko Filipin <zeljko.filipin@gmail.com>
