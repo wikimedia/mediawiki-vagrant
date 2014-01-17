@@ -12,9 +12,9 @@ setuid "www-data"
 setgid "www-data"
 
 env VCAP_APP_PORT="<%= @port %>"
-env NODE_PATH="<%= @parsoid_path %>/js/node_modules"
+env NODE_PATH="<%= @parsoid_path %>/node_modules"
 
-chdir "<%= @dir %>/js"
-exec node api/server.js 
+chdir "<%= @dir %>"
+exec node src/api/server.js
 
 respawn
