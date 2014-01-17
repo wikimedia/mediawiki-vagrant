@@ -1,0 +1,26 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+### puppet:///modules/wikimania_scholarships/apache.conf
+#####################################################################
+ServerName <%= @vhost_name %>
+ServerAdmin "https://www.mediawiki.org/wiki/Wikimania_Scholarships_app"
+
+DocumentRoot <%= @deploy_dir %>/public
+
+<Directory />
+  Options FollowSymLinks
+  AllowOverride None
+  Order Allow,Deny
+  Deny from all
+</Directory>
+
+<Directory <%= @deploy_dir %>/public>
+  Order Allow,Deny
+  Allow from all
+</Directory>
+
+<Location />
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule .* index.php/$0 [L,PT]
+</Location>

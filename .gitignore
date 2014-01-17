@@ -16,3 +16,4 @@
 !/logs/puppet/.gitignore
 /apt-cache
 !/apt-cache/partial/.gitignore
+/wikimania_scholarships/

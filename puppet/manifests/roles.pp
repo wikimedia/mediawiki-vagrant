@@ -26,10 +26,23 @@ class role::generic {
     include ::misc
 }
 
+# == Class: role::mysql
+# Provisions a MySQL server
+class role::mysql {
+    $db_name = 'wiki'
+    $db_pass = 'vagrant'
+
+    class { '::mysql':
+        default_db_name => $db_name,
+        root_password   => $db_pass,
+    }
+}
+
 # == Class: role::mediawiki
 # Provisions a MediaWiki instance powered by PHP, MySQL, and redis.
 class role::mediawiki {
     include role::generic
+    include role::mysql
 
     $wiki_name = 'devwiki'
 
@@ -45,9 +58,9 @@ class role::mediawiki {
     $upload_dir = '/srv/images'
 
     # Database access
-    $db_name = 'wiki'
+    $db_name = $::role::mysql::db_name
     $db_user = 'root'
-    $db_pass = 'vagrant'
+    $db_pass = $::role::mysql::db_pass
 
     # Initial admin account
     $admin_user = 'admin'
@@ -56,11 +69,6 @@ class role::mediawiki {
     class { '::redis':
         persist    => true,
         max_memory => '64M',
-    }
-
-    class { '::mysql':
-        default_db_name => $db_name,
-        root_password   => $db_pass,
     }
 
     class { '::mediawiki':
@@ -999,7 +1007,6 @@ class role::hive {
     }
 }
 
-
 # == Class role::gadgets
 # The Gadgets extension provides a way for users to pick JavaScript
 # or CSS based "gadgets" that other wiki users provide.
@@ -1026,5 +1033,24 @@ class role::wikilove {
         settings               => {
             'wgWikiLoveGlobal' => 'true'
         }
+    }
+}
+
+# == Class role::wikimania_scholarships
+# Provisions the Wikimania Scholarships application.
+#
+# *Note*: The application is provisioned using an Apache named virtual host.
+# Once the role is enabled and provisioned use the URL
+# http://scholarships.local.wmftest.net:8080/ to access the site.
+class role::wikimania_scholarships {
+    include role::generic
+    include role::mysql
+
+    class { '::wikimania_scholarships':
+        vhost_name => 'scholarships.local.wmftest.net',
+        db_name    => 'scholarships',
+        db_user    => 'scholarships',
+        db_pass    => 'scholarships',
+        deploy_dir => '/vagrant/wikimania_scholarships',
     }
 }

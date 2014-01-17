@@ -32,7 +32,7 @@ define mysql::sql(
 
     exec { $title:
         command => "mysql -uroot -p${mysql::root_password} -qfsAe \"${quoted_sql}\"",
-        unless  => "mysql -uroot -p${mysql::root_password} -qfsAe \"${quoted_unless}\" | tail -1 | grep -q 1",
+        unless  => "mysql -uroot -p${mysql::root_password} -qfsANe \"${quoted_unless}\" | tail -1 | grep -q 1",
         require => Exec['set mysql password'],
     }
 }
