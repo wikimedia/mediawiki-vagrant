@@ -5,6 +5,8 @@
 class mediawiki::apache {
     include ::mediawiki
     include ::apache
+    include ::apache::mods::alias
+    include ::apache::mods::rewrite
 
     apache::site { 'default':
         ensure => absent,
@@ -16,13 +18,6 @@ class mediawiki::apache {
         require => [ Apache::Mod['alias'], Apache::Mod['rewrite'] ],
     }
 
-    apache::mod { 'alias':
-        ensure => present,
-    }
-
-    apache::mod { 'rewrite':
-        ensure => present,
-    }
 
     file { '/var/www/favicon.ico':
         ensure  => file,

@@ -5,7 +5,8 @@
 # implemented.
 #
 class php {
-    include apache
+    include ::apache
+    include ::apache::mods::php5
 
     package { [
         'php5',
@@ -20,10 +21,6 @@ class php {
         'php5-mysql',
         'php5-xdebug'
     ]:
-        ensure => present,
-    }
-
-    apache::mod { 'php5':
         ensure => present,
     }
 

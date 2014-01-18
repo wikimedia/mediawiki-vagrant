@@ -45,7 +45,9 @@ class user_metrics {
         }
     }
 
-    include apache
+    include ::apache
+    include ::apache::mods::wsgi
+    include ::apache::mods::alias
 
     package { [ 'python-flask', 'python-flask-login', 'python-mysqldb', 'python-numpy' ]:
         ensure => 'installed',
@@ -85,14 +87,6 @@ class user_metrics {
         command   => "mysql -f -pvagrant wiki < ${user_metrics_path}/scripts/seed.sql;",
         unless    => 'mysql -pvagrant wiki -e "SELECT \'exists\' FROM page WHERE page_title = \'Hydriz\'" | grep -q exists',
         require   => [ Git::Clone['analytics/user-metrics'], Service['mysql'] ]
-    }
-
-    package { 'libapache2-mod-wsgi':
-        ensure => present,
-    }
-
-    apache::mod { 'wsgi':
-        require => Package['libapache2-mod-wsgi'],
     }
 
     apache::site { $site_name:
