@@ -44,9 +44,9 @@ class xhprof (
     }
 
     php::ini { 'xhprof':
-        require => Exec['install xhprof'],
+        require  => Exec['install xhprof'],
         settings => {
-            'extension' => 'xhprof.so',
+            'extension'         => 'xhprof.so',
             # Not used by the extension directly, used by the
             # XHProf_Runs utility class
             'xhprof.output_dir' => $profile_storage_dir,
@@ -58,14 +58,14 @@ class xhprof (
         ensure => directory,
         owner  => 'vagrant',
         group  => 'www-data',
-        mode   => 0775,
+        mode   => '0775',
     }
 
     # Enable xhprof viewer on /xhprof directory of devwiki
     apache::conf { 'xhprof':
-        ensure => present,
-        site => $role::mediawiki::wiki_name,
-        source => 'puppet:///modules/xhprof/xhprof-apache-config',
+        ensure  => present,
+        site    => $role::mediawiki::wiki_name,
+        source  => 'puppet:///modules/xhprof/xhprof-apache-config',
         require => Php::Ini['xhprof'],
     }
 }

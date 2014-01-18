@@ -13,8 +13,8 @@ class elasticsearch {
     }
 
     service { 'elasticsearch':
-        enable  => true,
         ensure  => running,
+        enable  => true,
         require => Package['elasticsearch', 'openjdk-7-jre-headless'],
     }
 }
