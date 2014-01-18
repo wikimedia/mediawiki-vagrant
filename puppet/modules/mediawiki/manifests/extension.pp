@@ -87,13 +87,13 @@ define mediawiki::extension(
 ) {
     include mediawiki
 
-    @git::clone { "mediawiki/extensions/${extension}":
+    git::clone { "mediawiki/extensions/${extension}":
         directory => "${mediawiki::dir}/extensions/${extension}",
         branch    => $branch,
         require   => Git::Clone['mediawiki/core'],
     }
 
-    @mediawiki::settings { $extension:
+    mediawiki::settings { $extension:
         ensure       => $ensure,
         header       => sprintf('include_once "$IP/extensions/%s/%s";', $extension, $entrypoint),
         values       => $settings,

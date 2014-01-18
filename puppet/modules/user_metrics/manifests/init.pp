@@ -91,7 +91,7 @@ class user_metrics {
         ensure => present,
     }
 
-    @apache::mod { 'wsgi':
+    apache::mod { 'wsgi':
         require => Package['libapache2-mod-wsgi'],
     }
 

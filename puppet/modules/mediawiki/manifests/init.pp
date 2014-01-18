@@ -72,7 +72,7 @@ class mediawiki(
         server     => $server_url,
     }
 
-    @git::clone { 'mediawiki/core':
+    git::clone { 'mediawiki/core':
         directory => $dir,
         branch    => $branch,
     }
@@ -155,7 +155,4 @@ class mediawiki(
         command     => "php ${dir}/maintenance/update.php --quick",
         refreshonly => true,
     }
-
-    Mediawiki::Extension <| |>
-    Mediawiki::Settings <| |>
 }

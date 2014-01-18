@@ -6,21 +6,21 @@ class mediawiki::apache {
     include ::mediawiki
     include ::apache
 
-    @apache::site { 'default':
+    apache::site { 'default':
         ensure => absent,
     }
 
-    @apache::site { $mediawiki::wiki_name:
+    apache::site { $mediawiki::wiki_name:
         ensure  => present,
         content => template('mediawiki/mediawiki-apache-site.erb'),
         require => [ Apache::Mod['alias'], Apache::Mod['rewrite'] ],
     }
 
-    @apache::mod { 'alias':
+    apache::mod { 'alias':
         ensure => present,
     }
 
-    @apache::mod { 'rewrite':
+    apache::mod { 'rewrite':
         ensure => present,
     }
 

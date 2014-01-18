@@ -43,7 +43,7 @@ class mediawiki::parsoid(
         ensure => '0.8.2-1chl1~precise1',
     }
 
-    @git::clone { 'mediawiki/services/parsoid/deploy':
+    git::clone { 'mediawiki/services/parsoid/deploy':
         directory  => $dir,
         require    => Package['nodejs'],
     }

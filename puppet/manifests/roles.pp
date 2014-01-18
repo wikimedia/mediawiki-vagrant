@@ -107,13 +107,13 @@ class role::fundraising {
         require => Exec['mediawiki setup'],
     }
 
-    @mediawiki::extension { [ 'ContributionTracking', 'ParserFunctions' ]: }
+    mediawiki::extension { [ 'ContributionTracking', 'ParserFunctions' ]: }
 
-    @mediawiki::extension { 'FundraisingEmailUnsubscribe':
+    mediawiki::extension { 'FundraisingEmailUnsubscribe':
         entrypoint => 'FundraiserUnsubscribe.php',
     }
 
-    @mediawiki::extension { 'DonationInterface':
+    mediawiki::extension { 'DonationInterface':
         entrypoint   => 'donationinterface.php',
         settings     => template('fr-config.php.erb'),
         needs_update => true,
@@ -137,7 +137,7 @@ class role::eventlogging {
     include role::mediawiki
     include role::geshi
 
-    @mediawiki::extension { 'EventLogging':
+    mediawiki::extension { 'EventLogging':
         priority => $LOAD_EARLY,
         settings => {
             wgEventLoggingBaseUri        => 'http://localhost:8100/event.gif',
@@ -153,7 +153,7 @@ class role::eventlogging {
 class role::oauth {
     include role::mediawiki
 
-    @mediawiki::extension { 'OAuth':
+    mediawiki::extension { 'OAuth':
         needs_update => true,
         settings => [
             '$wgMWOAuthSecureTokenTransfer = false',
@@ -172,7 +172,7 @@ class role::mobilefrontend {
     include role::mediawiki
     include role::eventlogging
 
-    @mediawiki::extension { 'MobileFrontend':
+    mediawiki::extension { 'MobileFrontend':
         settings => {
             wgMFForceSecureLogin     => false,
             wgMFLogEvents            => true,
@@ -189,7 +189,7 @@ class role::guidedtour {
     include role::mediawiki
     include role::eventlogging
 
-    @mediawiki::extension { 'GuidedTour': }
+    mediawiki::extension { 'GuidedTour': }
 }
 
 # == Class: role::gettingstarted
@@ -201,7 +201,7 @@ class role::gettingstarted {
     include role::eventlogging
     include role::guidedtour
 
-    @mediawiki::extension { 'GettingStarted':
+    mediawiki::extension { 'GettingStarted':
         settings => {
             wgGettingStartedRedis => '127.0.0.1',
         },
@@ -214,14 +214,14 @@ class role::echo {
     include role::mediawiki
     include role::eventlogging
 
-    @mediawiki::extension { 'Echo':
+    mediawiki::extension { 'Echo':
         needs_update => true,
         settings     => {
             wgEchoEnableEmailBatch => false,
         },
     }
 
-    @mediawiki::extension { 'Thanks':
+    mediawiki::extension { 'Thanks':
         require => Mediawiki::Extension['Echo'],
     }
 }
@@ -233,7 +233,7 @@ class role::visualeditor {
     include role::mediawiki
 
     class { '::mediawiki::parsoid': }
-    @mediawiki::extension { 'VisualEditor':
+    mediawiki::extension { 'VisualEditor':
         settings => template('ve-config.php.erb'),
     }
 }
@@ -271,9 +271,9 @@ class role::uploadwizard {
     include packages::poster
     include packages::wikitools
 
-    @mediawiki::extension { 'Campaigns': }
+    mediawiki::extension { 'Campaigns': }
 
-    @mediawiki::extension { 'UploadWizard':
+    mediawiki::extension { 'UploadWizard':
         require  => Package['imagemagick'],
         settings => {
             wgEnableUploads       => true,
@@ -299,7 +299,7 @@ class role::codeeditor {
     include role::mediawiki
     include role::wikieditor
 
-    @mediawiki::extension { 'CodeEditor': }
+    mediawiki::extension { 'CodeEditor': }
 }
 
 # == Class: role::geshi
@@ -307,7 +307,7 @@ class role::codeeditor {
 class role::geshi {
     include role::mediawiki
 
-    @mediawiki::extension { 'SyntaxHighlight_GeSHi' : }
+    mediawiki::extension { 'SyntaxHighlight_GeSHi' : }
 }
 
 # == Class: role::scribunto
@@ -320,7 +320,7 @@ class role::scribunto {
 
     include packages::php_luasandbox
 
-    @mediawiki::extension { 'Scribunto':
+    mediawiki::extension { 'Scribunto':
         settings => {
             wgScribuntoDefaultEngine => 'luasandbox',
             wgScribuntoUseGeSHi      => true,
@@ -339,7 +339,7 @@ class role::scribunto {
 # Configures WikiEditor, an extension which enable an extendable editing
 # toolbar and interface
 class role::wikieditor {
-    @mediawiki::extension { 'WikiEditor':
+    mediawiki::extension { 'WikiEditor':
         settings => [
             '$wgDefaultUserOptions["usebetatoolbar"] = 1',
             '$wgDefaultUserOptions["usebetatoolbar-cgd"] = 1',
@@ -355,7 +355,7 @@ class role::wikieditor {
 class role::parserfunctions {
     include role::mediawiki
 
-    @mediawiki::extension { 'ParserFunctions': }
+    mediawiki::extension { 'ParserFunctions': }
 }
 
 # == Class: role::proofreadpage
@@ -376,11 +376,11 @@ class role::proofreadpage {
         },
     }
 
-    @mediawiki::extension { [ 'LabeledSectionTransclusion', 'Cite' ]:
+    mediawiki::extension { [ 'LabeledSectionTransclusion', 'Cite' ]:
         before => Mediawiki::Extension['ProofreadPage'],
     }
 
-    @mediawiki::extension { 'ProofreadPage':
+    mediawiki::extension { 'ProofreadPage':
         require      => Package['djvulibre-bin', 'ghostscript', 'netpbm'],
         needs_update => true,
         settings     => [
@@ -469,14 +469,14 @@ class role::multimedia {
 
     # Enable dynamic thumbnail generation via the thumb.php
     # script for 404 thumb images.
-    @mediawiki::settings { 'thumb.php on 404':
+    mediawiki::settings { 'thumb.php on 404':
         values => {
             wgThumbnailScriptPath      => false,
             wgGenerateThumbnailOnParse => false,
         },
     }
 
-    @apache::conf { 'thumb.php on 404':
+    apache::conf { 'thumb.php on 404':
         site    => $mediawiki::wiki_name,
         content => template('thumb_on_404.conf.erb'),
     }
@@ -490,7 +490,7 @@ class role::education {
     include role::echo
     include role::parserfunctions
 
-    @mediawiki::extension { 'EducationProgram':
+    mediawiki::extension { 'EducationProgram':
         needs_update => true,
         priority     => $LOAD_LAST,  # load *after* CLDR
     }
@@ -501,7 +501,7 @@ class role::education {
 class role::betafeatures {
     include role::mediawiki
 
-    @mediawiki::extension { 'BetaFeatures':
+    mediawiki::extension { 'BetaFeatures':
         needs_update => true,
         priority     => $LOAD_EARLY,
     }
@@ -521,7 +521,7 @@ class role::pdfhandler {
     include packages::poppler_utils
     include packages::imagemagick
 
-    @mediawiki::extension { 'PdfHandler':
+    mediawiki::extension { 'PdfHandler':
         needs_update => true,
         require      => Package['ghostscript', 'imagemagick', 'poppler-utils'],
         settings     => [
@@ -542,7 +542,7 @@ class role::math {
     include packages::mediawiki_math
     include packages::ocaml_native_compilers
 
-    @mediawiki::extension { 'Math':
+    mediawiki::extension { 'Math':
         needs_update => true,
         before       => Exec['compile texvc'],
     }
@@ -571,7 +571,7 @@ class role::chromium {
 # Consortium to provide locale data in the XML format for use in computer
 # applications.
 class role::cldr {
-    @mediawiki::extension { 'cldr':
+    mediawiki::extension { 'cldr':
         priority => $LOAD_LATER,
     }
 }
@@ -587,23 +587,23 @@ class role::mleb {
     include role::mediawiki
     include role::cldr
 
-    @mediawiki::extension { 'Babel':
+    mediawiki::extension { 'Babel':
         require  => Mediawiki::Extension['cldr'],
     }
 
-    @mediawiki::extension { 'LocalisationUpdate':
+    mediawiki::extension { 'LocalisationUpdate':
         settings => {
             wgLocalisationUpdateDirectory => '$IP/cache',
         },
     }
 
-    @mediawiki::extension { 'CleanChanges':
+    mediawiki::extension { 'CleanChanges':
         settings => [
             '$wgDefaultUserOptions["usenewrc"] = 1',
         ],
     }
 
-    @mediawiki::extension { 'Translate':
+    mediawiki::extension { 'Translate':
         needs_update => true,
         settings     => [
             '$wgGroupPermissions["*"]["translate"] = true',
@@ -614,11 +614,11 @@ class role::mleb {
         ],
     }
 
-    @mediawiki::extension { 'Interwiki':
+    mediawiki::extension { 'Interwiki':
         settings => [ '$wgGroupPermissions["sysop"]["interwiki"] = true' ],
     }
 
-    @mediawiki::extension { 'UniversalLanguageSelector':
+    mediawiki::extension { 'UniversalLanguageSelector':
         settings => {
             wgULSEnable => true,
         },
@@ -631,11 +631,11 @@ class role::mleb {
 class role::antispam {
     include role::mediawiki
 
-    @mediawiki::extension { 'AntiSpoof':
+    mediawiki::extension { 'AntiSpoof':
         needs_update => true,
     }
 
-    @mediawiki::extension { 'AbuseFilter':
+    mediawiki::extension { 'AbuseFilter':
         needs_update => true,
         require      => Mediawiki::Extension['AntiSpoof'],
         settings     => [
@@ -649,7 +649,7 @@ class role::antispam {
         ],
     }
 
-    @mediawiki::extension { 'SpamBlacklist':
+    mediawiki::extension { 'SpamBlacklist':
         settings => {
             wgLogSpamBlacklistHits => true,
         },
@@ -664,9 +664,9 @@ class role::cirrussearch {
 
     class { '::elasticsearch': }
 
-    @mediawiki::extension { 'Elastica': }
+    mediawiki::extension { 'Elastica': }
 
-    @mediawiki::extension { 'CirrusSearch':
+    mediawiki::extension { 'CirrusSearch':
         require => Service['elasticsearch'],
     }
 
@@ -688,9 +688,9 @@ class role::massmessage {
     include role::echo
     include role::mleb
 
-    @mediawiki::extension { 'MassMessage': }
+    mediawiki::extension { 'MassMessage': }
 
-    @mediawiki::extension { 'LiquidThreads':
+    mediawiki::extension { 'LiquidThreads':
         needs_update => true,
         settings     => {
             wgLqtTalkPages => false,
@@ -703,7 +703,7 @@ class role::massmessage {
 class role::apisandbox {
     include role::mediawiki
 
-    @mediawiki::extension { 'ApiSandbox': }
+    mediawiki::extension { 'ApiSandbox': }
 }
 
 # == Class: role::navigationtiming
@@ -713,7 +713,7 @@ class role::navigationtiming {
     include role::mediawiki
     include role::eventlogging
 
-    @mediawiki::extension { 'NavigationTiming': }
+    mediawiki::extension { 'NavigationTiming': }
 }
 
 # == Class: role::timedmediahandler
@@ -725,9 +725,9 @@ class role::timedmediahandler {
     include packages::ffmpeg
     include packages::ffmpeg2theora
 
-    @mediawiki::extension { 'MwEmbedSupport': }
+    mediawiki::extension { 'MwEmbedSupport': }
 
-    @mediawiki::extension { 'TimedMediaHandler':
+    mediawiki::extension { 'TimedMediaHandler':
         needs_update => true,
         require => [
             Package[
@@ -747,7 +747,7 @@ class role::commonsmetadata {
     include role::mediawiki
     include role::multimedia
 
-    @mediawiki::extension { 'CommonsMetadata': }
+    mediawiki::extension { 'CommonsMetadata': }
 }
 
 # == Class: role::multimediaviewer
@@ -758,7 +758,7 @@ class role::multimediaviewer {
     include role::mediawiki
     include role::multimedia
 
-    @mediawiki::extension { 'MultimediaViewer': }
+    mediawiki::extension { 'MultimediaViewer': }
 }
 
 # == Class: role::hhvm

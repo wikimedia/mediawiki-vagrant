@@ -35,8 +35,4 @@ class apache {
         require    => Package['apache2'],
         hasrestart => true,
     }
-
-     Apache::Mod <| |>
-     Apache::Conf <| |>
-     Apache::Site <| |>
 }

@@ -30,6 +30,4 @@ class git(
         ensure   => '1.23',
         provider => pip,
     }
-
-    Git::Clone <| |>
 }

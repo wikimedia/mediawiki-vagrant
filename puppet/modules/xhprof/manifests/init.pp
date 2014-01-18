@@ -62,7 +62,7 @@ class xhprof (
     }
 
     # Enable xhprof viewer on /xhprof directory of devwiki
-    @apache::conf { 'xhprof':
+    apache::conf { 'xhprof':
         ensure => present,
         site => $role::mediawiki::wiki_name,
         source => 'puppet:///modules/xhprof/xhprof-apache-config',
