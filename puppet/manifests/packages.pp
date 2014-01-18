@@ -9,8 +9,7 @@
 # prohibition on duplicate definitions.
 #
 # *Note*:: each class in this file must correspond to a package of the
-#   same name. The package must be declared with no parameters. If you
-#   need to do anything fancier, create a module instead.
+#   same name. If you need anything fancy, create a module instead.
 #
 
 class packages::imagemagick {
@@ -61,14 +60,6 @@ class packages::java {
     package { 'openjdk-7-jdk': }
 }
 
-class packages::python_dev {
-    package { 'python-dev': }
-}
-
-class packages::zlib1g_dev {
-    package { 'zlib1g-dev': }
-}
-
 class packages::wikitools {
     package { 'wikitools':
         ensure   => '1.1',
@@ -80,24 +71,5 @@ class packages::poster {
     package { 'poster':
         ensure   => '0.8.0',
         provider => 'pip',
-    }
-}
-
-class packages::pil {
-    include packages::zlib1g_dev
-    include packages::python_dev
-
-    # Workaround for 'pip install pil' failing to find libz.so and thus
-    # installing without zlib support. See <http://goo.gl/eWJc24>.
-    file { '/usr/lib/libz.so':
-        ensure => link,
-        target => "/usr/lib/${::hardwaremodel}-linux-gnu/libz.so",
-        before => Package['pil'],
-    }
-
-    package { 'pil':
-        ensure   => '1.1.7',
-        provider => 'pip',
-        require  => Package['python-dev', 'zlib1g-dev'],
     }
 }
