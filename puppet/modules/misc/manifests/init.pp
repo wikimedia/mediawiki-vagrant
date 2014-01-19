@@ -49,6 +49,11 @@ class misc {
         source => 'puppet:///modules/misc/mediawiki-vagrant.logrotate',
     }
 
+    file { '/usr/sbin/check_service_freshness':
+        source => 'puppet:///modules/misc/check_service_freshness',
+        mode   => '0755',
+    }
+
     # Look, I didn't pick the name..
     package { [ 'toilet', 'toilet-fonts' ]:
         ensure => present,

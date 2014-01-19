@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+"""
+   check_service_freshness
+
+   Usage: check_service_freshness program_name config_path [config_path ...]
+   Example: check_service_freshness apache2 /etc/apache2
+
+   If the most recently-modified file in `config_path` is newer than the oldest
+   running process with `program_name` as its executable, set exit code to 1,
+   indicating that the service needs to be restarted to load the updated
+   configs. Otherwise set exit code to 0, indicating that the service is
+   up-to-date.
+
+"""
+import os
+import re
+import sys
+
+
+JIFFY = os.sysconf('SC_CLK_TCK')
+
+if len(sys.argv) < 3:
+    sys.stderr.write('Usage: %s program_name config_path [config_path ...]\n'
+                     % __file__)
+    sys.exit(126)
+
+program_name, config_paths = sys.argv[1], sys.argv[2:]
+
+
+def get_system_start():
+    """Get the system start time, expressed as seconds since epoch."""
+    with open('/proc/stat') as f:
+        match = re.search('(?<=btime )\d+', f.read())
+    return float(match.group(0))
+
+
+def iter_files(dir):
+    """Yields (path, mtime) for `dir` and each file or dir within it."""
+    yield dir, os.path.getmtime(dir)
+    for root, dirs, files in os.walk('/etc/apache2'):
+        for f in (dirs + files):
+            path = os.path.join(root, f)
+            yield path, os.path.getmtime(path)
+
+
+def iter_procs():
+    """Yields (executable name, start time) for each running process."""
+    system_start = get_system_start()
+    for pid in os.listdir('/proc'):
+        try:
+            with open('/proc/%s/stat' % pid) as f:
+                stats = f.read().split()
+                executable = stats[1].strip('()')
+                start_time = (float(stats[21]) / JIFFY) + system_start
+                yield executable, start_time
+        except (IOError, ValueError):
+            pass
+
+
+service_start = min(start_time for executable_name, start_time in iter_procs()
+                    if executable_name == program_name)
+latest_modification = max(modified_time for config_path in config_paths
+                          for path, modified_time in iter_files(config_path))
+
+if service_start < latest_modification:
+    # Service needs to be refreshed
+    sys.exit(1)
+else:
+    # Service is up-to-date
+    sys.exit(0)

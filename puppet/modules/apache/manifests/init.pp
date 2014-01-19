@@ -35,4 +35,6 @@ class apache {
         require    => Package['apache2'],
         hasrestart => true,
     }
+
+    misc::evergreen { 'apache2': }
 }
