@@ -27,6 +27,8 @@ define git::clone(
     $directory,
     $branch = 'master',
     $remote = undef,
+    $owner  = 'vagrant',
+    $group  = 'vagrant',
 ) {
     include git
 
@@ -39,7 +41,8 @@ define git::clone(
         command     => "git clone --recursive --branch ${branch} ${url} ${directory}",
         creates     => "${directory}/.git",
         require     => Package['git'],
-        user        => 'vagrant',
+        user        => $owner,
+        group       => $group,
         environment => 'HOME=/home/vagrant',
         timeout     => 0,
     }
