@@ -3,6 +3,6 @@
 # Apache site configuration for <%= @site %>
 # This file is managed by Puppet.
 #
-<VirtualHost <%= @listen %>>
+<VirtualHost <%= Array(@listen).join(' ') %>>
   Include site.d/<%= @site %>
 </VirtualHost>

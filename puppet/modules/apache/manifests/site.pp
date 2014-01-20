@@ -32,7 +32,7 @@
 #  }
 #
 define apache::site(
-    $listen  = '*',
+    $listen  = '*:80',
     $ensure  = 'present',
     $site    = $title,
     $content = undef,
