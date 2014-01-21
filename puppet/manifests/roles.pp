@@ -789,7 +789,11 @@ class role::multimediaviewer {
     include role::mediawiki
     include role::multimedia
 
-    mediawiki::extension { 'MultimediaViewer': }
+    include packages::jsduck
+
+    mediawiki::extension { 'MultimediaViewer':
+        require => Package['jsduck'],
+    }
 }
 
 # == Class: role::hhvm

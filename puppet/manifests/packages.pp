@@ -80,3 +80,10 @@ class packages::nose {
         provider => 'pip',
     }
 }
+
+class packages::jsduck {
+    package { 'jsduck':
+        ensure   => '4.10.4',
+        provider => 'gem',
+    }
+}
