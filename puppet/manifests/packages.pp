@@ -73,3 +73,10 @@ class packages::poster {
         provider => 'pip',
     }
 }
+
+class packages::nose {
+    package { 'nose':
+        ensure   => '1.3.0',
+        provider => 'pip',
+    }
+}

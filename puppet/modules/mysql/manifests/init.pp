@@ -23,10 +23,7 @@ class mysql(
     $root_password = 'vagrant',
     $default_db_name = undef,
 ) {
-
-    package { 'mysql-server':
-        ensure => present,
-    }
+    include ::mysql::packages
 
     service { 'mysql':
         ensure     => running,
