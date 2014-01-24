@@ -553,6 +553,13 @@ class role::math {
         creates => '/vagrant/mediawiki/extensions/Math/math/texvc',
         require => Package['mediawiki-math', 'ocaml-native-compilers'],
     }
+
+    exec { 'compile texvccheck':
+        command => 'make',
+        cwd     => '/vagrant/mediawiki/extensions/Math/texvccheck',
+        creates => '/vagrant/mediawiki/extensions/Math/texvccheck/texvccheck',
+        require => Package['mediawiki-math', 'ocaml-native-compilers'],
+    }
 }
 
 # == Class: role::chromium
