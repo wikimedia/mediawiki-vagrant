@@ -16,6 +16,7 @@ class mediawiki::apache {
         ensure  => present,
         content => template('mediawiki/mediawiki-apache-site.erb'),
         require => Apache::Mod['alias', 'rewrite'],
+        listen  => [ '*:80', '*:8080' ],
     }
 
     file { '/var/www/favicon.ico':
