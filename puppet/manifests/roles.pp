@@ -247,15 +247,6 @@ class role::browsertests {
     class { '::browsertests': }
 }
 
-# == Class: role::umapi
-# Configures this machine to run the User Metrics API (UMAPI), a web
-# interface for obtaining aggregate measurements of user activity on
-# MediaWiki sites.
-class role::umapi {
-    include role::mediawiki
-
-    class { '::user_metrics': }
-}
 
 # == Class: role::uploadwizard
 # Configures a MediaWiki instance with UploadWizard, a JavaScript-driven
