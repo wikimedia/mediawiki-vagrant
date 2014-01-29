@@ -874,10 +874,8 @@ class role::wikimetrics {
         require => Exec['install_wikimetrics_dependencies'],
     }
 
-    if $web_server_mode == 'apache' {
-        include ::apache::mods::wsgi
-    }
-
+    # make sure wsgi is included in case we are running in apache WSGI mode.
+    include ::apache::mods::wsgi
     class { 'wikimetrics::web':
         mode    => $web_server_mode,
         require => Exec['install_wikimetrics_dependencies'],
