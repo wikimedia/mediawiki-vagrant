@@ -48,10 +48,15 @@ class browsertests(
         value => $mediawiki_url,
     }
 
+    file { "${install_location}/config":
+        ensure => directory,
+        require => Git::Clone['qa/browsertests'],
+    }
+
     # Store the password for the 'Selenium_user' MediaWiki account.
     file { "${install_location}/config/secret.yml":
         content => template('browsertests/secret.yml.erb'),
-        require => Git::Clone['qa/browsertests'],
+        require => File["${install_location}/config"],
     }
 
     # The browser tests run by simulating user input against a real
