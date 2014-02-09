@@ -148,8 +148,8 @@ class role::eventlogging {
     mediawiki::extension { 'EventLogging':
         priority => $LOAD_EARLY,
         settings => {
-            wgEventLoggingBaseUri        => 'http://localhost:8100/event.gif',
-            wgEventLoggingFile           => '/vagrant/logs/eventlogging.log',
+            wgEventLoggingBaseUri => '//localhost:8100/event.gif',
+            wgEventLoggingFile    => '/vagrant/logs/eventlogging.log',
         }
     }
 }
@@ -566,15 +566,6 @@ class role::math {
         creates => '/vagrant/mediawiki/extensions/Math/texvccheck/texvccheck',
         require => Package['mediawiki-math', 'ocaml-native-compilers'],
     }
-}
-
-# == Class: role::mathsearch
-#
-# The MathSearch extension makes mathematical formulae searchable at mediawiki.
-class role::mathsearch {
-    include role::math
-    include role::geshi
-    include ::mathsearch
 }
 
 # == Class: role::chromium
@@ -1030,7 +1021,7 @@ class role::geodata {
 
 # == Class role::wikilove
 # The WikiLove extension lets people send love to other wiki users
-# in the form of the Internet's most preferred currency, kittens
+# in the form of the Internet's most preferred currency, kittens.
 class role::wikilove {
     mediawiki::extension { 'WikiLove':
         needs_update           => true,
@@ -1060,16 +1051,16 @@ class role::wikimania_scholarships {
 }
 
 # == Class role::popups
-# The Popups extension shows a popup when people hover over article links
+# The Popups extension shows a popup when people hover over article
+# links.
 class role::popups {
-
     mediawiki::extension { 'TextExtracts': }
     mediawiki::extension { 'PageImages': }
 
     mediawiki::extension { 'Popups':
         require => [
             Mediawiki::Extension['TextExtracts'],
-            Mediawiki::Extension['PageImages']
+            Mediawiki::Extension['PageImages'],
         ],
     }
 }
@@ -1078,6 +1069,29 @@ class role::popups {
 # The extension that powers the New Page Patrol workflow
 class role::pagetriage {
     mediawiki::extension { 'PageTriage':
-        needs_update => true
+        needs_update => true,
+    }
+}
+
+# == Class: role::math::search
+#
+# The MathSearch extension integrates the MathWeb Search, a
+# content-based search engine for mathematical formulae. It indexes
+# MathML formulae, using a technique derived from automated theorem
+# proving: term indexing.
+class role::mathsearch inherits role::math {
+    include role::geshi
+
+    Mediawiki::Extension['Math'] {
+        branch +> 'dev',
+    }
+
+    mediawiki::extension { 'MathSearch':
+        require      => Mediawiki::Extension['Math'],
+        needs_update => true,
+        settings     => [
+            '$wgMathValidModes[] = MW_MATH_LATEXML',
+            '$wgDefaultUserOptions["math"] = MW_MATH_LATEXML',
+        ],
     }
 }

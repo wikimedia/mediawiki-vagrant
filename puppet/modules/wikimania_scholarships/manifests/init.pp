@@ -101,7 +101,7 @@ class wikimania_scholarships(
         mode    => '0644',
         owner   => 'root',
         group   => 'root',
-        source => 'puppet:///modules/wikimania_scholarships/debug_smtp.conf',
+        source  => 'puppet:///modules/wikimania_scholarships/debug_smtp.conf',
     }
 
     service { 'debug_smtp':

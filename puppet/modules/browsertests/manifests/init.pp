@@ -49,7 +49,7 @@ class browsertests(
     }
 
     file { "${install_location}/config":
-        ensure => directory,
+        ensure  => directory,
         require => Git::Clone['qa/browsertests'],
     }
 

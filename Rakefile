@@ -12,6 +12,7 @@ PuppetLint.configuration.ignore_paths = [
     'puppet/manifests/roles.pp',
     'puppet/manifests/packages.pp',
     'puppet/modules/apache/manifests/mods.pp',
+    'puppet/modules/hhvm/manifests/init.pp',
 ]
 
 task :default => [:lint]
