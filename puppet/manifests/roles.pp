@@ -433,7 +433,7 @@ class role::remote_debug {
     }
 }
 
-# == Class role::xhprof
+# == Class: role::xhprof
 # This class enables support for function-level hierarchical profiling of PHP
 # using XHProf. The graphical interface for the profiler is available at
 # /xhprof on the same port as the wiki.
@@ -796,7 +796,7 @@ class role::hhvm {
 }
 
 
-# == Class role::wikimetrics
+# == Class: role::wikimetrics
 # Wikimetrics is a Wikimedia Foundation developed tool that provides
 # access to the Wikimedia API. It allows users to pull data about a
 # group of usernames (called cohorts) to discover retention rates for
@@ -886,7 +886,7 @@ class role::wikimetrics {
 }
 
 
-# == Class role::analytics
+# == Class: role::analytics
 # Includes all analytics related roles:
 # - hadoop
 # - hive
@@ -905,7 +905,7 @@ class role::analytics {
 }
 
 
-# == Class role::hadoop
+# == Class: role::hadoop
 # Installs and runs all hadoop services.
 class role::hadoop {
     # need java before hadoop is installed
@@ -968,7 +968,7 @@ class role::hadoop {
     }
 }
 
-# == Class role::hive
+# == Class: role::hive
 # Installs and runs hive client, hive metastore and hive server.
 class role::hive {
     # Mediawiki includes the mysql module.
@@ -1002,14 +1002,14 @@ class role::hive {
     }
 }
 
-# == Class role::gadgets
+# == Class: role::gadgets
 # The Gadgets extension provides a way for users to pick JavaScript
 # or CSS based "gadgets" that other wiki users provide.
 class role::gadgets {
     mediawiki::extension { 'Gadgets': }
 }
 
-# == Class role::geodata
+# == Class: role::geodata
 # GeoData is an extension that allows storing coordinates in articles
 # and searching for them.
 class role::geodata {
@@ -1019,7 +1019,7 @@ class role::geodata {
     }
 }
 
-# == Class role::wikilove
+# == Class: role::wikilove
 # The WikiLove extension lets people send love to other wiki users
 # in the form of the Internet's most preferred currency, kittens.
 class role::wikilove {
@@ -1031,7 +1031,7 @@ class role::wikilove {
     }
 }
 
-# == Class role::wikimania_scholarships
+# == Class: role::wikimania_scholarships
 # Provisions the Wikimania Scholarships application.
 #
 # *Note*: The application is provisioned using an Apache named virtual host.
@@ -1050,7 +1050,7 @@ class role::wikimania_scholarships {
     }
 }
 
-# == Class role::popups
+# == Class: role::popups
 # The Popups extension shows a popup when people hover over article
 # links.
 class role::popups {
@@ -1065,7 +1065,7 @@ class role::popups {
     }
 }
 
-# == Class role::pagetriage
+# == Class: role::pagetriage
 # The extension that powers the New Page Patrol workflow
 class role::pagetriage {
     mediawiki::extension { 'PageTriage':
