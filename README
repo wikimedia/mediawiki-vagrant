@@ -65,6 +65,22 @@ To pick up other changes to the install, on the host computer in the directory
 with the vagrant files run `git pull` and then `vagrant reload`.  The latter
 will restart the VM.
 
+## Extend
+
+You can add roles to MediaWiki-Vagrant! A 'role' represents a set of software
+configurations required for giving this machine some special function. Vagrant
+has several commands to manage enabled roles:
+
+ * vagrant disable-role
+ * enable-role
+ * list-roles
+ * reset-roles
+
+If you'd like to use the Vagrant-Mediawiki codebase to describe a development
+environment that you could then share with other developers, you should do so
+by adding a role file to puppet/manifests/roles and submitting it as a patch to
+the Mediawiki-Vagrant project.
+
 ## Settings
 
 For information about settings, see settings.d/README.

@@ -7,6 +7,7 @@ require 'puppet-lint/tasks/puppet-lint'
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_2sp_soft_tabs')
 PuppetLint.configuration.send('disable_class_parameter_defaults')
+PuppetLint.configuration.send('disable_autoloader_layout')
 
 PuppetLint.configuration.ignore_paths = [
     'puppet/manifests/roles.pp',

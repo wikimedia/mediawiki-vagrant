@@ -7,7 +7,7 @@
 #
 import 'base.pp'
 import 'packages.pp'
-import 'roles.pp'
+import 'roles/*.pp'
 import 'manifests.d/*.pp'
 
 node default {
