@@ -15,6 +15,8 @@ Kunal Mehta <legoktm@gmail.com>
 Mark A. Hershberger <mah@everybody.org>
 Mark Holmquist <mtraceur@member.fsf.org>
 Matthew Flaschen <mflaschen@wikimedia.org>
+Max Semenik <maxsem.wiki@gmail.com>
+Moritz Schubotz <wiki@physikerwelt.de>
 Munaf Assaf <munaf.assaf@gmail.com>
 Ori Livneh <ori@wikimedia.org>
 Patrick Reilly <preilly@php.net>
