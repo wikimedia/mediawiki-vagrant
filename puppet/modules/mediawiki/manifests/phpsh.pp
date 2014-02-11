@@ -21,6 +21,11 @@ class mediawiki::phpsh {
         ensure => directory,
     }
 
+    file { '/etc/phpsh/config':
+        ensure => present,
+        source => 'puppet:///modules/mediawiki/phpsh/config'
+    }
+
     file { '/etc/phpsh/rc.php':
         require => Package['phpsh'],
         content => template('mediawiki/rc.php.erb'),
