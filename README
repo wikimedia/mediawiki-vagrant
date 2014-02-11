@@ -21,6 +21,11 @@ You'll need to install recent versions of Vagrant and VirtualBox.
  * VirtualBox: https://www.virtualbox.org/wiki/Downloads
  * Vagrant: http://downloads.vagrantup.com/ (version 1.2.2 or higher is
    required!)
+ * Hardware virtualization extensions must be enabled in your host computer
+   BIOS. The BIOS setting is usually in the "Chipset", "Processor", "CPU", or
+   "Security Settings" menu and may be labeled as "VT-x", "Intel
+   Virtualization Technology", "Virtualization Extensions", "Vanderpool"
+   "AMD-V" or various other names depending on the OEM and system BIOS.
 
 Next, you'll need a copy of the mediawiki-vagrant project files.
 
