@@ -55,3 +55,9 @@ def update_roles(roles)
         }.join("\n")
     }
 end
+
+# Prune references to retired roles from vagrant-managed.pp
+valid_roles = roles_enabled & roles_available
+if roles_enabled.length > valid_roles.length
+    update_roles(valid_roles)
+end
