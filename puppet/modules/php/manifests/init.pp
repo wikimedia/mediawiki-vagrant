@@ -8,6 +8,8 @@ class php {
     include ::apache
     include ::apache::mods::php5
 
+    include php::remote_debug
+
     package { [
         'php5',
         'php-apc',
@@ -19,7 +21,6 @@ class php {
         'php5-intl',
         'php5-mcrypt',
         'php5-mysql',
-        'php5-xdebug'
     ]:
         ensure => present,
     }

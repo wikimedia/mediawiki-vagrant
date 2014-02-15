@@ -1,12 +1,16 @@
-# == Class: role::remote_debug
+# == Class: php::remote_debug
 # This class enables support for remote debugging of PHP code using
 # Xdebug. Remote debugging allows you to interactively walk through your
 # code as executes. Remote debugging is most useful when used in
 # conjunction with a PHP IDE such as PhpStorm or Emacs (with Geben).
 # The IDE is installed on your machine, not the Vagrant VM.
 #
-# -- To use, enable this role from shell:
-#    vagrant enable-role remote_debug
+#
+# This was formerly a role, but is now enabled on all
+# MediaWiki-Vagrant installations.
+#
+# To use:
+#
 # -- In your IDE, enable "Start Listening for PHP Debug Connections"
 # -- For Firefox, install
 #    https://addons.mozilla.org/en-US/firefox/addon/the-easiest-xdebug
@@ -16,14 +20,28 @@
 #
 # See https://www.mediawiki.org/wiki/MediaWiki-Vagrant/Advanced_usage#MediaWiki_debugging_using_Xdebug_and_an_IDE_in_your_host
 # for more information.
-class role::remote_debug {
-    include php
+class php::remote_debug {
+    $xdebug_extension_path = '/usr/lib/php5/20090626/xdebug.so'
+
+    # It would be nice to use a PECL package provider.
+    exec { 'install xdebug':
+        command => 'pecl install xdebug',
+        require => [ Package['purge php5-xdebug'], Package['php-pear'] ],
+        creates => $xdebug_extension_path,
+    }
+
+    # Remove apt package so it doesn't clash with PECL package
+    package { 'purge php5-xdebug':
+        name   => 'php5-xdebug',
+        ensure => purged,
+    }
 
     php::ini { 'remote_debug':
         settings => {
+            'zend_extension'             => $xdebug_extension_path,
             'xdebug.remote_connect_back' => 1,
             'xdebug.remote_enable'       => 1,
         },
-        require  => Package['php5-xdebug'],
+        require  => Exec['install xdebug'],
     }
 }
