@@ -15,19 +15,19 @@ when 'list-roles'
         puts "#{prefix} #{role}"
     }
     puts "\nRoles marked with '*' are enabled."
-    puts 'Use "labsvagrant enable-role" & "labsvagrant disable-role" to customize.'
+    puts 'Use "labs-vagrant enable-role" & "labs-vagrant disable-role" to customize.'
 
 when 'reset-roles'
     if not ARGV.empty? or ['-h', '--help'].include? ARGV.first
         puts 'Disable all optional roles.'
-        puts 'USAGE: labsvagrant reset-roles'
+        puts 'USAGE: labs-vagrant reset-roles'
     end
     update_roles []
     puts 'All roles were disabled.'
 when 'enable-role'
     if ARGV.empty? or ['-h', '--help'].include? ARGV.first
-        puts 'Enable an optional role (run "labsvagrant list-roles" for a list).'
-        puts 'USAGE: labsvagrant enable-role ROLE'
+        puts 'Enable an optional role (run "labs-vagrant list-roles" for a list).'
+        puts 'USAGE: labs-vagrant enable-role ROLE'
         return 0
     end
     avail = roles_available
@@ -41,7 +41,7 @@ when 'enable-role'
 when 'disable-role'
     if ARGV.empty? or ['-h', '--help'].include? ARGV.first
         puts 'Disable one or more optional roles.'
-        puts 'USAGE: labsvagrant disable-role ROLE'
+        puts 'USAGE: labs-vagrant disable-role ROLE'
         return 0
     end
     enabled = roles_enabled
