@@ -6,9 +6,6 @@ class role::multimediaviewer {
     include role::mediawiki
     include role::multimedia
 
-    include packages::jsduck
-
     mediawiki::extension { 'MultimediaViewer':
-        require => Package['jsduck'],
     }
 }
