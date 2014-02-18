@@ -77,7 +77,7 @@ class browsertests(
 
     exec { 'install browsertests bundle':
         command     => 'bundle install --path /home/vagrant/.gem',
-        cwd         => '/srv/browsertests',
+        cwd         => '/srv/browsertests/tests/browser',
         user        => 'vagrant',
         unless      => 'bundle check',
         require     => [ Exec['use ruby 1.9.1'], Git::Clone['qa/browsertests'] ],
