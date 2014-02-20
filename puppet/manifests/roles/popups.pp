@@ -5,6 +5,7 @@ class role::popups {
     mediawiki::extension { 'TextExtracts': }
     mediawiki::extension { 'PageImages': }
 
+    include role::eventlogging
     mediawiki::extension { 'Popups':
         require => [
             Mediawiki::Extension['TextExtracts'],
