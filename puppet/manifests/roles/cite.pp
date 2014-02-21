@@ -3,7 +3,7 @@
 class role::cite {
     mediawiki::extension { 'Cite':
         settings => {
-            wgCiteEnablePopups => true
+            wgCiteEnablePopups => true,
         }
     }
 }
