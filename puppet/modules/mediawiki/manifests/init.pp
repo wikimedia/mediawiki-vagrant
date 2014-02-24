@@ -89,9 +89,8 @@ class mediawiki(
 
     file { $settings_dir:
         ensure => directory,
-        owner  => 'vagrant',
-        group  => 'www-data',
-        mode   => '0755',
+        owner  => $::share_owner,
+        group  => $::share_group,
     }
 
     file { $upload_dir:
@@ -103,8 +102,8 @@ class mediawiki(
 
     file { "${settings_dir}/puppet-managed":
         ensure  => directory,
-        owner   => 'vagrant',
-        group   => 'www-data',
+        owner   => $::share_owner,
+        group   => $::share_group,
         mode    => undef,
         recurse => true,
         purge   => true,
