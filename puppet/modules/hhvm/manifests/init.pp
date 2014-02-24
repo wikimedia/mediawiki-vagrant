@@ -10,7 +10,7 @@ class hhvm {
     include ::apache::mods::alias
     include ::apache::mods::fastcgi
 
-    package { 'hhvm-nightly':
+    package { 'hhvm-fastcgi':
         require => Apache::Mod['actions', 'alias', 'fastcgi'],
     }
 
@@ -25,7 +25,7 @@ class hhvm {
     file { '/etc/hhvm/server.hdf':
         ensure  => file,
         content => template( 'hhvm/server.hdf.erb'),
-        require => Package['hhvm-nightly'],
+        require => Package['hhvm-fastcgi'],
         notify  => Service['hhvm'],
     }
 
