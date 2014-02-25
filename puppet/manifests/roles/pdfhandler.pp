@@ -17,7 +17,6 @@ class role::pdfhandler {
         require      => Package['ghostscript', 'imagemagick', 'poppler-utils'],
         settings     => [
             '$wgEnableUploads = true',
-            '$wgMaxShellMemory = 300000',
             '$wgFileExtensions[] = \'pdf\'',
         ],
     }

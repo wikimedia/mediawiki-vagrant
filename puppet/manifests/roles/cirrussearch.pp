@@ -3,6 +3,8 @@
 # Elasticsearch.
 class role::cirrussearch {
     include role::mediawiki
+    include role::timedmediahandler
+    include role::pdfhandler
 
     class { '::elasticsearch': }
 
@@ -13,14 +15,6 @@ class role::cirrussearch {
         require  => Service['elasticsearch'],
     }
 
-    exec { 'update elastica submodule':
-        cwd     => "${mediawiki::dir}/extensions/Elastica",
-        command => 'git submodule update --init Elastica',
-        require => Mediawiki::Extension['Elastica'],
-        unless  => 'git submodule status Elastica | grep -q head',
-        before  => Mediawiki::Extension['CirrusSearch'],
-    }
-
     exec { 'build CirrusSearch search index':
         command     => 'php ./maintenance/updateSearchIndexConfig.php && php ./maintenance/forceSearchIndex.php && touch .indexed',
         creates     => '/vagrant/mediawiki/extensions/CirrusSearch/.indexed',
@@ -28,4 +22,5 @@ class role::cirrussearch {
         require     =>  Mediawiki::Extension['CirrusSearch'],
     }
 
+    notice('If you want to debug Elasticsearch queries you should forward port 9200 from the VM.  See supprt/Vagrantfile-extra.rb for instructions.')
 }

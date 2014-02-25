@@ -27,7 +27,6 @@ class role::proofreadpage {
             '$wgEnableUploads = true',
             '$wgFileExtensions[] = "djvu"',
             '$wgFileExtensions[] = "pdf"',
-            '$wgMaxShellMemory = 300000',
             '$wgDjvuDump = "djvudump"',
             '$wgDjvuRenderer = "ddjvu"',
             '$wgDjvuTxt = "djvutxt"',

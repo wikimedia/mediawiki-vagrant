@@ -17,4 +17,10 @@ class elasticsearch {
         enable  => true,
         require => Package['elasticsearch', 'openjdk-7-jre-headless'],
     }
+
+    file { '/etc/default/elasticsearch':
+        source  => 'puppet:///modules/elasticsearch/defaults',
+        require => Package['elasticsearch'],
+        notify  => Service['elasticsearch'],
+    }
 }

@@ -70,7 +70,7 @@ Vagrant.configure('2') do |config|
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
-        vb.customize ['modifyvm', :id, '--memory', '768']
+        vb.customize ['modifyvm', :id, '--memory', '1024']
         vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
         vb.customize ['modifyvm', :id, '--ioapic', 'on']  # Bug 51473
 
@@ -112,7 +112,10 @@ end
 
 begin
     # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
-    # See 'support/Vagrantfile-extra.rb' for an example.
+    # See 'support/Vagrantfile-extra.rb' for an example but make sure to folow
+    # the instructions in that file.  In particular it is important to copy it
+    # to the parent directory.  Editing it without copying it will only cause
+    # sadness.
     require File.join($DIR, 'Vagrantfile-extra')
 rescue LoadError
     # OK. File does not exist.
