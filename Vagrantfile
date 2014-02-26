@@ -36,12 +36,19 @@ Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
     config.package.name = 'mediawiki.box'
 
+    # Note: If you rely on Vagrant to retrieve the box, it will not
+    # verify SSL certificates. If this concerns you, you can retrieve
+    # the file using another tool that implements SSL properly, and then
+    # point Vagrant to the downloaded file:
+    #   $ vagrant box add precise-cloud /path/to/file/precise.box
     config.vm.box = 'precise-cloud'
-    config.vm.box_download_insecure = true
-    config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/precise/current/'\
-                        'precise-server-cloudimg-amd64-vagrant-disk1.box'
+    config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
+    if config.vm.respond_to? 'box_download_insecure'  # Vagrant 1.2.6+
+        config.vm.box_download_insecure = true
+    end
 
-    config.vm.network :private_network, ip: '10.11.12.13'
+    config.vm.network :private_network,
+        ip: '10.11.12.13'
 
     # The port on the host that should be forwarded to the guest's HTTP server.
     FORWARDED_PORT = 8080
@@ -49,22 +56,21 @@ Vagrant.configure('2') do |config|
     config.vm.network :forwarded_port,
         guest: 80, host: FORWARDED_PORT, id: 'http'
 
-    share_options = {:id => 'vagrant-root'}
+    config.vm.synced_folder '.', '/vagrant',
+        id: 'vagrant-root',
+        owner: 'vagrant',
+        group: 'www-data'
 
-    if Vagrant::Util::Platform.windows?
-        share_options[:owner] = 'vagrant'
-        share_options[:group] = 'www-data'
-    else
-        share_options[:type] = :nfs
-        config.nfs.map_uid = Process.uid
-        config.nfs.map_gid = Process.gid
-    end
-
-    config.vm.synced_folder '.', '/vagrant', share_options
+    # www-data needs to write to the logs, but doesn't need write
+    # access for all of /vagrant
+    config.vm.synced_folder './logs', '/vagrant/logs',
+        id: 'vagrant-logs',
+        owner: 'www-data',
+        group: 'www-data'
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
-        vb.customize ['modifyvm', :id, '--memory', '2048']
+        vb.customize ['modifyvm', :id, '--memory', '768']
         vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
         vb.customize ['modifyvm', :id, '--ioapic', 'on']  # Bug 51473
 
@@ -93,22 +99,13 @@ Vagrant.configure('2') do |config|
         # puppet.options << '--debug'
 
         # Windows's Command Prompt has poor support for ANSI escape sequences.
-        puppet.options << '--color=false' if Vagrant::Util::Platform.windows?
+        puppet.options << '--color=false' if windows?
 
         puppet.facter = $FACTER = {
             'fqdn'               => config.vm.hostname,
             'forwarded_port'     => FORWARDED_PORT,
             'shared_apt_cache'   => '/vagrant/apt-cache/',
         }
-
-        if Vagrant::Util::Platform.windows?
-            $FACTER['share_owner'] = 'vagrant'
-            $FACTER['share_group'] = 'www-data'
-        else
-            $FACTER['share_owner'] = Process.uid
-            $FACTER['share_group'] = Process.gid
-        end
-
     end
 end
 

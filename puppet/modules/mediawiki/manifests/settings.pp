@@ -80,8 +80,11 @@ define mediawiki::settings(
     file { $settings_file:
         ensure  => $ensure,
         content => template('mediawiki/settings.php.erb'),
-        owner   => $::share_owner,
-        group   => $::share_group,
+        # Because the file resides on a shared folder, any other owner
+        # or mode will cause VirtualBox and Puppet to play tug-o'-war
+        # over the file.
+        owner   => 'vagrant',
+        group   => 'www-data',
         require => Exec['mediawiki setup'],
     }
 }
