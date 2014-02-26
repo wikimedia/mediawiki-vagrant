@@ -45,6 +45,9 @@ Package {
 # tells Puppet not to back up configuration files by default.
 File {
     backup => false,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
 }
 
 file { '/srv':
