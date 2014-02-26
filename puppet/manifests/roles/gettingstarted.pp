@@ -9,7 +9,16 @@ class role::gettingstarted {
 
     mediawiki::extension { 'GettingStarted':
         settings => {
-            wgGettingStartedRedis => '127.0.0.1',
+            wgGettingStartedRedis                  => '127.0.0.1',
+
+            # A sample category configuration for local testing.
+            wgGettingStartedCategoriesForTaskTypes => {
+                copyedit => 'All_articles_needing_copy_edit',
+                clarify  => 'All_Wikipedia_articles_needing_clarification',
+                addlinks => 'All_articles_with_too_few_wikilinks',
+            },
+
+            wgGettingStartedExcludedCategories     => ['Living people'],
         },
     }
 }
