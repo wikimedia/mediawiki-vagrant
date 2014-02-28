@@ -30,7 +30,7 @@ class role::wikimetrics {
     $web_server_mode = 'daemon'
 
     class { '::wikimetrics::database':
-        db_root_pass => $::mysql::root_password,
+        db_root_pass => $::role::mysql::db_pass,
         require      => Package['mysql-server'],
     }
 
