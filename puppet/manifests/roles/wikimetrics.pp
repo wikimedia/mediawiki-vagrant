@@ -45,7 +45,6 @@ class role::wikimetrics {
         # where this table is called 'revision_userindex'.
         # The mediawiki database usually calls this 'revision'.
         revision_tablename    => 'revision',
-        config_directory      => '/vagrant/wikimetrics/wikimetrics/config',
         # Since we are using the /vagrant shared directory for configs,
         # make sure puppet doesn't try to change the ownership every time
         # it runs.
