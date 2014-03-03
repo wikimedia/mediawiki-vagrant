@@ -29,11 +29,6 @@ class role::wikimetrics {
     # Legal values are 'daemon' and 'apache'.
     $web_server_mode = 'daemon'
 
-    class { '::wikimetrics::database':
-        db_root_pass => $::role::mysql::db_pass,
-        require      => Package['mysql-server'],
-    }
-
     class { '::wikimetrics':
         path                  => $wikimetrics_path,
         # Use the role::mediawiki MySQL database for
@@ -59,8 +54,13 @@ class role::wikimetrics {
         # make upstart managed services start after
         # /vagrant shared directory is mounted.
         service_start_on      => 'vagrant-mounted',
-        require               => Class['::wikimetrics::database'],
     }
+
+    class { '::wikimetrics::database':
+        db_root_pass     => $::role::mysql::db_pass,
+        wikimetrics_path => $wikimetrics_path,
+    }
+
 
     # Run the wikimetrics/scripts/install script
     # in order to pip install proper dependencies.
