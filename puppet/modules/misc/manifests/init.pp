@@ -14,10 +14,6 @@ class misc {
         onlyif  => 'grep -q "^mesg n" /root/.profile',
     }
 
-    if $::provider_name == 'virtualbox' {
-        class { 'virtualbox': }
-    }
-
     file { '/var/lib/cloud/instance/':
         ensure => directory,
     }
