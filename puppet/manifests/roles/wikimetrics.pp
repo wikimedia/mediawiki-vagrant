@@ -55,12 +55,6 @@ class role::wikimetrics {
         service_start_on      => 'vagrant-mounted',
     }
 
-    class { '::wikimetrics::database':
-        db_root_pass     => $::role::mysql::db_pass,
-        wikimetrics_path => $wikimetrics_path,
-    }
-
-
     # Run the wikimetrics/scripts/install script
     # in order to pip install proper dependencies.
     # Note:  This is not in the wikimetrics puppet module
@@ -72,6 +66,12 @@ class role::wikimetrics {
         path    => '/usr/local/bin:/usr/bin:/bin',
         user    => 'root',
         require => Class['::wikimetrics'],
+    }
+
+    class { '::wikimetrics::database':
+        db_root_pass     => $::role::mysql::db_pass,
+        wikimetrics_path => $wikimetrics_path,
+        require => Exec['install_wikimetrics_dependencies'],
     }
 
     class { '::wikimetrics::queue':
