@@ -87,3 +87,7 @@ class packages::jsduck {
         provider => 'gem',
     }
 }
+
+class packages::wikidiff2 {
+    package { 'php-wikidiff2': }
+}
