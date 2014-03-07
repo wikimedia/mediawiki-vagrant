@@ -28,6 +28,10 @@ if ( !empty( $_REQUEST['debug'] ) ) {
 $wgShowExceptionDetails = true;
 $wgDebugLogFile = '/vagrant/logs/mediawiki-debug.log';
 
+// Calls to deprecated methods will trigger E_USER_DEPRECATED errors
+// in the PHP error log.
+$wgDevelopmentWarnings = true;
+
 // Expose debug info for SQL errors.
 $wgDebugDumpSql = true;
 $wgShowDBErrorBacktrace = true;
