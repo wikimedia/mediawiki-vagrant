@@ -71,7 +71,7 @@ class role::wikimetrics {
     class { '::wikimetrics::database':
         db_root_pass     => $::role::mysql::db_pass,
         wikimetrics_path => $wikimetrics_path,
-        require => Exec['install_wikimetrics_dependencies'],
+        require          => Exec['install_wikimetrics_dependencies'],
     }
 
     class { '::wikimetrics::queue':

@@ -32,8 +32,8 @@ class php::remote_debug {
 
     # Remove apt package so it doesn't clash with PECL package
     package { 'purge php5-xdebug':
-        name   => 'php5-xdebug',
         ensure => purged,
+        name   => 'php5-xdebug',
     }
 
     php::ini { 'remote_debug':

@@ -6,10 +6,10 @@ class role::wikidiff2 {
     include packages::wikidiff2
 
     mediawiki::settings { 'wikidiff2':
-        ensure       => present,
-        values       => [
-            '$wgExternalDiffEngine = "wikidiff2";',
-        ],
-        require      => Package["php-wikidiff2"],
+        ensure  => present,
+        require => Package['php-wikidiff2'],
+        values  => {
+            'wgExternalDiffEngine' => 'wikidiff2',
+        },
     }
 }
