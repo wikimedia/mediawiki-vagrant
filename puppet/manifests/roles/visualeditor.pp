@@ -3,8 +3,8 @@
 # instance.
 class role::visualeditor {
     include role::mediawiki
+    include role::parsoid
 
-    class { '::mediawiki::parsoid': }
     mediawiki::extension { 'VisualEditor':
         settings => template('ve-config.php.erb'),
     }

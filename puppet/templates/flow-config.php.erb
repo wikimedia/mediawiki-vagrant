@@ -1,0 +1,6 @@
+// http://www.mediawiki.org/wiki/Extension:VisualEditor#Basic_setup_instructions
+$wgFlowContentFormat = 'html';
+$wgFlowOccupyNamespaces = array( NS_USER, NS_USER_TALK );
+$wgFlowParsoidURL = 'http://localhost:<%= scope.lookupvar("mediawiki::parsoid::port") %>';
+$wgFlowParsoidPrefix = 'localhost';
+$wgFlowParsoidTimeout = 100;
