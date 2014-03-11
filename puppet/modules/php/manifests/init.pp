@@ -23,6 +23,9 @@ class php {
         'php5-mysql',
     ]:
         ensure => present,
+        # This pulls in a dependency of php5 so that apt doesn't
+        # have to guess which dependency to install
+        require      => Apache::Mod['php5']
     }
 
     php::ini { 'debug output':
