@@ -154,5 +154,6 @@ class mediawiki(
     exec { 'update database':
         command     => "php ${dir}/maintenance/update.php --quick",
         refreshonly => true,
+        user        => 'www-data',
     }
 }
