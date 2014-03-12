@@ -10,6 +10,9 @@ class hhvm {
     include ::apache::mods::alias
     include ::apache::mods::fastcgi
 
+    # 12.04 requires updated boost packages
+    apt::ppa { 'mapnik/boost': }
+
     package { 'hhvm-fastcgi':
         require => Apache::Mod['actions', 'alias', 'fastcgi'],
     }
