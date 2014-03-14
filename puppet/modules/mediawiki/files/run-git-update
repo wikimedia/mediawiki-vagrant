@@ -7,9 +7,15 @@ function pull {
   if [ -n "$branch" ]; then
     remote=$(git config branch.$branch.remote)
     if [ -n "$remote" ]; then
-        # Convert remote git url from ssh:// to anonymous https://
-        url=$(git config --get remote.$remote.url | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
-        git pull $url
+        url=$(git config --get remote.$remote.url)
+        if [[ $url == ssh://* ]]
+        then
+            # Convert remote git url from ssh:// to anonymous https://
+            tempurl=$(echo $url | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
+            git pull $tempurl
+        else
+            git pull
+        fi
     else
         echo -e "\e[1;31m ************* Remote not found for branch '$branch' in $(pwd)\e[0m"
     fi
