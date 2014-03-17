@@ -103,3 +103,7 @@ class packages::jq {
 class packages::fss {
     package { 'php5-fss': }
 }
+
+class packages::unzip {
+    package { 'unzip': }
+}

@@ -30,6 +30,10 @@
 #   The system path to which MediaWiki files have been installed
 #   (example: '/srv/mediawiki').
 #
+# [*cache_dir*]
+#   Directory to use for caching interface messages (l10n cache).
+#   (example: '/var/cache/mediawiki').
+#
 # [*settings_dir*]
 #   Directory to use for configuration fragments.
 #   (example: '/srv/mediawiki/settings.d').
@@ -49,6 +53,7 @@ class mediawiki(
     $db_pass,
     $db_user,
     $dir,
+    $cache_dir,
     $settings_dir,
     $upload_dir,
     $branch     = undef,
@@ -94,7 +99,7 @@ class mediawiki(
         mode   => '0755',
     }
 
-    file { $upload_dir:
+    file { [ $cache_dir, $upload_dir ]:
         ensure => directory,
         owner  => 'www-data',
         group  => 'www-data',

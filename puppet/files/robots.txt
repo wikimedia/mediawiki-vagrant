@@ -1,0 +1,9 @@
+# Apparently we're using the ugly defaults in MediaWiki
+# for $wgScriptPath and $wgArticlePath; $wgUsePathInfo
+# default should result into a "true" for this Ubuntu
+# Don't crawl history, API calls and whatever
+User-agent: *
+Disallow: /wiki/index.php?
+Disallow: /wiki/api.php
+Disallow: /skins/
+Crawl-delay: 1

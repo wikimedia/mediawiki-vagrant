@@ -17,6 +17,7 @@ class role::mediawiki {
     }
 
     $dir = '/vagrant/mediawiki'
+    $cache_dir = '/var/cache/mediawiki'
     $settings_dir = '/vagrant/settings.d'
     $upload_dir = '/srv/images'
 
@@ -42,6 +43,7 @@ class role::mediawiki {
         db_pass      => $db_pass,
         db_user      => $db_user,
         dir          => $dir,
+        cache_dir    => $cache_dir,
         settings_dir => $settings_dir,
         upload_dir   => $upload_dir,
         server_url   => $server_url,
