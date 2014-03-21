@@ -20,6 +20,8 @@ Log {
   UseLogFile = true
   UseSyslog = false
   File = /vagrant/logs/hhvm-error.log
+  InjectedStackTrace = true
+  NativeStackTrace = true
   Access {
     * {
       File = /var/log/hhvm/access.log
