@@ -24,4 +24,10 @@ class mediawiki::apache {
         require => Package['apache2'],
         source  => 'puppet:///modules/mediawiki/favicon.ico',
     }
+
+    file { '/var/www/info.php':
+        ensure  => file,
+        require => Package['apache2'],
+        source  => 'puppet:///modules/mediawiki/info.php',
+    }
 }
