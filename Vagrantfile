@@ -47,6 +47,10 @@ Vagrant.configure('2') do |config|
         config.vm.box_download_insecure = true
     end
 
+    # Stop all of the 'stdin: is not a tty' complaints during provisioning
+    # See https://github.com/mitchellh/vagrant/issues/1673
+    config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
+
     config.vm.network :private_network,
         ip: '10.11.12.13'
 
