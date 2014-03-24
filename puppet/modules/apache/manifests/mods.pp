@@ -34,3 +34,8 @@ class apache::mods::fastcgi {
 class apache::mods::actions {
     apache::mod { 'actions': }
 }
+
+# mod_headers
+class apache::mods::headers {
+    apache::mod { 'headers': }
+}

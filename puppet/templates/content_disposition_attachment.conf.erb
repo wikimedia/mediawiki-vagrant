@@ -1,0 +1,6 @@
+RewriteEngine On
+
+RewriteCond %{REQUEST_URI} ^/images.*
+RewriteCond %{QUERY_STRING} ^download$
+RewriteRule .* - [E=DOWNLOAD:yes]
+Header set "Content-Disposition" "attachment" env=DOWNLOAD
