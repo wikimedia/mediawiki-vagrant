@@ -17,6 +17,10 @@
 # loaded. In case of conflict, values in the 'extra' file will superceded
 # any values in this file. 'Vagrantfile-extra.rb' is ignored by git.
 #
+# Simple configuration changes can be made by creating a file named
+# ".settings.yaml" in the same directory in this file. See the configuration
+# settings section below for the values that may be specified.
+#
 # Please report bugs in this file on Wikimedia's Bugzilla:
 # https://bugzilla.wikimedia.org/enter_bug.cgi?product=MediaWiki-Vagrant
 #
@@ -25,6 +29,59 @@
 #
 $DIR = File.expand_path('..', __FILE__); $: << File.join($DIR, 'lib')
 require 'mediawiki-vagrant'
+require 'settings'
+
+# Configuration settings
+# ----------------------
+# These can be changed by making a `.settings.yaml` file that contains YAML
+# replacements. Example:
+#   BOX_NAME: "foo"
+#   VAGRANT_RAM: 2048
+#   FORWARD_PORTS:
+#     27017: 31337
+#
+# Some roles may also provide new settings values. When applied these roles
+# will require a `vagrant reload` call for their changes to take effect.
+settings = Settings.new({
+    # The vagrant box to load on the VM
+    'BOX_NAME' => 'precise-cloud',
+
+    # Download URL for vagrant box
+    'BOX_URI' => 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box',
+
+    # Amount of RAM to allocate to virtual machine in MB; must be numeric
+    'VAGRANT_RAM' => 768,
+
+    # Number of virtual CPUs to allocate to virtual machine; must be numeric
+    # If you are on a single-core system, change the following default to 1:
+    'VAGRANT_CORES' => 2,
+
+    # Static IP address for virtual machine
+    'STATIC_IP' => '10.11.12.13',
+
+    # The port on the host that should be forwarded to the guest's HTTP server.
+    # Must be numeric.
+    'HTTP_PORT' => 8080,
+
+    # You may provide a map of vm:host port pairs for Vagrant to forward.
+    # Keys and values must be numeric.
+    'FORWARD_PORTS' => {},
+
+    # Enable puppet debug output?
+    # Must be boolean
+    'PUPPET_DEBUG' => false,
+})
+
+# Load role provided settings
+settings_dir = File.join($DIR, 'vagrant.d')
+if Dir.exists?(settings_dir)
+    Dir.glob("#{settings_dir}/*.yaml").each do |f|
+        settings.load(f)
+    end
+end
+
+# Read local configuration overrides
+settings.load(File.join($DIR, '.settings.yaml'))
 
 Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
@@ -35,8 +92,8 @@ Vagrant.configure('2') do |config|
     # the file using another tool that implements SSL properly, and then
     # point Vagrant to the downloaded file:
     #   $ vagrant box add precise-cloud /path/to/file/precise.box
-    config.vm.box = 'precise-cloud'
-    config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box'
+    config.vm.box = settings['BOX_NAME']
+    config.vm.box_url = settings['BOX_URI']
     if config.vm.respond_to? 'box_download_insecure'  # Vagrant 1.2.6+
         config.vm.box_download_insecure = true
     end
@@ -45,14 +102,19 @@ Vagrant.configure('2') do |config|
     # See https://github.com/mitchellh/vagrant/issues/1673
     config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
-    config.vm.network :private_network,
-        ip: '10.11.12.13'
-
-    # The port on the host that should be forwarded to the guest's HTTP server.
-    FORWARDED_PORT = 8080
+    config.vm.network :private_network, ip: settings['STATIC_IP']
 
     config.vm.network :forwarded_port,
-        guest: 80, host: FORWARDED_PORT, id: 'http'
+        guest: 80, host: settings['HTTP_PORT'].to_i, id: 'http'
+
+    # Forward additional ports
+    if settings['FORWARD_PORTS']
+        settings['FORWARD_PORTS'].each do |guest_port,host_port|
+            config.vm.network :forwarded_port,
+                :host => host_port.to_i, :guest => guest_port.to_i,
+                auto_correct: true
+        end
+    end
 
     config.vm.synced_folder '.', '/vagrant',
         id: 'vagrant-root',
@@ -68,15 +130,13 @@ Vagrant.configure('2') do |config|
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
-        vb.customize ['modifyvm', :id, '--memory', '1024']
+        vb.customize ['modifyvm', :id, '--memory', settings['VAGRANT_RAM'].to_i]
+        vb.customize ['modifyvm', :id, '--cpus', settings['VAGRANT_CORES'].to_i]
         vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
         vb.customize ['modifyvm', :id, '--ioapic', 'on']  # Bug 51473
 
         # To boot the VM in graphical mode, uncomment the following line:
         # vb.gui = true
-
-        # If you are on a single-core system, comment out the following line:
-        vb.customize ['modifyvm', :id, '--cpus', '2']
     end
 
     config.vm.provision :puppet do |puppet|
@@ -94,14 +154,16 @@ Vagrant.configure('2') do |config|
         ]
 
         # For more output, uncomment the following line:
-        # puppet.options << '--debug'
+        if settings['PUPPET_DEBUG']
+            puppet.options << '--debug'
+        end
 
         # Windows's Command Prompt has poor support for ANSI escape sequences.
         puppet.options << '--color=false' if windows?
 
         puppet.facter = $FACTER = {
             'fqdn'               => config.vm.hostname,
-            'forwarded_port'     => FORWARDED_PORT,
+            'forwarded_port'     => settings['HTTP_PORT'],
             'shared_apt_cache'   => '/vagrant/apt-cache/',
         }
     end

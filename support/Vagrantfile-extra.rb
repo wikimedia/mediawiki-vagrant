@@ -36,9 +36,4 @@ Vagrant.configure('2') do |config|
     # Sequel Pro) to manage the database server running on the VM.
     # config.vm.network :forwarded_port,
     #    guest: 3306, host: 3306, id: 'mysql'
-
-    # Forward Elasticsearch port.  This allows you to debug Elasticsearch
-    # queries easilly with something like the Sense Chrome Plugin.
-    # config.vm.network :forwarded_port,
-    #     guest: 9200, host: 9200, id: 'elasticsearch'
 end

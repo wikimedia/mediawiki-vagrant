@@ -1,5 +1,6 @@
 /.vagrant
 /.rbenv-version
+/.settings.yaml
 /no-update
 /Vagrantfile-extra.rb
 /Roles.yaml
@@ -17,3 +18,4 @@
 /apt-cache
 !/apt-cache/partial/.gitignore
 /wikimania_scholarships/
+/vagrant.d/
