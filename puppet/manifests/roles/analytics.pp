@@ -12,6 +12,7 @@
 # You'll also need more RAM!  Edit Vagrantfile and increase --memory.
 # 2048 M should be enough, but you can probably get away with less.
 class role::analytics {
+    include role::generic
     include role::hadoop
     include role::hive
 }

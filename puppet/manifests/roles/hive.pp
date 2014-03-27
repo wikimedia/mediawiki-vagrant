@@ -4,13 +4,13 @@ class role::hive {
     # Mediawiki includes the mysql module.
     # We need the root db password defined there
     # in order to create the Hive metastore database.
-    require role::mediawiki
+    require role::mysql
     # Need hadoop up and running and configs defined first.
     Class['role::hadoop'] -> Class['role::hive']
 
     class { '::cdh4::hive':
         metastore_host   => $role::hadoop::namenode_hosts[0],
-        db_root_password => $::mysql::root_password,
+        db_root_password => $::role::mysql::db_pass,
     }
 
     # Setup Hive server and Metastore
