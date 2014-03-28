@@ -78,6 +78,10 @@ class role::wikimetrics {
         require => Exec['install_wikimetrics_dependencies'],
     }
 
+    class { '::wikimetrics::scheduler':
+        require => Exec['install_wikimetrics_dependencies'],
+    }
+
     # make sure wsgi is included in case we are running in apache WSGI mode.
     include ::apache::mods::wsgi
     class { 'wikimetrics::web':
