@@ -4,9 +4,8 @@
 class role::mobilefrontend {
     include role::mediawiki
     include role::eventlogging
-
-    mediawiki::extension { 'TextExtracts': }
-    mediawiki::extension { 'PageImages': }
+    include role::pageimages
+    include role::textextracts
 
     mediawiki::extension { 'MobileFrontend':
         settings => {
@@ -14,9 +13,5 @@ class role::mobilefrontend {
             wgMFLogEvents            => true,
             wgMFAutodetectMobileView => true,
         },
-        require  => [
-            Mediawiki::Extension['TextExtracts'],
-            Mediawiki::Extension['PageImages']
-        ],
     }
 }
