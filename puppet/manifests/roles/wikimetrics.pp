@@ -29,8 +29,16 @@ class role::wikimetrics {
     # Legal values are 'daemon' and 'apache'.
     $web_server_mode = 'daemon'
 
+    # Make wikimetrics group 'www-data' if running in apache mode.
+    # This allows for apache to write files to wikimetrics var directories
+    $wikimetrics_group = $web_server_mode ? {
+        'apache' => 'www-data',
+        default  => 'wikimetrics',
+    }
+
     class { '::wikimetrics':
         path                  => $wikimetrics_path,
+        group                 => $wikimetrics_group,
         # Use the role::mediawiki MySQL database for
         # wikimetrics editor cohort analysis
         db_user_mediawiki     => $::role::mediawiki::db_user,
