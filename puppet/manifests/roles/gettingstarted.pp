@@ -13,12 +13,12 @@ class role::gettingstarted {
 
             # A sample category configuration for local testing.
             wgGettingStartedCategoriesForTaskTypes => {
-                copyedit => 'All_articles_needing_copy_edit',
-                clarify  => 'All_Wikipedia_articles_needing_clarification',
-                addlinks => 'All_articles_with_too_few_wikilinks',
+                copyedit => 'Category:All_articles_needing_copy_edit',
+                clarify  => 'Category:All_Wikipedia_articles_needing_clarification',
+                addlinks => 'Category:All_articles_with_too_few_wikilinks',
             },
 
-            wgGettingStartedExcludedCategories     => ['Living people'],
+            wgGettingStartedExcludedCategories     => ['Category:Living people'],
         },
     }
 }
