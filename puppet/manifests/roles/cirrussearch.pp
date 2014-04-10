@@ -5,6 +5,7 @@ class role::cirrussearch {
     include role::mediawiki
     include role::timedmediahandler
     include role::pdfhandler
+    include role::cite
 
     class { '::elasticsearch': }
 
