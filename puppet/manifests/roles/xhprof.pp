@@ -17,5 +17,5 @@
 class role::xhprof {
     include role::mediawiki
 
-    include xhprof
+    include ::xhprof
 }
