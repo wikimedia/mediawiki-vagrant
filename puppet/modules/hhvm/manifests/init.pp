@@ -13,8 +13,15 @@ class hhvm {
     # 12.04 requires updated boost packages
     apt::ppa { 'mapnik/boost': }
 
-    package { 'hhvm-fastcgi':
+    package { 'hhvm':
         require => Apache::Mod['actions', 'alias', 'fastcgi'],
+    }
+
+    # Remove the init.d HHVM service so we can use our Upstart job.
+    exec { 'remove_hhvm_initd':
+        command => '/usr/sbin/update-rc.d -f hhvm remove',
+        onlyif  => '/usr/sbin/update-rc.d -n -f hhvm remove | /bin/grep -Pq rc..d',
+        require => Package['hhvm'],
     }
 
     # Define an 'HHVM' flag, the presence of which can be checked
@@ -25,17 +32,29 @@ class hhvm {
         require => Service['hhvm'],
     }
 
+    file { '/var/www/fastcgi':
+        ensure => directory,
+        owner  => 'www-data',
+        group  => 'www-data',
+        mode   => '0755',
+    }
+
     file { '/etc/hhvm/server.hdf':
         ensure  => file,
         content => template( 'hhvm/server.hdf.erb'),
-        require => Package['hhvm-fastcgi'],
+        require => Package['hhvm'],
         notify  => Service['hhvm'],
+    }
+
+    file { '/etc/init/hhvm.conf':
+        ensure  => file,
+        content => template('hhvm/hhvm.conf.erb'),
+        require => File['/etc/hhvm/server.hdf', '/var/www/fastcgi'],
     }
 
     service { 'hhvm':
         ensure   => running,
-        provider => debian,
-        enable   => true,
-        require  => File['/etc/hhvm/server.hdf'],
+        provider => upstart,
+        require  => File['/etc/init/hhvm.conf'],
     }
 }

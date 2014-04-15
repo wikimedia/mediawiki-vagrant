@@ -34,21 +34,27 @@ Alias /mediawiki-vagrant.png /var/www/mediawiki-vagrant.png
 Alias /favicon.ico /var/www/favicon.ico
 
 <IfDefine HHVM>
-    # FIXME: HHVM seems to require that PHP files be part of the docroot
-    # file hierarchy, but this means that /index.php and /api.php are
-    # valid entrypoints.
-    DocumentRoot "<%= scope.lookupvar('mediawiki::dir') %>"
-
     # Remove the default PHP type and handler.
     RemoveHandler .php
     RemoveType .php
 
     # Configure HHVM to handle PHP
-    AddType application/php5-fastcgi .php
-    Action application/php5-fastcgi /php5-hhvm
-    Alias /php5-hhvm /usr/lib/cgi-bin/php5-hhvm
-    FastCgiExternalServer /usr/lib/cgi-bin/php5-hhvm -host 127.0.0.1:9000
+    Alias /hhvm.fastcgi /var/www/fastcgi/hhvm.fastcgi
+    FastCGIExternalServer /var/www/fastcgi/hhvm.fastcgi -host 127.0.0.1:9000 -pass-header Authorization -idle-timeout 300
+
     <FilesMatch "\.php$">
-        SetHandler application/php5-fastcgi
+        SetHandler hhvm-php-extension
     </FilesMatch>
+
+    <Directory "/var/www/fastcgi">
+        <Files "hhvm.fastcgi">
+            Order deny,allow
+        </Files>
+    </Directory>
+
+    AddHandler hhvm-hack-extension .hh
+    AddHandler hhvm-php-extension .php
+
+    Action hhvm-hack-extension /hhvm.fastcgi virtual
+    Action hhvm-php-extension /hhvm.fastcgi virtual
 </IfDefine>
