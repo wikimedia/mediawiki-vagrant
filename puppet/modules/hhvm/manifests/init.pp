@@ -32,6 +32,12 @@ class hhvm {
         require => Service['hhvm'],
     }
 
+    file { '/etc/hhvm/static.mime-types.hdf':
+        source => 'puppet:///modules/hhvm/static.mime-types.hdf',
+        require => Package['hhvm'],
+        notify  => Service['hhvm'],
+    }
+
     file { '/var/www/fastcgi':
         ensure => directory,
         owner  => 'www-data',
@@ -40,10 +46,12 @@ class hhvm {
     }
 
     file { '/etc/hhvm/server.hdf':
-        ensure  => file,
         content => template( 'hhvm/server.hdf.erb'),
-        require => Package['hhvm'],
         notify  => Service['hhvm'],
+        require => [
+            File['/etc/hhvm/static.mime-types.hdf'],
+            Package['hhvm'],
+        ],
     }
 
     file { '/etc/init/hhvm.conf':
