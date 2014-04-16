@@ -69,18 +69,30 @@ class browsertests(
         ensure => present,
     }
 
-    exec { 'use ruby 1.9.1':
+    exec { 'use_ruby_1.9.1':
         command => 'update-alternatives --set ruby /usr/bin/ruby1.9.1',
         unless  => 'readlink /etc/alternatives/ruby | grep 1.9',
         require => Package['ruby1.9.1-full', 'ruby-bundler'],
     }
 
-    exec { 'install browsertests bundle':
+    file { '/home/vagrant/.gem':
+        ensure    => directory,
+        owner     => 'vagrant',
+        group     => 'vagrant',
+        mode      => '0755',
+        recursive => true,
+    }
+
+    exec { 'install_browsertests_bundle':
         command     => 'bundle install --path /home/vagrant/.gem',
         cwd         => '/srv/browsertests/tests/browser',
         user        => 'vagrant',
         unless      => 'bundle check',
-        require     => [ Exec['use ruby 1.9.1'], Git::Clone['qa/browsertests'] ],
         timeout     => 0,
+        require     => [
+            Exec['use_ruby_1.9.1'],
+            File['/home/vagrant/.gem'],
+            Git::Clone['qa/browsertests']
+        ],
     }
 }
