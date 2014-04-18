@@ -32,6 +32,10 @@ class packages::php_luasandbox {
     package { 'php-luasandbox': }
 }
 
+class packages::php5_tidy {
+    package { 'php5-tidy': }
+}
+
 class packages::djvulibre_bin {
     package { 'djvulibre-bin': }
 }

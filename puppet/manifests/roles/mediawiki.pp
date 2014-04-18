@@ -4,6 +4,9 @@ class role::mediawiki {
     include role::generic
     include role::mysql
 
+    # Required to run some tests.
+    include packages::php5_tidy
+
     $wiki_name = 'devwiki'
 
     # 'forwarded_port' defaults to 8080, but may be overridden by
