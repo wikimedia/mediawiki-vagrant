@@ -80,7 +80,7 @@ class browsertests(
         owner     => 'vagrant',
         group     => 'vagrant',
         mode      => '0755',
-        recursive => true,
+        recurse   => true,
     }
 
     exec { 'install_browsertests_bundle':
