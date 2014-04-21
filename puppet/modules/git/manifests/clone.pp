@@ -29,6 +29,7 @@ define git::clone(
     $remote = undef,
     $owner  = 'vagrant',
     $group  = 'vagrant',
+    $user = $::git_user,
 ) {
     include git
 
@@ -37,13 +38,55 @@ define git::clone(
         default => $remote,
     }
 
+    $origin = $user ? {
+        ''      => 'origin',
+        default => 'gerrit',
+    }
+
     exec { "git clone ${title}":
-        command     => "git clone --recursive --branch ${branch} ${url} ${directory}",
+        command     => "git clone --origin ${origin} --recursive --branch ${branch} ${url} ${directory}",
         creates     => "${directory}/.git",
         require     => Package['git'],
         user        => $owner,
         group       => $group,
         environment => 'HOME=/home/vagrant',
         timeout     => 0,
+    }
+
+
+    #
+    # Make sure the remote is called "origin" for non-authenticated git, and "gerrit" when GIT_USER is set in Vagrantfile
+    #
+    $badorigin = $user ? {
+        ''      => 'gerrit',
+        default => 'origin',
+    }
+    exec { "git rename ${title}: ${badorigin} -> ${origin}":
+        command     => "git remote rename ${badorigin} ${origin}",
+        onlyif      => "test $(git config --get branch.${branch}.remote) = '${badorigin}'",
+        cwd         => $directory,
+        require     => Package['git'],
+        user        => $owner,
+        group       => $group,
+        environment => 'HOME=/home/vagrant',
+        timeout     => 0,
+    }
+
+
+    #
+    # Change GIT URL to the SSH-based URL if $user is set
+    #
+    if ( !$remote ) {
+        $url2 =  "ssh://${user}@gerrit.wikimedia.org:29418/${title}.git"
+        exec { "git set-remote ${url2}":
+            command     => "git remote set-url ${origin} ${url2}",
+            onlyif      => "test $(git config --get remote.${origin}.url) != '${url2}'",
+            cwd         => $directory,
+            require     => Package['git'],
+            user        => $owner,
+            group       => $group,
+            environment => 'HOME=/home/vagrant',
+            timeout     => 0,
+        }
     }
 }

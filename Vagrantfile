@@ -35,6 +35,7 @@ require 'settings'
 # ----------------------
 # These can be changed by making a `.settings.yaml` file that contains YAML
 # replacements. Example:
+#   GIT_USER: "username"
 #   BOX_NAME: "foo"
 #   VAGRANT_RAM: 2048
 #   FORWARD_PORTS:
@@ -43,6 +44,9 @@ require 'settings'
 # Some roles may also provide new settings values. When applied these roles
 # will require a `vagrant reload` call for their changes to take effect.
 settings = Settings.new({
+    # Gerrit username, as used at gerrit.wikimedia.org, or '' if anonymous
+    'GIT_USER' => '',
+
     # The vagrant box to load on the VM
     'BOX_NAME' => 'precise-cloud',
 
@@ -80,8 +84,19 @@ if Dir.exists?(settings_dir)
     end
 end
 
+# On first run prompt user to set username
+root_settings_file = File.join($DIR, '.settings.yaml')
+if !File.file?(root_settings_file)
+    print("Your GIT/Gerrit username has not been set. Please enter your username or hit ENTER for anonymous.\n")
+    print("If VM has already been created, run 'vagrant provision' to fix all remote git URLs.\n")
+    print("You can always set it later by editing .settings.yaml file\n")
+    print(' ==> ')
+    s = Settings.new({'GIT_USER' => STDIN.gets.chomp})
+    s.save(root_settings_file)
+end
+
 # Read local configuration overrides
-settings.load(File.join($DIR, '.settings.yaml'))
+settings.load(root_settings_file)
 
 Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
@@ -165,6 +180,7 @@ Vagrant.configure('2') do |config|
             'fqdn'               => config.vm.hostname,
             'forwarded_port'     => settings['HTTP_PORT'],
             'shared_apt_cache'   => '/vagrant/apt-cache/',
+            'git_user'           => settings['GIT_USER'],
         }
     end
 
