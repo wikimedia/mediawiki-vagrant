@@ -167,6 +167,8 @@ Vagrant.configure('2') do |config|
             'shared_apt_cache'   => '/vagrant/apt-cache/',
         }
     end
+
+    config.vm.provision :mediawiki_reload
 end
 
 

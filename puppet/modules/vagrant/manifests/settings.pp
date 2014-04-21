@@ -78,11 +78,12 @@ define vagrant::settings(
         content => template('vagrant/settings.yaml.erb'),
         group   => 'www-data',
         owner   => 'vagrant',
-        notify  => Shout[$settings_file],
     }
 
-    shout { $settings_file:
-      message => 'Vagrant settings have been changed.
-        Run `vagrant reload` to apply the changes.',
+    exec { "${fname} wants reload":
+        command     => "/usr/bin/touch ${::vagrant::settings_dir}/RELOAD",
+        refreshonly => true,
+        creates     => "${::vagrant::settings_dir}/RELOAD",
+        subscribe   => File[$settings_file],
     }
 }

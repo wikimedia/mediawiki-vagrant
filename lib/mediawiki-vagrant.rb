@@ -44,5 +44,10 @@ module MediaWikiVagrant
             hook.before(Vagrant::Action::Builtin::Provision, Middleware)
         end
 
+        provisioner 'mediawiki_reload' do
+            require 'mediawiki-vagrant/reload'
+            MediaWikiVagrant::Reload
+        end
+
     end
 end
