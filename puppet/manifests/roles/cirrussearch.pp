@@ -6,8 +6,28 @@ class role::cirrussearch {
     include role::timedmediahandler
     include role::pdfhandler
     include role::cite
+    include packages::jq
 
     class { '::elasticsearch': }
+
+    # Elasticsearch plugins
+    ## Analysis
+    elasticsearch::plugin { 'icu':
+        group   => 'elasticsearch',
+        name    => 'elasticsearch-analysis-icu',
+        version => '2.1.0',
+    }
+    elasticsearch::plugin { 'kuromoji':
+        group   => 'elasticsearch',
+        name    => 'elasticsearch-analysis-kuromoji',
+        version => '2.1.0',
+    }
+    ## Highlighter
+    elasticsearch::plugin { 'highlighter':
+        group   => 'org.wikimedia.search.highlighter',
+        name    => 'experimental-highlighter-elasticsearch-plugin',
+        version => '0.0.3',
+    }
 
     mediawiki::extension { 'Elastica': }
 
@@ -22,9 +42,13 @@ class role::cirrussearch {
     }
 
     exec { 'build CirrusSearch search index':
-        command     => 'php ./maintenance/updateSearchIndexConfig.php && php ./maintenance/forceSearchIndex.php && touch .indexed',
-        creates     => '/vagrant/mediawiki/extensions/CirrusSearch/.indexed',
-        cwd         => '/vagrant/mediawiki/extensions/CirrusSearch',
-        require     =>  Mediawiki::Extension['CirrusSearch'],
+        command => 'php ./maintenance/updateSearchIndexConfig.php && php ./maintenance/forceSearchIndex.php',
+        unless  => '[ $(curl -s localhost:9200/_count | jq ".count") -gt "0" ]',
+        cwd     => '/vagrant/mediawiki/extensions/CirrusSearch',
+        require => [
+            Mediawiki::Extension['CirrusSearch'],
+            Package['curl'],
+            Package['jq']
+        ]
     }
 }

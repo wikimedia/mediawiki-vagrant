@@ -95,3 +95,7 @@ class packages::jsduck {
 class packages::wikidiff2 {
     package { 'php-wikidiff2': }
 }
+
+class packages::jq {
+    package { 'jq': }
+}
