@@ -64,6 +64,13 @@ class misc {
         ensure => present,
     }
 
+    file { '/home/vagrant/.ackrc':
+        ensure  => present,
+        replace => false,
+        owner   => 'vagrant',
+        source  => 'puppet:///modules/misc/ackrc',
+    }
+
     file { '/home/vagrant/.bash_aliases':
         ensure => present,
         mode   => '0755',

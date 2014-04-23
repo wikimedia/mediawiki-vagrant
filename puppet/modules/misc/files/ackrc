@@ -1,0 +1,4 @@
+# add some common file types so ack searches do not miss them
+--type-set=less=.less
+--type-set=json=.json
+--type-set=puppet=.pp
