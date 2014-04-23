@@ -1,25 +1,2 @@
-$wgSearchType = 'CirrusSearch';
-$wgGroupPermissions[ '*' ][ 'deleterevision' ] = true;
-$wgUseInstantCommons = true;
-$wgCapitalLinks = false;
-$wgEnableUploads = true;
-$wgCirrusSearchShowScore = true;
-$wgShowExceptionDetails = true;
-$wgJobTypeConf['default'] = array(
-	'class' => 'JobQueueRedis',
-	'order' => 'fifo',
-	'redisServer' => 'localhost',
-	'checkDelay' => true,
-	'maximumPeriodicTaskSeconds' => 1,
-	'redisConfig' => array(
-		'password' => '',
-	),
-);
-$wgJobQueueAggregator = array(
-	'class'       => 'JobQueueAggregatorRedis',
-	'redisServer' => 'localhost',
-	'redisConfig' => array(
-		'password' => '',
-	),
-);
-$wgJobRunRate = 10;
+$wgRedisPassword = '';
+include_once "$IP/extensions/CirrusSearch/tests/jenkins/Jenkins.php";
