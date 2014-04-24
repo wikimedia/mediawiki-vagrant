@@ -34,11 +34,16 @@ define elasticsearch::plugin(
     $group   = undef,
     $name    = undef,
     $version = undef,
+    $url     = undef,
 ) {
     $esDir = '/usr/share/elasticsearch'
     $dirname = regsubst( $name, '^elasticsearch-', '' )
     $pluginDir = "${esDir}/plugins/${dirname}"
-    $pluginIdentifier = "${group}/${name}/${version}"
+    $pluginIdentifier = "$group/${name}/${version}"
+    $urlParam = $url ? {
+        undef   => '',
+        default => "--url $url"
+    }
     case $ensure {
         present: {
             # Install won't upgrade, so if the version if wrong we have to
@@ -51,7 +56,7 @@ define elasticsearch::plugin(
                 notify  => Service['elasticsearch'],
             }
             exec { "Install elasticsearch plugin ${name}":
-                command => "${esDir}/bin/plugin --install ${pluginIdentifier}",
+                command => "${esDir}/bin/plugin --install ${pluginIdentifier} $urlParam",
                 unless  => "test -d ${pluginDir}",
                 require => [
                     Package['elasticsearch'],
