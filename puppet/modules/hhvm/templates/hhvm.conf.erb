@@ -1,8 +1,13 @@
+# hhvm - HipHop Virtual Machine
+# Runs HHVM in server mode.
 description "HipHop Virtual Machine for PHP"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
 
 setuid www-data
 setgid www-data
 
-exec /usr/bin/hhvm --config /etc/hhvm/server.hdf --mode server -vServer.Type=fastcgi -vServer.Port=9000
+exec /usr/bin/hhvm --config /etc/hhvm/server.hdf --mode server
 
 respawn
+# vim: set ft=upstart:
