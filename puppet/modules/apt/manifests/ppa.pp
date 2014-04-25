@@ -26,15 +26,14 @@ define apt::ppa(
     $listfile = "/etc/apt/sources.list.d/${safename}-${::lsbdistcodename}.list"
 
     if $ensure == 'absent' {
-        $command = "add-apt-repository --yes --remove ppa:${ppa}"
+        $command = "add-apt-repository --yes --remove ppa:${ppa}; apt-get update"
         $onlyif  = "test -e ${listfile}"
     } else {
-        $command = "add-apt-repository --yes ppa:${ppa}"
+        $command = "add-apt-repository --yes ppa:${ppa}; apt-get update"
         $onlyif  = "test ! -e ${listfile}"
     }
 
     exec { $command:
-        notify  => Exec['apt-get update'],
         onlyif  => $onlyif,
     }
 }
