@@ -3,6 +3,13 @@
 # Configures Apache HTTP Server
 #
 class apache {
+
+    if versioncmp($::lsbdistrelease, '14') > 0 {
+        $config_dirs = [ '/etc/apache2/conf-available', '/etc/apache2/conf-enabled' ]
+    } else {
+        $config_dirs = [ '/etc/apache2/conf.d' ]
+    }
+
     package { 'apache2':
         ensure  => present,
     }
@@ -23,17 +30,12 @@ class apache {
         content => 'EnableSendfile Off',
     }
 
-    file { '/etc/apache2/site.d':
-        ensure  => directory,
-        require => Package['apache2'],
-    }
-
-    file { '/etc/apache2/env.d':
+    file { [ $config_dirs, '/etc/apache2/env.d', '/etc/apache2/site.d' ]:
         ensure  => directory,
         recurse => true,
         purge   => true,
         force   => true,
-        source  => 'puppet:///modules/apache/env.d-empty',
+        source  => 'puppet:///modules/apache/empty.d',
         require => Package['apache2'],
     }
 
@@ -49,6 +51,16 @@ class apache {
         provider   => 'debian',
         require    => Package['apache2'],
         hasrestart => true,
+    }
+
+    exec { 'refresh_conf_symlinks':
+        command     => '/usr/sbin/a2disconf -q * ; /usr/sbin/a2enconf -q *',
+        onlyif      => 'test -x /usr/sbin/a2disconf',
+        refreshonly => true,
+    }
+
+    file { '/var/www':
+        ensure => directory,
     }
 
     misc::evergreen { 'apache2': }

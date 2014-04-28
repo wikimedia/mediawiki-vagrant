@@ -1,6 +1,0 @@
-# This directory contains shell scripts that augment or modify the
-# apache2 process environment. Each file in this directory must be a
-# valid shell script.
-#
-# This directory is managed recursively by Puppet; any local
-# modifications will be clobbered on the next Puppet run.

@@ -17,9 +17,11 @@ LogLevel error
 </Directory>
 
 <Directory <%= scope.lookupvar('mediawiki::dir') %>>
+	<% if scope.function_versioncmp([@lsbdistrelease, '14']) > 0 then %>Require all granted<% end %>
 </Directory>
 
 <Directory <%= scope.lookupvar('mediawiki::upload_dir') %>>
+	<% if scope.function_versioncmp([@lsbdistrelease, '14']) > 0 then %>Require all granted<% end %>
 </Directory>
 
 AllowEncodedSlashes on

@@ -33,19 +33,28 @@ define apache::conf(
     $content  = undef,
     $source   = undef,
 ) {
-    include apache
+    include ::apache
+
+    if versioncmp($::lsbdistrelease, '14') > 0 {
+        $global_config_dir = '/etc/apache2/conf-available'
+        $config_extension = '.conf'
+    } else {
+        $global_config_dir = '/etc/apache2/conf.d'
+        $config_extension = ''
+    }
 
     $config_dir = $site ? {
-        undef   => '/etc/apache2/conf.d',         # global
-        default => "/etc/apache2/site.d/${site}"  # site-specific
+        undef   => $global_config_dir,
+        default => "/etc/apache2/site.d/${site}"
     }
+
     $config_file = inline_template('<%= @title.gsub(/\W/, "-") %>')
 
-    file { "${config_dir}/${config_file}":
+    file { "${config_dir}/${config_file}${config_extension}":
         ensure  => $ensure,
         content => $content,
         source  => $source,
         require => Package['apache2'],
-        notify  => Service['apache2'],
+        notify  => [ Exec['refresh_conf_symlinks'], Service['apache2'] ],
     }
 }

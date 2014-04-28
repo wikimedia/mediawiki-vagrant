@@ -41,14 +41,35 @@ define php::ini (
     $settings,
     $ensure = present,
 ) {
-    include php
-    include apache
+    include ::php
+    include ::apache
 
     $basename = inline_template('<%= @title.gsub(/\W/, "-").downcase %>')
-    file { "/etc/php5/conf.d/${basename}.ini":
+
+    if versioncmp($::lsbdistrelease, '14') > 0 {
+        $conffile = "/etc/php5/mods-available/${basename}.ini"
+    } else {
+        $conffile = "/etc/php5/conf.d/${basename}.ini"
+    }
+
+    file { $conffile:
         ensure  => $ensure,
         content => template('php/conffile.ini.erb'),
         require => Package['php5'],
         notify  => Service['apache2'],
+    }
+
+    if $ensure == present {
+        exec { "/usr/sbin/php5enmod -s ALL ${basename}":
+            refreshonly => true,
+            onlyif      => 'test -x /usr/sbin/php5enmod',
+            subscribe   => File[$conffile],
+        }
+    } else {
+        exec { "/usr/sbin/php5dismod -s ALL ${basename}":
+            refreshonly => true,
+            onlyif      => 'test -x /usr/sbin/php5dismod',
+            before      => File[$conffile],
+        }
     }
 }

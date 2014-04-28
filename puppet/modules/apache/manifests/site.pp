@@ -40,11 +40,18 @@ define apache::site(
 ) {
     include apache
 
-    if ( $site == 'default' ) {
-        $site_file = '000-default'
+    if versioncmp($::lsbdistrelease, '14') < 0 {
+        $site_file_extension = ''
     } else {
-        $site_file = $site
+        $site_file_extension = '.conf'
     }
+
+    if $site == 'default' {
+        $site_file = "000-default${site_file_extension}"
+    } else {
+        $site_file = "${site}${site_file_extension}"
+    }
+
 
     case $ensure {
         present: {
@@ -74,15 +81,15 @@ define apache::site(
             }
 
             exec { "enable ${title}":
-                command => "a2ensite -qf ${site}",
+                command => "a2ensite -qf *${site}",
                 unless  => "test -L /etc/apache2/sites-enabled/${site_file}",
                 notify  => Service['apache2'],
-                require => Package['apache2'],
+                require => File["/etc/apache2/sites-available/${site_file}"],
             }
         }
         absent: {
             exec { "disable ${title}":
-                command => "a2dissite -qf ${site}",
+                command => "a2dissite -qf *${site}",
                 onlyif  => "test -L /etc/apache2/sites-enabled/${site_file}",
                 notify  => Service['apache2'],
                 require => Package['apache2'],
