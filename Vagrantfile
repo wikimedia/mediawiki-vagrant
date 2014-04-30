@@ -46,7 +46,7 @@ settings = Settings.new({
     # The vagrant box to load on the VM
     'BOX_NAME' => 'precise-cloud',
 
-    # Download URL for vagrant box
+    # Download URL for vagrant box.  If you change this, also update support/packager/urls.yaml .
     'BOX_URI' => 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box',
 
     # Amount of RAM to allocate to virtual machine in MB; must be numeric

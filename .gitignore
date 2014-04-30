@@ -19,3 +19,4 @@
 !/apt-cache/partial/.gitignore
 /wikimania_scholarships/
 /vagrant.d/
+/support/packager/output

@@ -1,0 +1,33 @@
+1. From the directory for your OS, install VirtualBox.
+2. From the directory for your OS, install Vagrant.  If you use Linux, use DEB for Debian or Ubuntu and RPM for Red Hat, Centos, Fedora, etc.
+
+Clone two repositories from the provided git bundles.  You can replace ~/Code/Vagrant with your choice of directory, but mediawiki must be directly underneath.
+
+3. Clone MediaWiki-Vagrant, a Vagrant development environment for MediaWiki work:
+
+git clone -b master mediawiki_vagrant.bundle ~/Code/Vagrant
+
+4. If you don't have a Gerrit username yet, signup at https://wikitech.wikimedia.org/wiki/Special:UserLogin/signup .  The username you choose will be referred to below as gerrit_username .
+
+5. Clone MediaWiki core, the main repository for MediaWiki:
+
+git clone -b master mediawiki_core.bundle ~/Code/Vagrant/mediawiki
+
+6. Configure your remotes:
+
+cd ~/Code/Vagrant
+git remote set-url origin ssh://gerrit_username@gerrit.wikimedia.org:29418/mediawiki/vagrant.git
+
+cd ~/Code/Vagrant/mediawiki
+git remote set-url origin ssh://gerrit_username@gerrit.wikimedia.org:29418/mediawiki/core.git
+
+7. Install the virtual machine Vagrant uses as a base:
+
+vagrant box add precise-cloud precise-server-cloudimg-amd64-vagrant-disk1.box
+
+8. Start MediaWiki-Vagrant:
+
+cd ~/Code/Vagrant
+vagrant up
+
+9. For further information, see ~/Code/Vagrant/README, https://www.mediawiki.org/wiki/Gerrit/Tutorial and https://www.mediawiki.org/wiki/MediaWiki-Vagrant.

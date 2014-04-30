@@ -1,0 +1,112 @@
+Base Box:
+  url: https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box
+  sha256: b938480454a16288a825b4d9b0a2e41e330970237035aa08dbd8fad9cc247be9
+
+GPLv2:
+  url: https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
+  sha256: 8177f97513213526df2cf6184d8ff986c675afb514d4e68a404010521b880643
+  filename: GPL-2.0.txt
+
+Vagrant License:
+  url: https://raw.githubusercontent.com/mitchellh/vagrant/master/LICENSE
+  sha256: 6a98fd9141fb93effb120368883a8d0106ad5304710338985df846d1558484de
+  filename: Vagrant_MIT.txt
+
+# https://www.virtualbox.org/wiki/Downloads
+VirtualBox:
+  # https://www.virtualbox.org/wiki/Linux_Downloads
+  Linux:
+    Debian Squeeze:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/virtualbox-4.3_4.3.10-93012~Debian~squeeze_amd64.deb
+      sha256: d5f5d063c31ca6d05a2776e3eb6115b595d4771fbb2deeb26e04128d42b5631a
+
+    Debian Wheezy:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/virtualbox-4.3_4.3.10-93012~Debian~wheezy_amd64.deb
+      sha256: 9dd0ce8f71531d0e56aad2a5bc4ac1cd82c6ea3c00468bb51ebcbdb361b74d87
+
+    Fedora 17:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3-4.3.10_93012_fedora17-1.x86_64.rpm
+      sha256: 7dc6a853adf2c22790a38f33e9c74187d0bcdd3f930c2659ee32c31068f06d63
+
+    Fedora 18 and 19:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3-4.3.10_93012_fedora18-1.x86_64.rpm
+      sha256: 5734ac50706c6b76dec92b37ba6cb594b12fbe546d774eae076ed05ecb222869
+
+    Mandriva 2011.0:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3-4.3.10_93012_mdv2011.0-1.x86_64.rpm
+      sha256: 5ce2abf259d19c04f43b18437fcb774b274ed56e77e674cab87dcd2b5b27573b
+
+    openSUSE 12.3 and 13.1:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3-4.3.10_93012_openSUSE123-1.x86_64.rpm
+      sha256: e5cb1e1d0772853f97b7c47263977cb38144a7678d8c9c7294efcba1167e0aff
+
+    openSUSE 11.4, 12.1, and 12.2:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3-4.3.10_93012_openSUSE114-1.x86_64.rpm
+      sha256: e9d89cd0bf942dcde08f4492e8815b59800e126f5fc0a99e3166b6e113dbd0a6
+
+    Other:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3.10-93012-Linux_amd64.run
+      sha256: 3483517046c5db6d96ba8d3b632715f44570a85eee0326cd252f783ed84120be
+
+    Red Hat Enterprise Linux and CentOS and Oracle Linux 5:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3-4.3.10_93012_el5-1.x86_64.rpm
+      sha256: c8c4ef53a4b7145cbb7dd5119512230ee13ac8e417dd4bd1e822756ad018735f
+
+    Red Hat Enterprise Linux and CentOS and Oracle Linux 6:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3-4.3.10_93012_el6-1.x86_64.rpm
+      sha256: 80900f71f70a0744f9899324060bec254bf9fb3e232c2bf3b86ef824e5833299
+
+    SUSE Linux Enterprise Server 10:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3-4.3.10_93012_sles10.1-1.x86_64.rpm
+      sha256: 38afc0d7cf19011251b0eb28016f13349709bb486c1a260dd16c7fc8cd009b0d
+
+    SUSE Linux Enterprise Server 11:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3-4.3.10_93012_sles11.0-1.x86_64.rpm
+      sha256: 8206f8c1741a4918a477de9827dfed82f9ddc5a7e3cd69db114e0ffbc7d0bde3
+
+    Ubuntu Lucid:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/virtualbox-4.3_4.3.10-93012~Ubuntu~lucid_amd64.deb
+      sha256: 9f9b1b1be5aafcba1a95700983f0ca6f9b0a48d2a914bb70d1f0ac015a137f52
+
+    Ubuntu Precise:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/virtualbox-4.3_4.3.10-93012~Ubuntu~precise_amd64.deb
+      sha256: ac88ef211c2c43eb3d69e23f5e69acd716ff7ba711c29734cf634273079ab061
+
+    Ubuntu Quantal:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/virtualbox-4.3_4.3.10-93012~Ubuntu~quantal_amd64.deb
+      sha256: aa33a1d8e261e5444a0baeb68c950c00b13924cebf58f8af2cb3596073e00f6a
+
+    Ubuntu Raring and Saucy:
+      url: http://download.virtualbox.org/virtualbox/4.3.10/virtualbox-4.3_4.3.10-93012~Ubuntu~raring_amd64.deb
+      sha256: 67966e3c908fb9a474a88be75e63dabee6813537a743da9c1f30a4797d380a60
+
+  Mac:
+    url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3.10-93012-OSX.dmg
+    sha256: 8bf24a7afbde0cdb560b40abd8ab69584621ca6de59026553f007a0da7b4d443
+
+  Windows:
+    url: http://download.virtualbox.org/virtualbox/4.3.10/VirtualBox-4.3.10-93012-Win.exe
+    sha256: 0d09d551dbae7ce1c18b79d2f46b7aa02599a94b431518a3b8d97b5fd1e6b59e
+
+# http://www.vagrantup.com/downloads.html
+# One package for all .deb, one for all .rpm
+
+# TODO (mattflaschen 2014-04-30): What OS versions are supported? Not
+# documented on that page for either DEB or RPM
+Vagrant:
+  Linux:
+    DEB:
+      url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.5.4_x86_64.deb
+      sha256: 08142c24d6d26a0c22edf74cc912d1fd4bbef533751fcaf74dbc1418f4d2da1f
+
+    RPM:
+      url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.5.4_x86_64.rpm
+      sha256: fecb1477e807c620cd3d1fc4524432eb4a7c88cbc325b7398e88bb2d946246bb
+
+  Mac:
+    url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.5.4.dmg
+    sha256: c8ded45183a03a8bfabe67ee82886ecfdafeb24030df9e631717ae1209475ba8
+
+  Windows:
+    url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.5.4.msi
+    sha256: 77a9f28da16471ca64abe1625417f8031ca11e9b94627e8eac2328a2b46ea43c
