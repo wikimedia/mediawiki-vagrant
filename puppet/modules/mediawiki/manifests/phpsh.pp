@@ -8,7 +8,7 @@ class mediawiki::phpsh {
     include php
 
     package { 'phpsh':
-        ensure   => '1.3.4',
+        ensure   => '1.3.5',
         provider => pip,
         require  => Package['php5'],
     }
