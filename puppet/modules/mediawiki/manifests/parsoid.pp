@@ -61,6 +61,15 @@ class mediawiki::parsoid(
         require => Package['nodejs'],
     }
 
+    mediawiki::extension { 'Parsoid':
+        # https://bugzilla.wikimedia.org/show_bug.cgi?id=64644
+        entrypoint => 'php/Parsoid.php',
+        settings   => {
+            # Documented to be used for Varnish, which is not yet on MediaWiki-Vagrant
+            wgParsoidCacheServers => [],
+        }
+    }
+
     service { 'parsoid':
         ensure    => running,
         provider  => 'upstart',
