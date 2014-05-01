@@ -1,0 +1,18 @@
+# Last Modified: Wed Apr 23 00:50:18 2014
+#include <tunables/global>
+
+/usr/bin/redis-server {
+  #include <abstractions/base>
+
+  network inet stream,
+
+
+  /etc/redis/redis.conf r,
+  /proc/*/smaps r,
+  /proc/sys/vm/overcommit_memory r,
+  /run/redis/redis-server.pid w,
+  /srv/redis/*.rdb rw,
+  /usr/bin/redis-server mr,
+  /var/log/redis/redis-server.log w,
+
+}
