@@ -57,6 +57,8 @@ $wgObjectCaches['redis'] = array(
 );
 $wgMainCacheType = 'redis';
 $wgSessionCacheType = 'redis';
+$wgMessageCacheType = 'redis';
+$wgLocalisationCacheConf['store'] = 'accel';
 
 $wgLegacyJavaScriptGlobals = false;
 $wgEnableJavaScriptTest = true;
