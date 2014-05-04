@@ -1,0 +1,15 @@
+// https://www.mediawiki.org/wiki/Extension:GWToolset
+$wgAllowCopyUploads = true;
+$wgGroupPermissions['sysop']['gwtoolset'] = true;
+$wgGroupPermissions['sysop']['upload_by_url'] = true;
+
+$wgFileBackends[] = array(
+   'name'           => 'gwtoolset-backend',
+   'class'          => 'FSFileBackend',
+   'lockManager'    => 'nullLockManager',
+   'fileMode'       => 0644,
+   'basePath'       => $IP . '/images/gwtoolset',
+);
+
+$wgGWTFileBackend = 'gwtoolset-backend';
+$wgGWTFBMaxAge = '1 week';
