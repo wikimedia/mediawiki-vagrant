@@ -22,6 +22,7 @@ class role::multimedia {
         values => {
             wgThumbnailScriptPath      => false,
             wgGenerateThumbnailOnParse => false,
+            wgUseImageMagick           => true,
         },
     }
 
