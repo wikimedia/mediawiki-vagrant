@@ -39,4 +39,8 @@ class Settings
             end
         end
     end
+
+    def save(file)
+        File.open(file, "w") {|f| f.write(@settings.to_yaml) }
+    end
 end
