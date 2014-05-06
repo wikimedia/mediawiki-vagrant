@@ -1,8 +1,13 @@
 # == Class: role::multimedia
-# This class configures MediaWiki for multimedia development.
+# This class configures MediaWiki for multimedia development:
+# - installs ImageMagick
+# - raises file size limits
+# - configures [404 handler][1]
 # It is meant to contain general configuration of shared use to other
 # extensions that are commonly used by the multimedia team in
 # development and testing.
+#
+# [1] https://www.mediawiki.org/wiki/Manual:Thumb.php#404_Handler
 class role::multimedia {
     include role::mediawiki
 
