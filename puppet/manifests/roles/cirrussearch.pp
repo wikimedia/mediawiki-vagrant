@@ -42,7 +42,7 @@ class role::cirrussearch {
     elasticsearch::plugin { 'highlighter':
         group   => 'org.wikimedia.search.highlighter',
         name    => 'experimental-highlighter-elasticsearch-plugin',
-        version => '0.0.6',
+        version => '0.0.8',
     }
 
     mediawiki::extension { 'Elastica': }
