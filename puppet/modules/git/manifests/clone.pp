@@ -33,14 +33,15 @@ define git::clone(
 ) {
     include git
 
-    $url = $remote ? {
-        undef   => sprintf($git::urlformat, $title),
-        default => $remote,
-    }
-
-    $origin = $user ? {
-        ''      => 'origin',
-        default => 'gerrit',
+    if ( $remote ) {
+        $url = $remote
+        $origin = 'origin'
+    } else {
+        $url = sprintf($git::urlformat, $title)
+        $origin = $user ? {
+            ''      => 'origin',
+            default => 'gerrit',
+        }
     }
 
     exec { "git clone ${title}":
@@ -53,31 +54,36 @@ define git::clone(
         timeout     => 0,
     }
 
-
     #
-    # Make sure the remote is called "origin" for non-authenticated git, and "gerrit" when GIT_USER is set in Vagrantfile
-    #
-    $badorigin = $user ? {
-        ''      => 'gerrit',
-        default => 'origin',
-    }
-    exec { "git rename ${title}: ${badorigin} -> ${origin}":
-        command     => "git remote rename ${badorigin} ${origin}",
-        onlyif      => "test $(git config --get branch.${branch}.remote) = '${badorigin}'",
-        cwd         => $directory,
-        require     => Package['git'],
-        user        => $owner,
-        group       => $group,
-        environment => 'HOME=/home/vagrant',
-        timeout     => 0,
-    }
-
-
-    #
-    # Change GIT URL to the SSH-based URL if $user is set
+    # If remote is not set, configure the name and URL of the remote
     #
     if ( !$remote ) {
-        $url2 =  "ssh://${user}@gerrit.wikimedia.org:29418/${title}.git"
+        #
+        # Force remote name to "origin" for anonymous git, and "gerrit" when GIT_USER is set
+        #
+        $badorigin = $user ? {
+            ''      => 'gerrit',
+            default => 'origin',
+        }
+        exec { "git rename ${title}: ${badorigin} -> ${origin}":
+            command     => "git remote rename ${badorigin} ${origin}",
+            onlyif      => "test $(git config --get branch.${branch}.remote) = '${badorigin}'",
+            cwd         => $directory,
+            require     => Package['git'],
+            user        => $owner,
+            group       => $group,
+            environment => 'HOME=/home/vagrant',
+            timeout     => 0,
+        }
+
+        #
+        # Set GIT URL to SSH-based URL if GIT_USER is set, or HTTPS for anonymous
+        #
+        if ( $user ) {
+            $url2 = "ssh://${user}@gerrit.wikimedia.org:29418/${title}.git"
+        } else {
+            $url2 = "https://gerrit.wikimedia.org/r/${title}.git"
+        }
         exec { "git set-remote ${url2}":
             command     => "git remote set-url ${origin} ${url2}",
             onlyif      => "test $(git config --get remote.${origin}.url) != '${url2}'",
