@@ -5,3 +5,12 @@
 [submodule "puppet/modules/wikimetrics"]
 	path = puppet/modules/wikimetrics
 	url = https://gerrit.wikimedia.org/r/operations/puppet/wikimetrics
+[submodule "puppet/modules/nginx"]
+	path = puppet/modules/nginx
+	url = https://gerrit.wikimedia.org/r/operations/puppet/nginx
+[submodule "puppet/modules/mariadb"]
+	path = puppet/modules/mariadb
+	url = https://gerrit.wikimedia.org/r/operations/puppet/mariadb
+[submodule "puppet/modules/varnish"]
+	path = puppet/modules/varnish
+	url = https://gerrit.wikimedia.org/r/operations/puppet/varnish
