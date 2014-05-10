@@ -107,14 +107,11 @@ Vagrant.configure('2') do |config|
     config.vm.network :forwarded_port,
         guest: 80, host: settings['http_port'].to_i, id: 'http'
 
-    # Forward additional ports
-    if settings['forward_ports']
-        settings['forward_ports'].each do |guest_port,host_port|
-            config.vm.network :forwarded_port,
-                :host => host_port.to_i, :guest => guest_port.to_i,
-                auto_correct: true
-        end
-    end
+    settings['forward_ports'].each { |guest_port,host_port|
+        config.vm.network :forwarded_port,
+            :host => host_port.to_i, :guest => guest_port.to_i,
+            auto_correct: true
+    } unless settings['forward_ports'].nil?
 
     config.vm.synced_folder '.', '/vagrant',
         id: 'vagrant-root',

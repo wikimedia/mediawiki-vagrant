@@ -96,7 +96,7 @@ class mediawiki(
 
     file { $upload_dir:
         ensure => directory,
-        owner  => 'vagrant',
+        owner  => 'www-data',
         group  => 'www-data',
         mode   => '0775',
     }
