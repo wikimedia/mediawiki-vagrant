@@ -8,21 +8,14 @@
 class role::mleb {
     include role::mediawiki
     include role::cldr
-
-    mediawiki::extension { 'Babel':
-        require  => Mediawiki::Extension['cldr'],
-    }
+    include role::babel
 
     mediawiki::extension { 'LocalisationUpdate':
-        settings => {
-            wgLocalisationUpdateDirectory => '$IP/cache',
-        },
+        settings => { wgLocalisationUpdateDirectory => '$IP/cache' },
     }
 
     mediawiki::extension { 'CleanChanges':
-        settings => [
-            '$wgDefaultUserOptions["usenewrc"] = 1',
-        ],
+        settings => '$wgDefaultUserOptions["usenewrc"] = 1',
     }
 
     mediawiki::extension { 'Translate':
@@ -37,13 +30,11 @@ class role::mleb {
     }
 
     mediawiki::extension { 'Interwiki':
-        settings => [ '$wgGroupPermissions["sysop"]["interwiki"] = true' ],
+        settings => '$wgGroupPermissions["sysop"]["interwiki"] = true',
     }
 
     mediawiki::extension { 'UniversalLanguageSelector':
-        settings => {
-            wgULSEnable => true,
-        },
         require  => Mediawiki::Extension['Interwiki'],
+        settings => { wgULSEnable => true },
     }
 }
