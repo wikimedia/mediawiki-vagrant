@@ -79,11 +79,18 @@ foreach( $wgProfilerParams as $param => $cls ) {
 	}
 }
 
-// Load configuration fragments from /vagrant/settings.d
-foreach( array_merge(
-	glob( __DIR__ . '/settings.d/puppet-managed/*.php' ),
-	glob( __DIR__ . '/settings.d/*.php' ) ) as $conffile ) {
-	include_once $conffile;
+if ( getenv( 'MULTIWIKI' ) ) {
+	require_once __DIR__ . '/settings.d/multiwiki/CommonSettings.php';
+} else {
+	// Load configuration fragments from /vagrant/settings.d
+	foreach(
+		array_merge(
+			glob( __DIR__ . '/settings.d/puppet-managed/*.php' ),
+			glob( __DIR__ . '/settings.d/*.php' )
+		) as $conffile
+	) {
+		include_once $conffile;
+	}
 }
 
 // XXX: Is this a bug in core? (ori-l, 27-Aug-2013)

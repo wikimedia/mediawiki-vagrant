@@ -1,0 +1,64 @@
+<?php
+// This file is managed by Puppet.
+
+$wgLocalDatabases[] = 'wiki';
+foreach ( glob( __DIR__ . '/*/dbConf.php' ) as $file) {
+	include_once $file;
+}
+
+$wgConf->wikis = $wgLocalDatabases;
+$wgConf->suffixes = $wgLocalDatabases;
+
+/**
+ * siteParamsCallback
+ */
+function efGetSiteParams( $conf, $wiki ) {
+	$site = null;
+	$lang = null;
+	foreach( $conf->suffixes as $suffix ) {
+		if ( substr( $wiki, -strlen( $suffix ) ) == $suffix ) {
+			$site = $suffix;
+			$lang = substr( $wiki, 0, -strlen( $suffix ) );
+			break;
+		}
+	}
+	return array(
+		'suffix' => $site,
+		'lang' => $lang,
+		'params' => array(
+			'lang' => $lang,
+			'site' => $site,
+			'wiki' => $wiki,
+		),
+		'tags' => array(),
+	);
+}
+$wgConf->siteParamsCallback = 'efGetSiteParams';
+
+$wgConf->settings=array(
+	'wgServer' => array(
+		'default' => "//127.0.0.1:<%= @forwarded_port %>",
+	),
+	'wgCanonicalServer' => array(
+		'default' => "http://127.0.0.1:<%= @forwarded_port %>",
+	),
+	'wgArticlePath' => array(
+		'default' => '/wiki/$1',
+	),
+	'wgScriptPath' => array(
+		'default'=>'/w',
+	),
+	'wgLogo' => array(
+		'default'=>'/mediawiki-vagrant.png',
+	),
+	'wgSitename' => array(
+		'default'=>'devwiki'
+	),
+);
+
+// Need settings for all wikis so cross-wiki urls generate
+foreach ( glob( __DIR__ . '/*/wgConf.php' ) as $file) {
+	include_once $file;
+}
+
+$wgConf->extractAllGlobals( $wgDBname );

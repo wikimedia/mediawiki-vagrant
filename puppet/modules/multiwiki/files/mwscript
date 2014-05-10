@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Shell wrapper for multiwiki/MWScript.php.
+#
+
+# Ensure that the script is run as the www-data user
+[[ $(whoami) = www-data ]] || exec sudo -u www-data -- "$0" "$@"
+
+exec php /srv/multiwiki/MWScript.php "$@"

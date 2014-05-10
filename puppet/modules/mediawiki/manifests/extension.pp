@@ -43,6 +43,10 @@
 #   Settings may be specified as a hash, array, or string. See examples
 #   below. Empty by default.
 #
+# [*settings_dir*]
+#   Directory to write settings file to.
+#   Default $::mediawiki::managed_settings_dir
+#
 # === Examples
 #
 # The following example configures the EventLogging MediaWiki extension and
@@ -84,20 +88,24 @@ define mediawiki::extension(
     $needs_update = false,
     $branch       = undef,
     $settings     = {},
+    $settings_dir = $::mediawiki::managed_settings_dir,
 ) {
     include mediawiki
 
-    git::clone { "mediawiki/extensions/${extension}":
-        directory => "${mediawiki::dir}/extensions/${extension}",
-        branch    => $branch,
-        require   => Git::Clone['mediawiki/core'],
+    if ! defined(Git::Clone["mediawiki/extensions/${extension}"]) {
+        git::clone { "mediawiki/extensions/${extension}":
+            directory => "${mediawiki::dir}/extensions/${extension}",
+            branch    => $branch,
+            require   => Git::Clone['mediawiki/core'],
+        }
     }
 
-    mediawiki::settings { $extension:
+    mediawiki::settings { $title:
         ensure       => $ensure,
         header       => sprintf('include_once "$IP/extensions/%s/%s";', $extension, $entrypoint),
         values       => $settings,
         priority     => $priority,
+        settings_dir => $settings_dir,
         require      => Git::Clone["mediawiki/extensions/${extension}"],
     }
 

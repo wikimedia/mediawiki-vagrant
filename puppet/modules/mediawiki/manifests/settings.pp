@@ -30,6 +30,10 @@
 #   The content will be added *after* the settings values. Empty by
 #   default.
 #
+# [*settings_dir*]
+#   Directory to write settings file to.
+#   Default $::mediawiki::managed_settings_dir
+#
 # === Examples
 #
 # The following example configures the EventLogging MediaWiki settings and
@@ -69,13 +73,13 @@ define mediawiki::settings(
     $priority     = 10,
     $header       = '',
     $footer       = '',
+    $settings_dir = $::mediawiki::managed_settings_dir,
 ) {
     include mediawiki
 
     # make a safe filename based on our title
     $fname = inline_template('<%= @title.gsub(/\W/, "-") %>')
-    $settings_file = sprintf('%s/%.2d-%s.php',
-        $mediawiki::managed_settings_dir, $priority, $fname)
+    $settings_file = sprintf('%s/%.2d-%s.php', $settings_dir, $priority, $fname)
 
     file { $settings_file:
         ensure  => $ensure,

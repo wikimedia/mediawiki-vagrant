@@ -1,0 +1,8 @@
+<?php
+// This file is managed by Puppet.
+
+$wgConf->settings['wgServer']['<%= @wikidb %>'] = '//<%= @title %>.wiki.local.wmftest.net:<%= @forwarded_port %>';
+$wgConf->settings['wgCanonicalServer']['<%= @wikidb %>'] = 'http://<%= @title %>.wiki.local.wmftest.net:<%= @forwarded_port %>';
+$wgConf->settings['wgArticlePath']['<%= @wikidb %>'] = '/wiki/$1';
+$wgConf->settings['wgScriptPath']['<%= @wikidb %>'] = '';
+$wgConf->settings['wgSitename']['<%= @wikidb %>'] = '<%= @wikidb %>';

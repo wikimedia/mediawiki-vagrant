@@ -1,0 +1,9 @@
+<?php
+// This file is managed by Puppet.
+// Based on operations/mediawiki-config.git multiversion/defines.php @9abf4ac
+/**
+ * Define installation specific MWMultiVersion values like paths
+ */
+define( 'MULTIVER_COMMON_APACHE', '<%= scope.lookupvar('mediawiki::dir') %>' );
+define( 'MULTIVER_404SCRIPT_PATH_HOME', '<%= @docroot %>/missing.php' );
+define( 'MULTIVER_404SCRIPT_PATH_APACHE', MULTIVER_404SCRIPT_PATH_HOME );

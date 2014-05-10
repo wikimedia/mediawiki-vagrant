@@ -77,22 +77,21 @@ define apache::site(
                 ensure  => file,
                 content => template('apache/site.conf.erb'),
                 require => Package['apache2'],
-                before  => Exec["enable ${site}"],
             }
 
-            exec { "enable ${title}":
-                command => "a2ensite -qf *${site}",
-                unless  => "test -L /etc/apache2/sites-enabled/${site_file}",
+            # Manage the symlink as a file rather than using a2ensite so that
+            # puppet knows about the file and won't clean it up prematurely.
+            file { "/etc/apache2/sites-enabled/${site_file}":
+                ensure  => link,
+                target  => "/etc/apache2/sites-available/${site_file}",
                 notify  => Service['apache2'],
                 require => File["/etc/apache2/sites-available/${site_file}"],
             }
         }
         absent: {
-            exec { "disable ${title}":
-                command => "a2dissite -qf *${site}",
-                onlyif  => "test -L /etc/apache2/sites-enabled/${site_file}",
-                notify  => Service['apache2'],
-                require => Package['apache2'],
+            file { "/etc/apache2/sites-enabled/${site_file}":
+                ensure => absent,
+                notify => Service['apache2'],
             }
         }
         default: {

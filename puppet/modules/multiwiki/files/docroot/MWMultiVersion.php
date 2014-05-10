@@ -1,0 +1,170 @@
+<?php
+// This file is managed by Puppet.
+// Based on operations/mediawiki-config.git multiversion/MWMultiversion.php @9abf4ac
+require_once( __DIR__ . '/defines.php' );
+
+/**
+ * Class to handle basic information related to what
+ * version of MediaWiki is running on a wiki installation.
+ *
+ * Avoid setting environmental or globals variables here for OOP.
+ */
+class MWMultiVersion {
+	/**
+	 * @var MWMultiVersion
+	 */
+	private static $instance;
+
+	/**
+	 * @var string
+	 */
+	private $db;
+
+	/**
+	 * To get an instance of this class, use the static helper methods.
+	 * @see getInstanceForWiki
+	 * @see getInstanceForUploadWiki
+	 */
+	private function __construct() {}
+	private function __clone() {}
+
+	/**
+	 * Create a multiversion object based on a dbname
+	 * @param $dbName string
+	 * @return MWMultiVersion object for this wiki
+	 */
+	public static function newFromDBName( $dbName ) {
+		$m = new self();
+		$m->db = $dbName;
+		return $m;
+	}
+
+	/**
+	 * Create the singleton version instance
+	 * @return MWMultiVersion object for this wiki
+	 */
+	private static function createInstance() {
+		if ( isset( self::$instance ) ) {
+			self::error( "MWMultiVersion instance already set!\n" );
+		}
+		self::$instance = new self;
+		return self::$instance;
+	}
+
+	/**
+	 * Initialize and get the singleton instance of MWMultiVersion.
+	 * Use this for all web hits except to /w/thumb.php on upload.wikmedia.org.
+	 * @param $serverName the ServerName for this wiki -- $_SERVER['SERVER_NAME']
+	 * @return MWMultiVersion object for this wiki
+	 */
+	public static function initializeForWiki( $serverName ) {
+		$instance = self::createInstance();
+		$instance->setSiteInfoForWiki( $serverName );
+		return $instance;
+	}
+
+	/**
+	 * Initialize and get the singleton instance of MWMultiVersion.
+	 * Use this for PHP CLI hits to maintenance scripts.
+	 * @return MWMultiVersion object for the wiki derived from --wiki CLI parameter
+	 */
+	public static function initializeForMaintenance() {
+		$instance = self::createInstance();
+		$instance->setSiteInfoForMaintenance();
+		return $instance;
+	}
+
+	/**
+	 * Get the singleton instance of MWMultiVersion that was previously
+	 * initialized.
+	 * @return MWMultiVersion|null version object for the wiki
+	 */
+	public static function getInstance() {
+		return self::$instance;
+	}
+
+	/**
+	 * Derives site and lang from the parameters and sets $site and $lang on the
+	 * instance
+	 * @param $serverName the ServerName for this wiki -- $_SERVER['SERVER_NAME']
+	 */
+	private function setSiteInfoForWiki( $serverName ) {
+		$matches = array();
+
+		if ( preg_match( '/^(\w+)\.wiki\.local\.wmftest\.net$/', $serverName, $matches ) ) {
+			$lang = $matches[1];
+		} else {
+			self::error( "Invalid host name ($serverName).\n" );
+		}
+		$this->loadDBFromSite( 'wiki', $lang );
+	}
+
+	/**
+	 * Gets the site and lang from the --wiki argument.
+	 * This code reflects how Maintenance.php reads arguments.
+	 */
+	private function setSiteInfoForMaintenance() {
+		global $argv;
+
+		$dbname = '';
+		# The --wiki param must the second argument to to avoid
+		# any "options with args" ambiguity (see Maintenance.php).
+		if ( isset( $argv[1] ) && $argv[1] === '--wiki' ) {
+			$dbname = isset( $argv[2] ) ? $argv[2] : ''; // "script.php --wiki dbname"
+		} elseif ( isset( $argv[1] ) && substr( $argv[1], 0, 7 ) === '--wiki=' ) {
+			$dbname = substr( $argv[1], 7 ); // "script.php --wiki=dbname"
+		} elseif ( isset( $argv[1] ) && substr( $argv[1], 0, 2 ) !== '--' ) {
+			$dbname = $argv[1]; // "script.php dbname"
+		}
+
+		if ( $dbname === '' ) {
+			self::error( "--wiki must be the first parameter.\n" );
+		}
+
+		$this->db = $dbname;
+	}
+
+	/**
+	 * Load the DB from the site and lang for this wiki
+	 * @param $site string
+	 * @param $lang string
+	 */
+	private function loadDBFromSite( $site, $lang ) {
+		$dbSuffix = $site;
+		$this->db = str_replace( '-', '_', $lang . $dbSuffix );
+	}
+
+	/**
+	 * Get the DB name for this wiki
+	 * @return String the database name
+	 */
+	public function getDatabase() {
+		return $this->db;
+	}
+
+	/**
+	 * Check if this wiki is *not* specified in a cdb file
+	 * located at /usr/local/apache/common-local/wikiversions.cdb.
+	 * @return bool
+	 */
+	public function isMissing() {
+		global $wgLocalDatabases;
+		return !in_array( $this->db, $wgLocalDatabases );
+	}
+
+	/**
+	 * Error out and exit(1);
+	 * @param $msg String
+	 * @return void
+	 */
+	private static function error( $msg ) {
+		$msg = (string)$msg;
+		if ( PHP_SAPI !== 'cli' ) {
+			$msg = htmlspecialchars( $msg );
+			header( 'HTTP/1.1 500 Internal server error' );
+		}
+		echo $msg;
+		trigger_error( $msg, E_USER_ERROR );
+		exit( 1 ); // sanity
+	}
+}
