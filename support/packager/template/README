@@ -12,11 +12,15 @@ Replace /thumb with the location of the USB drive, or the location where you cop
 cd /thumb
 git clone -b master mediawiki_vagrant.bundle ~/Code/Vagrant
 
-5. Clone MediaWiki core, the main repository for MediaWiki:
+5. Copy the Ubuntu packages to the apt-cache:
+
+cp apt-cache/*.deb ~/Code/Vagrant/apt-cache/
+
+6. Clone MediaWiki core, the main repository for MediaWiki:
 
 git clone -b master mediawiki_core.bundle ~/Code/Vagrant/mediawiki
 
-6. Configure your remotes:
+7. Configure your remotes:
 
 cd ~/Code/Vagrant
 git remote set-url origin ssh://gerrit_username@gerrit.wikimedia.org:29418/mediawiki/vagrant.git
@@ -24,16 +28,16 @@ git remote set-url origin ssh://gerrit_username@gerrit.wikimedia.org:29418/media
 cd ~/Code/Vagrant/mediawiki
 git remote set-url origin ssh://gerrit_username@gerrit.wikimedia.org:29418/mediawiki/core.git
 
-7. Install the virtual machine Vagrant uses as a base:
+8. Install the virtual machine Vagrant uses as a base:
 
 cd /thumb
 vagrant box add precise-cloud precise-server-cloudimg-amd64-vagrant-disk1.box
 
-8. Start MediaWiki-Vagrant:
+9. Start MediaWiki-Vagrant:
 
 cd ~/Code/Vagrant
 vagrant up
 
-9. After 'vagrant up' is complete, you can test in your browser at http://127.0.0.1:8080/ .
+10. After 'vagrant up' is complete, you can test in your browser at http://127.0.0.1:8080/ .
 
 For further information, see ~/Code/Vagrant/README, https://www.mediawiki.org/wiki/Gerrit/Tutorial and https://www.mediawiki.org/wiki/MediaWiki-Vagrant .  You should follow the steps above, rather than the installation instructions from the other README or the "Quick start" on the wiki page.
