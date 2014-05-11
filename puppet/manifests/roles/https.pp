@@ -18,4 +18,12 @@ class role::https {
     vagrant::settings { 'https':
         forward_ports => { 443 => 4430 },
     }
+
+    # enable secure login
+    mediawiki::settings { 'SSL-related settings':
+        values => {
+            'wgSecureLogin' => true,
+            'wgHttpsPort'   => 4430,
+        }
+    }
 }
