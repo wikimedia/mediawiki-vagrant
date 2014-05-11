@@ -14,7 +14,7 @@ class Settings
 
     # Get a setting
     def [](key)
-        @settings.fetch(key, nil)
+        @settings.fetch(key.downcase, nil)
     end
 
     # Load settings from a file
@@ -24,12 +24,15 @@ class Settings
 
     # Update current settings with a new hash
     def update(other_settings)
-        @settings.update(other_settings) do |key, oldval, newval|
-            if key == 'FORWARD_PORTS'
+        # For backward-compatibility, downcase all keys
+        normalized_other_settings = Hash[other_settings.map{ |k,v| [k.downcase, v] }]
+
+        @settings.update(normalized_other_settings) do |key, oldval, newval|
+            if key == 'forward_ports'
                 # Merge port mappings
                 oldval.update(newval)
 
-            elsif key == 'VAGRANT_RAM' || key == 'VAGRANT_CORES'
+            elsif key == 'vagrant_ram' || key == 'vagrant_cores'
                 # Keep the biggest ram and cores
                 [oldval, newval].max
 
@@ -41,6 +44,6 @@ class Settings
     end
 
     def save(file)
-        File.open(file, "w") {|f| f.write(@settings.to_yaml) }
+        File.open(file, "w") { |f| f.write(@settings.to_yaml) }
     end
 end

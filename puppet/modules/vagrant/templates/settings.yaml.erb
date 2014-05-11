@@ -1,28 +1,28 @@
 # Vagrant settings
 # Managed by puppet. Local changes will be lost on next puppet run.
 <%- if @box_name -%>
-BOX_NAME: "<%= @box_name %>"
+box_name: "<%= @box_name %>"
 <%- end -%>
 <%- if @box_uri -%>
-BOX_URI: "<%= @box_uri %>"
+box_uri: "<%= @box_uri %>"
 <%- end -%>
 <%- if @ram -%>
-VAGRANT_RAM: <%= @ram.to_i %>
+vagrant_ram: <%= @ram.to_i %>
 <%- end -%>
 <%- if @cores -%>
-VAGRANT_CORES: <%= @cores.to_i %>
+vagrant_cores: <%= @cores.to_i %>
 <%- end -%>
 <%- if @static_ip -%>
-STATIC_IP: "<%= @static_ip %>"
+static_ip: "<%= @static_ip %>"
 <%- end -%>
 <%- if @http_port -%>
-HTTP_PORT: <%= @http_port.to_i %>
+http_port: <%= @http_port.to_i %>
 <%- end -%>
 <%- if @puppet_debug -%>
-PUPPET_DEBUG: <%= @puppet_debug %>
+puppet_debug: <%= @puppet_debug %>
 <%- end -%>
 <%- if @forward_ports -%>
-FORWARD_PORTS:
+forward_ports:
     <%- @forward_ports.keys.sort.each do |k| -%>
     <%= k.to_i %>: <%= @forward_ports[k].to_i %>
     <%- end -%>

@@ -35,45 +35,45 @@ require 'settings'
 # ----------------------
 # These can be changed by making a `.settings.yaml` file that contains YAML
 # replacements. Example:
-#   GIT_USER: "username"
-#   BOX_NAME: "foo"
-#   VAGRANT_RAM: 2048
-#   FORWARD_PORTS:
+#   git_user: "username"
+#   box_name: "foo"
+#   vagrant_ram: 2048
+#   forward_ports:
 #     27017: 31337
 #
 # Some roles may also provide new settings values. When applied these roles
 # will require a `vagrant reload` call for their changes to take effect.
 settings = Settings.new({
     # Gerrit username, as used at gerrit.wikimedia.org, or '' if anonymous
-    'GIT_USER' => '',
+    'git_user' => '',
 
     # The vagrant box to load on the VM
-    'BOX_NAME' => 'precise-cloud',
+    'box_name' => 'precise-cloud',
 
     # Download URL for vagrant box.  If you change this, also update support/packager/urls.yaml .
-    'BOX_URI' => 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box',
+    'box_uri' => 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box',
 
     # Amount of RAM to allocate to virtual machine in MB; must be numeric
-    'VAGRANT_RAM' => 768,
+    'vagrant_ram' => 768,
 
     # Number of virtual CPUs to allocate to virtual machine; must be numeric
     # If you are on a single-core system, change the following default to 1:
-    'VAGRANT_CORES' => 2,
+    'vagrant_cores' => 2,
 
     # Static IP address for virtual machine
-    'STATIC_IP' => '10.11.12.13',
+    'static_ip' => '10.11.12.13',
 
     # The port on the host that should be forwarded to the guest's HTTP server.
     # Must be numeric.
-    'HTTP_PORT' => 8080,
+    'http_port' => 8080,
 
     # You may provide a map of vm:host port pairs for Vagrant to forward.
     # Keys and values must be numeric.
-    'FORWARD_PORTS' => {},
+    'forward_ports' => {},
 
     # Enable puppet debug output?
     # Must be boolean
-    'PUPPET_DEBUG' => false,
+    'puppet_debug' => false,
 })
 
 # Load role provided settings
@@ -91,7 +91,7 @@ if !File.file?(root_settings_file)
     print("If VM has already been created, run 'vagrant provision' to fix all remote git URLs.\n")
     print("You can always set it later by editing .settings.yaml file\n")
     print(' ==> ')
-    s = Settings.new({'GIT_USER' => STDIN.gets.chomp})
+    s = Settings.new({'git_user' => STDIN.gets.chomp})
     s.save(root_settings_file)
 end
 
@@ -107,8 +107,8 @@ Vagrant.configure('2') do |config|
     # the file using another tool that implements SSL properly, and then
     # point Vagrant to the downloaded file:
     #   $ vagrant box add precise-cloud /path/to/file/precise.box
-    config.vm.box = settings['BOX_NAME']
-    config.vm.box_url = settings['BOX_URI']
+    config.vm.box = settings['box_name']
+    config.vm.box_url = settings['box_uri']
     if config.vm.respond_to? 'box_download_insecure'  # Vagrant 1.2.6+
         config.vm.box_download_insecure = true
     end
@@ -117,14 +117,14 @@ Vagrant.configure('2') do |config|
     # See https://github.com/mitchellh/vagrant/issues/1673
     config.ssh.shell = "bash -c 'BASH_ENV=/etc/profile exec bash'"
 
-    config.vm.network :private_network, ip: settings['STATIC_IP']
+    config.vm.network :private_network, ip: settings['static_ip']
 
     config.vm.network :forwarded_port,
-        guest: 80, host: settings['HTTP_PORT'].to_i, id: 'http'
+        guest: 80, host: settings['http_port'].to_i, id: 'http'
 
     # Forward additional ports
-    if settings['FORWARD_PORTS']
-        settings['FORWARD_PORTS'].each do |guest_port,host_port|
+    if settings['forward_ports']
+        settings['forward_ports'].each do |guest_port,host_port|
             config.vm.network :forwarded_port,
                 :host => host_port.to_i, :guest => guest_port.to_i,
                 auto_correct: true
@@ -145,8 +145,8 @@ Vagrant.configure('2') do |config|
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
-        vb.customize ['modifyvm', :id, '--memory', settings['VAGRANT_RAM'].to_i]
-        vb.customize ['modifyvm', :id, '--cpus', settings['VAGRANT_CORES'].to_i]
+        vb.customize ['modifyvm', :id, '--memory', settings['vagrant_ram'].to_i]
+        vb.customize ['modifyvm', :id, '--cpus', settings['vagrant_cores'].to_i]
         vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
         vb.customize ['modifyvm', :id, '--ioapic', 'on']  # Bug 51473
 
@@ -169,7 +169,7 @@ Vagrant.configure('2') do |config|
         ]
 
         # For more output, uncomment the following line:
-        if settings['PUPPET_DEBUG']
+        if settings['puppet_debug']
             puppet.options << '--debug'
         end
 
@@ -178,9 +178,9 @@ Vagrant.configure('2') do |config|
 
         puppet.facter = $FACTER = {
             'fqdn'               => config.vm.hostname,
-            'forwarded_port'     => settings['HTTP_PORT'],
+            'forwarded_port'     => settings['http_port'],
             'shared_apt_cache'   => '/vagrant/apt-cache/',
-            'git_user'           => settings['GIT_USER'],
+            'git_user'           => settings['git_user'],
         }
     end
 
