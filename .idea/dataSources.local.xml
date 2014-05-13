@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="MariaDB - @vagrant" uuid="71e7af48-4dae-4922-b4b2-3cf0423f41a4">
+      <secret-storage>master_key</secret-storage>
+      <user-name>root</user-name>
+      <ssh-properties>
+        <enabled>true</enabled>
+        <proxy-host>localhost</proxy-host>
+        <proxy-port>2222</proxy-port>
+        <secret-storage>master_key</secret-storage>
+        <user>vagrant</user>
+        <use-password>false</use-password>
+        <private-key-path>$PROJECT_DIR$/support/vagrant.ppk</private-key-path>
+      </ssh-properties>
+    </data-source>
+  </component>
+</project>
+
