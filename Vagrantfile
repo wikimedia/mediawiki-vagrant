@@ -139,7 +139,7 @@ Vagrant.configure('2') do |config|
         # vb.gui = true
     end
 
-    config.vm.provision :puppet, run: 'always' do |puppet|
+    config.vm.provision :puppet do |puppet|
         puppet.module_path = 'puppet/modules'
         puppet.manifests_path = 'puppet/manifests'
         puppet.manifest_file = 'site.pp'
