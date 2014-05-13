@@ -8,15 +8,15 @@ class role::confirmedit {
     include python::pil
 
     mediawiki::extension { 'ConfirmEdit':
-		before => Exec['generate FancyCaptcha images']
-	}
+        before => Exec['generate FancyCaptcha images']
+    }
 
     mediawiki::settings { 'ConfirmEdit FancyCaptcha':
         values => {
-            wgCaptchaClass => 'FancyCaptcha',
-            wgCaptchaDirectory => '$IP/images/temp/captcha',
+            wgCaptchaClass           => 'FancyCaptcha',
+            wgCaptchaDirectory       => '$IP/images/temp/captcha',
             wgCaptchaDirectoryLevels => 0,
-            wgCaptchaSecret => 'FOO',
+            wgCaptchaSecret          => 'FOO',
         },
         header => 'require_once "$IP/extensions/ConfirmEdit/FancyCaptcha.php";',
     }

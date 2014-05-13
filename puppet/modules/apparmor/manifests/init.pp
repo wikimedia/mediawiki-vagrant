@@ -19,7 +19,7 @@ class apparmor {
     file { '/usr/bin/isitapparmor':
         owner   => root,
         group   => root,
-        mode    => 0555,
+        mode    => '0555',
         source  => 'puppet:///modules/apparmor/isitapparmor',
         require => Package['apparmor'],
     }
@@ -27,7 +27,7 @@ class apparmor {
     file { '/etc/apparmor.d/usr.bin.redis-server':
         owner   => root,
         group   => root,
-        mode    => 0644,
+        mode    => '0644',
         source  => 'puppet:///modules/apparmor/usr.bin.redis-server',
         require => Package['apparmor'],
         notify  => Exec['confine redis'],

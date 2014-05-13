@@ -11,14 +11,14 @@ class role::labs_initial_content {
     }
 
     file { '/var/www/labs_mediawiki_logo.png':
-        require  => Class['::role::mediawiki'],
         ensure   => present,
+        require  => Class['::role::mediawiki'],
         source   => '/vagrant/puppet/modules/labs/files/labs_vagrant_logo.png'
     }
 
     file { '/var/www/robots.txt':
-        require  => Class['::role::mediawiki'],
         ensure   => present,
+        require  => Class['::role::mediawiki'],
         source   => '/vagrant/puppet/modules/labs/files/robots.txt'
     }
 
