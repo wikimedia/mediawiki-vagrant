@@ -34,22 +34,17 @@ Next, you'll need a copy of the mediawiki-vagrant project files.
  * Git: `git clone https://gerrit.wikimedia.org/r/mediawiki/vagrant`
 
 If you download the zip file or tarball, you will need to extract it to a
-directory of your choice.
-
-Once you do that, open up a terminal or a command-prompt, and change your working
-directory to the location of the extracted (or git-cloned) files. From there,
-run `vagrant up` to provision and boot the virtual machine.
-
-If you have a Gerrit account, and plan to submit patches, enter your username at the prompt,
-otherwise just hit ENTER. You can always change it later in .settings.yaml and re-run `vagrant provision`.
+directory of your choice. Once you do that, open up a terminal or a
+command-prompt, and change your working directory to the location of the
+extracted (or git-cloned) files. From there, run `vagrant up` to provision and
+boot the virtual machine.
 
 You'll now have to wait a bit, as Vagrant needs to retrieve the base image from
 Canonical, retrieve some additional packages, and install and configure each of
 them in turn.
 
 If it all worked, you should be able to browse to http://127.0.0.1:8080/ and
-see the main page of your MediaWiki instance. http://127.0.0.1:8080/info.php
-will show PHP settings of the instance.
+see the main page of your MediaWiki instance.
 
 
 ## Use
