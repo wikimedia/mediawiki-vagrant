@@ -2,6 +2,7 @@
 require 'yaml'
 
 class Settings
+
     def initialize(defaults)
         @settings = {}
         update(defaults)
@@ -32,5 +33,9 @@ class Settings
                 new
             end
         end
+    end
+
+    def save(file)
+        File.open(file, "w") { |f| f.write(@settings.to_yaml) }
     end
 end

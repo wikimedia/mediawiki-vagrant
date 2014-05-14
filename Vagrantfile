@@ -41,6 +41,7 @@ end
 # ----------------------
 # These can be changed by making a `.settings.yaml` file that contains YAML
 # replacements. Example:
+#   git_user: "username"
 #   box_name: "foo"
 #   vagrant_ram: 2048
 #   forward_ports:
@@ -49,6 +50,9 @@ end
 # Some roles may also provide new settings values. When applied these roles
 # will require a `vagrant reload` call for their changes to take effect.
 settings = Settings.new({
+    # Gerrit username, as used at gerrit.wikimedia.org, 'anonymous', or '' for unmanaged
+    'git_user' => '',
+
     # The vagrant box to load on the VM
     'box_name' => 'precise-cloud',
 
@@ -79,8 +83,22 @@ settings = Settings.new({
 })
 
 settings.load(File.join($DIR, 'vagrant.d')) rescue nil
-settings.load(File.join($DIR, '.settings.yaml')) rescue nil
 
+# On first run prompt user to set username
+root_settings_file = File.join($DIR, '.settings.yaml')
+if !File.file?(root_settings_file)
+    print("Your git/Gerrit username has not been set.\n")
+    print(" * If you want anonymous git access, enter 'anonymous'.\n")
+    print(" * If you do NOT want vagrant to manage your git remotes while provisioning, hit Enter\n")
+    print(" * You can always change it later by editing .settings.yaml file\n")
+    print(" * If VM has already been created and you enter a value, run 'vagrant provision' to update remote git URLs.\n")
+    print(' ==> ')
+    s = Settings.new({'git_user' => STDIN.gets.chomp})
+    s.save(root_settings_file)
+end
+
+# Read local configuration overrides
+settings.load(root_settings_file) rescue nil
 
 Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
@@ -171,6 +189,7 @@ Vagrant.configure('2') do |config|
             'fqdn'               => config.vm.hostname,
             'forwarded_port'     => settings['http_port'],
             'shared_apt_cache'   => '/vagrant/apt-cache/',
+            'git_user'           => settings['git_user'],
         }
 
         if Vagrant::Util::Platform.windows?
