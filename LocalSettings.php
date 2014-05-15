@@ -61,8 +61,6 @@ $wgObjectCaches['redis'] = array(
 );
 $wgMainCacheType = 'redis';
 $wgSessionCacheType = 'redis';
-$wgMessageCacheType = 'redis';
-$wgLocalisationCacheConf['store'] = 'accel';
 
 $wgDisableCounters = true;
 
