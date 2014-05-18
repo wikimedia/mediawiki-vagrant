@@ -3,12 +3,17 @@ module MediaWikiVagrant
 
     class ListRoles < Vagrant.plugin(2, :command)
         def execute
-            @env.ui.info "Available roles:\n\n"
-            enabled = roles_enabled
-            roles_available.each { |role|
+            @env.ui.info "Available roles:\n"
+            enabled = roles_enabled.dup
+            roles = roles_available.sort.map { |role|
                 prefix = enabled.include?(role) ? '*' : ' '
-                @env.ui.info "#{prefix} #{role}"
+                "#{prefix} #{role}"
             }
+            col, *cols = roles.each_slice((roles.size/3.0).ceil).to_a
+            col.zip(*cols) { |a,b,c|
+                @env.ui.info sprintf("%-26s %-26s %-26s", a, b, c)
+            }
+
             @env.ui.info "\nRoles marked with '*' are enabled."
             @env.ui.info 'Use "vagrant enable-role" & "vagrant disable-role" to customize.'
             return 0
