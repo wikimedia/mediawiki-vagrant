@@ -99,3 +99,7 @@ class packages::wikidiff2 {
 class packages::jq {
     package { 'jq': }
 }
+
+class packages::fss {
+    package { 'php5-fss': }
+}

@@ -5,7 +5,7 @@ case @settings
 when Hash
     @settings.sort.map { |k,v|
         v = v ? 1 : 0 if [TrueClass, FalseClass].include? v.class
-        %Q(#{k} = "#{v.inspect}")
+        %Q(#{k} = "#{v}")
     }.join("\n")
 when Array
     @settings.join("\n")
