@@ -33,16 +33,16 @@ class role::cirrussearch {
         version => '2.1.0',
     }
     elasticsearch::plugin { 'hebrew':
+        # Less stable then icu plugin
+        ensure  => 'absent',
         group   => 'elasticsearch',
         name    => 'elasticsearch-analysis-hebrew',
-        version => '1.1',
-        url     => 'http://dl.bintray.com/synhershko/HebMorph/elasticsearch-analysis-hebrew-1.1.zip'
     }
     ## Highlighter
     elasticsearch::plugin { 'highlighter':
         group   => 'org.wikimedia.search.highlighter',
         name    => 'experimental-highlighter-elasticsearch-plugin',
-        version => '0.0.8',
+        version => '0.0.9',
     }
 
     mediawiki::extension { 'Elastica': }
