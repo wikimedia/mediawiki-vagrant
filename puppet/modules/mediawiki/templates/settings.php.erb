@@ -26,7 +26,10 @@
 			v =~ /;$/ ? v : v + ';'
 		}.join("\n")
 	else
-		@values
+		# In the spirit of making things "just work", append a semicolon if
+		# @values does not contain a trailing semicolon and if it consists of a
+		# single line.
+		@values !~ /;$/ && @values !~ /\n/ ? @values + ';' : @values
 	end
 %>
 <%= @footer %>
