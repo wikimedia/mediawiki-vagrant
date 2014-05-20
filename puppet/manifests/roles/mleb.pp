@@ -6,35 +6,20 @@
 # installed and configured so that MediaWiki can show the cross wiki link on
 # the left sidebar.
 class role::mleb {
-    include role::mediawiki
-    include role::cldr
     include role::babel
+    include role::cldr
+    include role::translate
+    include role::uls
 
     mediawiki::extension { 'LocalisationUpdate':
         settings => { wgLocalisationUpdateDirectory => '$IP/cache' },
-    }
-
-    mediawiki::extension { 'CleanChanges':
-        settings => '$wgDefaultUserOptions["usenewrc"] = 1',
-    }
-
-    mediawiki::extension { 'Translate':
-        needs_update => true,
-        settings     => [
-            '$wgGroupPermissions["*"]["translate"] = true',
-            '$wgGroupPermissions["sysop"]["pagetranslation"] = true',
-            '$wgGroupPermissions["sysop"]["translate-manage"] = true',
-            '$wgTranslateDocumentationLanguageCode = "qqq"',
-            '$wgExtraLanguageNames["qqq"] = "Message documentation"',
-        ],
     }
 
     mediawiki::extension { 'Interwiki':
         settings => '$wgGroupPermissions["sysop"]["interwiki"] = true',
     }
 
-    mediawiki::extension { 'UniversalLanguageSelector':
-        require  => Mediawiki::Extension['Interwiki'],
-        settings => { wgULSEnable => true },
+    mediawiki::extension { 'CleanChanges':
+        settings => '$wgDefaultUserOptions["usenewrc"] = 1',
     }
 }
