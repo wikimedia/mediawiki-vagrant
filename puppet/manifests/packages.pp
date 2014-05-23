@@ -107,3 +107,7 @@ class packages::fss {
 class packages::unzip {
     package { 'unzip': }
 }
+
+class packages::python3_2 {
+    package { 'python3.2': }
+}

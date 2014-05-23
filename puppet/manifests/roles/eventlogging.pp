@@ -5,6 +5,9 @@ class role::eventlogging {
     include role::mediawiki
     include role::geshi
 
+    # For testing against, with tox
+    include packages::python3_2
+
     mediawiki::extension { 'EventLogging':
         priority => $::LOAD_EARLY,
         settings => {
