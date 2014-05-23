@@ -19,13 +19,17 @@ automated and contained in a virtual environment, mistakes are easy to undo.
 You'll need to install recent versions of Vagrant and VirtualBox.
 
  * VirtualBox: https://www.virtualbox.org/wiki/Downloads
- * Vagrant: http://downloads.vagrantup.com/ (version 1.2.6 or higher is
-   required!)
+ * Vagrant: http://www.vagrantup.com/downloads-archive.html (the version must be
+   1.2.6 or higher, but not 1.6.*).  For NFS, use 1.5.4.
  * Hardware virtualization extensions must be enabled in your host computer
    BIOS. The BIOS setting is usually in the "Chipset", "Processor", "CPU", or
    "Security Settings" menu and may be labeled as "VT-x", "Intel
    Virtualization Technology", "Virtualization Extensions", "Vanderpool"
    "AMD-V" or various other names depending on the OEM and system BIOS.
+ * (Optional) For better performance on non-Windows hosts, install NFS.  For
+   Debian-based systems (including Ubuntu), run:
+
+   sudo apt-get install nfs-kernel-server portmap
 
 Next, you'll need a copy of the mediawiki-vagrant project files.
 

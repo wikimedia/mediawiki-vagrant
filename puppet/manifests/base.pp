@@ -42,13 +42,9 @@ Package {
     ensure => present,
 }
 
-# Declare default uid / gid and permissions for file resources, and
-# tells Puppet not to back up configuration files by default.
+# Tell Puppet not to back up configuration files by default.
 File {
     backup => false,
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0644',
 }
 
 file { '/srv':

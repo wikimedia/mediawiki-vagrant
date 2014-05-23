@@ -113,13 +113,27 @@ Vagrant.configure('2') do |config|
             auto_correct: true
     } unless settings['forward_ports'].nil?
 
-    config.vm.synced_folder '.', '/vagrant',
-        id: 'vagrant-root',
-        owner: 'vagrant',
-        group: 'www-data'
+    root_share_options = {:id => 'vagrant-root'}
+
+    if Vagrant::Util::Platform.windows?
+        root_share_options[:owner] = 'vagrant'
+        root_share_options[:group] = 'www-data'
+    else
+        root_share_options[:type] = :nfs
+        config.nfs.map_uid = Process.uid
+        config.nfs.map_gid = Process.gid
+    end
+
+    config.vm.synced_folder '.', '/vagrant', root_share_options
 
     # www-data needs to write to the logs, but doesn't need write
     # access for all of /vagrant
+    #
+    # TODO (mattflaschen, 2014-05-23): It should also be possible to
+    # use NFS for this (the web server writes to it).  I tried to do
+    # this by putting map_uid and map_gid as 33 (www-data) on the guest,
+    # but it didn't work.  Although the export file looks right the
+    # effective permissions on the guest were still the same as /vagrant.
     config.vm.synced_folder './logs', '/vagrant/logs',
         id: 'vagrant-logs',
         owner: 'www-data',
@@ -163,6 +177,15 @@ Vagrant.configure('2') do |config|
             'forwarded_port'     => settings['http_port'],
             'shared_apt_cache'   => '/vagrant/apt-cache/',
         }
+
+        if Vagrant::Util::Platform.windows?
+            $FACTER['share_owner'] = 'vagrant'
+            $FACTER['share_group'] = 'www-data'
+        else
+            $FACTER['share_owner'] = Process.uid
+            $FACTER['share_group'] = Process.gid
+        end
+
     end
 
     config.vm.provision :mediawiki_reload
