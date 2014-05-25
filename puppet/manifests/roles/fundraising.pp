@@ -4,7 +4,13 @@
 #
 class role::fundraising {
     include role::mysql
+    include ::activemq
     include ::crm
+
+    vagrant::settings { 'fundraising':
+        # apache-activemq is a memory-slurping Java zombie.
+        ram => 2048,
+    }
 
     include packages::rsyslog
 
