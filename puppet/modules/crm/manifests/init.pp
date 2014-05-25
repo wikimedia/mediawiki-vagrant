@@ -33,6 +33,9 @@ class crm(
     $repo = 'wikimedia/fundraising/crm'
 
     include ::php
+    include ::phpmailer
+    include ::postfix
+    include ::twig
     include crm::apache
     include crm::civicrm
 
@@ -86,6 +89,8 @@ class crm(
             'environment_indicator_text'     => 'DEVELOPMENT',
             'environment_indicator_position' => 'left',
             'environment_indicator_color'    => '#3FBF57',
+            'wmf_common_phpmailer_location'  => $::phpmailer::dir,
+            'wmf_common_twig_location'       => "${::twig::dir}/current",
         }
     }
 }
