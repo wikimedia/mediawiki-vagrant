@@ -1,0 +1,7 @@
+#!/bin/bash
+
+<%= scope.lookupvar('::crm::drush::bare_cmd') %> \
+    site-install standard \
+    --db-url='<%= @db_url %>' \
+    --site-name='<%= scope.lookupvar('::crm::site_name') %>' \
+    install_configure_form.update_status_module='array(FALSE,FALSE)'

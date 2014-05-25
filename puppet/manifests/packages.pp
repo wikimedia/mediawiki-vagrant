@@ -12,6 +12,10 @@
 #   same name. If you need anything fancy, create a module instead.
 #
 
+class packages::drush {
+    package { 'drush': }
+}
+
 class packages::imagemagick {
     package { 'imagemagick': }
 }

@@ -1,5 +1,0 @@
-$MaxMessageSize <%= @rsyslog_max_message_size %>
-if ($programname contains '_payment_in') then /var/log/payments/initial
-	& ~
-if ($programname contains 'globalcollect') then /var/log/payments/globalcollect
-	& ~

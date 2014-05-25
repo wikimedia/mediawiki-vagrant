@@ -1,0 +1,26 @@
+<?php
+# This file is managed by Puppet.
+
+define( 'WMF_UNSUB_SALT', 'vagrant' );
+
+$dbs = array(
+    'civicrm' => 'civicrm',
+    'default' => 'drupal',
+    'donations' => 'donations',
+    'fredge' => 'fredge',
+);
+foreach ( $dbs as $key => $db ) {
+    $databases[$key]['default'] = array(
+        'driver' => 'mysql',
+        'database' => $db,
+        'username' => '<%= @db_user %>',
+        'password' => '<%= @db_pass %>',
+        'host' => 'localhost',
+        'prefix' => '',
+    );
+}
+
+# default settings for drupal variable_get
+<% @settings.each do |k, v| %>
+    $conf['<%= k %>'] = '<%= v %>';
+<% end %>

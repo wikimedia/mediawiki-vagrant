@@ -1,0 +1,33 @@
+<?php
+
+$config = array(
+    'site_dir' => 'default',
+    'base_url' => "http://<%= @site_name %>/",
+    'mysql' => array(
+        'username' => "<%= scope.lookupvar('::crm::db_user') %>",
+        'password' => "<%= scope.lookupvar('::crm::db_pass') %>",
+        'server' => 'localhost',
+        'database' => "<%= scope.lookupvar('::crm::civicrm_db') %>",
+    ),
+    'drupal' => array(
+        'username' => "<%= scope.lookupvar('::crm::db_user') %>",
+        'password' => "<%= scope.lookupvar('::crm::db_pass') %>",
+        'server' => 'localhost',
+        'database' => "<%= scope.lookupvar('::crm::drupal_db') %>",
+    ),
+);
+
+global $cmsPath, $crmPath, $installType;
+$cmsPath = '<%= @dir %>/drupal';
+$crmPath = '<%= @dir %>/civicrm';
+$installType = 'drupal';
+
+define( 'VERSION', '7.0' );
+define( 'DB_USER', $config['drupal']['username'] );
+define( 'DB_PASSWORD', $config['drupal']['password'] );
+define( 'DB_HOST', $config['drupal']['server'] );
+define( 'DB_NAME', $config['drupal']['database'] );
+
+require_once '<%= @dir %>/civicrm/install/civicrm.php';
+
+civicrm_main( $config );
