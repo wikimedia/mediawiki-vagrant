@@ -1,8 +1,4 @@
 # -*- mode: ruby -*-
-# vi: set ft=ruby :
-#
-# Simple settings management for customizing the Vagrantfile behavior
-
 require 'yaml'
 
 class Settings
@@ -11,33 +7,29 @@ class Settings
         update(defaults)
     end
 
-    # Get a setting
     def [](key)
         @settings.fetch(key.downcase, nil)
     end
 
-    # Load settings from a file
-    def load(file)
-        update(YAML.load_file(file)) if File.exists?(file)
+    def load(path)
+        if File.directory?(path)
+            Dir.glob("#{path}/*.yaml").each { |f| load(f) }
+        else
+            update(YAML.load_file(path))
+        end
     end
 
-    # Update current settings with a new hash
     def update(other_settings)
-        # For backward-compatibility, downcase all keys
-        normalized_other_settings = Hash[other_settings.map{ |k,v| [k.downcase, v] }]
-
-        @settings.update(normalized_other_settings) do |key, oldval, newval|
-            if key == 'forward_ports'
-                # Merge port mappings
-                oldval.update(newval)
-
-            elsif key == 'vagrant_ram' || key == 'vagrant_cores'
-                # Keep the biggest ram and cores
-                [oldval, newval].max
-
+        # downcase case for back-compat
+        other_settings = Hash[other_settings.map{ |k,v| [k.downcase, v] }]
+        @settings.update(other_settings) do |key, old, new|
+            case key
+            when 'forward_ports'
+                old.update(new)
+            when 'vagrant_ram', 'vagrant_cores'
+                [old, new].max
             else
-                # New hotness trumps old busted
-                newval
+                new
             end
         end
     end

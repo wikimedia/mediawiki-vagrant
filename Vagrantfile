@@ -72,16 +72,9 @@ settings = Settings.new({
     'puppet_debug' => false,
 })
 
-# Load role provided settings
-settings_dir = File.join($DIR, 'vagrant.d')
-if Dir.exists?(settings_dir)
-    Dir.glob("#{settings_dir}/*.yaml").each do |f|
-        settings.load(f)
-    end
-end
-
-# Read local configuration overrides
 settings.load(File.join($DIR, '.settings.yaml'))
+settings.load(File.join($DIR, 'vagrant.d'))
+
 
 Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
