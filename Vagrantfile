@@ -72,7 +72,7 @@ settings = Settings.new({
     'puppet_debug' => false,
 })
 
-settings.load(File.join($DIR, 'vagrant.d'))
+settings.load(File.join($DIR, 'vagrant.d')) rescue nil
 settings.load(File.join($DIR, '.settings.yaml')) rescue nil
 
 
