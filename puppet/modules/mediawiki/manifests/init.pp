@@ -94,8 +94,8 @@ class mediawiki(
 
     file { $settings_dir:
         ensure => directory,
-        owner => $::share_owner,
-        group => $::share_group,
+        owner  => $::share_owner,
+        group  => $::share_group,
     }
 
     file { [ $cache_dir, $upload_dir ]:
