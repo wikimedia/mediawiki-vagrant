@@ -13,6 +13,7 @@ class role::uploadwizard {
     include python::pil
     include packages::poster
     include packages::wikitools
+    include packages::imagemagick
 
     mediawiki::extension { 'Campaigns': }
 
