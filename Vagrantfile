@@ -72,8 +72,8 @@ settings = Settings.new({
     'puppet_debug' => false,
 })
 
-settings.load(File.join($DIR, '.settings.yaml'))
 settings.load(File.join($DIR, 'vagrant.d'))
+settings.load(File.join($DIR, '.settings.yaml')) rescue nil
 
 
 Vagrant.configure('2') do |config|
