@@ -1,9 +1,7 @@
 # == Class: role::multimediaviewer
-# This role provisions the [MultimediaViewer][1] extension,
+# This role provisions the MultimediaViewer[https://www.mediawiki.org/wiki/Extension:MultimediaViewer] extension,
 # which shows images and their metadata in a lightbox
 # when the user clicks on the thumbnails.
-#
-# [1] https://www.mediawiki.org/wiki/Extension:MultimediaViewer
 class role::multimediaviewer {
     include role::mediawiki
     include role::multimedia

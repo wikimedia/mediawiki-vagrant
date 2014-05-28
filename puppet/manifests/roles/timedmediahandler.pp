@@ -1,8 +1,6 @@
 # == Class: role::timedmediahandler
-# This role provisions the [TimedMediaHandler][1] extension,
+# This role provisions the TimedMediaHandler[https://www.mediawiki.org/wiki/Extension:TimedMediaHandler] extension,
 # which displays audio and video files and their captions.
-#
-# [1] https://www.mediawiki.org/wiki/Extension:TimedMediaHandler
 class role::timedmediahandler {
     include role::mediawiki
     include role::multimedia

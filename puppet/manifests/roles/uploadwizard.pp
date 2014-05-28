@@ -1,8 +1,6 @@
 # == Class: role::uploadwizard
-# Configures a MediaWiki instance with [UploadWizard][1], a JavaScript-driven
+# Configures a MediaWiki instance with UploadWizard[https://www.mediawiki.org/wiki/Extension:UploadWizard], a JavaScript-driven
 # wizard interface for uploading multiple files.
-#
-# [1] https://www.mediawiki.org/wiki/Extension:UploadWizard
 class role::uploadwizard {
     include role::mediawiki
     include role::eventlogging
