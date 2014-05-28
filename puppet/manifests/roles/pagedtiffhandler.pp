@@ -5,11 +5,12 @@ class role::pagedtiffhandler {
     include role::mediawiki
     include role::multimedia
     include packages::exiv2
+    include packages::libtiff_tools
 
     mediawiki::extension { 'PagedTiffHandler':
-        require  => Package['exiv2'],
+        require  => Package['exiv2', 'libtiff-tools'],
         settings => {
-            wgTiffUseExiv => true,
+            wgTiffUseTiffinfo => true,
         }
     }
 }
