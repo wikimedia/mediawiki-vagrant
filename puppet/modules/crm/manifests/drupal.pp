@@ -51,6 +51,8 @@ class crm::drupal(
 
     file { $install_script:
         content => template('crm/drupal-install.sh.erb'),
+        owner   => 'www-data',
+        group   => 'www-data',
         mode    => '0750',
         require => Git::Clone[$::crm::repo],
     }
@@ -71,6 +73,7 @@ class crm::drupal(
         mode    => '0440',
         content => template('crm/settings.php.erb'),
         owner   => 'www-data',
+        group   => 'www-data',
         require => Git::Clone[$::crm::repo],
     }
 
