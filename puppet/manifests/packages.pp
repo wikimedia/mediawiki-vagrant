@@ -111,3 +111,7 @@ class packages::unzip {
 class packages::python3_2 {
     package { 'python3.2': }
 }
+
+class packages::exiv2 {
+    package { exiv2: }
+}
