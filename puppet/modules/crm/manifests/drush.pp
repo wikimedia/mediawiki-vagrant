@@ -2,9 +2,7 @@
 #
 # Drush commandline Drupal manipulation
 #
-class crm::drush(
-    $root
-) {
+class crm::drush( $root ) {
     include ::crm
     include packages::drush
 

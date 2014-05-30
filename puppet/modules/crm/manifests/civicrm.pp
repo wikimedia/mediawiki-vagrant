@@ -11,8 +11,7 @@ class crm::civicrm {
 
     exec { 'civicrm setup':
         command => "php ${install_script}",
-        # FIXME: get yr own db user
-        unless  => "mysql -u ${::crm::db_user} -p${::crm::db_pass} ${::crm::civicrm_db} -e 'select count(*) from civicrm_domain' > /dev/null",
+        unless  => "mysql -u ${::crm::db_user} -p${::crm::db_pass} ${::crm::civicrm_db} -e 'select count(*) from civicrm_domain'",
         require => [
             File[$install_script],
             Mysql::Db['civicrm'],

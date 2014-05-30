@@ -61,7 +61,7 @@ class crm::drupal(
 
     exec { 'drupal db install':
         command => $install_script,
-        unless  => "mysql -u '${::crm::db_user}' -p'${::crm::db_pass}' '${::crm::drupal_db}' -e 'select 1 from system' > /dev/null",
+        unless  => "mysql -u '${::crm::db_user}' -p'${::crm::db_pass}' '${::crm::drupal_db}' -e 'select 1 from system'",
         require => [
             Git::Clone[$::crm::repo],
             Mysql::Db[$databases],
@@ -70,10 +70,10 @@ class crm::drupal(
     }
 
     file { $settings_path:
-        mode    => '0440',
         content => template('crm/settings.php.erb'),
         owner   => 'www-data',
         group   => 'www-data',
+        mode    => '0440',
         require => Git::Clone[$::crm::repo],
     }
 

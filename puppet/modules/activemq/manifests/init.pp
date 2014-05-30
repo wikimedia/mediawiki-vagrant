@@ -1,5 +1,7 @@
-# activemq.pp
-
+# == Class: activemq
+#
+# Provisions Apache ActiveMQ
+#
 class activemq(
     $version  = '5.9.1',
     $hostname = '127.0.0.1',
@@ -37,18 +39,18 @@ class activemq(
         home       => '/home/activemq',
     }
 
-    file { ["${pkgdir}/data", "${pkgdir}/tmp"]:
+    file { [ "${pkgdir}/data", "${pkgdir}/tmp" ]:
         ensure  => directory,
-        recurse => true,
-        owner   => activemq,
-        group   => activemq,
+        owner   => 'activemq',
+        group   => 'activemq',
         mode    => '0770',
+        recurse => true,
         require => Tarball[$pkgname],
     }
 
     service { 'activemq':
         ensure    => running,
-        provider  => upstart,
+        provider  => 'upstart',
         require   => [
             Package['default-jre-headless'],
             Tarball[$pkgname],
@@ -62,9 +64,9 @@ class activemq(
     }
 
     file { '/etc/init/activemq.conf':
-        owner   => root,
-        group   => root,
-        mode    => '0644',
         content => template('activemq/activemq-upstart.conf.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644',
     }
 }

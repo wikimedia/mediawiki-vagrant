@@ -23,12 +23,12 @@
 #   Database user's password
 #
 class crm(
-    $dir = '/srv/org.wikimedia.civicrm',
-    $site_name = 'crm.dev',
-    $drupal_db = 'drupal',
+    $dir        = '/srv/org.wikimedia.civicrm',
+    $site_name  = 'crm.dev',
+    $drupal_db  = 'drupal',
     $civicrm_db = 'civicrm',
-    $db_user = 'root',
-    $db_pass = $::role::mysql::db_pass,
+    $db_user    = 'root',
+    $db_pass    = $::role::mysql::db_pass,
 ) {
     $repo = 'wikimedia/fundraising/crm'
 

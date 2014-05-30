@@ -6,9 +6,7 @@ class role::centralnotice {
     include role::mediawiki
     include role::translate
 
-    mediawiki::extension { [
-        'CentralNotice',
-    ]:
+    mediawiki::extension { 'CentralNotice':
         needs_update => true,
     }
 }
