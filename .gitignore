@@ -1,6 +1,10 @@
 /.vagrant
+/.bundle
+/.gems
 /.rbenv-version
 /.settings.yaml
+/*.gem
+/Gemfile.lock
 /no-update
 /Vagrantfile-extra.rb
 /Roles.yaml

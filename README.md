@@ -20,7 +20,7 @@ You'll need to install recent versions of Vagrant and VirtualBox.
 
  * VirtualBox: https://www.virtualbox.org/wiki/Downloads
  * Vagrant: http://www.vagrantup.com/downloads-archive.html (the version must be
-   1.2.6 or higher, but not 1.6.*).  For NFS, use 1.5.4.
+   1.2.6 or higher). For NFS, use 1.5.4 and up.
  * Hardware virtualization extensions must be enabled in your host computer
    BIOS. The BIOS setting is usually in the "Chipset", "Processor", "CPU", or
    "Security Settings" menu and may be labeled as "VT-x", "Intel
@@ -37,11 +37,21 @@ Next, you'll need a copy of the mediawiki-vagrant project files.
  * tar.gz: https://gerrit.wikimedia.org/r/gitweb?p=mediawiki/vagrant.git;a=snapshot;h=HEAD;sf=tgz
  * Git: `git clone https://gerrit.wikimedia.org/r/mediawiki/vagrant`
 
-If you download the zip file or tarball, you will need to extract it to a
+If you've downloaded the zip file or tarball, you will need to extract it to a
 directory of your choice. Once you do that, open up a terminal or a
 command-prompt, and change your working directory to the location of the
-extracted (or git-cloned) files. From there, run `vagrant up` to provision and
-boot the virtual machine.
+extracted (or git-cloned) files.
+
+If you're using Vagrant version 1.6 or higher and want to make use of
+additional MediaWiki-Vagrant features such as roles (see Extend below), you'll
+need to install the bundled mediawiki-vagrant plugin. Users of 1.5 and below
+can skip this step, as the plugin will be loaded automatically from within the
+Vagrantfile.
+
+    gem build mediawiki-vagrant.gemspec
+    vagrant plugin install mediawiki-vagrant-[version].gem
+
+From there, run `vagrant up` to provision and boot the virtual machine.
 
 You'll now have to wait a bit, as Vagrant needs to retrieve the base image from
 Canonical, retrieve some additional packages, and install and configure each of

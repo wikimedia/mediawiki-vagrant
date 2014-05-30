@@ -5,20 +5,15 @@ require 'rbconfig'
 require 'pathname'
 
 ## Shortcuts
-$DIR = $DIR || '/vagrant' # Set default if not already set
-$VP = Pathname.new($DIR)  # Vagrant path
-$IP = $VP + 'mediawiki'   # MediaWiki path
-$PP = $VP + 'puppet'      # Puppet path
+$DIR ||= File.expand_path('.')  # Default to the working directory
+$VP = Pathname.new($DIR)        # Vagrant path
+$IP = $VP + 'mediawiki'         # MediaWiki path
+$PP = $VP + 'puppet'            # Puppet path
 
-
-# Are we running on windows?
-def windows?
-    RbConfig::CONFIG['host_os'] =~ /mswin|msys|mingw32|windows/i
-end
 
 # Get short SHA1 of installed MediaWiki-Vagrant, if available.
 def commit
-	$VP.join('.git/refs/heads/master').read[0..8] rescue nil
+    $VP.join('.git/refs/heads/master').read[0..8] rescue nil
 end
 
 # If it has been a week or more since remote commits have been fetched,
