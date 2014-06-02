@@ -25,6 +25,7 @@ class role::simple_performant {
 
     mediawiki::settings { 'simple_performant':
         values  => {
+            wgCacheDirectory        => '/var/cache/mediawiki',
             wgMainCacheType         => $CACHE_ACCEL,
             wgParserCacheType       => $CACHE_DB,
             wgJobRunRate            => 0,
