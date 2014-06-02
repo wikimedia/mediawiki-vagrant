@@ -17,7 +17,6 @@ if ( isset( $_SERVER['HTTP_HOST'] ) ) {
 	$wgServer = '//' . $_SERVER['HTTP_HOST'];
 }
 
-$wgCacheDirectory = '/var/cache/mediawiki';
 $wgUploadDirectory = '/srv/images';
 $wgUploadPath = '/images';
 $wgArticlePath = "/wiki/$1";
