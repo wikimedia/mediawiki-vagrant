@@ -28,8 +28,14 @@
 # http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
 #
 $DIR = File.expand_path('..', __FILE__); $: << File.join($DIR, 'lib')
-require 'mediawiki-vagrant'
 require 'settings'
+
+# In Vagrant versions 1.6 and up, plugins are loaded early and must be
+# installed before executing the Vagrantfile. In earlier versions, we can
+# simply load the plugin here.
+if Gem::Version.new(Vagrant::VERSION) < Gem::Version.new('1.6')
+    require 'mediawiki-vagrant'
+end
 
 # Configuration settings
 # ----------------------
@@ -153,7 +159,7 @@ Vagrant.configure('2') do |config|
             '--verbose',
             '--config_version', '/vagrant/puppet/extra/config-version',
             '--fileserverconfig', '/vagrant/puppet/extra/fileserver.conf',
-            '--logdest', "/vagrant/logs/puppet/puppet.#{commit||'unknown'}.log",
+            '--logdest', "/vagrant/logs/puppet/puppet.#{defined?(commit) ? commit : 'unknown'}.log",
             '--logdest', 'console',
         ]
 
@@ -163,7 +169,7 @@ Vagrant.configure('2') do |config|
         end
 
         # Windows's Command Prompt has poor support for ANSI escape sequences.
-        puppet.options << '--color=false' if windows?
+        puppet.options << '--color=false' if Vagrant::Util::Platform.windows?
 
         puppet.facter = $FACTER = {
             'fqdn'               => config.vm.hostname,
@@ -181,7 +187,7 @@ Vagrant.configure('2') do |config|
 
     end
 
-    config.vm.provision :mediawiki_reload
+    config.vm.provision :mediawiki_reload if Vagrant.plugin('2').manager.provisioners[:mediawiki_reload]
 end
 
 
