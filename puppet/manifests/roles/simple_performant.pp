@@ -66,7 +66,6 @@ class role::simple_performant {
     apache::conf { 'expires':
         site    => $mediawiki::wiki_name,
         content => "${expires_active}\n${expires_default}\n",
-        source  => 'puppet:///files/expires',
         require => Apache::Mod['expires'],
     }
 
