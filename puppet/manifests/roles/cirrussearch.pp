@@ -15,17 +15,17 @@ class role::cirrussearch {
     elasticsearch::plugin { 'icu':
         group   => 'elasticsearch',
         name    => 'elasticsearch-analysis-icu',
-        version => '2.1.0',
+        version => '2.2.0',
     }
     elasticsearch::plugin { 'kuromoji':
         group   => 'elasticsearch',
         name    => 'elasticsearch-analysis-kuromoji',
-        version => '2.1.0',
+        version => '2.2.0',
     }
     elasticsearch::plugin { 'stempel':
         group   => 'elasticsearch',
         name    => 'elasticsearch-analysis-stempel',
-        version => '2.1.0',
+        version => '2.2.0',
     }
     elasticsearch::plugin { 'smartcn':
         group   => 'elasticsearch',
@@ -42,7 +42,7 @@ class role::cirrussearch {
     elasticsearch::plugin { 'highlighter':
         group   => 'org.wikimedia.search.highlighter',
         name    => 'experimental-highlighter-elasticsearch-plugin',
-        version => '0.0.9',
+        version => '0.0.10',
     }
 
     mediawiki::extension { 'Elastica': }
