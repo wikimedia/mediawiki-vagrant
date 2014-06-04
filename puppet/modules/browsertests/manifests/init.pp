@@ -34,9 +34,12 @@ class browsertests(
     $mediawiki_url     = 'http://127.0.0.1/wiki/',
     $install_location  = '/srv/browsertests',
 ) {
+    include ruby::default
+
+    $tests_location = "$install_location/tests/browser"
 
     git::clone { 'qa/browsertests':
-        directory => '/srv/browsertests',
+        directory => $install_location,
     }
 
     mediawiki::user { 'Selenium_user':
@@ -65,34 +68,9 @@ class browsertests(
         ensure => present,
     }
 
-    package { [ 'ruby1.9.1-full', 'ruby-bundler' ]:
-        ensure => present,
-    }
+    ruby::version::directory { $tests_location: }
 
-    exec { 'use_ruby_1.9.1':
-        command => 'update-alternatives --set ruby /usr/bin/ruby1.9.1',
-        unless  => 'readlink /etc/alternatives/ruby | grep 1.9',
-        require => Package['ruby1.9.1-full', 'ruby-bundler'],
-    }
-
-    file { '/home/vagrant/.gem':
-        ensure    => directory,
-        owner     => 'vagrant',
-        group     => 'vagrant',
-        mode      => '0755',
-        recurse   => true,
-    }
-
-    exec { 'install_browsertests_bundle':
-        command     => 'bundle install --path /home/vagrant/.gem',
-        cwd         => '/srv/browsertests/tests/browser',
-        user        => 'vagrant',
-        unless      => 'bundle check',
-        timeout     => 0,
-        require     => [
-            Exec['use_ruby_1.9.1'],
-            File['/home/vagrant/.gem'],
-            Git::Clone['qa/browsertests']
-        ],
+    ruby::bundle { $tests_location:
+        require => Git::Clone['qa/browsertests']
     }
 }

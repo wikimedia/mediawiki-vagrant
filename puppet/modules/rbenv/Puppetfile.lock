@@ -1,0 +1,8 @@
+FORGE
+  remote: http://forge.puppetlabs.com
+  specs:
+    puppetlabs/git (0.0.3)
+
+DEPENDENCIES
+  puppetlabs/git (>= 0.0.3)
+

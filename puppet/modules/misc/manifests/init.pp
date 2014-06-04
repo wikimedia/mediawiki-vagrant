@@ -25,12 +25,16 @@ class misc {
     env::profile {
         'local':
             source => 'puppet:///modules/misc/locale.sh';
-        'gem home':
-            source => 'puppet:///modules/misc/gem-home.sh';
         'color':
             source => 'puppet:///modules/misc/color.sh';
         'check mediawiki-vagrant':
             source => 'puppet:///modules/misc/check-mediawiki-vagrant.sh';
+    }
+
+    # Setting up $GEM_HOME relative to $HOME was removed in favor of using
+    # rbenv to isolate rubies and bundler to isolate gems
+    env::profile { 'gem home':
+        ensure => absent,
     }
 
     file { [

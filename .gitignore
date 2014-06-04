@@ -1,6 +1,6 @@
 /.vagrant
 /.bundle
-/.gems
+/.gem
 /.rbenv-version
 /.settings.yaml
 /*.gem
