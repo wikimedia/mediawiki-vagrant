@@ -5,6 +5,15 @@
 # command-line tools, like 'ack' and 'curl'.
 #
 class misc {
+    # This solves the 'stdin: not a tty' error message, which is caused
+    # by a call to 'mesg n' in /root/.profile. Sadly it'll still appear
+    # once, since profile is sourced before Puppet can run. That sucks,
+    # because first impressions do count. Fix it and you get a cookie.
+    exec { 'update profile':
+        command => 'sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile',
+        onlyif  => 'grep -q "^mesg n" /root/.profile',
+    }
+
     file { '/var/lib/cloud/instance/':
         ensure => directory,
     }
