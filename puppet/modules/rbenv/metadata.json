@@ -1,0 +1,114 @@
+{
+  "name": "jdowning/rbenv",
+  "version": "1.2.1",
+  "source": "https://github.com/justindowning/puppet-rbenv",
+  "author": "Justin Downing",
+  "license": "Apache License, Version 2.0",
+  "summary": "Setup rbenv ruby manager for systemwide use",
+  "description": "Setup rbenv ruby manager for systemwide use",
+  "project_page": "https://github.com/justindowning/puppet-rbenv",
+  "dependencies": [
+    {
+      "name": "puppetlabs/git",
+      "version_requirement": ">=0.0.3"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "5",
+        "6"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "10.04",
+        "12.04",
+        "14.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "pe",
+      "version_requirement": "3.2.x"
+    },
+    {
+      "name": "puppet",
+      "version_requirement": "3.x"
+    }
+  ],
+  "types": [
+
+  ],
+  "checksums": {
+    "Gemfile": "1a6a7ccaa22827a78dc3c13ed8904fca",
+    "Gemfile.lock": "4ac9de13f3aa852a633a4462904bf9e3",
+    "LICENSE": "4af37e701e8f3e94c2de463993264b10",
+    "Modulefile": "d361d94bb57df518f91c11a7c60bc766",
+    "Puppetfile": "25e5d596329da9b6b3b6c9549241cfe2",
+    "Puppetfile.lock": "980aedcc0c3d152fdabccf3e9ab47e02",
+    "README.md": "7cbfe83573123ff53179302bddb6f893",
+    "Rakefile": "2224b4371e77683318b135c5befcfe44",
+    "Vagrantfile": "c7d6061bf394d83f073efe5800de1616",
+    "manifests/build.pp": "0bd37b51cc30ff92892d4289890e336d",
+    "manifests/deps/debian.pp": "62a60ce66c7a7b352fe2f43f95f12498",
+    "manifests/deps/redhat.pp": "52722a1d575014d6dbf4f14c9f4f5b79",
+    "manifests/deps/suse.pp": "5d876c51ed51620dcf73f3ba7671067c",
+    "manifests/deps.pp": "bcfe8c7db67c1297f651ed593854435e",
+    "manifests/gem.pp": "a5bc385e128d8f49281cb95c9ff5be07",
+    "manifests/init.pp": "9718785e780e6124755c9a43503d0208",
+    "manifests/plugin.pp": "fb715bc33020993811cca0dde4d9ff42",
+    "modules/git/CHANGELOG": "f2e3e57948da2dcab3bdbe782efd6b11",
+    "modules/git/LICENSE": "0e5ccf641e613489e66aa98271dbe798",
+    "modules/git/Modulefile": "f971ce8e90cb5cdf63722c92e0497110",
+    "modules/git/README.md": "8f241391b0165fe286588154a5321aee",
+    "modules/git/manifests/gitosis.pp": "6b1bbd3a43baa63c63f5d03dcb9fbe95",
+    "modules/git/manifests/init.pp": "520e2a141b314dd9b859a0f2d31a338e",
+    "modules/git/tests/gitosis.pp": "4a9f134fbd08096dac65aafa9fbc0742",
+    "modules/git/tests/init.pp": "bbf47fdd0ad67c6fa1d47d39fdd6a94b",
+    "spec/classes/rbenv_spec.rb": "0872c75924c09bb8bd862dcb6ec02d4d",
+    "spec/defines/build_spec.rb": "15488da037be3ae953ec1a5b64a59124",
+    "spec/defines/gem_spec.rb": "6f47638d4b2a481359b50a5630f1f1f9",
+    "spec/defines/plugin_spec.rb": "f4c83138243fd9c8c9cfb3d5ffe2ac17",
+    "spec/spec_helper.rb": "0db89c9a486df193c0e40095422e19dc",
+    "templates/rbenv.sh": "709dcbed051213c8f024a72e6052ba6d",
+    "tests/build.pp": "bd00d8228efe2c06a1303fe6001951dc",
+    "tests/gem.pp": "50c8822cccc778c8ed280337a327dfe3",
+    "tests/init.pp": "512d340956c5a450ad97b94c79ffc361",
+    "tests/plugin.pp": "4543e80104e06fe40d8c2cd68f416300",
+    "tests/rbenv-vars.pp": "2fb09070c0c8cb0965ecb65bbb8e1e47",
+    "tests/vagrant/centos.pp": "1e81400d274864641a1cc9207e7cda8d",
+    "tests/vagrant/ubuntu.pp": "d8d7d90005aa7ea8366aec0b6317995b"
+  }
+}
