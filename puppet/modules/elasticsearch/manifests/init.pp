@@ -5,7 +5,7 @@
 #
 class elasticsearch {
     package { 'elasticsearch':
-        ensure => present,
+        ensure => '1.2.1',
     }
 
     package { 'openjdk-7-jre-headless':
@@ -20,6 +20,12 @@ class elasticsearch {
 
     file { '/etc/default/elasticsearch':
         source  => 'puppet:///modules/elasticsearch/defaults',
+        require => Package['elasticsearch'],
+        notify  => Service['elasticsearch'],
+    }
+
+    file { '/etc/elasticsearch/elasticsearch.yml':
+        source  => 'puppet:///modules/elasticsearch/elasticsearch.yml',
         require => Package['elasticsearch'],
         notify  => Service['elasticsearch'],
     }
