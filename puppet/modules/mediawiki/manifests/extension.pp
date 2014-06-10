@@ -47,6 +47,13 @@
 #   Directory to write settings file to.
 #   Default $::mediawiki::managed_settings_dir
 #
+# [*browser_tests*]
+#   Whether or not to install the dependencies necessary to execute browser
+#   tests. Specifying true will bundle the tests in the default
+#   'tests/browser' subdirectory of the extension directory. You may otherwise
+#   provide a different subdirectory, or false to skip installation of
+#   browser-test dependencies altogether. Default: false.
+#
 # === Examples
 #
 # The following example configures the EventLogging MediaWiki extension and
@@ -81,20 +88,23 @@
 #   }
 #
 define mediawiki::extension(
-    $ensure       = present,
-    $extension    = $title,
-    $entrypoint   = "${title}.php",
-    $priority     = 10,
-    $needs_update = false,
-    $branch       = undef,
-    $settings     = {},
-    $settings_dir = $::mediawiki::managed_settings_dir,
+    $ensure         = present,
+    $extension      = $title,
+    $entrypoint     = "${title}.php",
+    $priority       = 10,
+    $needs_update   = false,
+    $branch         = undef,
+    $settings       = {},
+    $settings_dir   = $::mediawiki::managed_settings_dir,
+    $browser_tests  = false,
 ) {
     include mediawiki
 
+    $extension_dir = "${mediawiki::dir}/extensions/${extension}"
+
     if ! defined(Git::Clone["mediawiki/extensions/${extension}"]) {
         git::clone { "mediawiki/extensions/${extension}":
-            directory => "${mediawiki::dir}/extensions/${extension}",
+            directory => $extension_dir,
             branch    => $branch,
             require   => Git::Clone['mediawiki/core'],
         }
@@ -113,5 +123,14 @@ define mediawiki::extension(
         # If the extension requires a schema migration, set up the
         # settings file resource to notify update.php.
         Mediawiki::Settings[$extension] ~> Exec['update database']
+    }
+
+    if $browser_tests {
+        $browser_tests_dir = $browser_tests ? {
+            true    => 'tests/browser',
+            default => $browser_tests,
+        }
+
+        browsertests::bundle { "${extension_dir}/${browser_tests_dir}": }
     }
 }

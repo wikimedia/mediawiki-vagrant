@@ -56,7 +56,7 @@ settings = Settings.new({
     'box_uri' => 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box',
 
     # Amount of RAM to allocate to virtual machine in MB; must be numeric
-    'vagrant_ram' => 768,
+    'vagrant_ram' => 1024,
 
     # Number of virtual CPUs to allocate to virtual machine; must be numeric
     # If you are on a single-core system, change the following default to 1:

@@ -1,4 +1,4 @@
-# == Define: ruby::bundler
+# == Define: ruby::bundle
 #
 # Installs gem dependencies according to the given directory's Gemfile.
 #
