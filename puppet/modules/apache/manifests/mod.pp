@@ -17,28 +17,27 @@
 #  apache::mod { 'alias': }
 #
 define apache::mod(
-    $ensure = present,
-    $mod    = $title,
+    $ensure   = present,
+    $mod      = $title,
+    $loadfile = "${mod}.load",
 ) {
-    include apache
+    include ::apache
 
-    case $ensure {
-        present: {
-            exec { "a2enmod ${mod}":
-                unless  => "apache2ctl -M | grep -q ${mod}",
-                require => Package['apache2'],
-                notify  => Service['apache2'],
-            }
+    if $ensure == present {
+        exec { "ensure_${ensure}_mod_${mod}":
+            command => "/usr/sbin/a2enmod -qf ${mod}",
+            creates => "/etc/apache2/mods-enabled/${loadfile}",
+            require => Package['apache2'],
+            notify  => Service['apache2'],
         }
-        absent: {
-            exec { "a2dismod ${mod}":
-                onlyif  => "apache2ctl -M | grep -q ${mod}",
-                require => Package['apache2'],
-                notify  => Service['apache2'],
-            }
+    } elsif $ensure == absent {
+        exec { "ensure_${ensure}_mod_${mod}":
+            command => "/usr/sbin/a2dismod -qf ${mod}",
+            onlyif  => "/usr/bin/test -L /etc/apache2/mods-enabled/${loadfile}",
+            require => Package['apache2'],
+            notify  => Service['apache2'],
         }
-        default: {
-            fail("'ensure' may be 'present' or 'absent' (got: '${ensure}').")
-        }
+    } else {
+        fail("'${ensure}' is not a valid value for ensure.")
     }
 }

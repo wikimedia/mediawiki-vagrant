@@ -14,9 +14,9 @@ class apache {
         ensure  => present,
     }
 
-    package { 'libapache2-mod-php5':
-        ensure => present,
-    }
+    include apache::mods::php5
+    include apache::mods::access_compat
+    include apache::mods::version
 
     file { '/etc/apache2/ports.conf':
         content => template('apache/ports.conf.erb'),
