@@ -13,10 +13,9 @@
 class vagrant(
     $settings_dir = '/vagrant/vagrant.d',
 ){
-
     File {
-        group   => 'www-data',
-        owner   => 'vagrant',
+        owner  => $::share_owner,
+        group  => $::share_group,
     }
 
     file { $settings_dir:
