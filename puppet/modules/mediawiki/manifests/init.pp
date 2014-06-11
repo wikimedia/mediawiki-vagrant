@@ -100,7 +100,7 @@ class mediawiki(
 
     file { [ $cache_dir, $upload_dir ]:
         ensure => directory,
-        owner  => 'www-data',
+        owner  => 'vagrant',
         group  => 'www-data',
         mode   => '0775',
     }
