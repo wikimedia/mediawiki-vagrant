@@ -23,7 +23,7 @@ define ruby::version::directory(
     # While this could be done by executing `rbenv local`, simply creating the
     # file seems less error prone, not to mention the format is not specific
     # to rbenv
-    file { "$title/.ruby-version":
+    file { "${title}/.ruby-version":
         content => $ruby,
         require => Ruby::Ruby[$ruby],
     }

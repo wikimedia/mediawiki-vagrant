@@ -76,8 +76,8 @@ define vagrant::settings(
     file { $settings_file:
         ensure  => $ensure,
         content => template('vagrant/settings.yaml.erb'),
-        owner  => $::share_owner,
-        group  => $::share_group,
+        owner   => $::share_owner,
+        group   => $::share_group,
     }
 
     exec { "${fname} wants reload":

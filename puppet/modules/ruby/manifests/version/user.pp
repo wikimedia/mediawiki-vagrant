@@ -18,9 +18,9 @@ define ruby::version::user(
 ) {
     include ruby::version
 
-    exec { "exec-rbenv-local-$title":
-        command => "$rbenv::install_dir/bin/rbenv local $ruby",
-        user => $title,
+    exec { "exec-rbenv-local-${title}":
+        command => "${rbenv::install_dir}/bin/rbenv local ${ruby}",
+        user    => $title,
         require => Ruby::Ruby[$ruby],
     }
 }

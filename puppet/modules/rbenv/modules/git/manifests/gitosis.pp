@@ -1,6 +1,6 @@
 # Class: gitosis
 #
-# This installs and configures gitosis 
+# This installs and configures gitosis
 #
 # Requires:
 #  - Class[git]

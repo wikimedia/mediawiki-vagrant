@@ -4,12 +4,12 @@
 #
 # === Parameters
 #
-# [*ensure*]
-#   If 'present' or undefined, module will be enabled. If 'absent', module will
-#   be disabled.
-#
 # [*mod*]
-#   Module name
+#   Module name. Defaults to the resource title.
+#
+# [*loadfile*]
+#   The .load config file that Puppet should manage.
+#   Defaults to the module name with a '.load' suffix.
 #
 # === Examples
 #

@@ -36,7 +36,7 @@ class browsertests(
 ) {
     include ruby::default
 
-    $tests_location = "$install_location/tests/browser"
+    $tests_location = "${install_location}/tests/browser"
 
     git::clone { 'qa/browsertests':
         directory => $install_location,

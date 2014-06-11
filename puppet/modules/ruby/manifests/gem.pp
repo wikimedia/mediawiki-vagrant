@@ -40,5 +40,5 @@ define ruby::gem(
         ruby_version => $ruby,
         version      => $version,
         skip_docs    => true,
-    }                          
+    }
 }
