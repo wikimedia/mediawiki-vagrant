@@ -58,7 +58,7 @@ class role::simple_performant {
         refreshonly => true,
     }
 
-    apache::mod { 'expires': }
+    include ::apache::mod::expires
 
     $expires_active  = 'ExpiresActive On'
     $expires_default = 'ExpiresDefault "access plus 1 month"'
@@ -66,7 +66,7 @@ class role::simple_performant {
     apache::conf { 'expires':
         site    => $mediawiki::wiki_name,
         content => "${expires_active}\n${expires_default}\n",
-        require => Apache::Mod['expires'],
+        require => Class['::apache::mod::expires'],
     }
 
     file { '/var/www/robots.txt':

@@ -36,7 +36,7 @@ class wikimania_scholarships(
 ){
     include ::php
     include ::apache
-    include ::apache::mods::rewrite
+    include ::apache::mod::rewrite
     include ::mysql
 
     $log_file = '/vagrant/logs/scholarships.log'
@@ -92,7 +92,7 @@ class wikimania_scholarships(
     apache::site { $vhost_name:
         ensure  => present,
         content => template('wikimania_scholarships/apache.conf.erb'),
-        require => Apache::Mod['rewrite'],
+        require => Class['::apache::mod::rewrite'],
     }
 
     # Configure an smtp server that logs to a file

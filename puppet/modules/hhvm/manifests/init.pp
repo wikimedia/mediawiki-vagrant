@@ -6,15 +6,15 @@
 #
 class hhvm {
     include ::apache
-    include ::apache::mods::actions
-    include ::apache::mods::alias
-    include ::apache::mods::fastcgi
+    include ::apache::mod::actions
+    include ::apache::mod::alias
+    include ::apache::mod::fastcgi
 
     # 12.04 requires updated boost packages
     apt::ppa { 'mapnik/boost': }
 
     package { 'hhvm':
-        require => Apache::Mod['actions', 'alias', 'fastcgi'],
+        require => Class['::apache::mod::alias', '::apache::mod::actions', '::apache::mod::fastcgi'],
     }
 
     # Remove the init.d HHVM service so we can use our Upstart job.

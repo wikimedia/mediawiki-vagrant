@@ -5,7 +5,7 @@
 class role::multimediaviewer {
     include role::mediawiki
     include role::multimedia
-    include ::apache::mods::headers
+    include ::apache::mod::headers
 
     mediawiki::extension { 'MultimediaViewer':
     }

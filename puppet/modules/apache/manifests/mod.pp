@@ -1,43 +1,35 @@
-# == Define: apache::mod
+# == Class: apache::mod
 #
-# Custom resource for Apache modules.
+# This module contains unparametrized classes that wrap some popular
+# Apache mods. Because the classes are not parametrized, they may be
+# included multiple times without causing duplicate definition errors.
 #
-# === Parameters
-#
-# [*mod*]
-#   Module name. Defaults to the resource title.
-#
-# [*loadfile*]
-#   The .load config file that Puppet should manage.
-#   Defaults to the module name with a '.load' suffix.
-#
-# === Examples
-#
-#  # enable mod_alias
-#  apache::mod { 'alias': }
-#
-define apache::mod(
-    $ensure   = present,
-    $mod      = $title,
-    $loadfile = "${mod}.load",
-) {
-    include ::apache
+class apache::mod {}
 
-    if $ensure == present {
-        exec { "ensure_${ensure}_mod_${mod}":
-            command => "/usr/sbin/a2enmod -qf ${mod}",
-            creates => "/etc/apache2/mods-enabled/${loadfile}",
-            require => Package['apache2'],
-            notify  => Service['apache2'],
-        }
-    } elsif $ensure == absent {
-        exec { "ensure_${ensure}_mod_${mod}":
-            command => "/usr/sbin/a2dismod -qf ${mod}",
-            onlyif  => "/usr/bin/test -L /etc/apache2/mods-enabled/${loadfile}",
-            require => Package['apache2'],
-            notify  => Service['apache2'],
-        }
-    } else {
-        fail("'${ensure}' is not a valid value for ensure.")
-    }
-}
+# Modules that are bundled with the apache2 package
+class apache::mod::actions       { apache::mod_conf { 'actions':       } }
+class apache::mod::alias         { apache::mod_conf { 'alias':         } }
+class apache::mod::authnz_ldap   { apache::mod_conf { 'authnz_ldap':   } }
+class apache::mod::dav           { apache::mod_conf { 'dav':           } }
+class apache::mod::dav_fs        { apache::mod_conf { 'dav_fs':        } }
+class apache::mod::headers       { apache::mod_conf { 'headers':       } }
+class apache::mod::proxy_http    { apache::mod_conf { 'proxy_http':    } }
+class apache::mod::rewrite       { apache::mod_conf { 'rewrite':       } }
+class apache::mod::userdir       { apache::mod_conf { 'userdir':       } }
+
+# Modules that depend on additional packages
+class apache::mod::fastcgi       { apache::mod_conf { 'fastcgi':     } <- package { 'libapache2-mod-fastcgi':   } }
+class apache::mod::fcgid         { apache::mod_conf { 'fcgid':       } <- package { 'libapache2-mod-fcgid':     } }
+class apache::mod::passenger     { apache::mod_conf { 'passenger':   } <- package { 'libapache2-mod-passenger': } }
+class apache::mod::perl2         { apache::mod_conf { 'perl2':       } <- package { 'libapache2-mod-perl2':     } }
+class apache::mod::php5          { apache::mod_conf { 'php5':        } <- package { 'libapache2-mod-php5':      } }
+class apache::mod::proxy         { apache::mod_conf { 'proxy':       } <- package { 'libapache2-mod-proxy':     } }
+class apache::mod::python        { apache::mod_conf { 'python':      } <- package { 'libapache2-mod-python':    } }
+class apache::mod::rpaf          { apache::mod_conf { 'rpaf':        } <- package { 'libapache2-mod-rpaf':      } }
+class apache::mod::ssl           { apache::mod_conf { 'ssl':         } <- package { 'libapache2-mod-ssl':       } }
+class apache::mod::uwsgi         { apache::mod_conf { 'uwsgi':       } <- package { 'libapache2-mod-uwsgi':     } }
+class apache::mod::wsgi          { apache::mod_conf { 'wsgi':        } <- package { 'libapache2-mod-wsgi':      } }
+
+# Modules that target a specific distribution
+class apache::mod::access_compat { if versioncmp($::lsbdistrelease, '13') > 0 { apache::mod_conf { 'access_compat': } } }  # on <13, not relevant
+class apache::mod::version       { if versioncmp($::lsbdistrelease, '13') < 0 { apache::mod_conf { 'version':       } } }  # on >13, baked-in

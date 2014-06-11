@@ -6,7 +6,7 @@
 #
 class php {
     include ::apache
-    include ::apache::mods::php5
+    include ::apache::mod::php5
 
     include php::remote_debug
 
@@ -23,9 +23,7 @@ class php {
         'php5-mysql',
     ]:
         ensure  => present,
-        # This pulls in a dependency of php5 so that apt doesn't
-        # have to guess which dependency to install
-        require => Apache::Mod['php5']
+        require => Class['::apache::mod::php5'],
     }
 
     php::ini { 'debug output':

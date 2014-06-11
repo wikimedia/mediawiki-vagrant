@@ -5,8 +5,8 @@
 class mediawiki::apache {
     include ::mediawiki
     include ::apache
-    include ::apache::mods::alias
-    include ::apache::mods::rewrite
+    include ::apache::mod::alias
+    include ::apache::mod::rewrite
 
     apache::site { 'default':
         ensure => absent,
@@ -15,7 +15,7 @@ class mediawiki::apache {
     apache::site { $mediawiki::wiki_name:
         ensure  => present,
         content => template('mediawiki/mediawiki-apache-site.erb'),
-        require => Apache::Mod['alias', 'rewrite'],
+        require => Class['::apache::mod::alias', '::apache::mod::rewrite'],
         listen  => [ '_default_:80', '_default_:8080' ],
     }
 

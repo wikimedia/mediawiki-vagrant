@@ -5,10 +5,11 @@
 class crm::apache {
     include ::crm
     include ::apache
+    include ::apache::mod::rewrite
 
     apache::site { $crm::site_name:
         ensure  => present,
         content => template('crm/crm-apache-site.erb'),
-        require => Apache::Mod['rewrite'],
+        require => Class['::apache::mod::rewrite'],
     }
 }
