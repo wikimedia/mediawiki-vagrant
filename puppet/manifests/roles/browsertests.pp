@@ -7,7 +7,7 @@
 # [*install_location*]
 #   The local installation path for qa/browsertests.
 #
-class role::browsertests(
+class role::browsertests (
     $install_location  = '/srv/browsertests',
 ) {
     include role::mediawiki

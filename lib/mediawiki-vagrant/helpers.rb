@@ -31,7 +31,7 @@ $manifest_path = File.join $DIR, 'puppet/manifests'
 
 def roles_available
     Dir[File.join($manifest_path, 'roles/*.pp')].map { |manifest|
-        IO.read(manifest).scan(/^class\s*role::(\S+)/)
+        IO.read(manifest).scan(/^class\s*role::(\w+)/)
     }.flatten.compact.sort.uniq - ['generic', 'mediawiki']
 end
 
