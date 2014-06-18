@@ -3,16 +3,18 @@
 # Wikimedia mobile sites.
 class role::mobilefrontend {
     include role::mediawiki
-    include role::mantle
     include role::eventlogging
+    include role::mantle
     include role::pageimages
     include role::textextracts
 
     mediawiki::extension { 'MobileFrontend':
-        settings => {
+        settings      => {
             wgMFForceSecureLogin     => false,
             wgMFLogEvents            => true,
             wgMFAutodetectMobileView => true,
+            wgMFNearby               => true,
         },
+        browser_tests => true,
     }
 }
