@@ -83,7 +83,11 @@ class role::wikimetrics {
     }
 
     class { '::wikimetrics::queue':
-        require => Exec['install_wikimetrics_dependencies'],
+        require => [
+            Exec['install_wikimetrics_dependencies'],
+            # role::mediawiki installs redis, and queue needs this.
+            Class['role::mediawiki'],
+        ]
     }
 
     class { '::wikimetrics::scheduler':
