@@ -81,7 +81,7 @@ define git::clone(
         # Set GIT URL to SSH-based URL if GIT_USER is set, or HTTPS for anonymous
         #
         if ( $user and $user != 'anonymous' ) {
-            $url2 = "ssh://${user}@gerrit.wikimedia.org:29418/${title}.git"
+            $url2 = "ssh://\"${user}\"@gerrit.wikimedia.org:29418/${title}.git"
         } else {
             $url2 = "https://gerrit.wikimedia.org/r/${title}.git"
         }
