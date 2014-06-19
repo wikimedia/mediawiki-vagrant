@@ -1,2 +1,0 @@
-package { 'git': }
-class { 'rbenv': }

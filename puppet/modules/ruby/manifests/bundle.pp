@@ -39,20 +39,20 @@ define ruby::bundle(
 ) {
     include ruby
 
-    $bundle = "${ruby::gem_bin_dir}/bundle"
+    $bundle = "ruby${ruby} -- ${ruby::gem_bin_dir}/bundle"
 
     $bundle_gemfile = $gemfile ? { undef => "${directory}/Gemfile", default => $gemfile }
 
     exec { "bundle-install-${title}":
-        command     => "${bundle} install --path '${path}'",
+        command     => "$bundle install --path '${path}'",
+        provider    => 'shell',
         cwd         => $directory,
         environment => [
-            "RBENV_VERSION=${ruby}",
             "BUNDLE_GEMFILE=${bundle_gemfile}",
         ],
         user        => $user,
-        unless      => "${bundle} check",
+        unless      => "$bundle check",
         timeout     => 60 * 20,
-        require     => Rbenv::Build[$ruby],
+        require     => Ruby::Ruby[$ruby],
     }
 }

@@ -12,8 +12,6 @@ define browsertests::bundle {
     include browsertests
     include ruby::default
 
-    ruby::version::directory { $title: }
-
     ruby::bundle { $title: }
 }
 

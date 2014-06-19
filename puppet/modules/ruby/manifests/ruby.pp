@@ -4,12 +4,19 @@
 #
 # === Examples
 #
-# Make sure Ruby version 2.1.2 is installed.
+# Make sure Ruby version 1.9.3 is installed.
 #
-#   ruby::ruby { '2.1.2': }
+#   ruby::ruby { '1.9.3': }
 #
 define ruby::ruby {
     include ruby
 
-    rbenv::build { $title: }
+    package { "ruby${title}":
+        ensure => latest,
+    }
+
+    ruby::gem { "ruby${title}-bundler":
+        gem  => 'bundler',
+        ruby => $title,
+    }
 }

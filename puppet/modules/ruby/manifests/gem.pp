@@ -20,13 +20,13 @@
 #
 #   ruby::gem { 'nokogiri': }
 #
-# Make sure Nokogiri is installed for Ruby 2.1.2.
+# Make sure Nokogiri is installed for Ruby 1.9.3.
 #
-#   ruby::gem { 'nokogiri': ruby => '2.1.2.' }
+#   ruby::gem { 'nokogiri': ruby => '1.9.3' }
 #
-# Make sure a version of Nokogiri greater than 1.0 is installed for Ruby 2.1.2.
+# Make sure a version of Nokogiri greater than 1.0 is installed for Ruby 1.9.3.
 #
-#   ruby::gem { 'nokogiri': version => '> 1.0', ruby => '2.1.2' }
+#   ruby::gem { 'nokogiri': version => '> 1.0', ruby => '1.9.3' }
 #
 define ruby::gem(
     $gem     = $title,
@@ -35,10 +35,10 @@ define ruby::gem(
 ) {
     include ruby
 
-    rbenv::gem { "ruby-${ruby}-${gem}":
-        gem          => $gem,
-        ruby_version => $ruby,
-        version      => $version,
-        skip_docs    => true,
+    exec { "gem-install-${gem}-${ruby}-${version}":
+        command => "gem${ruby} install ${gem} --version '${version}'",
+        unless  => "gem${ruby} list ${gem} --installed --version '${version}'",
+        timeout => 600,
+        require => Package["ruby${ruby}"],
     }
 }

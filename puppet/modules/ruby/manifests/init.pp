@@ -1,68 +1,44 @@
 # == Class: ruby
 #
-# Provides isolated versions of Ruby and gems and resources for declaring
-# which versions should be used in certain contexts.
+# Provides versions of Ruby from system packages, gems, and installation of
+# project dependencies via Bundler.
 #
 # === Examples
 #
-# Install the default version of Ruby and Nokogiri.
+# Install the default version of Ruby.
 #
 #   include ruby::default
-#   ruby::gem { 'nokogiri': }
 #
-# Install Ruby 2.2.0-dev and Nokogiri. (Note that you must specify a ruby
-# version when not using the default.)
+# Install Ruby 1.9.3.
 #
-#   ruby::ruby { '2.2.0-dev': }
-#   ruby::gem { 'nokogiri': ruby => '2.2.0-dev' }
+#   ruby::ruby { '1.9.3': }
 #
-# Install Ruby 2.2.0-dev and any version of Nokogiri before 1.6.
+# Install Ruby 1.9.3 and any version of Nokogiri before 1.6.
 #
-#   ruby::ruby { '2.2.0-dev': }
-#   ruby::gem { 'nokogiri': ruby => '2.2.0-dev', version => '<1.6' }
+#   ruby::ruby { '1.9.3': }
+#   ruby::gem { 'nokogiri': ruby => '1.9.3', version => '<1.6' }
 #
-# Install the default version of Ruby and use it for commands executed beneath
-# a project's working directory.
+# Install the default version of Ruby and install gems for a project according
+# to its Gemfile.
 #
 #   include ruby::default
-#   ruby::version::directory { '/some/project': }
+#   ruby::bundle { '/some/project/directory': }
 #
-# Install Ruby 2.2.0-dev and use it for all commands executed by the vagrant
-# user.
+# Install Ruby 1.9.3 and install gems for a project according to its Gemfile.
 #
-#   include ruby::default
-#   ruby::version::user { 'vagrant': }
-#
-# Install the default version of Ruby and install all gems for a project
-# defined in its Gemfile.
-#
-#   include ruby::default
-#   ruby::bundle { '/some/project': }
-#
-# Install Ruby 2.2.0-dev and install all gems for a project defined in its
-# Gemfile.
-#
-#   ruby::ruby { '2.2.0-dev': }
-#   ruby::bundle { '/some/project': ruby => '2.2.0-dev' }
-#
-# Although the ruby::bundle resource will take care to execute using the right
-# version of Ruby, you should generally pair it with a version resource to
-# ensure consistency for environments outside of Puppet.
-#
-#   ruby::ruby { '2.2.0-dev': }
-#   ruby::version::directory { '/some/project': ruby => '2.2.0-dev' }
-#   ruby::bundle { '/some/project': ruby => '2.2.0-dev' }
-#
-# === Requires
-#
-# Requires rbenv module from https://github.com/justindowning/puppet-rbenv
+#   ruby::ruby { '1.9.3': }
+#   ruby::bundle { '/some/project/directory': ruby => '1.9.3' }
 #
 class ruby {
-    include rbenv
+    $default_version = '1.9.3'
+    $gem_bin_dir = '/usr/local/bin'
 
-    $default_version = '2.1.2'
-    $bin_dir = "${rbenv::install_dir}/shims"
-    $gem_bin_dir = "${rbenv::install_dir}/shims"
+    file { '/etc/gemrc':
+        content => 'gem: --no-ri --no-rdoc',
+    }
 
-    rbenv::plugin { 'sstephenson/ruby-build': }
+    # Remove rbenv environment settings
+    file { '/etc/profile.d/rbenv.sh':
+        ensure => absent,
+    }
 }
