@@ -1,0 +1,18 @@
+$wgAuth = new LdapAuthenticationPlugin();
+$wgLDAPDomainNames = array('labs');
+$wgLDAPServerNames = array( 'labs' => 'localhost' );
+$wgLDAPSearchAttributes = array( 'labs' => 'cn' );
+$wgLDAPBaseDNs = array( 'labs' => 'dc=wikimedia,dc=org' );
+$wgLDAPUserBaseDNs = array( 'labs' => 'ou=people,dc=wikimedia,dc=org' );
+$wgLDAPEncryptionType = array( 'labs' => 'clear');
+$wgLDAPWriteLocation = array( 'labs' => 'ou=people,dc=wikimedia,dc=org' );
+$wgLDAPAddLDAPUsers = array( 'labs' => true );
+$wgLDAPUpdateLDAP = array( 'labs' => true );
+$wgLDAPPasswordHash = array( 'labs' => 'clear' );
+$wgLDAPMailPassword = array( 'labs' => true, 'invaliddomain' => true );
+$wgLDAPPreferences = array( 'labs' => array( "email"=>"mail" ) );
+$wgLDAPUseFetchedUsername = array( 'labs' => true );
+$wgLDAPLowerCaseUsernameScheme = array( 'labs' => false, 'invaliddomain' => false );
+$wgLDAPLowerCaseUsername = array( 'labs' => false, 'invaliddomain' => false );
+#$wgLDAPUseLocal = true;
+$wgMinimalPasswordLength = 1;
