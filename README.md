@@ -53,18 +53,12 @@ Vagrantfile.
 
 From there, run `vagrant up` to provision and boot the virtual machine.
 
-If you have a Gerrit account, and plan to submit patches, enter your username
-at the prompt, or enter 'anonymous' to use http-based anonymous git access.
-If you plan to manage your git remotes manually, just hit ENTER.
-You can always change it later in .settings.yaml and re-run `vagrant provision`.
-
 You'll now have to wait a bit, as Vagrant needs to retrieve the base image from
 Canonical, retrieve some additional packages, and install and configure each of
 them in turn.
 
 If it all worked, you should be able to browse to http://127.0.0.1:8080/ and
-see the main page of your MediaWiki instance. http://127.0.0.1:8080/info.php
-will show PHP settings of the instance.
+see the main page of your MediaWiki instance.
 
 
 ## Use
