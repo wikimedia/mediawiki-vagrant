@@ -17,9 +17,8 @@
 # loaded. In case of conflict, values in the 'extra' file will superceded
 # any values in this file. 'Vagrantfile-extra.rb' is ignored by git.
 #
-# Simple configuration changes can be made by creating a file named
-# ".settings.yaml" in the same directory in this file. See the configuration
-# settings section below for the values that may be specified.
+# Simple configuration changes can be made by running the setup script (see
+# README.md for details).
 #
 # Please report bugs in this file on Wikimedia's Bugzilla:
 # https://bugzilla.wikimedia.org/enter_bug.cgi?product=MediaWiki-Vagrant
@@ -27,70 +26,49 @@
 # Patches and contributions are welcome!
 # http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
 #
-$DIR = File.expand_path('..', __FILE__); $: << File.join($DIR, 'lib')
-require 'settings'
+$DIR = File.expand_path('..', __FILE__)
 
-# In Vagrant versions 1.6 and up, plugins are loaded early and must be
-# installed before executing the Vagrantfile. In earlier versions, we can
-# simply load the plugin here.
-if Gem::Version.new(Vagrant::VERSION) < Gem::Version.new('1.6')
-    require 'mediawiki-vagrant'
-else
-    # Check mediawiki-vagrant plugin version
-    require_relative 'lib/mediawiki-vagrant/version'
-    gemspec = Gem::Specification.find { |s| s.name == 'mediawiki-vagrant' }
-    if gemspec.nil? ||
-       gemspec.version < Gem::Version.new(MediaWikiVagrant::VERSION)
-        raise "Your mediawiki-vagrant plugin isn't up-to-date. Please install the latest version. See README for instructions."
-    end
+# Ensure we're using the latest version of the plugin
+require_relative 'lib/mediawiki-vagrant/version'
+
+# NOTE Use RubyGems over the Vagrant plugin manager as it's more reliable
+gemspec = Gem::Specification.find { |s| s.name == 'mediawiki-vagrant' }
+setup = Vagrant::Util::Platform.windows? ? 'setup.bat' : 'setup.sh'
+
+if gemspec.nil?
+    raise "The mediawiki-vagrant plugin hasn't been installed yet. Please run `#{setup}`."
+elsif gemspec.version < Gem::Version.new(MediaWikiVagrant::VERSION)
+    raise "Your mediawiki-vagrant plugin isn't up-to-date. Please re-run `#{setup}`."
 end
 
-# Configuration settings
-# ----------------------
-# These can be changed by making a `.settings.yaml` file that contains YAML
-# replacements. Example:
-#   box_name: "foo"
-#   vagrant_ram: 2048
-#   forward_ports:
-#     27017: 31337
-#
-# Some roles may also provide new settings values. When applied these roles
-# will require a `vagrant reload` call for their changes to take effect.
-settings = Settings.new(
-    'box_name'      => 'trusty-cloud',
-    'box_uri'       => 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box',
-    'forward_ports' => {},
-    'http_port'     => 8080,
-    'puppet_debug'  => false,
-    'static_ip'     => '10.11.12.13',
-    'vagrant_cores' => 2,
-    'vagrant_ram'   => 1024,
-)
-
-settings.load(File.join($DIR, 'vagrant.d')) rescue nil
-settings.load(File.join($DIR, '.settings.yaml')) rescue nil
-
 mwv = MediaWikiVagrant::Environment.new($DIR)
+
+require 'mediawiki-vagrant/settings/definitions'
+
+settings = MediaWikiVagrant::Settings.new
+
+['vagrant.d', '.settings.yaml'].each do |path|
+    settings.load(File.join($DIR, path)) if File.exists?(path)
+end
 
 Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
     config.package.name = 'mediawiki.box'
 
-    config.vm.box = settings['box_name']
-    config.vm.box_url = settings['box_uri']
+    config.vm.box = 'trusty-cloud'
+    config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
     config.vm.box_download_insecure = true
 
-    config.vm.network :private_network,
-        ip: settings['static_ip']
+    config.vm.network :private_network, ip: settings[:static_ip]
 
     config.vm.network :forwarded_port,
-        guest: 80, host: settings['http_port'].to_i, id: 'http'
+        guest: 80, host: settings[:http_port], id: 'http'
 
-    settings['forward_ports'].each { |guest_port,host_port|
+    settings[:forward_ports].each { |guest_port,host_port|
         config.vm.network :forwarded_port,
-            :host => host_port.to_i, :guest => guest_port.to_i,
+            :host => host_port, :guest => guest_port,
             auto_correct: true
-    } unless settings['forward_ports'].nil?
+    } unless settings[:forward_ports].nil?
 
     root_share_options = {:id => 'vagrant-root'}
 
@@ -120,8 +98,8 @@ Vagrant.configure('2') do |config|
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
-        vb.customize ['modifyvm', :id, '--memory', settings['vagrant_ram'].to_i]
-        vb.customize ['modifyvm', :id, '--cpus', settings['vagrant_cores'].to_i]
+        vb.customize ['modifyvm', :id, '--memory', settings[:vagrant_ram]]
+        vb.customize ['modifyvm', :id, '--cpus', settings[:vagrant_cores]]
         vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
         vb.customize ['modifyvm', :id, '--ioapic', 'on']  # Bug 51473
 
@@ -149,16 +127,14 @@ Vagrant.configure('2') do |config|
         ]
 
         # For more output, uncomment the following line:
-        if settings['puppet_debug']
-            puppet.options << '--debug'
-        end
+        puppet.options << '--debug' if ENV.include?('PUPPET_DEBUG')
 
         # Windows's Command Prompt has poor support for ANSI escape sequences.
         puppet.options << '--color=false' if Vagrant::Util::Platform.windows?
 
         puppet.facter = $FACTER = {
             'fqdn'               => config.vm.hostname,
-            'forwarded_port'     => settings['http_port'],
+            'forwarded_port'     => settings[:http_port],
             'shared_apt_cache'   => '/vagrant/apt-cache/',
         }
 

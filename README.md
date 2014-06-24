@@ -29,7 +29,7 @@ You'll need to install recent versions of Vagrant and VirtualBox.
  * (Optional) For better performance on non-Windows hosts, install NFS.  For
    Debian-based systems (including Ubuntu), run:
 
-   sudo apt-get install nfs-kernel-server portmap
+    sudo apt-get install nfs-kernel-server portmap
 
 Next, you'll need a copy of the mediawiki-vagrant project files.
 
@@ -42,14 +42,9 @@ directory of your choice. Once you do that, open up a terminal or a
 command-prompt, and change your working directory to the location of the
 extracted (or git-cloned) files.
 
-If you're using Vagrant version 1.6 or higher and want to make use of
-additional MediaWiki-Vagrant features such as roles (see Extend below), you'll
-need to install the bundled mediawiki-vagrant plugin. Users of 1.5 and below
-can skip this step, as the plugin will be loaded automatically from within the
-Vagrantfile.
-
-    gem build mediawiki-vagrant.gemspec
-    vagrant plugin install mediawiki-vagrant-[version].gem
+Run the appropriate setup script for your platform. For Windows, run
+`setup.bat`. For Linux and OS X, run `setup.sh`. Some extra Vagrant plugins,
+including the bundled mediawiki-vagrant plugin, will be installed.
 
 From there, run `vagrant up` to provision and boot the virtual machine.
 
@@ -84,13 +79,14 @@ To pick up other changes to the install, on the host computer in the directory
 with the vagrant files run `git pull` and then `vagrant reload`.  The latter
 will restart the VM.
 
+
 ## Extend
 
 You can add roles to MediaWiki-Vagrant! A 'role' represents a set of software
 configurations required for giving this machine some special function. Vagrant
 has several commands to manage enabled roles:
 
- * vagrant disable-role
+ * disable-role
  * enable-role
  * list-roles
  * reset-roles
@@ -100,9 +96,11 @@ environment that you could then share with other developers, you should do so
 by adding a role file to puppet/manifests/roles and submitting it as a patch to
 the Mediawiki-Vagrant project.
 
+
 ## Settings
 
 For information about settings, see settings.d/README.
+
 
 ## Troubleshoot
 

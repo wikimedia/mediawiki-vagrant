@@ -2,6 +2,16 @@ module MediaWikiVagrant
     class Plugin < Vagrant.plugin('2')
         name 'MediaWiki-Vagrant'
 
+        command 'config' do
+            require 'mediawiki-vagrant/config.rb'
+            Config
+        end
+
+        command 'forward-port' do
+            require 'mediawiki-vagrant/forward_port.rb'
+            ForwardPort
+        end
+
         command 'paste-puppet' do
             require 'mediawiki-vagrant/paste-puppet'
             PastePuppet
