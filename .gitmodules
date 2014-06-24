@@ -11,6 +11,3 @@
 [submodule "puppet/modules/mariadb"]
 	path = puppet/modules/mariadb
 	url = https://gerrit.wikimedia.org/r/operations/puppet/mariadb
-[submodule "puppet/modules/varnish"]
-	path = puppet/modules/varnish
-	url = https://gerrit.wikimedia.org/r/operations/puppet/varnish
