@@ -44,14 +44,14 @@ define ruby::bundle(
     $bundle_gemfile = $gemfile ? { undef => "${directory}/Gemfile", default => $gemfile }
 
     exec { "bundle-install-${title}":
-        command     => "$bundle install --path '${path}'",
+        command     => "${bundle} install --path '${path}'",
         provider    => 'shell',
         cwd         => $directory,
         environment => [
             "BUNDLE_GEMFILE=${bundle_gemfile}",
         ],
         user        => $user,
-        unless      => "$bundle check",
+        unless      => "${bundle} check",
         timeout     => 60 * 20,
         require     => Ruby::Ruby[$ruby],
     }

@@ -1,18 +1,28 @@
+# == Class: role::wikitech
+#
+# Provisions a MediaWiki instance similar to https://wikitech.wikimedia.org/.
+#
 class role::wikitech {
     include role::mediawiki
+    include role::cite
+    include role::codeeditor
+    include role::echo
+    include role::gadgets
+    include role::parserfunctions
+    include role::scribunto
+    include role::wikieditor
+    include role::wikilove
 
-
-#    Alas, if only SMW didn't require composer
-#    mediawiki::extension { [ 'SemanticForms', 'SemanticResultFormats' ]:
-#        needs_update  => true,
-#        require       => Mediawiki::Extension[ 'SemanticMediaWiki' ],
-#    }
-#
-#    mediawiki::extension { 'SemanticMediaWiki':
-#        needs_update  => true,
-#        require       => Mediawiki::Extension['Validator'],
-#    }
-#
+    # Alas, if only SMW didn't require composer
+    # mediawiki::extension { [ 'SemanticForms', 'SemanticResultFormats' ]:
+    #     needs_update  => true,
+    #     require       => Mediawiki::Extension[ 'SemanticMediaWiki' ],
+    # }
+    #
+    # mediawiki::extension { 'SemanticMediaWiki':
+    #     needs_update  => true,
+    #     require       => Mediawiki::Extension['Validator'],
+    # }
 
     mediawiki::extension { 'LdapAuthentication':
         needs_update => true,
@@ -33,25 +43,18 @@ class role::wikitech {
         values  => template('wikitech/Debug.php.erb'),
     }
 
-    include role::cite
-    include role::codeeditor
-    include role::echo
-    include role::gadgets
-    include role::parserfunctions
-    include role::scribunto
-    include role::wikilove
-    include role::wikieditor
-
-    mediawiki::extension { [ 'CategoryTree',
-                             'CheckUser',
-                             'Collection',
-                             'DynamicSidebar',
-                             'Nuke',
-                             'OATHAuth',
-                             'OpenStackManager',
-                             'Renameuser',
-                             'TitleBlacklist',
-                             'Vector']:
+    mediawiki::extension { [
+        'CategoryTree',
+         'CheckUser',
+         'Collection',
+         'DynamicSidebar',
+         'Nuke',
+         'OATHAuth',
+         'OpenStackManager',
+         'Renameuser',
+         'TitleBlacklist',
+         'Vector'
+    ]:
         needs_update  => true,
     }
 

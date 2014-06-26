@@ -14,7 +14,7 @@ gitmodules = File.expand_path '../.gitmodules', __FILE__
 PuppetLint.configuration.ignore_paths = [
     'puppet/manifests/roles.pp',
     'puppet/manifests/packages.pp',
-    'puppet/modules/apache/manifests/mods.pp',
+    'puppet/modules/apache/manifests/mod.pp',
     'puppet/modules/hhvm/manifests/init.pp',
 ] + IO.readlines(gitmodules).grep(/\s*path\s*=\s*(\S+)/) { "#{$1}/**/*.pp" }
 
