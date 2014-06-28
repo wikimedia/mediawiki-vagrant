@@ -15,6 +15,7 @@ class apache::mod::authnz_ldap   { apache::mod_conf { 'authnz_ldap':   } }
 class apache::mod::authz_user    { apache::mod_conf { 'authz_user':    } }
 class apache::mod::dav           { apache::mod_conf { 'dav':           } }
 class apache::mod::dav_fs        { apache::mod_conf { 'dav_fs':        } }
+class apache::mod::expires       { apache::mod_conf { 'expires':       } }
 class apache::mod::headers       { apache::mod_conf { 'headers':       } }
 class apache::mod::proxy         { apache::mod_conf { 'proxy':         } }
 class apache::mod::proxy_http    { apache::mod_conf { 'proxy_http':    } }

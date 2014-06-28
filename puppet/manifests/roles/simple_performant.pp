@@ -71,17 +71,13 @@ class role::simple_performant {
 
     file { '/var/www/robots.txt':
         ensure  => present,
-        owner   => 'vagrant',
-        group   => 'www-data',
-        mode    => '0777',
+        mode    => '0444',
         source  => 'puppet:///files/robots.txt',
     }
 
     file { '/vagrant/mediawiki/skins/.htaccess':
         ensure  => present,
-        owner   => 'vagrant',
-        group   => 'www-data',
         source  => 'puppet:///files/skins-htaccess',
-        require => Apache::Mod['expires'],
+        require => Class['::apache::mod::expires'],
     }
 }
