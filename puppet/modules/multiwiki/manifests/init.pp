@@ -14,12 +14,14 @@ class multiwiki {
     $upload_dir    = $::role::mediawiki::upload_dir
 
     File {
-        owner  => 'vagrant',
-        group  => 'www-data',
+        owner => 'vagrant',
+        group => 'www-data',
     }
 
     file { $settings_root:
         ensure  => directory,
+        owner   => $::share_owner,
+        group   => $::share_group,
         mode    => '0755',
         recurse => true,
         purge   => true,
@@ -28,16 +30,18 @@ class multiwiki {
 
     file { "${settings_root}/CommonSettings.php":
         ensure  => present,
+        owner   => $::share_owner,
+        group   => $::share_group,
         mode    => '0644',
         source  => 'puppet:///modules/multiwiki/CommonSettings.php',
-        require => File[$settings_root],
     }
 
     file { "${settings_root}/LoadWgConf.php":
         ensure  => present,
+        owner   => $::share_owner,
+        group   => $::share_group,
         mode    => '0644',
         content => template('multiwiki/LoadWgConf.php.erb'),
-        require => File[$settings_root],
     }
 
     file { $docroot:

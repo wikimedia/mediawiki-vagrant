@@ -56,48 +56,36 @@ define multiwiki::wiki {
         user        => 'www-data',
     }
 
+    File {
+        owner   => $::share_owner,
+        group   => $::share_group,
+    }
+
     file { $multiwiki_dir:
         ensure => directory,
-        owner  => 'vagrant',
-        group  => 'www-data',
-        mode   => '0755',
     }
 
     file { "${multiwiki_dir}/wgConf.php":
         ensure  => present,
-        owner   => 'vagrant',
-        group   => 'www-data',
         mode    => '0644',
         content => template('multiwiki/wgConf.php.erb'),
-        require => File[$multiwiki_dir],
     }
 
     file { "${multiwiki_dir}/dbConf.php":
         ensure  => present,
-        owner   => 'vagrant',
-        group   => 'www-data',
         mode    => '0644',
         content => template('multiwiki/dbConf.php.erb'),
-        require => File[$multiwiki_dir],
     }
 
     file { $settings_dir:
         ensure  => directory,
-        owner   => 'vagrant',
-        group   => 'www-data',
-        mode    => '0755',
-        require => File[$multiwiki_dir],
     }
 
     file { "${settings_dir}/puppet-managed":
         ensure  => directory,
-        owner   => 'vagrant',
-        group   => 'www-data',
-        mode    => undef,
         recurse => true,
         purge   => true,
         force   => true,
         source  => 'puppet:///modules/multiwiki/settings.d-empty',
-        require => File[$settings_dir],
     }
 }
