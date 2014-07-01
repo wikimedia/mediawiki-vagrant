@@ -18,8 +18,5 @@ class role::zero {
 
     mediawiki::extension { 'ZeroPortal':
         priority => $::LOAD_LAST, # Must be after ZeroBanner
-        settings => [
-            '$wgJsonConfigs["JsonZeroConfig"]["store"] = true',
-        ],
     }
 }
