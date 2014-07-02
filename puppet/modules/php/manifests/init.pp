@@ -21,6 +21,7 @@ class php {
         'php5-intl',
         'php5-mcrypt',
         'php5-mysql',
+        'php5-sqlite',
     ]:
         ensure  => present,
         require => Class['::apache::mod::php5'],
