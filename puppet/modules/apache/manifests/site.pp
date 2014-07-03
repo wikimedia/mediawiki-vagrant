@@ -40,18 +40,11 @@ define apache::site(
 ) {
     include apache
 
-    if versioncmp($::lsbdistrelease, '14') < 0 {
-        $site_file_extension = ''
-    } else {
-        $site_file_extension = '.conf'
-    }
-
     if $site == 'default' {
-        $site_file = "000-default${site_file_extension}"
+        $site_file = "000-default.conf"
     } else {
-        $site_file = "${site}${site_file_extension}"
+        $site_file = "${site}.conf"
     }
-
 
     case $ensure {
         present: {

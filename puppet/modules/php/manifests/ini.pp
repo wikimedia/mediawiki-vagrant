@@ -45,12 +45,7 @@ define php::ini (
     include ::apache
 
     $basename = inline_template('<%= @title.gsub(/\W/, "-").downcase %>')
-
-    if versioncmp($::lsbdistrelease, '14') > 0 {
-        $conffile = "/etc/php5/mods-available/${basename}.ini"
-    } else {
-        $conffile = "/etc/php5/conf.d/${basename}.ini"
-    }
+    $conffile = "/etc/php5/mods-available/${basename}.ini"
 
     file { $conffile:
         ensure  => $ensure,

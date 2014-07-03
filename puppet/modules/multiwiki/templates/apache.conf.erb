@@ -21,11 +21,11 @@ LogLevel error
 </Directory>
 
 <Directory <%= @docroot %>>
-    <% if scope.function_versioncmp([@lsbdistrelease, '14']) > 0 then %>Require all granted<% end %>
+    Require all granted
 </Directory>
 
 <Directory <%= @upload_dir %>>
-    <% if scope.function_versioncmp([@lsbdistrelease, '14']) > 0 then %>Require all granted<% end %>
+    Require all granted
 </Directory>
 
 AllowEncodedSlashes on
