@@ -29,7 +29,8 @@ class apt {
         keyid => 'Wikimedia'
     }
     apt::repo { 'hhvm':
-        keyid => '1BE7A449'
+        ensure => absent,
+        keyid  => '1BE7A449'
     }
 
     Exec['apt-get update'] -> Package['python-software-properties'] -> Apt::Ppa <| |> -> Package <| title != 'python-software-properties' |>

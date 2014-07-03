@@ -4,10 +4,18 @@ description "HipHop Virtual Machine for PHP"
 
 start on (local-filesystems and net-device-up IFACE!=lo)
 
-setuid www-data
-setgid www-data
+pre-start script
+  mkdir -p -m0755 /var/run/hhvm
+  chown -R www-data:www-data /var/run/hhvm
+  mkdir -p -m0755 /var/log/hhvm
+  chown -R www-data:www-data /var/log/hhvm
+end script
 
-exec /usr/bin/hhvm --config /etc/hhvm/server.hdf --mode server
+exec /sbin/start-stop-daemon --quiet --start \
+         --chuid www-data:www-data \
+         --pidfile /var/run/hhvm/hhvm.pid \
+         --startas /usr/bin/hhvm \
+         -- --mode server
 
 respawn
 # vim: set ft=upstart:

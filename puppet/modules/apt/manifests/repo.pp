@@ -18,25 +18,39 @@
 #
 define apt::repo(
     $keyid,
-    $key = "apt/${title}.key",
+    $ensure   = present,
+    $key      = "apt/${title}.key",
     $template = "apt/${title}.list.erb"
 ) {
     $safename = regsubst($name, '\W', '-', 'G')
 
-    file { "/tmp/${title}.key":
-        ensure => present,
-        source => "puppet:///modules/${key}",
-    }
+    if $ensure == present {
+        file { "/tmp/${title}.key":
+            ensure => present,
+            source => "puppet:///modules/${key}",
+        }
 
-    exec { "add ${title} apt key":
-        command => "apt-key add /tmp/${title}.key",
-        require => File["/tmp/${title}.key"],
-        unless  => "apt-key list | grep -q ${keyid}",
-    }
+        exec { "add ${title} apt key":
+            command => "apt-key add /tmp/${title}.key",
+            require => File["/tmp/${title}.key"],
+            before  => File["/etc/apt/sources.list.d/${safename}.list"],
+            unless  => "apt-key list | grep -q ${keyid}",
+        }
 
-    file { "/etc/apt/sources.list.d/${safename}.list":
-        content => template($template),
-        require => Exec["add ${title} apt key"],
-        notify  => Exec['apt-get update'],
+        file { "/etc/apt/sources.list.d/${safename}.list":
+            content => template($template),
+            notify  => Exec['apt-get update'],
+        }
+    } else {
+        exec { "remove ${title} apt key":
+            command => "apt-key del ${keyid}",
+            onlyif  => "apt-key list | grep -q ${keyid}",
+            before  => File["/etc/apt/sources.list.d/${safename}.list"],
+        }
+
+        file { "/etc/apt/sources.list.d/${safename}.list":
+            ensure => absent,
+            notify => Exec['apt-get update'],
+        }
     }
 }

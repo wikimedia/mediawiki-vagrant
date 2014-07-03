@@ -1,0 +1,47 @@
+# This file is managed by puppet
+
+PidFile = /var/run/hhvm/pid
+
+Server {
+  Type = fastcgi
+  Port = 9000
+  SourceRoot = <%= scope['role::mediawiki::dir'] %>
+}
+
+Eval {
+  EnableZendCompat = true
+  Jit = true
+  PerfPidMap = false
+}
+
+DynamicExtensionPath = /usr/lib/hphp/extensions/20131007
+
+DynamicExtensions {
+  * = luasandbox.so
+  * = fss.so
+  * = wikidiff2.so
+}
+
+Log {
+  Level = Warning
+  AlwaysLogUnhandledExceptions = true
+  UseLogFile = true
+  UseSyslog = false
+  File = /var/log/hhvm/error.log
+  Access {
+    * {
+      File = /var/log/hhvm/access.log
+      Format = %h %l %u % t \”%r\” %>s %b
+    }
+  }
+}
+
+Repo {
+  Central {
+    Path = /var/run/hhvm/hhvm.hhbc
+  }
+}
+
+MySQL {
+  TypedResults = false
+}

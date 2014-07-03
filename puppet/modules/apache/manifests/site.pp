@@ -41,7 +41,7 @@ define apache::site(
     include apache
 
     if $site == 'default' {
-        $site_file = "000-default.conf"
+        $site_file = '000-default.conf'
     } else {
         $site_file = "${site}.conf"
     }
