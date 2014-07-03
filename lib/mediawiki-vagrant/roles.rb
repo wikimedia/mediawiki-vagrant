@@ -15,6 +15,7 @@ module MediaWikiVagrant
             }
 
             @env.ui.info "\nRoles marked with '*' are enabled."
+            @env.ui.info "Note that roles enabled by dependency are not marked."
             @env.ui.info 'Use "vagrant enable-role" & "vagrant disable-role" to customize.'
             return 0
         end

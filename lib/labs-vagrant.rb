@@ -15,6 +15,7 @@ when 'list-roles'
         puts "#{prefix} #{role}"
     }
     puts "\nRoles marked with '*' are enabled."
+    puts "Note that roles enabled by dependency are not marked."
     puts 'Use "labs-vagrant enable-role" & "labs-vagrant disable-role" to customize.'
 
 when 'reset-roles'
