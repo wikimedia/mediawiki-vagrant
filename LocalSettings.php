@@ -51,7 +51,6 @@ $wgEnableUploads = true;
 
 // User settings and permissions
 $wgAllowUserJs = true;
-$wgGroupPermissions['*']['createpage'] = false;
 
 // Caching
 $wgObjectCaches['redis'] = array(
