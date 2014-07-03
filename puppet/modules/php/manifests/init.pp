@@ -34,4 +34,10 @@ class php {
             error_reporting        => -1,
         }
     }
+
+    php::ini { 'session defaults':
+      settings => {
+        'session.save_path' => '/tmp',
+      }
+    }
 }
