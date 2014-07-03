@@ -26,7 +26,7 @@ class role::hadoop {
 
     # Install Hadoop client and configs.
     class { '::cdh::hadoop':
-        cluster_name => 'vagrant',
+        cluster_name                             => 'vagrant',
         namenode_hosts                           => $namenode_hosts,
         datanode_mounts                          => $datanode_mounts,
         dfs_name_dir                             => [$hadoop_name_directory],
