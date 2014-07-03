@@ -112,14 +112,9 @@ class packages::unzip {
     package { 'unzip': }
 }
 
-class packages::python3_2 {
-    package { 'python3.2': }
-}
-
 class packages::exiv2 {
     package { 'exiv2': }
 }
 class packages::libtiff_tools {
     package { 'libtiff-tools': }
 }
-
