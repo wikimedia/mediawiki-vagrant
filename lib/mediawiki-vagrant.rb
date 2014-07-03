@@ -1,5 +1,3 @@
-require 'mediawiki-vagrant/helpers'
-
 module MediaWikiVagrant
     class Plugin < Vagrant.plugin('2')
         name 'MediaWiki-Vagrant'

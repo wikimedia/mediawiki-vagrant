@@ -35,6 +35,14 @@ require 'settings'
 # simply load the plugin here.
 if Gem::Version.new(Vagrant::VERSION) < Gem::Version.new('1.6')
     require 'mediawiki-vagrant'
+else
+    # Check mediawiki-vagrant plugin version
+    require_relative 'lib/mediawiki-vagrant/version'
+    gemspec = Gem::Specification.find { |s| s.name == 'mediawiki-vagrant' }
+    if gemspec.nil? ||
+       gemspec.version < Gem::Version.new(MediaWikiVagrant::VERSION)
+        raise "Your mediawiki-vagrant plugin isn't up-to-date. Please install the latest version. See README for instructions."
+    end
 end
 
 # Configuration settings
@@ -62,6 +70,7 @@ settings = Settings.new(
 settings.load(File.join($DIR, 'vagrant.d')) rescue nil
 settings.load(File.join($DIR, '.settings.yaml')) rescue nil
 
+mwv = MediaWikiVagrant::Environment.new($DIR)
 
 Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
@@ -135,7 +144,7 @@ Vagrant.configure('2') do |config|
             '--verbose',
             '--config_version', '/vagrant/puppet/extra/config-version',
             '--fileserverconfig', '/vagrant/puppet/extra/fileserver.conf',
-            '--logdest', "/vagrant/logs/puppet/puppet.#{defined?(commit) ? commit : 'unknown'}.log",
+            '--logdest', "/vagrant/logs/puppet/puppet.#{mwv.commit || 'unknown'}.log",
             '--logdest', 'console',
         ]
 
