@@ -4,12 +4,6 @@
 #
 class apache {
 
-    if versioncmp($::lsbdistrelease, '14') > 0 {
-        $config_dirs = [ '/etc/apache2/conf-available', '/etc/apache2/conf-enabled' ]
-    } else {
-        $config_dirs = [ '/etc/apache2/conf.d' ]
-    }
-
     package { 'apache2':
         ensure  => present,
     }
@@ -30,7 +24,12 @@ class apache {
         content => 'EnableSendfile Off',
     }
 
-    file { [ $config_dirs, '/etc/apache2/env.d', '/etc/apache2/site.d' ]:
+    file { [
+        '/etc/apache2/conf-available',
+        '/etc/apache2/conf-enabled',
+        '/etc/apache2/env.d',
+        '/etc/apache2/site.d'
+    ]:
         ensure  => directory,
         recurse => true,
         purge   => true,

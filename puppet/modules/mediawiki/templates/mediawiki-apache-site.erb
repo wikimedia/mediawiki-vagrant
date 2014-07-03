@@ -16,47 +16,27 @@ LogLevel error
 <Directory /var/www/>
 </Directory>
 
-<Directory <%= scope.lookupvar('mediawiki::dir') %>>
-	<% if scope.function_versioncmp([@lsbdistrelease, '14']) > 0 then %>Require all granted<% end %>
+<Directory <%= scope['mediawiki::dir'] %>>
+    Require all granted
 </Directory>
 
-<Directory <%= scope.lookupvar('mediawiki::upload_dir') %>>
-	<% if scope.function_versioncmp([@lsbdistrelease, '14']) > 0 then %>Require all granted<% end %>
+<Directory <%= scope['mediawiki::upload_dir'] %>>
+    Require all granted
 </Directory>
 
 AllowEncodedSlashes on
-
 RewriteEngine On
-RewriteRule ^/$ /w/index.php [R=301]
-
-Alias /wiki "<%= scope.lookupvar('mediawiki::dir') %>/index.php"
-Alias /w "<%= scope.lookupvar('mediawiki::dir') %>"
-Alias /images "<%= scope.lookupvar('mediawiki::upload_dir') %>"
-Alias /mediawiki-vagrant.png /var/www/mediawiki-vagrant.png
-Alias /favicon.ico /var/www/favicon.ico
 
 <IfDefine HHVM>
-    # Remove the default PHP type and handler.
-    RemoveHandler .php
-    RemoveType .php
-
-    # Configure HHVM to handle PHP
-    Alias /hhvm.fastcgi /var/www/fastcgi/hhvm.fastcgi
-    FastCGIExternalServer /var/www/fastcgi/hhvm.fastcgi -host 127.0.0.1:9000 -pass-header Authorization -idle-timeout 300
-
-    <FilesMatch "\.php$">
-        SetHandler hhvm-php-extension
-    </FilesMatch>
-
-    <Directory "/var/www/fastcgi">
-        <Files "hhvm.fastcgi">
-            Order deny,allow
-        </Files>
-    </Directory>
-
-    AddHandler hhvm-hack-extension .hh
-    AddHandler hhvm-php-extension .php
-
-    Action hhvm-hack-extension /hhvm.fastcgi virtual
-    Action hhvm-php-extension /hhvm.fastcgi virtual
+    ProxyPass       /wiki                fcgi://127.0.0.1:9000/<%= scope['::mediawiki::dir'] %>/index.php
+    ProxyPass       /w/extensions        !
+    ProxyPassMatch  ^/w/(.*\.(php|hh))$  fcgi://127.0.0.1:9000/<%= scope['::mediawiki::dir'] %>/$1
+    RewriteRule     ^/$                  fcgi://127.0.0.1:9000/<%= scope['::mediawiki::dir'] %>/index.php  [P]
 </IfDefine>
+
+RewriteRule ^/$ /w/index.php [R=301]
+Alias /wiki "<%= scope['mediawiki::dir'] %>/index.php"
+Alias /w "<%= scope['mediawiki::dir'] %>"
+Alias /images "<%= scope['mediawiki::upload_dir'] %>"
+Alias /mediawiki-vagrant.png /var/www/mediawiki-vagrant.png
+Alias /favicon.ico /var/www/favicon.ico

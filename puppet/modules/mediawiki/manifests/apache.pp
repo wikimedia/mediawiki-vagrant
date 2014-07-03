@@ -4,9 +4,11 @@
 #
 class mediawiki::apache {
     include ::mediawiki
+
     include ::apache
     include ::apache::mod::alias
     include ::apache::mod::rewrite
+    include ::apache::mod::proxy_fcgi
 
     apache::site { 'default':
         ensure => absent,
@@ -15,7 +17,7 @@ class mediawiki::apache {
     apache::site { $mediawiki::wiki_name:
         ensure  => present,
         content => template('mediawiki/mediawiki-apache-site.erb'),
-        require => Class['::apache::mod::alias', '::apache::mod::rewrite'],
+        require => Class['::apache::mod::alias', '::apache::mod::rewrite', '::apache::mod::proxy_fcgi'],
         listen  => [ '_default_:80', '_default_:8080' ],
     }
 
