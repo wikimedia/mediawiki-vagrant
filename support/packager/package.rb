@@ -37,7 +37,7 @@ def download_file(target_dir_pathname, url_info)
     filename += Pathname.new(url).basename
   end
 
-  if filename.exist?
+  if filename.exist? && url_info.include? 'sha256'
     $sha256.reset
     $sha256.file(filename)
     if $sha256.hexdigest === url_info['sha256']

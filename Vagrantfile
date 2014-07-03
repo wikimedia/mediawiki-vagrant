@@ -48,35 +48,16 @@ end
 #
 # Some roles may also provide new settings values. When applied these roles
 # will require a `vagrant reload` call for their changes to take effect.
-settings = Settings.new({
-    # The vagrant box to load on the VM
-    'box_name' => 'precise-cloud',
-
-    # Download URL for vagrant box.  If you change this, also update support/packager/urls.yaml .
-    'box_uri' => 'https://cloud-images.ubuntu.com/vagrant/precise/current/precise-server-cloudimg-amd64-vagrant-disk1.box',
-
-    # Amount of RAM to allocate to virtual machine in MB; must be numeric
-    'vagrant_ram' => 1024,
-
-    # Number of virtual CPUs to allocate to virtual machine; must be numeric
-    # If you are on a single-core system, change the following default to 1:
-    'vagrant_cores' => 2,
-
-    # Static IP address for virtual machine
-    'static_ip' => '10.11.12.13',
-
-    # The port on the host that should be forwarded to the guest's HTTP server.
-    # Must be numeric.
-    'http_port' => 8080,
-
-    # You may provide a map of vm:host port pairs for Vagrant to forward.
-    # Keys and values must be numeric.
+settings = Settings.new(
+    'box_name'      => 'trusty-cloud',
+    'box_uri'       => 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box',
     'forward_ports' => {},
-
-    # Enable puppet debug output?
-    # Must be boolean
-    'puppet_debug' => false,
-})
+    'http_port'     => 8080,
+    'puppet_debug'  => false,
+    'static_ip'     => '10.11.12.13',
+    'vagrant_cores' => 2,
+    'vagrant_ram'   => 1024,
+)
 
 settings.load(File.join($DIR, 'vagrant.d')) rescue nil
 settings.load(File.join($DIR, '.settings.yaml')) rescue nil
@@ -86,18 +67,12 @@ Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
     config.package.name = 'mediawiki.box'
 
-    # Note: If you rely on Vagrant to retrieve the box, it will not
-    # verify SSL certificates. If this concerns you, you can retrieve
-    # the file using another tool that implements SSL properly, and then
-    # point Vagrant to the downloaded file:
-    #   $ vagrant box add precise-cloud /path/to/file/precise.box
     config.vm.box = settings['box_name']
     config.vm.box_url = settings['box_uri']
-    if config.vm.respond_to? 'box_download_insecure'  # Vagrant 1.2.6+
-        config.vm.box_download_insecure = true
-    end
+    config.vm.box_download_insecure = true
 
-    config.vm.network :private_network, ip: settings['static_ip']
+    config.vm.network :private_network,
+        ip: settings['static_ip']
 
     config.vm.network :forwarded_port,
         guest: 80, host: settings['http_port'].to_i, id: 'http'
@@ -183,17 +158,18 @@ Vagrant.configure('2') do |config|
 
     end
 
-    config.vm.provision :mediawiki_reload if Vagrant.plugin('2').manager.provisioners[:mediawiki_reload]
+    if Vagrant.plugin('2').manager.provisioners[:mediawiki_reload]
+        config.vm.provision :mediawiki_reload
+    end
 end
 
 
+# Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
+# See 'support/Vagrantfile-extra.rb' for an example but make sure to folow
+# the instructions in that file.  In particular it is important to copy it
+# to the parent directory.  Editing it without copying it will only cause
+# sadness.
 begin
-    # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
-    # See 'support/Vagrantfile-extra.rb' for an example but make sure to folow
-    # the instructions in that file.  In particular it is important to copy it
-    # to the parent directory.  Editing it without copying it will only cause
-    # sadness.
     require File.join($DIR, 'Vagrantfile-extra')
 rescue LoadError
-    # OK. File does not exist.
 end
