@@ -21,7 +21,7 @@
 # See https://www.mediawiki.org/wiki/MediaWiki-Vagrant/Advanced_usage#MediaWiki_debugging_using_Xdebug_and_an_IDE_in_your_host
 # for more information.
 class php::remote_debug {
-    $xdebug_extension_path = '/usr/lib/php5/20090626/xdebug.so'  # FIXME
+    $xdebug_extension = 'xdebug.so'
 
     # It would be nice to use a PECL package provider.
     exec { 'install xdebug':
@@ -38,7 +38,7 @@ class php::remote_debug {
 
     php::ini { 'remote_debug':
         settings => {
-            'zend_extension'             => $xdebug_extension_path,
+            'zend_extension'             => $xdebug_extension,
             'xdebug.remote_connect_back' => 1,
             'xdebug.remote_enable'       => 1,
             'xdebug.max_nesting_level'   => 200,
