@@ -96,6 +96,10 @@ class packages::jsduck {
     }
 }
 
+class packages::pil {
+    package { 'python-imaging': }
+}
+
 class packages::wikidiff2 {
     package { 'php-wikidiff2': }
 }
@@ -115,6 +119,15 @@ class packages::unzip {
 class packages::exiv2 {
     package { 'exiv2': }
 }
+
+class packages::fonts_dejavu {
+    package { 'fonts-dejavu': }
+}
+
 class packages::libtiff_tools {
     package { 'libtiff-tools': }
+}
+
+class packages::wbritish_small {
+    package { 'wbritish-small': }
 }

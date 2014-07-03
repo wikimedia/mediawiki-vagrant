@@ -5,24 +5,38 @@
 # to guess passwords.
 class role::confirmedit {
     include role::mediawiki
-    include python::pil
+    include packages::fonts_dejavu
+    include packages::pil
+    include packages::wbritish_small
+
+    $font     = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
+    $wordlist = '/usr/share/dict/words'
+    $output   = "${::role::mediawiki::dir}/images/temp/captcha"
+    $key      = 'FOO'
 
     mediawiki::extension { 'ConfirmEdit':
-        before => Exec['generate FancyCaptcha images']
+        notify => Exec['generate FancyCaptcha images'],
     }
 
     mediawiki::settings { 'ConfirmEdit FancyCaptcha':
+        header => 'require_once "$IP/extensions/ConfirmEdit/FancyCaptcha.php";',
         values => {
             wgCaptchaClass           => 'FancyCaptcha',
             wgCaptchaDirectory       => '$IP/images/temp/captcha',
             wgCaptchaDirectoryLevels => 0,
-            wgCaptchaSecret          => 'FOO',
+            wgCaptchaSecret          => $key,
         },
-        header => 'require_once "$IP/extensions/ConfirmEdit/FancyCaptcha.php";',
+    }
+
+    file { [ "${::role::mediawiki::dir}/images/temp", $output ]:
+        ensure => directory,
+        before => Exec['generate FancyCaptcha images'],
     }
 
     exec { 'generate FancyCaptcha images':
-        command => 'echo "hello\nworld\n" > /tmp/words; mkdir -p ../../images/temp/captcha; python captcha.py --font=/usr/share/fonts/truetype/ttf-dejavu/DejaVuSans.ttf --wordlist=/tmp/words --key=FOO --output=../../images/temp/captcha --count=2',
-        cwd     => '/vagrant/mediawiki/extensions/ConfirmEdit',
+        cwd         => "${::role::mediawiki::dir}/extensions/ConfirmEdit",
+        require     => Package['wbritish-small', 'fonts-dejavu'],
+        command     => "/usr/bin/python captcha.py --font=${font} --wordlist=${wordlist} --key=${key} --output=${output}",
+        refreshonly => true,
     }
 }
