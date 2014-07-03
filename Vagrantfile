@@ -124,6 +124,7 @@ Vagrant.configure('2') do |config|
         puppet.module_path = 'puppet/modules'
         puppet.manifests_path = 'puppet/manifests'
         puppet.manifest_file = 'site.pp'
+        puppet.hiera_config_path = 'puppet/hiera.yaml'
 
         puppet.options = [
             '--templatedir', '/vagrant/puppet/templates',
