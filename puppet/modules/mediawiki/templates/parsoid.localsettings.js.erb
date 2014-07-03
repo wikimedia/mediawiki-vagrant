@@ -3,7 +3,7 @@
  * This file is managed by Puppet.
  */
 exports.setup = function( parsoidConfig ) {
-    parsoidConfig.setInterwiki( 'localhost', '<%= scope.lookupvar("mediawiki::server_url") %>/w/api.php' );
+    parsoidConfig.setInterwiki( 'localhost', '<%= scope["mediawiki::server_url"] %>/w/api.php' );
     parsoidConfig.usePHPPreProcessor = <%= @use_php_preprocessor %>;
     parsoidConfig.useSelser = <%= @use_selser %>;
     <%- if @allow_cors -%>

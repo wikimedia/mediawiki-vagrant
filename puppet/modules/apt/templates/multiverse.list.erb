@@ -1,7 +1,7 @@
 # Ubuntu multiverse package repository source file.
 # This file is managed by Puppet.
 #
-deb http://archive.ubuntu.com/ubuntu <%= scope.lookupvar('::lsbdistcodename') %> multiverse
-deb-src http://archive.ubuntu.com/ubuntu <%= scope.lookupvar('::lsbdistcodename') %> multiverse
-deb http://security.ubuntu.com/ubuntu <%= scope.lookupvar('::lsbdistcodename') %>-security multiverse
-deb-src http://security.ubuntu.com/ubuntu <%= scope.lookupvar('::lsbdistcodename') %>-security multiverse
+deb http://archive.ubuntu.com/ubuntu <%= scope['::lsbdistcodename'] %> multiverse
+deb-src http://archive.ubuntu.com/ubuntu <%= scope['::lsbdistcodename'] %> multiverse
+deb http://security.ubuntu.com/ubuntu <%= scope['::lsbdistcodename'] %>-security multiverse
+deb-src http://security.ubuntu.com/ubuntu <%= scope['::lsbdistcodename'] %>-security multiverse

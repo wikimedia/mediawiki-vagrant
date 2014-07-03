@@ -78,7 +78,7 @@ class crm::drupal(
     }
 
     exec { 'enable drupal modules':
-        command => inline_template('<%= scope.lookupvar("::crm::drush::cmd") %> pm-enable <%= @modules.join(" ") %>'),
+        command => inline_template('<%= scope["::crm::drush::cmd"] %> pm-enable <%= @modules.join(" ") %>'),
         require => [
             Exec['drupal db install'],
             Exec['civicrm setup'],

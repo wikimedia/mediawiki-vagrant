@@ -31,7 +31,7 @@ LogLevel error
 AllowEncodedSlashes on
 
 Alias /wiki <%= @docroot %>/index.php
-Alias /w <%= scope.lookupvar('::mediawiki::dir') %>
+Alias /w <%= scope['::mediawiki::dir'] %>
 Alias /images <%= @upload_dir %>
 Alias /mediawiki-vagrant.png /var/www/mediawiki-vagrant.png
 Alias /favicon.ico /var/www/favicon.ico

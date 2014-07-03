@@ -4,16 +4,16 @@ $config = array(
     'site_dir' => 'default',
     'base_url' => "http://<%= @site_name %>/",
     'mysql' => array(
-        'username' => "<%= scope.lookupvar('::crm::db_user') %>",
-        'password' => "<%= scope.lookupvar('::crm::db_pass') %>",
+        'username' => "<%= scope['::crm::db_user'] %>",
+        'password' => "<%= scope['::crm::db_pass'] %>",
         'server' => 'localhost',
-        'database' => "<%= scope.lookupvar('::crm::civicrm_db') %>",
+        'database' => "<%= scope['::crm::civicrm_db'] %>",
     ),
     'drupal' => array(
-        'username' => "<%= scope.lookupvar('::crm::db_user') %>",
-        'password' => "<%= scope.lookupvar('::crm::db_pass') %>",
+        'username' => "<%= scope['::crm::db_user'] %>",
+        'password' => "<%= scope['::crm::db_pass'] %>",
         'server' => 'localhost',
-        'database' => "<%= scope.lookupvar('::crm::drupal_db') %>",
+        'database' => "<%= scope['::crm::drupal_db'] %>",
     ),
 );
 

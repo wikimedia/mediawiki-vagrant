@@ -1,4 +1,4 @@
 // http://www.mediawiki.org/wiki/Extension:VisualEditor#Basic_setup_instructions
 $wgVisualEditorNamespaces = array( NS_MAIN, NS_USER );
 $wgDefaultUserOptions['visualeditor-enable'] = 1;
-$wgVisualEditorParsoidURL = 'http://localhost:<%= scope.lookupvar("mediawiki::parsoid::port") %>';
+$wgVisualEditorParsoidURL = 'http://localhost:<%= scope['mediawiki::parsoid::port'] %>';

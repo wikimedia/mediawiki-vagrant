@@ -6,6 +6,6 @@ $wgFlowOccupyPages = array (
 	'Talk:Sandbox',
 );
 $wgFlowOccupyNamespaces = array( NS_USER_TALK );
-$wgFlowParsoidURL = 'http://localhost:<%= scope.lookupvar("mediawiki::parsoid::port") %>';
+$wgFlowParsoidURL = 'http://localhost:<%= scope['mediawiki::parsoid::port'] %>';
 $wgFlowParsoidPrefix = 'localhost';
 $wgFlowParsoidTimeout = 100;

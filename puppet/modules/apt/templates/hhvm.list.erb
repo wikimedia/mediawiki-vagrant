@@ -1,4 +1,4 @@
 # Package repository for HipHop Virtual Machine for PHP (HHVM).
 # This file is managed by Puppet.
 #
-deb [arch=amd64] http://dl.hhvm.com/ubuntu <%= scope.lookupvar('::lsbdistcodename') %> main
+deb [arch=amd64] http://dl.hhvm.com/ubuntu <%= scope['::lsbdistcodename'] %> main

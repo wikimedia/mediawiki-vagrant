@@ -5,7 +5,7 @@
 
 set -e
 
-IP=<%= scope.lookupvar('::mediawiki::dir') %>
+IP=<%= scope['::mediawiki::dir'] %>
 
 # Save current LocalSettings
 mv $IP/LocalSettings.php $IP/LocalSettings.tmp

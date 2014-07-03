@@ -8,7 +8,7 @@ PidFile = /var/run/hhvm/pid
 Server {
   Type = fastcgi
   Port = 9000
-  SourceRoot = <%= scope.lookupvar('role::mediawiki::dir') %>
+  SourceRoot = <%= scope['role::mediawiki::dir'] %>
   DefaultDocument = index.php
   GzipCompressionLevel = 0
 }

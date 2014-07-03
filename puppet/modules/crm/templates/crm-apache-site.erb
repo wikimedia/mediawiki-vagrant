@@ -1,6 +1,6 @@
-DocumentRoot "<%= scope.lookupvar('crm::dir') %>/drupal"
+DocumentRoot "<%= scope['crm::dir'] %>/drupal"
 
-ServerName <%= scope.lookupvar('crm::site_name') %>
+ServerName <%= scope['crm::site_name'] %>
 
-<Directory <%= scope.lookupvar('crm::dir') %>>
+<Directory <%= scope['crm::dir'] %>>
 </Directory>
