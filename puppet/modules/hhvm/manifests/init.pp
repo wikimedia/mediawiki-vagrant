@@ -8,14 +8,11 @@ class hhvm {
     include ::apache
     include ::apache::mod::proxy_fcgi
 
-    package { 'hhvm-nightly': }
-
-    # Remove the init.d HHVM service so we can use our Upstart job.
-    exec { 'remove_hhvm_initd':
-        command => '/usr/sbin/update-rc.d -f hhvm remove',
-        onlyif  => '/usr/sbin/update-rc.d -n -f hhvm remove | /bin/grep -Pq rc..d',
-        require => Package['hhvm-nightly'],
+    package { [ 'hhvm', 'hhvm-dev', 'hhvm-fss', 'hhvm-luasandbox', 'hhvm-wikidiff2' ]:
+        before => Service['hhvm'],
     }
+
+    package { 'hhvm-nightly': ensure => absent, }
 
     # Define an 'HHVM' flag, the presence of which can be checked
     # with <IfDefine> directives. This allows Apache site config
@@ -25,23 +22,21 @@ class hhvm {
         require => Service['hhvm'],
     }
 
-    file { '/var/www/fastcgi':
+    file { '/etc/hhvm':
         ensure => directory,
-        owner  => 'www-data',
-        group  => 'www-data',
-        mode   => '0755',
     }
 
-    file { '/etc/hhvm/server.hdf':
-        content => template( 'hhvm/server.hdf.erb'),
+    file { '/etc/hhvm/config.hdf':
+        content => template( 'hhvm/config.hdf.erb'),
+        require => Package['hhvm'],
         notify  => Service['hhvm'],
-        require => Package['hhvm-nightly'],
     }
 
     file { '/etc/init/hhvm.conf':
         ensure  => file,
         content => template('hhvm/hhvm.conf.erb'),
-        require => File['/etc/hhvm/server.hdf', '/var/www/fastcgi'],
+        require => File['/etc/hhvm/config.hdf'],
+        notify  => Service['hhvm'],
     }
 
     service { 'hhvm':
