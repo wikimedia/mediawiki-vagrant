@@ -27,7 +27,6 @@ class apache {
     file { [
         '/etc/apache2/conf-available',
         '/etc/apache2/conf-enabled',
-        '/etc/apache2/env.d',
         '/etc/apache2/site.d'
     ]:
         ensure  => directory,
@@ -44,12 +43,6 @@ class apache {
         purge   => true,
         notify  => Service['apache2'],
         require => Package['apache2'],
-    }
-
-    exec { 'setup apache env.d':
-        command => 'echo \'for envfile in /etc/apache2/env.d/*; do . $envfile; done\' >>/etc/apache2/envvars',
-        unless  => 'grep -q env.d /etc/apache2/envvars',
-        require => File['/etc/apache2/env.d'],
     }
 
     service { 'apache2':
