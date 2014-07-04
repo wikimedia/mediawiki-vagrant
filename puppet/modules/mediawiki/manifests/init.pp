@@ -62,6 +62,7 @@ class mediawiki(
     Exec { environment => "MW_INSTALL_PATH=${dir}" }
 
     include ::php
+    require ::hhvm
 
     include mediawiki::phpsh
     include mediawiki::apache

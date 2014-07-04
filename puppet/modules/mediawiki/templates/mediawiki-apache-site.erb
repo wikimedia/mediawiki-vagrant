@@ -27,16 +27,18 @@ LogLevel error
 AllowEncodedSlashes on
 RewriteEngine On
 
-<IfDefine HHVM>
+<IfDefine !ZEND>
     ProxyPass       /wiki                fcgi://127.0.0.1:9000/<%= scope['::mediawiki::dir'] %>/index.php
     ProxyPass       /w/extensions        !
     ProxyPassMatch  ^/w/(.*\.(php|hh))$  fcgi://127.0.0.1:9000/<%= scope['::mediawiki::dir'] %>/$1
     RewriteRule     ^/$                  fcgi://127.0.0.1:9000/<%= scope['::mediawiki::dir'] %>/index.php  [P]
 </IfDefine>
 
-RewriteRule ^/$ /w/index.php [R=301]
-Alias /wiki "<%= scope['mediawiki::dir'] %>/index.php"
-Alias /w "<%= scope['mediawiki::dir'] %>"
-Alias /images "<%= scope['mediawiki::upload_dir'] %>"
-Alias /mediawiki-vagrant.png /var/www/mediawiki-vagrant.png
-Alias /favicon.ico /var/www/favicon.ico
+<IfDefine ZEND>
+	RewriteRule ^/$ /w/index.php [R=301]
+	Alias /wiki "<%= scope['mediawiki::dir'] %>/index.php"
+	Alias /w "<%= scope['mediawiki::dir'] %>"
+	Alias /images "<%= scope['mediawiki::upload_dir'] %>"
+	Alias /mediawiki-vagrant.png /var/www/mediawiki-vagrant.png
+	Alias /favicon.ico /var/www/favicon.ico
+</IfDefine>

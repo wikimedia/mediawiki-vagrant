@@ -14,14 +14,6 @@ class hhvm {
 
     package { 'hhvm-nightly': ensure => absent, }
 
-    # Define an 'HHVM' flag, the presence of which can be checked
-    # with <IfDefine> directives. This allows Apache site config
-    # files to provide HHVM-specific configuration blocks.
-    apache::env { 'hhvm':
-        content => 'export APACHE_ARGUMENTS="${APACHE_ARGUMENTS:- }-D HHVM"',
-        require => Service['hhvm'],
-    }
-
     file { '/etc/hhvm':
         ensure => directory,
     }

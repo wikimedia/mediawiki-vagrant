@@ -23,11 +23,10 @@ class git(
 ) {
     package { 'git':
         ensure  => latest,
-        require => Apt::Ppa['git-core/ppa'],
     }
 
     package { 'git-review':
         ensure   => '1.23',
-        provider => pip,
+        provider => 'pip',
     }
 }

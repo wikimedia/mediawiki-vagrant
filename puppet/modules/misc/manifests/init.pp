@@ -54,12 +54,6 @@ class misc {
         mode   => '0755',
     }
 
-    # Look, I didn't pick the name..
-    package { [ 'toilet', 'toilet-fonts' ]:
-        ensure => present,
-        before => File['/etc/update-motd.d/60-mediawiki-vagrant'],
-    }
-
     file { '/etc/update-motd.d/60-mediawiki-vagrant':
         ensure  => present,
         mode    => '0755',
