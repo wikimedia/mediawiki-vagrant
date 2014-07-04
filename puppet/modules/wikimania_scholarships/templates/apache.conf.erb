@@ -10,13 +10,11 @@ DocumentRoot <%= @deploy_dir %>/public
 <Directory />
   Options FollowSymLinks
   AllowOverride None
-  Order Allow,Deny
-  Deny from all
+  Require all denied
 </Directory>
 
 <Directory <%= @deploy_dir %>/public>
-  Order Allow,Deny
-  Allow from all
+  Require all granted
 </Directory>
 
 <Location />

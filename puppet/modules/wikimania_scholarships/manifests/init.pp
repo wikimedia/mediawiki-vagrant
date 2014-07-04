@@ -73,8 +73,8 @@ class wikimania_scholarships(
     file { "${deploy_dir}/.env":
         ensure  => present,
         mode    => '0644',
-        owner   => 'vagrant',
-        group   => 'www-data',
+        owner   => $::share_owner,
+        group   => $::share_group,
         notify  => Service['apache2'],
         content => template('wikimania_scholarships/env.erb'),
         replace => false,
