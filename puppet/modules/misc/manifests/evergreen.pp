@@ -29,10 +29,10 @@ define misc::evergreen(
 ) {
     include ::misc
 
-    exec { "check ${service} freshness":
+    exec { "check_${service}_freshness":
         command => '/bin/true',
-        unless  => "/usr/sbin/check_service_freshness ${executable} ${config_path}",
-        require => File['/usr/sbin/check_service_freshness'],
+        unless  => "/usr/local/sbin/isfresh ${executable} ${config_path}",
+        require => File['/usr/local/sbin/isfresh'],
         notify  => Service[$service],
     }
 }

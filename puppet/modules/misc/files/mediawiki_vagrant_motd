@@ -31,5 +31,3 @@ printf " * MediaWiki is located at \033[33;1m/vagrant/mediawiki\033[0m.\n"
 printf " * To interactively evaluate PHP and MediaWiki code, run '\033[33mphpsh\033[0m'.\n"
 printf " * For a database shell, run '\033[33mmysql\033[0m'.\n"
 printf " * For help, visit \033[34;4mhttps://www.mediawiki.org\033[0m or \033[33m#mediawiki\033[0m on chat.freenode.net.\n\n"
-test -x /usr/bin/landscape-sysinfo && /usr/bin/landscape-sysinfo --exclude-sysinfo-plugins=LandscapeLink
-exit 0

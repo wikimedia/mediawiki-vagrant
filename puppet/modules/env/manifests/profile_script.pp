@@ -28,18 +28,22 @@
 #      source => 'puppet:///modules/python/env-vars.sh',
 #  }
 #
-define env::profile(
-    $content = undef,
-    $source  = undef,
-    $script  = $title,
-    $ensure  = present,
+define env::profile_script(
+    $ensure   = present,
+    $priority = 50,
+    $content  = undef,
+    $source   = undef,
 ) {
-    include env
+    include ::env
 
-    $script_name = regsubst($script, '\W', '_', 'G')
-    file { "/etc/profile.d/puppet-managed/${script_name}.sh":
+    if $priority !~ /^\d?\d$/             { fail('"priority" must be between 0 - 99')      }
+    if $ensure   !~ /^(present|absent)$/  { fail('"ensure" must be "present" or "absent"') }
+
+    $safe_name   = regsubst($title, '[\W_]', '-', 'G')
+    $script_file = sprintf('%02d-%s', $priority, $safe_name)
+
+    file { "/etc/profile.d/${script_file}":
         ensure  => $ensure,
-        mode    => '0755',
         content => $content,
         source  => $source,
     }

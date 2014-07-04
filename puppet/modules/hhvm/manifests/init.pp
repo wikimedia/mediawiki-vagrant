@@ -12,14 +12,12 @@ class hhvm {
         before => Service['hhvm'],
     }
 
-    package { 'hhvm-nightly': ensure => absent, }
-
     file { '/etc/hhvm':
         ensure => directory,
     }
 
     file { '/etc/hhvm/config.hdf':
-        content => template( 'hhvm/config.hdf.erb'),
+        content => template('hhvm/config.hdf.erb'),
         require => Package['hhvm'],
         notify  => Service['hhvm'],
     }

@@ -27,7 +27,7 @@ class php {
         require => Class['::apache::mod::php5'],
     }
 
-    php::ini { 'debug output':
+    php::ini { 'debug_output':
         settings => {
             display_errors         => true,
             display_startup_errors => true,
@@ -35,9 +35,7 @@ class php {
         }
     }
 
-    php::ini { 'session defaults':
-      settings => {
-        'session.save_path' => '/tmp',
-      }
+    php::ini { 'session_defaults':
+      settings => { 'session.save_path' => '/tmp' },
     }
 }

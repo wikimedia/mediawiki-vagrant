@@ -17,25 +17,25 @@ class apparmor {
     }
 
     file { '/usr/bin/isitapparmor':
-        owner   => root,
-        group   => root,
+        owner   => 'root',
+        group   => 'root',
         mode    => '0555',
         source  => 'puppet:///modules/apparmor/isitapparmor',
         require => Package['apparmor'],
     }
 
     file { '/etc/apparmor.d/usr.bin.redis-server':
-        owner   => root,
-        group   => root,
-        mode    => '0644',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
         source  => 'puppet:///modules/apparmor/usr.bin.redis-server',
         require => Package['apparmor'],
-        notify  => Exec['confine redis'],
+        notify  => Exec['confine_redis'],
     }
 
-    exec { 'confine redis':
+    exec { 'confine_redis':
         command     => '/sbin/apparmor_parser -r /etc/apparmor.d/usr.bin.redis-server',
-        user        => root,
+        user        => 'root',
         refreshonly => true,
         notify      => Service['redis-server'],
     }

@@ -39,16 +39,11 @@
 #  }
 #
 class redis(
-    $max_memory = '16mb',
+    $max_memory = '256mb',
     $persist    = false,
     $settings   = {},
 ) {
-    include redis::php
-
-    $save = $persist ? {
-        true    => [ '60', '1' ],
-        default => undef,
-    }
+    include ::redis::php
 
     $defaults = {
         daemonize        => 'yes',
@@ -59,7 +54,7 @@ class redis(
         maxmemory        => $max_memory,
         maxmemory_policy => 'allkeys-lru',
         maxclients       => 1000,
-        save             => $save,
+        save             => $persist ? { true => [ 60, 1 ], default => undef },
     }
 
     package { 'redis-server':
@@ -68,15 +63,15 @@ class redis(
 
     file { '/srv/redis':
         ensure  => directory,
-        require => Package['redis-server'],
         owner   => 'redis',
         group   => 'redis',
         mode    => '0755',
+        require => Package['redis-server'],
     }
 
     file { '/etc/redis/redis.conf':
         content => template('redis/redis.conf.erb'),
-        require => Package['redis-server'],
+        require => [ Package['redis-server'], File['/srv/redis'] ],
     }
 
     service { 'redis-server':
@@ -84,9 +79,6 @@ class redis(
         enable    => true,
         provider  => 'debian',
         subscribe => File['/etc/redis/redis.conf'],
-        require   => [
-            File['/etc/redis/redis.conf', '/srv/redis'],
-            Package['redis-server'],
-        ],
+        require   => File['/etc/redis/redis.conf'],
     }
 }

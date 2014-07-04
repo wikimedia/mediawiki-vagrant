@@ -5,26 +5,27 @@
 # supplementary sources.
 #
 class apt {
-    exec { 'apt-get update': }
+    exec { '/usr/bin/apt-get update': }
 
-    package { 'python-software-properties':
-        ensure  => present,
-        require => Exec['apt-get update']
+    file  { '/usr/local/share/wikimedia-pubkey.asc':
+        source => 'puppet:///modules/apt/wikimedia-pubkey.asc',
+        before => File['/etc/apt/sources.list.d/wikimedia.list'],
+        notify => Exec['add_wikimedia_apt_key'],
+    }
+
+    exec { 'add_wikimedia_apt_key':
+        command     => '/usr/bin/apt-key add /usr/local/share/wikimedia-pubkey.asc',
+        before      => File['/etc/apt/sources.list.d/wikimedia.list'],
+        refreshonly => true,
+    }
+
+    file { '/etc/apt/sources.list.d/wikimedia.list':
+        content => template('apt/wikimedia.list.erb'),
+        notify  => Exec['/usr/bin/apt-get update'],
     }
 
     file { '/etc/apt/sources.list.d/multiverse.list':
         content => template('apt/multiverse.list.erb'),
-        notify  => Exec['apt-get update'],
+        notify  => Exec['/usr/bin/apt-get update'],
     }
-
-    apt::repo { 'wikimedia':
-        keyid => 'Wikimedia'
-    }
-
-    apt::repo { 'hhvm':
-        ensure => absent,
-        keyid  => '1BE7A449'
-    }
-
-    Exec['apt-get update'] -> Package['python-software-properties'] -> Apt::Ppa <| |> -> Package <| title != 'python-software-properties' |>
 }

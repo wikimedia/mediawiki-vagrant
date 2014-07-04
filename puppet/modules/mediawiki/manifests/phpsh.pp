@@ -9,12 +9,13 @@ class mediawiki::phpsh {
 
     package { 'phpsh':
         ensure   => '1.3.5',
-        provider => pip,
+        provider => 'pip',
         require  => Package['php5'],
     }
 
-    env::profile { 'phpsh':
+    file { '/etc/profile.d/phpsh':
         source => 'puppet:///modules/mediawiki/phpsh.sh',
+        mode   => '0555',
     }
 
     file { '/etc/phpsh':

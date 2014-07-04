@@ -4,13 +4,8 @@
 #
 # === Parameters
 #
-# [*var*]
-#   Name of the variable to set. Example: 'PYTHONIOENCODING'.
-#   Defaults to the resource name.
-#
 # [*value*]
-#   Value to assign to variable. It will be enclosed in double quotes.
-#   Double quotes within the value itself will be escaped.
+#   Value to assign to variable.
 #
 # [*ensure*]
 #   If 'present' (the default), sets the variable to the specified value.
@@ -24,12 +19,10 @@
 #
 define env::var(
     $value,
-    $var    = $title,
     $ensure = present,
 ) {
-    $script_name = inline_template('set_<%= @var.downcase.gsub(/\W/, "_") %>')
-    env::profile { $script_name:
+    file { "/etc/profile.d/set_${title}":
         ensure  => $ensure,
-        content => template('env/set-environment-var.sh.erb'),
+        content => template('env/set_var.erb'),
     }
 }

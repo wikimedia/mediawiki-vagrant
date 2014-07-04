@@ -37,10 +37,7 @@
 #  }
 
 #
-define php::ini (
-    $settings,
-    $ensure = present,
-) {
+define php::ini ( $settings, $ensure = present ) {
     include ::php
     include ::apache
 

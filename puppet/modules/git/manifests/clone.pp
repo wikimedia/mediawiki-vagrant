@@ -26,23 +26,20 @@
 define git::clone(
     $directory,
     $branch = 'master',
-    $remote = undef,
+    $remote = $::git::urlformat,
     $owner  = 'vagrant',
     $group  = 'vagrant',
 ) {
-    include git
+    include ::git
 
-    $url = $remote ? {
-        undef   => sprintf($git::urlformat, $title),
-        default => $remote,
-    }
+    $url = sprintf($git::urlformat, $title)
 
-    exec { "git clone ${title}":
-        command     => "git clone --recursive --branch ${branch} ${url} ${directory}",
+    exec { "git_clone_${title}":
+        command     => "/usr/bin/git clone --recursive --branch ${branch} ${url} ${directory}",
         creates     => "${directory}/.git",
-        require     => Package['git'],
         user        => $owner,
         group       => $group,
+        require     => Package['git'],
         environment => 'HOME=/home/vagrant',
         timeout     => 0,
     }

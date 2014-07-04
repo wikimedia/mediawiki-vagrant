@@ -90,7 +90,7 @@ class mediawiki(
         command => "rm -f ${dir}/LocalSettings.php",
         notify  => Exec['mediawiki setup'],
         require => [ Package['php5'], Git::Clone['mediawiki/core'], Service['mysql'] ],
-        unless  => "php ${dir}/maintenance/sql.php </dev/null",
+        unless  => "/usr/bin/php ${dir}/maintenance/sql.php </dev/null",
     }
 
     file { $settings_dir:
@@ -133,9 +133,7 @@ class mediawiki(
         value => $dir,
     }
 
-    file { 'mediawiki-vagrant logo':
-        ensure => file,
-        path   => '/var/www/mediawiki-vagrant.png',
+    file { '/var/www/mediawiki-vagrant.png':
         source => 'puppet:///modules/mediawiki/mediawiki-vagrant.png',
     }
 
@@ -157,7 +155,7 @@ class mediawiki(
     }
 
     exec { 'update database':
-        command     => "php ${dir}/maintenance/update.php --quick",
+        command     => "/usr/bin/php ${dir}/maintenance/update.php --quick",
         refreshonly => true,
         user        => 'www-data',
     }
