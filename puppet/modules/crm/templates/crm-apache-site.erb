@@ -3,4 +3,6 @@ DocumentRoot "<%= scope['crm::dir'] %>/drupal"
 ServerName <%= scope['crm::site_name'] %>
 
 <Directory <%= scope['crm::dir'] %>>
+    Require all granted
+    AllowOverride all
 </Directory>
