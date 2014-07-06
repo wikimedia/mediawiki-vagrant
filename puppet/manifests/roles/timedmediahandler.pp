@@ -5,7 +5,7 @@ class role::timedmediahandler {
     include role::mediawiki
     include role::multimedia
 
-    include packages::ffmpeg
+    include packages::libav_tools
     include packages::ffmpeg2theora
 
     mediawiki::extension { 'MwEmbedSupport': }
@@ -13,7 +13,7 @@ class role::timedmediahandler {
     mediawiki::extension { 'TimedMediaHandler':
         needs_update => true,
         require      => [
-            Package['ffmpeg', 'ffmpeg2theora'],
+            Package['libav-tools', 'ffmpeg2theora'],
             Mediawiki::Extension['MwEmbedSupport']
         ],
     }

@@ -56,8 +56,8 @@ class packages::ocaml_native_compilers {
     package { 'ocaml-native-compilers': }
 }
 
-class packages::ffmpeg {
-    package { 'ffmpeg': }
+class packages::libav_tools {
+    package { 'libav-tools': }
 }
 
 class packages::ffmpeg2theora {
