@@ -1,5 +1,5 @@
 #!/bin/bash
-. /etc/profile.d/puppet-managed/set_mw_install_path.sh
+. /etc/profile.d/set_MW_INSTALL_PATH
 
 set -u
 declare -a errors
