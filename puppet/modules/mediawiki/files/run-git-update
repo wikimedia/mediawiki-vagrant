@@ -1,17 +1,21 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Update local git repositories
+
 . /etc/profile.d/set_MW_INSTALL_PATH
 
 set -u
-declare -a errors
+declare -a UPDATE_ERRORS
+
+UPDATE_ERRORS=( )
 
 function pull {
-  echo
+  echo -e "\e[36m==> Updating $(pwd) ...\e[0m"
   branch=$(expr $(git symbolic-ref HEAD) : 'refs/heads/\(.*\)')
   err=''
-  if [ -n "$branch" ]; then
-    remote=$(git config branch.$branch.remote)
-    if [ -n "$remote" ]; then
-        url=$(git config --get remote.$remote.url)
+  if [[ -n "$branch" ]]; then
+    remote=$(git config branch.${branch}.remote)
+    if [[ -n "$remote" ]]; then
+        url=$(git config --get remote.${remote}.url)
         if [[ $url == ssh://* ]]; then
             # Convert remote git url from ssh:// to anonymous https://
             tempurl=$(echo $url | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
@@ -19,7 +23,7 @@ function pull {
         else
             git pull
         fi
-        if [ $? -ne 0 ]; then
+        if [[ $? -ne 0 ]]; then
           err="GIT PULL failed in $(pwd) for branch '$branch'"
         fi
     else
@@ -29,28 +33,29 @@ function pull {
     err="Unable to get current branch in $(pwd)"
   fi
 
-  if [ -n "$err" ]; then
+  if [[ -n "$err" ]]; then
     echo -e "\e[1;31m ***** $err\e[0m"
-    errors+=("$err")
+    UPDATE_ERRORS+=("$err")
   fi
+  echo
 }
 
 cd "$MW_INSTALL_PATH"
 pull
 
-for f in extensions/*
-do
- if [[ -d $f ]]; then
-  pushd $f > /dev/null
-  pull
-  popd > /dev/null
- fi
+for f in extensions/*; do
+  if [[ -d $f ]]; then
+    pushd $f > /dev/null
+    pull
+    popd > /dev/null
+  fi
 done
 
-php maintenance/update.php --quick
+echo -e "\e[36m==> Updating database ...\e[0m"
+php maintenance/update.php --quick --doshared
 
-if [ ${#errors[@]} -ne 0 ]; then
+if [[ ${#UPDATE_ERRORS[@]} -ne 0 ]]; then
   echo
   echo -e "\e[1;31m ************* Errors ***********\e[0m"
-  printf -- '* %s\n' "${errors[@]}"
+  printf -- '* %s\n' "${UPDATE_ERRORS[@]}"
 fi
