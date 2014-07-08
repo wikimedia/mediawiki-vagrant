@@ -54,7 +54,7 @@ class apache {
     }
 
     exec { 'refresh_conf_symlinks':
-        command     => '/usr/sbin/a2disconf -q * ; /usr/sbin/a2enconf -q *',
+        command     => '/usr/sbin/a2disconf -q \* ; /usr/sbin/a2enconf -q \*',
         onlyif      => 'test -x /usr/sbin/a2disconf',
         refreshonly => true,
     }
