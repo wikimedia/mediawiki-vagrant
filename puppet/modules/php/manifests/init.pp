@@ -9,6 +9,7 @@ class php {
     include ::apache::mod::php5
 
     include php::remote_debug
+    include php::composer
 
     package { [
         'php5',
