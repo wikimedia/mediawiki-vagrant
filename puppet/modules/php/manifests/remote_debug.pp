@@ -21,28 +21,14 @@
 # See https://www.mediawiki.org/wiki/MediaWiki-Vagrant/Advanced_usage#MediaWiki_debugging_using_Xdebug_and_an_IDE_in_your_host
 # for more information.
 class php::remote_debug {
-    $xdebug_extension = 'xdebug.so'
-
-    # It would be nice to use a PECL package provider.
-    exec { 'install xdebug':
-        command => '/usr/bin/pecl upgrade xdebug',
-        require => [ Package['purge php5-xdebug'], Package['php-pear'] ],
-        unless  => '/usr/bin/pecl list xdebug',
-    }
-
-    # Remove apt package so it doesn't clash with PECL package
-    package { 'purge php5-xdebug':
-        ensure => purged,
-        name   => 'php5-xdebug',
-    }
+    package { 'php5-xdebug': }
 
     php::ini { 'remote_debug':
         settings => {
-            'zend_extension'             => $xdebug_extension,
             'xdebug.remote_connect_back' => 1,
             'xdebug.remote_enable'       => 1,
             'xdebug.max_nesting_level'   => 200,
         },
-        require  => Exec['install xdebug'],
+        require  => Package['php5-xdebug'],
     }
 }
