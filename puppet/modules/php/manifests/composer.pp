@@ -25,4 +25,8 @@ class php::composer {
         onlyif      => 'test -n "`find /usr/bin/composer -mtime 14`"',
         require     => Exec['fix composer permissions'],
     }
+
+    env::var { 'COMPOSER_CACHE_DIR':
+        value => '/vagrant/composer-cache',
+    }
 }
