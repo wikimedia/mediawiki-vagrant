@@ -8,7 +8,7 @@ class role::uploadwizard {
     include role::codeeditor
 
     # API smoke test dependencies
-    include python::pil
+    include packages::pil
     include packages::poster
     include packages::wikitools
     include packages::imagemagick
