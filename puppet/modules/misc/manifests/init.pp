@@ -5,7 +5,6 @@
 # command-line tools, like 'ack' and 'curl'.
 #
 class misc {
-    # file { [ '/root/.profile', '/home/vagrant/.profile' ]: content => '[ -n "$BASH_VERSION" -a -f "$HOME/.bashrc" ]', }
 
     file { '/etc/profile.d':
         ensure  => directory,
@@ -31,5 +30,13 @@ class misc {
     file { '/etc/ackrc':
         require => Package['ack-grep'],
         source  => 'puppet:///modules/misc/ackrc',
+    }
+
+    # Fix the 'stdin: not a tty' error message caused by the Ubuntu root
+    # user's bash profile.
+    # See https://github.com/mitchellh/vagrant/issues/1673
+    exec { 'fix root profile':
+      command => 'sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile',
+      onlyif  => 'grep -q "^mesg n" /root/.profile',
     }
 }
