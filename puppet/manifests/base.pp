@@ -60,3 +60,9 @@ if $::shared_apt_cache {
         content => "Dir::Cache::archives \"${::shared_apt_cache}\";\n",
     } -> Package <| |>
 }
+
+# Remove chef if it is installed in the base image
+# Bug: 67693
+package { [ 'chef', 'chef-zero' ]:
+  ensure => absent,
+}
