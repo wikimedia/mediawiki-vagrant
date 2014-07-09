@@ -131,6 +131,8 @@ define mediawiki::extension(
             default => $browser_tests,
         }
 
-        browsertests::bundle { "${extension_dir}/${browser_tests_dir}": }
+        browsertests::bundle { "${extension_dir}/${browser_tests_dir}":
+          require => Git::Clone["mediawiki/extensions/${extension}"],
+        }
     }
 }
