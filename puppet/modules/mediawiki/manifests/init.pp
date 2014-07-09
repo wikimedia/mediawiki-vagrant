@@ -154,13 +154,13 @@ class mediawiki(
     }
 
     exec { 'install composer deps':
-        command => '/usr/bin/composer install --no-interaction --quiet --optimize-autoloader',
-        cwd     => $dir,
+        command     => '/usr/bin/composer install --no-interaction --quiet --optimize-autoloader',
+        cwd         => $dir,
         environment => [
           'COMPOSER_HOME=/vagrant/composer-cache',
           'COMPOSER_CACHE_DIR=/vagrant/composer-cache',
         ],
-        user    => 'vagrant',
-        creates => "${dir}/vendor",
+        user        => 'vagrant',
+        creates     => "${dir}/vendor",
     }
 }
