@@ -21,7 +21,7 @@ define env::var(
     $value,
     $ensure = present,
 ) {
-    file { "/etc/profile.d/set_${title}":
+    file { "/etc/profile.d/set_${title}.sh":
         ensure  => $ensure,
         content => template('env/set_var.erb'),
     }
