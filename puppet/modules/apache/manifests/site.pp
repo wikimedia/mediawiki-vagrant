@@ -1,94 +1,71 @@
 # == Define: apache::site
 #
-# Manages Apache site configurations.
+# Manages Apache site configurations. This is a very thin wrapper around
+# a File resource for a /etc/apache2/sites-available config file and a
+# symlink pointing to it in /etc/apache/sites-enabled. By using it, you
+# don't have to worry about dependencies and ordering; the resource will
+# take care that Apache & all modules are provisioned before the site is.
 #
 # === Parameters
 #
-# [*listen*]
-#   The address and optional port to direct to this virutal host. The default
-#   is '*'.
-#
 # [*ensure*]
-#   If 'present', site will be enabled; if 'absent', disabled. The
-#   default is 'present'.
+#   If 'present', site will be enabled; if 'absent', disabled.
+#   The default is 'present'.
 #
-# [*site*]
-#   Name of site. The resource title will be used if this is
-#   unspecified.
+# [*priority*]
+#   If you need this site to load before or after other sites, you can
+#   do so by manipulating this value. In most cases, the default value
+#   of 50 should be fine.
 #
 # [*content*]
 #   If defined, will be used as the content of the site configuration
-#   file. Undefined by default.
+#   file. Undefined by default. Mutually exclusive with 'source'.
 #
 # [*source*]
 #   Path to file containing configuration directives. Undefined by
-#   default.
+#   default. Mutually exclusive with 'content'.
 #
 # === Examples
 #
-#  apache::site { 'wiki':
+#  apache::site { 'blog.wikimedia.org':
 #    ensure  => present,
-#    content => template('mediawiki/mediawiki-apache-site.erb'),
+#    content => template('blog/blog-apache-config.erb'),
 #  }
 #
 define apache::site(
-    $listen  = '*:80',
-    $ensure  = 'present',
-    $site    = $title,
-    $content = undef,
-    $source  = undef,
+    $ensure   = present,
+    $priority = 50,
+    $content  = undef,
+    $source   = undef,
 ) {
-    include apache
+    include ::apache
 
-    if $site == 'default' {
-        $site_file = '000-default.conf'
-    } else {
-        $site_file = "${site}.conf"
+    $title_safe = regsubst($title, '[\W_]', '-', 'G')
+    $dir_ensure = $ensure ? {
+        present => directory,
+        default => absent,
     }
 
-    case $ensure {
-        present: {
-            file { "/etc/apache2/site.d/${site}":
-                ensure  => directory,
-                recurse => true,
-                purge   => true,
-                force   => true,
-                before  => [
-                    File["/etc/apache2/sites-available/${site_file}"],
-                    Misc::Evergreen['apache2'],
-                ],
-            }
+    file { "/etc/apache2/site-confs/${title_safe}":
+        ensure  => $dir_ensure,
+        recurse => true,
+        purge   => true,
+        force   => true,
+    }
 
-            apache::conf { "000-${site}":
-                ensure  => $ensure,
-                site    => $site,
-                content => $content,
-                source  => $source,
-            }
+    file { "/etc/apache2/site-confs/${title_safe}/00-default.conf":
+        ensure  => $ensure,
+        content => $content,
+        source  => $source,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+    }
 
-            file { "/etc/apache2/sites-available/${site_file}":
-                ensure  => file,
-                content => template('apache/site.conf.erb'),
-                require => Package['apache2'],
-            }
-
-            # Manage the symlink as a file rather than using a2ensite so that
-            # puppet knows about the file and won't clean it up prematurely.
-            file { "/etc/apache2/sites-enabled/${site_file}":
-                ensure  => link,
-                target  => "/etc/apache2/sites-available/${site_file}",
-                notify  => Service['apache2'],
-                require => File["/etc/apache2/sites-available/${site_file}"],
-            }
-        }
-        absent: {
-            file { "/etc/apache2/sites-enabled/${site_file}":
-                ensure => absent,
-                notify => Service['apache2'],
-            }
-        }
-        default: {
-            fail("'ensure' may be 'present' or 'absent' (got: '${ensure}').")
-        }
+    apache::conf { $title_safe:
+        ensure    => $ensure,
+        conf_type => 'sites',
+        priority  => $priority,
+        content   => template('apache/site.conf.erb'),
     }
 }

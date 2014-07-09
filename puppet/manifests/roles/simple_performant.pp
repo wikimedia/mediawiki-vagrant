@@ -63,7 +63,7 @@ class role::simple_performant {
     $expires_active  = 'ExpiresActive On'
     $expires_default = 'ExpiresDefault "access plus 1 month"'
 
-    apache::conf { 'expires':
+    apache::site_conf { 'expires':
         site    => $mediawiki::wiki_name,
         content => "${expires_active}\n${expires_default}\n",
         require => Class['::apache::mod::expires'],

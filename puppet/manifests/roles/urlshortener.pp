@@ -9,7 +9,7 @@ class role::urlshortener {
         settings     => { 'wgUrlShortenerTemplate' => '/s/$1' },
     }
 
-    apache::conf { 'urlshortener_short_url_support':
+    apache::site_conf { 'urlshortener_short_url_support':
         site    => $mediawiki::wiki_name,
         content => template('urlshortener_shortening.conf.erb'),
     }

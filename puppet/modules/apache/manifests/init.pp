@@ -29,9 +29,9 @@ class apache {
         '/etc/apache2/conf-enabled',
         '/etc/apache2/env-available',
         '/etc/apache2/env-enabled',
-        '/etc/apache2/site.d',
         '/etc/apache2/sites-available',
         '/etc/apache2/sites-enabled',
+        '/etc/apache2/site-confs',
     ]:
         ensure  => directory,
         recurse => true,
@@ -48,12 +48,6 @@ class apache {
         notify  => Service['apache2'],
     }
 
-    exec { 'refresh_conf_symlinks':
-        command     => '/usr/sbin/a2disconf -q \* ; /usr/sbin/a2enconf -q \*',
-        onlyif      => '/usr/bin/test -x /usr/sbin/a2disconf',
-        refreshonly => true,
-    }
-
     service { 'apache2':
         ensure  => running,
         enable  => true,
@@ -63,6 +57,9 @@ class apache {
     file { '/var/www':
         ensure => directory,
     }
+
+    Apache::Env <| |> -> Apache::Mod_conf <| |> -> Apache::Conf <| |>
+    Apache::Site <| |> -> Apache::Site_conf <| |>
 
     misc::evergreen { 'apache2': }
 }

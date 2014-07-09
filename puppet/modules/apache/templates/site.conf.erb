@@ -1,8 +1,5 @@
 # vim: filetype=apache sts=4 sw=4 autoindent
-#
-# Apache site configuration for <%= @site %>
 # This file is managed by Puppet.
-#
-<VirtualHost <%= Array(@listen).join(' ') %>>
-  Include site.d/<%= @site %>
+<VirtualHost _default_:*>
+  Include site-conf/<%= @title_safe %>
 </VirtualHost>

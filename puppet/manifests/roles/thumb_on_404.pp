@@ -15,7 +15,7 @@ class role::thumb_on_404 {
         },
     }
 
-    apache::conf { 'thumb.php on 404':
+    apache::site_conf { 'thumb.php on 404':
         site    => $mediawiki::wiki_name,
         content => template('thumb_on_404.conf.erb'),
     }
