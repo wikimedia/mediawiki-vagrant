@@ -51,6 +51,10 @@ for f in extensions/*; do
   fi
 done
 
+echo -e "\e[36m==> Updating composer dependencies ...\e[0m"
+composer update --no-interaction --optimize-autoloader
+echo
+
 echo -e "\e[36m==> Updating database ...\e[0m"
 php maintenance/update.php --quick --doshared
 

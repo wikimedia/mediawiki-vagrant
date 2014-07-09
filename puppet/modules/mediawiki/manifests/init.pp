@@ -137,16 +137,9 @@ class mediawiki(
         source => 'puppet:///modules/mediawiki/mediawiki-vagrant.png',
     }
 
-    exec { 'configure phpunit':
-        creates => '/usr/bin/phpunit',
-        command => "${dir}/tests/phpunit/install-phpunit.sh",
-        require => Exec['mediawiki setup'],
-    }
-
     file { '/usr/local/bin/run-mediawiki-tests':
         source  => 'puppet:///modules/mediawiki/run-mediawiki-tests',
         mode    => '0755',
-        require => Exec['configure phpunit'],
     }
 
     file { '/usr/local/bin/run-git-update':
@@ -158,5 +151,16 @@ class mediawiki(
         command     => "/usr/bin/php ${dir}/maintenance/update.php --quick",
         refreshonly => true,
         user        => 'www-data',
+    }
+
+    exec { 'install composer deps':
+        command => '/usr/bin/composer install --no-interaction --quiet --optimize-autoloader',
+        cwd     => $dir,
+        environment => [
+          'COMPOSER_HOME=/vagrant/composer-cache',
+          'COMPOSER_CACHE_DIR=/vagrant/composer-cache',
+        ],
+        user    => 'vagrant',
+        creates => "${dir}/vendor",
     }
 }
