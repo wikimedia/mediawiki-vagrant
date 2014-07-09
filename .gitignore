@@ -22,5 +22,6 @@
 /apt-cache
 !/apt-cache/partial/.gitignore
 /wikimania_scholarships/
+/scholarships/
 /vagrant.d/
 /support/packager/output

@@ -1,6 +1,6 @@
 # vim:set sw=4 ts=4 sts=4 et:
 
-# == Class: wikimania_scholarships
+# == Class: scholarships
 #
 # This class provisions an Apache vhost running the Wikimania Scholarships
 # application, creates the application database, populates the database with
@@ -19,14 +19,14 @@
 #   Password for MySQL account (example: 'secret123').
 #
 # [*deploy_dir*]
-#   The system path to checkout wikimania_scholarships to. (example: '/vagrant/wikimania_scholarships')
+#   The system path to checkout scholarships to. (example: '/vagrant/scholarships')
 #
 # [*vhost_name*]
 #   Apache vhost name. (example: 'scholarships.local.wmftest.net')
 #
 # [*cache_dir*]
 #   The directory to use for caching twig templates
-class wikimania_scholarships(
+class scholarships(
     $db_name,
     $db_user,
     $db_pass,
@@ -59,13 +59,14 @@ class wikimania_scholarships(
     }
 
     mysql::sql { 'Load scholarships schema':
-        sql    => "USE ${db_name}; SOURCE ${deploy_dir}/data/db/schema.mysql;",
-        unless => template('wikimania_scholarships/load_schema_unless.sql.erb'),
+        sql     => "USE ${db_name}; SOURCE ${deploy_dir}/data/db/schema.mysql;",
+        unless  => template('scholarships/load_schema_unless.sql.erb'),
+        require => Git::Clone['wikimedia/wikimania-scholarships'],
     }
 
     mysql::sql { 'Create default admin user':
-        sql     => template('wikimania_scholarships/create_user.sql.erb'),
-        unless  => template('wikimania_scholarships/create_user_unless.sql.erb'),
+        sql     => template('scholarships/create_user.sql.erb'),
+        unless  => template('scholarships/create_user_unless.sql.erb'),
         require => Mysql::Sql['Load scholarships schema'],
     }
 
@@ -76,7 +77,7 @@ class wikimania_scholarships(
         owner   => $::share_owner,
         group   => $::share_group,
         notify  => Service['apache2'],
-        content => template('wikimania_scholarships/env.erb'),
+        content => template('scholarships/env.erb'),
         replace => false,
         require => Git::Clone['wikimedia/wikimania-scholarships'],
     }
@@ -91,7 +92,7 @@ class wikimania_scholarships(
     # Add our vhost
     apache::site { $vhost_name:
         ensure  => present,
-        content => template('wikimania_scholarships/apache.conf.erb'),
+        content => template('scholarships/apache.conf.erb'),
         require => Class['::apache::mod::rewrite'],
     }
 
@@ -101,7 +102,7 @@ class wikimania_scholarships(
         mode    => '0644',
         owner   => 'root',
         group   => 'root',
-        source  => 'puppet:///modules/wikimania_scholarships/debug_smtp.conf',
+        source  => 'puppet:///modules/scholarships/debug_smtp.conf',
     }
 
     service { 'debug_smtp':
