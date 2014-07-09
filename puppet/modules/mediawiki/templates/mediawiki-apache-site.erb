@@ -27,6 +27,7 @@ LogLevel error
 AllowEncodedSlashes on
 RewriteEngine On
 
+Alias /w "<%= scope['mediawiki::dir'] %>"
 Alias /images "<%= scope['mediawiki::upload_dir'] %>"
 Alias /mediawiki-vagrant.png /var/www/mediawiki-vagrant.png
 Alias /favicon.ico /var/www/favicon.ico
@@ -41,5 +42,4 @@ Alias /favicon.ico /var/www/favicon.ico
 <IfDefine ZEND>
 	RewriteRule ^/$ /w/index.php [R=301]
 	Alias /wiki "<%= scope['mediawiki::dir'] %>/index.php"
-	Alias /w "<%= scope['mediawiki::dir'] %>"
 </IfDefine>
