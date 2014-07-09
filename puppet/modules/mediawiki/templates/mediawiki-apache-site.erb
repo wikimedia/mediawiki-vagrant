@@ -40,6 +40,6 @@ Alias /favicon.ico /var/www/favicon.ico
 </IfDefine>
 
 <IfDefine ZEND>
-	RewriteRule ^/$ /w/index.php [R=301]
-	Alias /wiki "<%= scope['mediawiki::dir'] %>/index.php"
+    RewriteRule ^/$ /w/index.php [R=301]
+    Alias /wiki "<%= scope['mediawiki::dir'] %>/index.php"
 </IfDefine>
