@@ -13,7 +13,7 @@ class mediawiki::phpsh {
         require  => Package['php5'],
     }
 
-    file { '/etc/profile.d/phpsh':
+    file { '/etc/profile.d/phpsh.sh':
         source => 'puppet:///modules/mediawiki/phpsh.sh',
         mode   => '0555',
     }

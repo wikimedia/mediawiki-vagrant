@@ -42,7 +42,7 @@ define env::profile_script(
     $safe_name   = regsubst($title, '[\W_]', '-', 'G')
     $script_file = sprintf('%02d-%s', $priority, $safe_name)
 
-    file { "/etc/profile.d/${script_file}":
+    file { "/etc/profile.d/${script_file}.sh":
         ensure  => $ensure,
         content => $content,
         source  => $source,
