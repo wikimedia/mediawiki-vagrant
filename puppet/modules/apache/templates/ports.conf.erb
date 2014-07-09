@@ -1,8 +1,5 @@
 # This file is managed by Puppet.
-
 Listen 80
-NameVirtualHost *:80
-<% if @forwarded_port and @forwarded_port.to_s != "80" -%>
+<%- if @forwarded_port and @forwarded_port.to_s != "80" -%>
 Listen <%= @forwarded_port %>
-NameVirtualHost *:<%= @forwarded_port %>
 <%- end -%>

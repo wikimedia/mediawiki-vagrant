@@ -18,23 +18,8 @@
 define apache::def( $ensure = present ) {
     include ::apache
 
-    $line = "export APACHE_ARGUMENTS=\"\$APACHE_ARGUMENTS -D ${title}\""
-
-    if $ensure == present {
-        exec { "apache_def_${title}":
-            command => "/bin/echo '${line}' >> /etc/apache2/envvars",
-            unless  => "/bin/grep -q '${line}' /etc/apache2/envvars",
-            require => Package['apache2'],
-            notify  => Service['apache2'],
-        }
-    } elsif $ensure == absent {
-        exec { "apache_def_${title}":
-            command => "/bin/sed -i '/${line}/d' /etc/apache2/envvars",
-            onlyif  => "/bin/grep -q '${line}' /etc/apache2/envvars",
-            require => Package['apache2'],
-            notify  => Service['apache2'],
-        }
-    } else {
-        fail('"ensure" must be "present" or "absent"')
+    apache::env { "define_${title}":
+        ensure  => $ensure,
+        content => "export APACHE_ARGUMENTS=\"\$APACHE_ARGUMENTS -D ${title}\"\n"
     }
 }

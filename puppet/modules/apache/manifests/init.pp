@@ -27,36 +27,37 @@ class apache {
     file { [
         '/etc/apache2/conf-available',
         '/etc/apache2/conf-enabled',
-        '/etc/apache2/site.d'
+        '/etc/apache2/env-available',
+        '/etc/apache2/env-enabled',
+        '/etc/apache2/site.d',
+        '/etc/apache2/sites-available',
+        '/etc/apache2/sites-enabled',
     ]:
         ensure  => directory,
         recurse => true,
         purge   => true,
         force   => true,
-        source  => 'puppet:///modules/apache/empty.d',
-        require => Package['apache2'],
-    }
-
-    file { '/etc/apache2/sites-enabled':
-        ensure  => directory,
-        recurse => true,
-        purge   => true,
         notify  => Service['apache2'],
         require => Package['apache2'],
     }
 
-    service { 'apache2':
-        ensure     => running,
-        enable     => true,
-        provider   => 'debian',
-        require    => Package['apache2'],
-        hasrestart => true,
+    file { '/etc/apache2/envvars':
+        ensure  => present,
+        source  => 'puppet:///modules/apache/envvars',
+        require => Package['apache2'],
+        notify  => Service['apache2'],
     }
 
     exec { 'refresh_conf_symlinks':
         command     => '/usr/sbin/a2disconf -q \* ; /usr/sbin/a2enconf -q \*',
-        onlyif      => 'test -x /usr/sbin/a2disconf',
+        onlyif      => '/usr/bin/test -x /usr/sbin/a2disconf',
         refreshonly => true,
+    }
+
+    service { 'apache2':
+        ensure  => running,
+        enable  => true,
+        require => Package['apache2'],
     }
 
     file { '/var/www':

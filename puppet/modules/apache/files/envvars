@@ -1,0 +1,18 @@
+# Default environment variables for Apache
+# This file is managed by Puppet
+unset HOME
+export                                            \
+  APACHE_LOCK_DIR="/var/lock/apache2"             \
+  APACHE_LOG_DIR="/var/log/apache2"               \
+  APACHE_RUN_DIR="/var/run/apache2"               \
+  APACHE_PID_FILE="/var/run/apache2/apache2.pid"  \
+  APACHE_RUN_GROUP="www-data"                     \
+  APACHE_RUN_USER="www-data"                      \
+  LANG="en_US.UTF-8"
+
+if [ -d /etc/apache2/env-enabled ]; then
+  for envfile in /etc/apache2/env-enabled/*; do
+    [ -r "$envfile" ] || break
+    . $envfile
+  done
+fi
