@@ -47,6 +47,11 @@ module MediaWikiVagrant
             DisableRole
         end
 
+        command 'import-dump' do
+            require 'mediawiki-vagrant/import-dump'
+            ImportDump
+        end
+
         action_hook(self::ALL_ACTIONS) do |hook|
             require 'mediawiki-vagrant/middleware'
             hook.before(Vagrant::Action::Builtin::Provision, Middleware)

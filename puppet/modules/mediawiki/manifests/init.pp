@@ -148,6 +148,11 @@ class mediawiki(
         mode    => '0755',
     }
 
+    file { '/usr/local/bin/import-mediawiki-dump':
+        source  => 'puppet:///modules/mediawiki/import-mediawiki-dump',
+        mode    => '0755',
+    }
+
     exec { 'update database':
         command     => "/usr/bin/php ${dir}/maintenance/update.php --quick",
         refreshonly => true,
