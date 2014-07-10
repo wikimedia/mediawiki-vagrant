@@ -16,6 +16,17 @@ Eval {
   EnableZendCompat = true
   Jit = true
   PerfPidMap = false
+
+  Debugger {
+    EnableDebuggerServer = true
+    DebuggerServerPort = 8089
+    DefaultSandboxPath = <%= scope['role::mediawiki::dir'] %>
+    StartupDocument = <%= scope['role::mediawiki::dir'] %>/index.php
+  }
+}
+
+Sandbox {
+    SandboxMode = true
 }
 
 DynamicExtensionPath = /usr/lib/hphp/extensions/20131007

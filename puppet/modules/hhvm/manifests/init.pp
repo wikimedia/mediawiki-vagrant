@@ -29,6 +29,12 @@ class hhvm {
         notify  => Service['hhvm'],
     }
 
+    file { '/etc/hhvm/php.ini':
+        content => template('hhvm/php.ini.erb'),
+        require => Package['hhvm'],
+        notify  => Service['hhvm'],
+    }
+
     file { '/etc/init/hhvm.conf':
         ensure  => file,
         content => template('hhvm/hhvm.conf.erb'),
