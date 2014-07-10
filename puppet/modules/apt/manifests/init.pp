@@ -21,11 +21,13 @@ class apt {
 
     file { '/etc/apt/sources.list.d/wikimedia.list':
         content => template('apt/wikimedia.list.erb'),
-        notify  => Exec['/usr/bin/apt-get update'],
+        before  => Exec['/usr/bin/apt-get update'],
     }
 
     file { '/etc/apt/sources.list.d/multiverse.list':
         content => template('apt/multiverse.list.erb'),
-        notify  => Exec['/usr/bin/apt-get update'],
+        before  => Exec['/usr/bin/apt-get update'],
     }
+
+    Class['Apt'] -> Package <| |>
 }
