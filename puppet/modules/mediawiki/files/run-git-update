@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Update local git repositories
 
-. /etc/profile.d/set_MW_INSTALL_PATH
+. /etc/profile.d/set_MW_INSTALL_PATH.sh
 
 set -u
 declare -a UPDATE_ERRORS
