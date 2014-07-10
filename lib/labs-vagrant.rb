@@ -1,18 +1,21 @@
 #!/usr/bin/env ruby
 
-# This hack is required since < ruby1.9 do not support require_relative
-require 'pathname'
-SCRIPT_ROOT = File.dirname(Pathname.new(__FILE__).realpath)
+require_relative 'mediawiki-vagrant/environment'
+@mwv = MediaWikiVagrant::Environment.new('/vagrant')
 
-require "#{SCRIPT_ROOT}/mediawiki-vagrant/helpers.rb"
+COMMIT_CHANGES = "Ok. Run 'labs-vagrant provision' to apply your changes."
 
 case ARGV.shift
 when 'list-roles'
     puts "Available roles:\n\n"
-    enabled = roles_enabled
-    roles_available.each { |role|
+    enabled = @mwv.roles_enabled
+    roles = @mwv.roles_available.sort.map { |role|
         prefix = enabled.include?(role) ? '*' : ' '
-        puts "#{prefix} #{role}"
+        "#{prefix} #{role}"
+    }
+    col, *cols = roles.each_slice((roles.size/3.0).ceil).to_a
+    col.zip(*cols) { |a,b,c|
+        puts sprintf("%-26s %-26s %-26s", a, b, c)
     }
     puts "\nRoles marked with '*' are enabled."
     puts "Note that roles enabled by dependency are not marked."
@@ -23,35 +26,42 @@ when 'reset-roles'
         puts 'Disable all optional roles.'
         puts 'USAGE: labs-vagrant reset-roles'
     end
-    update_roles []
+    @mwv.update_roles []
+
     puts 'All roles were disabled.'
+    puts COMMIT_CHANGES
+
 when 'enable-role'
     if ARGV.empty? or ['-h', '--help'].include? ARGV.first
         puts 'Enable an optional role (run "labs-vagrant list-roles" for a list).'
         puts 'USAGE: labs-vagrant enable-role ROLE'
         return 0
     end
-    avail = roles_available
+    avail = @mwv.roles_available
     ARGV.each do |r|
         if not avail.include? r
             puts "'#{r}' is not a valid role."
             return 1
         end
     end
-    update_roles(roles_enabled + ARGV)
+    @mwv.update_roles(@mwv.roles_enabled + ARGV)
+    puts COMMIT_CHANGES
+
 when 'disable-role'
     if ARGV.empty? or ['-h', '--help'].include? ARGV.first
         puts 'Disable one or more optional roles.'
         puts 'USAGE: labs-vagrant disable-role ROLE'
         return 0
     end
-    enabled = roles_enabled
+    enabled = @mwv.roles_enabled
     ARGV.each do |r|
         if not enabled.include? r
             puts "'#{r}' is not enabled."
         end
     end
-    update_roles(enabled - ARGV)
+    @mwv.update_roles(enabled - ARGV)
+    puts COMMIT_CHANGES
+
 when 'provision'
     puppet_path = '/vagrant/puppet'
     exec "puppet apply \
@@ -64,4 +74,12 @@ when 'provision'
         --logdest console \
         --detailed-exitcodes \
         #{puppet_path}/manifests/site.pp"
+
+else
+    puts 'USAGE: labs-vagrant COMMAND ...'
+    puts '  list-roles            : list available roles'
+    puts '  reset-roles           : disable all roles'
+    puts '  enable-role ROLENAME  : enable a given role'
+    puts '  disable-role ROLENAME : disable a given role'
+    puts '  provision             : run puppet'
 end
