@@ -30,6 +30,7 @@ $DIR = File.expand_path('..', __FILE__)
 
 # Ensure we're using the latest version of the plugin
 require_relative 'lib/mediawiki-vagrant/version'
+require 'fileutils'
 
 # NOTE Use RubyGems over the Vagrant plugin manager as it's more reliable
 gemspec = Gem::Specification.find { |s| s.name == 'mediawiki-vagrant' }
@@ -135,7 +136,7 @@ Vagrant.configure('2') do |config|
         puppet.facter = $FACTER = {
             'fqdn'               => config.vm.hostname,
             'forwarded_port'     => settings[:http_port],
-            'shared_apt_cache'   => '/vagrant/apt-cache/',
+            'shared_apt_cache'   => '/vagrant/cache/apt/',
         }
 
         if Vagrant::Util::Platform.windows?
@@ -153,6 +154,18 @@ Vagrant.configure('2') do |config|
     end
 end
 
+
+
+# Migrate {apt,composer}-cache to cache/{apt,composer}
+['apt', 'composer'].each do |type|
+    src = File.join $DIR, "#{type}-cache"
+    dst = File.join $DIR, 'cache', type
+    Dir.foreach(src) do |f|
+        next if f.start_with? '.'
+        File.rename(File.join(src, f), File.join(dst, f)) rescue nil
+    end rescue nil
+    FileUtils.rm_rf(src) if Dir.entries(src).sort == ['.', '..', '.gitignore'] rescue nil
+end
 
 # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
 # See 'support/Vagrantfile-extra.rb' for an example but make sure to folow

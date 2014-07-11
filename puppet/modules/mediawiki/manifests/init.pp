@@ -163,8 +163,8 @@ class mediawiki(
         command     => '/usr/bin/composer install --no-interaction --quiet --optimize-autoloader',
         cwd         => $dir,
         environment => [
-          'COMPOSER_HOME=/vagrant/composer-cache',
-          'COMPOSER_CACHE_DIR=/vagrant/composer-cache',
+          'COMPOSER_HOME=/vagrant/cache/composer',
+          'COMPOSER_CACHE_DIR=/vagrant/cache/composer',
         ],
         user        => 'vagrant',
         creates     => "${dir}/vendor",
