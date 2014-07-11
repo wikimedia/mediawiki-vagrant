@@ -1,43 +1,85 @@
-NOTE: You can replace ~/Code/Vagrant with your choice of directory, but mediawiki must be directly underneath.
+MediaWiki-Vagrant Hackathon Distribution
+========================================
 
-Replace /thumb with the location of the USB drive, or the location where you copied the files from the drive.
+Linux, Windows and OS X installers and git bundles to make setting up
+MediaWiki-Vagrant easier and faster.
 
-1. From the directory for your OS, install VirtualBox.
-2. From the directory for your OS, install Vagrant.  If you use Linux, use DEB for Debian or Ubuntu and RPM for Red Hat, Centos, Fedora, etc.
 
-3. If you don't have a Gerrit username yet, signup at https://wikitech.wikimedia.org/wiki/Special:UserLogin/signup .  The username you choose will be referred to below as gerrit_username .
+Installation instructions
+-------------------------
 
-4. Clone MediaWiki-Vagrant, a Vagrant development environment for MediaWiki work:
+NOTE: You can replace ~/Vagrant with your choice of directory, but
+mediawiki must be directly underneath.
 
-cd /thumb
-git clone -b master mediawiki_vagrant.bundle ~/Code/Vagrant
+Replace /usb_drive with the location of the USB drive, or the location where
+you copied the files from the drive.
 
-5. Copy the Ubuntu packages to the apt-cache:
+1. If you don't have a Gerrit username yet, signup at
+   https://wikitech.wikimedia.org/wiki/Special:UserLogin/signup .  The
+   username you choose will be referred to below as GERRIT_USER .
 
-cp apt-cache/*.deb ~/Code/Vagrant/apt-cache/
+2. From the directory for your OS, install VirtualBox.
 
-6. Clone MediaWiki core, the main repository for MediaWiki:
+3. From the directory for your OS, install Vagrant.  If you use Linux,
+   use files from Linux/DEB/ for Debian or Ubuntu and Linux/RPM/ for Red Hat,
+   Centos, Fedora, etc.
 
-git clone -b master mediawiki_core.bundle ~/Code/Vagrant/mediawiki
+4. Install the virtual machine Vagrant uses as a base:
 
-7. Configure your remotes:
+    $ cd /usb_drive
+    $ vagrant box add trusty-cloud trusty-server-cloudimg-amd64-vagrant-disk1.box
 
-cd ~/Code/Vagrant
-git remote set-url origin ssh://gerrit_username@gerrit.wikimedia.org:29418/mediawiki/vagrant.git
+5. Install the "vagrant-vbguest" Vagrant plugin:
 
-cd ~/Code/Vagrant/mediawiki
-git remote set-url origin ssh://gerrit_username@gerrit.wikimedia.org:29418/mediawiki/core.git
+    $ cd /usb_drive/Plugins
+    $ vagrant plugin install vagrant-vbguest-0.10.0.gem
 
-8. Install the virtual machine Vagrant uses as a base:
+5. Clone MediaWiki-Vagrant from the provided git bundle file:
 
-cd /thumb
-vagrant box add precise-cloud precise-server-cloudimg-amd64-vagrant-disk1.box
+    $ cd /usb_drive
+    $ git clone -b master mediawiki_vagrant.bundle ~/Vagrant
 
-9. Start MediaWiki-Vagrant:
+7. Copy pre-populated caches:
 
-cd ~/Code/Vagrant
-vagrant up
+    $ cp -R cache ~/Vagrant/cache
 
-10. After 'vagrant up' is complete, you can test in your browser at http://127.0.0.1:8080/ .
+8. Clone MediaWiki core from the provided git bundle file:
 
-For further information, see ~/Code/Vagrant/README, https://www.mediawiki.org/wiki/Gerrit/Tutorial and https://www.mediawiki.org/wiki/MediaWiki-Vagrant .  You should follow the steps above, rather than the installation instructions from the other README or the "Quick start" on the wiki page.
+    $ git clone -b master mediawiki_core.bundle ~/Vagrant/mediawiki
+
+9. Configure git repositories to sync with Gerrit:
+
+    $ cd ~/Vagrant
+    $ git remote set-url origin ssh://GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/vagrant.git
+
+    $ cd ~/Vagrant/mediawiki
+    $ git remote set-url origin ssh://GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/core.git
+
+10. Update MediaWiki-Vagrant and MediaWiki core git repositories to latest
+   versions:
+
+   $ cd ~/Vagrant
+   $ git pull
+   $ git submodule update --init --recursive
+
+   $ cd ~/Vagrant/mediawiki
+   $ git pull
+
+11. Start your MediaWiki-Vagrant virtual machine for the first time:
+
+    $ cd ~/Vagrant
+    $ ./setup.sh
+    $ vagrant up
+
+After `vagrant up` is complete, you can test in your browser at
+http://127.0.0.1:8080/ .
+
+
+Other resources
+---------------
+
+For further information, see ~/Vagrant/README,
+https://www.mediawiki.org/wiki/Gerrit/Tutorial and
+https://www.mediawiki.org/wiki/MediaWiki-Vagrant .  You should follow
+the steps above, rather than the installation instructions from the
+other README or the "Quick start" on the wiki page.

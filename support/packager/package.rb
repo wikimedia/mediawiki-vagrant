@@ -37,10 +37,12 @@ def download_file(target_dir_pathname, url_info)
     filename += Pathname.new(url).basename
   end
 
-  if filename.exist? && url_info.include? 'sha256'
+  puts "Checking #{filename}..."
+  if filename.exist? && url_info.include?('sha256')
     $sha256.reset
     $sha256.file(filename)
     if $sha256.hexdigest === url_info['sha256']
+      puts "File '#{filename}' up to date."
       return
     else
       puts "File '#{filename}' exists, but the hash did not match.  Re-downloading."
@@ -54,6 +56,7 @@ end
 # Based on http://ruby-doc.org/stdlib-1.9.3/libdoc/net/http/rdoc/Net.html#label-Streaming+Response+Bodies
 # Not sure if there's a simpler way to do this without reading the whole file into memory.
 def download_file_to_filename(filename, url)
+  puts "Downloading #{url}..."
   uri = URI(url)
 
   Net::HTTP.start(
@@ -88,17 +91,29 @@ def common()
   core_dir = mediawiki_vagrant_dir + 'mediawiki'
 
   Dir.chdir(mediawiki_vagrant_dir)
+  puts 'Creating git bundle for mediawiki-vagrant...'
   system('git', 'bundle', 'create', ($contents_dir + 'mediawiki_vagrant.bundle').to_s, 'master')
 
   Dir.chdir(core_dir)
+  puts 'Creating git bundle for mediawiki-core...'
   system('git', 'bundle', 'create', ($contents_dir + 'mediawiki_core.bundle').to_s, 'master')
+
+  Dir.chdir(mediawiki_vagrant_dir)
+  puts 'Copying cache...'
+  system('cp', '-R', 'cache', $contents_dir.to_s)
 
   Dir.chdir(old_cwd)
 
   download_file($contents_dir, $url_config['GPLv2'])
   download_file($contents_dir, $url_config['Vagrant License'])
 
+  plugins_dir = $contents_dir + 'Plugins'
+  $url_config['Vagrant']['Plugins'].each do |plugin, url|
+      download_file(plugins_dir, url)
+  end
+
   template = $packager_dir + 'template'
+  puts 'Copying template files...'
   cp(template + 'README', $contents_dir)
   cp(template + 'LICENSE', $contents_dir)
 end
@@ -115,7 +130,6 @@ def linux()
     vagrant_format_dir = linux_dir + format
     download_file(vagrant_format_dir, url)
   end
-
 end
 
 def mac()
@@ -131,8 +145,13 @@ def windows()
 end
 
 def build_iso()
+  puts 'Creating iso image to distribute...'
   # -r: Rock Ridge with recommended values for permissions, etc.
-  system('genisoimage', '-r', '-o', ($output_dir + 'output.iso').to_s, $contents_dir.to_s)
+  if system('which genisoimage >/dev/null 2>&1')
+      system('genisoimage', '-r', '-o', ($output_dir + 'output.iso').to_s, $contents_dir.to_s)
+  else
+    puts '"genisoimage" not found. Iso image not created.'
+  end
 end
 
 common
