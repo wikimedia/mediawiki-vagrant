@@ -90,7 +90,8 @@ class mediawiki(
         command => "rm -f ${dir}/LocalSettings.php",
         notify  => Exec['mediawiki setup'],
         require => [ Package['php5'], Git::Clone['mediawiki/core'], Service['mysql'] ],
-        unless  => "/usr/bin/php ${dir}/maintenance/sql.php </dev/null",
+        # HACK: this should always succeed even if HHVM is FUBAR
+        unless  => "/usr/bin/php5 ${dir}/maintenance/sql.php </dev/null",
     }
 
     file { $settings_dir:
