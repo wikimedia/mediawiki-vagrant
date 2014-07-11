@@ -159,12 +159,14 @@ end
 # Migrate {apt,composer}-cache to cache/{apt,composer}
 ['apt', 'composer'].each do |type|
     src = File.join $DIR, "#{type}-cache"
-    dst = File.join $DIR, 'cache', type
-    Dir.foreach(src) do |f|
-        next if f.start_with? '.'
-        File.rename(File.join(src, f), File.join(dst, f)) rescue nil
-    end rescue nil
-    FileUtils.rm_rf(src) if Dir.entries(src).sort == ['.', '..'] rescue nil
+    if File.directory? src
+        dst = File.join $DIR, 'cache', type
+        Dir.foreach(src) do |f|
+            next if File.directory? f or f.start_with? '.'
+            File.rename(File.join(src, f), File.join(dst, f)) rescue nil
+        end rescue nil
+        FileUtils.rm_rf(src) rescue nil
+    end
 end
 
 # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
