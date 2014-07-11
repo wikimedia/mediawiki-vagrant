@@ -164,7 +164,7 @@ end
         next if f.start_with? '.'
         File.rename(File.join(src, f), File.join(dst, f)) rescue nil
     end rescue nil
-    FileUtils.rm_rf(src) if Dir.entries(src).sort == ['.', '..', '.gitignore'] rescue nil
+    FileUtils.rm_rf(src) if Dir.entries(src).sort == ['.', '..'] rescue nil
 end
 
 # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
