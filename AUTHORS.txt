@@ -9,6 +9,7 @@ Chad Horohoe <chadh@wikimedia.org>
 Chris Steipp <csteipp@wikimedia.org>
 Christian Aistleitner <christian@quelltextlich.at>
 Dan Andreescu <dandreescu@wikimedia.org>
+Dan Duvall <dduvall@wikimedia.org>
 Diederik van Liere <dvanliere@wikimedia.org>
 Erick Guan <fantasticfears@gmail.com>
 Erik Bernhardson <ebernhardson@wikimedia.org>
