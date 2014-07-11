@@ -21,7 +21,7 @@ module MediaWikiVagrant
                 list: false,
                 required: false,
                 get: [],
-                unset: []
+                unset: [],
             }
 
             opts = OptionParser.new do |o|
@@ -58,7 +58,7 @@ module MediaWikiVagrant
             if options[:list]
                 list_settings
             elsif options[:interactive]
-                interactively_configure(options[:required])
+                interactively_configure(options)
             elsif argv.length == 2
                 configure_setting(*argv)
             elsif options[:get].any? || options[:unset].any?
@@ -105,11 +105,14 @@ module MediaWikiVagrant
         # Displays a series of prompts for user configuration of either all
         # defined or only required settings.
         #
-        def interactively_configure(required = false)
+        def interactively_configure(options)
             configure do |settings|
                 scope = settings.select do |name, setting|
-                    defined = Settings.definitions.include?(name)
-                    defined && !setting.internal? && (!required || setting.default.nil?)
+                    Settings.definitions.include?(name) && !setting.internal?
+                end
+
+                if options[:required]
+                    scope = scope.reject { |_, setting| setting.default? || setting.set? }
                 end
 
                 scope.each do |name, setting|
@@ -126,7 +129,11 @@ module MediaWikiVagrant
                     input = @env.ui.ask(prompt).strip
                     @env.ui.info ""
 
-                    setting.value = parse_setting(setting, input) unless input.empty?
+                    if !input.empty?
+                        setting.value = parse_setting(setting, input)
+                    elsif setting.allows_empty?
+                        setting.value = input.strip
+                    end
                 end
             end
         end

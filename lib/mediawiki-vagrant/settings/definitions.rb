@@ -3,7 +3,8 @@ require 'mediawiki-vagrant/settings'
 MediaWikiVagrant::Settings.define do
     setting :git_user,
         description: "Your git/Gerrit username",
-        help: "Enter 'anonymous' for anonymous access, leave blank to manage it yourself"
+        help: "Enter 'anonymous' for anonymous access, leave blank to manage it yourself",
+        allows_empty: true
 
     setting :vagrant_ram,
         description: "Amount of RAM (in MB) allocated to the guest VM",

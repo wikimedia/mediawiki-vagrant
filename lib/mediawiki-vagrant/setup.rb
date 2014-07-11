@@ -119,7 +119,6 @@ module MediaWikiVagrant
         # Prompts the user to configure required settings.
         #
         def configure_settings
-            notify "\n"
             vagrant("config", "--required") { |pipe| pipe.each_char { |c| print c } }
         end
 
