@@ -6,4 +6,10 @@ class role::zend {
 
     # Define a 'ZEND' parameter for Apache <IfDefine> checks.
     apache::def { 'ZEND': }
+
+    env::alternative { 'zend_as_default_php':
+        alternative => 'php',
+        target      => '/usr/bin/php5',
+        priority    => 25,
+    }
 }

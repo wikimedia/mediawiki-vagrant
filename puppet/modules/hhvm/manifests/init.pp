@@ -12,10 +12,11 @@ class hhvm {
         before => Service['hhvm'],
     }
 
-    exec { 'hhvm_as_default_php':
-        command => '/usr/bin/update-alternatives --install /usr/bin/php php /usr/bin/hhvm 60',
-        unless  => '/bin/readlink /etc/alternatives/php | /bin/grep hhvm',
-        require => Package['hhvm'],
+    env::alternative { 'hhvm_as_default_php':
+        alternative => 'php',
+        target      => '/usr/bin/hhvm',
+        priority    => 20,
+        require     => Package['hhvm'],
     }
 
     file { '/etc/hhvm':
@@ -31,7 +32,7 @@ class hhvm {
     file { '/etc/init/hhvm.conf':
         ensure  => file,
         content => template('hhvm/hhvm.conf.erb'),
-        require => [ Exec['hhvm_as_default_php'], File['/etc/hhvm/config.hdf'] ],
+        require => [ Env::Alternative['hhvm_as_default_php'], File['/etc/hhvm/config.hdf'] ],
         notify  => Service['hhvm'],
     }
 
