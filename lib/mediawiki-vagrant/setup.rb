@@ -58,7 +58,13 @@ module MediaWikiVagrant
             (PLUGINS - installed_plugins).each { |plugin| install_plugin(plugin) }
 
             # Install/update mediawiki-vagrant plugin
-            install_plugin(build_gem)
+            gem_path = build_gem
+
+            begin
+                install_plugin(gem_path)
+            ensure
+                Dir["mediawiki-vagrant-*.gem"].each { |gem| File.unlink(gem) }
+            end
 
             # Configure required settings
             configure_settings unless @silent
