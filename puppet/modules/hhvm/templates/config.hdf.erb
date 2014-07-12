@@ -6,6 +6,7 @@ Server {
   Type = fastcgi
   Port = 9000
   SourceRoot = <%= scope['role::mediawiki::dir'] %>
+  GzipCompressionLevel = 0
 }
 
 Eval {
