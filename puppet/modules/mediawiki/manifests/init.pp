@@ -168,5 +168,6 @@ class mediawiki(
         ],
         user        => 'vagrant',
         creates     => "${dir}/vendor",
+        require     => Git::Clone['mediawiki/core'],
     }
 }
