@@ -7,6 +7,9 @@ Server {
   Port = 9000
   SourceRoot = <%= scope['role::mediawiki::dir'] %>
   GzipCompressionLevel = 0
+  IncludeSearchPaths {
+    * = /usr/share/php
+  }
 }
 
 Eval {
