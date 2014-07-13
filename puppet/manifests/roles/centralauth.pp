@@ -68,7 +68,7 @@ class role::centralauth {
     }
 
     exec { 'Migrate Admin user to CentralAuth':
-        command     => "php ${::role::mediawiki::dir}/extensions/CentralAuth/maintenance/migrateAccount.php --username Admin",
+        command     => "php5 ${::role::mediawiki::dir}/extensions/CentralAuth/maintenance/migrateAccount.php --username Admin",
         refreshonly => true,
         user        => 'www-data',
         subscribe   => Mysql::Sql['Create CentralAuth tables'],

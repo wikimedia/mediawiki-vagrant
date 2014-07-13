@@ -24,7 +24,7 @@ class role::simple_miser {
 
     # Populate file cache once set
     exec { 'rebuildFileCache':
-        command     => 'php maintenance/rebuildFileCache.php',
+        command     => 'php5 maintenance/rebuildFileCache.php',
         cwd         => '/vagrant/mediawiki',
         user        => 'www-data',
         refreshonly => true,

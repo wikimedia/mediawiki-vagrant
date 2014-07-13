@@ -8,7 +8,7 @@ class role::antispoof {
     }
 
     exec { 'populate spoofuser':
-        command     => "php ${::role::mediawiki::dir}/extensions/AntiSpoof/maintenance/batchAntiSpoof.php",
+        command     => "php5 ${::role::mediawiki::dir}/extensions/AntiSpoof/maintenance/batchAntiSpoof.php",
         refreshonly => true,
         user        => 'www-data',
         require     => Mediawiki::Extension['AntiSpoof'],

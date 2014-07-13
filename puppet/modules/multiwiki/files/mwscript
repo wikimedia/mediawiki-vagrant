@@ -5,4 +5,4 @@
 # Ensure that the script is run as the www-data user
 [[ $(whoami) = www-data ]] || exec sudo -u www-data -- "$0" "$@"
 
-exec php /srv/multiwiki/MWScript.php "$@"
+exec php5 /srv/multiwiki/MWScript.php "$@"

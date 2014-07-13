@@ -56,7 +56,7 @@ composer update --no-interaction --optimize-autoloader
 echo
 
 echo -e "\e[36m==> Updating database ...\e[0m"
-php maintenance/update.php --quick --doshared
+php5 maintenance/update.php --quick --doshared
 
 if [[ ${#UPDATE_ERRORS[@]} -ne 0 ]]; then
   echo

@@ -48,11 +48,11 @@ class role::simple_performant {
     cron { 'run_jobs':
         user    => 'www-data',
         minute  => '*/5',
-        command => 'php /vagrant/mediawiki/maintenance/runJobs.php',
+        command => 'php5 /vagrant/mediawiki/maintenance/runJobs.php',
     }
 
     exec { 'rebuild_localisation_cache':
-        command     => 'php maintenance/rebuildLocalisationCache.php --force',
+        command     => 'php5 maintenance/rebuildLocalisationCache.php --force',
         cwd         => '/vagrant/mediawiki',
         user        => 'www-data',
         refreshonly => true,

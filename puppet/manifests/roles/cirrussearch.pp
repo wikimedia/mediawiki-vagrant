@@ -58,9 +58,10 @@ class role::cirrussearch {
     }
 
     exec { 'build CirrusSearch search index':
-        command => 'php ./maintenance/updateSearchIndexConfig.php --startOver && php ./maintenance/forceSearchIndex.php',
-        onlyif  => 'php ./maintenance/cirrusNeedsToBeBuilt.php --quiet',
+        command => 'php5 ./maintenance/updateSearchIndexConfig.php --startOver && php5 ./maintenance/forceSearchIndex.php',
+        onlyif  => 'php5 ./maintenance/cirrusNeedsToBeBuilt.php --quiet',
         cwd     => '/vagrant/mediawiki/extensions/CirrusSearch',
+        user    => 'www-data',
         require => Mediawiki::Extension['CirrusSearch']
     }
 }
