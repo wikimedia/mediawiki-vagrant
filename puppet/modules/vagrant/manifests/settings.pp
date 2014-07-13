@@ -15,12 +15,6 @@
 #   default is 10. You only need to override the default if you want
 #   these settings to load before or after some other settings.
 #
-# [*box_name*]
-#   Name of the Vagrant box to load on the VM.
-#
-# [*box_uri*]
-#   Download URL for the vagrant box.
-#
 # [*ram*]
 #   Amount of RAM to allocate to the virtual machine in MB.
 #
@@ -38,17 +32,12 @@
 #   Hash of virtual machine port to host machine port pairs for Vagrant to
 #   forward.
 #
-# [*puppet_debug*]
-#   Run puppet in debug mode.
-#
 # === Example
 #
-# Configure an Ubuntu 14.04 instance with a lot of ram and cpu and
-# port forwarding for Elasticsearch development:
+# Configure an instance with a lot of ram and cpu and port forwarding for
+# Elasticsearch development:
 #
-#   vagrant::settings { 'big trusty instance':
-#     box_name      => 'trusty-cloud',
-#     box_uri       => 'http://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box',
+#   vagrant::settings { 'big elasticsearch':
 #     ram           => 4096,
 #     cores         => 4,
 #     forward_ports => { 9200 => 9200 },
@@ -57,14 +46,11 @@
 define vagrant::settings(
     $ensure        = present,
     $priority      = 10,
-    $box_name      = undef,
-    $box_uri       = undef,
     $ram           = undef,
     $cores         = undef,
     $static_ip     = undef,
     $http_port     = undef,
     $forward_ports = undef,
-    $puppet_debug  = undef,
 ) {
     include ::vagrant
 

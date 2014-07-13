@@ -1,11 +1,5 @@
 # Vagrant settings
 # Managed by puppet. Local changes will be lost on next puppet run.
-<%- if @box_name -%>
-box_name: "<%= @box_name %>"
-<%- end -%>
-<%- if @box_uri -%>
-box_uri: "<%= @box_uri %>"
-<%- end -%>
 <%- if @ram -%>
 vagrant_ram: <%= @ram.to_i %>
 <%- end -%>
@@ -17,9 +11,6 @@ static_ip: "<%= @static_ip %>"
 <%- end -%>
 <%- if @http_port -%>
 http_port: <%= @http_port.to_i %>
-<%- end -%>
-<%- if @puppet_debug -%>
-puppet_debug: <%= @puppet_debug %>
 <%- end -%>
 <%- if @forward_ports -%>
 forward_ports:
