@@ -13,4 +13,4 @@ mv $IP/LocalSettings.php $IP/LocalSettings.tmp
 # Restore LocalSettings on exit
 trap "mv $IP/LocalSettings.tmp $IP/LocalSettings.php" EXIT INT TERM
 
-php $IP/maintenance/install.php "$@"
+php5 $IP/maintenance/install.php "$@"
