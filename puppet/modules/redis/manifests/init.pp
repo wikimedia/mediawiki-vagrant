@@ -52,7 +52,7 @@ class redis(
         dir              => '/srv/redis',
         dbfilename       => 'redis-db.rdb',
         maxmemory        => $max_memory,
-        maxmemory_policy => 'allkeys-lru',
+        maxmemory_policy => 'volatile-lru',
         maxclients       => 1000,
         save             => $persist ? { true => [ 60, 1 ], default => undef },
     }
