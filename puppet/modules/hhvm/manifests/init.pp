@@ -47,4 +47,9 @@ class hhvm {
         provider => upstart,
         require  => File['/etc/init/hhvm.conf'],
     }
+
+    file { '/usr/local/bin/hhvmsh':
+        source => 'puppet:///modules/hhvm/hhvmsh',
+        mode   => '0555',
+    }
 }

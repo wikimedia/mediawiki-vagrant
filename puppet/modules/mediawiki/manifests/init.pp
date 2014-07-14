@@ -64,7 +64,6 @@ class mediawiki(
     include ::php
     require ::hhvm
 
-    include mediawiki::phpsh
     include mediawiki::apache
     include mediawiki::jobrunner
 

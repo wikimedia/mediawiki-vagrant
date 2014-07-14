@@ -1,0 +1,4 @@
+#!/bin/sh
+# Start hhvm debug client
+
+exec hhvm --mode debug --debug-host ::1
