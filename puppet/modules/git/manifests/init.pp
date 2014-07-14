@@ -24,7 +24,7 @@ class git( $urlformat = 'https://gerrit.wikimedia.org/r/p/%s.git' ) {
     }
 
     package { 'git-review':
-        ensure   => '1.23',
+        ensure   => '1.24',
         provider => 'pip',
     }
 }
