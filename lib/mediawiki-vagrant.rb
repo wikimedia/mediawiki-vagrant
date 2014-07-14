@@ -3,12 +3,12 @@ module MediaWikiVagrant
         name 'MediaWiki-Vagrant'
 
         command 'config' do
-            require 'mediawiki-vagrant/config.rb'
+            require 'mediawiki-vagrant/config'
             Config
         end
 
         command 'forward-port' do
-            require 'mediawiki-vagrant/forward_port.rb'
+            require 'mediawiki-vagrant/forward_port'
             ForwardPort
         end
 
@@ -55,6 +55,11 @@ module MediaWikiVagrant
         action_hook(self::ALL_ACTIONS) do |hook|
             require 'mediawiki-vagrant/middleware'
             hook.before(Vagrant::Action::Builtin::Provision, Middleware)
+        end
+
+        action_hook(:mediawiki, :machine_action_destroy) do |hook|
+            require 'mediawiki-vagrant/destroy'
+            hook.before(VagrantPlugins::ProviderVirtualBox::Action::Destroy, Destroy)
         end
 
         provisioner 'mediawiki_reload' do

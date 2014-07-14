@@ -85,6 +85,11 @@ module MediaWikiVagrant
             path('lib/mediawiki-vagrant.rb').exist?
         end
 
+        def purge_puppet_created_files
+            FileUtils.rm Dir[path('settings.d/puppet-managed/*.php')]
+            FileUtils.rm_r Dir[path('settings.d/multiwiki')]
+        end
+
         private
 
         def manifest_path(*subpaths)
@@ -99,5 +104,6 @@ module MediaWikiVagrant
             head = path('.git/FETCH_HEAD')
             head.exist? && (Time.now - head.mtime) > STALENESS
         end
+
     end
 end
