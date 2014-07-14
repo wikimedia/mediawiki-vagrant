@@ -64,7 +64,7 @@ when 'disable-role'
 
 when 'provision'
     puppet_path = '/vagrant/puppet'
-    exec "puppet apply \
+    exec "sudo puppet apply \
         --modulepath #{puppet_path}/modules \
         --manifestdir #{puppet_path}/manifests \
         --templatedir #{puppet_path}/templates \
