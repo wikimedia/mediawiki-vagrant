@@ -11,6 +11,7 @@ include FileUtils
 $packager_dir = Pathname.new(__FILE__).parent.realpath
 $output_dir = $packager_dir + 'output'
 $contents_dir = $output_dir + 'contents'
+$iso_file = $output_dir + 'mediawiki-vagrant-installer.iso'
 
 $url_config = YAML.load(($packager_dir + 'urls.yaml').read)
 
@@ -148,7 +149,7 @@ def build_iso()
   puts 'Creating iso image to distribute...'
   # -r: Rock Ridge with recommended values for permissions, etc.
   if system('which genisoimage >/dev/null 2>&1')
-      system('genisoimage', '-r', '-o', ($output_dir + 'output.iso').to_s, $contents_dir.to_s)
+      system('genisoimage', '-r', '-o', $iso_file.to_s, $contents_dir.to_s)
   else
     puts '"genisoimage" not found. Iso image not created.'
   end
