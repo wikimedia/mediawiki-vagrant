@@ -66,6 +66,7 @@ class mediawiki(
 
     include mediawiki::phpsh
     include mediawiki::apache
+    include mediawiki::jobrunner
 
     $managed_settings_dir = "${settings_dir}/puppet-managed"
 

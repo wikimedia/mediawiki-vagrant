@@ -98,3 +98,7 @@ $wgHooks['GetIP'][] = function ( &$ip ) {
 	}
 	return true;
 };
+
+// Execute all jobs via standalone jobrunner service rather than
+// piggybacking them on web requests.
+$wgJobRunRate = 0;
