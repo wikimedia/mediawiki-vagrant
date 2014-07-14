@@ -78,6 +78,13 @@ module MediaWikiVagrant
             end
         end
 
+        # Whether this is a valid MediaWiki-Vagrant environment. This should
+        # be used as a guard in middleware.
+        #
+        def valid?
+            path('lib/mediawiki-vagrant.rb').exist?
+        end
+
         private
 
         def manifest_path(*subpaths)

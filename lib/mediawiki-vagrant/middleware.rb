@@ -8,8 +8,11 @@ module MediaWikiVagrant
         end
 
         def call(env)
-            @mwv.prune_roles
-            $FACTER['provider_name'] = env[:machine].provider_name
+            if @mwv.valid?
+                @mwv.prune_roles
+                $FACTER['provider_name'] = env[:machine].provider_name
+            end
+
             @app.call(env)
         end
     end
