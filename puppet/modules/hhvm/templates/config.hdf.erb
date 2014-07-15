@@ -15,11 +15,12 @@ Server {
 Eval {
   EnableZendCompat = true
   Jit = true
+  JitAFrozenSize = 100000000
   PerfPidMap = false
 
   Debugger {
     EnableDebuggerServer = true
-    DebuggerServerPort = 8089
+    Port = 8089
     DefaultSandboxPath = <%= scope['role::mediawiki::dir'] %>
     StartupDocument = <%= scope['role::mediawiki::dir'] %>/index.php
   }
