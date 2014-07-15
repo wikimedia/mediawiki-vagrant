@@ -45,12 +45,6 @@ class role::simple_performant {
         notify  => Exec['rebuild_localisation_cache'],
     }
 
-    cron { 'run_jobs':
-        user    => 'www-data',
-        minute  => '*/5',
-        command => 'php5 /vagrant/mediawiki/maintenance/runJobs.php',
-    }
-
     exec { 'rebuild_localisation_cache':
         command     => 'php5 maintenance/rebuildLocalisationCache.php --force',
         cwd         => '/vagrant/mediawiki',
