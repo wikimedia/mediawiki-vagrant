@@ -23,6 +23,10 @@ LogLevel error
     Require all granted
 </Directory>
 
+<Directory <%= scope['::mediawiki::dir'] %>>
+    Require all granted
+</Directory>
+
 <Directory <%= @upload_dir %>>
     Require all granted
 </Directory>
@@ -35,7 +39,10 @@ Alias /mediawiki-vagrant.png /var/www/mediawiki-vagrant.png
 Alias /favicon.ico /var/www/favicon.ico
 
 <IfDefine !ZEND>
-  ProxyPass /wiki fcgi://127.0.0.1:9000/<%= @docroot %>/index.php
+  ProxyPass         /wiki                fcgi://127.0.0.1:9000/<%= @docroot %>/index.php
+  ProxyPass         /w/extensions        !
+  ProxyPassMatch    ^/w/(.*\.(php|hh))$  fcgi://127.0.0.1:9000/<%= @docroot %>/$1
+  RewriteRule       ^/$                  fcgi://127.0.0.1:9000/<%= @docroot %>/index.php  [P]
 </IfDefine>
 
 <IfDefine ZEND>
