@@ -15,6 +15,10 @@ define ruby::ruby {
         ensure => latest,
     }
 
+    package { "ruby${title}-dev":
+        ensure => latest,
+    }
+
     ruby::gem { "ruby${title}-bundler":
         gem  => 'bundler',
         ruby => $title,

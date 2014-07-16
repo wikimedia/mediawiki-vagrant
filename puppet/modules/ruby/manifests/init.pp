@@ -30,7 +30,7 @@
 #   ruby::bundle { '/some/project/directory': ruby => '1.9.3' }
 #
 class ruby {
-    $default_version = '1.9.3'
+    $default_version = '2.0'
     $gem_bin_dir = '/usr/local/bin'
 
     file { '/etc/gemrc':
