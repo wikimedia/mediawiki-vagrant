@@ -8,8 +8,9 @@ class role::eventlogging {
     mediawiki::extension { 'EventLogging':
         priority => $::LOAD_EARLY,
         settings => {
-            wgEventLoggingBaseUri => '//localhost:8100/event.gif',
-            wgEventLoggingFile    => '/vagrant/logs/eventlogging.log',
+            wgEventLoggingBaseUri      => '//localhost:8100/event.gif',
+            wgEventLoggingFile         => '/vagrant/logs/eventlogging.log',
+            wgEventLoggingSchemaApiUri => 'http://localhost/w/api.php',
         }
     }
 }
