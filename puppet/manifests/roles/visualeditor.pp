@@ -11,6 +11,6 @@ class role::visualeditor {
 
     mediawiki::extension { 'VisualEditor':
         settings      => template('ve-config.php.erb'),
-        browser_tests => 'modules/ve-mw/test/browser',
+        browser_tests => 'modules/ve-mw/tests/browser',
     }
 }
