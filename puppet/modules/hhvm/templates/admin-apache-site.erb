@@ -1,0 +1,20 @@
+# vim: filetype=apache sts=4 sw=4 autoindent
+#
+# Apache site configuration for HHVM admin server
+# This file is managed by Puppet.
+#
+ServerName hhvm-admin
+ServerAlias hhvm-admin.local.wmftest.net
+ServerAdmin http://www.mediawiki.org/wiki/Vagrant
+DocumentRoot "/var/www"
+LogLevel error
+
+<Directory />
+    Options FollowSymLinks
+    AllowOverride None
+</Directory>
+
+<Directory /var/www/>
+</Directory>
+
+ProxyPass / fcgi://127.0.0.1:9001/

@@ -52,4 +52,10 @@ class hhvm {
         source => 'puppet:///modules/hhvm/hhvmsh',
         mode   => '0555',
     }
+
+    apache::site { 'hhvm_admin':
+        ensure  => present,
+        content => template('hhvm/admin-apache-site.erb'),
+        require => Class['::apache::mod::proxy_fcgi'],
+    }
 }
