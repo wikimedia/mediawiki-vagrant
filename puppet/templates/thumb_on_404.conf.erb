@@ -3,11 +3,11 @@ RewriteEngine On
 # call thumb.php for thumb images not on disk
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^/images/thumb/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/[^/]*([0-9]+)px-.*$ /w/thumb_handler.php [PT,QSA,B]
+RewriteRule ^<%= @images_path %>/thumb/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/[^/]*([0-9]+)px-.*$ /w/thumb_handler.php [PT,QSA,B]
 
 
 # call thumb.php for thumb archive images not on disk
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^/images/thumb/archive/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/[^/]*([0-9]+)px-.*$ /w/thumb_handler.php [PT,QSA,B]
+RewriteRule ^<%= @images_path %>/thumb/archive/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/[^/]*([0-9]+)px-.*$ /w/thumb_handler.php [PT,QSA,B]
 
