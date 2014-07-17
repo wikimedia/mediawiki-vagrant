@@ -52,6 +52,10 @@ $wgEnableUploads = true;
 // User settings and permissions
 $wgAllowUserJs = true;
 
+// Eligibility for autoconfirmed group
+$wgAutoConfirmAge = 3600 * 24; // one day
+$wgAutoConfirmCount = 5; // five edits
+
 // Caching
 $wgObjectCaches['redis'] = array(
     'class' => 'RedisBagOStuff',
