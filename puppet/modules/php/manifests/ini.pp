@@ -12,10 +12,6 @@
 #   A hash or array of PHP configuration directives. For a list of core
 #   php.ini directives, see <http://www.php.net/manual/en/ini.php>.
 #
-# [*ensure*]
-#   If 'present', generates the configuration file; if 'absent', removes
-#   the file. Default: 'present'.
-#
 # === Examples
 #
 # Example showing settings as a hash:
@@ -35,33 +31,24 @@
 #      'apc.cache_by_default = 1'
 #     ],
 #  }
-
 #
-define php::ini ( $settings, $ensure = present ) {
+define php::ini( $settings ) {
     include ::php
     include ::apache
 
-    $basename = inline_template('<%= @title.gsub(/\W/, "-").downcase %>')
+    # Puppet-managed .ini file names start with an underscore
+    # so they can be distinguished from package-provided files.
+    $basename = inline_template('_<%= @title.gsub(/\W/, "-").downcase %>')
     $conffile = "/etc/php5/mods-available/${basename}.ini"
 
     file { $conffile:
-        ensure  => $ensure,
         content => template('php/conffile.ini.erb'),
         require => Package['php5'],
         notify  => Service['apache2'],
     }
 
-    if $ensure == present {
-        exec { "/usr/sbin/php5enmod -s ALL ${basename}":
-            refreshonly => true,
-            onlyif      => 'test -x /usr/sbin/php5enmod',
-            subscribe   => File[$conffile],
-        }
-    } else {
-        exec { "/usr/sbin/php5dismod -s ALL ${basename}":
-            refreshonly => true,
-            onlyif      => 'test -x /usr/sbin/php5dismod',
-            before      => File[$conffile],
-        }
+    exec { "/usr/sbin/php5enmod -s ALL ${basename}":
+        refreshonly => true,
+        subscribe   => File[$conffile],
     }
 }
