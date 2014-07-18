@@ -30,7 +30,12 @@ if ( !empty( $_REQUEST['debug'] ) ) {
 
 // Expose debug info for PHP errors.
 $wgShowExceptionDetails = true;
-$wgDebugLogFile = '/vagrant/logs/mediawiki-debug.log';
+
+$logDir = '/vagrant/logs';
+$wgDebugLogFile = "{$logDir}/mediawiki-debug.log";
+foreach ( array( 'exception', 'runJobs', 'JobQueueRedis' ) as $logGroup ) {
+	$wgDebugLogGroups[$logGroup] = "{$logDir}/mediawiki-{$logGroup}.log";
+}
 
 // Calls to deprecated methods will trigger E_USER_DEPRECATED errors
 // in the PHP error log.
@@ -64,6 +69,20 @@ $wgObjectCaches['redis'] = array(
 );
 $wgMainCacheType = 'redis';
 $wgSessionCacheType = 'redis';
+
+// Jobqueue
+$wgJobTypeConf['default'] = array(
+	'class'       => 'JobQueueRedis',
+	'redisServer' => '127.0.0.1',
+	'redisConfig' => array( 'connectTimeout' => 2, 'compression' => 'gzip' ),
+);
+
+$wgJobQueueAggregator = array(
+	'class'        => 'JobQueueAggregatorRedis',
+	'redisServers' => array( '127.0.0.1' ),
+	'redisConfig'  => array( 'connectTimeout' => 2 ),
+);
+
 
 $wgDisableCounters = true;
 
