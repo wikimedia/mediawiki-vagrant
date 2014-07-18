@@ -31,7 +31,7 @@ $LOAD_LAST   = 20
 Exec {
     logoutput => on_failure,
     timeout   => 900,
-    path      => [ '/bin', '/usr/bin', '/usr/local/bin', '/usr/sbin/' ],
+    path      => [ '/bin', '/sbin', '/usr/bin', '/usr/local/bin', '/usr/sbin' ],
 }
 
 Service {

@@ -36,5 +36,6 @@ class mediawiki::jobrunner {
     service { 'jobrunner':
         ensure   => 'running',
         provider => 'upstart',
+        require  => Exec['mediawiki setup'],
     }
 }

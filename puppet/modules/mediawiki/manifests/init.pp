@@ -88,10 +88,15 @@ class mediawiki(
     # delete it.
     exec { 'check settings':
         command => "rm -f ${dir}/LocalSettings.php",
+        unless  => "start mediawiki-bridge && php5 ${dir}/maintenance/sql.php </dev/null",
+        require => [ Service['mysql'], File['mediawiki_upstart_bridge'] ],
         notify  => Exec['mediawiki setup'],
-        require => [ Package['php5'], Git::Clone['mediawiki/core'], Service['mysql'] ],
-        # HACK: this should always succeed even if HHVM is FUBAR
-        unless  => "/usr/bin/php5 ${dir}/maintenance/sql.php </dev/null",
+    }
+
+    file { 'mediawiki_upstart_bridge':
+        path    => '/etc/init/mediawiki-bridge.conf',
+        content => template('mediawiki/mediawiki-bridge.conf.erb'),
+        require => Git::Clone['mediawiki/core'],
     }
 
     file { $settings_dir:
@@ -119,9 +124,9 @@ class mediawiki(
     }
 
     exec { 'mediawiki setup':
-        require     => [ Exec['set mysql password'], Git::Clone['mediawiki/core'], File[$upload_dir] ],
-        creates     => "${dir}/LocalSettings.php",
-        command     => template('mediawiki/install.php.erb'),
+        require => [ Exec['set mysql password'], Git::Clone['mediawiki/core'], File[$upload_dir] ],
+        creates => "${dir}/LocalSettings.php",
+        command => template('mediawiki/install.php.erb'),
     }
 
     exec { 'require extra settings':

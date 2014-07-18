@@ -1,0 +1,14 @@
+# Upstart task for emitting MediaWiki ready event
+description "MediaWiki ready event emitter"
+
+start on runlevel [2345]
+
+emits mediawiki-ready
+
+script
+  exec >/dev/null 2>&1
+  while [ ! -r "<%= @dir %>/LocalSettings.php" ] || ! ( /usr/bin/php5 <%= @dir %>/maintenance/sql.php </dev/null ); do sleep 1; done
+  initctl emit mediawiki-ready
+end script
+
+# vim: set ft=upstart:
