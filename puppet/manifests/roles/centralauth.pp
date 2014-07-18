@@ -81,13 +81,13 @@ class role::centralauth {
     multiwiki::wiki{ $loginwiki: }
     multiwiki::wiki{ 'centralauthtest': }
 
-    role::centralauth::setup_multiwiki { [$loginwiki, 'centralauthtest']: }
+    role::centralauth::multiwiki { [$loginwiki, 'centralauthtest']: }
 }
 
-# == Define: ::role::centralauth::setup_multiwiki
+# == Define: ::role::centralauth::multiwiki
 # Configure a multiwiki instance for CentralAuth.
 #
-define role::centralauth::setup_multiwiki {
+define role::centralauth::multiwiki {
     $wiki = $title
     $wikidb = "${wiki}wiki"
 
