@@ -28,6 +28,22 @@ class php {
         require => Class['::apache::mod::php5'],
     }
 
+    file { '/etc/php5/mods-available':
+        ensure  => directory,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        recurse => true,
+        purge   => true,
+        ignore  => '[^_]*',  # puppet-managed files start w/an underscore
+        notify  => Exec['prune_php_ini_files'],
+    }
+
+    exec { 'prune_php_ini_files':
+        command => '/bin/true',
+        unless  => template('php/prune_php_ini_files.bash.erb'),
+    }
+
     php::ini { 'debug_output':
         settings => {
             display_errors         => true,
