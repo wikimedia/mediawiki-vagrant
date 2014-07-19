@@ -37,6 +37,7 @@ class php {
         purge   => true,
         ignore  => '[^_]*',  # puppet-managed files start w/an underscore
         notify  => Exec['prune_php_ini_files'],
+        require => Package['php5'],
     }
 
     exec { 'prune_php_ini_files':
