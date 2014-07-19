@@ -36,6 +36,7 @@ define git::clone(
 
     exec { "git_clone_${title}":
         command     => "/usr/bin/git clone --recursive --branch ${branch} ${url} ${directory}",
+        cwd         => '/',
         creates     => "${directory}/.git",
         user        => $owner,
         group       => $group,
