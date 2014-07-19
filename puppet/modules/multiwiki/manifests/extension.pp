@@ -44,6 +44,13 @@
 #   mediawiki::extension and mediawiki::settings for detailed examples. Empty
 #   by default.
 #
+# [*browser_tests*]
+#   Whether or not to install the dependencies necessary to execute browser
+#   tests. Specifying true will bundle the tests in the default
+#   'tests/browser' subdirectory of the extension directory. You may otherwise
+#   provide a different subdirectory, or false to skip installation of
+#   browser-test dependencies altogether. Default: false.
+#
 # === Examples
 #
 #   multiwiki::extension { 'examplemulti:Example':
@@ -62,6 +69,7 @@ define multiwiki::extension(
     $needs_update = false,
     $branch       = undef,
     $settings     = {},
+    $browser_tests  = false,
 ) {
     include ::multiwiki
 
@@ -84,14 +92,15 @@ define multiwiki::extension(
     $settings_dir = "${::multiwiki::settings_root}/${wikidb}/settings.d"
 
     mediawiki::extension { $title:
-        ensure       => present,
-        extension    => $extension,
-        entrypoint   => $ext_entrypoint,
-        priority     => $priority,
-        needs_update => false,
-        branch       => $branch,
-        settings     => $settings,
-        settings_dir => "${settings_dir}/puppet-managed",
+        ensure        => present,
+        extension     => $extension,
+        entrypoint    => $ext_entrypoint,
+        priority      => $priority,
+        needs_update  => false,
+        branch        => $branch,
+        settings      => $settings,
+        settings_dir  => "${settings_dir}/puppet-managed",
+        browser_tests => $browser_tests,
     }
 
     if $needs_update {
