@@ -12,7 +12,7 @@ setuid "www-data"
 setgid "www-data"
 
 env VCAP_APP_PORT="<%= @port %>"
-env NODE_PATH="<%= @parsoid_path %>/node_modules"
+env NODE_PATH="<%= @dir %>/node_modules"
 
 chdir "<%= @dir %>"
 exec node src/api/server.js
