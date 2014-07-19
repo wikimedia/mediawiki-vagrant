@@ -149,7 +149,8 @@ Vagrant.configure('2') do |config|
 
     end
 
-    if Vagrant.plugin('2').manager.provisioners[:mediawiki_reload]
+    if Vagrant.plugin('2').manager.provisioners[:mediawiki_reload] && \
+        File.exists?(File.join($DIR, 'vagrant.d', 'RELOAD'))
         config.vm.provision :mediawiki_reload
     end
 end
