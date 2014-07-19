@@ -9,13 +9,13 @@ class crm::civicrm {
         dbname => $crm::civicrm_db,
     }
 
-    exec { 'civicrm setup':
+    exec { 'civicrm_setup':
         command => "php5 ${install_script}",
         unless  => "mysql -u ${::crm::db_user} -p${::crm::db_pass} ${::crm::civicrm_db} -e 'select count(*) from civicrm_domain'",
         require => [
             File[$install_script],
             Mysql::Db['civicrm'],
-            Exec['drupal db install'],
+            Exec['drupal_db_install'],
         ],
     }
 

@@ -19,11 +19,10 @@ class role::simple_miser {
             wgUseGzip         => true,
             wgFileCacheDepth  => 0,
         },
-        notify => Exec['rebuildFileCache'],
+        notify => Exec['rebuild_file_cache'],
     }
 
-    # Populate file cache once set
-    exec { 'rebuildFileCache':
+    exec { 'rebuild_file_cache':
         command     => 'php5 maintenance/rebuildFileCache.php',
         cwd         => '/vagrant/mediawiki',
         user        => 'www-data',

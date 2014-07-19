@@ -5,7 +5,9 @@
 # supplementary sources.
 #
 class apt {
-    exec { '/usr/bin/apt-get update': }
+    exec { 'update_package_index':
+        command => 'apt-get update',
+    }
 
     file  { '/usr/local/share/wikimedia-pubkey.asc':
         source => 'puppet:///modules/apt/wikimedia-pubkey.asc',
@@ -21,12 +23,12 @@ class apt {
 
     file { '/etc/apt/sources.list.d/wikimedia.list':
         content => template('apt/wikimedia.list.erb'),
-        before  => Exec['/usr/bin/apt-get update'],
+        before  => Exec['update_package_index'],
     }
 
     file { '/etc/apt/sources.list.d/multiverse.list':
         content => template('apt/multiverse.list.erb'),
-        before  => Exec['/usr/bin/apt-get update'],
+        before  => Exec['update_package_index'],
     }
 
     Class['Apt'] -> Package <| |>

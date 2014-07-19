@@ -39,14 +39,14 @@ class crm::drupal(
         group     => 'www-data',
         mode      => '2775',
         recurse   => true,
-        subscribe => Exec['civicrm setup'],
+        subscribe => Exec['civicrm_setup'],
     }
 
     file { "${dir}/sites/default/files":
         ensure    => link,
         target    => $files_dir,
         force     => true,
-        subscribe => Exec['drupal db install'],
+        subscribe => Exec['drupal_db_install'],
     }
 
     file { $install_script:
@@ -59,7 +59,7 @@ class crm::drupal(
 
     mysql::db { $databases: }
 
-    exec { 'drupal db install':
+    exec { 'drupal_db_install':
         command => $install_script,
         unless  => "mysql -u '${::crm::db_user}' -p'${::crm::db_pass}' '${::crm::drupal_db}' -e 'select 1 from system'",
         require => [
@@ -77,11 +77,11 @@ class crm::drupal(
         require => Git::Clone[$::crm::repo],
     }
 
-    exec { 'enable drupal modules':
+    exec { 'enable_drupal_modules':
         command => inline_template('<%= scope["::crm::drush::cmd"] %> pm-enable <%= @modules.join(" ") %>'),
         require => [
-            Exec['drupal db install'],
-            Exec['civicrm setup'],
+            Exec['drupal_db_install'],
+            Exec['civicrm_setup'],
             File[$settings_path],
         ],
     }

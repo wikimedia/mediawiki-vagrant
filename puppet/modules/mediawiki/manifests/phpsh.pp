@@ -28,7 +28,7 @@ class mediawiki::phpsh {
     }
 
     file { '/etc/phpsh/rc.php':
-        require => Package['phpsh'],
         content => template('mediawiki/rc.php.erb'),
+        require => Package['phpsh'],
     }
 }

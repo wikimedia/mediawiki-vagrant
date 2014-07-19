@@ -20,14 +20,14 @@ define apache::mod_conf(
 
     if $ensure == present {
         exec { "ensure_${ensure}_mod_${mod}":
-            command => "/usr/sbin/a2enmod ${mod}",
+            command => "a2enmod ${mod}",
             creates => "/etc/apache2/mods-enabled/${loadfile}",
             require => Package['apache2'],
             notify  => Service['apache2'],
         }
     } elsif $ensure == absent {
         exec { "ensure_${ensure}_mod_${mod}":
-            command => "/usr/sbin/a2dismod ${mod}",
+            command => "a2dismod ${mod}",
             onlyif  => "/usr/bin/test -L /etc/apache2/mods-enabled/${loadfile}",
             require => Package['apache2'],
             notify  => Service['apache2'],

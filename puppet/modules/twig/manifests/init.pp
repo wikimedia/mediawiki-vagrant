@@ -1,6 +1,7 @@
 # == Class: twig
 #
-# Wikimedia redistribution of http://twig.sensiolabs.org/
+# Wikimedia Fundraising's fork of Twig, a PHP templating engine.
+# See <http://twig.sensiolabs.org/>.
 #
 # === Parameters
 #

@@ -6,6 +6,7 @@ class role::cirrussearch {
     include role::timedmediahandler
     include role::pdfhandler
     include role::cite
+
     include packages::jq
 
     class { '::elasticsearch': }
@@ -57,10 +58,10 @@ class role::cirrussearch {
         forward_ports => { 9200 => 9200 },
     }
 
-    exec { 'build CirrusSearch search index':
-        command => 'php5 ./maintenance/updateSearchIndexConfig.php --startOver && php5 ./maintenance/forceSearchIndex.php',
-        onlyif  => 'php5 ./maintenance/cirrusNeedsToBeBuilt.php --quiet',
-        cwd     => '/vagrant/mediawiki/extensions/CirrusSearch',
+    exec { 'build_search_index':
+        command => 'php5 maintenance/updateSearchIndexConfig.php --startOver && php5 maintenance/forceSearchIndex.php',
+        onlyif  => 'php5 maintenance/cirrusNeedsToBeBuilt.php --quiet',
+        cwd     => "${mediawiki::dir}/extensions/CirrusSearch",
         user    => 'www-data',
         require => Mediawiki::Extension['CirrusSearch']
     }

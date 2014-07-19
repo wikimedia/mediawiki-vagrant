@@ -15,10 +15,8 @@ define mediawiki::import_dump(
 
     exec { 'import_dump':
         require   => Class['mediawiki'],
-        cwd       => "${mediawiki::dir}/maintenance",
-        command   => "/usr/bin/php5 importDump.php ${xml_dump}",
-        unless    => "/usr/bin/php5 pageExists.php ${dump_sentinel_page}",
+        command   => "php5 ${mediawiki::dir}/maintenance/importDump.php ${xml_dump}",
+        unless    => "php5 ${mediawiki::dir}/maintenance/pageExists.php ${dump_sentinel_page}",
         user      => 'www-data',
-        logoutput => on_failure,
     }
 }

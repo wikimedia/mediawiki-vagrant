@@ -10,20 +10,20 @@ class role::math {
 
     mediawiki::extension { 'Math':
         needs_update => true,
-        before       => Exec['compile texvc'],
+        before       => Exec['compile_texvc'],
     }
 
-    exec { 'compile texvc':
+    exec { 'compile_texvc':
         command => 'make',
-        cwd     => '/vagrant/mediawiki/extensions/Math/math',
-        creates => '/vagrant/mediawiki/extensions/Math/math/texvc',
+        cwd     => "${mediawiki::dir}/extensions/Math/math",
+        creates => "${mediawiki::dir}/extensions/Math/math/texvc",
         require => Package['mediawiki-math', 'ocaml-native-compilers'],
     }
 
-    exec { 'compile texvccheck':
+    exec { 'compile_texvccheck':
         command => 'make',
-        cwd     => '/vagrant/mediawiki/extensions/Math/texvccheck',
-        creates => '/vagrant/mediawiki/extensions/Math/texvccheck/texvccheck',
+        cwd     => "${mediawiki::dir}/extensions/Math/texvccheck",
+        creates => "${mediawiki::dir}/extensions/Math/texvccheck/texvccheck",
         require => Package['mediawiki-math', 'ocaml-native-compilers'],
     }
 }

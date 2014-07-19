@@ -33,9 +33,9 @@ define ruby::gem(
     $ruby    = $ruby::default_version,
     $version = '>=0',
 ) {
-    include ruby
+    include ::ruby
 
-    exec { "gem-install-${gem}-${ruby}-${version}":
+    exec { "gem_install_${gem}_${ruby}_${version}":
         command => "gem${ruby} install ${gem} --version '${version}'",
         unless  => "gem${ruby} list ${gem} --installed --version '${version}'",
         timeout => 600,

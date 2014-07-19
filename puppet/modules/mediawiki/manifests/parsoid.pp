@@ -54,18 +54,13 @@ class mediawiki::parsoid(
     }
 
     file { '/etc/init/parsoid.conf':
-        ensure  => present,
         content => template('mediawiki/parsoid.conf.erb'),
         require => Package['nodejs', 'nodejs-legacy'],
     }
 
     mediawiki::extension { 'Parsoid':
-        # https://bugzilla.wikimedia.org/show_bug.cgi?id=64644
         entrypoint => 'php/Parsoid.php',
-        settings   => {
-            # Documented to be used for Varnish, which is not yet on MediaWiki-Vagrant
-            wgParsoidCacheServers => [],
-        }
+        settings   => { wgParsoidCacheServers => [], },
     }
 
     service { 'parsoid':

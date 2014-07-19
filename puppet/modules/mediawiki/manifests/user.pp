@@ -20,14 +20,14 @@
 #
 define mediawiki::user(
     $password,
-    $username  = $title,
+    $username = $title,
 ) {
     include mediawiki
 
-    exec { "mediawiki user ${username}":
+    exec { "mediawiki_user_${username}":
         cwd     => "${mediawiki::dir}/maintenance",
         command => "php5 createAndPromote.php ${username} ${password}",
         unless  => "php5 createAndPromote.php ${username} 2>&1 | grep -q '^Account exists'",
-        require => [ Exec['mediawiki setup'], Env::Var['MW_INSTALL_PATH'] ],
+        require => [ Exec['mediawiki_setup'], Env::Var['MW_INSTALL_PATH'] ],
     }
 }

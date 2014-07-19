@@ -36,11 +36,11 @@ define elasticsearch::plugin(
     $version = undef,
     $url     = undef,
 ) {
-    $esDir = '/usr/share/elasticsearch'
+    $es_dir = '/usr/share/elasticsearch'
     $dirname = regsubst($name, '^elasticsearch-', '')
-    $pluginDir = "${esDir}/plugins/${dirname}"
-    $pluginIdentifier = "${group}/${name}/${version}"
-    $urlParam = $url ? {
+    $plugin_dir = "${es_dir}/plugins/${dirname}"
+    $plugin_identifier = "${group}/${name}/${version}"
+    $url_param = $url ? {
         undef   => '',
         default => "--url ${url}"
     }
@@ -48,27 +48,27 @@ define elasticsearch::plugin(
         present: {
             # Install won't upgrade, so if the version if wrong we have to
             # remove it and reinstall.
-            exec { "Remove bad version of plugin ${name}":
-                command => "${esDir}/bin/plugin --remove ${name}",
-                onlyif  => "test -d ${pluginDir}",
-                unless  => "test -f ${pluginDir}/${name}-${version}.jar",
+            exec { "prune_es_plugin_${name}":
+                command => "${es_dir}/bin/plugin --remove ${name}",
+                onlyif  => "test -d ${plugin_dir}",
+                unless  => "test -f ${plugin_dir}/${name}-${version}.jar",
                 require => Package['elasticsearch'],
                 notify  => Service['elasticsearch'],
             }
-            exec { "Install elasticsearch plugin ${name}":
-                command => "${esDir}/bin/plugin --install ${pluginIdentifier} ${urlParam}",
-                unless  => "test -d ${pluginDir}",
+            exec { "install_es_plugin_${name}":
+                command => "${es_dir}/bin/plugin --install ${plugin_identifier} ${url_param}",
+                unless  => "test -d ${plugin_dir}",
                 require => [
                     Package['elasticsearch'],
-                    Exec["Remove bad version of plugin ${name}"],
+                    Exec["prune_es_plugin_${name}"],
                 ],
                 notify  => Service['elasticsearch'],
             }
         }
         absent: {
-            exec { "Uninstall elasticsearch plug ${name}":
-                command => "${esDir}/bin/plugin --remove ${name}",
-                onlyif  => "test -d ${pluginDir}",
+            exec { "uninstall_es_plugin_${name}":
+                command => "${es_dir}/bin/plugin --remove ${name}",
+                onlyif  => "test -d ${plugin_dir}",
                 require => Package['elasticsearch'],
                 notify  => Service['elasticsearch'],
             }

@@ -5,7 +5,6 @@
 # command-line tools, like 'ack' and 'curl'.
 #
 class misc {
-
     file { '/etc/profile.d':
         ensure  => directory,
         recurse => true,
@@ -32,10 +31,9 @@ class misc {
         source  => 'puppet:///modules/misc/ackrc',
     }
 
-    # Fix the 'stdin: not a tty' error message caused by the Ubuntu root
-    # user's bash profile.
-    # See https://github.com/mitchellh/vagrant/issues/1673
-    exec { 'fix root profile':
+    # fix for 'stdin: not a tty'
+    # <https://github.com/mitchellh/vagrant/issues/1673>
+    exec { 'fix_root_profile':
       command => 'sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile',
       onlyif  => 'grep -q "^mesg n" /root/.profile',
     }

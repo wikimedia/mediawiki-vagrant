@@ -86,6 +86,6 @@ define mediawiki::settings(
         content => template('mediawiki/settings.php.erb'),
         owner   => $::share_owner,
         group   => $::share_group,
-        require => Exec['mediawiki setup'],
+        require => Exec['mediawiki_setup'],
     }
 }

@@ -122,7 +122,7 @@ define mediawiki::extension(
     if $needs_update {
         # If the extension requires a schema migration, set up the
         # settings file resource to notify update.php.
-        Mediawiki::Settings[$extension] ~> Exec['update database']
+        Mediawiki::Settings[$extension] ~> Exec['update_database']
     }
 
     if $browser_tests {
@@ -131,7 +131,7 @@ define mediawiki::extension(
             default => $browser_tests,
         }
 
-        browsertests::bundle { "{$title}-browsertests-bundle":
+        browsertests::bundle { "${title}_browsertests_bundle":
           directory => "${extension_dir}/${browser_tests_dir}",
           require   => Git::Clone["mediawiki/extensions/${extension}"],
         }

@@ -59,10 +59,10 @@ class mediawiki(
     $branch     = undef,
     $server_url = undef,
 ) {
-    Exec { environment => "MW_INSTALL_PATH=${dir}" }
+    Exec { environment => "MW_INSTALL_PATH=${dir}", cwd => $dir, }
 
     include ::php
-    require ::hhvm
+    include ::hhvm
 
     include mediawiki::apache
     include mediawiki::jobrunner
@@ -86,11 +86,11 @@ class mediawiki(
     # If an auto-generated LocalSettings.php file exists but the database it
     # refers to is missing, assume it is residual of a discarded instance and
     # delete it.
-    exec { 'check settings':
-        command => "rm -f ${dir}/LocalSettings.php",
-        unless  => "start mediawiki-bridge && php5 ${dir}/maintenance/sql.php </dev/null",
+    exec { 'check_settings':
+        command => 'rm -f LocalSettings.php',
+        unless  => 'start mediawiki-bridge && php5 maintenance/sql.php </dev/null',
         require => [ Service['mysql'], File['mediawiki_upstart_bridge'] ],
-        notify  => Exec['mediawiki setup'],
+        notify  => Exec['mediawiki_setup'],
     }
 
     file { 'mediawiki_upstart_bridge':
@@ -123,16 +123,16 @@ class mediawiki(
         source  => 'puppet:///modules/mediawiki/mediawiki-settings.d-empty',
     }
 
-    exec { 'mediawiki setup':
-        require => [ Exec['set mysql password'], Git::Clone['mediawiki/core'], File[$upload_dir] ],
-        creates => "${dir}/LocalSettings.php",
+    exec { 'mediawiki_setup':
         command => template('mediawiki/install.php.erb'),
+        creates => "${dir}/LocalSettings.php",
+        require => [ Exec['set_mysql_password'], Git::Clone['mediawiki/core'], File[$upload_dir] ],
     }
 
-    exec { 'require extra settings':
-        require => Exec['mediawiki setup'],
-        command => "echo \"require_once( \'/vagrant/LocalSettings.php\' );\" >>${dir}/LocalSettings.php",
-        unless  => "grep \"/vagrant/LocalSettings.php\" ${dir}/LocalSettings.php",
+    exec { 'include_extra_settings':
+        require => Exec['mediawiki_setup'],
+        command => 'echo "include_once \'/vagrant/LocalSettings.php\';" >> LocalSettings.php',
+        unless  => 'grep "/vagrant/LocalSettings.php" LocalSettings.php',
     }
 
     env::var { 'MW_INSTALL_PATH':
@@ -158,15 +158,14 @@ class mediawiki(
         mode    => '0755',
     }
 
-    exec { 'update database':
-        command     => "/usr/bin/php5 ${dir}/maintenance/update.php --quick",
-        refreshonly => true,
+    exec { 'update_database':
+        command     => 'php5 maintenance/update.php --quick',
         user        => 'www-data',
+        refreshonly => true,
     }
 
-    exec { 'install composer deps':
-        command     => '/usr/bin/composer install --no-interaction --quiet --optimize-autoloader',
-        cwd         => $dir,
+    exec { 'install_composer_deps':
+        command     => 'composer install --no-interaction --quiet --optimize-autoloader',
         environment => [
           'COMPOSER_HOME=/vagrant/cache/composer',
           'COMPOSER_CACHE_DIR=/vagrant/cache/composer',

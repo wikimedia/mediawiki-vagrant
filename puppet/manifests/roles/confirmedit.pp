@@ -15,7 +15,7 @@ class role::confirmedit {
     $key      = 'FOO'
 
     mediawiki::extension { 'ConfirmEdit':
-        notify => Exec['generate FancyCaptcha images'],
+        notify => Exec['generate_captchas'],
     }
 
     mediawiki::settings { 'ConfirmEdit FancyCaptcha':
@@ -30,13 +30,13 @@ class role::confirmedit {
 
     file { [ "${::role::mediawiki::dir}/images/temp", $output ]:
         ensure => directory,
-        before => Exec['generate FancyCaptcha images'],
+        before => Exec['generate_captchas'],
     }
 
-    exec { 'generate FancyCaptcha images':
+    exec { 'generate_captchas':
+        command     => "python captcha.py --font=${font} --wordlist=${wordlist} --key=${key} --output=${output}",
         cwd         => "${::role::mediawiki::dir}/extensions/ConfirmEdit",
         require     => Package['wbritish-small', 'fonts-dejavu'],
-        command     => "/usr/bin/python captcha.py --font=${font} --wordlist=${wordlist} --key=${key} --output=${output}",
         refreshonly => true,
     }
 }

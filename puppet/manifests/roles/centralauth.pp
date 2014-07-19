@@ -21,7 +21,7 @@ class role::centralauth {
         wgCentralAuthAutoMigrate     => true,
         wgCentralAuthAutoNew         => true,
         wgSharedDB                   => $shared_db,
-        wgSharedTables               => [ 'objectcache' ],
+        wgSharedTables               => ['objectcache'],
     }
     $ca_auth_settings = [
       '$wgGroupPermissions["sysop"]["centralauth-lock"] = true;',
@@ -67,7 +67,7 @@ class role::centralauth {
         ],
     }
 
-    exec { 'Migrate Admin user to CentralAuth':
+    exec { 'migrate_admin_user_to_centralauth':
         command     => "php5 ${::role::mediawiki::dir}/extensions/CentralAuth/maintenance/migrateAccount.php --username Admin",
         refreshonly => true,
         user        => 'www-data',
@@ -91,25 +91,24 @@ define role::centralauth::multiwiki {
     $wiki = $title
     $wikidb = "${wiki}wiki"
 
-    # Add CentralAuth
     multiwiki::extension { "${wiki}:CentralAuth":
         needs_update => true,
         settings     => $::role::centralauth::ca_common_settings,
     }
+
     multiwiki::settings { "${wiki}:CentralAuthPermissions":
         values => $::role::centralauth::ca_auth_settings,
     }
 
-    # Add AntiSpoof
     multiwiki::extension { "${wiki}:AntiSpoof":
         needs_update => true,
     }
 
-    exec { "populate ${wiki} spoofuser":
+    exec { "populate_${wiki}_spoofuser":
         command     => "mwscript extensions/AntiSpoof/maintenance/batchAntiSpoof.php --wiki ${wikidb}",
         refreshonly => true,
         user        => 'www-data',
         require     => Multiwiki::Extension["${wiki}:AntiSpoof"],
-        subscribe   => Exec["update ${wikidb} database"],
+        subscribe   => Exec["update_${wikidb}_database"],
     }
 }

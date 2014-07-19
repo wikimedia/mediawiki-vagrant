@@ -38,19 +38,19 @@ define multiwiki::wiki {
         confpath   => $multiwiki_dir,
     }
 
-    exec { "${wikidb} setup":
+    exec { "${wikidb}_setup":
         command => template('multiwiki/run_installer.erb'),
         creates => "${multiwiki_dir}/LocalSettings.php",
     }
 
     # Cleanup LocalSettings.php if database is not found
-    exec { "${wikidb} check settings":
+    exec { "${wikidb}_check_settings":
         command => "rm -f ${multiwiki_dir}/LocalSettings.php",
-        notify  => Exec["${wikidb} setup"],
+        notify  => Exec["${wikidb}_setup"],
         unless  => "mwscript sql.php --wikidb=${wikidb} </dev/null",
     }
 
-    exec { "update ${wikidb} database":
+    exec { "update_${wikidb}_database":
         command     => "mwscript update.php --wiki ${wikidb} --quick",
         refreshonly => true,
         user        => 'www-data',

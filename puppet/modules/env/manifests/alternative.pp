@@ -33,13 +33,13 @@ define env::alternative(
     if !defined( Exec["clear_alternatives_${alternative}"] ) {
         exec { "clear_alternatives_${alternative}":
             command => '/bin/true',
-            unless  => "/usr/bin/update-alternatives --remove-all ${alternative} || /bin/true",
+            unless  => "update-alternatives --remove-all ${alternative} || true",
         }
     }
 
     exec { "install_alternative_${title}":
         command => '/bin/true',
-        unless  => "/usr/bin/update-alternatives --install ${symlink} ${alternative} ${target} ${priority}",
+        unless  => "update-alternatives --install ${symlink} ${alternative} ${target} ${priority}",
         require => Exec["clear_alternatives_${alternative}"],
     }
 }

@@ -106,6 +106,6 @@ define multiwiki::extension(
     if $needs_update {
         # If the extension requires a schema migration, set up the
         # settings file resource to notify update.php.
-        Mediawiki::Settings[$title] ~> Exec["update ${wikidb} database"]
+        Mediawiki::Settings[$title] ~> Exec["update_${wikidb}_database"]
     }
 }

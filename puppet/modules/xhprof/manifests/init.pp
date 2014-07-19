@@ -15,36 +15,36 @@ class xhprof (
     $xhprof_version      = '0.9.4'
     $installed_module    = '/usr/lib/php5/20090626/xhprof.so'
 
-    exec { 'download xhprof':
+    exec { 'download_xhprof':
         cwd     => '/tmp',
         creates => $installed_module,
         command => "wget http://pecl.php.net/get/xhprof-${xhprof_version}.tgz",
     }
 
-    exec { 'extract xhprof':
+    exec { 'extract_xhprof':
         cwd     => '/tmp',
         command => "tar -xzf xhprof-${xhprof_version}.tgz",
         creates => $installed_module,
-        require => Exec['download xhprof'],
+        require => Exec['download_xhprof'],
     }
 
-    exec { 'install xhprof':
+    exec { 'install_xhprof':
         cwd     => "/tmp/xhprof-${xhprof_version}/extension",
         command => 'phpize && ./configure && make && make install',
         creates => $installed_module,
-        require => [ Exec['extract xhprof'], Package['php5-dev'] ],
+        require => [ Exec['extract_xhprof'], Package['php5-dev'] ],
     }
 
-    exec { 'install xhprof assets':
+    exec { 'install_xhprof_assets':
         cwd     => "/tmp/xhprof-${xhprof_version}",
         command => "cp -rf /tmp/xhprof-${xhprof_version}/xhprof_html /tmp/xhprof-${xhprof_version}/xhprof_lib /usr/share/php",
         creates => '/usr/share/php/xhprof_html',
         # php-pear ensures existance of /usr/share/php, better way?
-        require => [ Exec['install xhprof'], Package['php-pear'] ],
+        require => [ Exec['install_xhprof'], Package['php-pear'] ],
     }
 
     php::ini { 'xhprof':
-        require  => Exec['install xhprof'],
+        require  => Exec['install_xhprof'],
         settings => {
             'extension'         => 'xhprof.so',
             # Not used by the extension directly, used by the

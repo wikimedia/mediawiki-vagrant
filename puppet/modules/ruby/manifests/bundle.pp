@@ -37,19 +37,19 @@ define ruby::bundle(
     $ruby      = $ruby::default_version,
     $user      = 'vagrant',
 ) {
-    include ruby
+    include ::ruby
 
     $bundle = "ruby${ruby} -- ${ruby::gem_bin_dir}/bundle"
+    $bundle_gemfile = $gemfile ? {
+        undef   => "${directory}/Gemfile",
+        default => $gemfile,
+    }
 
-    $bundle_gemfile = $gemfile ? { undef => "${directory}/Gemfile", default => $gemfile }
-
-    exec { "bundle-install-${title}":
+    exec { "bundle_install_${title}":
         command     => "${bundle} install --path '${path}'",
         provider    => 'shell',
         cwd         => $directory,
-        environment => [
-            "BUNDLE_GEMFILE=${bundle_gemfile}",
-        ],
+        environment => "BUNDLE_GEMFILE=${bundle_gemfile}",
         user        => $user,
         unless      => "${bundle} check",
         timeout     => 60 * 20,

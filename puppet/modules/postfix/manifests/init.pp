@@ -3,46 +3,41 @@
 # Postfix MTA service
 #
 class postfix {
-    package { 'postfix':
-        ensure => latest
-    }
+    package { 'postfix': }
 
     file { '/etc/postfix':
-        ensure => directory,
-        owner  => root,
-        group  => root,
-        mode   => '0755',
+        ensure  => directory,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        require => Package['postfix'],
     }
 
     file { '/etc/postfix/main.cf':
-        owner   => root,
-        group   => root,
-        mode    => '0644',
         content => template('postfix/main.cf.erb'),
-        require => File['/etc/postfix'],
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
     }
 
     file { '/etc/postfix/virtual':
-        owner   => root,
-        group   => root,
-        mode    => '0644',
         content => template('postfix/virtual.erb'),
-        require => File['/etc/postfix'],
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
     }
 
-    exec { 'postmap virtual':
+    exec { 'postmap_virtual':
         command   => 'postmap /etc/postfix/virtual',
         subscribe => File['/etc/postfix/virtual'],
-        require   => Package['postfix'],
     }
 
     service { 'postfix':
         ensure    => running,
-        require   => Package['postfix'],
+        enable    => true,
         subscribe => [
             File['/etc/postfix/main.cf'],
-            Exec['postmap virtual'],
+            Exec['postmap_virtual'],
         ],
-        enable    => true,
     }
 }

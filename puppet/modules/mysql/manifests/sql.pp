@@ -27,12 +27,12 @@ define mysql::sql(
     $unless,
     $sql = $title,
 ) {
-    $quoted_sql = regsubst($sql, '"', '\\"', 'G')
+    $quoted_sql    = regsubst($sql,    '"', '\\"', 'G')
     $quoted_unless = regsubst($unless, '"', '\\"', 'G')
 
     exec { $title:
         command => "mysql -uroot -p${mysql::root_password} -qfsAe \"${quoted_sql}\"",
         unless  => "mysql -uroot -p${mysql::root_password} -qfsANe \"${quoted_unless}\" | tail -1 | grep -q 1",
-        require => Exec['set mysql password'],
+        require => Exec['set_mysql_password'],
     }
 }
