@@ -165,7 +165,7 @@ class mediawiki(
     }
 
     exec { 'install_composer_deps':
-        command     => 'composer install --no-interaction --quiet --optimize-autoloader',
+        command     => 'composer install --no-interaction --optimize-autoloader',
         environment => [
           'COMPOSER_HOME=/vagrant/cache/composer',
           'COMPOSER_CACHE_DIR=/vagrant/cache/composer',
