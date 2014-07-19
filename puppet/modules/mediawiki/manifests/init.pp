@@ -59,7 +59,9 @@ class mediawiki(
     $branch     = undef,
     $server_url = undef,
 ) {
-    Exec { environment => "MW_INSTALL_PATH=${dir}", cwd => $dir, }
+    Exec {
+      environment => "MW_INSTALL_PATH=${dir}",
+    }
 
     include ::php
     include ::hhvm
@@ -88,6 +90,7 @@ class mediawiki(
     # delete it.
     exec { 'check_settings':
         command => 'rm -f LocalSettings.php',
+        cwd     => $dir,
         unless  => 'start mediawiki-bridge && php5 maintenance/sql.php </dev/null',
         require => [ Service['mysql'], File['mediawiki_upstart_bridge'] ],
         notify  => Exec['mediawiki_setup'],
@@ -160,6 +163,7 @@ class mediawiki(
 
     exec { 'update_database':
         command     => 'php5 maintenance/update.php --quick',
+        cwd         => $dir,
         user        => 'www-data',
         refreshonly => true,
     }
@@ -168,6 +172,7 @@ class mediawiki(
         # Use HHVM with higher socket timeouts
         # From http://vanderveer.be/speed-up-composer-by-using-hhvm-including-a-slowtimer-error-fix/
         command     => 'hhvm -v ResourceLimit.SocketDefaultTimeout=300 -v Http.SlowQueryThreshold=300000 /usr/local/bin/composer install --no-interaction --optimize-autoloader',
+        cwd         => $dir,
         environment => [
           'COMPOSER_HOME=/vagrant/cache/composer',
           'COMPOSER_CACHE_DIR=/vagrant/cache/composer',
