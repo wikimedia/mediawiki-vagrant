@@ -58,11 +58,22 @@ package { 'python-pip': } -> Package <| provider == pip |>
 if $::shared_apt_cache {
     file { '/etc/apt/apt.conf.d/20shared-cache':
         content => "Dir::Cache::archives \"${::shared_apt_cache}\";\n",
-    } -> Package <| |>
+    } -> Package <| provider == apt |>
 }
+
+file { '/etc/apt/apt.conf.d/01no-recommended':
+    source => 'puppet:///files/apt/01no-recommended',
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0444'
+} -> Package <| provider == apt |>
 
 # Remove chef if it is installed in the base image
 # Bug: 67693
 package { [ 'chef', 'chef-zero' ]:
   ensure => absent,
 }
+
+# Install common development tools
+package { [ 'build-essential', 'python-dev', 'ruby-dev' ]: }
+

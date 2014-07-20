@@ -20,7 +20,7 @@
 #
 class role::wikimetrics {
     require role::mediawiki
-    require packages::nose
+    require packages::python_nose
     require ::mysql::packages
 
     $wikimetrics_path = '/vagrant/wikimetrics'

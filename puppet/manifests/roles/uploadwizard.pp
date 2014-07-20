@@ -8,9 +8,9 @@ class role::uploadwizard {
     include role::codeeditor
 
     # API smoke test dependencies
-    include packages::pil
-    include packages::poster
-    include packages::wikitools
+    include packages::python_imaging
+    include packages::python_poster
+    include packages::python_wikitools
     include packages::imagemagick
 
     mediawiki::extension { 'Campaigns': }
