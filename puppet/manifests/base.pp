@@ -63,6 +63,16 @@ if $::shared_apt_cache {
     file { '/etc/apt/apt.conf.d/20shared-cache':
         content => "Dir::Cache::archives \"${::shared_apt_cache}\";\n",
     } -> Package <| |>
+
+    # bug 67976: don't clean up legacy cache locations until apt has been
+    # reconfigured with new location.
+    file { ['/vagrant/apt-cache', '/vagrant/composer-cache']:
+        ensure  => absent,
+        recurse => true,
+        purge   => true,
+        force   => true,
+        require => File['/etc/apt/apt.conf.d/20shared-cache'],
+    }
 }
 file { '/etc/apt/apt.conf.d/01no-recommended':
     source => 'puppet:///files/apt/01no-recommended',

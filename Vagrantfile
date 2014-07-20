@@ -181,7 +181,6 @@ end
             next if File.directory? f or f.start_with? '.'
             File.rename(File.join(src, f), File.join(dst, f)) rescue nil
         end rescue nil
-        FileUtils.rm_rf(src) rescue nil
     end
 end
 
