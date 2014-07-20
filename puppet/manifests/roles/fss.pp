@@ -8,8 +8,4 @@
 # algorithm for single search terms.
 class role::fss {
     include packages::fss
-
-    php::ini { 'fss':
-        settings => { extension => 'fss.so', },
-    }
 }
