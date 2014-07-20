@@ -63,6 +63,9 @@ class role::cirrussearch {
         onlyif  => 'php5 maintenance/cirrusNeedsToBeBuilt.php --quiet',
         cwd     => "${mediawiki::dir}/extensions/CirrusSearch",
         user    => 'www-data',
-        require => Mediawiki::Extension['CirrusSearch']
+        require => [
+            Mediawiki::Extension['CirrusSearch'],
+            Exec['update_database'],
+        ]
     }
 }
