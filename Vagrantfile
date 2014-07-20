@@ -56,9 +56,15 @@ Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
     config.package.name = 'mediawiki.box'
 
-    config.vm.box = 'trusty-cloud'
-    config.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
-    config.vm.box_download_insecure = true
+    config.vm.provider :virtualbox do |vb, override|
+        override.vm.box = 'trusty-cloud'
+        override.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
+        override.vm.box_download_insecure = true
+    end
+
+    config.vm.provider :vmware_fusion do |vw, override|
+        override.vm.box = 'puphpet/ubuntu1404-x64'
+    end
 
     config.vm.network :private_network, ip: settings[:static_ip]
 
@@ -110,6 +116,14 @@ Vagrant.configure('2') do |config|
 
         # To boot the VM in graphical mode, uncomment the following line:
         # vb.gui = true
+    end
+
+    config.vm.provider :vmware_fusion do |vw|
+        vw.vmx["memsize"] = settings[:vagrant_ram]
+        vw.vmx["numvcpus"] = settings[:vagrant_cores]
+
+        # To boot the VM in graphical mode, uncomment the following line:
+        #vw.gui = true
     end
 
     config.vm.provision :puppet do |puppet|
