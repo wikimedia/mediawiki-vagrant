@@ -63,7 +63,7 @@ Vagrant.configure('2') do |config|
     end
 
     config.vm.provider :vmware_fusion do |vw, override|
-        override.vm.box = 'puphpet/ubuntu1404-x64'
+        override.vm.box = 'puppetlabs/ubuntu-14.04-64-puppet'
     end
 
     config.vm.network :private_network, ip: settings[:static_ip]
