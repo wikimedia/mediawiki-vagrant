@@ -16,7 +16,7 @@ class activemq(
     tarball { $pkgname:
         ensure  => present,
         source  => $mirror,
-        storage => '/vagrant/apt-cache',
+        storage => '/vagrant/cache/apt',
         path    => $destdir,
         creates => $pkgdir,
     }
