@@ -133,9 +133,10 @@ class mediawiki(
     }
 
     exec { 'include_extra_settings':
-        require => Exec['mediawiki_setup'],
         command => 'echo "include_once \'/vagrant/LocalSettings.php\';" >> LocalSettings.php',
+        cwd     => $dir,
         unless  => 'grep "/vagrant/LocalSettings.php" LocalSettings.php',
+        require => Exec['mediawiki_setup'],
     }
 
     env::var { 'MW_INSTALL_PATH':
