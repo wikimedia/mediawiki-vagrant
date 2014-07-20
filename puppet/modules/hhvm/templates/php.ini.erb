@@ -40,3 +40,7 @@ hhvm.sandbox.sandbox_mode = true
 hhvm.admin_server.port = 9001
 hhvm.server.apc.enable_apc = true
 hhvm.server.apc.table_type = concurrent
+
+; http://vanderveer.be/speed-up-composer-by-using-hhvm-including-a-slowtimer-error-fix/
+hhvm.resource_limit.socket_default_timeout = 300
+hhvm.http.slow_query_threshold = 300000

@@ -170,9 +170,7 @@ class mediawiki(
     }
 
     exec { 'install_composer_deps':
-        # Use HHVM with higher socket timeouts
-        # From http://vanderveer.be/speed-up-composer-by-using-hhvm-including-a-slowtimer-error-fix/
-        command     => 'hhvm -v ResourceLimit.SocketDefaultTimeout=300 -v Http.SlowQueryThreshold=300000 /usr/local/bin/composer install --no-interaction --optimize-autoloader',
+        command     => 'composer install --no-interaction --optimize-autoloader',
         cwd         => $dir,
         environment => [
           'COMPOSER_HOME=/vagrant/cache/composer',
