@@ -70,16 +70,8 @@ class packages::libtiff_tools {
     package { 'libtiff-tools': }
 }
 
-class packages::mediawiki_math {
-    package { 'mediawiki-math': }
-}
-
 class packages::netpbm {
     package { 'netpbm': }
-}
-
-class packages::ocaml_native_compilers {
-    package { 'ocaml-native-compilers': }
 }
 
 class packages::php5_tidy {
