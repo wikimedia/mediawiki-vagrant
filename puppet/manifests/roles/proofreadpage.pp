@@ -4,6 +4,7 @@
 class role::proofreadpage {
     include role::mediawiki
     include role::parserfunctions
+    include role::cite
 
     include packages::djvulibre_bin
     include packages::ghostscript
@@ -16,12 +17,9 @@ class role::proofreadpage {
         },
     }
 
-    mediawiki::extension { [ 'LabeledSectionTransclusion', 'Cite' ]:
-        before => Mediawiki::Extension['ProofreadPage'],
-    }
+    mediawiki::extension { 'LabeledSectionTransclusion': }
 
     mediawiki::extension { 'ProofreadPage':
-        require      => Package['djvulibre-bin', 'ghostscript', 'netpbm'],
         needs_update => true,
         settings     => [
             '$wgEnableUploads = true',
@@ -32,6 +30,10 @@ class role::proofreadpage {
             '$wgDjvuTxt = "djvutxt"',
             '$wgDjvuPostProcessor = "ppmtojpeg"',
             '$wgDjvuOutputExtension = "jpg"',
+        ],
+        require      => [
+            Package['djvulibre-bin', 'ghostscript', 'netpbm'],
+            Mediawiki::Extension['LabeledSectionTransclusion', 'Cite'],
         ],
     }
 }
