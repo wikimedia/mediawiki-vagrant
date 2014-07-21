@@ -1,4 +1,4 @@
 # Do not install recommended or suggested packages by default
 # See http://superuser.com/a/615583
-APT::Install-Recommends "0";
-APT::Install-Suggests "0";
+APT::Install-Recommends "false";
+APT::Install-Suggests "false";

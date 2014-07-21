@@ -55,18 +55,21 @@ file { '/srv':
 
 package { 'python-pip': } -> Package <| provider == pip |>
 
+# Note: both apt config blocks below look like they could use
+# `Package <| provider = apt |>` much like we user `provider == pip` above.
+# Unfortunately, puppet doesn't seem to recognize packages using the system
+# default provider as matching an explicit provider.
 if $::shared_apt_cache {
     file { '/etc/apt/apt.conf.d/20shared-cache':
         content => "Dir::Cache::archives \"${::shared_apt_cache}\";\n",
-    } -> Package <| provider == apt |>
+    } -> Package <| |>
 }
-
 file { '/etc/apt/apt.conf.d/01no-recommended':
     source => 'puppet:///files/apt/01no-recommended',
     owner  => 'root',
     group  => 'root',
-    mode   => '0444'
-} -> Package <| provider == apt |>
+    mode   => '0444',
+} -> Package <| |>
 
 # Remove chef if it is installed in the base image
 # Bug: 67693
