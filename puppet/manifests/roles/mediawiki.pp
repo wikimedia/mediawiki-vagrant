@@ -6,6 +6,7 @@ class role::mediawiki {
 
     # Required to run some tests.
     include packages::php5_tidy
+    include packages::tidy
 
     $wiki_name = 'devwiki'
 

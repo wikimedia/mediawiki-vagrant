@@ -86,6 +86,10 @@ class packages::php5_tidy {
     package { 'php5-tidy': }
 }
 
+class packages::tidy {
+    package { 'tidy': }
+}
+
 class packages::php_luasandbox {
     package { 'php-luasandbox': }
 }
