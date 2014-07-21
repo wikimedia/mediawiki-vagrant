@@ -23,6 +23,7 @@ class php {
         'php5-mcrypt',
         'php5-mysql',
         'php5-sqlite',
+        'php5-readline',
     ]:
         ensure  => present,
         require => Class['::apache::mod::php5'],

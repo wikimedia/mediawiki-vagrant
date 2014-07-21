@@ -78,13 +78,6 @@ class packages::netpbm {
     package { 'netpbm': }
 }
 
-class packages::nose {
-    package { 'nose':
-        ensure   => '1.3.0',
-        provider => 'pip',
-    }
-}
-
 class packages::ocaml_native_compilers {
     package { 'ocaml-native-compilers': }
 }
@@ -97,17 +90,25 @@ class packages::php_luasandbox {
     package { 'php-luasandbox': }
 }
 
-class packages::pil {
-    package { 'python-imaging': }
-}
-
 class packages::poppler_utils {
     package { 'poppler-utils': }
 }
 
-class packages::poster {
-    package { 'poster':
-        ensure   => '0.8.0',
+class packages::python_imaging {
+    package { 'python-imaging': }
+}
+
+class packages::python_nose {
+    package { 'python-nose': }
+}
+
+class packages::python_poster {
+    package { 'python-poster': }
+}
+
+class packages::python_wikitools {
+    package { 'wikitools':
+        ensure   => '1.1',
         provider => 'pip',
     }
 }
@@ -126,11 +127,4 @@ class packages::wbritish_small {
 
 class packages::wikidiff2 {
     package { 'php-wikidiff2': }
-}
-
-class packages::wikitools {
-    package { 'wikitools':
-        ensure   => '1.1',
-        provider => 'pip',
-    }
 }
