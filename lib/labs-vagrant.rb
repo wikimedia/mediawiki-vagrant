@@ -64,12 +64,13 @@ when 'disable-role'
 
 when 'provision'
     puppet_path = '/vagrant/puppet'
-    exec "sudo puppet apply \
+    exec "sudo env FACTER_realm=labs puppet apply \
         --modulepath #{puppet_path}/modules \
         --manifestdir #{puppet_path}/manifests \
         --templatedir #{puppet_path}/templates \
         --fileserverconfig #{puppet_path}/extra/fileserver.conf \
         --config_version #{puppet_path}/extra/config-version \
+        --hiera_config #{puppet_path}/hiera.yaml \
         --verbose \
         --logdest console \
         --detailed-exitcodes \
