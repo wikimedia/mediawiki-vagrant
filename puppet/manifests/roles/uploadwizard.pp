@@ -19,6 +19,7 @@ class role::uploadwizard {
     mediawiki::extension { 'UploadWizard':
         require  => Package['imagemagick'],
         settings => {
+            wgAllowCopyUploads    => true,
             wgEnableUploads       => true,
             wgUseImageMagick      => true,
             wgUploadNavigationUrl => '/wiki/Special:UploadWizard',
@@ -29,7 +30,15 @@ class role::uploadwizard {
                 enableChunked       => 'opt-in',
                 enableFormData      => true,
                 enableMultipleFiles => true,
+                flickrApiKey        => 'b22fa793bf3189dadcd6fe2837843534',
             },
         },
+    }
+
+    mediawiki::settings { 'UploadWizard permissions':
+        values => [
+            '$wgGroupPermissions["*"]["upload"] = true;',
+            '$wgGroupPermissions["*"]["upload_by_url"] = true;',
+        ],
     }
 }
