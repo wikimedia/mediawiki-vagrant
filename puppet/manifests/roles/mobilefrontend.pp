@@ -3,6 +3,7 @@
 # Wikimedia mobile sites.
 class role::mobilefrontend {
     include role::mediawiki
+    include role::mantle
     include role::eventlogging
     include role::pageimages
     include role::textextracts
