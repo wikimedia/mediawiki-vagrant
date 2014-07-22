@@ -4,5 +4,7 @@
 :yaml:
   :datadir: /vagrant/puppet/hieradata
 :hierarchy:
+  - local
+  - "realm/%{::realm}"
   - common
 :logger: console

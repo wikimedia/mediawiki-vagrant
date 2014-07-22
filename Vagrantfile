@@ -151,6 +151,7 @@ Vagrant.configure('2') do |config|
             'fqdn'               => config.vm.hostname,
             'forwarded_port'     => settings[:http_port],
             'shared_apt_cache'   => '/vagrant/cache/apt/',
+            'realm'              => 'vagrant',
         }
 
         if Vagrant::Util::Platform.windows?

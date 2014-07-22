@@ -23,7 +23,7 @@ define multiwiki::wiki {
     $db_pass = $::role::mysql::db_pass
     $admin_user = 'admin'
     $admin_pass = 'vagrant'
-    $server_url = "http://${title}.wiki.local.wmftest.net:${::forwarded_port}"
+    $server_url = "http://${title}${::multiwiki::base_domain}:${::forwarded_port}"
 
     $multiwiki_dir = "${::multiwiki::settings_root}/${wikidb}"
     $settings_dir = "${multiwiki_dir}/settings.d"

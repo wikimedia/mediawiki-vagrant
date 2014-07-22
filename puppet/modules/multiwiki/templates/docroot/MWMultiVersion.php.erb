@@ -90,8 +90,8 @@ class MWMultiVersion {
 	 */
 	private function setSiteInfoForWiki( $serverName ) {
 		$matches = array();
-
-		if ( preg_match( '/^(\w+)\.wiki\.local\.wmftest\.net$/', $serverName, $matches ) ) {
+		$baseDomain = preg_quote( '<%= @base_domain %>' );
+		if ( preg_match( "/^(\w+){$baseDomain}\$/", $serverName, $matches ) ) {
 			$lang = $matches[1];
 		} else {
 			self::error( "Invalid host name ($serverName).\n" );

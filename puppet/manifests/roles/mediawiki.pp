@@ -1,6 +1,13 @@
 # == Class: role::mediawiki
 # Provisions a MediaWiki instance powered by PHP, MySQL, and redis.
-class role::mediawiki {
+#
+# === Parameters
+#
+# [*hostname*]
+#   Hostname for the main wiki. Default '127.0.0.1'
+class role::mediawiki(
+    $hostname = '127.0.0.1',
+){
     include role::generic
     include role::mysql
 
@@ -13,8 +20,8 @@ class role::mediawiki {
     # 'forwarded_port' defaults to 8080, but may be overridden by
     # changing the value of 'FORWARDED_PORT' in Vagrantfile.
     $server_url = $::forwarded_port ? {
-        undef   => 'http://127.0.0.1',
-        default => "http://127.0.0.1:${::forwarded_port}",
+        undef   => "http://${hostname}",
+        default => "http://${hostname}:${::forwarded_port}",
     }
 
     $dir = '/vagrant/mediawiki'

@@ -38,10 +38,10 @@ $wgConf->siteParamsCallback = 'efGetSiteParams';
 
 $wgConf->settings=array(
 	'wgServer' => array(
-		'default' => "//127.0.0.1:<%= @forwarded_port %>",
+		'default' => "<%= scope['::mediawiki::server_url'].gsub(/^[^\/]+/, '') %>",
 	),
 	'wgCanonicalServer' => array(
-		'default' => "http://127.0.0.1:<%= @forwarded_port %>",
+		'default' => "<%= scope['::mediawiki::server_url'] %>",
 	),
 	'wgArticlePath' => array(
 		'default' => '/wiki/$1',

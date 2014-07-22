@@ -6,7 +6,16 @@
 # '*.wiki.local.wmftest.net'. Use multiwiki::wiki to define a new wiki and
 # multiwiki::extension and multiwiki::settings to configure it.
 #
-class multiwiki {
+# === Parameters
+#
+# [*base_domain*]
+#   Base domain to use to construct FQDN of wikis.
+#   Default: '.wiki.local.wmftest.net'
+#
+#
+class multiwiki(
+    $base_domain = '.wiki.local.wmftest.net',
+) {
     require role::mediawiki
 
     $settings_root = "${::role::mediawiki::settings_dir}/multiwiki"
@@ -61,6 +70,18 @@ class multiwiki {
         ensure  => present,
         mode    => '0644',
         content => template('multiwiki/docroot/defines.php.erb'),
+    }
+
+    file { "${docroot}/missing.php":
+        ensure  => present,
+        mode    => '0644',
+        content => template('multiwiki/docroot/missing.php.erb'),
+    }
+
+    file { "${docroot}/MWMultiVersion.php":
+        ensure  => present,
+        mode    => '0644',
+        content => template('multiwiki/docroot/MWMultiVersion.php.erb'),
     }
 
     file { "${docroot}/extensions":
