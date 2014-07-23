@@ -9,6 +9,7 @@ class hhvm {
     include ::apache::mod::proxy_fcgi
 
     package { [ 'hhvm', 'hhvm-dev', 'hhvm-fss', 'hhvm-luasandbox', 'hhvm-wikidiff2' ]:
+        ensure => latest,
         before => Service['hhvm'],
     }
 
