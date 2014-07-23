@@ -70,6 +70,10 @@ class packages::libtiff_tools {
     package { 'libtiff-tools': }
 }
 
+class packages::lua5_1 {
+    package { 'lua5.1': }
+}
+
 class packages::netpbm {
     package { 'netpbm': }
 }

@@ -7,10 +7,11 @@ class role::scribunto {
     include role::geshi
 
     include packages::php_luasandbox
+    include packages::lua5_1
 
     mediawiki::extension { 'Scribunto':
         settings => {
-            wgScribuntoDefaultEngine => 'luasandbox',
+            wgScribuntoDefaultEngine => 'luastandalone',
             wgScribuntoUseGeSHi      => true,
             wgScribuntoUseCodeEditor => true,
         },
@@ -18,7 +19,7 @@ class role::scribunto {
         require  => [
             Mediawiki::Extension['CodeEditor'],
             Mediawiki::Extension['SyntaxHighlight_GeSHi'],
-            Package['php-luasandbox'],
+            Package['php-luasandbox', 'lua5.1'],
         ],
     }
 }
