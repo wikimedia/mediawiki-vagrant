@@ -13,7 +13,7 @@ class xhprof (
 ) {
 
     $xhprof_version      = '0.9.4'
-    $installed_module    = '/usr/lib/php5/20090626/xhprof.so'
+    $installed_module    = '/usr/lib/php5/20121212/xhprof.so'
 
     exec { 'download_xhprof':
         cwd     => '/tmp',
@@ -56,15 +56,14 @@ class xhprof (
     # Directory used, by default, to store profile runs
     file { $profile_storage_dir:
         ensure => directory,
-        owner  => 'vagrant',
-        group  => 'www-data',
+        owner  => $::share_owner,
+        group  => $::share_group,
         mode   => '0775',
     }
 
     # Enable xhprof viewer on /xhprof directory of devwiki
     apache::conf { 'xhprof':
         ensure  => present,
-        site    => $role::mediawiki::wiki_name,
         source  => 'puppet:///modules/xhprof/xhprof-apache-config',
         require => Php::Ini['xhprof'],
     }
