@@ -4,6 +4,7 @@
 # presents introductory content and tasks to newly-registered editors.
 class role::gettingstarted {
     include role::mediawiki
+    include role::cirrussearch
     include role::eventlogging
     include role::guidedtour
 
