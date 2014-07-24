@@ -7,6 +7,8 @@
 class role::centralauth {
     require ::role::mediawiki
     include ::role::antispoof
+    include ::role::renameuser
+    include ::role::usermerge
     include ::mysql
 
     $shared_db = 'centralauth'
@@ -90,6 +92,9 @@ class role::centralauth {
 define role::centralauth::multiwiki {
     $wiki = $title
     $wikidb = "${wiki}wiki"
+
+    role::renameuser::multiwiki { $wiki: }
+    role::usermerge::multiwiki { $wiki: }
 
     multiwiki::extension { "${wiki}:CentralAuth":
         needs_update => true,
