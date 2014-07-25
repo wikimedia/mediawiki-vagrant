@@ -16,6 +16,7 @@ LogLevel error
 </Directory>
 
 <Directory <%= @docroot %>>
+    Require all granted
 </Directory>
 
 <Directory <%= scope['mediawiki::dir'] %>>
@@ -40,5 +41,5 @@ Alias /images "<%= scope['mediawiki::upload_dir'] %>"
 
 <IfDefine ZEND>
     RewriteRule ^/$ /w/index.php [R=301]
-    Alias /wiki /w/index.php
+    Alias /wiki <%= @docroot %>/w/index.php
 </IfDefine>
