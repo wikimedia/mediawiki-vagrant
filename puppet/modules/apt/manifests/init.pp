@@ -6,7 +6,8 @@
 #
 class apt {
     exec { 'update_package_index':
-        command => 'apt-get update',
+        command  => 'apt-get update',
+        schedule => hourly,
     }
 
     file  { '/usr/local/share/wikimedia-pubkey.asc':
