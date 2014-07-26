@@ -24,6 +24,10 @@ $wgDebugLogFile = "/vagrant/logs/mediawiki-{$wgDBname}-debug.log";
 
 foreach(
 	array_merge(
+		// Settings from default wiki
+		glob( '/vagrant/settings.d/puppet-managed/*.php' ),
+		glob( '/vagrant/settings.d/*.php' ),
+		// Settings for this wiki
 		glob( __DIR__ . "/$wgDBname/settings.d/puppet-managed/*.php" ),
 		glob( __DIR__ . "/$wgDBname/settings.d/*.php" )
 	) as $conffile

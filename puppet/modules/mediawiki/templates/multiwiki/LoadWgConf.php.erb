@@ -1,10 +1,12 @@
 <?php
 // This file is managed by Puppet.
 
-$wgCentralAuthAutoLoginWikis = array( 'devwiki'=>'wiki' );
-$wgLocalDatabases[] = 'wiki';
+$wgCentralAuthAutoLoginWikis = array();
+$wgLocalDatabases = array();
 foreach ( glob( __DIR__ . '/*/dbConf.php' ) as $file) {
-	include_once $file;
+	// Use require rather than require_once as something in the request may have
+	// loaded the dbConf files previously.
+	require $file;
 }
 
 $wgConf->wikis = $wgLocalDatabases;

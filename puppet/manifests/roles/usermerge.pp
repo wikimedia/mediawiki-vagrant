@@ -6,11 +6,3 @@ class role::usermerge {
     include role::mediawiki
     mediawiki::extension { 'UserMerge': }
 }
-
-# == Define: ::role::usermerge::multiwiki
-# Configure a multiwiki instance for UserMerge.
-#
-define role::usermerge::multiwiki {
-    $wiki = $title
-    multiwiki::extension { "${wiki}:UserMerge": }
-}

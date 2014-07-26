@@ -46,8 +46,7 @@ class role::simple_performant {
     }
 
     exec { 'rebuild_localisation_cache':
-        command     => 'php5 maintenance/rebuildLocalisationCache.php --force',
-        cwd         => '/vagrant/mediawiki',
+        command     => 'mwscript rebuildLocalisationCache.php --force',
         user        => 'www-data',
         refreshonly => true,
     }

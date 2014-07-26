@@ -1,0 +1,5 @@
+<?php
+// This file is managed by Puppet.
+
+$wgLocalDatabases[] = '<%= @db_name %>';
+$wgCentralAuthAutoLoginWikis['<%= @wiki_name %>'] = '<%= @db_name %>';

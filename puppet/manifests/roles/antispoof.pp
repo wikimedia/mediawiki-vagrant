@@ -8,10 +8,10 @@ class role::antispoof {
     }
 
     exec { 'populate_spoofuser':
-        command     => "php5 ${::role::mediawiki::dir}/extensions/AntiSpoof/maintenance/batchAntiSpoof.php",
+        command     => "foreachwiki ${::role::mediawiki::dir}/extensions/AntiSpoof/maintenance/batchAntiSpoof.php",
         refreshonly => true,
         user        => 'www-data',
         require     => Mediawiki::Extension['AntiSpoof'],
-        subscribe   => Exec['update_database'],
+        subscribe   => Exec['update_all_databases'],
     }
 }

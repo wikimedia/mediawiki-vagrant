@@ -89,12 +89,11 @@ class MWMultiVersion {
 	 * @param $serverName the ServerName for this wiki -- $_SERVER['SERVER_NAME']
 	 */
 	private function setSiteInfoForWiki( $serverName ) {
+		$lang = '';
 		$matches = array();
 		$baseDomain = preg_quote( '<%= @base_domain %>' );
 		if ( preg_match( "/^(\w+){$baseDomain}\$/", $serverName, $matches ) ) {
 			$lang = $matches[1];
-		} else {
-			self::error( "Invalid host name ($serverName).\n" );
 		}
 		$this->loadDBFromSite( 'wiki', $lang );
 	}
@@ -130,8 +129,7 @@ class MWMultiVersion {
 	 * @param $lang string
 	 */
 	private function loadDBFromSite( $site, $lang ) {
-		$dbSuffix = $site;
-		$this->db = str_replace( '-', '_', $lang . $dbSuffix );
+		$this->db = str_replace( '-', '_', "{$lang}{$site}" );
 	}
 
 	/**

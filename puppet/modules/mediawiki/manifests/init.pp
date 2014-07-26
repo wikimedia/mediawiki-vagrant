@@ -68,32 +68,13 @@ class mediawiki(
 
     include mediawiki::apache
     include mediawiki::jobrunner
+    include mediawiki::multiwiki
 
     $managed_settings_dir = "${settings_dir}/puppet-managed"
-
-    $installer_args = {
-        dbname     => $db_name,
-        dbpass     => $db_pass,
-        dbuser     => $db_user,
-        pass       => $admin_pass,
-        scriptpath => '/w',
-        server     => $server_url,
-    }
 
     git::clone { 'mediawiki/core':
         directory => $dir,
         branch    => $branch,
-    }
-
-    # If an auto-generated LocalSettings.php file exists but the database it
-    # refers to is missing, assume it is residual of a discarded instance and
-    # delete it.
-    exec { 'check_settings':
-        command => 'rm -f LocalSettings.php',
-        cwd     => $dir,
-        unless  => 'start mediawiki-bridge && php5 maintenance/sql.php </dev/null',
-        require => [ Service['mysql'], File['mediawiki_upstart_bridge'] ],
-        notify  => Exec['mediawiki_setup'],
     }
 
     file { 'mediawiki_upstart_bridge':
@@ -102,11 +83,11 @@ class mediawiki(
         require => Git::Clone['mediawiki/core'],
     }
 
-    file { $settings_dir:
-        ensure => directory,
-        owner  => $::share_owner,
-        group  => $::share_group,
-    }
+   file { $settings_dir:
+       ensure => directory,
+       owner  => $::share_owner,
+       group  => $::share_group,
+   }
 
     file { [ $cache_dir, $upload_dir ]:
         ensure => directory,
@@ -126,17 +107,23 @@ class mediawiki(
         source  => 'puppet:///modules/mediawiki/mediawiki-settings.d-empty',
     }
 
-    exec { 'mediawiki_setup':
-        command => template('mediawiki/install.php.erb'),
-        creates => "${dir}/LocalSettings.php",
-        require => [ Exec['set_mysql_password'], Git::Clone['mediawiki/core'], File[$upload_dir] ],
+    mediawiki::wiki{ $wiki_name:
+        db_name       => $db_name,
+        upload_dir    => $upload_dir,
+        server_url    => $server_url,
+        primary_wiki  => true,
+        require       => [
+            Exec['set_mysql_password'],
+            Git::Clone['mediawiki/core'],
+            File[$upload_dir],
+        ],
     }
 
-    exec { 'include_extra_settings':
-        command => 'echo "include_once \'/vagrant/LocalSettings.php\';" >> LocalSettings.php',
-        cwd     => $dir,
-        unless  => 'grep "/vagrant/LocalSettings.php" LocalSettings.php',
-        require => Exec['mediawiki_setup'],
+    file { "${dir}/LocalSettings.php":
+        ensure  => link,
+        force   => true,
+        target  => "${::mediawiki::multiwiki::settings_root}/${db_name}/LocalSettings.php",
+        require => MediaWiki::Wiki[$wiki_name],
     }
 
     env::var { 'MW_INSTALL_PATH':
@@ -162,8 +149,8 @@ class mediawiki(
         mode    => '0755',
     }
 
-    exec { 'update_database':
-        command     => 'php5 maintenance/update.php --quick',
+    exec { 'update_all_databases':
+        command     => 'foreachwiki update.php --quick',
         cwd         => $dir,
         user        => 'www-data',
         refreshonly => true,

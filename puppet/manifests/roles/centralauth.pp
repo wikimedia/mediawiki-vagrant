@@ -13,42 +13,32 @@ class role::centralauth {
 
     $shared_db = 'centralauth'
     $loginwiki = 'login'
-    $ca_common_settings = {
-        wgCentralAuthDatabase        => $shared_db,
-        wgCentralAuthCookies         => true,
-        wgCentralAuthCreateOnView    => true,
-        wgCentralAuthLoginWiki       => "${loginwiki}wiki",
-        wgCentralAuthSilentLogin     => true,
-        wgCentralAuthUseOldAutoLogin => false,
-        wgCentralAuthAutoMigrate     => true,
-        wgCentralAuthAutoNew         => true,
-        wgSharedDB                   => $shared_db,
-        wgSharedTables               => ['objectcache'],
-    }
-    $ca_auth_settings = [
-      '$wgGroupPermissions["sysop"]["centralauth-lock"] = true;',
-      '$wgGroupPermissions["bureaucrat"]["centralauth-oversight"] = true;',
-      '$wgGroupPermissions["bureaucrat"]["centralauth-unmerge"] = true;',
-      '$wgGroupPermissions["bureaucrat"]["centralauth-globalrename"] = true;',
-    ]
 
     mediawiki::extension { 'CentralAuth':
         needs_update => true,
-        settings     => $ca_common_settings,
+        settings     => {
+            wgCentralAuthCookies         => true,
+            wgCentralAuthAutoNew         => true,
+            wgCentralAuthDatabase        => $shared_db,
+            wgCentralAuthAutoMigrate     => true,
+            wgCentralAuthCreateOnView    => true,
+            wgCentralAuthLoginWiki       => "${loginwiki}wiki",
+            wgCentralAuthSilentLogin     => true,
+            wgCentralAuthUseOldAutoLogin => false,
+        }
     }
 
     mediawiki::settings { 'CentralAuthPermissions':
-        values => $ca_auth_settings,
+        values => [
+            '$wgGroupPermissions["sysop"]["centralauth-lock"] = true;',
+            '$wgGroupPermissions["bureaucrat"]["centralauth-oversight"] = true;',
+            '$wgGroupPermissions["bureaucrat"]["centralauth-unmerge"] = true;',
+            '$wgGroupPermissions["bureaucrat"]["centralauth-globalrename"] = true;',
+        ]
     }
 
     mysql::db { $shared_db:
         ensure => present,
-    }
-
-    mysql::sql { 'Create shared objectcache':
-        sql     => "CREATE TABLE ${shared_db}.objectcache LIKE ${::role::mysql::db_name}.objectcache;",
-        unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${shared_db}' AND table_name = 'objectcache';",
-        require => Mysql::Db[$shared_db],
     }
 
     mysql::sql { 'Create CentralAuth tables':
@@ -70,50 +60,15 @@ class role::centralauth {
     }
 
     exec { 'migrate_admin_user_to_centralauth':
-        command     => "php5 ${::role::mediawiki::dir}/extensions/CentralAuth/maintenance/migrateAccount.php --username Admin",
+        command     => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username Admin",
         refreshonly => true,
         user        => 'www-data',
         subscribe   => Mysql::Sql['Create CentralAuth tables'],
         require     => [
-          Multiwiki::Wiki[$loginwiki],
-          Multiwiki::Wiki['centralauthtest'],
+          Mediawiki::Wiki[$loginwiki],
+          Mediawiki::Wiki['centralauthtest'],
         ],
     }
 
-    multiwiki::wiki{ $loginwiki: }
-    multiwiki::wiki{ 'centralauthtest': }
-
-    role::centralauth::multiwiki { [$loginwiki, 'centralauthtest']: }
-}
-
-# == Define: ::role::centralauth::multiwiki
-# Configure a multiwiki instance for CentralAuth.
-#
-define role::centralauth::multiwiki {
-    $wiki = $title
-    $wikidb = "${wiki}wiki"
-
-    role::renameuser::multiwiki { $wiki: }
-    role::usermerge::multiwiki { $wiki: }
-
-    multiwiki::extension { "${wiki}:CentralAuth":
-        needs_update => true,
-        settings     => $::role::centralauth::ca_common_settings,
-    }
-
-    multiwiki::settings { "${wiki}:CentralAuthPermissions":
-        values => $::role::centralauth::ca_auth_settings,
-    }
-
-    multiwiki::extension { "${wiki}:AntiSpoof":
-        needs_update => true,
-    }
-
-    exec { "populate_${wiki}_spoofuser":
-        command     => "mwscript extensions/AntiSpoof/maintenance/batchAntiSpoof.php --wiki ${wikidb}",
-        refreshonly => true,
-        user        => 'www-data',
-        require     => Multiwiki::Extension["${wiki}:AntiSpoof"],
-        subscribe   => Exec["update_${wikidb}_database"],
-    }
+    mediawiki::wiki{ [ $loginwiki, 'centralauthtest' ]: }
 }

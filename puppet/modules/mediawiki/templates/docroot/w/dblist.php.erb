@@ -1,0 +1,9 @@
+<?php
+// Load database configuration for all multiwiki instances
+// This file is managed by Puppet.
+
+$wgLocalDatabases = array();
+$wgCentralAuthAutoLoginWikis = array();
+foreach ( glob( '<%= @settings_root %>/*/dbConf.php' ) as $file ) {
+	require $file;
+}

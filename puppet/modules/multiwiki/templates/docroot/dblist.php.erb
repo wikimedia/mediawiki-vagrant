@@ -1,8 +1,0 @@
-<?php
-// Load database configuration for all multiwiki instances
-// This file is managed by Puppet.
-
-$wgLocalDatabases = array( 'devwiki' );
-foreach ( glob( '<%= @settings_root %>/*/dbConf.php' ) as $file) {
-	include_once $file;
-}

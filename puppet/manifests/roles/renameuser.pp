@@ -6,11 +6,3 @@ class role::renameuser {
     include role::mediawiki
     mediawiki::extension { 'Renameuser': }
 }
-
-# == Define: ::role::renameuser::multiwiki
-# Configure a multiwiki instance for Renameuser.
-#
-define role::renameuser::multiwiki {
-    $wiki = $title
-    multiwiki::extension { "${wiki}:Renameuser": }
-}

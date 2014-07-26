@@ -54,13 +54,12 @@ class role::cirrussearch {
     }
 
     exec { 'build_search_index':
-        command => 'php5 maintenance/updateSearchIndexConfig.php --startOver && php5 maintenance/forceSearchIndex.php',
-        onlyif  => 'php5 maintenance/cirrusNeedsToBeBuilt.php --quiet',
-        cwd     => "${mediawiki::dir}/extensions/CirrusSearch",
+        command => 'foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --startOver && foreachwiki extensions/CirrusSearch/maintenance/forceSearchIndex.php',
+        onlyif  => 'mwscript extensions/CirrusSearch/maintenance/cirrusNeedsToBeBuilt.php --quiet',
         user    => 'www-data',
         require => [
             Mediawiki::Extension['CirrusSearch'],
-            Exec['update_database'],
+            Exec['update_all_databases'],
         ]
     }
 }

@@ -2,8 +2,16 @@
 #
 # This class configures the Apache HTTP server to serve MediaWiki.
 #
-class mediawiki::apache {
+# === Parameters
+#
+# [*docroot*]
+#   Document root for Apache vhost serving MediaWiki. Default is /var/www
+#
+class mediawiki::apache(
+    $docroot = '/var/www',
+) {
     include ::mediawiki
+    include ::mediawiki::multiwiki
 
     include ::apache
     include ::apache::mod::alias
@@ -21,13 +29,13 @@ class mediawiki::apache {
         require => Class['::apache::mod::alias', '::apache::mod::rewrite', '::apache::mod::proxy_fcgi'],
     }
 
-    file { '/var/www/favicon.ico':
+    file { "${docroot}/favicon.ico":
         ensure  => file,
         require => Package['apache2'],
         source  => 'puppet:///modules/mediawiki/favicon.ico',
     }
 
-    file { '/var/www/info.php':
+    file { "${docroot}/info.php":
         ensure  => file,
         require => Package['apache2'],
         source  => 'puppet:///modules/mediawiki/info.php',

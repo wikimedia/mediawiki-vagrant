@@ -1,22 +1,36 @@
+# == Define: mediawiki::import_dump
+#
 # Imports an xml dump into the wiki.
 #
-#  $xml_dump should be the /fully/qualified/path to a dump
+# === Parameters
+# [*xml_dump*]
+#   Fully qualified path to a dump file to import.
 #
-#  $dump_sentinel_page should specify a page unique to the dump.  As long as
-#   $dump_sentinel_page is not present in the wiki we will keep trying the import.
+# [*dump_sentinel_page*]
+#   Name of unique page in the wiki created by the dump. As long as this page
+#   is not present in the wiki we will keep trying the import.
 #
-# We try to do this only on the first run and not clobber existing imports.
+# [*wiki*]
+#   Wiki to import page into. The default will import into the primary wiki.
+#
+# == Usage
+#
+#   mediawiki::import_dump { 'labs_privacy':
+#       xml_dump           => '/vagrant/labs_privacy_policy.xml',
+#       dump_sentinel_page => 'Testwiki:Privacy_policy',
+#   }
 #
 define mediawiki::import_dump(
     $xml_dump,
     $dump_sentinel_page,
+    $wiki = $::mediawiki::db_name,
 ) {
     include mediawiki
 
     exec { 'import_dump':
         require   => Class['mediawiki'],
-        command   => "php5 ${mediawiki::dir}/maintenance/importDump.php ${xml_dump}",
-        unless    => "php5 ${mediawiki::dir}/maintenance/pageExists.php ${dump_sentinel_page}",
+        command   => "mwscript importDump.php --wiki=${wiki} ${xml_dump}",
+        unless    => "mwscript pageExists.php --wiki=${wiki} ${dump_sentinel_page}",
         user      => 'www-data',
     }
 }

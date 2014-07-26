@@ -23,8 +23,7 @@ class role::simple_miser {
     }
 
     exec { 'rebuild_file_cache':
-        command     => 'php5 maintenance/rebuildFileCache.php',
-        cwd         => '/vagrant/mediawiki',
+        command     => 'foreachwiki rebuildFileCache.php',
         user        => 'www-data',
         refreshonly => true,
     }

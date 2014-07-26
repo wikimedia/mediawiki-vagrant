@@ -1,0 +1,1 @@
+/usr/local/bin/multiversion-install <%= @db_name %> <%= @admin_user %> <%= @installer_args.map { |k,v| v ? "--#{k} #{v} " : '' }.join() %>

@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 # Update local git repositories
+# Command run in VM by `vagrant git-update`
 
 . /etc/profile.d/set_MW_INSTALL_PATH.sh
 
@@ -56,7 +57,7 @@ composer update --no-interaction --optimize-autoloader
 echo
 
 echo -e "\e[36m==> Updating database ...\e[0m"
-php5 maintenance/update.php --quick --doshared
+foreachwiki update.php --quick --doshared
 
 if [[ ${#UPDATE_ERRORS[@]} -ne 0 ]]; then
   echo

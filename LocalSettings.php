@@ -83,7 +83,6 @@ $wgJobQueueAggregator = array(
 	'redisConfig'  => array( 'connectTimeout' => 2 ),
 );
 
-
 $wgDisableCounters = true;
 
 $wgLegacyJavaScriptGlobals = false;
@@ -100,19 +99,7 @@ foreach( $wgProfilerParams as $param => $cls ) {
 	}
 }
 
-if ( getenv( 'MULTIWIKI' ) ) {
-	require_once __DIR__ . '/settings.d/multiwiki/CommonSettings.php';
-} else {
-	// Load configuration fragments from /vagrant/settings.d
-	foreach(
-		array_merge(
-			glob( __DIR__ . '/settings.d/puppet-managed/*.php' ),
-			glob( __DIR__ . '/settings.d/*.php' )
-		) as $conffile
-	) {
-		include_once $conffile;
-	}
-}
+require_once __DIR__ . '/settings.d/wikis/CommonSettings.php';
 
 // XXX: Is this a bug in core? (ori-l, 27-Aug-2013)
 $wgHooks['GetIP'][] = function ( &$ip ) {

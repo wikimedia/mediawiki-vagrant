@@ -5,11 +5,9 @@
 class role::commons {
     include ::role::mediawiki
     include ::role::multimedia
-    require ::role::uploadwizard
-    require ::role::thumb_on_404
+    include ::role::thumb_on_404
 
-    multiwiki::wiki { 'commons': }
-    role::uploadwizard::multiwiki { 'commons': }
+    mediawiki::wiki { 'commons': }
     role::thumb_on_404::multiwiki { 'commons': }
 
     file { '/srv/commonsimages':
@@ -19,7 +17,7 @@ class role::commons {
         mode   => '0775',
     }
 
-    multiwiki::settings { 'commons:general':
+    mediawiki::settings { 'commons:general':
         values => {
             wgUseInstantCommons    => false,
             wgUploadDirectory      => '/srv/commonsimages',
@@ -32,8 +30,10 @@ class role::commons {
         values => template('commons_foreign_repo.php.erb'),
     }
 
-    apache::site_conf { 'Custom /images for commons multiwiki':
-        site    => 'multiwiki',
+    apache::site_conf { 'custom_images_dir_for_commons':
+        site    => $::mediawiki::wiki_name,
         content => template('commons_images_folder.conf.erb'),
+        require => Mediawiki::Wiki['commons'],
     }
+
 }

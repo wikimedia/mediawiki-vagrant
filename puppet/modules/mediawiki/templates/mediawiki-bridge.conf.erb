@@ -7,7 +7,7 @@ emits mediawiki-ready
 
 script
   exec >/dev/null 2>&1
-  while [ ! -r "<%= @dir %>/LocalSettings.php" ] || ! ( /usr/bin/php5 <%= @dir %>/maintenance/sql.php </dev/null ); do sleep 1; done
+  while [ ! -r "<%= @dir %>/LocalSettings.php" ] || ! ( /usr/local/bin/mwscript sql.php </dev/null ); do sleep 1; done
   initctl emit mediawiki-ready
 end script
 

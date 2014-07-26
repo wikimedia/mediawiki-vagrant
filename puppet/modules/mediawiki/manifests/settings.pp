@@ -9,6 +9,11 @@
 #   specified as a hash, array, or string. See examples below. Empty by
 #   default.
 #
+# [*wiki*]
+#   Wiki to add settings for. The default will install the settings for all
+#   wikis. The wiki name can also be specified in the resource's title as
+#   'wiki:rest_of_title'.
+#
 # [*ensure*]
 #   If 'present' (the default), Puppet will install the settings. If
 #   'absent', Puppet will delete its configuration file.
@@ -29,10 +34,6 @@
 #   Block of PHP code or documentation to stick in the settings file.
 #   The content will be added *after* the settings values. Empty by
 #   default.
-#
-# [*settings_dir*]
-#   Directory to write settings file to.
-#   Default $::mediawiki::managed_settings_dir
 #
 # === Examples
 #
@@ -67,25 +68,75 @@
 #     values => template('db_debug/settings.php.erb'),
 #   }
 #
+# If you have configured multiple wikis, settings can be applied to a particular
+# wiki by either providing a value for the 'wiki' parameter:
+#
+#  mediawiki::settings { 'only for commons':
+#    values => ...,
+#    wiki   => 'commons',
+#  }
+#
+# Or by starting the resource title with 'wiki_name:':
+#
+#  mediawiki::settings { 'commons:also for commons':
+#    values => ...,
+#  }
+#
+# By default, settings are applied to all wikis. If you have some settings
+# that should *only* be applied to the default wiki, use
+# `wiki => $::mediawki::wiki_name`.
+#
 define mediawiki::settings(
     $values,
+    $wiki         = undef,
     $ensure       = present,
     $priority     = 10,
     $header       = '',
     $footer       = '',
-    $settings_dir = $::mediawiki::managed_settings_dir,
 ) {
     include mediawiki
 
+    # Set wiki from title if appropriate
+    if $title =~ /^(\w+):(.+)$/ {
+        $parts = split($title, ':')
+        $wiki_name = $wiki ? {
+            undef   => $parts[0],
+            default => $wiki,
+        }
+        $settings_name = $parts[1]
+
+    } else {
+        $wiki_name = $wiki
+        $settings_name = $title
+    }
+
+    if $wiki_name == $::mediawiki::wiki_name {
+        $db_name = $::mediawiki::db_name
+    } elsif $wiki_name =~ /wiki$/ {
+        $db_name = $wiki_name
+    } else {
+        $db_name = "${wiki_name}wiki"
+    }
+
+    # Determine collection to place settings in: shared or wiki specific
+    $dir = $wiki_name ? {
+        undef   => $::mediawiki::managed_settings_dir,
+        default => "${::mediawiki::multiwiki::settings_root}/${db_name}/settings.d/puppet-managed",
+    }
+
     # make a safe filename based on our title
-    $fname = inline_template('<%= @title.gsub(/\W/, "-") %>')
-    $settings_file = sprintf('%s/%.2d-%s.php', $settings_dir, $priority, $fname)
+    $fname = inline_template('<%= @settings_name.gsub(/\W/, "-") %>')
+    $settings_file = sprintf('%s/%.2d-%s.php', $dir, $priority, $fname)
 
     file { $settings_file:
         ensure  => $ensure,
         content => template('mediawiki/settings.php.erb'),
         owner   => $::share_owner,
         group   => $::share_group,
-        require => Exec['mediawiki_setup'],
+    }
+
+    if $wiki_name {
+      # Ensure that wiki is created before adding settings
+      Mediawiki::Wiki[$wiki_name] -> File[$settings_file]
     }
 }

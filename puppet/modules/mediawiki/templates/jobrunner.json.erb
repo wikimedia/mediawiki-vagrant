@@ -22,5 +22,5 @@
         },
     },
 
-    "dispatcher": "nice -19 /usr/bin/php5 <%= scope['::mediawiki::dir'] %>/maintenance/runJobs.php --wiki=%(db)x --type=%(type)x --maxtime=%(maxtime)x --memory-limit=%(maxmem)x --result=json"
+    "dispatcher": "nice -19 mwscript maintenance/runJobs.php --wiki=%(db)x --type=%(type)x --maxtime=%(maxtime)x --memory-limit=%(maxmem)x --result=json"
 }

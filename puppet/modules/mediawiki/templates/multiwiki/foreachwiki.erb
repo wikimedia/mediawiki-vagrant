@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+
+# Ensure that the script is run as the www-data user
+[[ $(whoami) = www-data ]] || exec sudo -u www-data -- "$0" "$@"
+
+CMD=$1
+shift
+
+for db in $(alldbs); do
+  echo -----------------------------------------------------------------
+  echo $db
+  echo -----------------------------------------------------------------
+  mwscript "$CMD" --wiki=$db "$@" |
+  sed -u "s/^/$db:  /"
+done

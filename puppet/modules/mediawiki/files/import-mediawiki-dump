@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env bash
+# Command run in VM for `vagrant import-dump`
 . /etc/profile.d/set_MW_INSTALL_PATH.sh
 cd "$MW_INSTALL_PATH"
-sudo -u www-data php5 maintenance/importDump.php "/vagrant/$1"
+/usr/local/bin/mwscript importDump.php -- "/vagrant/$1"
+/usr/local/bin/mwscript rebuildrecentchanges.php

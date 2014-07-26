@@ -68,16 +68,14 @@ EOT
 		!isset( $argv[1] ) ||
 		!preg_match( '/^([^-]|--wiki(=|$))/', $argv[1] )
 	) {
+		// Insert a `--wiki=...` parameter pointing to the default wiki
 		$argv = array_merge(
-			array( $argv[0], "--wiki=wiki" ),
+			array( $argv[0], "--wiki=<%= scope['::mediawiki::db_name'] %>" ),
 			array_slice( $argv, 1 )
 		);
-	} else {
-		// Enable MediaWiki-Vagrant's multiwiki processing in LocalSettings.php
-		putenv('MULTIWIKI=1');
 	}
 
-	require_once( '/srv/multiwiki/MWVersion.php' );
+	require_once( '<%= @script_dir %>/MWVersion.php' );
 	$file = getMediaWikiCli( $relFile );
 	if ( !file_exists( $file ) ) {
 		fwrite( STDERR, "The MediaWiki script file \"{$file}\" does not exist.\n" );

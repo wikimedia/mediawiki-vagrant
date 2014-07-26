@@ -12,6 +12,11 @@
 #   delete the cloned Git repository which contains the extension's
 #   files.
 #
+# [*wiki*]
+#   Wiki to add settings for. The default will install the settings for all
+#   wikis. The wiki name can also be specified in the resource's title as
+#   'wiki:rest_of_title'.
+#
 # [*extension*]
 #   The canonical name for the extension. This value is used to generate
 #   sensible defaults for the installation path and Gerrit repository
@@ -42,10 +47,6 @@
 #   This parameter contains configuration settings for the extension.
 #   Settings may be specified as a hash, array, or string. See examples
 #   below. Empty by default.
-#
-# [*settings_dir*]
-#   Directory to write settings file to.
-#   Default $::mediawiki::managed_settings_dir
 #
 # [*browser_tests*]
 #   Whether or not to install the dependencies necessary to execute browser
@@ -91,37 +92,79 @@
 #     settings => template('math/settings.php.erb'),
 #   }
 #
+# If you have configured multiple wikis, an extension can be eanbled for
+# a particular wiki by either providing a value for the 'wiki' parameter:
+#
+#  mediawiki::extension { 'SomeCoolExtension':
+#    wiki     => 'commons',
+#    settings => ...,
+#  }
+#
+# Or by starting the resource title with 'wiki_name:':
+#
+#  mediawiki::extension { 'commons:SomeCoolExtension':
+#    values => ...,
+#  }
+#
+# By default, extensions are installed for all wikis. If you have some
+# extensions that should *only* be applied to the default wiki, use
+# `wiki => $::mediawki::wiki_name`.
+#
 define mediawiki::extension(
     $ensure         = present,
-    $extension      = $title,
-    $entrypoint     = "${title}.php",
+    $wiki           = undef,
+    $extension      = undef,
+    $entrypoint     = undef,
     $priority       = 10,
     $needs_update   = false,
     $branch         = undef,
     $settings       = {},
-    $settings_dir   = $::mediawiki::managed_settings_dir,
     $browser_tests  = false,
     $composer       = false,
 ) {
     include mediawiki
 
-    $extension_dir = "${mediawiki::dir}/extensions/${extension}"
-
-    if ! defined(Git::Clone["mediawiki/extensions/${extension}"]) {
-        git::clone { "mediawiki/extensions/${extension}":
-            directory => $extension_dir,
-            branch    => $branch,
-            require   => Git::Clone['mediawiki/core'],
+    # Set wiki from title if appropriate
+    if $title =~ /^(\w+):(.+)$/ {
+        $parts = split($title, ':')
+        $ext_wiki = $wiki ? {
+            undef   => $parts[0],
+            default => $wiki,
         }
+        $ext_name = $extension ? {
+            undef   => $parts[1],
+            default => $extension,
+        }
+
+    } else {
+        $ext_name = $extension ? {
+            undef   => $title,
+            default => $extension,
+        }
+        $ext_wiki = $wiki
+    }
+
+    $ext_entrypoint = $entrypoint ? {
+        undef   => "${ext_name}.php",
+        default => $entrypoint,
+    }
+
+    $ext_dir = "${mediawiki::dir}/extensions/${ext_name}"
+    $ext_repo = "mediawiki/extensions/${ext_name}"
+
+    git::clone { $ext_repo:
+        directory => $ext_dir,
+        branch    => $branch,
+        require   => Git::Clone['mediawiki/core'],
     }
 
     mediawiki::settings { $title:
+        wiki         => $ext_wiki,
         ensure       => $ensure,
-        header       => sprintf('include_once "$IP/extensions/%s/%s";', $extension, $entrypoint),
+        header       => sprintf('include_once "$IP/extensions/%s/%s";', $ext_name, $ext_entrypoint),
         values       => $settings,
         priority     => $priority,
-        settings_dir => $settings_dir,
-        require      => Git::Clone["mediawiki/extensions/${extension}"],
+        require      => Git::Clone[$ext_repo],
     }
 
     if $composer {
@@ -133,7 +176,7 @@ define mediawiki::extension(
     if $needs_update {
         # If the extension requires a schema migration, set up the
         # settings file resource to notify update.php.
-        Mediawiki::Settings[$extension] ~> Exec['update_database']
+        Mediawiki::Settings[$title] ~> Exec['update_all_databases']
     }
 
     if $browser_tests {
@@ -143,8 +186,8 @@ define mediawiki::extension(
         }
 
         browsertests::bundle { "${title}_browsertests_bundle":
-          directory => "${extension_dir}/${browser_tests_dir}",
-          require   => Git::Clone["mediawiki/extensions/${extension}"],
+          directory => "${ext_dir}/${browser_tests_dir}",
+          require   => Git::Clone[$ext_repo],
         }
     }
 }

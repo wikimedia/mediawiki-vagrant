@@ -14,37 +14,22 @@ class role::uploadwizard {
     include packages::python_wikitools
     include packages::imagemagick
 
-    $uw_common_settings = {
-        wgEnableUploads       => true,
-        wgUseImageMagick      => true,
-        wgUploadNavigationUrl => '/wiki/Special:UploadWizard',
-        wgApiFrameOptions     => 'SAMEORIGIN',
-        wgUploadWizardConfig  => {
-            altUploadForm       => 'Special:Upload',
-            autoCategory        => 'Uploaded with UploadWizard',
-            enableChunked       => 'opt-in',
-            enableFormData      => true,
-            enableMultipleFiles => true,
-        },
-    }
-
     mediawiki::extension { 'Campaigns': }
 
     mediawiki::extension { 'UploadWizard':
         require  => Package['imagemagick'],
-        settings => $uw_common_settings,
-    }
-}
-
-# == Define: ::role::uploadwizard::multiwiki
-# Configure a multiwiki instance with UploadWizard.
-define role::uploadwizard::multiwiki {
-    include packages::imagemagick
-
-    multiwiki::extension { "${title}:Campaigns": }
-
-    multiwiki::extension { "${title}:UploadWizard":
-        require  => Package['imagemagick'],
-        settings => $::role::uploadwizard::uw_common_settings,
+        settings => {
+            wgEnableUploads       => true,
+            wgUseImageMagick      => true,
+            wgUploadNavigationUrl => '/wiki/Special:UploadWizard',
+            wgApiFrameOptions     => 'SAMEORIGIN',
+            wgUploadWizardConfig  => {
+                altUploadForm       => 'Special:Upload',
+                autoCategory        => 'Uploaded with UploadWizard',
+                enableChunked       => 'opt-in',
+                enableFormData      => true,
+                enableMultipleFiles => true,
+            },
+        },
     }
 }

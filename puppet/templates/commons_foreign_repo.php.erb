@@ -1,17 +1,19 @@
-$wgUseInstantCommons = false;
-$wgForeignFileRepos[] = array(
-    'class'            => 'ForeignDBViaLBRepo',
-    'name'             => 'shared',
-    'directory'        => '/srv/commonsimages',
-    'url'              => '//commons.wiki.local.wmftest.net:<%= scope["::forwarded_port"] %>/commonsimages',
-    'hashLevels'       => 2,
-    'thumbScriptUrl'   => false,
-    'transformVia404'  => true,
-    'hasSharedCache'   => true,
-    'descBaseUrl'      => '//commons.wiki.local.wmftest.net:<%= scope["::forwarded_port"] %>/wiki/File:',
-    'scriptDirUrl'     => '//commons.wiki.local.wmftest.net:<%= scope["::forwarded_port"] %>/w',
-    'fetchDescription' => true,
-    'wiki'             => 'commonswiki',
-    'initialCapital'   => true,
-    'abbrvThreshold'   => 160,
-);
+if ( $wgDBname !== 'commonswiki' ) {
+	$wgUseInstantCommons = false;
+	$wgForeignFileRepos[] = array(
+		'class'            => 'ForeignDBViaLBRepo',
+		'name'             => 'shared',
+		'directory'        => '/srv/commonsimages',
+		'url'              => '//commons<%= scope['::mediawiki::multiwiki::base_domain'] %>:<%= scope["::forwarded_port"] %>/commonsimages',
+		'hashLevels'       => 2,
+		'thumbScriptUrl'   => false,
+		'transformVia404'  => true,
+		'hasSharedCache'   => true,
+		'descBaseUrl'      => '//commons<%= scope['::mediawiki::multiwiki::base_domain'] %>:<%= scope["::forwarded_port"] %>/wiki/File:',
+		'scriptDirUrl'     => '//commons<%= scope['::mediawiki::multiwiki::base_domain'] %>:<%= scope["::forwarded_port"] %>/w',
+		'fetchDescription' => true,
+		'wiki'             => 'commonswiki',
+		'initialCapital'   => true,
+		'abbrvThreshold'   => 160,
+	);
+}

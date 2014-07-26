@@ -1,8 +1,0 @@
-<?php
-// This file is managed by Puppet.
-
-$wgConf->settings['wgServer']['<%= @wikidb %>'] = '<%= @server_url.gsub(/^[^\/]+/, '') %>';
-$wgConf->settings['wgCanonicalServer']['<%= @wikidb %>'] = '<%= @server_url %>';
-$wgConf->settings['wgArticlePath']['<%= @wikidb %>'] = '/wiki/$1';
-$wgConf->settings['wgScriptPath']['<%= @wikidb %>'] = '';
-$wgConf->settings['wgSitename']['<%= @wikidb %>'] = '<%= @wikidb %>';

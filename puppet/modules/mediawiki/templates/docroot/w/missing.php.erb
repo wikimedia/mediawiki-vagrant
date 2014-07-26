@@ -56,9 +56,12 @@ header( 'Content-Type: text/html; charset=utf-8' );
 		padding: 0 0 0 40px;
 	}
 
-	.footer {
+	#footer {
 		font-size: smaller;
 		text-align: right;
+		margin-top: 1em;
+		padding-top: .25em;
+		border-top: 1px solid #CCC;
 	}
 	/* ]]> */</style>
 </head>
@@ -76,20 +79,18 @@ $path = $_SERVER['REQUEST_URI'];
 $url = htmlspecialchars( "<%= scope['::mediawiki::server_url'] %>{$path}", ENT_QUOTES );
 echo "<li><a href=\"{$url}\">devwiki</a></li>";
 foreach ( $GLOBALS['wgLocalDatabases'] as $db ) {
-	if ( $db == 'devwiki' ) {
-		continue;
-	}
 	$wiki = substr( $db, 0, -4 );
-	$url = htmlspecialchars(
-		"//{$wiki}<%= @base_domain %>:{$port}{$path}",
-		ENT_QUOTES
-	);
-	echo "<li><a href=\"{$url}\">{$db}</a></li>";
+	if ( $wiki ) {
+		$url = htmlspecialchars(
+			"//{$wiki}<%= @base_domain %>:{$port}{$path}",
+			ENT_QUOTES
+		);
+		echo "<li><a href=\"{$url}\">{$db}</a></li>";
+	}
 }
 ?>
 			</ul>
-			<p class="footer"><a href="https://www.mediawiki.org/wiki/MediaWiki-Vagrant" title="MediaWiki-Vagrant">MediaWiki-Vagrant</a></p>
-
+			<p id="footer"><a href="https://www.mediawiki.org/wiki/MediaWiki-Vagrant" title="MediaWiki-Vagrant">MediaWiki-Vagrant</a></p>
 		</div>
 	</div>
 </body>
