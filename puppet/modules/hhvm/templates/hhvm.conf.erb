@@ -11,6 +11,8 @@ pre-start script
   chown -R www-data:www-data /var/log/hhvm
 end script
 
+env REMOTE_ADDR="127.0.0.1"
+
 exec /sbin/start-stop-daemon --quiet --start \
          --chuid www-data:www-data \
          --pidfile /var/run/hhvm/hhvm.pid \
