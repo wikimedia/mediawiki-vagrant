@@ -43,6 +43,10 @@ class packages::ghostscript {
     package { 'ghostscript': }
 }
 
+class packages::graphviz {
+    package { 'graphviz': }
+}
+
 class packages::imagemagick {
     package { 'imagemagick': }
 }

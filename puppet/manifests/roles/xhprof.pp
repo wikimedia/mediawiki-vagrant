@@ -18,4 +18,5 @@ class role::xhprof {
     include role::mediawiki
 
     include ::xhprof
+    include ::packages::graphviz
 }
