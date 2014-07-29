@@ -1,5 +1,6 @@
 <Directory /srv/commonsimages>
     Require all granted
+    Header set Access-Control-Allow-Origin "*"
 </Directory>
 
 Alias /commonsimages /srv/commonsimages

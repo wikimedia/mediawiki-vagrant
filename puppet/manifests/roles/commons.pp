@@ -21,9 +21,10 @@ class role::commons {
 
     multiwiki::settings { 'commons:general':
         values => {
-            wgUseInstantCommons => false,
-            wgUploadDirectory   => '/srv/commonsimages',
-            wgUploadPath        => '/commonsimages'
+            wgUseInstantCommons    => false,
+            wgUploadDirectory      => '/srv/commonsimages',
+            wgUploadPath           => '/commonsimages',
+            wgCrossSiteAJAXdomains => ['*'],
         },
     }
 
