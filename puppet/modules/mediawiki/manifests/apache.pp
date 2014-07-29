@@ -9,6 +9,7 @@ class mediawiki::apache {
     include ::apache::mod::alias
     include ::apache::mod::rewrite
     include ::apache::mod::proxy_fcgi
+    include ::apache::mod::headers
 
     apache::site { 'default':
         ensure => absent,
