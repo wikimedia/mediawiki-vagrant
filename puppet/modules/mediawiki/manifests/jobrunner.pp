@@ -3,9 +3,19 @@
 # jobrunner continuously processes the MediaWiki job queue by dispatching
 # workers to perform tasks and monitoring their success or failure.
 #
-class mediawiki::jobrunner {
-    git::clone { 'mediawiki/services/jobrunner':
+# === Parameters
+#
+# [*commit*]
+#   Git commit to install.
+#
+class mediawiki::jobrunner(
+    $commit = '5c927f9091f446452b9fd7bcb69614c7a7fe6eff',
+) {
+    include ::mediawiki
+
+    git::install { 'mediawiki/services/jobrunner':
         directory => '/srv/jobrunner',
+        commit    => $commit,
         before    => Service['jobrunner'],
     }
 
@@ -26,7 +36,11 @@ class mediawiki::jobrunner {
     }
 
     file { '/etc/jobrunner.ini':
-        source => 'puppet:///modules/mediawiki/jobrunner.ini',
+        ensure => absent,
+    }
+
+    file { '/etc/jobrunner.json':
+        content => template('mediawiki/jobrunner.json.erb'),
         owner  => 'root',
         group  => 'root',
         mode   => '0444',

@@ -1,0 +1,26 @@
+// Configuration file for MediaWiki Jobrunner
+// This file is managed by Puppet
+{
+    "groups": {
+        "basic": {
+            "include": [ "*" ],
+            "runners": 1
+        }
+    },
+
+    "redis": {
+        // Ready queue trackers
+        "aggregators": [ "127.0.0.1" ],
+        // Main queue servers
+        "queues": [ "127.0.0.1" ],
+    },
+
+    "limits": {
+        // How many times to let jobs be recycled before abandoning
+        "attempts": {
+            "*": 3
+        },
+    },
+
+    "dispatcher": "nice -19 /usr/bin/php5 <%= scope['::mediawiki::dir'] %>/maintenance/runJobs.php --wiki=%(db)x --type=%(type)x --maxtime=%(maxtime)x --memory-limit=%(maxmem)x --result=json"
+}
