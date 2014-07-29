@@ -128,3 +128,7 @@ class packages::wbritish_small {
 class packages::wikidiff2 {
     package { 'php-wikidiff2': }
 }
+
+class packages::xvfb {
+    package { 'xvfb': }
+}

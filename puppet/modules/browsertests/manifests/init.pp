@@ -45,6 +45,8 @@ class browsertests(
     $mediawiki_url     = 'http://127.0.0.1/wiki/',
     $mediawiki_api_url = 'http://127.0.0.1/w/api.php',
 ) {
+    include packages::xvfb
+
     mediawiki::user { $selenium_user:
         password => $selenium_password,
     }
