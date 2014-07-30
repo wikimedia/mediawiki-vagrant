@@ -180,4 +180,8 @@ class mediawiki(
         creates     => "${dir}/vendor",
         require     => Git::Clone['mediawiki/core'],
     }
+
+    env::profile_script { 'add mediawiki vendor bin to path':
+        content => "export PATH=\$PATH:${dir}/vendor/bin",
+    }
 }
