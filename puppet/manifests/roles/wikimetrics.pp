@@ -7,10 +7,7 @@
 # periods the Wikimetrics user sets.
 #
 # This role installs and hosts Wikimetrics at http://localhost:5000.
-# Make sure you set up port forwarding in your Vagrantfile, like this:
-#
-#   config.vm.network :forwarded_port,
-#       guest: 5000, host: 5000, id: 'wikimetrics'
+# (both the guest and host)
 #
 # NOTE!  You will need the wikimetrics git submodule available.
 # Run this command on your local machine make sure modules/wikimetrics
@@ -99,5 +96,10 @@ class role::wikimetrics {
     class { 'wikimetrics::web':
         mode    => $web_server_mode,
         require => Exec['install_wikimetrics_dependencies'],
+    }
+
+    vagrant::settings { 'wikimetrics':
+      # Wikimetrics web frontend is on port 5000
+      forward_ports => { 5000  => 5000 }
     }
 }
