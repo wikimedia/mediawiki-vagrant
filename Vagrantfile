@@ -139,6 +139,7 @@ Vagrant.configure('2') do |config|
             '--fileserverconfig', '/vagrant/puppet/extra/fileserver.conf',
             '--logdest', "/vagrant/logs/puppet/puppet.#{mwv.commit || 'unknown'}.log",
             '--logdest', 'console',
+            '--write-catalog-summary',
         ]
 
         # For more output, uncomment the following line:
