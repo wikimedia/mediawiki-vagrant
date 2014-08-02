@@ -18,7 +18,9 @@
 #    urlformat => 'https://github.com/%s.git',
 #  }
 #
-class git( $urlformat = 'https://gerrit.wikimedia.org/r/p/%s.git' ) {
+class git(
+    $urlformat = 'https://gerrit.wikimedia.org/r/p/%s.git',
+) {
     package { 'git':
         ensure  => latest,
     }

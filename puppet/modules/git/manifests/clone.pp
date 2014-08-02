@@ -9,11 +9,32 @@
 #   refer to an existing directory.
 #
 # [*branch*]
-#   Name of branch to check out. Defaults to 'master'.
+#   Name of branch to check out. Defaults to checking out the HEAD of the
+#   remote repository.
 #
 # [*remote*]
 #   Remote URL for the repository. If unspecified, the resource title
 #   will be interpolated into $git::urlformat.
+#
+# [*owner*]
+#   User that should own the checked out repository. Git commands will run as
+#   this user so the user must have the ability to create the target
+#   directory. Default 'vagrant'.
+#
+# [*group*]
+#   Group that should own the checked out repostory. Default 'vagrant'.
+#
+# [*ensure*]
+#   What state the clone should be in. Valid values are `present`, `absent`
+#   and `latest`. Default 'present'.
+#
+# [*depth*]
+#   If specified, creates a shallow clone with history truncated to the
+#   specified number of revisions. Default undef.
+#
+# [*recurse_submodules*]
+#   After the clone is created, initialize all submodules within, using their
+#   default settings. Default true.
 #
 # === Examples
 #
@@ -25,23 +46,79 @@
 #
 define git::clone(
     $directory,
-    $branch = 'master',
-    $remote = $::git::urlformat,
-    $owner  = 'vagrant',
-    $group  = 'vagrant',
+    $branch             = undef,
+    $remote             = undef,
+    $owner              = 'vagrant',
+    $group              = 'vagrant',
+    $ensure             = 'present',
+    $depth              = undef,
+    $recurse_submodules = true,
 ) {
     include ::git
 
-    $url = sprintf($git::urlformat, $title)
+    if !($ensure in ['absent', 'present', 'latest']) {
+        fail('ensure parameter must be absent, present, or latest.')
+    }
 
-    exec { "git_clone_${title}":
-        command     => "/usr/bin/git clone --recursive --branch ${branch} ${url} ${directory}",
-        cwd         => '/',
-        creates     => "${directory}/.git",
-        user        => $owner,
-        group       => $group,
-        require     => Package['git'],
-        environment => 'HOME=/home/vagrant',
-        timeout     => 0,
+    $repository = $remote ? {
+        undef   => sprintf($git::urlformat, $title),
+        default => $remote,
+    }
+
+    case $ensure {
+        'absent': {
+            file { $directory:
+                ensure  => 'absent',
+                recurse => true,
+                force   => true,
+            }
+        }
+
+        default: {
+            $arg_branch = $branch ? {
+                undef   => '',
+                default => " --branch '${branch}'"
+            }
+            $arg_recurse = $recurse_submodules ? {
+                true    => ' --recurse-submodules',
+                default => '',
+            }
+            $arg_depth = $depth ? {
+                undef => '',
+                default => " --depth=${depth}",
+            }
+
+            exec { "git_clone_${title}":
+                command     => "git clone${arg_recurse}${arg_depth}${arg_branch} ${repository} ${directory}",
+                cwd         => '/',
+                creates     => "${directory}/.git",
+                user        => $owner,
+                group       => $group,
+                require     => Package['git'],
+                timeout     => 0,
+            }
+
+            if $ensure == 'latest' {
+                exec { "git_pull_${title}":
+                    command => "git pull${arg_recurse}${arg_depth} --quiet",
+                    unless  => 'git fetch && git diff --quiet remotes/origin/HEAD',
+                    cwd     => $directory,
+                    user    => $owner,
+                    group   => $group,
+                    require => Exec["git_clone_${title}"],
+                }
+
+                if $recurse_submodules {
+                    exec { "git_submodule_update_${title}":
+                        command     => 'git submodule update --init --recursive',
+                        cwd         => $directory,
+                        user        => $owner,
+                        group       => $group,
+                        refreshonly => true,
+                        subscribe   => Exec["git_pull_${title}"],
+                    }
+                }
+            }
+        }
     }
 }
