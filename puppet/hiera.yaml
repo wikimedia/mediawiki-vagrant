@@ -5,6 +5,7 @@
   :datadir: /vagrant/puppet/hieradata
 :hierarchy:
   - local
-  - "realm/%{::realm}"
+  - "environment/%{::environment}"
+  - vagrant-managed
   - common
 :logger: console

@@ -1,3 +1,0 @@
----
-role::mediawiki::hostname: "%{::hostname}.wmflabs.org"
-multiwiki::base_domain: "-%{::hostname}.wmflabs.org"
