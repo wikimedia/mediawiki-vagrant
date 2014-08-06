@@ -31,7 +31,7 @@
 #
 define elasticsearch::plugin(
     $ensure  = present,
-    $group   = undef,
+    $group   = 'elasticsearch',
     $name    = undef,
     $version = undef,
     $url     = undef,

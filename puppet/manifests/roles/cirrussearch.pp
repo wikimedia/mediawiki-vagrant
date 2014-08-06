@@ -14,29 +14,24 @@ class role::cirrussearch {
     # Elasticsearch plugins
     ## Analysis
     elasticsearch::plugin { 'icu':
-        group   => 'elasticsearch',
         name    => 'elasticsearch-analysis-icu',
         version => '2.2.0',
     }
     elasticsearch::plugin { 'kuromoji':
-        group   => 'elasticsearch',
         name    => 'elasticsearch-analysis-kuromoji',
         version => '2.2.0',
     }
     elasticsearch::plugin { 'stempel':
-        group   => 'elasticsearch',
         name    => 'elasticsearch-analysis-stempel',
         version => '2.2.0',
     }
     elasticsearch::plugin { 'smartcn':
-        group   => 'elasticsearch',
         name    => 'elasticsearch-analysis-smartcn',
         version => '2.1.0',
     }
     elasticsearch::plugin { 'hebrew':
         # Less stable then icu plugin
         ensure  => 'absent',
-        group   => 'elasticsearch',
         name    => 'elasticsearch-analysis-hebrew',
     }
     ## Highlighter
