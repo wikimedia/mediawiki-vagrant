@@ -77,6 +77,8 @@ class mediawiki(
         branch    => $branch,
     }
 
+    mediawiki::skin { 'Vector': }
+
     file { 'mediawiki_upstart_bridge':
         path    => '/etc/init/mediawiki-bridge.conf',
         content => template('mediawiki/mediawiki-bridge.conf.erb'),

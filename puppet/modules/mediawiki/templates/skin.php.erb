@@ -1,0 +1,4 @@
+include_once "$IP/skins/<%= @skin %>/<%= @skin %>.php";
+<% if @default %>
+$wgDefaultSkin = '<%= @skin.downcase %>';
+<% end %>
