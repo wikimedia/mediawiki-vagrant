@@ -3,7 +3,7 @@
 # and configures MW to use it
 
 class role::wikidiff2 {
-    include packages::wikidiff2
+    require_package('php-wikidiff2')
 
     mediawiki::settings { 'wikidiff2':
         ensure  => present,

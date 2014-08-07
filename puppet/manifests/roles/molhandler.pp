@@ -5,8 +5,8 @@ class role::molhandler {
     include role::mediawiki
     include role::svg
 
-    include packages::indigo_utils
-    include packages::openbabel
+    require_package('indigo-utils')
+    require_package('openbabel')
 
     mediawiki::extension { 'MolHandler':
         settings => [

@@ -4,7 +4,8 @@
 #
 class crm::drush( $root ) {
     include ::crm
-    include packages::drush
+
+    require_package('drush')
 
     $bare_cmd = "drush -y --root=${root}"
     $cmd = "sudo -u www-data ${bare_cmd}"

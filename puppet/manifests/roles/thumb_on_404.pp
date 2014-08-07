@@ -3,7 +3,8 @@
 # when an existing thumbnail is not found in cache.
 class role::thumb_on_404 {
     include role::mediawiki
-    include packages::imagemagick
+
+    require_package('imagemagick')
 
     # Enable dynamic thumbnail generation via the thumb.php
     # script for 404 thumb images.

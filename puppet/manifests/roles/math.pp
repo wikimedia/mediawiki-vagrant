@@ -5,8 +5,8 @@
 class role::math {
     include role::mediawiki
 
-    include packages::ghostscript
-    include packages::imagemagick
+    require_package('ghostscript')
+    require_package('imagemagick')
 
     mediawiki::extension { 'Math':
         needs_update  => true,

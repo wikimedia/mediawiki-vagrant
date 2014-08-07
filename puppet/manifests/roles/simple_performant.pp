@@ -11,7 +11,7 @@ class role::simple_performant {
     include role::thumb_on_404
     include role::wikidiff2
 
-    include packages::unzip
+    require_package('unzip')
 
 
     $DAY         = 24 * 60 * 60

@@ -8,9 +8,9 @@
 class role::pdfhandler {
     include role::multimedia
 
-    include packages::ghostscript
-    include packages::poppler_utils
-    include packages::imagemagick
+    require_package('ghostscript')
+    require_package('imagemagick')
+    require_package('poppler-utils')
 
     mediawiki::extension { 'PdfHandler':
         needs_update => true,

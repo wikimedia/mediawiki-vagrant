@@ -3,16 +3,17 @@
 # UploadWizard[https://www.mediawiki.org/wiki/Extension:UploadWizard]
 # a JavaScript-driven wizard interface for uploading multiple files.
 class role::uploadwizard {
+    include ::wikitools
+
     include role::mediawiki
     include role::eventlogging
     include role::multimedia
     include role::codeeditor
 
     # API smoke test dependencies
-    include packages::python_imaging
-    include packages::python_poster
-    include packages::python_wikitools
-    include packages::imagemagick
+    require_package('imagemagick')
+    require_package('python-imaging')
+    require_package('python-poster')
 
     mediawiki::extension { 'Campaigns': }
 

@@ -5,9 +5,10 @@
 # to guess passwords.
 class role::confirmedit {
     include role::mediawiki
-    include packages::fonts_dejavu
-    include packages::python_imaging
-    include packages::wbritish_small
+
+    require_package('fonts-dejavu')
+    require_package('python-imaging')
+    require_package('wbritish-small')
 
     $font     = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
     $wordlist = '/usr/share/dict/words'

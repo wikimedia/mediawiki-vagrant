@@ -6,9 +6,9 @@ class role::proofreadpage {
     include role::parserfunctions
     include role::cite
 
-    include packages::djvulibre_bin
-    include packages::ghostscript
-    include packages::netpbm
+    require_package('djvulibre-bin')
+    require_package('ghostscript')
+    require_package('netpbm')
 
     php::ini { 'proofreadpage':
         settings => {

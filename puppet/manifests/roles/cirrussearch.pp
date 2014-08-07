@@ -7,7 +7,7 @@ class role::cirrussearch {
     include role::pdfhandler
     include role::cite
 
-    include packages::jq
+    require_package('jq')
 
     class { '::elasticsearch': }
 

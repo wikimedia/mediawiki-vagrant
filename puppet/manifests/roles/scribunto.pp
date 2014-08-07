@@ -6,7 +6,7 @@ class role::scribunto {
     include role::codeeditor
     include role::geshi
 
-    include packages::php_luasandbox
+    require_package('php-luasandbox')
 
     mediawiki::extension { 'Scribunto':
         settings => [

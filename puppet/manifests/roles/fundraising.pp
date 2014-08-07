@@ -9,7 +9,7 @@ class role::fundraising {
     include ::activemq
     include ::crm
 
-    include packages::rsyslog
+    require_package('rsyslog')
 
     # apache-activemq is a memory-slurping Java zombie.
     vagrant::settings { 'fundraising': ram => 2048, }

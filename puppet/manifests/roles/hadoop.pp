@@ -4,7 +4,8 @@
 class role::hadoop {
     # Need java before hadoop is installed
     require role::generic
-    require packages::java
+
+    require_package('openjdk-7-jdk')
 
     $namenode_hosts           = [$::fqdn]
 

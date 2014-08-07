@@ -3,7 +3,7 @@
 class role::svg {
     include role::mediawiki
 
-    include packages::librsvg2_bin
+    require_package('librsvg2-bin')
 
     mediawiki::settings { 'svg':
         ensure  => present,

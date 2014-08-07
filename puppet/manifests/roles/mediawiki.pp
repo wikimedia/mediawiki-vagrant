@@ -11,9 +11,8 @@ class role::mediawiki(
     include role::generic
     include role::mysql
 
-    # Required to run some tests.
-    include packages::php5_tidy
-    include packages::tidy
+    require_package('php5-tidy')
+    require_package('tidy')
 
     $wiki_name = 'devwiki'
 
