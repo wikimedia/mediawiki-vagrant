@@ -17,7 +17,7 @@ exec /sbin/start-stop-daemon --quiet --start \
          --chuid www-data:www-data \
          --pidfile /var/run/hhvm/hhvm.pid \
          --startas /usr/bin/hhvm \
-         -- --mode server
+         -- --mode server -v Eval.Jit=true
 
 respawn
 # vim: set ft=upstart:

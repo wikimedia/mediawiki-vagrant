@@ -54,6 +54,10 @@
 #   provide a different subdirectory, or false to skip installation of
 #   browser-test dependencies altogether. Default: false.
 #
+# [*composer*]
+#   Whether this extension has dependencies that need to be installed via
+#   Composer. Default: false.
+#
 # === Examples
 #
 # The following example configures the EventLogging MediaWiki extension and
@@ -97,6 +101,7 @@ define mediawiki::extension(
     $settings       = {},
     $settings_dir   = $::mediawiki::managed_settings_dir,
     $browser_tests  = false,
+    $composer       = false,
 ) {
     include mediawiki
 
@@ -117,6 +122,12 @@ define mediawiki::extension(
         priority     => $priority,
         settings_dir => $settings_dir,
         require      => Git::Clone["mediawiki/extensions/${extension}"],
+    }
+
+    if $composer {
+        php::composer::install{ $extension_dir: }
+
+        Git::Clone["mediawiki/extensions/${extension}"] ~> Php::Composer::Install[$extension_dir] ~> Mediawiki::Settings[$extension]
     }
 
     if $needs_update {
