@@ -36,4 +36,18 @@ class role::commons {
         require => Mediawiki::Wiki['commons'],
     }
 
+    mediawiki::extension { 'GlobalUsage':
+        needs_update => true,
+        settings => {
+            wgGlobalUsageDatabase => 'commonswiki',
+        },
+        require => Mediawiki::Wiki['commons'],
+    }
+
+    exec { 'refresh globalusage table':
+        command => 'foreachwiki extensions/GlobalUsage/refreshGlobalimagelinks.php --pages existing,nonexisting',
+        cwd     => $dir,
+        user    => 'www-data',
+        require => Mediawiki::Extension['GlobalUsage'],
+    }
 }
