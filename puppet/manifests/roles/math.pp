@@ -9,7 +9,8 @@ class role::math {
     include packages::imagemagick
 
     mediawiki::extension { 'Math':
-        needs_update => true,
+        needs_update  => true,
+        browser_tests => true,
     }
 
     package { [
