@@ -59,6 +59,10 @@
 #   Whether this extension has dependencies that need to be installed via
 #   Composer. Default: false.
 #
+# [*remote*]
+#   Remote URL for the repository. Passed to git::clone if set. See
+#   git::deploy docs for more details.
+#
 # === Examples
 #
 # The following example configures the EventLogging MediaWiki extension and
@@ -121,6 +125,7 @@ define mediawiki::extension(
     $settings       = {},
     $browser_tests  = false,
     $composer       = false,
+    $remote         = undef,
 ) {
     include mediawiki
 
@@ -155,6 +160,7 @@ define mediawiki::extension(
     git::clone { $ext_repo:
         directory => $ext_dir,
         branch    => $branch,
+        remote    => $remote,
         require   => Git::Clone['mediawiki/core'],
     }
 
@@ -168,9 +174,11 @@ define mediawiki::extension(
     }
 
     if $composer {
-        php::composer::install{ $extension_dir: }
+        php::composer::install{ $ext_dir:
+            require => Git::Clone[$ext_repo],
+        }
 
-        Git::Clone["mediawiki/extensions/${extension}"] ~> Php::Composer::Install[$extension_dir] ~> Mediawiki::Settings[$extension]
+        Php::Composer::Install[$ext_dir] ~> Mediawiki::Settings[$title]
     }
 
     if $needs_update {
