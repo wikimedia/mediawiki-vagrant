@@ -63,7 +63,7 @@ class mediawiki(
       environment => "MW_INSTALL_PATH=${dir}",
     }
 
-    include ::php
+    require ::php
     include ::hhvm
 
     include mediawiki::apache
@@ -169,15 +169,7 @@ class mediawiki(
         refreshonly => true,
     }
 
-    exec { 'install_composer_deps':
-        command     => 'composer install --no-interaction --optimize-autoloader',
-        cwd         => $dir,
-        environment => [
-          'COMPOSER_HOME=/vagrant/cache/composer',
-          'COMPOSER_CACHE_DIR=/vagrant/cache/composer',
-        ],
-        user        => 'vagrant',
-        creates     => "${dir}/vendor",
+    php::composer::install { $dir:
         require     => Git::Clone['mediawiki/core'],
     }
 
