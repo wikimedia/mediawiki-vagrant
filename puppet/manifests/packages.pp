@@ -90,6 +90,18 @@ class packages::php_luasandbox {
     package { 'php-luasandbox': }
 }
 
+class packages::indigo_utils {
+    package { 'indigo-utils': }
+}
+
+class packages::librsvg2_bin {
+    package { 'librsvg2-bin': }
+}
+
+class packages::openbabel {
+    package { 'openbabel': }
+}
+
 class packages::poppler_utils {
     package { 'poppler-utils': }
 }
