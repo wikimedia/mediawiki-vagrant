@@ -42,6 +42,11 @@ directory of your choice. Once you do that, open up a terminal or a
 command-prompt, and change your working directory to the location of the
 extracted (or git-cloned) files.
 
+If you have cloned the git repository you will also need to clone the
+submodules with:
+
+    git submodule update --init --recursive
+
 Run the appropriate setup script for your platform. For Windows, run
 `setup.bat`. For Linux and OS X, run `setup.sh`. Some extra Vagrant plugins,
 including the bundled mediawiki-vagrant plugin, will be installed.
