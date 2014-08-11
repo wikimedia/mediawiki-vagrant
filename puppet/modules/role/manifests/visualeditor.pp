@@ -10,7 +10,7 @@ class role::visualeditor {
     include role::templatedata
 
     mediawiki::extension { 'VisualEditor':
-        settings      => template('ve-config.php.erb'),
+        settings      => template('role/ve-config.php.erb'),
         browser_tests => 'modules/ve-mw/tests/browser',
     }
 }

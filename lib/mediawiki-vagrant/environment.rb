@@ -1,4 +1,5 @@
 require 'pathname'
+require 'yaml'
 
 module MediaWikiVagrant
     # Represents the current environment from which MediaWiki-Vagrant commands
@@ -33,6 +34,7 @@ module MediaWikiVagrant
         # Removes all enabled roles that are no longer available.
         #
         def prune_roles
+            migrate_roles
             update_roles(roles_enabled & roles_available)
         end
 
@@ -41,9 +43,9 @@ module MediaWikiVagrant
         # @return [Array]
         #
         def roles_available
-            manifests = Dir[manifest_path('roles/*.pp')]
+            manifests = Dir[module_path('role/manifests/*.pp')]
             manifests.map! { |file| File.read(file).match(/^class\s*role::(\w+)/) { |m| m[1] } }
-            manifests.compact.sort.uniq - ['generic', 'mediawiki']
+            manifests.compact.sort.uniq - ['generic', 'mediawiki', 'labs_initial_content']
         end
 
         # Returns enabled Puppet roles.
@@ -51,20 +53,30 @@ module MediaWikiVagrant
         # @return [Array]
         #
         def roles_enabled
-            return [] unless role_manifest.exist?
+            migrate_roles
+            return [] unless hiera_data.exist?
 
-            roles = role_manifest.each_line.map { |l| l.match(/^[^#]*include role::(\S+)/) { |m| m[1] } }
+            hiera = hiera_data.open('r') { |io| YAML.load(io) }
+            roles = hiera['classes'].map do |r|
+                r.match(/^role::(\S+)/) { |m| m[1] }
+            end
             roles.compact.sort.uniq
         end
 
         # Updates the enabled Puppet roles to the given set.
         #
         def update_roles(roles)
-            role_manifest.open('w') do |f|
-                f.puts '# This file is managed by Vagrant. Do not edit.'
-                f.puts '# Use "vagrant list-roles / enable-role / disable-role" instead.'
-                f.puts roles.sort.uniq.map { |r| "include role::#{r.sub(/^role::/, '')}" }.join("\n")
+            if hiera_data.exist?
+                hiera = hiera_data.open('r') { |io| YAML.load(io) }
+            else
+                hiera = {'classes' => []}
             end
+            hiera['classes'] = roles.sort.uniq.map do |r|
+                "role::#{r.sub(/^role::/, '')}"
+            end
+
+            yaml = YAML.dump(hiera)
+            hiera_data.open('w') { |f| f.write(yaml) }
         end
 
         # If it has been a week or more since remote commits have been fetched,
@@ -92,17 +104,30 @@ module MediaWikiVagrant
 
         private
 
-        def manifest_path(*subpaths)
-            path('puppet/manifests', *subpaths)
+        def module_path(*subpaths)
+            path('puppet/modules', *subpaths)
         end
 
-        def role_manifest
-            manifest_path('manifests.d/vagrant-managed.pp')
+        def hiera_data
+            path('puppet/hieradata/vagrant-managed.yaml')
         end
 
         def stale_head?
             head = path('.git/FETCH_HEAD')
             head.exist? && (Time.now - head.mtime) > STALENESS
+        end
+
+        # Migrate legacy roles to new format
+        #
+        def migrate_roles
+            legacy_file = path('puppet/manifests/manifests.d/vagrant-managed.pp')
+            if legacy_file.exist?
+                legacy_roles = legacy_file.each_line.map do |l|
+                    l.match(/^[^#]*include role::(\S+)/) { |m| m[1] }
+                end
+                update_roles(legacy_roles.compact.sort.uniq)
+                FileUtils.rm legacy_file
+            end
         end
 
     end

@@ -27,12 +27,12 @@ class role::commons {
     }
 
     mediawiki::settings { 'commons_ForeignRepo':
-        values => template('commons_foreign_repo.php.erb'),
+        values => template('role/commons_foreign_repo.php.erb'),
     }
 
     apache::site_conf { 'custom_images_dir_for_commons':
         site    => $::mediawiki::wiki_name,
-        content => template('commons_images_folder.conf.erb'),
+        content => template('role/commons_images_folder.conf.erb'),
         require => Mediawiki::Wiki['commons'],
     }
 

@@ -65,12 +65,12 @@ class role::simple_performant {
     file { '/var/www/robots.txt':
         ensure  => present,
         mode    => '0444',
-        source  => 'puppet:///files/robots.txt',
+        source  => 'puppet:///modules/role/robots.txt',
     }
 
     file { '/vagrant/mediawiki/skins/.htaccess':
         ensure  => present,
-        source  => 'puppet:///files/skins-htaccess',
+        source  => 'puppet:///modules/role/skins-htaccess',
         require => Class['::apache::mod::expires'],
     }
 }

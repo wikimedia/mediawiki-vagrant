@@ -12,6 +12,6 @@ class role::multimediaviewer {
 
     apache::site_conf { 'Content-Disposition: attachment on ?download':
         site    => $mediawiki::wiki_name,
-        content => template('content_disposition_attachment.conf.erb'),
+        content => template('role/content_disposition_attachment.conf.erb'),
     }
 }

@@ -15,6 +15,6 @@ class role::gwtoolset {
     }
 
     mediawiki::extension { 'GWToolset':
-        settings => template('gwtoolset-config.php.erb'),
+        settings => template('role/gwtoolset-config.php.erb'),
     }
 }

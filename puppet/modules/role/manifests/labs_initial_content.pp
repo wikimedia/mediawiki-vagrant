@@ -1,4 +1,4 @@
-# == Class: role::labs_initial_wiki
+# == Class: role::labs_initial_content
 #
 #  For labs:  loads a ready-made logo and privacy policy into the
 #  initial wiki.
