@@ -120,7 +120,7 @@ class mediawiki::multiwiki(
 
     file { "${script_dir}/resources":
         ensure => link,
-        target => $::mediawiki::dir,
+        target => "${::mediawiki::dir}/resources",
     }
 
     file { "${script_dir}/skins":
