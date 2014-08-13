@@ -19,7 +19,8 @@ define browsertests::bundle(
     include ruby::default
 
     ruby::bundle { $title:
-        directory => $directory,
+        directory  => $directory,
+        missing_ok => true,
     }
 }
 

@@ -10,6 +10,9 @@
 # [*gemfile*]
 #   A specific path to the Gemfile. Default: "$directory/Gemfile".
 #
+# [*missing_ok*]
+#   Don't fail on account of a missing Gemfile.
+#
 # [*path*]
 #   Gem installation path. By default, gems are isolated to a path below the
 #   directory. Default: "$directory/.gem".
@@ -31,11 +34,12 @@
 #   ruby::bundle { '/srv/browsertests/test/browser': path => '/home/vagrant/.gem' }
 #
 define ruby::bundle(
-    $directory = $title,
-    $gemfile   = undef,
-    $path      = '.gem',
-    $ruby      = $ruby::default_version,
-    $user      = 'vagrant',
+    $directory  = $title,
+    $gemfile    = undef,
+    $missing_ok = false,
+    $path       = '.gem',
+    $ruby       = $ruby::default_version,
+    $user       = 'vagrant',
 ) {
     include ::ruby
 
@@ -45,13 +49,18 @@ define ruby::bundle(
         default => $gemfile,
     }
 
+    $guard = $missing_ok ? {
+        false   => '',
+        default => "test ! -e '${bundle_gemfile}' || ",
+    }
+
     exec { "bundle_install_${title}":
         command     => "${bundle} install --path '${path}'",
         provider    => 'shell',
         cwd         => $directory,
         environment => "BUNDLE_GEMFILE=${bundle_gemfile}",
         user        => $user,
-        unless      => "${bundle} check",
+        unless      => "${guard}${bundle} check",
         timeout     => 60 * 20,
         require     => Ruby::Ruby[$ruby],
     }
