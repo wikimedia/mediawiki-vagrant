@@ -1,14 +1,16 @@
-// Define custom namespaces. Use these exact constant names.
-$wgNamespaceAliases['Item'] = NS_MAIN;
-$wgNamespaceAliases['Item_talk'] = NS_TALK;
+if ( !empty( $wmgUseWikibaseRepo ) ) {
+	// Define custom namespaces. Use these exact constant names.
+	$wgNamespaceAliases['Item'] = NS_MAIN;
+	$wgNamespaceAliases['Item_talk'] = NS_TALK;
 
-// Tell Wikibase which namespace to use for which kind of entity
-$wgWBRepoSettings['entityNamespaces']['wikibase-item'] = NS_MAIN;
-define( 'WB_NS_PROPERTY', 122 );
-define( 'WB_NS_PROPERTY_TALK', 123 );
-$wgWBRepoSettings['entityNamespaces']['wikibase-property'] = WB_NS_PROPERTY;
+	// Tell Wikibase which namespace to use for which kind of entity
+	$wgWBRepoSettings['entityNamespaces']['wikibase-item'] = NS_MAIN;
+	define( 'WB_NS_PROPERTY', 122 );
+	define( 'WB_NS_PROPERTY_TALK', 123 );
+	$wgWBRepoSettings['entityNamespaces']['wikibase-property'] = WB_NS_PROPERTY;
 
-// Register extra namespaces.
-$wgWBNamespaces[WB_NS_PROPERTY] = 'Property';
-$wgWBNamespaces[WB_NS_PROPERTY_TALK] = 'Property_talk';
-$wgExtraNamespaces = $wgWBNamespaces + $wgExtraNamespaces;
+	// Register extra namespaces.
+	$wgWBNamespaces[WB_NS_PROPERTY] = 'Property';
+	$wgWBNamespaces[WB_NS_PROPERTY_TALK] = 'Property_talk';
+	$wgExtraNamespaces = $wgWBNamespaces + $wgExtraNamespaces;
+}
