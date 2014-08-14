@@ -8,7 +8,8 @@ class role::gettingstarted {
     include ::role::guidedtour
 
     mediawiki::extension { 'GettingStarted':
-        settings => {
+        browser_tests => true,
+        settings      => {
             wgGettingStartedRedis                  => '127.0.0.1',
 
             # A sample category configuration for local testing.
