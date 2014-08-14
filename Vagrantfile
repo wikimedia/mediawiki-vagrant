@@ -79,13 +79,13 @@ Vagrant.configure('2') do |config|
 
     root_share_options = {:id => 'vagrant-root'}
 
-    if Vagrant::Util::Platform.windows?
-        root_share_options[:owner] = 'vagrant'
-        root_share_options[:group] = 'www-data'
-    else
+    if settings[:nfs_shares]
         root_share_options[:type] = :nfs
         config.nfs.map_uid = Process.uid
         config.nfs.map_gid = Process.gid
+    else
+        root_share_options[:owner] = 'vagrant'
+        root_share_options[:group] = 'www-data'
     end
 
     config.vm.synced_folder '.', '/vagrant', root_share_options
@@ -155,12 +155,12 @@ Vagrant.configure('2') do |config|
             'environment'        => 'vagrant',
         }
 
-        if Vagrant::Util::Platform.windows?
-            $FACTER['share_owner'] = 'vagrant'
-            $FACTER['share_group'] = 'www-data'
-        else
+        if settings[:nfs_shares]
             $FACTER['share_owner'] = Process.uid
             $FACTER['share_group'] = Process.gid
+        else
+            $FACTER['share_owner'] = 'vagrant'
+            $FACTER['share_group'] = 'www-data'
         end
 
     end

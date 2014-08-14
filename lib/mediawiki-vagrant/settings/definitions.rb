@@ -27,6 +27,12 @@ MediaWikiVagrant::Settings.define do
         default: 8080,
         coercion: ->(setting, new) { new && new.to_i }
 
+    setting :nfs_shares,
+        description: "Use synced folders backed by NFS",
+        help: "Enter 'yes' or 'no'. NFS is faster, but unsupported on Windows and with some encrypted filesystems on Linux",
+        default: !Vagrant::Util::Platform.windows?,
+        coercion: ->(setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
+
     setting :forward_ports,
         internal: true,
         default: {},
