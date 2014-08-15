@@ -128,6 +128,11 @@ class mediawiki::multiwiki(
         target => "${::mediawiki::dir}/skins",
     }
 
+    file { "${script_dir}/tests":
+        ensure => link,
+        target => "${::mediawiki::dir}/tests",
+    }
+
     file { "${script_dir}/COPYING":
         ensure => link,
         target => "${::mediawiki::dir}/COPYING",
