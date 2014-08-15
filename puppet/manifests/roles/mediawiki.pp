@@ -39,7 +39,7 @@ class role::mediawiki(
 
     class { '::redis':
         persist    => true,
-        max_memory => '64M',
+        max_memory => '256M',
     }
 
     class { '::mediawiki':
