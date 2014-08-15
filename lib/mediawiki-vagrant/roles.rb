@@ -6,6 +6,10 @@ module MediaWikiVagrant
     class ListRoles < Vagrant.plugin(2, :command)
         include PluginEnvironment
 
+        def self.synopsis
+            "lists available mediawiki-vagrant roles"
+        end
+
         def execute
             @env.ui.info "Available roles:\n"
             enabled = @mwv.roles_enabled
@@ -28,6 +32,10 @@ module MediaWikiVagrant
 
     class EnableRole < Vagrant.plugin(2, :command)
         include PluginEnvironment
+
+        def self.synopsis
+            "enables a mediawiki-vagrant role"
+        end
 
         def execute
             if @argv.empty? or ['-h', '--help'].include? @argv.first
@@ -52,6 +60,10 @@ module MediaWikiVagrant
     class DisableRole < Vagrant.plugin(2, :command)
         include PluginEnvironment
 
+        def self.synopsis
+            "disables a mediawiki-vagrant role"
+        end
+
         def execute
             if @argv.empty? or ['-h', '--help'].include? @argv.first
                 @env.ui.info 'Disable one or more optional roles.'
@@ -74,6 +86,10 @@ module MediaWikiVagrant
 
     class ResetRoles < Vagrant.plugin(2, :command)
         include PluginEnvironment
+
+        def self.synopsis
+            "disables all optional mediawiki-vagrant roles"
+        end
 
         def execute
             if ['-h', '--help'].include? @argv.first

@@ -1,4 +1,8 @@
 class RunTests < Vagrant.plugin(2, :command)
+    def self.synopsis
+        "runs MediaWiki's test suite"
+    end
+
     def execute
         if ['-h', '--help'].include? @argv.first
             @env.ui.info "Usage: vagrant run-tests [tests] [-h]"

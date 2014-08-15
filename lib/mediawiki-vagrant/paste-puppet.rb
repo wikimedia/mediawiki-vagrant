@@ -4,6 +4,10 @@ class PastePuppet < Vagrant.plugin(2, :command)
 
     URL = URI('http://dpaste.de/api/')
 
+    def self.synopsis
+        "uploads your puppet logs to dpaste.de pastebin"
+    end
+
     def latest_logfile
         Dir[File.join $DIR, '/logs/puppet/*.log'].max_by { |f| File.mtime f }
     end
