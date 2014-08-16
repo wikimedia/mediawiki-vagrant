@@ -25,8 +25,16 @@ function pull {
             git pull
         fi
         if [[ $? -ne 0 ]]; then
+          # If we didn't successfully update (possibly because we're on
+          # a local branch), leave the submodules alone.
           err="GIT PULL failed in $(pwd) for branch '$branch'"
+        else
+          git submodule update --init --recursive
+          if [[ $? -ne 0 ]]; then
+            err="GIT SUBMODULE UPDATE failed in $(pwd) for branch '$branch'"
+          fi
         fi
+
     else
         err="Remote not found in $(pwd) for branch '$branch'"
     fi
