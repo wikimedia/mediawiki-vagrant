@@ -1,4 +1,8 @@
 class ImportDump < Vagrant.plugin(2, :command)
+    def self.synopsis
+        "imports an XML file into MediaWiki"
+    end
+
     def execute
         if ['-h', '--help'].include? @argv.first
             @env.ui.info "Usage: vagrant import-dump dumpfile.xml [-h]"

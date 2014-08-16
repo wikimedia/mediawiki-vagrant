@@ -1,4 +1,8 @@
 class GitUpdates < Vagrant.plugin(2, :command)
+    def self.synopsis
+        "fetches new code from Gerrit"
+    end
+
     def execute
         if %w(-h --help).include? @argv.first
             @env.ui.info 'Usage: vagrant git-update [-h]'
