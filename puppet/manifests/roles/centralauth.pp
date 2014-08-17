@@ -9,14 +9,19 @@ class role::centralauth {
     include ::role::antispoof
     include ::role::renameuser
     include ::role::usermerge
+    include ::browsertests
     include ::mysql
 
     $shared_db = 'centralauth'
+
     $loginwiki = 'login'
+    $alt_testwiki = 'centralauthtest'
+    $selenium_user = regsubst($::browsertests::selenium_user, '_', ' ')
 
     mediawiki::extension { 'CentralAuth':
-        needs_update => true,
-        settings     => {
+        needs_update  => true,
+        browser_tests => true,
+        settings      => {
             wgCentralAuthCookies         => true,
             wgCentralAuthAutoNew         => true,
             wgCentralAuthDatabase        => $shared_db,
@@ -54,21 +59,46 @@ class role::centralauth {
         sql     => "USE ${shared_db}; SOURCE ${::role::mediawiki::dir}/extensions/CentralAuth/AntiSpoof/patch-antispoof-global.mysql.sql;",
         unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${shared_db}' AND table_name = 'spoofuser';",
         require => [
-          Mysql::Db[$shared_db],
-          Mediawiki::Extension['CentralAuth']
+            Mysql::Db[$shared_db],
+            Mediawiki::Extension['CentralAuth']
         ],
     }
 
-    exec { 'migrate_admin_user_to_centralauth':
-        command     => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username Admin",
-        refreshonly => true,
-        user        => 'www-data',
-        subscribe   => Mysql::Sql['Create CentralAuth tables'],
-        require     => [
-          Mediawiki::Wiki[$loginwiki],
-          Mediawiki::Wiki['centralauthtest'],
-        ],
+    mediawiki::wiki{ [ $loginwiki, $alt_testwiki ]: }
+
+    role::centralauth::migrate_user { [ 'Admin', $selenium_user ]: }
+
+    # Environment variables used by browser tests
+    env::var { 'MEDIAWIKI_CENTRALAUTH_LOGINWIKI_URL':
+        value => "http://${loginwiki}${::mediawiki::multiwiki::base_domain}:${::forwarded_port}",
     }
 
-    mediawiki::wiki{ [ $loginwiki, 'centralauthtest' ]: }
+    env::var { 'MEDIAWIKI_CENTRALAUTH_ALTWIKI_URL':
+        value => "http://${alt_testwiki}${::mediawiki::multiwiki::base_domain}:${::forwarded_port}",
+    }
+}
+
+# == Define role::centralauth::migrate_user
+# Migrate a user account to the central auth database
+#
+# === Parameters
+# [*user*]
+#   User to migrate. Default $title
+#
+# === Example
+# role::centralauth::migrate_user { 'Admin': }
+#
+define role::centralauth::migrate_user(
+    $user = $title,
+) {
+    exec { "migrate_user_${user}_to_centralauth":
+        command => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username '${user}' --auto",
+        unless  => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username '${user}' | grep -q 'already exists'",
+        user    => 'www-data',
+        require => Mysql::Sql['Create CentralAuth tables'],
+    }
+
+    # Do not apply until wikis and users have been created
+    Mediawiki::Wiki <| |> -> Role::Centralauth::Migrate_user <| |>
+    Mediawiki::User <| |> -> Role::Centralauth::Migrate_user <| |>
 }
