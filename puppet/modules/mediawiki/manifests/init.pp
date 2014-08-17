@@ -121,10 +121,10 @@ class mediawiki(
         ],
     }
 
-    file { "${dir}/LocalSettings.php":
-        ensure  => link,
-        force   => true,
-        target  => "${::mediawiki::multiwiki::settings_root}/${db_name}/LocalSettings.php",
+    # Bug 69425: symlinks are not compatible with windows host machines
+    exec { 'copy_LocalSettings':
+        command => "cp ${::mediawiki::multiwiki::settings_root}/${db_name}/LocalSettings.php ${dir}/LocalSettings.php",
+        creates => "${dir}/LocalSettings.php",
         require => MediaWiki::Wiki[$wiki_name],
     }
 
