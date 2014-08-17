@@ -9,21 +9,14 @@ class role::centralauth {
     include ::role::antispoof
     include ::role::renameuser
     include ::role::usermerge
-    include ::browsertests
     include ::mysql
 
     $shared_db = 'centralauth'
-
     $loginwiki = 'login'
-    $alt_testwiki = 'centralauthtest'
-
-    $loginwiki_url = "http://${loginwiki}.wiki.local.wmftest.net:${::forwarded_port}"
-    $alt_testwiki_url = "http://${alt_testwiki}.wiki.local.wmftest.net:${::forwarded_port}"
 
     mediawiki::extension { 'CentralAuth':
-        needs_update  => true,
-        browser_tests => true,
-        settings      => {
+        needs_update => true,
+        settings     => {
             wgCentralAuthCookies         => true,
             wgCentralAuthAutoNew         => true,
             wgCentralAuthDatabase        => $shared_db,
@@ -61,42 +54,21 @@ class role::centralauth {
         sql     => "USE ${shared_db}; SOURCE ${::role::mediawiki::dir}/extensions/CentralAuth/AntiSpoof/patch-antispoof-global.mysql.sql;",
         unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${shared_db}' AND table_name = 'spoofuser';",
         require => [
-            Mysql::Db[$shared_db],
-            Mediawiki::Extension['CentralAuth']
+          Mysql::Db[$shared_db],
+          Mediawiki::Extension['CentralAuth']
         ],
     }
 
     exec { 'migrate_admin_user_to_centralauth':
-        command => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username Admin --auto",
-        unless  => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username Admin | grep -q 'already exists'",
-        user    => 'www-data',
-        require => [
-            Mediawiki::Wiki[$loginwiki],
-            Mediawiki::Wiki[$alt_testwiki],
+        command     => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username Admin",
+        refreshonly => true,
+        user        => 'www-data',
+        subscribe   => Mysql::Sql['Create CentralAuth tables'],
+        require     => [
+          Mediawiki::Wiki[$loginwiki],
+          Mediawiki::Wiki['centralauthtest'],
         ],
     }
 
-    $selenium_user = regsubst($::browsertests::selenium_user, '_', ' ')
-
-    exec { 'migrate_selenium_user_to_centralauth':
-        command => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username '$selenium_user' --auto",
-        unless  => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username '$selenium_user' | grep -q 'already exists'",
-        user    => 'www-data',
-        require => [
-            Mediawiki::Wiki[$loginwiki],
-            Mediawiki::Wiki[$alt_testwiki],
-            Mediawiki::User[$::browsertests::selenium_user],
-        ],
-    }
-
-    mediawiki::wiki{ [ $loginwiki, $alt_testwiki ]: }
-
-    # Environment variables used by browser tests
-    env::var { 'MEDIAWIKI_CENTRALAUTH_LOGINWIKI_URL':
-        value => $loginwiki_url,
-    }
-
-    env::var { 'MEDIAWIKI_CENTRALAUTH_ALTWIKI_URL':
-        value => $alt_testwiki_url,
-    }
+    mediawiki::wiki{ [ $loginwiki, 'centralauthtest' ]: }
 }
