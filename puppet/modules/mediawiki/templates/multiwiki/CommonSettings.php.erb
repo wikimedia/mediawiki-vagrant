@@ -9,11 +9,13 @@ if ( isset( $_SERVER['SERVER_ADDR'] ) ) {
 	ini_set( 'error_append_string', ' (' . $_SERVER['SERVER_ADDR'] . ')' );
 }
 
-if ( !class_exists( 'MWMultiVersion' ) ) {
-	print "No MWMultiVersion instance initialized! MWScript.php wrapper not used?\n";
-	exit(1);
-}
+require_once '<%= @script_dir %>/MWMultiVersion.php';
 $multiVersion = MWMultiVersion::getInstance();
+if ( $multiVersion === null ) {
+	// If MWMultiVersion has not been configured at this point,
+	// setup configuration for the default wiki.
+	$multiVersion = MWMultiVersion::initializeForWiki( '<%= scope['::mediawiki::db_name'] %>' );
+}
 
 // This must be set *after* the DefaultSettings.php inclusion
 $wgDBname = $multiVersion->getDatabase();
