@@ -47,7 +47,7 @@ class mediawiki::multiwiki(
         owner   => $::share_owner,
         group   => $::share_group,
         mode    => '0644',
-        source  => 'puppet:///modules/mediawiki/multiwiki/CommonSettings.php',
+        content => template('mediawiki/multiwiki/CommonSettings.php.erb'),
     }
 
     file { "${settings_root}/LoadWgConf.php":
