@@ -36,3 +36,6 @@ foreach(
 ) {
 	include_once $conffile;
 }
+
+# Bug 66399: set wgServer from inbound request
+$wgServer = WebRequest::detectServer();
