@@ -10,7 +10,7 @@ class role::zero {
         priority => $::LOAD_LATER, # Must be after JsonConfig & MobileFrontEnd
         settings => [
             '$wgMobileUrlTemplate = "%h0.m.%h1.%h2"',
-            '$wgZeroEnableTesting = true',
+            '$wgZeroSiteOverride = array( "wikipedia", "en" )',
             '$wgGroupPermissions["sysop"]["zero-edit"] = true',
             '$wgGroupPermissions["sysop"]["zero-script"] = true',
         ],
