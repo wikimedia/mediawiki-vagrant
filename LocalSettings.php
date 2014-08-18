@@ -13,10 +13,6 @@
 error_reporting( -1 );
 ini_set( 'display_errors', 1 );
 
-if ( isset( $_SERVER['HTTP_HOST'] ) ) {
-	$wgServer = '//' . $_SERVER['HTTP_HOST'];
-}
-
 $wgUploadDirectory = '/srv/images';
 $wgUploadPath = '/images';
 $wgArticlePath = "/wiki/$1";
