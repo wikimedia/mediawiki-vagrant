@@ -2,14 +2,10 @@
 # Installs Hue server.
 #
 class role::hue {
-    require role::hadoop
-    require role::hive
-    require role::oozie
-    require cdh::pig
-    require cdh::sqoop
-
-    class { '::cdh::hue':
-        secret_key             => 'vagrant',
-        hive_server_host       => $::fqdn,
-    }
+    require ::role::hadoop
+    require ::role::hive
+    require ::role::oozie
+    require ::cdh::pig
+    require ::cdh::sqoop
+    require ::cdh::hue
 }
