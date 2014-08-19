@@ -23,12 +23,12 @@
 #   Database user's password
 #
 class crm(
-    $dir        = '/srv/org.wikimedia.civicrm',
-    $site_name  = 'crm.dev',
-    $drupal_db  = 'drupal',
-    $civicrm_db = 'civicrm',
-    $db_user    = 'root',
-    $db_pass    = $::role::mysql::db_pass,
+    $dir,
+    $site_name,
+    $drupal_db,
+    $civicrm_db,
+    $db_user,
+    $db_pass,
 ) {
     $repo = 'wikimedia/fundraising/crm'
 
@@ -36,8 +36,8 @@ class crm(
     include ::phpmailer
     include ::postfix
     include ::twig
-    include crm::apache
-    include crm::civicrm
+    include ::crm::apache
+    include ::crm::civicrm
 
     git::clone { $repo:
         directory => $dir,

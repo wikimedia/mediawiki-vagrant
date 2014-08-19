@@ -7,6 +7,13 @@ cdh::hue::hive_server_host: "%{::fqdn}"
 cdh::oozie::server::db_root_password: "%{::mysql::root_password}"
 cdh::oozie::server::heapsize: 64
 
+crm::dir: /srv/org.wikimedia.civicrm
+crm::site_name: crm.dev
+crm::drupal_db: drupal
+crm::civicrm_db: civicrm
+crm::db_user: root
+crm::db_pass: "%{::mysql::root_password}"
+
 mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki
 mediawiki::cache_dir: /var/cache/mediawiki
