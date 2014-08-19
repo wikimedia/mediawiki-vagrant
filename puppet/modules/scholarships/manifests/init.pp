@@ -26,20 +26,23 @@
 #
 # [*cache_dir*]
 #   The directory to use for caching twig templates
+#
+# [*log_file*]
+#   File to write log messages to
+#
 class scholarships(
     $db_name,
     $db_user,
     $db_pass,
     $deploy_dir,
     $vhost_name,
-    $cache_dir   = '/var/cache/scholarships',
+    $cache_dir,
+    $log_file,
 ){
     include ::php
     include ::apache
     include ::apache::mod::rewrite
     include ::mysql
-
-    $log_file = '/vagrant/logs/scholarships.log'
 
     git::clone { 'wikimedia/wikimania-scholarships':
         directory => $deploy_dir,
