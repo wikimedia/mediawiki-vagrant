@@ -77,7 +77,10 @@ module MediaWikiVagrant
         # Configures the given setting with the given value.
         #
         def configure_setting(name, value)
-            configure { |settings| settings[name] = parse_setting(settings.setting(name), value) }
+            configure do |settings|
+              settings.unset!(name)
+              settings[name] = parse_setting(settings.setting(name), value)
+            end
         end
 
         # Displays current values for the given settings.

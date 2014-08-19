@@ -10,7 +10,7 @@ MediaWikiVagrant::Settings.define do
         description: "Amount of RAM (in MB) allocated to the guest VM",
         help: "Tasks such as browser tests may require more memory (minimum of 1024)",
         default: 1024,
-        coercion: ->(setting, new) { [setting.default, new.to_i].max }
+        coercion: ->(setting, new) { [setting.value, new.to_i].max }
 
     setting :vagrant_cores,
         description: "CPU cores allocated to the guest VM",
