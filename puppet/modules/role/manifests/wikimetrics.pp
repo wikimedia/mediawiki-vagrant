@@ -39,9 +39,9 @@ class role::wikimetrics {
         group                 => $wikimetrics_group,
         # Use the role::mediawiki MySQL database for
         # wikimetrics editor cohort analysis
-        db_user_mediawiki     => $::role::mediawiki::db_user,
-        db_pass_mediawiki     => $::role::mediawiki::db_pass,
-        db_name_mediawiki     => $::role::mediawiki::db_name,
+        db_user_mediawiki     => $::mediawiki::db_user,
+        db_pass_mediawiki     => $::mediawiki::db_pass,
+        db_name_mediawiki     => $::mediawiki::db_name,
         db_host_mediawiki     => 'localhost',
         # clone wikimetrics as vagrant user
         # so that it works properly in the shared
@@ -75,7 +75,7 @@ class role::wikimetrics {
     }
 
     class { '::wikimetrics::database':
-        db_root_pass     => $::role::mysql::db_pass,
+        db_root_pass     => $::mysql::root_password,
         wikimetrics_path => $wikimetrics_path,
         require          => Exec['install_wikimetrics_dependencies'],
     }

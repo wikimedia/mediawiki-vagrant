@@ -4,7 +4,7 @@
 # editing your wiki, as well as to foil automated login attempts that try
 # to guess passwords.
 class role::confirmedit {
-    include role::mediawiki
+    require ::role::mediawiki
 
     require_package('fonts-dejavu')
     require_package('python-imaging')
@@ -12,7 +12,7 @@ class role::confirmedit {
 
     $font     = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
     $wordlist = '/usr/share/dict/words'
-    $output   = "${::role::mediawiki::dir}/images/temp/captcha"
+    $output   = "${::mediawiki::dir}/images/temp/captcha"
     $key      = 'FOO'
 
     mediawiki::extension { 'ConfirmEdit':
@@ -29,14 +29,14 @@ class role::confirmedit {
         },
     }
 
-    file { [ "${::role::mediawiki::dir}/images/temp", $output ]:
+    file { [ "${::mediawiki::dir}/images/temp", $output ]:
         ensure => directory,
         before => Exec['generate_captchas'],
     }
 
     exec { 'generate_captchas':
         command     => "python captcha.py --font=${font} --wordlist=${wordlist} --key=${key} --output=${output}",
-        cwd         => "${::role::mediawiki::dir}/extensions/ConfirmEdit",
+        cwd         => "${::mediawiki::dir}/extensions/ConfirmEdit",
         require     => Package['wbritish-small', 'fonts-dejavu'],
         refreshonly => true,
     }

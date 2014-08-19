@@ -1,6 +1,43 @@
 ---
 classes: ['::role::mediawiki']
 
+cdh::oozie::server::db_root_password: "%{::mysql::root_password}"
+cdh::oozie::server::heapsize: 64
+
+mediawiki::wiki_name: devwiki
+mediawiki::dir: /vagrant/mediawiki
+mediawiki::cache_dir: /var/cache/mediawiki
+mediawiki::settings_dir: /vagrant/settings.d
+mediawiki::upload_dir: /srv/images
+mediawiki::db_name: "%{::mysql::default_db_name}"
+mediawiki::db_user: root
+mediawiki::db_pass: "%{::mysql::root_password}"
+mediawiki::admin_user: admin
+mediawiki::admin_pass: vagrant
+mediawiki::server_url: "http://%{::role::mediawiki::hostname}:%{::forwarded_port}"
+
+mediawiki::apache::docroot: /var/www
+
+mediawiki::jobrunner::commit: 5c927f9091f446452b9fd7bcb69614c7a7fe6eff
+
+mediawiki::multiwiki::base_domain: '.wiki.local.wmftest.net'
+mediawiki::multiwiki::script_dir: "%{::mediawiki::apache::docroot}/w"
+mediawiki::multiwiki::settings_root: "%{::mediawiki::settings_dir}/wikis"
+
+mediawiki::parsoid::dir: /srv/parsoid
+mediawiki::parsoid::port: 8000
+mediawiki::parsoid::use_php_preprocessor: true
+mediawiki::parsoid::use_selser: true
+mediawiki::parsoid::allow_cors: '*'
+
+mysql::default_db_name: wiki
+mysql::root_password: vagrant
+
+redis::persist: true
+redis::max_memory: 256M
+
+role::mediawiki::hostname: 127.0.0.1
+
 scholarships::vhost_name: scholarships.local.wmftest.net
 scholarships::db_name: scholarships
 scholarships::db_user: scholarships
