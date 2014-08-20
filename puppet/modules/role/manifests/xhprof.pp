@@ -15,7 +15,6 @@
 #   } );
 #
 class role::xhprof {
-    include role::mediawiki
     include ::xhprof
 
     require_package('graphviz')

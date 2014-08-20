@@ -2,7 +2,7 @@
 # This class configures MediaWiki to generate image thumbnails automatically
 # when an existing thumbnail is not found in cache.
 class role::thumb_on_404 {
-    require ::mediawiki
+    require ::role::mediawiki
 
     require_package('imagemagick')
 

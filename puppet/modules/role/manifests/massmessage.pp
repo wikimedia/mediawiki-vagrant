@@ -3,8 +3,7 @@
 # easily send a message to a list of pages via the job queue, and a set
 # of extensions which integrate with it: LiquidThreads and Echo.
 class role::massmessage {
-    include role::mediawiki
-    include role::echo
+    include ::role::echo
 
     mediawiki::extension { 'MassMessage': }
 

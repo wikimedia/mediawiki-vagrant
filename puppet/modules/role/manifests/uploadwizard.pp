@@ -4,11 +4,9 @@
 # a JavaScript-driven wizard interface for uploading multiple files.
 class role::uploadwizard {
     include ::wikitools
-
-    include role::mediawiki
-    include role::eventlogging
-    include role::multimedia
-    include role::codeeditor
+    include ::role::eventlogging
+    include ::role::multimedia
+    include ::role::codeeditor
 
     # API smoke test dependencies
     require_package('imagemagick')

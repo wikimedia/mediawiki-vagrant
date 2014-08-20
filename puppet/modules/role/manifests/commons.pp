@@ -3,7 +3,7 @@
 # which is configured to approximate commons' setup
 #
 class role::commons {
-    include ::role::mediawiki
+    require ::role::mediawiki
     include ::role::multimedia
     include ::role::thumb_on_404
 
@@ -38,15 +38,15 @@ class role::commons {
 
     mediawiki::extension { 'GlobalUsage':
         needs_update => true,
-        settings => {
+        settings     => {
             wgGlobalUsageDatabase => 'commonswiki',
         },
-        require => Mediawiki::Wiki['commons'],
+        require      => Mediawiki::Wiki['commons'],
     }
 
     exec { 'refresh globalusage table':
         command => 'foreachwiki extensions/GlobalUsage/refreshGlobalimagelinks.php --pages existing,nonexisting',
-        cwd     => $dir,
+        cwd     => $::mediawiki::dir,
         user    => 'www-data',
         require => Mediawiki::Extension['GlobalUsage'],
     }

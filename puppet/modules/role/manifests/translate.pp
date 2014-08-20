@@ -5,7 +5,7 @@
 # tools.
 #
 class role::translate {
-    include role::uls
+    include ::role::uls
 
     mediawiki::extension { 'Translate':
         needs_update => true,

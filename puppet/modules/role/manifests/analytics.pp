@@ -29,12 +29,12 @@
 # line in site.pp.  You'll end up installing much less stuff.
 #
 class role::analytics {
-    include role::hadoop
-    include role::hive
-    include role::oozie
+    include ::role::hadoop
+    include ::role::hive
+    include ::role::oozie
     # cdh::pig and cdh::sqoop are not parameterized so they
     # do not need their own role classes.
-    include cdh::pig
-    include cdh::sqoop
-    include role::hue
+    include ::cdh::pig
+    include ::cdh::sqoop
+    include ::role::hue
 }

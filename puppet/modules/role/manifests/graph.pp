@@ -1,8 +1,7 @@
 # == Class: role::graph
 # Configures Graph extension
 class role::graph {
-    include role::mediawiki
-    include role::jsonconfig
+    include ::role::jsonconfig
 
     mediawiki::extension { 'Graph':
         settings => [

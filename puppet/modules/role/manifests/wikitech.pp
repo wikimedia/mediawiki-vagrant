@@ -3,15 +3,14 @@
 # Provisions a MediaWiki instance similar to https://wikitech.wikimedia.org/.
 #
 class role::wikitech {
-    include role::mediawiki
-    include role::cite
-    include role::codeeditor
-    include role::echo
-    include role::gadgets
-    include role::parserfunctions
-    include role::scribunto
-    include role::wikieditor
-    include role::wikilove
+    include ::role::cite
+    include ::role::codeeditor
+    include ::role::echo
+    include ::role::gadgets
+    include ::role::parserfunctions
+    include ::role::scribunto
+    include ::role::wikieditor
+    include ::role::wikilove
 
     # Alas, if only SMW didn't require composer
     # mediawiki::extension { [ 'SemanticForms', 'SemanticResultFormats' ]:
@@ -45,21 +44,20 @@ class role::wikitech {
 
     mediawiki::extension { [
         'CategoryTree',
-         'CheckUser',
-         'Collection',
-         'DynamicSidebar',
-         'Nuke',
-         'OATHAuth',
-         'OpenStackManager',
-         'Renameuser',
-         'TitleBlacklist',
-         'Vector'
+        'CheckUser',
+        'Collection',
+        'DynamicSidebar',
+        'Nuke',
+        'OATHAuth',
+        'OpenStackManager',
+        'Renameuser',
+        'TitleBlacklist',
+        'Vector'
     ]:
         needs_update  => true,
     }
 
     mediawiki::import_dump { 'wikitech_content':
-        require            => Class['::role::mediawiki'],
         xml_dump           => '/vagrant/puppet/modules/wikitech/files/wikitech-initial-pages.xml',
         dump_sentinel_page => 'Testwiki:wiki/Wikimedia_Labs',
     }

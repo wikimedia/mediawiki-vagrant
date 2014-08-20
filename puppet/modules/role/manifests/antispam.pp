@@ -1,8 +1,7 @@
 # == Class: role::antispam
 # Installs and sets up AntiSpoof, AbuseFilter, and the SpamBlacklist extensions
 class role::antispam {
-    include role::mediawiki
-    include role::antispoof
+    include ::role::antispoof
 
     mediawiki::extension { 'AbuseFilter':
         needs_update => true,

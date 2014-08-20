@@ -2,8 +2,7 @@
 # This role sets up the EventLogging extension for MediaWiki such that
 # events are validated against production schemas but logged locally.
 class role::eventlogging {
-    include role::mediawiki
-    include role::geshi
+    include ::role::geshi
 
     mediawiki::extension { 'EventLogging':
         priority => $::LOAD_EARLY,

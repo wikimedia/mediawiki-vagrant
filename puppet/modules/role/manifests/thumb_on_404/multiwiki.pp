@@ -2,7 +2,7 @@
 # Configure a multiwiki instance with thumbs on 404.
 # See commons.pp
 define role::thumb_on_404::multiwiki {
-    require ::mediawiki
+    require ::role::mediawiki
 
     $images_path = "/${title}images"
 

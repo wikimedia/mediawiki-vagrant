@@ -3,8 +3,7 @@
 # Add the MediaWiki extensions needed for developing banner delivery tools.
 #
 class role::centralnotice {
-    include role::mediawiki
-    include role::translate
+    include ::role::translate
 
     mediawiki::extension { 'CentralNotice':
         needs_update => true,

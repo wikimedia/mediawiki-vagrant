@@ -1,7 +1,7 @@
 # == Class: role::urlshortener
 # Configures UrlShortener, a MediaWiki extension for making short URLs
 class role::urlshortener {
-    include role::mediawiki
+    require ::role::mediawiki
     include ::apache::mod::rewrite
 
     mediawiki::extension { 'UrlShortener':
@@ -10,7 +10,7 @@ class role::urlshortener {
     }
 
     apache::site_conf { 'urlshortener_short_url_support':
-        site    => $mediawiki::wiki_name,
+        site    => $::mediawiki::wiki_name,
         content => template('role/urlshortener_shortening.conf.erb'),
     }
 }

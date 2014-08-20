@@ -3,8 +3,7 @@
 # which shows images and their metadata in a lightbox
 # when the user clicks on the thumbnails.
 class role::multimediaviewer {
-    include role::mediawiki
-    include role::multimedia
+    include ::role::multimedia
     include ::apache::mod::headers
 
     mediawiki::extension { 'MultimediaViewer':

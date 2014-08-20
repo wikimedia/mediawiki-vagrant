@@ -5,20 +5,17 @@
 #
 class role::labs_initial_content {
     mediawiki::import_dump { 'labs_privacy':
-        require            => Class['::role::mediawiki'],
         xml_dump           => '/vagrant/puppet/modules/labs/files/labs_privacy_policy.xml',
         dump_sentinel_page => 'Testwiki:Privacy_policy',
     }
 
     file { '/var/www/labs_mediawiki_logo.png':
         ensure   => present,
-        require  => Class['::role::mediawiki'],
         source   => '/vagrant/puppet/modules/labs/files/labs_vagrant_logo.png'
     }
 
     file { '/var/www/robots.txt':
         ensure   => present,
-        require  => Class['::role::mediawiki'],
         source   => '/vagrant/puppet/modules/labs/files/robots.txt'
     }
 

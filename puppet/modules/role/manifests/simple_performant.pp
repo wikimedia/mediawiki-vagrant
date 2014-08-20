@@ -6,18 +6,17 @@
 # do your homework.
 # See https://www.mediawiki.org/wiki/Manual:Performance_tuning
 class role::simple_performant {
-    include role::mediawiki
-    include role::fss
-    include role::thumb_on_404
-    include role::wikidiff2
+    require ::role::mediawiki
+    include ::role::fss
+    include ::role::thumb_on_404
+    include ::role::wikidiff2
+    include ::apache::mod::expires
 
     require_package('unzip')
-
 
     $DAY         = 24 * 60 * 60
     $CACHE_ACCEL = 3
     $CACHE_DB    = 1
-
 
     php::ini { 'simple_performant':
         settings => { realpath_cache_size => '512K' },
@@ -51,13 +50,11 @@ class role::simple_performant {
         refreshonly => true,
     }
 
-    include ::apache::mod::expires
-
     $expires_active  = 'ExpiresActive On'
     $expires_default = 'ExpiresDefault "access plus 1 month"'
 
     apache::site_conf { 'expires':
-        site    => $mediawiki::wiki_name,
+        site    => $::mediawiki::wiki_name,
         content => "${expires_active}\n${expires_default}\n",
         require => Class['::apache::mod::expires'],
     }

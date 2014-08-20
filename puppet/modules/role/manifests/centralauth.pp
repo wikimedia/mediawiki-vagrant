@@ -10,7 +10,6 @@ class role::centralauth {
     include ::role::renameuser
     include ::role::usermerge
     include ::browsertests
-    include ::mysql
 
     $shared_db = 'centralauth'
 

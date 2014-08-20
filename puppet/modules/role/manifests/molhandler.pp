@@ -2,8 +2,7 @@
 # Configures MolHandler, an extension for embedding chemical table files
 # in MediaWiki.
 class role::molhandler {
-    include role::mediawiki
-    include role::svg
+    include ::role::svg
 
     require_package('indigo-utils')
     require_package('openbabel')

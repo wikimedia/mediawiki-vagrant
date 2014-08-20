@@ -6,7 +6,7 @@
 # documents, as is commonly done with DjVu files (particularly in
 # Wikisource).
 class role::pdfhandler {
-    include role::multimedia
+    include ::role::multimedia
 
     require_package('ghostscript')
     require_package('imagemagick')

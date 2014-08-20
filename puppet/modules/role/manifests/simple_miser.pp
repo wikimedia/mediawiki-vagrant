@@ -7,7 +7,7 @@
 # See https://www.mediawiki.org/wiki/Manual:Performance_tuning
 
 class role::simple_miser {
-    include role::simple_performant
+    include ::role::simple_performant
 
     mediawiki::settings { 'simple_miser':
         values => {

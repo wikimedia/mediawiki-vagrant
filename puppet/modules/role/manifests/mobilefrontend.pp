@@ -2,11 +2,10 @@
 # Configures MobileFrontend, the MediaWiki extension which powers
 # Wikimedia mobile sites.
 class role::mobilefrontend {
-    include role::mediawiki
-    include role::eventlogging
-    include role::mantle
-    include role::pageimages
-    include role::textextracts
+    include ::role::eventlogging
+    include ::role::mantle
+    include ::role::pageimages
+    include ::role::textextracts
 
     mediawiki::extension { 'MobileFrontend':
         settings      => {

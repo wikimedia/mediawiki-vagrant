@@ -7,8 +7,7 @@
 # extensions that are commonly used by the multimedia team in
 # development and testing.
 class role::multimedia {
-    include role::mediawiki
-    include role::thumb_on_404
+    include ::role::thumb_on_404
 
     # Increase PHP upload size from default puny 2MB
     php::ini { 'uploadsize':

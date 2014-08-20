@@ -16,7 +16,7 @@
 #    git submodule update --init
 #
 class role::wikimetrics {
-    require role::mediawiki
+    require ::role::mediawiki
     require ::mysql::packages
 
     require_package('python-nose')

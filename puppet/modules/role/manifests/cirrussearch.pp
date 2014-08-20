@@ -2,14 +2,12 @@
 # The CirrusSearch extension implements searching for MediaWiki using
 # Elasticsearch.
 class role::cirrussearch {
-    include role::mediawiki
-    include role::timedmediahandler
-    include role::pdfhandler
-    include role::cite
+    include ::role::timedmediahandler
+    include ::role::pdfhandler
+    include ::role::cite
+    include ::elasticsearch
 
     require_package('jq')
-
-    class { '::elasticsearch': }
 
     # Elasticsearch plugins
     ## Analysis

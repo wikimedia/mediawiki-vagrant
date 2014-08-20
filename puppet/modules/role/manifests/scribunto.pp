@@ -2,9 +2,8 @@
 # Configures Scribunto, an extension for embedding scripting languages
 # in MediaWiki.
 class role::scribunto {
-    include role::mediawiki
-    include role::codeeditor
-    include role::geshi
+    include ::role::codeeditor
+    include ::role::geshi
 
     require_package('php-luasandbox')
 

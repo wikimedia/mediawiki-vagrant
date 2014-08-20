@@ -5,8 +5,7 @@
 #
 # [1] https://www.mediawiki.org/wiki/Extension:GWToolset
 class role::gwtoolset {
-    include role::mediawiki
-    include role::multimedia
+    include ::role::multimedia
 
     php::ini { 'GWToolset':
         settings => {

@@ -7,8 +7,6 @@
 # available locally, or customize the language in which menus are
 # displayed.
 class role::uls {
-    include role::mediawiki
-
     mediawiki::extension { 'UniversalLanguageSelector':
         settings => { wgULSEnable => true },
     }

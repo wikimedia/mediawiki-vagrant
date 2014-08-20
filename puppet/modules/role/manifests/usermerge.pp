@@ -3,6 +3,5 @@
 # (Bureaucrat by default) to merge one Wiki user's account with another Wiki
 # user's account.
 class role::usermerge {
-    include role::mediawiki
     mediawiki::extension { 'UserMerge': }
 }

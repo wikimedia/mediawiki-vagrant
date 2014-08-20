@@ -2,8 +2,7 @@
 # This role provisions the PagedTiffHandler[https://www.mediawiki.org/wiki/Extension:PagedTiffHandler] extension,
 # which improves the handling of TIFF files.
 class role::pagedtiffhandler {
-    include role::mediawiki
-    include role::multimedia
+    include ::role::multimedia
 
     require_package('exiv2')
     require_package('libtiff-tools')

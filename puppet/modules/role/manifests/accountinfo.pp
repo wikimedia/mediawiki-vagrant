@@ -3,8 +3,6 @@
 # that is stored about them. It also includes the CheckUser extension,
 # which AccountInfo integrates with.
 class role::accountinfo {
-    include role::mediawiki
-
     mediawiki::extension { 'CheckUser':
         needs_update => true,
     }

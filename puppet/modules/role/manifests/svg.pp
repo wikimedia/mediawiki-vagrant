@@ -1,14 +1,12 @@
 # == Class: role::svg
 # Configures MediaWiki to allow SVG upload and rendering
 class role::svg {
-    include role::mediawiki
-
     require_package('librsvg2-bin')
 
     mediawiki::settings { 'svg':
         ensure  => present,
         require => Package['librsvg2-bin'],
-        values => [
+        values  => [
             '$wgEnableUploads = true',
             '$wgAllowTitlesInSVG = true',
             '$wgSVGConverter     = \'rsvg\'',

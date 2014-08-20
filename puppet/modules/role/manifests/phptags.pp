@@ -3,8 +3,6 @@
 # expressions with PHP language syntax in MediaWiki.
 #
 class role::phptags {
-    include role::mediawiki
-
     mediawiki::extension { 'PhpTags': }
 
     mediawiki::extension { 'PhpTagsFunctions':

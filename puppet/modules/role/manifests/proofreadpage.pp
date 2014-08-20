@@ -2,9 +2,8 @@
 # Configures ProodreadPage, an extension to allow the proofreading of
 # a text in comparison with scanned images.
 class role::proofreadpage {
-    include role::mediawiki
-    include role::parserfunctions
-    include role::cite
+    include ::role::parserfunctions
+    include ::role::cite
 
     require_package('djvulibre-bin')
     require_package('ghostscript')

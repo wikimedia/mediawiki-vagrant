@@ -4,8 +4,6 @@
 # github.
 #
 class role::wikidata {
-    require ::role::mediawiki
-
     mediawiki::wiki { 'wikidata': }
 
     mediawiki::extension { 'WikidataBuildResources':
@@ -17,7 +15,7 @@ class role::wikidata {
     }
 
     mediawiki::settings { 'WikiData-Init':
-        priority => $LOAD_EARLY,
+        priority => $::LOAD_EARLY,
         values   => template('role/wikidata-init.php.erb'),
     }
 

@@ -3,6 +3,5 @@
 # users to rename user accounts. This will cause page histories, etc. to be
 # updated.
 class role::renameuser {
-    include role::mediawiki
     mediawiki::extension { 'Renameuser': }
 }

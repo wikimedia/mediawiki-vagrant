@@ -3,7 +3,7 @@
 # The Math extension provides support for rendering mathematical formulas
 # on-wiki via texvc.
 class role::math {
-    include role::mediawiki
+    require ::role::mediawiki
 
     require_package('ghostscript')
     require_package('imagemagick')
@@ -49,8 +49,8 @@ class role::math {
 
     exec { 'compile_texvc':
         command => 'make',
-        cwd     => "${mediawiki::dir}/extensions/Math/math",
-        creates => "${mediawiki::dir}/extensions/Math/math/texvc",
+        cwd     => "${::mediawiki::dir}/extensions/Math/math",
+        creates => "${::mediawiki::dir}/extensions/Math/math/texvc",
         require => [
             Mediawiki::Extension['Math'],
             Package['ocaml-native-compilers'],
@@ -59,8 +59,8 @@ class role::math {
 
     exec { 'compile_texvccheck':
         command => 'make',
-        cwd     => "${mediawiki::dir}/extensions/Math/texvccheck",
-        creates => "${mediawiki::dir}/extensions/Math/texvccheck/texvccheck",
+        cwd     => "${::mediawiki::dir}/extensions/Math/texvccheck",
+        creates => "${::mediawiki::dir}/extensions/Math/texvccheck/texvccheck",
         require => [
             Mediawiki::Extension['Math'],
             Package['ocaml-native-compilers'],

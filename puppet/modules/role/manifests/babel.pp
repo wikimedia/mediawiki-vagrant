@@ -5,7 +5,7 @@
 # originated on the Wikimedia Commons and has also been implemented on many
 # other wikis.
 class role::babel {
-    include role::cldr
+    include ::role::cldr
 
     mediawiki::extension { 'Babel':
         require  => Mediawiki::Extension['cldr'],

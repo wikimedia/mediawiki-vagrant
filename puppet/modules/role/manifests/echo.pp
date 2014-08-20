@@ -1,8 +1,7 @@
 # == Class: role::echo
 # Configures Echo, a MediaWiki notification framework.
 class role::echo {
-    include role::mediawiki
-    include role::eventlogging
+    include ::role::eventlogging
 
     mediawiki::extension { 'Echo':
         needs_update => true,

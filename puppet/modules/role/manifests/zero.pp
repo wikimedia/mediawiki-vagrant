@@ -1,10 +1,9 @@
 # == Class: role::zero
 # Configures Zero for local use
 class role::zero {
-    include role::mediawiki
-    include role::mobilefrontend
-    include role::jsonconfig
-    include role::thumb_on_404
+    include ::role::mobilefrontend
+    include ::role::jsonconfig
+    include ::role::thumb_on_404
 
     mediawiki::extension { 'ZeroBanner':
         priority => $::LOAD_LATER, # Must be after JsonConfig & MobileFrontEnd

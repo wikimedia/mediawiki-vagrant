@@ -3,8 +3,6 @@
 # enabled applications can then edit this instance of MediaWiki on
 # its users' behalf.
 class role::oauth {
-    include role::mediawiki
-
     mediawiki::extension { 'OAuth':
         needs_update => true,
         settings     => [

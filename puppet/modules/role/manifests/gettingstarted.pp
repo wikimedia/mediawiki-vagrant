@@ -3,10 +3,9 @@
 # EventLogging and GuidedTour. GettingStarted adds a special page which
 # presents introductory content and tasks to newly-registered editors.
 class role::gettingstarted {
-    include role::mediawiki
-    include role::cirrussearch
-    include role::eventlogging
-    include role::guidedtour
+    include ::role::cirrussearch
+    include ::role::eventlogging
+    include ::role::guidedtour
 
     mediawiki::extension { 'GettingStarted':
         settings => {

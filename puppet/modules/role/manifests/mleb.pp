@@ -6,10 +6,10 @@
 # installed and configured so that MediaWiki can show the cross wiki link on
 # the left sidebar.
 class role::mleb {
-    include role::babel
-    include role::cldr
-    include role::translate
-    include role::uls
+    include ::role::babel
+    include ::role::cldr
+    include ::role::translate
+    include ::role::uls
 
     mediawiki::extension { 'LocalisationUpdate':
         settings => { wgLocalisationUpdateDirectory => '$IP/cache' },
