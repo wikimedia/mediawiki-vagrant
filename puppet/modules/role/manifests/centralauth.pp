@@ -47,7 +47,7 @@ class role::centralauth {
     }
 
     mysql::sql { 'Create CentralAuth tables':
-        sql     => "USE ${shared_db}; SOURCE ${::role::mediawiki::dir}/extensions/CentralAuth/central-auth.sql;",
+        sql     => "USE ${shared_db}; SOURCE ${::mediawiki::dir}/extensions/CentralAuth/central-auth.sql;",
         unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${shared_db}' AND table_name = 'globalnames';",
         require => [
             Mysql::Db[$shared_db],
@@ -56,7 +56,7 @@ class role::centralauth {
     }
 
     mysql::sql { 'Create CentralAuth spoofuser table':
-        sql     => "USE ${shared_db}; SOURCE ${::role::mediawiki::dir}/extensions/CentralAuth/AntiSpoof/patch-antispoof-global.mysql.sql;",
+        sql     => "USE ${shared_db}; SOURCE ${::mediawiki::dir}/extensions/CentralAuth/AntiSpoof/patch-antispoof-global.mysql.sql;",
         unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${shared_db}' AND table_name = 'spoofuser';",
         require => [
             Mysql::Db[$shared_db],

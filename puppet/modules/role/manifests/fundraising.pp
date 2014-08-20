@@ -3,9 +3,7 @@
 # Provision subsystems being developed by the Fundraising group
 #
 class role::fundraising {
-    include role::centralnotice
-    include role::mysql
-
+    include ::role::centralnotice
     include ::activemq
     include ::crm
 

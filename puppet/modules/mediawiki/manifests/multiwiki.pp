@@ -12,19 +12,17 @@
 #
 # [*base_domain*]
 #   Base domain to use to construct FQDN of wikis.
-#   Default '.wiki.local.wmftest.net'
 #
 # [*script_dir*]
-#   Apache vhost document root. Default '/var/www/w'
+#   Apache vhost document root.
 #
 # [*settings_root*]
 #   Location of settings files.
-#   Default "${::mediawiki::settings_dir}/wikis"
 #
 class mediawiki::multiwiki(
-    $base_domain   = '.wiki.local.wmftest.net',
-    $script_dir    = "${::mediawiki::apache::docroot}/w",
-    $settings_root = "${::mediawiki::settings_dir}/wikis",
+    $base_domain,
+    $script_dir,
+    $settings_root,
 ) {
 
     File {

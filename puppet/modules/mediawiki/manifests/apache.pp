@@ -5,10 +5,10 @@
 # === Parameters
 #
 # [*docroot*]
-#   Document root for Apache vhost serving MediaWiki. Default is /var/www
+#   Document root for Apache vhost serving MediaWiki.
 #
 class mediawiki::apache(
-    $docroot = '/var/www',
+    $docroot,
 ) {
     include ::mediawiki
     include ::mediawiki::multiwiki

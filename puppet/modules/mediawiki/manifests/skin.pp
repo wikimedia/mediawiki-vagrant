@@ -70,7 +70,7 @@ define mediawiki::skin(
     mediawiki::settings { $title:
         ensure       => $ensure,
         wiki         => $wiki,
-        header       => template("mediawiki/skin.php.erb"),
+        header       => template('mediawiki/skin.php.erb'),
         values       => $settings,
         require      => Git::Clone["mediawiki/skins/${skin}"],
     }

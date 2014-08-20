@@ -165,8 +165,8 @@ define mediawiki::extension(
     }
 
     mediawiki::settings { $title:
-        wiki         => $ext_wiki,
         ensure       => $ensure,
+        wiki         => $ext_wiki,
         header       => sprintf('include_once "$IP/extensions/%s/%s";', $ext_name, $ext_entrypoint),
         values       => $settings,
         priority     => $priority,

@@ -8,8 +8,8 @@ class role::globalcssjs {
 
     mediawiki::extension { 'GlobalCssJs':
         settings     => [
-            "\$wgResourceLoaderSources['wiki']['apiScript'] = '${::role::mediawiki::server_url}/w/api.php';",
-            "\$wgResourceLoaderSources['wiki']['loadScript'] = '${::role::mediawiki::server_url}/w/load.php';",
+            "\$wgResourceLoaderSources['wiki']['apiScript'] = '${::mediawiki::server_url}/w/api.php';",
+            "\$wgResourceLoaderSources['wiki']['loadScript'] = '${::mediawiki::server_url}/w/load.php';",
             '$wgGlobalCssJsConfig["wiki"] = "wiki";',
             '$wgGlobalCssJsConfig["source"] = "wiki";',
         ],

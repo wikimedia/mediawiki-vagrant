@@ -1,17 +1,15 @@
 # == Class: role::hive
 # Installs and runs hive client, hive metastore and hive server.
 class role::hive {
-    # We need the root db password defined in the mysql module
-    # in order to create the Hive metastore database.
-    require role::mysql
-    require role::hadoop
+    require ::role::hadoop
+    include ::mysql
 
     # Need hadoop up and running and configs defined first.
     Class['role::hadoop'] -> Class['role::hive']
 
     class { '::cdh::hive':
         metastore_host   => $role::hadoop::namenode_hosts[0],
-        db_root_password => $::role::mysql::db_pass,
+        db_root_password => $::mysql::root_password,
         # $hive_version and $cdh_version are custom facts added by the cdh module.
         auxpath          => 'file:///usr/lib/hive-hcatalog/share/hcatalog/hive-hcatalog-core-0.12.0-cdh5.0.2.jar',
     }

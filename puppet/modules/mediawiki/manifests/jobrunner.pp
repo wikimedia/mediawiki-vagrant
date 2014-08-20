@@ -9,7 +9,7 @@
 #   Git commit to install.
 #
 class mediawiki::jobrunner(
-    $commit = '5c927f9091f446452b9fd7bcb69614c7a7fe6eff',
+    $commit,
 ) {
     include ::mediawiki
 
@@ -41,10 +41,10 @@ class mediawiki::jobrunner(
 
     file { '/etc/jobrunner.json':
         content => template('mediawiki/jobrunner.json.erb'),
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0444',
-        notify => Service['jobrunner'],
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        notify  => Service['jobrunner'],
     }
 
     file { '/etc/logrotate.d/mediawiki_jobrunner':

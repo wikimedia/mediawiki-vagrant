@@ -8,21 +8,21 @@
 # === Parameters
 #
 # [*dir*]
-#   Install Parsoid to this directory (default: '/srv/parsoid').
+#   Install Parsoid to this directory.
 #
 # [*port*]
 #   The Parsoid web service will listen on this port.
 #
 # [*use_php_preprocessor*]
 #   If true, use the PHP pre-processor to expand templates via the
-#   MediaWiki API (default: true).
+#   MediaWiki API.
 #
 # [*use_selser*]
-#   Use selective serialization (default: false).
+#   Use selective serialization.
 #
 # [*allow_cors*]
-#   Domains that should be permitted to make cross-domain requests
-#   (default: '*'). If false or undefined, disables CORS.
+#   Domains that should be permitted to make cross-domain requests.
+#   If false or undefined, disables CORS.
 #
 # === Examples
 #
@@ -31,11 +31,11 @@
 #  }
 #
 class mediawiki::parsoid(
-    $dir                  = '/srv/parsoid',
-    $port                 = 8000,
-    $use_php_preprocessor = true,
-    $use_selser           = true,
-    $allow_cors           = '*',
+    $dir,
+    $port,
+    $use_php_preprocessor,
+    $use_selser,
+    $allow_cors,
 ) {
     include mediawiki
 
