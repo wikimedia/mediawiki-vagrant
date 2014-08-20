@@ -155,6 +155,10 @@ Vagrant.configure('2') do |config|
             'environment'        => 'vagrant',
         }
 
+        if settings[:http_port] != 80
+            $FACTER['port_fragment'] = ":#{settings[:http_port]}"
+        end
+
         if settings[:nfs_shares]
             $FACTER['share_owner'] = Process.uid
             $FACTER['share_group'] = Process.gid

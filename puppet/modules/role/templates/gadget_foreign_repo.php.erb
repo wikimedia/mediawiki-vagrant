@@ -1,8 +1,8 @@
 // For the Gadgets 2.0 role
 
 $wgResourceLoaderSources['gadgetswiki'] = array(
-	'loadScript' => '//gadgets<%= scope['::mediawiki::multiwiki::base_domain'] %>:<%= scope["::forwarded_port"] %>/w/load.php',
-	'apiScript' => '//gadgets<%= scope['::mediawiki::multiwiki::base_domain'] %>:<%= scope["::forwarded_port"] %>/w/api.php',
+	'loadScript' => '//gadgets<%= scope['::mediawiki::multiwiki::base_domain'] %><%= scope["::port_fragment"] %>/w/load.php',
+	'apiScript' => '//gadgets<%= scope['::mediawiki::multiwiki::base_domain'] %><%= scope["::port_fragment"] %>/w/api.php',
 );
 
 $wgGadgetRepositories[] = array(

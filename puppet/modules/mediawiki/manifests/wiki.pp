@@ -49,7 +49,7 @@ define mediawiki::wiki(
     $src_dir      = $::mediawiki::dir,
     $cache_dir    = $::mediawiki::cache_dir,
     $upload_dir   = "/srv/${title}images",
-    $server_url   = "http://${title}${::mediawiki::multiwiki::base_domain}:${::forwarded_port}",
+    $server_url   = "http://${title}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
     $primary_wiki = false,
 ) {
     require ::mediawiki::multiwiki

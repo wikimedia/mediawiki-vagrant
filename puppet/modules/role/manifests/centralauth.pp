@@ -69,10 +69,10 @@ class role::centralauth {
 
     # Environment variables used by browser tests
     env::var { 'MEDIAWIKI_CENTRALAUTH_LOGINWIKI_URL':
-        value => "http://${loginwiki}${::mediawiki::multiwiki::base_domain}:${::forwarded_port}",
+        value => "http://${loginwiki}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
     }
 
     env::var { 'MEDIAWIKI_CENTRALAUTH_ALTWIKI_URL':
-        value => "http://${alt_testwiki}${::mediawiki::multiwiki::base_domain}:${::forwarded_port}",
+        value => "http://${alt_testwiki}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
     }
 }

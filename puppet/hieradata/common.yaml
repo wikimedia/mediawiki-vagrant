@@ -24,7 +24,7 @@ mediawiki::db_user: root
 mediawiki::db_pass: "%{::mysql::root_password}"
 mediawiki::admin_user: admin
 mediawiki::admin_pass: vagrant
-mediawiki::server_url: "http://%{::role::mediawiki::hostname}:%{::forwarded_port}"
+mediawiki::server_url: "http://%{::role::mediawiki::hostname}%{::port_fragment}"
 
 mediawiki::apache::docroot: /var/www
 
