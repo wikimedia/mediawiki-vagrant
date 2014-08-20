@@ -4,10 +4,12 @@
 # global gadgets, among other things.
 #
 # This role provisions two new wikis, "gadgets" which acts as the global
-# gagdet repository and "gadgetsclient" which can install gagets from
+# gadget repository and "gadgetsclient" which can install gadgets from
 # the global repository.
 #
 class role::gadgets2 {
+    require ::role::mediawiki
+
     mediawiki::extension { 'Gadgets':
         needs_update => true,
         branch       => 'RL2',
