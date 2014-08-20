@@ -37,7 +37,7 @@ class mediawiki::parsoid(
     $use_selser,
     $allow_cors,
 ) {
-    include mediawiki
+    include ::mediawiki
 
     package { [ 'nodejs', 'nodejs-legacy' ]: }
 

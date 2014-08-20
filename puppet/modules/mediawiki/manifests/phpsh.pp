@@ -4,8 +4,8 @@
 # with the MediaWiki codebase.
 #
 class mediawiki::phpsh {
-    include mediawiki
-    include php
+    include ::mediawiki
+    include ::php
 
     package { 'phpsh':
         ensure   => '1.3.5',

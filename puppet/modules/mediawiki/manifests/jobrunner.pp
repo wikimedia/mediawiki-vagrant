@@ -12,6 +12,7 @@ class mediawiki::jobrunner(
     $commit,
 ) {
     include ::mediawiki
+    require ::mediawiki::multiwiki
 
     git::install { 'mediawiki/services/jobrunner':
         directory => '/srv/jobrunner',

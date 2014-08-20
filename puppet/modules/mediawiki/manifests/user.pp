@@ -26,7 +26,7 @@ define mediawiki::user(
     $username = $title,
     $wiki     = $::mediawiki::db_name,
 ) {
-    include mediawiki
+    include ::mediawiki
 
     exec { "mediawiki_user_${username}":
         command => "mwscript createAndPromote.php --wiki=${wiki} ${username} ${password}",

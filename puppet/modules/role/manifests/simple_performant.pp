@@ -48,6 +48,7 @@ class role::simple_performant {
         command     => 'mwscript rebuildLocalisationCache.php --force',
         user        => 'www-data',
         refreshonly => true,
+        require     => Class['::mediawiki::multiwiki'],
     }
 
     $expires_active  = 'ExpiresActive On'

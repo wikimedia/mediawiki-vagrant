@@ -15,7 +15,10 @@ define role::centralauth::migrate_user(
         command => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username '${user}' --auto",
         unless  => "mwscript extensions/CentralAuth/maintenance/migrateAccount.php --username '${user}' | grep -q 'already exists'",
         user    => 'www-data',
-        require => Mysql::Sql['Create CentralAuth tables'],
+        require => [
+            Class['::mediawiki::multiwiki'],
+            Mysql::Sql['Create CentralAuth tables'],
+        ],
     }
 
     # Do not apply until wikis and users have been created

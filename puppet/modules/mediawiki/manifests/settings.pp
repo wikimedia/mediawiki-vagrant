@@ -94,7 +94,8 @@ define mediawiki::settings(
     $header       = '',
     $footer       = '',
 ) {
-    include mediawiki
+    include ::mediawiki
+    require ::mediawiki::multiwiki
 
     # Set wiki from title if appropriate
     if $title =~ /^(\w+):(.+)$/ {

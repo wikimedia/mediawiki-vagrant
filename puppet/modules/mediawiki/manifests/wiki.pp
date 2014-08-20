@@ -52,6 +52,7 @@ define mediawiki::wiki(
     $server_url   = "http://${title}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
     $primary_wiki = false,
 ) {
+    include ::mediawiki
     require ::mediawiki::multiwiki
 
     $settings_root = "${::mediawiki::multiwiki::settings_root}/${db_name}"

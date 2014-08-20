@@ -55,7 +55,7 @@ define mediawiki::skin(
     $branch         = undef,
     $settings       = {},
 ) {
-    include mediawiki
+    include ::mediawiki
 
     $skin_dir = "${mediawiki::dir}/skins/${skin}"
 

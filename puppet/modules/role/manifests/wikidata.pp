@@ -24,6 +24,9 @@ class role::wikidata {
         refreshonly => true,
         user        => 'www-data',
         subscribe   => Mediawiki::Wiki['wikidata'],
-        require     => Mediawiki::Extension['WikidataBuildResources'],
+        require     => [
+            Class['::mediawiki::multiwiki'],
+            Mediawiki::Extension['WikidataBuildResources'],
+        ],
     }
 }

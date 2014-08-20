@@ -25,10 +25,9 @@ define mediawiki::import_dump(
     $dump_sentinel_page,
     $wiki = $::mediawiki::db_name,
 ) {
-    include mediawiki
+    require ::mediawiki
 
     exec { 'import_dump':
-        require   => Class['mediawiki'],
         command   => "mwscript importDump.php --wiki=${wiki} ${xml_dump}",
         unless    => "mwscript pageExists.php --wiki=${wiki} ${dump_sentinel_page}",
         user      => 'www-data',

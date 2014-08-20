@@ -23,9 +23,6 @@
 # [*db_pass*]
 #   Password for MySQL account (example: 'secret123').
 #
-# [*branch*]
-#   Version to check out
-#
 # [*dir*]
 #   The system path to which MediaWiki files have been installed
 #   (example: '/srv/mediawiki').
@@ -41,6 +38,9 @@
 # [*upload_dir*]
 #   The file system path of the folder where files will be uploaded
 #   (example: '/srv/mediawiki/images').
+#
+# [*branch*]
+#   Version to check out
 #
 # [*server_url*]
 #   Full base URL of host (example: 'http://mywiki.net:8080').
@@ -66,9 +66,9 @@ class mediawiki(
     require ::php
     include ::hhvm
 
-    include mediawiki::apache
-    include mediawiki::jobrunner
-    include mediawiki::multiwiki
+    include ::mediawiki::apache
+    include ::mediawiki::jobrunner
+    include ::mediawiki::multiwiki
 
     $managed_settings_dir = "${settings_dir}/puppet-managed"
 

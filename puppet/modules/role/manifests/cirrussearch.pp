@@ -56,6 +56,7 @@ class role::cirrussearch {
         onlyif  => 'mwscript extensions/CirrusSearch/maintenance/cirrusNeedsToBeBuilt.php --quiet',
         user    => 'www-data',
         require => [
+            Class['::mediawiki::multiwiki'],
             Mediawiki::Extension['CirrusSearch'],
             Exec['update_all_databases'],
         ]

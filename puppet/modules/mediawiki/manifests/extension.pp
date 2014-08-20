@@ -127,7 +127,7 @@ define mediawiki::extension(
     $composer       = false,
     $remote         = undef,
 ) {
-    include mediawiki
+    include ::mediawiki
 
     # Set wiki from title if appropriate
     if $title =~ /^(\w+):(.+)$/ {
