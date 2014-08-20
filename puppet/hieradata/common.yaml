@@ -4,7 +4,7 @@ classes: ['::role::mediawiki']
 cdh::hue::secret_key: vagrant
 cdh::hue::hive_server_host: "%{::fqdn}"
 
-cdh::oozie::server::db_root_password: "%{::mysql::root_password}"
+cdh::oozie::server::db_root_password: "%{hiera('mysql::root_password')}"
 cdh::oozie::server::heapsize: 64
 
 crm::dir: /srv/org.wikimedia.civicrm
@@ -12,27 +12,27 @@ crm::site_name: crm.dev
 crm::drupal_db: drupal
 crm::civicrm_db: civicrm
 crm::db_user: root
-crm::db_pass: "%{::mysql::root_password}"
+crm::db_pass: "%{hiera('mysql::root_password')}"
 
 mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki
 mediawiki::cache_dir: /var/cache/mediawiki
 mediawiki::settings_dir: /vagrant/settings.d
 mediawiki::upload_dir: /srv/images
-mediawiki::db_name: "%{::mysql::default_db_name}"
+mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
 mediawiki::db_user: root
-mediawiki::db_pass: "%{::mysql::root_password}"
+mediawiki::db_pass: "%{hiera('mysql::root_password')}"
 mediawiki::admin_user: admin
 mediawiki::admin_pass: vagrant
-mediawiki::server_url: "http://%{::role::mediawiki::hostname}%{::port_fragment}"
+mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fragment}"
 
 mediawiki::apache::docroot: /var/www
 
 mediawiki::jobrunner::commit: 5c927f9091f446452b9fd7bcb69614c7a7fe6eff
 
 mediawiki::multiwiki::base_domain: '.wiki.local.wmftest.net'
-mediawiki::multiwiki::script_dir: "%{::mediawiki::apache::docroot}/w"
-mediawiki::multiwiki::settings_root: "%{::mediawiki::settings_dir}/wikis"
+mediawiki::multiwiki::script_dir: "%{hiera('mediawiki::apache::docroot')}/w"
+mediawiki::multiwiki::settings_root: "%{hiera('mediawiki::settings_dir')}/wikis"
 
 mediawiki::parsoid::dir: /srv/parsoid
 mediawiki::parsoid::port: 8000

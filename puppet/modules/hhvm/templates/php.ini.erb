@@ -5,7 +5,7 @@ pid = /var/run/hhvm/hhvm.pid
 
 hhvm.server.type = fastcgi
 hhvm.server.port = 9000
-hhvm.server.source_root = <%= scope['role::mediawiki::dir'] %>
+hhvm.server.source_root = <%= scope['::mediawiki::dir'] %>
 hhvm.server.gzip_compression_level = 0
 
 hhvm.dynamic_extension_path = /usr/lib/hphp/extensions/20140727
@@ -36,8 +36,8 @@ hhvm.debug.server_error_message = true
 hhvm.debugger.enable_debugger = true
 hhvm.debugger.enable_debugger_server = true
 hhvm.debugger.port = 8089
-hhvm.debugger.default_sandbox_path = <%= scope['role::mediawiki::dir'] %>
-hhvm.debugger.startup_document = <%= scope['role::mediawiki::dir'] %>/index.php
+hhvm.debugger.default_sandbox_path = <%= scope['::mediawiki::dir'] %>
+hhvm.debugger.startup_document = <%= scope['::mediawiki::dir'] %>/index.php
 hhvm.sandbox.sandbox_mode = true
 
 ; admin server
