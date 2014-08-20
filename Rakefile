@@ -10,9 +10,6 @@ PuppetLint.configuration.send('disable_autoloader_layout')
 
 gitmodules = File.expand_path '../.gitmodules', __FILE__
 
-PuppetLint.configuration.ignore_paths = [
-    'puppet/modules/apache/manifests/mod.pp',
-    'puppet/modules/hhvm/manifests/init.pp',
-] + IO.readlines(gitmodules).grep(/\s*path\s*=\s*(\S+)/) { "#{$1}/**/*.pp" }
+PuppetLint.configuration.ignore_paths = IO.readlines(gitmodules).grep(/\s*path\s*=\s*(\S+)/) { "#{$1}/**/*.pp" }
 
 task :default => [:lint]
