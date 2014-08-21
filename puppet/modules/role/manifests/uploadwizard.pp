@@ -16,8 +16,9 @@ class role::uploadwizard {
     mediawiki::extension { 'Campaigns': }
 
     mediawiki::extension { 'UploadWizard':
-        require  => Package['imagemagick'],
-        settings => {
+        browser_tests => true,
+        require       => Package['imagemagick'],
+        settings      => {
             wgAllowCopyUploads    => true,
             wgEnableUploads       => true,
             wgUseImageMagick      => true,
