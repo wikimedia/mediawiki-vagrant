@@ -101,6 +101,8 @@ class role::wikimetrics {
 
     vagrant::settings { 'wikimetrics':
       # Wikimetrics web frontend is on port 5000
-      forward_ports => { 5000  => 5000 }
+      forward_ports => { 5000  => 5000 },
+      # For running tests on 2014-08-21's master, ~2.1 GB RAM are needed
+      ram           => 3072,
     }
 }
