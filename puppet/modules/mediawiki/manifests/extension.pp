@@ -188,14 +188,8 @@ define mediawiki::extension(
     }
 
     if $browser_tests {
-        $browser_tests_dir = $browser_tests ? {
-            true    => 'tests/browser',
-            default => $browser_tests,
-        }
-
-        browsertests::bundle { "${title}_browsertests_bundle":
-          directory => "${ext_dir}/${browser_tests_dir}",
-          require   => Git::Clone[$ext_repo],
+        mediawiki::extension::browsertests { $ext_name:
+            path => $browser_tests,
         }
     }
 }
