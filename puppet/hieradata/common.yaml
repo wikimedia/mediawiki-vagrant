@@ -39,6 +39,7 @@ mediawiki::parsoid::port: 8000
 mediawiki::parsoid::use_php_preprocessor: true
 mediawiki::parsoid::use_selser: true
 mediawiki::parsoid::allow_cors: '*'
+mediawiki::parsoid::workers: 2
 
 mysql::default_db_name: wiki
 mysql::root_password: vagrant

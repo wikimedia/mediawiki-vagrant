@@ -24,6 +24,9 @@
 #   Domains that should be permitted to make cross-domain requests.
 #   If false or undefined, disables CORS.
 #
+# [*workers*]
+#   Number of worker processes to fork.
+#
 # === Examples
 #
 #  class { 'mediawiki::parsoid':
@@ -36,6 +39,7 @@ class mediawiki::parsoid(
     $use_php_preprocessor,
     $use_selser,
     $allow_cors,
+    $workers,
 ) {
     include ::mediawiki
 
@@ -50,7 +54,6 @@ class mediawiki::parsoid(
         path    => "${dir}/src/api/localsettings.js",
         content => template('mediawiki/parsoid.localsettings.js.erb'),
         require => Git::Clone['mediawiki/services/parsoid/deploy'],
-        notify  => Service['parsoid'],
     }
 
     file { '/etc/init/parsoid.conf':
@@ -66,6 +69,6 @@ class mediawiki::parsoid(
     service { 'parsoid':
         ensure    => running,
         provider  => 'upstart',
-        require   => File['localsettings.js', '/etc/init/parsoid.conf'],
+        subscribe => File['localsettings.js', '/etc/init/parsoid.conf'],
     }
 }
