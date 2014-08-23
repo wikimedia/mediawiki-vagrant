@@ -81,6 +81,7 @@ Vagrant.configure('2') do |config|
 
     if settings[:nfs_shares]
         root_share_options[:type] = :nfs
+        root_share_options[:mount_options] = ['noatime','rsize=32767','wsize=32767','async']
         config.nfs.map_uid = Process.uid
         config.nfs.map_gid = Process.gid
     else
