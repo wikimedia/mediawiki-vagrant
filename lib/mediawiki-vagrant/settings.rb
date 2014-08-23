@@ -58,8 +58,9 @@ module MediaWikiVagrant
 
                     yield settings
 
-                    file.truncate(settings.save(file))
+                    settings.save(file)
                     file.flush
+                    file.truncate(file.pos)
                 ensure
                     file.flock(File::LOCK_UN)
                 end
