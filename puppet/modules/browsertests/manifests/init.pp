@@ -51,7 +51,7 @@ class browsertests(
         password => $selenium_password,
     }
 
-    # Set defaults for all environment variables required for testing.
+    # set defaults for all environment variables required for testing.
     env::var { 'BROWSER':
         value => $default_browser,
     }
