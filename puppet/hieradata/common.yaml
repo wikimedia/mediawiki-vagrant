@@ -14,6 +14,8 @@ crm::civicrm_db: civicrm
 crm::db_user: root
 crm::db_pass: "%{hiera('mysql::root_password')}"
 
+hhvm::logroot: /vagrant/logs
+
 mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki
 mediawiki::cache_dir: /var/cache/mediawiki

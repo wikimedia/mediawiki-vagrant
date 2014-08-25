@@ -7,8 +7,15 @@ start on (local-filesystems and net-device-up IFACE!=lo)
 pre-start script
   mkdir -p -m0755 /var/run/hhvm
   chown -R www-data:www-data /var/run/hhvm
-  mkdir -p -m0755 /var/log/hhvm
-  chown -R www-data:www-data /var/log/hhvm
+  mkdir -p -m0755 <%= @logroot %>/hhvm
+  # chowns don't work on Vagrant's NFS mounted logroot, but they also should
+  # not be needed there due to the uid mapping configuration
+  chown -R www-data:www-data <%= @logroot %>/hhvm || /bin/true
+
+  # Set the target of the symbolic link '/usr/lib/hphp/extensions/current'
+  # to the directory whose name matches the extension API version of HHVM:
+  API_VERSION="$(/usr/bin/hhvm --version | grep -Po '(?<=API: ).+')"
+  ( cd /usr/lib/hphp/extensions; ln -Trsf "$API_VERSION" current; )
 end script
 
 env REMOTE_ADDR="127.0.0.1"
@@ -18,6 +25,13 @@ exec /sbin/start-stop-daemon --quiet --start \
          --pidfile /var/run/hhvm/hhvm.pid \
          --startas /usr/bin/hhvm \
          -- --mode server -v Eval.Jit=true
+
+# Don't limit the size of core dumps.
+limit core unlimited unlimited
+
+# When 'hhvm.server.graceful_shutdown_wait' is set to a positive
+# integer, HHVM will perform a graceful shutdown on SIGHUP.
+kill signal HUP
 
 respawn
 # vim: set ft=upstart:

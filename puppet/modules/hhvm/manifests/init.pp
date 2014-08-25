@@ -4,7 +4,16 @@
 # that is mostly compatible with the Zend interpreter. This module is a
 # work-in-progress.
 #
-class hhvm {
+# == Parameters:
+#
+# [*logroot*]
+#   Parent directory to write log files to. An 'hhvm' subdirectory will be
+#   made here to store access and error logs and core dumps . (eg /var/log or
+#   /vagrant/logs)
+#
+class hhvm (
+  $logroot,
+) {
     include ::apache
     include ::apache::mod::proxy_fcgi
 
