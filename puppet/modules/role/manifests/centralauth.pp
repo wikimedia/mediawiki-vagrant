@@ -37,7 +37,7 @@ class role::centralauth {
             '$wgGroupPermissions["sysop"]["centralauth-lock"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-oversight"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-unmerge"] = true;',
-            '$wgGroupPermissions["bureaucrat"]["centralauth-globalrename"] = true;',
+            '$wgGroupPermissions["bureaucrat"]["centralauth-rename"] = true;',
         ]
     }
 
