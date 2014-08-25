@@ -5,7 +5,7 @@
 #
 class elasticsearch {
     package { 'elasticsearch':
-        ensure => '1.2.1',
+        ensure => '1.3.2',
     }
 
     package { 'openjdk-7-jre-headless':
