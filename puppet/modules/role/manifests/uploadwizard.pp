@@ -37,8 +37,8 @@ class role::uploadwizard {
 
     mediawiki::settings { 'UploadWizard permissions':
         values => [
-            '$wgGroupPermissions["*"]["upload"] = true;',
-            '$wgGroupPermissions["*"]["upload_by_url"] = true;',
+            '$wgGroupPermissions["user"]["upload"] = true;',
+            '$wgGroupPermissions["user"]["upload_by_url"] = true;',
         ],
     }
 }
