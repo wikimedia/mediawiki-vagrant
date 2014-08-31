@@ -112,16 +112,16 @@ Vagrant.configure('2') do |config|
         vb.customize ['modifyvm', :id, '--ioapic', 'on']  # Bug 51473
 
         # Speed up dns resolution in some cases
-        vb.customize ["modifyvm", :id, "--natdnshostresolver1", "on"]
-        vb.customize ["modifyvm", :id, "--natdnsproxy1", "on"]
+        vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
+        vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
 
         # To boot the VM in graphical mode, uncomment the following line:
         # vb.gui = true
     end
 
     config.vm.provider :vmware_fusion do |vw|
-        vw.vmx["memsize"] = settings[:vagrant_ram]
-        vw.vmx["numvcpus"] = settings[:vagrant_cores]
+        vw.vmx['memsize'] = settings[:vagrant_ram]
+        vw.vmx['numvcpus'] = settings[:vagrant_cores]
 
         # To boot the VM in graphical mode, uncomment the following line:
         #vw.gui = true
