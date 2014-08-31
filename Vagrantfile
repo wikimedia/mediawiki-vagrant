@@ -56,14 +56,23 @@ Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
     config.package.name = 'mediawiki.box'
 
+    # Default VirtualBox provider
     config.vm.provider :virtualbox do |vb, override|
         override.vm.box = 'trusty-cloud'
         override.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
         override.vm.box_download_insecure = true
     end
 
+    # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
     config.vm.provider :vmware_fusion do |vw, override|
         override.vm.box = 'puppetlabs/ubuntu-14.04-64-puppet'
+    end
+
+    # Docker provider. Enable with `--provider=docker`
+    config.vm.provider :docker do |docker, override|
+        # Disable nfs shares for
+        # https://github.com/mitchellh/vagrant/issues/4011
+        override.nfs.functional = false
     end
 
     config.vm.network :private_network, ip: settings[:static_ip]
@@ -125,6 +134,14 @@ Vagrant.configure('2') do |config|
 
         # To boot the VM in graphical mode, uncomment the following line:
         #vw.gui = true
+    end
+
+    config.vm.provider :docker do |docker|
+        docker.build_dir = './support/docker'
+        docker.create_args = ['-i', '-t']
+        docker.has_ssh = true
+        docker.remains_running = true
+        docker.privileged = true
     end
 
     config.vm.provision :puppet do |puppet|
