@@ -101,6 +101,7 @@ module MediaWikiVagrant
         def purge_puppet_created_files
             FileUtils.rm Dir[path('settings.d/puppet-managed/*.php')]
             FileUtils.rm_r Dir[path('settings.d/multiwiki')]
+            FileUtils.rm_r Dir[path('settings.d/wikis')]
         end
 
         private
