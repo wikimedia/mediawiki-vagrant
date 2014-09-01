@@ -55,9 +55,10 @@ module MediaWikiVagrant
         #
         def roles_enabled
             migrate_roles
-            return [] unless hiera_data.exist?
 
-            hiera = hiera_data.open('r') { |io| YAML.load(io) }
+            hiera = hiera_load
+            return [] unless hiera.key?('classes')
+
             roles = hiera['classes'].map do |r|
                 r.match(/^role::(\S+)/) { |m| m[1] }
             end
@@ -67,17 +68,10 @@ module MediaWikiVagrant
         # Updates the enabled Puppet roles to the given set.
         #
         def update_roles(roles)
-            if hiera_data.exist?
-                hiera = hiera_data.open('r') { |io| YAML.load(io) }
-            else
-                hiera = {'classes' => []}
-            end
-            hiera['classes'] = roles.sort.uniq.map do |r|
+            classes = roles.sort.uniq.map do |r|
                 "role::#{r.sub(/^role::/, '')}"
             end
-
-            yaml = YAML.dump(hiera)
-            hiera_data.open('w') { |f| f.write(yaml) }
+            hiera_set('classes', classes)
         end
 
         # If it has been a week or more since remote commits have been fetched,
@@ -98,10 +92,51 @@ module MediaWikiVagrant
             path('lib/mediawiki-vagrant.rb').exist?
         end
 
+        # Removes files created by the puppet provisioner.
+        #
         def purge_puppet_created_files
             FileUtils.rm Dir[path('settings.d/puppet-managed/*.php')]
             FileUtils.rm_r Dir[path('settings.d/multiwiki')]
             FileUtils.rm_r Dir[path('settings.d/wikis')]
+        end
+
+        # Deletes the given entry from the vagrant-managed hiera file.
+        #
+        # @param key [String]
+        #
+        def hiera_delete(key)
+            if hiera_data.exist?
+                hiera = hiera_load
+                if hiera.key?(key)
+                    hiera.delete(key)
+                    hiera_save(hiera)
+                end
+            end
+        end
+
+        # Returns the value of the given entry in the vagrant-managed hiera
+        # file, or nil if none exists.
+        #
+        # @param key [String]
+        #
+        # @return [Object]
+        #
+        def hiera_get(key)
+          hiera_load[key]
+        end
+
+        # Saves the given key/value pair to the vagrant-managed hiera file.
+        #
+        # @param key [String]
+        # @param value [Object]
+        #
+        # @return [Hash] New hiera settings.
+        #
+        def hiera_set(key, value)
+            hiera_load.tap do |hiera|
+                hiera[key] = value
+                hiera_save(hiera)
+            end
         end
 
         private
@@ -112,6 +147,15 @@ module MediaWikiVagrant
 
         def hiera_data
             path('puppet/hieradata/vagrant-managed.yaml')
+        end
+
+        def hiera_load
+            return {} unless hiera_data.exist?
+            hiera_data.open('r') { |io| YAML.load(io) }
+        end
+
+        def hiera_save(data)
+            hiera_data.open('w') { |f| f.write(YAML.dump(data)) }
         end
 
         def stale_head?

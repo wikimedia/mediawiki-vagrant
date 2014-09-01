@@ -52,6 +52,11 @@ module MediaWikiVagrant
             ImportDump
         end
 
+        command 'hiera' do
+            require 'mediawiki-vagrant/hiera'
+            Hiera
+        end
+
         action_hook(self::ALL_ACTIONS) do |hook|
             require 'mediawiki-vagrant/middleware'
             hook.before(Vagrant::Action::Builtin::Provision, Middleware)
