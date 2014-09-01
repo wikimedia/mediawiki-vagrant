@@ -11,6 +11,10 @@
 #   convenient syntactic sugar for cloning Gerrit repositories.
 #   Default: 'https://gerrit.wikimedia.org/r/p/%s.git'.
 #
+# [*default_depth*]
+#   Default depth for git clones. If specified, creates a shallow clone with
+#   history truncated to the specified number of revisions. Default undef.
+#
 # === Examples
 #
 #  # Use GitHub as the default remote for repositories.
@@ -20,6 +24,7 @@
 #
 class git(
     $urlformat = 'https://gerrit.wikimedia.org/r/p/%s.git',
+    $default_depth = undef,
 ) {
     package { 'git':
         ensure  => latest,
