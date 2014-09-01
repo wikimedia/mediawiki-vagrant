@@ -72,5 +72,15 @@ module MediaWikiVagrant
             MediaWikiVagrant::Reload
         end
 
+        config(:lsb_check, :provisioner) do
+            require 'mediawiki-vagrant/lsb_check/config'
+            MediaWikiVagrant::LsbCheck::Config
+        end
+
+        provisioner :lsb_check do
+            require 'mediawiki-vagrant/lsb_check/provisioner'
+            MediaWikiVagrant::LsbCheck::Provisioner
+        end
+
     end
 end

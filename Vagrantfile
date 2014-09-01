@@ -144,6 +144,10 @@ Vagrant.configure('2') do |config|
         docker.privileged = true
     end
 
+    config.vm.provision :lsb_check do |lsb|
+        lsb.version = '14.04'
+    end
+
     config.vm.provision :puppet do |puppet|
         puppet.module_path = 'puppet/modules'
         puppet.manifests_path = 'puppet/manifests'
