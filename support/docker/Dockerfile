@@ -1,8 +1,8 @@
-# Dockerfile for Mediawiki-Vagrant
+# Dockerfile for MediaWiki-Vagrant
 # ---------------------------------
-# http://www.mediawiki.org/wiki/Mediawiki-Vagrant
+# https://www.mediawiki.org/wiki/MediaWiki-Vagrant
 #
-# Provisions a base Docker image for use with Mediawiki-Vagrant. This is not
+# Provisions a base Docker image for use with MediaWiki-Vagrant. This is not
 # intended to be an example of the best way to use Docker. We are attempting
 # to use the lxc container managed by Docker as a full virtual machine
 # replacement rather than as a light weight service container. Once the image
@@ -12,7 +12,7 @@
 
 # Use base image that runs /sbin/init providing a "machine mode" container
 FROM stackbrew/ubuntu-upstart:14.04
-MAINTAINER Mediawiki-Vagrant <http://www.mediawiki.org/wiki/Mediawiki-Vagrant>
+MAINTAINER MediaWiki-Vagrant <https://www.mediawiki.org/wiki/MediaWiki-Vagrant>
 
 # Disable grub and lilo updates
 ENV INITRD no
