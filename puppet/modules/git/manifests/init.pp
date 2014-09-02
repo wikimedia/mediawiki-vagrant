@@ -26,6 +26,8 @@ class git(
     $urlformat = 'https://gerrit.wikimedia.org/r/p/%s.git',
     $default_depth = undef,
 ) {
+    include ::git::gerrit
+
     package { 'git':
         ensure  => latest,
     }

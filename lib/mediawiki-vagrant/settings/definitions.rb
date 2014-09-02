@@ -33,6 +33,12 @@ MediaWikiVagrant::Settings.define do
         default: !Vagrant::Util::Platform.windows?,
         coercion: ->(setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
 
+    setting :forward_agent,
+        description: "Enable agent forwarding over SSH connections by default",
+        help: "Enter 'yes' or 'no'. Agent forwarding requires an SSH agent running on the host computer.",
+        default: false,
+        coercion: ->(setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
+
     setting :forward_ports,
         internal: true,
         default: {},

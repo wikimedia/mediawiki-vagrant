@@ -57,6 +57,8 @@ Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
     config.package.name = 'mediawiki.box'
 
+    config.ssh.forward_agent = settings[:forward_agent]
+
     # Default VirtualBox provider
     config.vm.provider :virtualbox do |vb, override|
         override.vm.box = 'trusty-cloud'
