@@ -20,7 +20,13 @@ You'll need to install recent versions of Vagrant and VirtualBox.
 
  * VirtualBox: https://www.virtualbox.org/wiki/Downloads
  * Vagrant: http://www.vagrantup.com/downloads-archive.html (the version must be
-   1.2.6 or higher). For NFS, use 1.5.4 and up.
+   1.4.0 or higher). For NFS, use 1.5.4 or higher.
+
+   To check your Vagrant version, run
+
+     vagrant --version
+
+   in a directory without a Vagrantfile (e.g. in your home directory).
  * Hardware virtualization extensions must be enabled in your host computer
    BIOS. The BIOS setting is usually in the "Chipset", "Processor", "CPU", or
    "Security Settings" menu and may be labeled as "VT-x", "Intel
