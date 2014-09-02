@@ -15,10 +15,10 @@ class role::mobilefrontend {
 
     mediawiki::extension { 'MobileFrontend':
         settings      => {
-            wgMFForceSecureLogin     => false,
             wgMFLogEvents            => true,
             wgMFAutodetectMobileView => true,
             wgMFNearby               => true,
+            wgMFEnableBeta           => true,
         },
         browser_tests => true,
     }
