@@ -51,7 +51,7 @@ define git::clone(
     $owner              = 'vagrant',
     $group              = 'vagrant',
     $ensure             = 'present',
-    $depth              = undef,
+    $depth              = $::git::default_depth,
     $recurse_submodules = true,
 ) {
     require ::git
@@ -91,7 +91,7 @@ define git::clone(
     if $ensure == 'latest' {
         exec { "git_pull_${title}":
             command  => "git pull ${arg_recurse} ${arg_depth}",
-            unless   => 'git fetch && git diff --quiet @{upstream}',
+            unless   => "git fetch ${arg_depth} && git diff --quiet @{upstream}",
             cwd      => $directory,
             user     => $owner,
             group    => $group,
