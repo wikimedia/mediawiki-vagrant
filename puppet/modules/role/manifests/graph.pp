@@ -6,7 +6,8 @@ class role::graph {
     mediawiki::extension { 'Graph':
         settings => [
             '$wgEnableGraphParserTag = true',
-            '$wgJsonConfigModels["Graph.JsonConfig"] = "graph\Content"',
+            '$wgGraphDataDomains = array("localhost","127.0.0.1")',
+            '$wgJsonConfigModels["Graph.JsonConfig"] = \'graph\Content\'',
             '$wgJsonConfigs["Graph.JsonConfig"] = array(
                "namespace" => 484,
                "nsName" => "Graph",
