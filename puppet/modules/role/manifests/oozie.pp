@@ -2,6 +2,7 @@
 # Install Oozie server and client.
 #
 class role::oozie {
+    require ::mysql
     require ::role::hadoop
     include ::cdh::oozie
     include ::cdh::oozie::server

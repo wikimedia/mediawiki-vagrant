@@ -2,7 +2,7 @@
 # Installs and runs hive client, hive metastore and hive server.
 class role::hive {
     require ::role::hadoop
-    include ::mysql
+    require ::mysql
 
     # Need hadoop up and running and configs defined first.
     Class['role::hadoop'] -> Class['role::hive']
