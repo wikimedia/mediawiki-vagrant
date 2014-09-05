@@ -45,6 +45,16 @@ class browsertests(
     $mediawiki_url     = 'http://127.0.0.1/wiki/',
     $mediawiki_api_url = 'http://127.0.0.1/w/api.php',
 ) {
+    # install all the mediawiki-selenium dependencies we can from packages
+    require_package('ruby-builder')
+    require_package('ruby-childprocess')
+    require_package('ruby-faraday')
+    require_package('ruby-ffi')
+    require_package('ruby-gherkin')
+    require_package('ruby-i18n')
+    require_package('ruby-json')
+    require_package('ruby-unf')
+
     require_package('xvfb')
 
     mediawiki::user { $selenium_user:
