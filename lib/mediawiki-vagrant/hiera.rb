@@ -47,7 +47,9 @@ module MediaWikiVagrant
         # Configures the given key with the given value.
         #
         def set_key(name, value)
-          @mwv.hiera_set(name, value)
+          # Let yaml coerce the provided value to a native type
+          # This is especially useful for booleans and numbers
+          @mwv.hiera_set(name, YAML.load(value))
         end
 
         # Unsets the given keys.
