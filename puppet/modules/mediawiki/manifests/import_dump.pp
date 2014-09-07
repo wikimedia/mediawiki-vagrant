@@ -27,7 +27,7 @@ define mediawiki::import_dump(
 ) {
     require ::mediawiki
 
-    exec { 'import_dump':
+    exec { "import_dump_${title}":
         command   => "mwscript importDump.php --wiki=${wiki} ${xml_dump}",
         unless    => "mwscript pageExists.php --wiki=${wiki} ${dump_sentinel_page}",
         user      => 'www-data',
