@@ -84,6 +84,8 @@ $wgDisableCounters = true;
 $wgLegacyJavaScriptGlobals = false;
 $wgEnableJavaScriptTest = true;
 
+$wgCacheDirectory = "$IP/cache";
+
 $wgProfilerParams = array(
 	'forceprofile' => 'ProfilerSimpleText',
 	'forcetrace' => 'ProfilerSimpleTrace'
