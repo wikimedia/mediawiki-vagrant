@@ -1,0 +1,1126 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.9/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.9/ http://www.mediawiki.org/xml/export-0.9.xsd" version="0.9" xml:lang="en">
+  <siteinfo>
+    <sitename>Wikimedia Commons</sitename>
+    <dbname>commonswiki</dbname>
+    <base>http://commons.wikimedia.org/wiki/Main_Page</base>
+    <generator>MediaWiki 1.24wmf19</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Commons</namespace>
+      <namespace key="5" case="first-letter">Commons talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="100" case="first-letter">Creator</namespace>
+      <namespace key="101" case="first-letter">Creator talk</namespace>
+      <namespace key="102" case="first-letter">TimedText</namespace>
+      <namespace key="103" case="first-letter">TimedText talk</namespace>
+      <namespace key="104" case="first-letter">Sequence</namespace>
+      <namespace key="105" case="first-letter">Sequence talk</namespace>
+      <namespace key="106" case="first-letter">Institution</namespace>
+      <namespace key="107" case="first-letter">Institution talk</namespace>
+      <namespace key="460" case="case-sensitive">Campaign</namespace>
+      <namespace key="461" case="case-sensitive">Campaign talk</namespace>
+      <namespace key="490" case="first-letter">GWToolset</namespace>
+      <namespace key="491" case="first-letter">GWToolset talk</namespace>
+      <namespace key="828" case="first-letter">Module</namespace>
+      <namespace key="829" case="first-letter">Module talk</namespace>
+      <namespace key="1198" case="first-letter">Translations</namespace>
+      <namespace key="1199" case="first-letter">Translations talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>MediaWiki:Common.css</title>
+    <ns>8</ns>
+    <id>550207</id>
+    <revision>
+      <id>131589310</id>
+      <parentid>123828731</parentid>
+      <timestamp>2014-08-14T19:07:59Z</timestamp>
+      <contributor>
+        <username>Steinsplitter</username>
+        <id>2055977</id>
+      </contributor>
+      <comment>light gray color for GWToolset namespace. feel free to revert if you diagree.</comment>
+      <text xml:space="preserve" bytes="27028">/*
+
+Common CSS for all skins
+
+*/
+
+/* Persian specific customization */
+html[lang=fa] body, [lang=fa] {
+  font-family: Tahoma, 'Iranian Sans', 'DejaVu Sans', sans-serif;
+}
+
+/* Larger conditions-area in AbuseFilter for some */
+#wpFilterRules {
+ min-height: 250px;
+}
+
+/* Larger notes-area in AbuseFilter for some */
+#wpFilterNotes {
+ min-height: 150px;
+}
+
+/* Style for &quot;notices&quot; */
+.notice {
+ text-align: justify;
+ margin: 1em;
+ padding: 0.2em;
+}
+#disambig {
+ border-top: 3px double #ccc;
+ border-bottom: 3px double #ccc;
+}
+#spoiler {
+ border-top: 2px solid #ddd;
+ border-bottom: 2px solid #ddd;
+}
+
+/* Add arrows to toggle-blocks for collapsible elements */
+.mw-collapsible-toggle-expanded.mw-collapsible-arrowtoggle,
+.mw-collapsible-toggle-expanded .mw-collapsible-arrowtoggle {
+ padding-left: 20px !important;
+ background-image: url('//upload.wikimedia.org/wikipedia/commons/1/10/MediaWiki_Vector_skin_action_arrow.png');
+ background-repeat: no-repeat;
+ background-position: center left;
+}
+.mw-collapsible-toggle-collapsed.mw-collapsible-arrowtoggle,
+.mw-collapsible-toggle-collapsed .mw-collapsible-arrowtoggle {
+ padding-left: 20px !important;
+ background-image: url('//upload.wikimedia.org/wikipedia/commons/4/41/MediaWiki_Vector_skin_right_arrow.png');
+ background-repeat: no-repeat;
+ background-position: center left;
+}
+
+/* deprecated - use &quot;messagebox standard-talk&quot; */
+.Talk-Notice {
+ border: 1px solid #c0c090;
+ background: #f8eaba;
+ margin-bottom: 3px;
+ width: 80%;
+ border-spacing: 3px;
+ margin-left: auto;
+ margin-right: auto;
+}
+/* Make template background appear correctly on all browsers */
+.Talk-Notice td {
+ background: inherit;
+}
+
+/* Metadata */
+table.metadata {
+ border: 1px solid #aaa;
+ display: none;
+ speak: none;
+}
+
+/* Class for links with loudspeaker icon next to them */
+.audiolink a {
+ background: url(&quot;//upload.wikimedia.org/wikipedia/commons/f/f7/Loudspeaker.png&quot;) center left no-repeat !important;
+ padding-left: 16px !important;
+ padding-right: 0 !important;
+}
+
+/* Make sure that &quot;external references&quot; from templates like [[Template:Ref]]
+ do not get URL expansion, not even when printed. The anchor itself has
+ class &quot;external autonumber&quot; and the url expansion is inserted when printing
+ (see [http://commons.wikimedia.org/skins-1.5/common/commonPrint.css]) using the
+ &quot;:after&quot; pseudo-element.
+*/
+.plainlinksneverexpand a {
+ background: none !important;
+ padding: 0 !important;
+}
+.plainlinksneverexpand a.external.text:after,
+.plainlinksneverexpand a.external.autonumber:after,
+.nourlexpansion a.external.text:after,
+.nourlexpansion a.external.autonumber:after {
+ display: none !important;
+}
+
+/* When this would make a red link, hide it. For links where #ifexist cannot be used due to high number of requests. See [[meta:Help:Page_existence]]
+*/
+.hidden-redlink a.new {
+ display: none;
+ speak: none;
+}
+.client-js .noscript {
+	display: none;
+}
+
+/* Infobox templates */
+.infobox {
+ border: 1px solid #aaa;
+ background: #f9f9f9;
+ color: black;
+ margin-bottom: 0.5em;
+ margin-left: 1em;
+ padding: 0.2em;
+ float: right;
+ clear: right;
+}
+.infobox td,
+.infobox th {
+ vertical-align: middle;
+}
+.infobox caption {
+ font-size: larger;
+ margin-left: inherit;
+}
+.infobox.bordered {
+ border-collapse: collapse;
+}
+.infobox.bordered td,
+.infobox.bordered th {
+ border: 1px solid #aaa;
+}
+.infobox.bordered .borderless td,
+.infobox.bordered .borderless th {
+ border: 0 solid #aaa;
+}
+.infobox.sisterproject {
+ width: 20em;
+ font-size: 90%;
+}
+
+.archive-box {
+ border: 1px solid #aaf;
+ background: #f2f2f9;
+ color: #000;
+ margin-bottom: 0.5em;
+ margin-left: 1em;
+ padding: 0.2em;
+ float: right;
+ clear: right;
+ text-align: center;
+}
+
+/**
+ * Customisation of the interface
+ */
+
+/* Put a checker background at the image description page only visible if the image has transparent background */
+/* You may want to clear the gallery background for the main namespace on other projects as galleries are used in articles */
+#file img,
+.filehistory a img,
+.gallerybox .thumb img,
+.com-checker img{
+ background: url(&quot;//upload.wikimedia.org/wikipedia/commons/5/5d/Checker-16x16.png&quot;) repeat;
+}
+
+/* Allow checkered background to be disabled by using &lt;gallery class=&quot;nochecker&quot;&gt;&lt;/gallery&gt; */
+.nochecker .gallerybox .thumb img {
+	background: white;
+}
+
+/* Moved upload link from toolbox into the MediaWiki:Sidebar thus suppressing the old duplicate */
+#p-tb #t-upload { display: none; }
+
+/* Removes underlines from links */
+.nounderlines a { text-decoration: none; }
+
+/* Makes the text of the &quot;save&quot; button bold */
+#wpSave { font-weight: bold; }
+
+/* Make sure the license dropdown of the upload form doesn't extend beyond the browser's
+ window, even if there are some long license descriptions. (If that happens, the description
+ box *also* goes beyond the right edge of the window.)
+*/
+#wpLicense {
+ width: 100%;
+ overflow: hidden;
+}
+
+/* Give the upload form a little breathing space. */
+#upload * td {
+ padding-bottom: 8px;
+}
+#mw-upload-table * td {
+ padding-bottom: 8px;
+}
+
+/* Show a border for warning messages on Special:Upload */
+#wpDestFile-warning {
+ padding-bottom: 0;
+}
+#wpDestFile-warning ul {
+ margin-left: 0;
+ border: 1px solid #f00;
+ padding: 1.5em;
+}
+
+/* Styling for Abuse Filter tags */
+.mw-tag-markers {
+ font-style:italic;
+ font-size:90%;
+}
+
+/* Override rules that make edit link asymmetrical on talk pages and new section link skinnier than the rest */
+#p-cactions #ca-addsection a {
+ padding-left: 0.8em;
+ padding-right: 0.8em;
+}
+#p-cactions #ca-edit a {
+ padding-left: 0.8em;
+ padding-right: 0.8em;
+}
+
+/* Something nice for lists in RTL languages */
+div.RTL * ul {
+ margin-right: 10px;
+ display: table;
+}
+div.RTL * ol {
+ margin-right: 10px;
+ display: table;
+}
+
+/* Special:Search styles */
+
+.mw-search-results li{
+ padding: 0.25em 1em;
+ border-bottom: 1px solid #d3daed;
+ background: #f6f8fc;
+}
+.mw-search-results li:nth-child(odd) {
+ background: #f6f8fc;
+}
+.mw-search-results li:nth-child(even) {
+ background: #fcfcfc;
+}
+
+.mw-search-results table {
+ background: transparent;
+}
+
+
+/* wikitable is now in core. Untill prettytable is fully replaced, define it here */
+/* See also: http://bits.wikimedia.org/skins-1.5/common/shared.css */
+/* prettytable class for skinning normal tables */
+table.prettytable {
+ margin: 1em 1em 1em 0;
+ background: #f9f9f9;
+ border: 1px #aaa solid;
+ border-collapse: collapse;
+}
+.prettytable th, .prettytable td {
+ border: 1px #aaa solid;
+ padding: 0.2em;
+}
+.prettytable th {
+ background: #f2f2f2;
+ text-align: center;
+}
+.prettytable caption {
+ font-weight: bold;
+}
+
+/**
+ * hiddenStructure
+ * @deprecated
+ */
+.hiddenStructure,
+.hiddenStructure- {
+ display: none;
+ speak: none;
+}
+
+/* Template:DELheader */
+.delh {
+ background: #f3f9ff;
+ margin: 0 auto;
+ padding: 0 10px;
+ border: 1px solid #aaa;
+ margin-top: 7px;
+}
+
+/* Support for Template:IPA, Template:Unicode and Template:Polytonic.
+ The inherit declaration resets the font for all browsers except MSIE6.
+ The empty comment must remain.
+*/
+.IPA {
+ font-family: Chrysanthi Unicode, Doulos SIL, Gentium, GentiumAlt, Code2000, TITUS Cyberbit Basic, DejaVu Sans, Bitstream Vera Sans, Bitstream Cyberbit, Arial Unicode MS, Lucida Sans Unicode, Hiragino Kaku Gothic Pro, Matrix Unicode;
+ font-family /**/:inherit;
+}
+.Unicode {
+ font-family: TITUS Cyberbit Basic, Code2000, Doulos SIL, Chrysanthi Unicode, Bitstream Cyberbit, Bitstream CyberBase, Bitstream Vera, Thryomanes, Gentium, GentiumAlt, Visual Geez Unicode, Lucida Grande, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode;
+ font-family /**/:inherit;
+}
+.polytonic {
+ font-family: Athena, Gentium, Palatino Linotype, Arial Unicode MS, Lucida Sans Unicode, Lucida Grande, Code2000;
+ font-family /**/:inherit;
+}
+
+.utoc .tocnumber {
+ display: none;
+}
+.utoc #toc ul,
+.utoc .toc ul {
+ line-height: 1.5em;
+ list-style-type: square;
+ margin: .3em 0 0 1.5em;
+ padding: 0;
+ list-style-image: url(skins-1.5/monobook/bullet.gif);
+}
+
+/* Necessary for displaying text in the upper right edge. (Used in [[Template:Shortcut]].) */
+#content span.coordinates a.external.text:after, #content span.coordinates a.external.autonumber:after { content: &quot;&quot;; }
+#content div.coordinates a.external.text:after, #content div.coordinates a.external.autonumber:after { content: &quot;&quot;; }
+
+#shortcut { display: none; }
+
+/**
+ * Style for horizontal lists (separator following item).
+ * @source mediawiki.org/wiki/Snippets/Horizontal_lists
+ * @revision 4 (2013-11-17)
+ * @author [[User:Edokter]]
+ */
+.skin-monobook .hlist dl,
+.skin-modern .hlist dl,
+.skin-vector .hlist dl {
+    line-height: 1.5em;
+}
+.hlist dl,
+.hlist ol,
+.hlist ul {
+    margin: 0;
+    padding: 0;
+}
+/* Display list items inline */
+.hlist dd,
+.hlist dt,
+.hlist li {
+    margin: 0;
+    display: inline;
+}
+/* Display nested lists inline */
+.hlist dl dl, .hlist dl ol, .hlist dl ul,
+.hlist ol dl, .hlist ol ol, .hlist ol ul,
+.hlist ul dl, .hlist ul ol, .hlist ul ul {
+    display: inline;
+}
+/* Generate interpuncts */
+.hlist dt:after {
+    content: &quot;:&quot;;
+}
+.hlist dd:after,
+.hlist li:after {
+    content: &quot; ·&quot;;
+    font-weight: bold;
+}
+.hlist dd:last-child:after,
+.hlist dt:last-child:after,
+.hlist li:last-child:after {
+    content: none;
+}
+/* For IE8 */
+.hlist dd.hlist-last-child:after,
+.hlist dt.hlist-last-child:after,
+.hlist li.hlist-last-child:after {
+    content: none;
+}
+/* Add parentheses around nested lists */
+.hlist dd dd:first-child:before, .hlist dd dt:first-child:before, .hlist dd li:first-child:before,
+.hlist dt dd:first-child:before, .hlist dt dt:first-child:before, .hlist dt li:first-child:before,
+.hlist li dd:first-child:before, .hlist li dt:first-child:before, .hlist li li:first-child:before {
+    content: &quot;(&quot;;
+    font-weight: normal;
+}
+.hlist dd dd:last-child:after, .hlist dd dt:last-child:after, .hlist dd li:last-child:after,
+.hlist dt dd:last-child:after, .hlist dt dt:last-child:after, .hlist dt li:last-child:after,
+.hlist li dd:last-child:after, .hlist li dt:last-child:after, .hlist li li:last-child:after {
+    content: &quot;)&quot;;
+    font-weight: normal;
+}
+/* For IE8 */
+.hlist dd dd.hlist-last-child:after, .hlist dd dt.hlist-last-child:after, .hlist dd li.hlist-last-child:after,
+.hlist dt dd.hlist-last-child:after, .hlist dt dt.hlist-last-child:after, .hlist dt li.hlist-last-child:after,
+.hlist li dd.hlist-last-child:after, .hlist li dt.hlist-last-child:after, .hlist li li.hlist-last-child:after {
+    content: &quot;)&quot;;
+    font-weight: normal;
+}
+/* Put ordinals in front of ordered list items */
+.hlist ol {
+    counter-reset: list-item;
+}
+.hlist ol &gt; li {
+    counter-increment: list-item;
+}
+.hlist ol &gt; li:before {
+    content: counter(list-item) &quot; &quot;;
+}
+.hlist dd ol &gt; li:first-child:before,
+.hlist dt ol &gt; li:first-child:before,
+.hlist li ol &gt; li:first-child:before {
+    content: &quot;(&quot; counter(list-item) &quot; &quot;;
+}
+
+/* Unbulleted lists */
+.plainlist ul {
+    line-height: inherit;
+    list-style: none none;
+    margin: 0;
+}
+.plainlist ul li {
+    margin-bottom: 0;
+}
+
+/* Default style for navigation boxes */
+.navbox {                     /* Navbox container style */
+    border: 1px solid #aaa;
+    width: 100%;
+    margin: auto;
+    clear: both;
+    font-size: 88%;
+    text-align: center;
+    padding: 1px;
+}
+.navbox-inner,
+.navbox-subgroup {
+    width: 100%;
+}
+.navbox-group,
+.navbox-title,
+.navbox-abovebelow {
+    padding: 0.25em 1em;      /* Title, group and above/below styles */
+    line-height: 1.5em;
+    text-align: center;
+}
+th.navbox-group {             /* Group style */
+    white-space: nowrap;
+    /* @noflip */
+    text-align: right;
+}
+.navbox,
+.navbox-subgroup {
+    background: #fdfdfd;      /* Background color */
+}
+.navbox-list {
+    line-height: 1.8em;
+    border-color: #fdfdfd;    /* Must match background color */
+}
+.navbox th,
+.navbox-title {
+    background: #ccccff;      /* Level 1 color */
+}
+.navbox-abovebelow,
+th.navbox-group,
+.navbox-subgroup .navbox-title {
+    background: #ddddff;      /* Level 2 color */
+}
+.navbox-subgroup .navbox-group,
+.navbox-subgroup .navbox-abovebelow {
+    background: #e6e6ff;      /* Level 3 color */
+}
+.navbox-even {
+    background: #f7f7f7;      /* Even row striping */
+}
+.navbox-odd {
+    background: transparent;  /* Odd row striping */
+}
+table.navbox + table.navbox {  /* Single pixel border between adjacent navboxes */
+    margin-top: -1px;          /* (doesn't work for IE6, but that's okay)       */
+}
+.navbox .hlist td dl,
+.navbox .hlist td ol,
+.navbox .hlist td ul,
+.navbox td.hlist dl,
+.navbox td.hlist ol,
+.navbox td.hlist ul {
+    padding: 0.125em 0;       /* Adjust hlist padding in navboxes */
+}
+ol + table.navbox,
+ul + table.navbox {
+    margin-top: 0.5em;        /* Prevent lists from clinging to navboxes */
+}
+
+/* Default styling for Navbar template */
+.navbar {
+    display: inline;
+    font-size: 88%;
+    font-weight: normal;
+}
+.navbar ul {
+    display: inline;
+    white-space: nowrap;
+}
+.navbar li {
+    word-spacing: -0.125em;
+}
+.navbar.mini li span {
+  font-variant: small-caps;
+}
+/* Navbar styling when nested in infobox and navbox */
+.infobox .navbar {
+    font-size: 100%;
+}
+.navbox .navbar {
+    display: block;
+    font-size: 100%;
+}
+.navbox-title .navbar {
+    /* intentionally is flipped */
+    float: left;
+    /* intentionally is flipped */
+    text-align: left;
+    /* intentionally is flipped */
+    margin-right: 0.5em;
+    width: 6em;
+}
+
+/* Put on gallery_details the same styles as on gallery */
+table.gallery_details {
+ border: 1px solid #ccc;
+ margin: 2px;
+ padding: 2px;
+ background: #fff;
+}
+table.gallery_details tr {
+ vertical-align: top;
+}
+table.gallery_details td {
+ vertical-align: top;
+ background: #f9f9f9;
+ border: 2px solid #fff;
+}
+
+/* Small font-size for hidden categories,
+ per [[Commons:Village_pump/Archive/2010Mar#Hidden_categories:_change_the_default_setting_for_logged-in_users]]
+*/
+#mw-hidden-catlinks { font-size: 87% !important; }
+
+/* To color the mention &quot;updated since my last visit&quot; in the history */
+span.updatedmarker {
+ color: #000;
+ background: #99D642;
+}
+/* Geographical coordinates defaults. See [[Template:Coord/link]]
+ for how these are used. The classes &quot;geo&quot;, &quot;longitude&quot;, and
+ &quot;latitude&quot; are used by the [[Geo microformat]].
+ */
+.geo-default, .geo-dms, .geo-dec { display: inline; }
+.geo-nondefault, .geo-multi-punct { display: none; }
+.longitude, .latitude { white-space: nowrap; }
+
+/* Fix link color in jQuery dialogs */
+.ui-dialog a {
+ color: #0645AD!important;
+}
+
+/* Class for template content that should be shown locally, even if JS is disabled,
+ but should not be visible on file pages shown on other sites.
+ Use with style=&quot;display:none&quot;. Interacts with collapsible divs (see above).
+*/
+div.show-on-commons { display: block !important; }
+
+/* Allow limiting of which header levels are shown in a TOC;
+ &lt;div class=&quot;toclimit-3&quot;&gt;, for instance, will limit to
+ showing ==headings== and ===headings=== but no further
+ (as long as there are no =headings= on the page, which
+ there shouldn't be according to the MoS).
+ */
+.toclimit-2 .toclevel-1 ul,
+.toclimit-3 .toclevel-2 ul,
+.toclimit-4 .toclevel-3 ul,
+.toclimit-5 .toclevel-4 ul,
+.toclimit-6 .toclevel-5 ul,
+.toclimit-7 .toclevel-6 ul { display: none }
+
+/* Redirects in categories, on [[Special:Allpages]], and [[Special:Prefixindex]] */
+.redirect-in-category, .allpagesredirect a {
+ color: gray;
+}
+
+/* Hide deletion-instructions headers inside closed deletion requests (redundant) */
+.delh .massdeletionrequest-header { display: none; }
+
+/* Fix so &lt;syntaxhighlight&gt; tags and .css and .js pages get normal text size.
+   [[Bugzilla:26204]] */
+div.mw-geshi div,
+div.mw-geshi div pre,
+span.mw-geshi,
+pre.source-css,
+pre.source-lua,
+pre.source-javascript {
+  font-family: monospace, &quot;Courier New&quot; !important;
+}
+
+/* Note that image has annotations at Commons; visible only on other projects. See http://commons.wikimedia.org/w/index.php?title=Template_talk:ImageNote&amp;oldid=55319045 */
+.annotationboxforwikipedia {
+	display: none;
+}
+
+/* Message box templates */
+.messagebox {
+ border: 1px solid #aaa;
+ background: #f9f9f9;
+ width: 80%;
+ margin: 0 auto 1em;
+ padding: 0.2em;
+ text-align: justify;
+}
+.messagebox.merge {
+ border: 1px solid #cf9fff;
+ background: #f5edf5;
+ text-align: center;
+}
+.messagebox.cleanup {
+ border: 1px solid #9f9fff;
+ background: #efefff;
+ text-align: center;
+}
+.messagebox.standard-talk {
+ border: 1px solid #c0c090;
+ background: #f8eaba;
+}
+
+/* Cell sizes for ambox/tmbox/imbox/cmbox/ombox/fmbox/dmbox message boxes */
+th.mbox-text, td.mbox-text {     /* The message body cell(s) */
+    border: none;
+    padding: 0.25em 0.9em;       /* 0.9em left/right */
+    width: 100%;    /* Make all mboxes the same width regardless of text length */
+}
+td.mbox-image {                  /* The left image cell */
+    border: none;
+    padding: 2px 0 2px 0.9em;    /* 0.9em left, 0px right */
+    text-align: center;
+}
+td.mbox-imageright {             /* The right image cell */
+    border: none;
+    padding: 2px 0.9em 2px 0;    /* 0px left, 0.9em right */
+    text-align: center;
+}
+td.mbox-empty-cell {         /* An empty narrow cell */
+    border: none;
+    padding: 0px;
+    width: 1px;
+}
+
+/* Article message box styles */
+table.ambox {
+    margin: 0px 10%;   /* 10% = Will not overlap with other elements */
+    border: 1px solid #aaa;
+    border-left: 10px solid #1e90ff;    /* Default &quot;notice&quot; blue */
+    background: #fbfbfb;
+}
+table.ambox + table.ambox {   /* Single border between stacked boxes. */
+    margin-top: -1px;
+}
+.ambox th.mbox-text,
+.ambox td.mbox-text {            /* The message body cell(s) */
+    padding: 0.25em 0.5em;       /* 0.5em left/right */
+}
+.ambox td.mbox-image {           /* The left image cell */
+    padding: 2px 0 2px 0.5em;    /* 0.5em left, 0px right */
+}
+.ambox td.mbox-imageright {      /* The right image cell */
+    padding: 2px 0.5em 2px 0;    /* 0px left, 0.5em right */
+}
+
+table.ambox-notice {
+    border-left: 10px solid #1e90ff;    /* Blue */
+}
+table.ambox-speedy {
+    border-left: 10px solid #b22222;    /* Red */
+    background: #fee;                   /* Pink */
+}
+table.ambox-delete {
+    border-left: 10px solid #b22222;    /* Red */
+}
+table.ambox-content {
+    border-left: 10px solid #f28500;    /* Orange */
+}
+table.ambox-style {
+    border-left: 10px solid #f4c430;    /* Yellow */
+}
+table.ambox-move {
+    border-left: 10px solid #9932cc;    /* Purple */
+}
+table.ambox-protection {
+    border-left: 10px solid #bba;       /* Gray-gold */
+}
+
+/* Image message box styles */
+table.imbox {
+    margin: 4px 10%;
+    border-collapse: collapse;
+    border: 3px solid #1e90ff;    /* Default &quot;notice&quot; blue */
+    background: #fbfbfb;
+}
+.imbox .mbox-text .imbox {    /* For imboxes inside imbox-text cells. */
+    margin: 0 -0.5em;    /* 0.9 - 0.5 = 0.4em left/right. */
+}
+.mbox-inside .imbox {    /* For imboxes inside other templates. */
+    margin: 4px;
+}
+
+table.imbox-notice {
+    border: 3px solid #1e90ff;    /* Blue */
+}
+table.imbox-speedy {
+    border: 3px solid #b22222;    /* Red */
+    background: #fee;             /* Pink */
+}
+table.imbox-delete {
+    border: 3px solid #b22222;    /* Red */
+}
+table.imbox-content {
+    border: 3px solid #f28500;    /* Orange */
+}
+table.imbox-style {
+    border: 3px solid #f4c430;    /* Yellow */
+}
+table.imbox-move {
+    border: 3px solid #9932cc;    /* Purple */
+}
+table.imbox-protection {
+    border: 3px solid #bba;       /* Gray-gold */
+}
+table.imbox-license {
+    border: 3px solid #88a;       /* Dark gray */
+    background: #f7f8ff;          /* Light gray */
+}
+table.imbox-featured {
+    border: 3px solid #cba135;    /* Brown-gold */
+}
+
+/* Category message box styles */
+table.cmbox {
+    margin: 3px 10%;
+    border-collapse: collapse;
+    border: 1px solid #aaa;
+    background: #DFE8FF;    /* Default &quot;notice&quot; blue */
+}
+
+table.cmbox-notice {
+    background: #D8E8FF;    /* Blue */
+}
+table.cmbox-speedy {
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border: 4px solid #b22222;    /* Red */
+    background: #FFDBDB;          /* Pink */
+}
+table.cmbox-delete {
+    background: #FFDBDB;    /* Red */
+}
+table.cmbox-content {
+    background: #FFE7CE;    /* Orange */
+}
+table.cmbox-style {
+    background: #FFF9DB;    /* Yellow */
+}
+table.cmbox-move {
+    background: #E4D8FF;    /* Purple */
+}
+table.cmbox-protection {
+    background: #EFEFE1;    /* Gray-gold */
+}
+
+/* Other pages message box styles */
+table.ombox {
+    margin: 4px 10%;
+    border-collapse: collapse;
+    border: 1px solid #aaa;       /* Default &quot;notice&quot; gray */
+    background: #f9f9f9;
+}
+
+table.ombox-notice {
+    border: 1px solid #aaa;       /* Gray */
+}
+table.ombox-speedy {
+    border: 2px solid #b22222;    /* Red */
+    background: #fee;             /* Pink */
+}
+table.ombox-delete {
+    border: 2px solid #b22222;    /* Red */
+}
+table.ombox-content {
+    border: 1px solid #f28500;    /* Orange */
+}
+table.ombox-style {
+    border: 1px solid #f4c430;    /* Yellow */
+}
+table.ombox-move {
+    border: 1px solid #9932cc;    /* Purple */
+}
+table.ombox-protection {
+    border: 2px solid #bba;       /* Gray-gold */
+}
+
+/* Talk page message box styles */
+table.tmbox {
+    margin: 4px 10%;
+    border-collapse: collapse;
+    border: 1px solid #c0c090;    /* Default &quot;notice&quot; gray-brown */
+    background: #f8eaba;
+}
+.mediawiki .mbox-inside .tmbox { /* For tmboxes inside other templates. The &quot;mediawiki&quot; */
+    margin: 2px 0;               /* class ensures that this declaration overrides other */
+    width: 100%;  /* For Safari and Opera */     /* styles (including mbox-small above) */
+}
+.mbox-inside .tmbox.mbox-small { /* &quot;small&quot; tmboxes should not be small when  */
+    line-height: 1.5em;          /* also &quot;nested&quot;, so reset styles that are   */
+    font-size: 100%;             /* set in &quot;mbox-small&quot; above.                */
+}
+
+table.tmbox-speedy {
+    border: 2px solid #b22222;    /* Red */
+    background: #fee;             /* Pink */
+}
+table.tmbox-delete {
+    border: 2px solid #b22222;    /* Red */
+}
+table.tmbox-content {
+    border: 2px solid #f28500;    /* Orange */
+}
+table.tmbox-style {
+    border: 2px solid #f4c430;    /* Yellow */
+}
+table.tmbox-move {
+    border: 2px solid #9932cc;    /* Purple */
+}
+table.tmbox-protection,
+table.tmbox-notice {
+    border: 1px solid #c0c090;    /* Gray-brown */
+}
+
+/* Footer and header message box styles */
+table.fmbox {
+    clear: both;
+    margin: 0.2em 0;
+    width: 100%;
+    border: 1px solid #aaa;
+    background: #f9f9f9;     /* Default &quot;system&quot; gray */
+}
+table.fmbox-system {
+    background: #f9f9f9;
+}
+table.fmbox-warning {
+    border: 1px solid #bb7070;  /* Dark pink */
+    background: #ffdbdb;        /* Pink */
+}
+table.fmbox-editnotice {
+    background: transparent;
+}
+/* Div based &quot;warning&quot; style fmbox messages. */
+div.mw-warning-with-logexcerpt,
+div.mw-lag-warn-high,
+div.mw-cascadeprotectedwarning,
+div#mw-protect-cascadeon {
+    clear: both;
+    margin: 0.2em 0;
+    border: 1px solid #bb7070;
+    background: #ffdbdb;
+    padding: 0.25em 0.9em;
+}
+/* Div based &quot;system&quot; style fmbox messages.
+   Used in [[MediaWiki:Readonly lag]]. */
+div.mw-lag-warn-normal,
+div.fmbox-system {
+    clear: both;
+    margin: 0.2em 0;
+    border: 1px solid #aaa;
+    background: #f9f9f9;
+    padding: 0.25em 0.9em;
+}
+
+/* These mbox-small classes must be placed after all other
+   ambox/tmbox/ombox etc classes. &quot;body.mediawiki&quot; is so
+   they override &quot;table.ambox + table.ambox&quot; above. */
+body.mediawiki table.mbox-small {   /* For the &quot;small=yes&quot; option. */
+    clear: right;
+    float: right;
+    margin: 4px 0 4px 1em;
+    width: 238px;
+    font-size: 88%;
+    line-height: 1.25em;
+}
+body.mediawiki table.mbox-small-left {   /* For the &quot;small=left&quot; option. */
+    margin: 4px 1em 4px 0;
+    width: 238px;
+    border-collapse: collapse;
+    font-size: 88%;
+    line-height: 1.25em;
+}
+
+#catlinks li {
+    padding:0 .3em;
+    margin:0;
+}
+#catlinks li:first-child {
+    padding-left:0;
+}
+
+#mainpage-potd a img {
+ width: 100%!important;
+ -ms-interpolation-mode: bicubic;
+ height: auto!important;
+ max-width: 600px!important;
+}
+
+/* Babel */
+/* @noflip */
+table.mw-babel-wrapper {
+    margin:0em;
+    margin-bottom:0.5em;
+    margin-left: 1em;
+    background-color: transparent;
+    width:250px;
+    border-spacing:2px;
+}
+
+.mw-babel-notabox {
+    margin-left: auto;
+    margin-right: auto;
+    width: 238px;
+}
+
+.mw-babel-box-level-N  {
+        display: none;
+}
+
+div.mw-babel-box table th  {
+        font-family: sans-serif;
+        text-align:center;
+}
+
+div.mw-babel-box table td a {
+        font-weight: bold;
+}
+
+div.mw-babel-box-N  {
+        border:solid #6EF7A7 1px;
+}
+
+div.mw-babel-box-4  {
+        border:solid #77E0E8 1px;
+}
+
+div.mw-babel-box-3  {
+        border:solid #99B3FF 1px;
+}
+
+div.mw-babel-box-2  {
+        border:solid #BCB9EF 1px;
+}
+
+div.mw-babel-box-1  {
+        border:solid #E0C0E0 1px;
+}
+
+div.mw-babel-box-0  {
+        border:solid #FFBBBB 1px;
+}
+
+div.mw-babel-box-N table  {
+        background-color: #C5FCDC;
+}
+
+div.mw-babel-box-4 table {
+        background-color: #D0F8FF;
+}
+
+div.mw-babel-box-3 table  {
+        background-color: #E0E8FF;
+}
+
+div.mw-babel-box-2 table {
+        background-color: #E9E5F9;
+}
+
+div.mw-babel-box-1 table {
+        background-color: #F3E0F3;
+}
+
+div.mw-babel-box-0 table {
+        background-color: #FFEEEE;
+}
+
+div.mw-babel-box-N table th  {
+        background-color: #6EF7A7;
+}
+
+div.mw-babel-box-4 table th {
+        background-color: #77E0E8;
+}
+
+div.mw-babel-box-3 table th  {
+        background-color: #99B3FF;
+}
+
+div.mw-babel-box-2 table th {
+        background-color: #BCB9EF;
+}
+
+div.mw-babel-box-1 table th {
+        background-color: #E0C0E0;
+}
+
+div.mw-babel-box-0 table th {
+        background-color: #FFBBBB;
+}
+
+/* Highlight clicked reference in blue to help navigation */
+ol.references li:target,
+sup.reference:target,
+span.citation:target {
+    background-color: #DEF;
+}
+
+/* Styling the parameter fields in [[Template:Information]] and related templates
+   also here (besides on [[MediaWiki:Filepage.css]]) to ensure proper preview
+   on other pages than those in the file namespace */
+.fileinfo-paramfield {
+ background: #ccf;
+ /* @noflip */
+ text-align: right;
+ padding-right: 0.4em;
+ width: 15%;
+ font-weight: bold;
+}
+
+/* Allow users to edit the orange on the main page in their personal CSS files */
+.bg-orange {
+ background:#fad67d;
+}
+
+/* Partially support HTML5 bdi tag on old browsers that don't support
+   it and reassign its default value on modern browsers,
+   needed for better i18n even on old browsers
+   isolation on signature-talk will resolve mix of RTL/LTR on RTL UI*/
+bdi, .signature-talk {
+  unicode-bidi: embed; /* fallback, it is not completely same but will work on most cases */
+  unicode-bidi: -webkit-isolate;
+  unicode-bidi: -moz-isolate;
+  unicode-bidi: isolate;
+}
+
+/* Do not show page title, subline text or content sub at [[Commons:The Commoner]] */
+.page-Commons_The_Commoner #firstHeading, .page-Commons_The_Commoner #siteSub, .page-Commons_The_Commoner #contentSub { display: none !important; }
+
+
+/* NS GWToolset (light grey) */
+.ns-490 #content { background-color: #f4f4f4; }
+.ns-490 div.thumb { border-color: #f4f4f4; }</text>
+      <sha1>09gv4ncy7po2knlplq2bl05ca8cu94o</sha1>
+      <model>css</model>
+      <format>text/css</format>
+    </revision>
+  </page>
+</mediawiki>

@@ -1,0 +1,27 @@
+the XML dumps included in this directory were exported using the following page:
+https://commons.wikimedia.org/wiki/Special:Export
+
+mapping
+	GWToolset:Metadata Mappings/Dan-nl/Beeld-en-Geluid.json
+	GWToolset:Metadata Mappings/Dan-nl/KB Centsprenten.json
+	GWToolset:Metadata Mappings/Dan-nl/Rijksmuseum.json
+
+mediawiki
+	MediaWiki:Common.css
+	MediaWiki:Editsection-brackets
+	MediaWiki:Lang
+
+module
+	Module:TemplatePar
+
+template
+	Template:Artwork
+	Template:Cc-by-3.o
+	Template:Cc-by-sa-3.0
+	Template:De
+	Template:En
+	Template:Fr
+	Template:Nl
+	Template:PD-old
+	Template:PD-US
+	Template:Uploaded with GWToolset

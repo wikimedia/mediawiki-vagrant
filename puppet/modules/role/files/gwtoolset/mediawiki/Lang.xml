@@ -1,0 +1,63 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.9/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.9/ http://www.mediawiki.org/xml/export-0.9.xsd" version="0.9" xml:lang="en">
+  <siteinfo>
+    <sitename>Wikimedia Commons</sitename>
+    <dbname>commonswiki</dbname>
+    <base>http://commons.wikimedia.org/wiki/Main_Page</base>
+    <generator>MediaWiki 1.24wmf19</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Commons</namespace>
+      <namespace key="5" case="first-letter">Commons talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="100" case="first-letter">Creator</namespace>
+      <namespace key="101" case="first-letter">Creator talk</namespace>
+      <namespace key="102" case="first-letter">TimedText</namespace>
+      <namespace key="103" case="first-letter">TimedText talk</namespace>
+      <namespace key="104" case="first-letter">Sequence</namespace>
+      <namespace key="105" case="first-letter">Sequence talk</namespace>
+      <namespace key="106" case="first-letter">Institution</namespace>
+      <namespace key="107" case="first-letter">Institution talk</namespace>
+      <namespace key="460" case="case-sensitive">Campaign</namespace>
+      <namespace key="461" case="case-sensitive">Campaign talk</namespace>
+      <namespace key="490" case="first-letter">GWToolset</namespace>
+      <namespace key="491" case="first-letter">GWToolset talk</namespace>
+      <namespace key="828" case="first-letter">Module</namespace>
+      <namespace key="829" case="first-letter">Module talk</namespace>
+      <namespace key="1198" case="first-letter">Translations</namespace>
+      <namespace key="1199" case="first-letter">Translations talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>MediaWiki:Lang</title>
+    <ns>8</ns>
+    <id>5154171</id>
+    <revision>
+      <id>15848203</id>
+      <timestamp>2008-11-07T15:31:04Z</timestamp>
+      <contributor>
+        <username>ABF</username>
+        <id>96246</id>
+      </contributor>
+      <comment>per [[Commons:Administrators'_noticeboard#MediaWiki:Lang]]</comment>
+      <text xml:space="preserve" bytes="2">en</text>
+      <sha1>132vgcjgm2eh6byg07vvb8e3d26dum3</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+</mediawiki>

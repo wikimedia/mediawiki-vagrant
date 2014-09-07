@@ -1,0 +1,2206 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.9/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.9/ http://www.mediawiki.org/xml/export-0.9.xsd" version="0.9" xml:lang="en">
+  <siteinfo>
+    <sitename>Wikimedia Commons</sitename>
+    <dbname>commonswiki</dbname>
+    <base>http://commons.wikimedia.org/wiki/Main_Page</base>
+    <generator>MediaWiki 1.24wmf19</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Commons</namespace>
+      <namespace key="5" case="first-letter">Commons talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="100" case="first-letter">Creator</namespace>
+      <namespace key="101" case="first-letter">Creator talk</namespace>
+      <namespace key="102" case="first-letter">TimedText</namespace>
+      <namespace key="103" case="first-letter">TimedText talk</namespace>
+      <namespace key="104" case="first-letter">Sequence</namespace>
+      <namespace key="105" case="first-letter">Sequence talk</namespace>
+      <namespace key="106" case="first-letter">Institution</namespace>
+      <namespace key="107" case="first-letter">Institution talk</namespace>
+      <namespace key="460" case="case-sensitive">Campaign</namespace>
+      <namespace key="461" case="case-sensitive">Campaign talk</namespace>
+      <namespace key="490" case="first-letter">GWToolset</namespace>
+      <namespace key="491" case="first-letter">GWToolset talk</namespace>
+      <namespace key="828" case="first-letter">Module</namespace>
+      <namespace key="829" case="first-letter">Module talk</namespace>
+      <namespace key="1198" case="first-letter">Translations</namespace>
+      <namespace key="1199" case="first-letter">Translations talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Module:TemplatePar</title>
+    <ns>828</ns>
+    <id>27540844</id>
+    <revision>
+      <id>112218274</id>
+      <parentid>112215037</parentid>
+      <timestamp>2013-12-20T10:33:05Z</timestamp>
+      <contributor>
+        <username>Rillke</username>
+        <id>1178694</id>
+      </contributor>
+      <minor/>
+      <comment>Changed protection level for &quot;[[Module:TemplatePar]]&quot;: [[Commons:Protection policy|Widely used template]]: (used in [[Template:Information]] atm) ([Edit=Allow only administrators] (indefinite) [Move=Allow only administrators] (indefinite))</comment>
+      <text xml:space="preserve" bytes="35502">--[=[ TemplatePar 2013-07-09
+Template parameter utility
+* assert
+* check
+* count
+* countNotEmpty
+* downcase
+* match
+* valid
+* verify
+* TemplatePar()
+]=]
+
+
+
+-- Module globals
+local TemplatePar = { }
+local messagePrefix = &quot;lua-module-TemplatePar-&quot;
+local l10nDef = {}
+l10nDef[ &quot;en&quot; ] = {
+    badPattern  = &quot;&amp;#35;invoke:TemplatePar pattern syntax error&quot;,
+    dupOpt      = &quot;&amp;#35;invoke:TemplatePar repeated optional parameter&quot;,
+    dupRule     = &quot;&amp;#35;invoke:TemplatePar conflict key/pattern&quot;,
+    empty       = &quot;Error in template * undefined value for mandatory&quot;,
+    invalid     = &quot;Error in template * invalid parameter&quot;,
+    invalidPar  = &quot;&amp;#35;invoke:TemplatePar invalid parameter&quot;,
+    minmax      = &quot;&amp;#35;invoke:TemplatePar min &gt; max&quot;,
+    multiSpell  = &quot;Error in template * multiple spelling of parameter&quot;,
+    noErrorCat  = &quot;&amp;#35;invoke:TemplatePar noError and missing category&quot;,
+    noname      = &quot;&amp;#35;invoke:TemplatePar missing parameter name&quot;,
+    tooLong     = &quot;Error in template * parameter too long&quot;,
+    tooShort    = &quot;Error in template * parameter too short&quot;,
+    undefined   = &quot;Error in template * mandatory parameter missing&quot;,
+    unknown     = &quot;Error in template * unknown parameter name&quot;,
+    unknownRule = &quot;&amp;#35;invoke:TemplatePar unknown rule&quot;
+}
+l10nDef[ &quot;de&quot; ]  = {
+    badPattern  = &quot;&amp;#35;invoke:TemplatePar Syntaxfehler des pattern&quot;,
+    dupOpt      = &quot;&amp;#35;invoke:TemplatePar Optionsparameter wiederholt&quot;,
+    dupRule     = &quot;&amp;#35;invoke:TemplatePar Konflikt key/pattern&quot;,
+    empty       = &quot;Fehler bei Vorlage * Pflichtparameter ohne Wert&quot;,
+    invalid     = &quot;Fehler bei Vorlage * Parameter ungültig&quot;,
+    invalidPar  = &quot;&amp;#35;invoke:TemplatePar Ungültiger Parameter&quot;,
+    minmax      = &quot;&amp;#35;invoke:TemplatePar min &gt; max&quot;,
+    multiSpell  = &quot;Fehler bei Vorlage * Mehrere Parameter-Schreibweisen&quot;,
+    noErrorCat  = &quot;&amp;#35;invoke:TemplatePar noError und keine Kategorie&quot;,
+    noname      = &quot;&amp;#35;invoke:TemplatePar Parameter nicht angegeben&quot;,
+    tooLong     = &quot;Fehler bei Vorlage * Parameter zu lang&quot;,
+    tooShort    = &quot;Fehler bei Vorlage * Parameter zu kurz&quot;,
+    undefined   = &quot;Fehler bei Vorlage * Pflichtparameter fehlt&quot;,
+    unknown     = &quot;Fehler bei Vorlage * Parametername unbekannt&quot;,
+    unknownRule = &quot;&amp;#35;invoke:TemplatePar Unbekannte Regel&quot;
+}
+local Patterns = {
+    [ &quot;ASCII&quot; ]   = &quot;^[ -~]*$&quot;,
+    [ &quot;ASCII+&quot; ]   = &quot;^[ -~]+$&quot;,
+    [ &quot;ASCII+1&quot; ]  = &quot;^[!-~]+$&quot;,
+    [ &quot;n&quot; ]        = &quot;^%-?[0-9]*$&quot;,
+    [ &quot;n&gt;0&quot; ]      = &quot;^[0-9]*[1-9][0-9]*$&quot;,
+    [ &quot;N+&quot; ]       = &quot;^%-?[1-9][0-9]*$&quot;,
+    [ &quot;N&gt;0&quot; ]      = &quot;^[1-9][0-9]*$&quot;,
+    [ &quot;x&quot; ]        = &quot;^[0-9A-Fa-f]*$&quot;,
+    [ &quot;x+&quot; ]       = &quot;^[0-9A-Fa-f]+$&quot;,
+    [ &quot;X&quot; ]        = &quot;^[0-9A-F]*$&quot;,
+    [ &quot;X+&quot; ]       = &quot;^[0-9A-F]+$&quot;,
+    [ &quot;0,0&quot; ]      = &quot;^%-?[0-9]*,?[0-9]*$&quot;,
+    [ &quot;0,0+&quot; ]     = &quot;^%-?[0-9]+,[0-9]+$&quot;,
+    [ &quot;0,0+?&quot; ]    = &quot;^%-?[0-9]+,?[0-9]*$&quot;,
+    [ &quot;0.0&quot; ]      = &quot;^%-?[0-9]*%.?[0-9]*$&quot;,
+    [ &quot;0.0+&quot; ]     = &quot;^%-?[0-9]+%.[0-9]+$&quot;,
+    [ &quot;0.0+?&quot; ]    = &quot;^%-?[0-9]+%.?[0-9]*$&quot;,
+    [ &quot;.0+&quot; ]      = &quot;^%-?[0-9]*%.?[0-9]+$&quot;,
+    [ &quot;ID&quot; ]       = &quot;^[A-Za-z]?[A-Za-z_0-9]*$&quot;,
+    [ &quot;ID+&quot; ]      = &quot;^[A-Za-z][A-Za-z_0-9]*$&quot;,
+    [ &quot;ABC&quot; ]      = &quot;^[A-Z]*$&quot;,
+    [ &quot;ABC+&quot; ]     = &quot;^[A-Z]+$&quot;,
+    [ &quot;Abc&quot; ]      = &quot;^[A-Z]*[a-z]*$&quot;,
+    [ &quot;Abc+&quot; ]     = &quot;^[A-Z][a-z]+$&quot;,
+    [ &quot;abc&quot; ]      = &quot;^[a-z]*$&quot;,
+    [ &quot;abc+&quot; ]     = &quot;^[a-z]+$&quot;,
+    [ &quot;aBc+&quot; ]     = &quot;^[a-z]+[A-Z][A-Za-z]*$&quot;,
+    [ &quot;base64&quot; ]   = &quot;^[A-Za-z0-9%+/]*$&quot;,
+    [ &quot;base64+&quot; ]  = &quot;^[A-Za-z0-9%+/]+$&quot;,
+    [ &quot;aa&quot; ]       = &quot;[%a%a].*[%a%a]&quot;,
+    [ &quot;pagename&quot; ] = string.format( &quot;^[^#&lt;&gt;%%[%%]|{}%s%-s%s]+$&quot;,
+                                    1, 31, 127 ),
+    [ &quot;+&quot; ]        = &quot;%S&quot;
+}
+local patternCJK = false
+
+
+
+local function containsCJK( s )
+    -- Is any CJK character present?
+    -- Precondition:
+    --     s  -- string
+    -- Postcondition:
+    --     Return false iff no CJK present
+    -- Uses:
+    --     &gt;&lt; patternCJK
+    --     mw.ustring.char()
+    --     mw.ustring.match()
+    local r = false
+    if not patternCJK then
+        patternCJK = mw.ustring.char( 91,
+                                       13312, 45,  40959,
+                                      131072, 45, 178207,
+                                      93 )
+    end
+    if mw.ustring.match( s, patternCJK ) then
+        r = true
+    end
+    return r
+end -- containsCJK()
+
+
+
+local function factory( say )
+    -- Retrieve localized message string in content language
+    -- Precondition:
+    --     say  -- string; message ID
+    -- Postcondition:
+    --     Return some message string
+    -- Uses:
+    --     &gt;  messagePrefix
+    --     &gt;  l10nDef
+    --     mw.language.getContentLanguage()
+    --     mw.message.new()
+    local c = mw.language.getContentLanguage():getCode()
+    local m = mw.message.new( messagePrefix .. say )
+    local r = false
+    if m:isBlank() then
+        local l10n = l10nDef[ c ]
+        if not l10n then
+            l10n = l10nDef[ &quot;en&quot; ]
+        end
+        r = l10n[ say ]
+    else
+        m:inLanguage( c )
+        r = m:plain()
+    end
+    if not r then
+        r = &quot;(((&quot;.. say .. &quot;)))&quot;
+    end
+    return r
+end -- factory()
+
+
+
+local function failsafe( story, scan )
+    -- Test for match (possibly user-defined with syntax error)
+    -- Precondition:
+    --     story  -- string; parameter value
+    --     scan   -- string; pattern
+    -- Postcondition:
+    --     Return nil, if not matching, else non-nil
+    -- Uses:
+    --     mw.ustring.match()
+    return  mw.ustring.match( story, scan )
+end -- failsafe()
+
+
+
+local function failure( spec, suspect, options )
+    -- Submit localized error message
+    -- Precondition:
+    --     spec     -- string; message ID
+    --     suspect  -- string or nil; additional information
+    --     options  -- table or nil; optional details
+    --                 options.template
+    -- Postcondition:
+    --     Return string
+    -- Uses:
+    --     factory()
+    local r = factory( spec )
+    if type( options ) == &quot;table&quot; then
+        if type( options.template ) == &quot;string&quot; then
+            if #options.template &gt; 0 then
+                r = r .. &quot; (&quot; .. options.template .. &quot;)&quot;
+            end
+        end
+    end
+    if suspect then
+        r = r .. &quot;: &quot; .. suspect
+    end
+    return r
+end -- failure()
+
+
+
+local function fault( store, key )
+    -- Add key to collection string and insert separator
+    -- Precondition:
+    --     store  -- string or nil or false; collection string
+    --     key    -- string or number; to be appended
+    -- Postcondition:
+    --     Return string; extended
+    local r
+    local s
+    if type( key ) == &quot;number&quot; then
+        s = tostring( key )
+    else
+        s = key
+    end
+    if store then
+        r = store .. &quot;; &quot; .. s
+    else
+        r = s
+    end
+    return r
+end -- fault()
+
+
+
+local function feasible( analyze, options, abbr )
+    -- Check content of a value
+    -- Precondition:
+    --     analyze  -- string to be analyzed
+    --     options  -- table or nil; optional details
+    --                 options.pattern
+    --                 options.key
+    --                 options.say
+    --     abbr     -- true: abbreviated error message
+    -- Postcondition:
+    --     Return string with error message as configured;
+    --            false if valid or no answer permitted
+    -- Uses:
+    --     &gt;  Patterns
+    --     failure()
+    --     mw.text.trim()
+    --     failsafe()
+    --     containsCJK()
+    local r    = false
+    local s    = false
+    local show = nil
+    local scan = false
+    if type( options.pattern ) == &quot;string&quot; then
+        if options.key then
+            r = failure( &quot;dupRule&quot;, false, options )
+        else
+            scan = options.pattern
+        end
+    else
+        if type( options.key ) == &quot;string&quot; then
+            s = mw.text.trim( options.key )
+        else
+            s = &quot;+&quot;
+        end
+        if s ~= &quot;*&quot; then
+            scan = Patterns[ s ]
+        end
+        if type( scan ) == &quot;string&quot; then
+            if s == &quot;n&quot; or s == &quot;0,0&quot; or s == &quot;0.0&quot; then
+                if not analyze:match( &quot;[0-9]&quot; ) then
+                    scan = false
+                    if options.say then
+                        show = &quot;'&quot; .. options.say .. &quot;'&quot;
+                    end
+                    if abbr then
+                        r = show
+                    else
+                        r = failure( &quot;invalid&quot;, show, options )
+                    end
+                end
+            end
+        elseif s ~= &quot;*&quot; then
+            local op, n, plus = s:match( &quot;([&lt;!&gt;]=?)([-0-9][%S]*)(+?)&quot; )
+            if op then
+                n = tonumber( n )
+                if n then
+                    local i = tonumber( analyze )
+                    if i then
+                        if op == &quot;&lt;&quot; then
+                            i = ( i &lt; n )
+                        elseif op == &quot;&lt;=&quot; then
+                            i = ( i &lt;= n )
+                        elseif op == &quot;&gt;&quot; then
+                            i = ( i &gt; n )
+                        elseif op == &quot;&gt;=&quot; then
+                            i = ( i &gt;= n )
+                        elseif op == &quot;!=&quot; then
+                            i = ( i ~= n )
+                        else
+                            n = false
+                        end
+                    end
+                    if not i then
+                        r = &quot;invalid&quot;
+                    end
+                elseif plus then
+                    r = &quot;undefined&quot;
+                end
+            end
+            if not n and not r then
+                r = &quot;unknownRule&quot;
+            end
+            if r then
+                if options.say then
+                    show = &quot;'&quot; .. options.say .. &quot;' &quot; .. s
+                else
+                    show = s
+                end
+                if abbr then
+                    r = show
+                else
+                    r = failure( r, show, options )
+                end
+            end
+        end
+    end
+    if scan then
+        local legal, got = pcall( failsafe, analyze, scan )
+        if legal then
+            if not got then
+                if s == &quot;aa&quot; then
+                    got = containsCJK( analyze )
+                end
+                if not got then
+                    if options.say then
+                        show = &quot;'&quot; .. options.say .. &quot;'&quot;
+                    end
+                    if abbr then
+                        r = show
+                    else
+                        r = failure( &quot;invalid&quot;, show, options )
+                    end
+                end
+            end
+        else
+            r = failure( &quot;badPattern&quot;,
+                         scan .. &quot; *** &quot; .. got,
+                         options )
+        end
+    end
+    return r
+end -- feasible()
+
+
+
+local function fed( haystack, needle )
+    -- Find needle in haystack map
+    -- Precondition:
+    --     haystack  -- table; map of key values
+    --     needle    -- any; identifier
+    -- Postcondition:
+    --     Return true iff found
+    local k, v
+    for k, v in pairs( haystack ) do
+        if k == needle then
+            return true
+        end
+    end -- for k, v
+    return false
+end -- fed()
+
+
+
+local function fetch( light, options )
+    -- Return regular table with all parameters
+    -- Precondition:
+    --     light    -- true: template transclusion;  false: #invoke
+    --     options  -- table; optional details
+    --                 options.low
+    -- Postcondition:
+    --     Return table; whitespace-only values as false
+    -- Uses:
+    --     TemplatePar.downcase()
+    --     mw.getCurrentFrame()
+    --     frame:getParent()
+    local g, k, v
+    local r = { }
+    if options.low then
+        g = TemplatePar.downcase( options )
+    else
+        g = mw.getCurrentFrame()
+        if light then
+            g = g:getParent()
+        end
+        g = g.args
+    end
+    if type( g ) == &quot;table&quot;  then
+        r = { }
+        for k, v in pairs( g ) do
+            if type( v ) == &quot;string&quot; then
+                if v:match( &quot;^%s*$&quot; ) then
+                    v = false
+                end
+            else
+                v = false
+            end
+            if type( k ) == &quot;number&quot; then
+                k = tostring( k )
+            end
+            r[ k ] = v
+        end -- for k, v
+    else
+        r = g
+    end
+    return r
+end -- fetch()
+
+
+
+local function figure( append, options )
+    -- Extend options by rule from #invoke strings
+    -- Precondition:
+    --     append   -- string or nil; requested rule
+    --     options  --  table; details
+    --                  ++ .key
+    --                  ++ .pattern
+    -- Postcondition:
+    --     Return sequence table
+    local r = options
+    if type( append ) == &quot;string&quot; then
+        local story = mw.text.trim( append )
+        local sub   = story:match( &quot;^/(.*%S)/$&quot; )
+        if type( sub ) == &quot;string&quot; then
+            sub             = sub:gsub( &quot;%%!&quot;, &quot;|&quot; )
+            sub             = sub:gsub( &quot;%%%(%(&quot;, &quot;{{&quot; )
+            sub             = sub:gsub( &quot;%%%)%)&quot;, &quot;}}&quot; )
+            options.pattern = sub
+            options.key     = nil
+        else
+            options.key     = story
+            options.pattern = nil
+        end
+    end
+    return r
+end -- figure()
+
+
+
+local function fill( specified )
+    -- Split requirement string separated by '='
+    -- Precondition:
+    --     specified  -- string or nil; requested parameter set
+    -- Postcondition:
+    --     Return sequence table
+    -- Uses:
+    --     mw.text.split()
+    local r
+    if specified then
+        local i, s
+        r = mw.text.split( specified, &quot;%s*=%s*&quot; )
+        for i = #r, 1, -1 do
+            s = r[ i ]
+            if #s == 0 then
+                table.remove( r, i )
+            end
+        end -- for i, -1
+    else
+        r = { }
+    end
+    return r
+end -- fill()
+
+
+
+local function finalize( submit, options )
+    -- Finalize message
+    -- Precondition:
+    --     submit   -- string or false or nil; non-empty error message
+    --     options  -- table or nil; optional details
+    --                 options.noError
+    --                 options.cat
+    --                 options.template
+    -- Postcondition:
+    --     Return string or false
+    -- Uses:
+    --     factory()
+    local r = false
+    if submit then
+        local opt, s
+        if type( options ) == &quot;table&quot; then
+            opt = options
+        else
+            opt = { }
+        end
+        if opt.noError then
+            if not opt.cat then
+                r = submit .. &quot; &quot; .. factory( &quot;noErrorCat&quot; )
+            end
+        else
+            r = submit
+        end
+        if r then
+            r = &quot;&lt;span class='error'&gt;&quot; .. r .. &quot;&lt;/span&gt;&quot;
+        end
+        s = opt.cat
+        if type( s ) == &quot;string&quot; then
+            if not r then
+               r = &quot;&quot;
+            end
+            if s:find( &quot;@@@&quot; ) then
+                if type( opt.template ) == &quot;string&quot; then
+                    s = s:gsub( &quot;@@@&quot;, opt.template )
+                end
+            end
+            r = r .. &quot;[[Category:&quot; .. s .. &quot;]]&quot;
+        end
+    end
+    return r
+end -- finalize()
+
+
+
+local function finder( haystack, needle )
+    -- Find needle in haystack sequence
+    -- Precondition:
+    --     haystack  -- table; sequence of key names, downcased if low
+    --     needle    -- any; key name
+    -- Postcondition:
+    --     Return true iff found
+    local i
+    for i = 1, #haystack do
+        if haystack[ i ] == needle then
+            return true
+        end
+    end -- for i
+    return false
+end -- finder()
+
+
+
+local function fix( valid, duty, got, options )
+    -- Perform parameter analysis
+    -- Precondition:
+    --     valid    -- table; unique sequence of known parameters
+    --     duty     -- table; sequence of mandatory parameters
+    --     got      -- table; sequence of current parameters
+    --     options  -- table or nil; optional details
+    -- Postcondition:
+    --     Return string as configured; empty if valid
+    -- Uses:
+    --     finder()
+    --     fault()
+    --     failure()
+    --     fed()
+    local k, v
+    local r = false
+    for k, v in pairs( got ) do
+        if not finder( valid, k ) then
+            r = fault( r, k )
+        end
+    end -- for k, v
+    if r then
+        r = failure( &quot;unknown&quot;,  &quot;'&quot; .. r .. &quot;'&quot;,  options )
+    else -- all names valid
+        local i, s
+        for i = 1, #duty do
+            s = duty[ i ]
+            if not fed( got, s ) then
+                r = fault( r, s )
+            end
+        end -- for i
+        if r then
+            r = failure( &quot;undefined&quot;, r, options )
+        else -- all mandatory present
+            for i = 1, #duty do
+                s = duty[ i ]
+                if not got[ s ] then
+                    r = fault( r, s )
+                end
+            end -- for i
+            if r then
+                r = failure( &quot;empty&quot;, r, options )
+            end
+        end
+    end
+    return r
+end -- fix()
+
+
+
+local function flat( collection, options )
+    -- Return all table elements with downcased string
+    -- Precondition:
+    --     collection  -- table; k=v pairs
+    --     options     -- table or nil; optional messaging details
+    -- Postcondition:
+    --     Return table, may be empty; or string with error message.
+    -- Uses:
+    --     mw.ustring.lower()
+    --     fault()
+    --     failure()
+    local k, v
+    local r = { }
+    local e = false
+    for k, v in pairs( collection ) do
+        if type ( k ) == &quot;string&quot; then
+            k = mw.ustring.lower( k )
+            if r[ k ] then
+                e = fault( e, k )
+            end
+        end
+        r[ k ] = v
+    end -- for k, v
+    if e then
+        r = failure( &quot;multiSpell&quot;, e, options )
+    end
+    return r
+end -- flat()
+
+
+
+local function fold( options )
+    -- Merge two tables, create new sequence if both not empty
+    -- Precondition:
+    --     options  -- table; details
+    --                 options.mandatory   sequence to keep unchanged
+    --                 options.optional    sequence to be appended
+    --                 options.low         downcased expected
+    -- Postcondition:
+    --     Return merged table, or message string if error
+    -- Uses:
+    --     finder()
+    --     fault()
+    --     failure()
+    --     flat()
+    local i, e, r, s
+    local base   = options.mandatory
+    local extend = options.optional
+    if #base == 0 then
+        if #extend == 0 then
+            r = { }
+        else
+            r = extend
+        end
+    else
+        if #extend == 0 then
+            r = base
+        else
+            e = false
+            for i = 1, #extend do
+                s = extend[ i ]
+                if finder( base, s ) then
+                    e = fault( e, s )
+                end
+            end -- for i
+            if e then
+                r = failure( &quot;dupOpt&quot;, e, options )
+            else
+                r = { }
+                for i = 1, #base do
+                    table.insert( r, base[ i ] )
+                end -- for i
+                for i = 1, #extend do
+                    table.insert( r, extend[ i ] )
+                end -- for i
+            end
+        end
+    end
+    if options.low  and  type( r ) == &quot;table&quot; then
+        r = flat( r, options )
+    end
+    return r
+end -- fold()
+
+
+
+local function form( light, options )
+    -- Run parameter analysis on current environment
+    -- Precondition:
+    --     light    -- true: template transclusion;  false: #invoke
+    --     options  -- table or nil; optional details
+    --                 options.mandatory
+    --                 options.optional
+    -- Postcondition:
+    --     Return string with error message as configured;
+    --            false if valid
+    -- Uses:
+    --     fold()
+    --     fetch()
+    --     fix()
+    --     finalize()
+    local duty, r
+    if type( options ) == &quot;table&quot; then
+        if type( options.mandatory ) ~= &quot;table&quot; then
+            options.mandatory = { }
+        end
+        duty = options.mandatory
+        if type( options.optional ) ~= &quot;table&quot; then
+            options.optional = { }
+        end
+        r = fold( options )
+    else
+        options = { }
+        duty    = { }
+        r       = { }
+    end
+    if type( r ) == &quot;table&quot; then
+        local got = fetch( light, options )
+        if type( got ) == &quot;table&quot; then
+            r = fix( r, duty, got, options )
+        else
+            r = got
+        end
+    end
+    return finalize( r, options )
+end -- form()
+
+
+
+local function format( analyze, options )
+    -- Check validity of a value
+    -- Precondition:
+    --     analyze  -- string to be analyzed
+    --     options  -- table or nil; optional details
+    --                 options.say
+    --                 options.min
+    --                 options.max
+    -- Postcondition:
+    --     Return string with error message as configured;
+    --            false if valid or no answer permitted
+    -- Uses:
+    --     feasible()
+    --     failure()
+    local r    = feasible( analyze, options, false )
+    local show
+    if options.min  and  not r then
+        if type( options.min ) == &quot;number&quot; then
+            if type( options.max ) == &quot;number&quot; then
+                if options.max &lt; options.min then
+                    r = failure( &quot;minmax&quot;,
+                                 tostring( options.min )
+                                 .. &quot; &gt; &quot; ..
+                                 tostring( options.max ),
+                                 options )
+                end
+            end
+            if #analyze &lt; options.min  and  not r then
+                show = &quot; &lt;&quot; .. options.min
+                if options.say then
+                    show = show .. &quot; '&quot; .. options.say .. &quot;'&quot;
+                end
+                r = failure( &quot;tooShort&quot;, show, options )
+            end
+        else
+            r = failure( &quot;invalidPar&quot;, &quot;min&quot;, options )
+        end
+    end
+    if options.max  and  not r then
+        if type( options.max ) == &quot;number&quot; then
+            if #analyze &gt; options.max then
+                show = &quot; &gt;&quot; .. options.max
+                if options.say then
+                    show = show .. &quot; '&quot; .. options.say .. &quot;'&quot;
+                end
+                r = failure( &quot;tooLong&quot;, show, options )
+            end
+        else
+            r = failure( &quot;invalidPar&quot;, &quot;max&quot;, options )
+        end
+    end
+    return r
+end -- format()
+
+
+
+local function formatted( assignment, access, options )
+    -- Check validity of one particular parameter in a collection
+    -- Precondition:
+    --     assignment  -- collection
+    --     access      -- id of parameter in collection
+    --     options     -- table or nil; optional details
+    -- Postcondition:
+    --     Return string with error message as configured;
+    --            false if valid or no answer permitted
+    -- Uses:
+    --     format()
+    --     failure()
+    local r = false
+    if type( assignment ) == &quot;table&quot; then
+        local story = assignment.args[ access ]
+        if type( story ) == &quot;string&quot; then
+            if type( options ) ~= &quot;table&quot; then
+                options = { }
+            end
+            options.say = access
+            r = format( story, options )
+        else
+            r = failure( &quot;invalid&quot;, access, options )
+        end
+    end
+    return r
+end -- formatted()
+
+
+
+local function furnish( frame, action )
+    -- Prepare #invoke evaluation of .assert() or .valid()
+    -- Precondition:
+    --     frame    -- object; #invoke environment
+    --     action   -- &quot;assert&quot; or &quot;valid&quot;
+    -- Postcondition:
+    --     Return string with error message or &quot;&quot;
+    -- Uses:
+    --     form()
+    --     mw.text.trim()
+    --     failure()
+    --     TemplatePar.assert()
+    --     TemplatePar.valid()
+    local options = { mandatory = { &quot;1&quot; },
+                      optional  = { &quot;2&quot;,
+                                    &quot;cat&quot;,
+                                    &quot;low&quot;,
+                                    &quot;max&quot;,
+                                    &quot;min&quot;,
+                                    &quot;noError&quot;,
+                                    &quot;template&quot; },
+                      template  = &quot;&amp;#35;invoke:TemplatePar|&quot;.. action .. &quot;|&quot;
+                    }
+    local r       = form( false, options )
+    if not r then
+        local s
+        options = { cat      = frame.args.cat,
+                    low      = frame.args.low,
+                    noError  = frame.args.noError,
+                    template = frame.args.template
+                  }
+        options = figure( frame.args[ 2 ], options )
+        if type( frame.args.min ) == &quot;string&quot; then
+            s = frame.args.min:match( &quot;^%s*([0-9]+)%s*$&quot; )
+            if s then
+                options.min = tonumber( s )
+            else
+                r = failure( &quot;invalidPar&quot;,
+                             &quot;min=&quot; .. frame.args.min,
+                             options )
+            end
+        end
+        if type( frame.args.max ) == &quot;string&quot; then
+            s = frame.args.max:match( &quot;^%s*([1-9][0-9]*)%s*$&quot; )
+            if s then
+                options.max = tonumber( s )
+            else
+                r = failure( &quot;invalidPar&quot;,
+                             &quot;max=&quot; .. frame.args.max,
+                             options )
+            end
+        end
+        if r then
+            r = finalize( r, options )
+        else
+            s = frame.args[ 1 ] or &quot;&quot;
+            r = tonumber( s )
+            if ( r ) then
+                s = r
+            end
+            r = TemplatePar[ action ]( s, options )
+        end
+    end
+    return r or &quot;&quot;
+end -- furnish()
+
+
+
+TemplatePar.assert = function ( analyze, append, options )
+    -- Perform parameter analysis on a single string
+    -- Precondition:
+    --     analyze  -- string to be analyzed
+    --     append   -- string: append error message, prepending &lt;br /&gt;
+    --                 false or nil: throw error with message
+    --     options  -- table; optional details
+    -- Postcondition:
+    --     Return string with error message as configured;
+    --            false if valid
+    -- Uses:
+    --     format()
+    local r = format( analyze, options )
+    if ( r ) then
+        if ( type( append ) == &quot;string&quot; ) then
+            if ( append ~= &quot;&quot; ) then
+                r = append .. &quot;&lt;br /&gt;&quot; .. r
+            end
+        else
+            error( r, 0 )
+        end
+    end
+    return r
+end -- TemplatePar.assert()
+
+
+
+TemplatePar.check = function ( options )
+    -- Run parameter analysis on current template environment
+    -- Precondition:
+    --     options  -- table or nil; optional details
+    --                 options.mandatory
+    --                 options.optional
+    -- Postcondition:
+    --     Return string with error message as configured;
+    --            false if valid
+    -- Uses:
+    --     form()
+    return form( true, options )
+end -- TemplatePar.check()
+
+
+
+TemplatePar.count = function ()
+    -- Return number of template parameters
+    -- Postcondition:
+    --     Return number, starting at 0
+    -- Uses:
+    --     mw.getCurrentFrame()
+    --     frame:getParent()
+    local k, v
+    local r = 0
+    local t = mw.getCurrentFrame():getParent()
+    local o = t.args
+    for k, v in pairs( o ) do
+        r = r + 1
+    end -- for k, v
+    return r
+end -- TemplatePar.count()
+
+
+
+TemplatePar.countNotEmpty = function ()
+    -- Return number of template parameters with more than whitespace
+    -- Postcondition:
+    --     Return number, starting at 0
+    -- Uses:
+    --     mw.getCurrentFrame()
+    --     frame:getParent()
+    local k, v
+    local r = 0
+    local t = mw.getCurrentFrame():getParent()
+    local o = t.args
+    for k, v in pairs( o ) do
+        if not v:match( &quot;^%s*$&quot; ) then
+            r = r + 1
+        end
+    end -- for k, v
+    return r
+end -- TemplatePar.countNotEmpty()
+
+
+
+TemplatePar.downcase = function ( options )
+    -- Return all template parameters with downcased name
+    -- Precondition:
+    --     options  -- table or nil; optional messaging details
+    -- Postcondition:
+    --     Return table, may be empty; or string with error message.
+    -- Uses:
+    --     mw.getCurrentFrame()
+    --     frame:getParent()
+    --     flat()
+    local t = mw.getCurrentFrame():getParent()
+    return flat( t.args, options )
+end -- TemplatePar.downcase()
+
+
+
+TemplatePar.valid = function ( access, options )
+    -- Check validity of one particular template parameter
+    -- Precondition:
+    --     access   -- id of parameter in template transclusion
+    --     options  -- table or nil; optional details
+    -- Postcondition:
+    --     Return string with error message as configured;
+    --            false if valid or no answer permitted
+    -- Uses:
+    --     mw.text.trim()
+    --     TemplatePar.downcase()
+    --     mw.getCurrentFrame()
+    --     frame:getParent()
+    --     formatted()
+    --     failure()
+    --     finalize()
+    local r
+    if type( access ) == &quot;string&quot; then
+        r = mw.text.trim( access )
+        if #r == 0 then
+            r = false
+        end
+    end
+    if r then
+        local params
+        if type( options ) ~= &quot;table&quot; then
+            options = { }
+        end
+        if options.low then
+            params = TemplatePar.downcase( options )
+        else
+            params = mw.getCurrentFrame():getParent()
+        end
+        r = formatted( params, access, options )
+    else
+        r = failure( &quot;noname&quot;, false, options )
+    end
+    return finalize( r, options )
+end -- TemplatePar.valid()
+
+
+
+TemplatePar.verify = function ( options )
+    -- Perform #invoke parameter analysis
+    -- Precondition:
+    --     options  -- table or nil; optional details
+    -- Postcondition:
+    --     Return string with error message as configured;
+    --            false if valid
+    -- Uses:
+    --     form()
+    return form( false, options )
+end -- TemplatePar.verify()
+
+
+
+-- Provide external access
+local p = {}
+
+
+
+function p.assert( frame )
+    -- Perform parameter analysis on some single string
+    -- Precondition:
+    --     frame  -- object; #invoke environment
+    -- Postcondition:
+    --     Return string with error message or &quot;&quot;
+    -- Uses:
+    --     furnish()
+    return furnish( frame, &quot;assert&quot; )
+end -- .assert()
+
+
+
+function p.check( frame )
+    -- Check validity of template parameters
+    -- Precondition:
+    --     frame  -- object; #invoke environment
+    -- Postcondition:
+    --     Return string with error message or &quot;&quot;
+    -- Uses:
+    --     form()
+    --     fill()
+    local options = { optional  = { &quot;all&quot;,
+                                    &quot;opt&quot;,
+                                    &quot;cat&quot;,
+                                    &quot;low&quot;,
+                                    &quot;noError&quot;,
+                                    &quot;template&quot; },
+                      template  = &quot;&amp;#35;invoke:TemplatePar|check|&quot;
+                    }
+    local r = form( false, options )
+    if not r then
+        options = { mandatory = fill( frame.args.all ),
+                    optional  = fill( frame.args.opt ),
+                    cat       = frame.args.cat,
+                    low       = frame.args.low,
+                    noError   = frame.args.noError,
+                    template  = frame.args.template
+                  }
+        r       = form( true, options )
+    end
+    return r or &quot;&quot;
+end -- .check()
+
+
+
+function p.count( frame )
+    -- Count number of template parameters
+    -- Postcondition:
+    --     Return string with digits including &quot;0&quot;
+    -- Uses:
+    --     TemplatePar.count()
+    return tostring( TemplatePar.count() )
+end -- .count()
+
+
+
+function p.countNotEmpty( frame )
+    -- Count number of template parameters which are not empty
+    -- Postcondition:
+    --     Return string with digits including &quot;0&quot;
+    -- Uses:
+    --     TemplatePar.countNotEmpty()
+    return tostring( TemplatePar.countNotEmpty() )
+end -- .countNotEmpty()
+
+
+
+function p.match( frame )
+    -- Combined analysis of parameters and their values
+    -- Postcondition:
+    --     Return string with error message or &quot;&quot;
+    -- Uses:
+    --     mw.text.trim()
+    --     mw.ustring.lower()
+    --     failure()
+    --     form()
+    --     TemplatePar.downcase()
+    --     figure()
+    --     feasible()
+    --     fault()
+    --     finalize()
+    local r = false
+    local options = { cat       = frame.args.cat,
+                      low       = frame.args.low,
+                      noError   = frame.args.noError,
+                      template  = frame.args.template
+                    }
+    local k, v, s
+    local params = { }
+    for k, v in pairs( frame.args ) do
+        if type( k ) == &quot;number&quot; then
+            s, v = v:match( &quot;^ *([^=]+) *= *(%S.*%S*) *$&quot; )
+            if s then
+                s = mw.text.trim( s )
+                if s == &quot;&quot; then
+                    s = false
+                end
+            end
+            if s then
+                if options.low then
+                    s = mw.ustring.lower( s )
+                end
+                if params[ s ] then
+                    s = params[ s ]
+                    s[ #s + 1 ] = v
+                else
+                    params[ s ] = { v }
+                end
+            else
+                r = failure( &quot;invalidPar&quot;,  tostring( k ),  options )
+                break -- for k, v
+            end
+        end
+    end -- for k, v
+    if not r then
+        s = { }
+        for k, v in pairs( params ) do
+            s[ #s + 1 ] = k
+        end -- for k, v
+        options.optional = s
+        r = form( true, options )
+    end
+    if not r then
+        local errMiss, errValues, lack, rule
+        local targs = frame:getParent().args
+        options.optional = nil
+        if options.low then
+            targs = TemplatePar.downcase()
+        else
+            targs = frame:getParent().args
+        end
+        errMiss   = false
+        errValues = false
+        for k, v in pairs( params ) do
+            options.say = k
+            errValue    = false
+            s = targs[ k ]
+            if s then
+                if s == &quot;&quot; then
+                    lack = true
+                else
+                    lack = false
+                end
+            else
+                s    = &quot;&quot;
+                lack = true
+            end
+            for r, rule in pairs( v ) do
+                options = figure( rule, options )
+                r       = feasible( s, options, true )
+                if r then
+                    if lack then
+                        if errMiss then
+                            errMiss = errMiss .. &quot;, '&quot; .. k .. &quot;'&quot;
+                        else
+                            errMiss = &quot;'&quot; .. k .. &quot;'&quot;
+                        end
+                    elseif not errMiss then
+                        errValues = fault( errValues, r )
+                    end
+                    break -- for r, rule
+                end
+            end -- for s, rule
+        end -- for k, v
+        r = ( errMiss or errValues )
+        if r then
+            if errMiss then
+                r = failure( &quot;undefined&quot;, errMiss, options )
+            else
+                r = failure( &quot;invalid&quot;, errValues, options )
+            end
+            r = finalize( r, options )
+        end
+    end
+    return r or &quot;&quot;
+end -- .match()
+
+
+
+function p.valid( frame )
+    -- Check validity of one particular template parameter
+    -- Precondition:
+    --     frame  -- object; #invoke environment
+    -- Postcondition:
+    --     Return string with error message or &quot;&quot;
+    -- Uses:
+    --     furnish()
+    return furnish( frame, &quot;valid&quot; )
+end -- .valid()
+
+
+
+function p.TemplatePar()
+    -- Retrieve function access for modules
+    -- Postcondition:
+    --     Return table with functions
+    return TemplatePar
+end -- .TemplatePar()
+
+
+
+return p</text>
+      <sha1>ef8eb7rbi65mymgprqdc2lxpd89fiu7</sha1>
+      <model>Scribunto</model>
+      <format>text/plain</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Autotranslate</title>
+    <ns>10</ns>
+    <id>26352155</id>
+    <revision>
+      <id>110510384</id>
+      <parentid>110509138</parentid>
+      <timestamp>2013-11-25T10:04:44Z</timestamp>
+      <contributor>
+        <username>Zolo</username>
+        <id>165717</id>
+      </contributor>
+      <comment>Lua version (second try)</comment>
+      <text xml:space="preserve" bytes="445">&lt;includeonly&gt;{{#invoke: fallback|autotranslate|base = {{{base|}}}|lang={{{lang|}}}
+|1={{{1|}}} |2={{{2|}}} |3={{{3|}}} |4={{{4|}}} |5={{{5|}}}|6={{{6|}}} |7={{{7|}}} |8={{{8|}}} |9={{{9|}}} |10={{{10|}}} |11={{{11|}}} |12={{{12|}}} |13={{{13|}}} |14={{{14|}}} |15={{{15|}}} }}&lt;!--
+--&gt;{{#ifeq: {{FULLPAGENAME}} |Template:{{{base|}}} |[[Category:Autotranslated templates|{{PAGENAME}}]]}}&lt;/includeonly&gt;&lt;noinclude&gt;
+
+{{Documentation}}
+
+&lt;/noinclude&gt;</text>
+      <sha1>21wel7tymi34ekpq37ssx1h9cibp8q8</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Border-radius</title>
+    <ns>10</ns>
+    <id>12086323</id>
+    <revision>
+      <id>55431150</id>
+      <parentid>46198411</parentid>
+      <timestamp>2011-06-13T01:55:10Z</timestamp>
+      <contributor>
+        <username>Edokter</username>
+        <id>75089</id>
+      </contributor>
+      <comment>vendor-neutral last</comment>
+      <text xml:space="preserve" bytes="240">&lt;includeonly&gt;-moz-border-radius: {{{1|8px}}}; -webkit-border-radius: {{{1|8px}}}; border-radius: {{{1|8px}}};&lt;/includeonly&gt;&lt;noinclude&gt;
+
+&lt;!-- ADD CATEGORIES AND INTERWIKIS TO THE /doc PAGE, NOT HERE, THANKS --&gt;
+{{documentation}}
+&lt;/noinclude&gt;</text>
+      <sha1>kh0kskeuq5bluwqetzmmevdazb7mon9</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Dir</title>
+    <ns>10</ns>
+    <id>4508797</id>
+    <revision>
+      <id>128818834</id>
+      <parentid>70109361</parentid>
+      <timestamp>2014-07-12T19:29:48Z</timestamp>
+      <contributor>
+        <username>Magog the Ogre</username>
+        <id>338609</id>
+      </contributor>
+      <comment>azb =&gt; ltr</comment>
+      <text xml:space="preserve" bytes="341">&lt;noinclude&gt;{{heavily used template}}&lt;/noinclude&gt;{{#switch:{{{1}}}|ar|arc|arz|azb|bcc|ckb|bqi|dv|fa|fa-af|glk|ha|he|kk-arab|kk-cn|ks|ku-arab|mzn|pnb|prd|ps|sd|ug|ur|ydd|yi={{{2|rtl}}}|{{{3|ltr}}}}}&lt;noinclude&gt;
+{{documentation}}
+
+[[Category:Internationalization templates|{{PAGENAME}}]]
+[[Category:Function templates|{{PAGENAME}}]]
+&lt;/noinclude&gt;</text>
+      <sha1>c0ugjc7hl2gm7ap70ez8zb82al733zx</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Heavily used template</title>
+    <ns>10</ns>
+    <id>1638474</id>
+    <revision>
+      <id>89445133</id>
+      <parentid>76661700</parentid>
+      <timestamp>2013-01-31T23:53:57Z</timestamp>
+      <contributor>
+        <username>Denniss</username>
+        <id>3270</id>
+      </contributor>
+      <minor/>
+      <comment>Changed protection level for Template:Heavily used template: Widely used template ([Edit=Administrators only] (indefinite) [Move=Administrators only] (indefinite))</comment>
+      <text xml:space="preserve" bytes="86">{{autotranslate|base=Heavily used template}}&lt;noinclude&gt;
+{{documentation}}
+&lt;/noinclude&gt;</text>
+      <sha1>1pcxmdvh5fkplj2z4xa8y69p61j92k8</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Heavily used template/en</title>
+    <ns>10</ns>
+    <id>7201339</id>
+    <revision>
+      <id>133478346</id>
+      <parentid>89444813</parentid>
+      <timestamp>2014-09-02T12:39:52Z</timestamp>
+      <contributor>
+        <username>Jarekt</username>
+        <id>164349</id>
+      </contributor>
+      <comment>change &quot;template&quot; to &quot;page&quot; or &quot;{{lc:{{NAMESPACE}}}}&quot; so the template can be used for modules, etc.</comment>
+      <text xml:space="preserve" bytes="1362">{{Heavily used template/layout
+|text='''Note:''' This {{lc:{{NAMESPACE}}}} is used on a lot of pages. In order not to put too much load on the servers, edits should be kept to a bare minimum. Please '''discuss proposed changes on [[{{TALKPAGENAME}}|the talk page]]''' first.&lt;small&gt;
+* Editing a {{lc:{{NAMESPACE}}}} causes '''all pages that use the {{lc:{{NAMESPACE}}}} to be re-rendered'''. If the {{lc:{{NAMESPACE}}}} is used often, this can put a lot of load on the servers since it fills up the [[mw:Manual:Job queue|job queue]].
+* Keep in mind that templates that are used on file description pages also '''show up on other wikis'''.
+|autoconfirmed=* This page is semi-protected from editing to prevent vandalism. Only established users can edit it. &lt;div class=&quot;topicon&quot; id=&quot;protected-icon&quot; style=&quot;display:none; right:10px;&quot;&gt;[[File:Padlock-silver-medium.svg|20px|link=Commons:Page protection|This page is semi-protected against editing.]]&lt;/div&gt;
+|sysop=* This page has been protected from editing to prevent vandalism. Only administrators can edit it. Get their attention by placing {{tl|edit protected}} at the talk page.&lt;div class=&quot;topicon&quot; id=&quot;protected-icon&quot; style=&quot;display:none; right:10px;&quot;&gt;[[File:Padlock.svg|20px|link=Commons:Page protection|This page is protected against editing.]]&lt;/div&gt;
+|lang=en
+}}&lt;noinclude&gt;
+{{Translated tag|marker}}
+&lt;/noinclude&gt;</text>
+      <sha1>qf5jbcknzmvuciby5zvd3navch5wo59</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Heavily used template/layout</title>
+    <ns>10</ns>
+    <id>7201316</id>
+    <revision>
+      <id>133477864</id>
+      <parentid>102179206</parentid>
+      <timestamp>2014-09-02T12:33:47Z</timestamp>
+      <contributor>
+        <username>Jarekt</username>
+        <id>164349</id>
+      </contributor>
+      <comment>remove links to languages since they do not work for logged in users and not logged in users have other ways of choosing the language</comment>
+      <text xml:space="preserve" bytes="476">{| style=&quot;border:2px solid #F7D436; margin-left:auto; margin-right:auto; width:80%; padding:3px&quot; class=&quot;vcard layouttemplate mw-content-{{dir|{{{lang|}}}}}&quot; |
+| style=&quot;padding:3px; vertical-align:center; width:60px;&quot; | [[File:Dialog-warning-orange.svg|link=|55px]]
+|{{lang|{{{lang|}}}|{{{text|empty}}}
+{{#switch:{{PROTECTIONLEVEL:edit}}
+|autoconfirmed={{{autoconfirmed|}}}
+|sysop={{{sysop|}}}
+}}}}&lt;/small&gt;
+|}&lt;noinclude&gt;
+
+[[Category:Layout templates|{{PAGENAME}}]]
+&lt;/noinclude&gt;</text>
+      <sha1>a98cjz5wo75iijbyoe7cnk9uhmo3wkw</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Lang</title>
+    <ns>10</ns>
+    <id>611438</id>
+    <revision>
+      <id>20059528</id>
+      <parentid>4254015</parentid>
+      <timestamp>2009-04-08T19:32:14Z</timestamp>
+      <contributor>
+        <username>Slomox</username>
+        <id>770</id>
+      </contributor>
+      <comment>doc</comment>
+      <text xml:space="preserve" bytes="169">&lt;span lang=&quot;{{{1}}}&quot; xml:lang=&quot;{{{1}}}&quot; class=&quot;description {{{1}}}&quot;&gt;{{{2}}}&lt;/span&gt;&lt;noinclude&gt;
+{{Documentation}}
+
+[[Category:Internationalization templates]]
+&lt;/noinclude&gt;</text>
+      <sha1>lcq8redrgcrjfbueyz33b1u0kfis6fc</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Linear-gradient</title>
+    <ns>10</ns>
+    <id>18008944</id>
+    <revision>
+      <id>117156190</id>
+      <parentid>109672450</parentid>
+      <timestamp>2014-02-23T17:52:26Z</timestamp>
+      <contributor>
+        <username>Rillke</username>
+        <id>1178694</id>
+      </contributor>
+      <minor/>
+      <comment>Fulfilling [[Template:Edit request|edit request]] by Edokter. Thanks for helping!</comment>
+      <text xml:space="preserve" bytes="406">&lt;includeonly&gt;background-image: -moz-linear-gradient({{{1|}}}, {{{2|}}}); background-image: -o-linear-gradient({{{1|}}}, {{{2|}}}); background-image: -webkit-linear-gradient({{{1|}}}, {{{2|}}}); background-image: linear-gradient({{Linear-gradient/legacy|{{{1|}}}}}, {{{2|}}});&lt;/includeonly&gt;&lt;noinclude&gt;
+
+&lt;!-- ADD CATEGORIES AND INTERWIKIS TO THE /doc PAGE, NOT HERE, THANKS --&gt;
+{{documentation}}
+&lt;/noinclude&gt;</text>
+      <sha1>nh20km1bgbwwpveqvx1yj8gegbhy822</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Linear-gradient/legacy</title>
+    <ns>10</ns>
+    <id>31303156</id>
+    <revision>
+      <id>117124841</id>
+      <timestamp>2014-02-23T12:02:04Z</timestamp>
+      <contributor>
+        <username>Edokter</username>
+        <id>75089</id>
+      </contributor>
+      <comment>[[COM:AES|←]]Created page with '{{#switch: {{{1|}}} | top = to bottom | bottom = to top | left = to right | right = to left | top left | left top = to bottom right | top right | right top = to...'</comment>
+      <text xml:space="preserve" bytes="283">{{#switch: {{{1|}}}
+| top = to bottom
+| bottom = to top
+| left = to right
+| right = to left
+| top left
+| left top = to bottom right
+| top right
+| right top = to bottom left
+| bottom left
+| left bottom = to top right
+| bottom right
+| right bottom = to top left
+| #default = {{{1}}}
+}}</text>
+      <sha1>9j78m27xvdl5ku7ikxh82heae7eawtg</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:LuaLogo</title>
+    <ns>10</ns>
+    <id>29855389</id>
+    <revision>
+      <id>122296358</id>
+      <parentid>110553507</parentid>
+      <timestamp>2014-04-26T07:14:52Z</timestamp>
+      <contributor>
+        <username>Rillke</username>
+        <id>1178694</id>
+      </contributor>
+      <minor/>
+      <comment>typo refresh messed with line height; so defining that</comment>
+      <text xml:space="preserve" bytes="979">&lt;onlyinclude&gt;&lt;div style=&quot;position:relative&quot;&gt;
+&lt;div style=&quot;width:{{#expr:{{{s|150}}}}}px;height:{{#expr:{{{s|150}}}}}px;{{border-radius|50%}};background-color:#19198A&quot;&gt;&lt;/div&gt;
+&lt;div style=&quot;position:absolute;top:{{#expr:{{{s|150}}}*0.4}}px;color:#fff;font-family:Helvetica,Arial,sans-serif;font-weight:bold;font-size:{{#expr:{{{s|150}}}*0.525}}px;line-height:{{#expr:{{{s|150}}}*0.525}}px;&quot;&gt;Lua&lt;/div&gt;
+&lt;div style=&quot;width:{{#expr:{{{s|150}}}*0.267}}px;height:{{#expr:{{{s|150}}}*0.267}}px;{{border-radius|50%}};background-color:#fff;position:absolute;top:{{#expr:{{{s|150}}}*0.034+( &lt;!--radius--&gt;( (&lt;!--total_w--&gt;{{{s|150}}} - &lt;!--self_w--&gt;{{{s|150}}}*0.267)/2 - &lt;!--padding--&gt;{{{s|150}}}*0.034 )*(1-0.707106781186548) )}}px;left:{{#expr:(({{{s|150}}}-({{{s|150}}}*0.267))/2)+( &lt;!--radius--&gt;( (&lt;!--total_w--&gt;{{{s|150}}} - &lt;!--self_w--&gt;{{{s|150}}}*0.267)/2 - &lt;!--padding--&gt;{{{s|150}}}*0.034 )*&lt;!--rotation matrix--&gt;(0.707106781186548) )}}px&quot;&gt;&lt;/div&gt;
+&lt;/div&gt;&lt;/onlyinclude&gt;
+
+{{documentation}}</text>
+      <sha1>2jcp4hda3jtuwj8cmzgl06uyqiyhk7z</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Module-nav</title>
+    <ns>10</ns>
+    <id>30260999</id>
+    <revision>
+      <id>112258784</id>
+      <parentid>112242105</parentid>
+      <timestamp>2013-12-20T22:52:36Z</timestamp>
+      <contributor>
+        <username>Rillke</username>
+        <id>1178694</id>
+      </contributor>
+      <minor/>
+      <comment>only display test results if there are tests</comment>
+      <text xml:space="preserve" bytes="1226">&lt;onlyinclude&gt;&lt;span class=&quot;plainlinks&quot;&gt;&lt;!--
+--&gt;[[Module:{{{module|File}}}#com-module-code|{{Module-nav/tab|text=Code}}]]&lt;!--
+--&gt;[[:Module talk:{{{module|File}}}|{{Module-nav/tab|text={{int:talk}}}}]]&lt;!--
+--&gt;[{{fullurl:Module:{{{module|File}}}|action=edit}} {{Module-nav/tab|text={{int:vector-view-edit}}}}]&lt;!--
+--&gt;[{{fullurl:Module:{{{module|File}}}|action=history}} {{Module-nav/tab|text={{int:vector-view-history}}}}]&lt;!--
+--&gt;{{#invoke:QuickTest|injectResult|pattern={{Module-nav/tab|text=%result%}}&lt;noinclude&gt;|title=Module:File/doc&lt;/noinclude&gt;}}&lt;!--
+--&gt; &lt;!--
+--&gt;[[Special:MyLanguage/Module:{{{module|File}}}/doc|{{Module-nav/tab2|text='''Documentation'''}}]]&lt;!--
+--&gt;[[Special:PrefixIndex/Module:{{{module|File}}}|{{Module-nav/tab2|text=Subpages}}]]&lt;!--&lt;!--
+--&gt;[{{fullurl:Special:WhatLinksHere/:Module:{{{module|File}}}|limit=999}} {{Module-nav/tab2|text=Links}}]&lt;!--
+--&gt;[[Module:{{{module|File}}}/testcases|{{Module-nav/tab2|text=Tests}}]]&lt;!--
+--&gt;[[Module talk:{{{module|File}}}/testcases|{{Module-nav/tab2|text=Results}}]]&lt;!--
+--&gt;[[Module:{{{module|File}}}/sandbox|{{Module-nav/tab2|text=Sandbox}}]]&lt;!--
+--&gt; &lt;!--
+--&gt;[[Commons:Lua/Modules|{{Module-nav/tab3|text=All modules}}]]&lt;!--
+--&gt;&lt;/span&gt;&lt;/onlyinclude&gt;
+
+{{documentation}}</text>
+      <sha1>d16ixa5dgcb8aytngnl7j6w2m6i8p9u</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Module-nav/tab</title>
+    <ns>10</ns>
+    <id>30260333</id>
+    <revision>
+      <id>112241436</id>
+      <parentid>112237110</parentid>
+      <timestamp>2013-12-20T18:35:59Z</timestamp>
+      <contributor>
+        <username>Rillke</username>
+        <id>1178694</id>
+      </contributor>
+      <minor/>
+      <comment>Protected Template:Module-nav/tab: [[Commons:Protection policy|Used in the interface]] ([Edit=Allow only administrators] (indefinite) [Move=Allow only administrators] (indefinite))</comment>
+      <text xml:space="preserve" bytes="300">&lt;onlyinclude&gt;&lt;span style=&quot;display:inline-block; padding:0 1px 0 0; {{linear-gradient|top|#d9dcdd 0%, #bfc7cc 50%, #aab8bf 100%}};&quot;&gt;&lt;span style=&quot;display:inline-block;{{linear-gradient|top|#f2f6f8 0%, #d8e1e7 50%, #c3d4dd 100%}}; padding:.8em;&quot;&gt;{{{text}}}&lt;/span&gt;&lt;/span&gt;&lt;/onlyinclude&gt;
+
+{{documentation}}</text>
+      <sha1>eowjz6in045mvypy434fys1qry4wl9o</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Module-nav/tab2</title>
+    <ns>10</ns>
+    <id>30260565</id>
+    <revision>
+      <id>112241444</id>
+      <parentid>112237994</parentid>
+      <timestamp>2013-12-20T18:36:12Z</timestamp>
+      <contributor>
+        <username>Rillke</username>
+        <id>1178694</id>
+      </contributor>
+      <minor/>
+      <comment>Protected Template:Module-nav/tab2: [[Commons:Protection policy|Used in the interface]] ([Edit=Allow only administrators] (indefinite) [Move=Allow only administrators] (indefinite))</comment>
+      <text xml:space="preserve" bytes="274">&lt;onlyinclude&gt;&lt;span style=&quot;display:inline-block; padding:0 1px 0 0; {{linear-gradient|top|#c4ceb9 0%, #a8b79a 100%}};&quot;&gt;&lt;span style=&quot;display:inline-block;{{linear-gradient|top|#ebf7de 0%, #cee0bc 100%}}; padding:.8em;&quot;&gt;{{{text}}}&lt;/span&gt;&lt;/span&gt;&lt;/onlyinclude&gt;
+
+{{documentation}}</text>
+      <sha1>gnh10kwwkn5hofxk2esw3ypuo6uqgyx</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Module-nav/tab3</title>
+    <ns>10</ns>
+    <id>30260958</id>
+    <revision>
+      <id>112241457</id>
+      <parentid>112239447</parentid>
+      <timestamp>2013-12-20T18:36:28Z</timestamp>
+      <contributor>
+        <username>Rillke</username>
+        <id>1178694</id>
+      </contributor>
+      <minor/>
+      <comment>Protected Template:Module-nav/tab3: [[Commons:Protection policy|Used in the interface]] ([Edit=Allow only administrators] (indefinite) [Move=Allow only administrators] (indefinite))</comment>
+      <text xml:space="preserve" bytes="274">&lt;onlyinclude&gt;&lt;span style=&quot;display:inline-block; padding:0 1px 0 0; {{linear-gradient|top|#d6d4c7 0%, #c4bb8b 100%}};&quot;&gt;&lt;span style=&quot;display:inline-block;{{linear-gradient|top|#fefcea 0%, #ede3a6 100%}}; padding:.8em;&quot;&gt;{{{text}}}&lt;/span&gt;&lt;/span&gt;&lt;/onlyinclude&gt;
+
+{{documentation}}</text>
+      <sha1>1fimak0vvy99da6vtmczo7l47oc53y3</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Tl</title>
+    <ns>10</ns>
+    <id>27412850</id>
+    <revision>
+      <id>100722249</id>
+      <parentid>100579077</parentid>
+      <timestamp>2013-07-26T20:11:35Z</timestamp>
+      <contributor>
+        <username>Rillke</username>
+        <id>1178694</id>
+      </contributor>
+      <minor/>
+      <comment>from [[Template:User Sarang/Sandbox]] // per request on my talk page // diff=100714618&amp;oldid=100579197</comment>
+      <text xml:space="preserve" bytes="434">{{#switch:{{{incl}}}|1=&amp;#123;|2=|&amp;#123;&amp;#123;}}[[:{{#if:{{{3|{{{lang|}}}}}}|{{{3|{{{lang}}}}}}:}}{{ns:10}}:{{#if:{{{1|}}}|{{{1}}}|Tl}}|{{#switch:{{{incl}}}|1=&amp;#123;|2=&amp;#123;&amp;#123;}}{{#if:{{{code|}}}|&lt;code&gt;}}{{#if:{{{2|}}}|{{{2}}}|{{#if:{{{1|}}}|{{{1}}}|Tl}}}}{{{parm|}}}{{#if:{{{code|}}}|&lt;/code&gt;}}{{#switch:{{{incl}}}|1=&amp;#125;|2=&amp;#125;&amp;#125;}}]]{{#switch:{{{incl}}}|1=&amp;#125;|2=|&amp;#125;&amp;#125;}}&lt;noinclude&gt;
+{{documentation}}
+&lt;/noinclude&gt;</text>
+      <sha1>kuwht3k13d09doyg7cgc93r3r2fo24z</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Module:Fallback</title>
+    <ns>828</ns>
+    <id>29733575</id>
+    <revision>
+      <id>125613303</id>
+      <parentid>125611691</parentid>
+      <timestamp>2014-06-02T18:55:31Z</timestamp>
+      <contributor>
+        <username>Jarekt</username>
+        <id>164349</id>
+      </contributor>
+      <comment>autotranslate: allow passing non-numeric arguments, if call made through {{#invoke}} (try #3: this time with support of pages outside of template namespace)</comment>
+      <text xml:space="preserve" bytes="5095">local p = {}
+
+local langlist = require('Module:Fallbacklist')
+
+function p.fblist(lang) -- list the full fallback chain from a language to en
+	local fbtable = p.fallbackloop{ lang:lower() }
+	table.insert(fbtable, 'default')
+	table.insert(fbtable, 'en')
+	return fbtable
+end
+
+function _inArray(x, t)
+	for i, v in ipairs(t) do
+		if v == x then return i end
+	end
+	return -1
+end
+
+function p.fallbackloop(fbtable)  --list of fallback languages in string format (more convenient than tables)
+	local changes = false
+	for i, j in ipairs(fbtable) do
+		local seq = langlist[j]
+		if seq then
+			for k, l in ipairs(seq) do
+				if _inArray(l, fbtable) == -1 then
+					table.insert(fbtable, l)
+					changes = true
+				end
+			end
+		end
+	end
+	if changes then
+		return p.fallbackloop(fbtable)
+	end
+	return fbtable
+end
+
+function p._langSwitch(args, lang) -- args: table of translations
+	-- Return error if there is not default and no english version
+	if not args.en and not args.default and args.nocat ~= '1' then
+		return '&lt;strong class=&quot;error&quot;&gt;LangSwitch Error: no default&lt;/strong&gt;[[Category:LangSwitch template without default version]]'
+	end
+	-- get language (either stated one or user's default language)
+	if not lang then
+		return '&lt;strong class=&quot;error&quot;&gt;LangSwitch Error: no lang&lt;/strong&gt;' -- must become proper error
+	end
+	-- get the list of accpetable language (lang + those in lang's fallback chain) and check their content
+	local parselist = p.fblist(lang)
+	for i, k in ipairs(parselist) do
+		if args[k] == '~' then return '' end
+		if args[k] and args[k] ~= '' then return args[k] end
+	end
+end
+
+function p.langSwitch(frame) -- version to be used from wikitext
+	args = frame.args
+	-- if no expected args provided than check parent template/module args
+	if args.en==nil and args.default==nil and args.nocat==nil then
+		args = mw.getCurrentFrame():getParent().args
+	end
+	if args.lang and args.lang ~= '' then
+		lang = args.lang
+		args.lang = nil
+	else -- get user's chosen language
+		lang = frame:preprocess( &quot;{{int:lang}}&quot; )
+	end
+	return p._langSwitch(args, lang)
+end
+
+function p.fallbackpage(base, lang, formatting)
+	local languages = p.fblist(lang)
+	for i, lng in ipairs(languages) do
+		if mw.title.new(base .. '/' .. lng).exists then
+			if formatting == 'table' then
+				return {base .. '/' .. lng, lng} -- returns name of the page + name of the language
+			else
+				return base .. '/' .. lng -- returns only the page
+			end
+		end
+	end
+end
+
+function p.autotranslate(frame) -- logic for [[template:Autotranslate]]
+	local args = frame.args
+	if not args.lang or args.lang == '' then
+		args.lang = frame:preprocess( &quot;{{int:lang}}&quot; )           -- get user's chosen language
+	end
+
+	-- find base page
+	local base = args.base
+	if not base or base == '' then
+		return '&lt;strong class=&quot;error&quot;&gt;Base page not provided for autotranslate&lt;/strong&gt;'
+	end
+	if string.sub(base,2,9) ~= 'emplate:' then
+		base = 'Template:' .. base   -- base provided without 'Template:' part
+	end
+
+	-- find base template language subpage
+	local page = p.fallbackpage(base, args.lang) --
+	if (not page and base ~= args.base) then
+		-- try the original args.base string. This case is only needed if base is not in template namespace
+		page = p.fallbackpage(args.base, args.lang)
+	end
+	if not page then
+		return string.format('&lt;strong class=&quot;error&quot;&gt;no fallback page found for autotranslate (base=[[%s]], lang=%s)&lt;/strong&gt;', args.base, args.lang)
+	end
+
+        -- repack args in a standard table
+	newargs = {}
+	for field, value in pairs(args) do
+		if field ~= 'base' then
+			newargs[field] = value;
+		end
+	end
+
+	-- Transclude {{page |....}} with template arguments the same as the ones passed to {{autotranslate}} template.
+        return frame:expandTemplate{ title = page, args = newargs }
+end
+
+function p.translatelua(frame)
+	local lang = frame.args.lang
+	local page = require('Module:' .. mw.text.trim(frame.args[1])) -- page should only contain a simple of translations
+	if not lang or mw.text.trim(lang) == '' then
+		lang = frame:preprocess( &quot;{{int:lang}}&quot; )
+	end
+	if frame.args[2] then
+		page = page[mw.text.trim(frame.args[2])]
+	end
+	return p._langSwitch(page, lang)
+end
+
+function p.runTests()
+	local toFallbackTest = require('Module:Fallback/tests/fallbacks')
+	local result = true
+
+	mw.log('Testing fallback chains')
+	for i, t in ipairs(toFallbackTest) do
+		local fbtbl = table.concat(p.fblist(t.initial), ', ')
+		local expected = table.concat(t.expected, ', ')
+		local ret = (fbtbl == expected)
+		mw.log(i, ret and 'passed' or 'FAILED', t.initial, (not ret) and ('FAILED\nis &gt;&gt;' .. fbtbl .. '&lt;&lt;\nbut should be &gt;&gt;' .. expected .. '&lt;&lt;\n') or '')
+		result = result and ret
+	end
+
+	return result
+end
+
+function p.showTemplateArguments(frame)
+-- list all input arguments of the template that calls &quot;{{#invoke:Fallback|showTemplateArguments}}&quot;
+	local str = ''
+	for name, value in pairs( mw.getCurrentFrame():getParent().args ) do
+		if str=='' then
+			str = string.format('%s=%s', name, value)          -- argument #1
+		else
+			str = string.format('%s, %s=%s', str, name, value) -- the rest
+		end
+	end
+	return str
+end
+
+return p</text>
+      <sha1>5axdehna0wz2pp3u335pz05s6vo6av7</sha1>
+      <model>Scribunto</model>
+      <format>text/plain</format>
+    </revision>
+  </page>
+  <page>
+    <title>Module:Fallbacklist</title>
+    <ns>828</ns>
+    <id>29773345</id>
+    <revision>
+      <id>113908612</id>
+      <parentid>110522231</parentid>
+      <timestamp>2014-01-13T18:43:39Z</timestamp>
+      <contributor>
+        <username>Ahonc</username>
+        <id>26615</id>
+      </contributor>
+      <minor/>
+      <comment>+be</comment>
+      <text xml:space="preserve" bytes="10363">return {
+
+ -- crh (Crimean Tatar) cluster: crh-cyrl , crh-latn -&gt; crh (Crimean Tatar)
+ ['crh']        = {'crh-latn'},
+ ['crh-cyrl']   = {'crh'},
+ ['crh-latn']   = {'crh'},
+
+ -- de (German) cluster:
+ ['als']        = {'gsw', 'de'},    -- Alemannisch
+ ['bar']        = {'de'},           -- Bavarian
+ ['de-at']      = {'de'},           -- Austrian German
+ ['de-ch']      = {'de'},           -- Swiss High German
+ ['de-formal']  = {'de'},           -- German (formal address)
+ ['dsb']        = {'de'},           -- Lower Sorbian
+ ['frr']        = {'de'},           -- Northern Frisian
+ ['hsb']        = {'de'},           -- Upper Sorbian
+ ['ksh']        = {'de'},           -- Colognian
+ ['lb']         = {'de'},           -- Luxembourgish
+ ['nds']        = {'nds-nl', 'de'}, -- Low German
+ ['nds-nl']     = {'nds', 'nl'},    -- Low Saxon (Netherlands)
+ ['pdc']        = {'de'},           -- Deitsch
+ ['pdt']        = {'nds', 'de'},    -- Plautdietsch
+ ['pfl']        = {'de'},           -- Pälzisch
+ ['sli']        = {'de'},           -- Lower Silesian
+ ['stq']        = {'de'},           -- Seeltersk
+ ['vmf']        = {'de'},           -- Upper Franconian
+
+ -- es (Spanish) cluster
+ ['an']         = {'es'},       -- Aragonese
+ ['arn']        = {'es'},       -- Mapuche
+ ['ay']         = {'es'},       -- Aymara
+ ['cbk-zam']    = {'es'},       -- Chavacano de Zamboanga
+ ['gn']         = {'es'},       -- Guarani
+ ['lad']        = {'es'},       -- Ladino
+ ['nah']        = {'es'},       -- Nahuatl
+ ['qu']         = {'es'},       -- Quechua
+ ['qug']        = {'qu', 'es'}, -- Runa shimi
+
+ -- et (Estonian) cluster
+ ['liv']         = {'et'},  -- Līvõ kēļ
+ ['vep']         = {'et'},  -- Veps
+ ['vro']         = {'et'},  -- Võro
+ ['fio-vro']     = {'vro'}, -- Võro
+
+ -- fa (Persian) cluster
+ ['bcc']        = {'fa'},  -- Southern Balochi
+ ['bqi']        = {'fa'},  -- Bakhtiari
+ ['ckb']        = {'fa'},  -- Sorani
+ ['glk']        = {'fa'},  -- Gilaki
+ ['mzn']        = {'fa'},  -- Mazandarani
+
+ -- fi (Finnish) cluster:
+ ['fit']        = {'fi'}, -- meänkieli
+ ['vot']        = {'fi'}, -- Votic
+
+ -- fr (French) cluster:
+ ['bm']         = {'fr'}, -- Bambara
+ ['br']         = {'fr'}, -- Breton
+ ['co']         = {'fr'}, -- Corsican
+ ['ff']         = {'fr'}, -- Fulah
+ ['frc']        = {'fr'}, -- Cajun French
+ ['frp']        = {'fr'}, -- Franco-Provençal
+ ['ht']         = {'fr'}, -- Haitian
+ ['ln']         = {'fr'}, -- Lingala
+ ['mg']         = {'fr'}, -- Malagasy
+ ['pcd']        = {'fr'}, -- Picard
+ ['sg']         = {'fr'}, -- Sango
+ ['ty']         = {'fr'}, -- Tahitian
+ ['wa']         = {'fr'}, -- Walloon
+ ['wo']         = {'fr'}, -- Wolof
+
+ -- hi (Hindi) cluster
+ ['anp']         = {'hi'}, -- Angika
+ ['may']         = {'hi'}, -- Maithili
+ ['sa']          = {'hi'}, -- Sanskrit
+
+ -- hif (Fiji Hindi) cluster: hif-deva , hif-latn -&gt; hif (Fiji Hindi)
+ ['hif']        = {'hif-latn'},
+ ['hif-deva']   = {'hif'},
+ ['hif-latn']   = {'hif'},
+
+ -- id (Indonesian) cluster
+ ['min']        = {'id'},       -- Minangkabau
+ ['ace']        = {'id'},       -- Achinese
+ ['bug']        = {'id'},       -- Buginese
+ ['bjn']        = {'id'},       -- Banjar
+ ['jv']         = {'id'},       -- Javanese
+ ['su']         = {'id'},       -- Sundanese
+ ['map-bms']    = {'jv', 'id'}, -- Basa Banyumasan
+
+ -- ike (Eastern Canadian Inuktitut) cluster: ike-cans , ike-latn -&gt; ike (Eastern Canadian Inuktitut)
+ ['ike-cans']   = {'ik'},
+ ['ike-latn']   = {'ik'},
+
+ -- it (Italian) cluster
+ ['egl']        = {'it'}, -- Emiliàn
+ ['eml']        = {'it'}, -- Emiliano-Romagnolo
+ ['fur']        = {'it'}, -- Friulian
+ ['lij']        = {'it'}, -- Ligure
+ ['lmo']        = {'it'}, -- lumbaart
+ ['nap']        = {'it'}, -- Neapolitan
+ ['pms']        = {'it'}, -- Piedmontese
+ ['rgn']        = {'it'}, -- Romagnol
+ ['scn']        = {'it'}, -- Sicilian
+ ['vec']        = {'it'}, -- vèneto
+
+ -- kk (Kazakh) cluster:
+ -- kk-arab , kk-cyrl , kk-latn , kk-cn , kk-kz , kk-tr -&gt; kk (Kazakh)
+ ['kk']         = {'kk-cyrl'},                  -- Kazakh
+ ['kk-arab']    = {'kk-cyrl', 'kk'},            -- Kazakh (Arabic script)
+ ['kk-cn']      = {'kk-arab', 'kk-cyrl', 'kk'}, -- Kazakh (China)
+ ['kk-cyrl']    = {'kk'},                       -- Kazakh (Cyrillic script)
+ ['kk-kz']      = {'kk', 'kk-cyrl'},            -- Kazakh (Kazakhstan)
+ ['kk-latn']    = {'kk'},                       -- Kazakh (Latin script)
+ ['kk-tr']      = {'kk-latn', 'kk'},            -- Kazakh (Turkey)
+ ['kaa']        = {'kk-latn', 'kk-cyrl'},       -- Kara-Kalpak
+
+ -- ku (Kurdish) cluster: ku-latn , ku-arab -&gt; ku (Kurdish)
+ ['ku']         = {'ku-latn'},
+ ['ku-arab']    = {'ckb', 'ku'},  -- كوردي (عەرەبی)
+ ['ku-latn']    = {'ku'},
+
+ -- nl (Dutch) cluster
+ ['af']         = {'nl'}, -- Afrikaans
+ ['fy']         = {'nl'}, -- Western Frisian
+ ['li']         = {'nl'}, -- Liechtenstein
+ ['nl-informal']= {'nl'}, -- Nederlands (informeel)
+ ['vls']        = {'nl'}, -- Vlaams
+ ['zea']        = {'nl'}, -- Zeeuws
+
+ --pl (Polish) cluster
+ ['csb']        = {'pl'}, -- Kashubian
+ ['szl']        = {'pl'}, -- Silesian
+
+ -- pt (Portuguese) cluster
+ ['gl']           = {'pt'},            -- Galician
+ ['mwl']          = {'pt'},            -- Mirandese
+ ['pt-br']        = {'pt'},            -- Brazilian Portuguese
+
+ -- ro (Romanian) cluster
+ ['mo']           = {'ro'},       -- Moldavian
+ ['rmy']          = {'ro'},       -- Romani
+
+ -- ru (Russian) cluster
+ ['ab']           = {'ru'},            -- Abkhazian
+ ['av']           = {'ru'},            -- Avaric
+ ['ba']           = {'ru'},            -- Bashkir
+ ['be-tarask']    = {'ru'},            -- Belorussian
+ ['ce']           = {'ru'},            -- Chechen
+ ['crh-cyrl']     = {'ru'},            -- Crimean Tatar (Cyrillic script)
+ ['cv']           = {'ru'},            -- Chuvash
+ ['inh']          = {'ru'},            -- Ingush
+ ['koi']          = {'ru'},            -- Komi-Permyak
+ ['krc']          = {'ru'},            -- Karachay-Balkar
+ ['kv']           = {'ru'},            -- Komi
+ ['lbe']          = {'ru'},            -- лакку
+ ['lez']          = {'ru'},            -- Lezghian
+ ['mhr']          = {'ru'},            -- Eastern Mari
+ ['mrj']          = {'ru'},            -- Hill Mari
+ ['myv']          = {'ru'},            -- Erzya
+ ['os']           = {'ru'},            -- Ossetic
+ ['rue']          = {'uk', 'ru'},      -- Rusyn
+ ['sah']          = {'ru'},            -- Sakha
+ ['tt']           = {'tt-cyrl', 'ru'}, -- Tatar
+ ['tt-cyrl']      = {'ru'},            -- Tatar (Cyrillic script)
+ ['udm']          = {'ru'},            -- Udmurt
+ ['uk']           = {'ru'},            -- Ukrainian
+ ['xal']          = {'ru'},            -- Kalmyk
+
+ -- ruq (Megleno Romanian) cluster: ruq-cyrl , ruq-grek , ruq-latn -&gt; ruq (Megleno Romanian)
+ ['ruq']        = {'ruq-latn'},   -- Megleno-Romanian
+ ['ruq-cyrl']   = {'ruq', 'mk'},
+ ['ruq-grek']   = {'ruq'},
+ ['rug-latn']   = {'ro', 'ruq'},  -- Megleno-Romanian (Latin script)
+
+ -- sr (Serbian) cluster: sr-ec , sr-el -&gt; sr (Serbian)
+ ['sr']         = {'sr-ec'},
+ ['sr-ec']      = {'sr'},
+ ['sr-el']      = {'sr'},
+
+ -- tg (Tajik) cluster: tg-cyrl , tg-latn -&gt; tg (Tajik)
+ ['tg']         = {'tg-cyrl'},
+ ['tg-cyrl']    = {'tg'},
+ ['tg-latn']    = {'tg'},
+
+ -- tr (Turkish) cluster
+ ['gag']        = {'tr'}, -- Gagauz
+ ['kiu']        = {'tr'}, -- Kirmanjki
+ ['lzz']        = {'tr'}, -- Lazuri
+
+ -- tt (Tatar) cluster: tt-cyrl , tt-latn -&gt; tt (Tatar)
+ ['tt-cyrl']    = {'tt'},
+ ['tt-latn']    = {'tt'},
+
+ -- zh (Chinese) cluster
+ ['gan']          = {'gan-hant', 'zh-hant'},  -- Gan
+ ['gan-hans']     = {'zh-hans'},              -- Simplified Gan script
+ ['gan-hant']     = {'zh-hant'},              -- Traditional Gan script
+ ['ii']           = {'zh-cn'},                -- Sichuan Yi
+ ['wuu']          = {'zh-hans'},              -- Wu
+ ['za']           = {'zh-hans'},              -- Zhuang
+ ['zh-hans']      = {'zh-cn', 'zh'},          -- Simplified Chinese
+ ['zh-hant']      = {'zh'},                   -- Traditional Chinese
+ ['zh']           = {'zh-hans'},
+ ['zh-cn']        = {'zh-hans'},              -- Chinese (China)
+ ['zh-hk']        = {'zh-hant'},              -- Chinese (Hong Kong)
+ ['zh-mo']        = {'zh-hk', 'zh-hant'},     -- 中文（澳門）
+ ['zh-my']        = {'zh-sg', 'zh-hans'},     -- 中文（马来西亚）‎
+ ['zh-sg']        = {'zh-hans'},              -- Chinese (Singapore)
+ ['zh-tw']        = {'zh-hant'},              -- Chinese (Taiwan)
+ ['zh-classical'] = {'lzh'},                  -- Literary Chinese
+ ['zh-min-nan']   = {'nan'},                  -- Chinese (Min Nan) -&gt; Min Nan Chinese
+ ['zh-yue']       = {'yue'},                  -- ? Cantonese -&gt; Cantonese
+
+ ------------------------
+ --------- misc ---------
+ ------------------------
+ ['arz']        = {'ar'},            -- Egyptian Arabic -&gt; Arabic
+ ['be-x-old']   = {'be-tarask'},     -- be-x-old -&gt; be-tarask (wrong to correct Taraškievica form of Belarusian orthography)
+ ['bh']         = {'bho'},           -- Bihari -&gt; Bhojpuri
+ ['bpy']        = {'bn'},            -- Bishnupria Manipuri -&gt; Bengali
+
+ -- da
+ ['jut']        = {'da'},            -- Jutish -&gt; Danish
+ ['kl']         = {'da'},            -- Kalaallisut -&gt; Danish
+
+ ['en-gb']      = {'en'},
+ ['yi']         = {'he'},            -- Yiddish -&gt; Hebrew
+ ['iu']         = {'ike-cans'},      -- Inuktitut -&gt; Eastern Canadian (Aboriginal syllabics)
+ ['xmf']        = {'ka'},            -- Mingrelian -&gt; Georgian
+ ['kbd']        = {'kbd-cyrl'},      -- Kabardian -&gt; Адыгэбзэ
+ ['tcy']        = {'kn'},            -- Tulu -&gt; Kannada
+ ['ko-kp']      = {'ko'},            -- 한국어 (조선) -&gt; Korean
+ ['ks']         = {'ks-arab'},       -- Kashmiri -&gt; Kashmiri (Arabic script)
+
+ -- lt
+ ['bat-smg']    = {'sgs', 'lt'},     -- Samogitian -&gt; Lithuanian
+ ['sgs']    =     {'lt'},            -- Samogitian -&gt; Lithuanian
+
+ ['ltg']        = {'lv'},            -- Latvian -&gt; Latgalian
+ ['dtp']        = {'ms'},            -- Central Dusun -&gt; Malay
+ ['no']         = {'nb'},            -- Norwegian (bokmål) -&gt; Norwegian Bokmål
+ ['roa-rup']    = {'rup'},           -- ? Aromanian -&gt; Aromanian
+ ['aln']        = {'sq'},            -- Gheg Albanian -&gt; Albanian
+ ['ug']         = {'ug-arab'},       -- Uyghur -&gt; Uyghur (Arabic script)
+ ['khw']        = {'ur'},            -- Khowar -&gt; Urdu
+}</text>
+      <sha1>sc752jogobg53zdzbw7pq4t9d2fci38</sha1>
+      <model>Scribunto</model>
+      <format>text/plain</format>
+    </revision>
+  </page>
+  <page>
+    <title>Module:QuickTest</title>
+    <ns>828</ns>
+    <id>30258059</id>
+    <revision>
+      <id>112258674</id>
+      <parentid>112258169</parentid>
+      <timestamp>2013-12-20T22:52:06Z</timestamp>
+      <contributor>
+        <username>Rillke</username>
+        <id>1178694</id>
+      </contributor>
+      <minor/>
+      <comment>one result is enough</comment>
+      <text xml:space="preserve" bytes="2085">-- Tests whether a module has a test API, and if so, runs these tests
+
+local p = {}
+
+function p.run(titleCurrentPage)
+	local title = titleCurrentPage
+	local titlesplit = mw.text.split(title, '/', true)
+	if titlesplit[1]:find('Module:', 1, true) ~= 1 then return '' end
+	if titlesplit[#titlesplit] == 'doc' then
+		table.remove(titlesplit)
+	end
+	title = table.concat(titlesplit, '/')
+
+	-- Load the module
+	local m = require(title)
+	local testFunction = m['runTests']
+	local testFunctionType = type(testFunction)
+	if ( testFunctionType ~= 'function' and not ( testFunctionType == 'table' and getmetatable(testFunction).__call ) ) then
+		return '', title
+	end
+
+	-- Execute the test function
+	local ok, result = pcall(testFunction)
+	if ok then
+		return result, title
+	else
+		return 'error', title
+	end
+end
+
+function cat(title, titleCurrentPage, cat)
+	if titleCurrentPage == title then return cat end
+	return ''
+end
+
+function p.testModule(frame)
+	local titleCurrentPage =  ( frame.args and frame.args.title ) or ( frame and frame:preprocess('{{FULLPAGENAME}}') ) or 'Frame not defined.'
+	local testResult, title = p.run(titleCurrentPage)
+	if testResult == true then
+		return '[[File:Accept.png|16px|alt=Ok]] Tests passed. C.f. [[COM:LUA/T#auto]]' .. cat(title, titleCurrentPage, '[[Category:Scribunto modules with tests passed]]')
+	elseif testResult == false then
+		return '[[File:Bug error.png|16px|alt=Bug]] Tests failed. Run &lt;code&gt;=p.runTests()&lt;/code&gt; in the LUA console on [[' .. title .. ']] for more details.' .. cat(title, titleCurrentPage, '[[Category:Scribunto modules with tests failed]]')
+	elseif testResult == 'error' then
+		return '[[File:Error.png|16px|alt=Error]] Error executing tests.' .. cat(title, titleCurrentPage, '[[Category:Scribunto modules with errors executing tests]]')
+	else
+		return testResult .. cat(title, titleCurrentPage, '[[Category:Scribunto modules without test API]]')
+	end
+end
+
+function p.injectResult(frame)
+	result = p.testModule(frame)
+	if result == '' then return '' end
+
+	return ( frame.args['pattern']:gsub('%%result%%', result) )
+end
+
+return p</text>
+      <sha1>af5rmvb20v9139f7k1ck305qpbxcrii</sha1>
+      <model>Scribunto</model>
+      <format>text/plain</format>
+    </revision>
+  </page>
+  <page>
+    <title>Module:TemplatePar/doc</title>
+    <ns>828</ns>
+    <id>27540909</id>
+    <revision>
+      <id>128484755</id>
+      <parentid>112238146</parentid>
+      <timestamp>2014-07-08T18:14:29Z</timestamp>
+      <contributor>
+        <username>Jarekt</username>
+        <id>164349</id>
+      </contributor>
+      <text xml:space="preserve" bytes="166">{{Heavily used template}}
+* [[:de:Wikipedia:Lua/Modul/TemplatePar/en|Documentation in English]]
+* [[:de:Wikipedia:Lua/Modul/TemplatePar/de|Dokumentation auf Deutsch]]</text>
+      <sha1>hzbvg1wfs6rfvhxgehf2nuz0s9e4hy6</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+</mediawiki>
