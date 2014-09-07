@@ -48,7 +48,7 @@ class role::cirrussearch {
 
     vagrant::settings { 'cirrussearch':
         ram           => 2000,
-        forward_ports => { 9200 => 9200 },
+        forward_ports => { 9200 => 9200, 9300 => 9300 },
     }
 
     exec { 'build_search_index':
