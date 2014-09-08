@@ -1,0 +1,1 @@
+test -f '<%= @settings_root %>/LocalSettings.php' && mysql --defaults-extra-file=/home/vagrant/.my.cnf --execute="show databases;" | grep -q '^<%= @db_name %>$'

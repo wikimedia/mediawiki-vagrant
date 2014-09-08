@@ -69,7 +69,8 @@ define mediawiki::wiki(
 
     exec { "${db_name}_setup":
         command => template('mediawiki/wiki/run_installer.erb'),
-        creates => "${settings_root}/LocalSettings.php",
+        unless  => template('mediawiki/wiki/check_installed.erb'),
+        require => Class["mysql"],
     }
 
     exec { "${db_name}_include_extra_settings":
@@ -77,14 +78,6 @@ define mediawiki::wiki(
         cwd     => $settings_root,
         unless  => 'grep "/vagrant/LocalSettings.php" LocalSettings.php',
         require => Exec["${db_name}_setup"],
-    }
-
-    # Cleanup LocalSettings.php if database is not found
-    exec { "${db_name}_check_settings":
-        command => "rm -f ${settings_root}/LocalSettings.php",
-        unless  => "mwscript sql.php --wikidb=${db_name} </dev/null",
-        notify  => Exec["${db_name}_setup"],
-        require => Service['mysql'],
     }
 
     exec { "update_${db_name}_database":
