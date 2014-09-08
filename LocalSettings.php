@@ -97,10 +97,13 @@ foreach( $wgProfilerParams as $param => $cls ) {
 
 require_once __DIR__ . '/settings.d/wikis/CommonSettings.php';
 
-if ( PHP_SAPI === 'cli' ) {
-	// Bug: 66588
-	$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
-}
+// XXX: Is this a bug in core? (ori-l, 27-Aug-2013)
+$wgHooks['GetIP'][] = function ( &$ip ) {
+	if ( PHP_SAPI === 'cli' ) {
+		$ip = '127.0.0.1';
+	}
+	return true;
+};
 
 // Execute all jobs via standalone jobrunner service rather than
 // piggybacking them on web requests.
