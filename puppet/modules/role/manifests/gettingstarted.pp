@@ -2,10 +2,14 @@
 # Configures the GettingStarted extension and its dependencies:
 # EventLogging and GuidedTour. GettingStarted adds a special page which
 # presents introductory content and tasks to newly-registered editors.
+# CirrusSearch is used for its 'morelike' feature, so recommendations
+# can be provided based on textual similarity.  PageImages is used
+# to provide thumbnails of articles in the recommendations.
 class role::gettingstarted {
     include ::role::cirrussearch
     include ::role::eventlogging
     include ::role::guidedtour
+    include ::role::pageimages
 
     mediawiki::extension { 'GettingStarted':
         browser_tests => true,
