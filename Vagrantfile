@@ -49,7 +49,8 @@ require 'mediawiki-vagrant/settings/definitions'
 settings = MediaWikiVagrant::Settings.new
 
 ['vagrant.d', '.settings.yaml'].each do |path|
-    settings.load(File.join($DIR, path)) if File.exists?(path)
+    path = File.join($DIR, path)
+    settings.load(path) if File.exists?(path)
 end
 
 Vagrant.configure('2') do |config|
