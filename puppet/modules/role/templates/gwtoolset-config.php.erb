@@ -6,14 +6,6 @@ $wgUseTidy = true;
 $wgGroupPermissions['sysop']['gwtoolset'] = true;
 $wgGroupPermissions['sysop']['upload_by_url'] = true;
 
-// see https://bugzilla.wikimedia.org/show_bug.cgi?id=70570
-if ( !defined( 'CURLOPT_REDIR_PROTOCOLS' ) ) {
-	define(
-		"CURLOPT_REDIR_PROTOCOLS",
-		182
-	);
-}
-
 $wgMaxUploadSize = array(
 	'*' => 1024 * 1024 * 100,    // 100 mb
 	'url' => 1024 * 1024 * 1000, // 1 gb
