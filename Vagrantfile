@@ -101,18 +101,20 @@ Vagrant.configure('2') do |config|
 
     config.vm.synced_folder '.', '/vagrant', root_share_options
 
-    # www-data needs to write to the logs, but doesn't need write
-    # access for all of /vagrant
-    #
-    # TODO (mattflaschen, 2014-05-23): It should also be possible to
-    # use NFS for this (the web server writes to it).  I tried to do
-    # this by putting map_uid and map_gid as 33 (www-data) on the guest,
-    # but it didn't work.  Although the export file looks right the
-    # effective permissions on the guest were still the same as /vagrant.
-    config.vm.synced_folder './logs', '/vagrant/logs',
-        id: 'vagrant-logs',
-        owner: 'www-data',
-        group: 'www-data'
+    if !settings[:nfs_shares]
+        # www-data needs to write to the logs, but doesn't need write
+        # access for all of /vagrant
+        #
+        # Users of NFS should not need this special export because of the
+        # global uid/gid map used for the NFS export. Attempts from within the
+        # VM to chmod files and folders to www-data:www-data will fail
+        # however, so avoid that in puppet code and account for it in shell
+        # scripts.
+        config.vm.synced_folder './logs', '/vagrant/logs',
+            id: 'vagrant-logs',
+            owner: 'www-data',
+            group: 'www-data'
+    end
 
     config.vm.provider :virtualbox do |vb|
         # See http://www.virtualbox.org/manual/ch08.html for additional options.
