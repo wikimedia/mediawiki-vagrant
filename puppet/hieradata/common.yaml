@@ -1,5 +1,5 @@
 ---
-classes: []
+classes: ['::role::mediawiki']
 
 cdh::hue::secret_key: vagrant
 cdh::hue::hive_server_host: "%{::fqdn}"
