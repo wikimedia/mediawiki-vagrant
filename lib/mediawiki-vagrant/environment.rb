@@ -98,6 +98,8 @@ module MediaWikiVagrant
             FileUtils.rm Dir[path('settings.d/puppet-managed/*.php')]
             FileUtils.rm_r Dir[path('settings.d/multiwiki')]
             FileUtils.rm_r Dir[path('settings.d/wikis')]
+            FileUtils.rm_r Dir[path('vagrant.d')]
+            FileUtils.rm path('mediawiki/LocalSettings.php')
         end
 
         # Deletes the given entry from the vagrant-managed hiera file.
