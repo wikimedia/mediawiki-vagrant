@@ -4,6 +4,8 @@
 # github.
 #
 class role::wikidata {
+    require ::role::mediawiki
+
     mediawiki::wiki { 'wikidata': }
 
     mediawiki::extension { 'WikidataBuildResources':
