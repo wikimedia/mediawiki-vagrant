@@ -16,6 +16,65 @@ crm::civicrm_db: civicrm
 crm::db_user: root
 crm::db_pass: "%{hiera('mysql::root_password')}"
 
+hhvm::common_settings:
+  date:
+    timezone: "UTC"
+  include_path: .:/usr/share/php:/usr/share/pear
+  pid: /var/run/hhvm/hhvm.pid
+  hhvm:
+    server:
+      type: fastcgi
+      port: 9000
+      source_root: "%{hiera('mediawiki::dir')}"
+      gzip_compression_level: 0
+      graceful_shutdown_wait: 5
+      apc:
+        enable_apc: true
+        table_type: concurrent
+    dynamic_extension_path: /usr/lib/x86_64-linux-gnu/hhvm/extensions/current
+    jit: false
+    jit_afrozen_size: 100000000
+    log:
+      header: true
+      level: Warning
+      native_stack_trace: true
+      always_log_unhandled_exceptions: true
+      runtime_error_reporting_level: 8191
+      use_log_file: true
+      use_syslog: false
+      file: "%{hiera('hhvm::logroot')}/hhvm/error.log"
+      access:
+        file: "%{hiera('hhvm::logroot')}/hhvm/access.log"
+        format: "%h %l %u % t \\”%r\\” %>s %b"
+    debug:
+      core_dump_report_directory: "%{hiera('hhvm::logroot')}/hhvm"
+      server_error_message: true
+    repo:
+      central:
+        path: /var/run/hhvm/hhvm.hhbc
+      local:
+        mode: --
+    enable_obj_destruct_call: true
+    enable_zend_compat: true
+    mysql:
+      typed_results: false
+      slow_query_threshold: 10000
+    debugger:
+      enable_debugger: true
+      enable_debugger_server: true
+      port: 8089
+      default_sandbox_path: "%{hiera('mediawiki::dir')}"
+      startup_document: "%{hiera('mediawiki::dir')}/index.php"
+    sandbox:
+      sandbox_mode: true
+    admin_server:
+      port: 9001
+    resource_limit:
+      socket_default_timeout: 300
+    http:
+      slow_query_threshold: 300000
+hhvm::fcgi_settings:
+  max_execution_time: 180
 hhvm::logroot: /vagrant/logs
 
 mathoid::base_path: /vagrant/mathoid

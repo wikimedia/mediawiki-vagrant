@@ -22,12 +22,12 @@ end script
 env REMOTE_ADDR="127.0.0.1"
 
 exec /sbin/start-stop-daemon --quiet --start \
-         --chuid www-data:www-data \
-         --pidfile /var/run/hhvm/hhvm.pid \
-         --startas /usr/bin/hhvm -- \
-         --config "/etc/hhvm/config.hdf" \
-         --config "/etc/hhvm/php.ini" \
-         --mode server -v Eval.Jit=true
+  --chuid www-data:www-data \
+  --pidfile /var/run/hhvm/hhvm.pid \
+  --startas /usr/bin/hhvm -- \
+    --config /etc/hhvm/config.hdf \
+    --config /etc/hhvm/fcgi/php.ini \
+    --mode server -v Eval.Jit=true
 
 # Don't limit the size of core dumps.
 limit core unlimited unlimited
