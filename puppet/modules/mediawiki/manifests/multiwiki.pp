@@ -111,6 +111,11 @@ class mediawiki::multiwiki(
         content => template('mediawiki/docroot/w/MWVersion.php.erb'),
     }
 
+    file { "${script_dir}/assets":
+        ensure => link,
+        target => "${::mediawiki::dir}/assets",
+    }
+
     file { "${script_dir}/extensions":
         ensure => link,
         target => "${::mediawiki::dir}/extensions",
