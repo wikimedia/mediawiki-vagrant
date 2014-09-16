@@ -18,6 +18,12 @@ crm::db_pass: "%{hiera('mysql::root_password')}"
 
 hhvm::logroot: /vagrant/logs
 
+mathoid::base_path: /vagrant/mathoid
+mathoid::node_path: /vagrant/mathoid/node_modules
+mathoid::conf_path: /vagrant/mathoid/mathoid.config.json
+mathoid::log_dir: /vagrant/logs
+mathoid::port: 10042
+
 mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki
 mediawiki::cache_dir: /var/cache/mediawiki

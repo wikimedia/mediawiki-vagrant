@@ -5,38 +5,40 @@
 # === Parameters
 #
 # [*base_path*]
-#   Path to the mathoid code.
+#   Path to the mathoid code. (e.g. /vagrant/mathoid)
+#
 # [*node_path*]
 #   Path to the node modules mathoid depends on.
+#   (e.g. /vagrant/mathoid/node_modules)
+#
 # [*conf_path*]
 #   Where to place the config file.
+#   (e.g. /vagrant/mathoid/mathoid.config.json)
+#
 # [*log_dir*]
 #   Place where mathoid can put log files. Assumed to be already existing and
-#   have write access to mathoid user.
+#   have write access to mathoid user. (e.g. /vagrant/logs)
+#
 # [*port*]
-#   Port where to run the mathoid service. Defaults to 10042.
-
+#   Port the mathoid service listens on for incoming connections. (e.g 10042)
 #
 class mathoid(
     $base_path,
     $node_path,
     $conf_path,
     $log_dir,
-    $port=10042,
+    $port,
 ) {
+
+    $log_file = "${log_dir}/mathoid.log"
 
     # TODO Add dependency to node-jsdom once
     # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742347
     # is fixed
     require_package('nodejs')
 
-    $log_file = "${log_dir}/main.log"
-
     file { $conf_path:
         ensure  => present,
-        owner   => mathoid,
-        group   => mathoid,
-        mode    => '0644',
         content => template('mathoid/config.erb'),
     }
 
@@ -54,7 +56,6 @@ class mathoid(
         hasstatus  => true,
         hasrestart => true,
         provider   => 'upstart',
-        require    => File[$log_dir],
         subscribe  => File['/etc/init/mathoid.conf'],
     }
 }
