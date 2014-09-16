@@ -7,6 +7,7 @@ class role::multimediaviewer {
     include ::apache::mod::headers
 
     mediawiki::extension { 'MultimediaViewer':
+        browser_tests => true,
     }
 
     apache::site_conf { 'Content-Disposition: attachment on ?download':
