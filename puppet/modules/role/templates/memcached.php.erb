@@ -1,0 +1,13 @@
+$wgMainCacheType = 'memcached-pecl';
+
+$wgMemCachedPersistent = false;
+$wgMemCachedTimeout = 0.25 * 1e6;  // 250kμs (a quarter of a second).
+
+$wgObjectCaches['memcached-pecl'] = array(
+	'class' => 'MemcachedPeclBagOStuff',
+	'serializer' => 'php',
+	'persistent' => false,
+	'servers' => array( '127.0.0.1:<%= scope['::memcached::port'] %>' ),
+	'server_failure_limit' => 1e9,
+	'retry_timeout' => -1
+);
