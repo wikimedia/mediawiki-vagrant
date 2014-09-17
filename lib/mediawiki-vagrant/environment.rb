@@ -95,11 +95,11 @@ module MediaWikiVagrant
         # Removes files created by the puppet provisioner.
         #
         def purge_puppet_created_files
-            FileUtils.rm Dir[path('settings.d/puppet-managed/*.php')]
-            FileUtils.rm_r Dir[path('settings.d/multiwiki')]
-            FileUtils.rm_r Dir[path('settings.d/wikis')]
-            FileUtils.rm_r Dir[path('vagrant.d')]
-            FileUtils.rm path('mediawiki/LocalSettings.php')
+            FileUtils.rm_f Dir[path('settings.d/puppet-managed/*.php')]
+            FileUtils.rm_rf path('settings.d/multiwiki')
+            FileUtils.rm_rf path('settings.d/wikis')
+            FileUtils.rm_rf path('vagrant.d')
+            FileUtils.rm_f path('mediawiki/LocalSettings.php')
         end
 
         # Deletes the given entry from the vagrant-managed hiera file.
