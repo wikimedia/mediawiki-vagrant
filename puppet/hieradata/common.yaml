@@ -1,5 +1,7 @@
 ---
-classes: ['::role::mediawiki']
+classes:
+  - '::role::mediawiki'
+  - '::puppet::agent'
 
 cdh::hue::secret_key: vagrant
 cdh::hue::hive_server_host: "%{::fqdn}"
@@ -45,6 +47,10 @@ mediawiki::parsoid::workers: 2
 
 mysql::default_db_name: wiki
 mysql::root_password: vagrant
+
+# We are masterless and have no need to run an agent.
+puppet::agent::ensure: stopped
+puppet::agent::enable: false
 
 redis::persist: true
 redis::max_memory: 256M

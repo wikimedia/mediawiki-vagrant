@@ -5,3 +5,8 @@ role::mediawiki::hostname: "%{::hostname}.wmflabs.org"
 mediawiki::multiwiki::base_domain: "-%{::hostname}.wmflabs.org"
 
 hhvm::logroot: /var/log
+
+# Labs-vagrant should typically run an agent in order to aquire updated
+# configuration from the Labs puppet master.
+puppet::agent::ensure: running
+puppet::agent::enable: true
