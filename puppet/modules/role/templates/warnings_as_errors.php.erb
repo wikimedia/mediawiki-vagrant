@@ -6,6 +6,6 @@ set_error_handler( function( $errno, $errstr, $errfile, $errline, $errcontext ) 
 			$err .= ", line $errline";
 		}
 	}
-	$err .= '.';
+	$err .= ".\n";
 	die( $err );
 }, E_WARNING | E_NOTICE | E_USER_WARNING | E_USER_NOTICE );
