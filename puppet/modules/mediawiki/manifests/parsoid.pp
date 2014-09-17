@@ -62,7 +62,6 @@ class mediawiki::parsoid(
     }
 
     mediawiki::extension { 'Parsoid':
-        entrypoint => 'php/Parsoid.php',
         settings   => { wgParsoidCacheServers => [], },
     }
 
