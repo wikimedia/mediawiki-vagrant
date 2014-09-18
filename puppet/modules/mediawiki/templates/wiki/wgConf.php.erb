@@ -6,3 +6,5 @@ $wgConf->settings['wgCanonicalServer']['<%= @db_name %>'] = '<%= @server_url %>'
 $wgConf->settings['wgArticlePath']['<%= @db_name %>'] = '/wiki/$1';
 $wgConf->settings['wgScriptPath']['<%= @db_name %>'] = '/w';
 $wgConf->settings['wgSitename']['<%= @db_name %>'] = '<%= @wiki_name %>';
+$wgConf->settings['wgFileCacheDirectory']['<%= @db_name %>'] = '<%= @cache_dir %>';
+$wgConf->settings['wgUploadDirectory']['<%= @db_name %>'] = '<%= @upload_dir %>';

@@ -47,7 +47,7 @@ define mediawiki::wiki(
     $admin_user   = $::mediawiki::admin_user,
     $admin_pass   = $::mediawiki::admin_pass,
     $src_dir      = $::mediawiki::dir,
-    $cache_dir    = $::mediawiki::cache_dir,
+    $cache_dir    = "${::mediawiki::cache_dir}/${title}",
     $upload_dir   = "/srv/${title}images",
     $server_url   = "http://${title}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
     $primary_wiki = false,
@@ -65,6 +65,27 @@ define mediawiki::wiki(
         scriptpath => '/w',
         server     => $server_url,
         confpath   => $settings_root,
+    }
+
+    # by default, wiki's share the same upload directory
+    if !defined(File[$upload_dir]) {
+        file { $upload_dir:
+            ensure => directory,
+            owner  => 'vagrant',
+            group  => 'www-data',
+            mode   => '0755',
+        }
+    }
+
+    file { $cache_dir:
+        ensure => directory,
+        owner  => 'vagrant',
+        group  => 'www-data',
+        mode   => '0755',
+    }
+
+    Exec {
+        require => [File[$cache_dir], File[$upload_dir]],
     }
 
     exec { "${db_name}_setup":

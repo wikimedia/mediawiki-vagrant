@@ -10,6 +10,10 @@
 #   Name of unique page in the wiki created by the dump. As long as this page
 #   is not present in the wiki we will keep trying the import.
 #
+# [*db_name*]
+#   Wiki database to import page into. The default will import into the
+#   primary wiki.
+#
 # [*wiki*]
 #   Wiki to import page into. The default will import into the primary wiki.
 #
@@ -23,13 +27,15 @@
 define mediawiki::import_dump(
     $xml_dump,
     $dump_sentinel_page,
-    $wiki = $::mediawiki::db_name,
+    $db_name = $::mediawiki::db_name,
+    $wiki = $::mediawiki::wiki_name,
 ) {
     require ::mediawiki
 
     exec { "import_dump_${title}":
-        command   => "mwscript importDump.php --wiki=${wiki} ${xml_dump}",
-        unless    => "mwscript pageExists.php --wiki=${wiki} ${dump_sentinel_page}",
-        user      => 'www-data',
+        command => "mwscript importDump.php --wiki=${db_name} ${xml_dump}",
+        unless  => "mwscript pageExists.php --wiki=${db_name} ${dump_sentinel_page}",
+        user    => 'www-data',
+        require => Mediawiki::Wiki[$wiki],
     }
 }

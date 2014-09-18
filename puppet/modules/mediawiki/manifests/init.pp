@@ -28,7 +28,8 @@
 #   (example: '/srv/mediawiki').
 #
 # [*cache_dir*]
-#   Directory to use for caching interface messages (l10n cache).
+#   Root directory to use for caching interface messages (l10n cache). Note
+#   that each instance of mediawiki::wiki will create its own subdirectory.
 #   (example: '/var/cache/mediawiki').
 #
 # [*settings_dir*]
@@ -91,7 +92,7 @@ class mediawiki(
         group  => $::share_group,
     }
 
-    file { [ $cache_dir, $upload_dir ]:
+    file { $cache_dir:
         ensure => directory,
         owner  => 'vagrant',
         group  => 'www-data',
@@ -109,7 +110,7 @@ class mediawiki(
         source  => 'puppet:///modules/mediawiki/mediawiki-settings.d-empty',
     }
 
-    mediawiki::wiki{ $wiki_name:
+    mediawiki::wiki { $wiki_name:
         db_name       => $db_name,
         upload_dir    => $upload_dir,
         server_url    => $server_url,
@@ -117,7 +118,6 @@ class mediawiki(
         require       => [
             Exec['set_mysql_password'],
             Git::Clone['mediawiki/core'],
-            File[$upload_dir],
         ],
     }
 
