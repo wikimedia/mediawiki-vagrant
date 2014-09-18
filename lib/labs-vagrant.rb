@@ -76,11 +76,15 @@ when 'provision'
         --detailed-exitcodes \
         #{puppet_path}/manifests/site.pp"
 
+when 'git-update'
+    exec 'sudo -u vagrant -- /usr/local/bin/run-git-update'
+
 else
     puts 'USAGE: labs-vagrant COMMAND ...'
     puts '  list-roles            : list available roles'
     puts '  reset-roles           : disable all roles'
     puts '  enable-role ROLENAME  : enable a given role'
     puts '  disable-role ROLENAME : disable a given role'
+    puts '  git-update            : fetches new code from Gerrit'
     puts '  provision             : run puppet'
 end
