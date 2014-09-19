@@ -129,3 +129,5 @@ scholarships::db_pass: scholarships
 scholarships::deploy_dir: /vagrant/scholarships
 scholarships::cache_dir: /var/cache/scholarships
 scholarships::log_file: /vagrant/logs/scholarships.log
+
+smtplog::log_file: /vagrant/logs/smtp.log

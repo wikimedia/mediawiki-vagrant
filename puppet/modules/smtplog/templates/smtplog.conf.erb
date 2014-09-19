@@ -1,0 +1,40 @@
+# This file is managed by puppet
+description "Debugging smtp server that logs to <%= @log_file %>"
+
+start on (local-filesystems and net-device-up IFACE=lo)
+stop on shutdown
+
+script
+python - <<END
+from __future__ import print_function
+import asyncore
+import smtpd
+
+class EmailLogger(smtpd.SMTPServer):
+    """
+    SMTP server that logs all messages to a file.
+    Adapted from https://djangosnippets.org/snippets/96/
+    """
+    def process_message(self, peer, mailfrom, rcpttos, data):
+        inheaders = True
+        lines = data.split('\n')
+        with open('<%= @log_file %>', 'a+') as f:
+            print('-' * 72, file=f)
+            for line in lines:
+                if inheaders and not line:
+                    print('X-Peer:', peer[0], file=f)
+                    inheaders = False
+
+                if line.endswith('='):
+                    print(line[:-1], end='', file=f)
+                else:
+                    print(line, file=f)
+            print('-' * 72, file=f)
+
+srv = EmailLogger(('localhost', 25), None)
+try:
+    asyncore.loop()
+except KeyboardInterrupt:
+    pass
+END
+end script

@@ -5,9 +5,7 @@
 # This class provisions an Apache vhost running the Wikimania Scholarships
 # application, creates the application database, populates the database with
 # the default schema and creates a default administrator user with the
-# username 'admin' and password 'password'. It also starts a python script
-# that will log email messages sent by the application to
-# /vargrant/logs/email.log.
+# username 'admin' and password 'password'.
 #
 # [*db_name*]
 #   Logical MySQL database name (example: 'scholarships').
@@ -97,20 +95,5 @@ class scholarships(
         ensure  => present,
         content => template('scholarships/apache.conf.erb'),
         require => Class['::apache::mod::rewrite'],
-    }
-
-    # Configure an smtp server that logs to a file
-    file { '/etc/init/debug_smtp.conf':
-        ensure  => present,
-        mode    => '0644',
-        owner   => 'root',
-        group   => 'root',
-        source  => 'puppet:///modules/scholarships/debug_smtp.conf',
-    }
-
-    service { 'debug_smtp':
-        ensure   => running,
-        provider => 'upstart',
-        require  => File['/etc/init/debug_smtp.conf'],
     }
 }
