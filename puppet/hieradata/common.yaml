@@ -83,6 +83,15 @@ mathoid::conf_path: /vagrant/mathoid/mathoid.config.json
 mathoid::log_dir: /vagrant/logs
 mathoid::port: 10042
 
+iegreview::vhost_name: iegreview.local.wmftest.net
+iegreview::db_name: iegreview
+iegreview::db_user: iegreview
+iegreview::db_pass: iegreview
+iegreview::deploy_dir: /vagrant/iegreview
+iegreview::cache_dir: /var/cache/iegreview
+iegreview::log_file: /vagrant/logs/iegreview.log
+iegreview::smtp_server: 127.0.0.1
+
 mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki
 mediawiki::cache_dir: /var/cache/mediawiki

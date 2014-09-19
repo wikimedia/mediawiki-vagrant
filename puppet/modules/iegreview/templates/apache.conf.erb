@@ -1,0 +1,20 @@
+ServerName <%= @vhost_name %>
+ServerAdmin "https://meta.wikimedia.org/wiki/Grants:IEG"
+
+DocumentRoot <%= @deploy_dir %>/public
+
+<Directory />
+  Options FollowSymLinks
+  AllowOverride None
+  Require all denied
+</Directory>
+
+<Directory <%= @deploy_dir %>/public>
+  Require all granted
+</Directory>
+
+<Location />
+  RewriteEngine On
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteRule .* index.php/$0 [L,PT]
+</Location>

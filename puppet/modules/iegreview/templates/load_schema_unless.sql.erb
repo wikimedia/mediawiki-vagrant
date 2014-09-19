@@ -1,0 +1,4 @@
+SELECT COUNT(*)
+FROM INFORMATION_SCHEMA.TABLES
+WHERE table_schema = '<%= @db_name %>'
+  AND table_name = 'proposals'
