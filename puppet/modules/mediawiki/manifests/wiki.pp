@@ -67,21 +67,11 @@ define mediawiki::wiki(
         confpath   => $settings_root,
     }
 
-    # by default, wiki's share the same upload directory
-    if !defined(File[$upload_dir]) {
-        file { $upload_dir:
-            ensure => directory,
-            owner  => 'vagrant',
-            group  => 'www-data',
-            mode   => '0755',
-        }
-    }
-
-    file { $cache_dir:
+    file { [$upload_dir, $cache_dir]:
         ensure => directory,
         owner  => 'vagrant',
         group  => 'www-data',
-        mode   => '0755',
+        mode   => '0775',
     }
 
     Exec {
