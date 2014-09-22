@@ -12,14 +12,14 @@
         // Ready queue trackers
         "aggregators": [ "127.0.0.1" ],
         // Main queue servers
-        "queues": [ "127.0.0.1" ],
+        "queues": [ "127.0.0.1" ]
     },
 
     "limits": {
         // How many times to let jobs be recycled before abandoning
         "attempts": {
             "*": 3
-        },
+        }
     },
 
     "dispatcher": "nice -19 mwscript maintenance/runJobs.php --wiki=%(db)x --type=%(type)x --maxtime=%(maxtime)x --memory-limit=%(maxmem)x --result=json"
