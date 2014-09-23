@@ -47,8 +47,8 @@ File {
 }
 
 file { '/srv':
-    owner  => 'vagrant',
-    group  => 'www-data',
+    owner  => 'root',
+    group  => 'root',
     mode   => '0755',
 }
 
