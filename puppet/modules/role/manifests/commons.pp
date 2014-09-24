@@ -10,13 +10,6 @@ class role::commons {
     mediawiki::wiki { 'commons': }
     role::thumb_on_404::multiwiki { 'commons': }
 
-    file { '/srv/commonsimages':
-        ensure => directory,
-        owner  => 'vagrant',
-        group  => 'www-data',
-        mode   => '0775',
-    }
-
     mediawiki::settings { 'commons:general':
         values => {
             wgUseInstantCommons    => false,
