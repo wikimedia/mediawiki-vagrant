@@ -9,7 +9,7 @@ hhvm.server.source_root = <%= scope['::mediawiki::dir'] %>
 hhvm.server.gzip_compression_level = 0
 hhvm.server.graceful_shutdown_wait = 5
 
-hhvm.dynamic_extension_path = /usr/lib/hphp/extensions/current
+hhvm.dynamic_extension_path = /usr/lib/x86_64-linux-gnu/hhvm/extensions/current
 
 ; JIT
 hhvm.jit = false
@@ -31,8 +31,10 @@ hhvm.debug.core_dump_report_directory = <%= @logroot %>/hhvm
 hhvm.repo.central.path = /var/run/hhvm/hhvm.hhbc
 hhvm.repo.local.mode = --
 
+hhvm.enable_obj_destruct_call = true
 hhvm.enable_zend_compat = true
 hhvm.mysql.typed_results = false
+hhvm.mysql.slow_query_threshold=10000
 
 ; Output server level error messages to request
 hhvm.debug.server_error_message = true
