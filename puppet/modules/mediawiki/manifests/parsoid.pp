@@ -43,10 +43,13 @@ class mediawiki::parsoid(
 ) {
     include ::mediawiki
 
-    package { [ 'nodejs', 'nodejs-legacy' ]: }
+    require_package( 'nodejs' )
+    require_package( 'nodejs-legacy' )
 
     git::clone { 'mediawiki/services/parsoid/deploy':
         directory  => $dir,
+        owner      => 'root',
+        group      => 'root',
         require    => Package['nodejs', 'nodejs-legacy'],
     }
 
