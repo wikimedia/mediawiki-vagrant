@@ -2,3 +2,4 @@
 JOBRUNNER_USER="www-data"
 JOBRUNNER_GROUP="www-data"
 JOBRUNNER_DIR="/vagrant/mediawiki"
+DAEMON_OPTS="--verbose"
