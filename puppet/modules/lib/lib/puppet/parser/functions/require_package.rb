@@ -1,37 +1,27 @@
-# == Function: require_package / require_packages
+# == Function: require_package
 #
-# Declare one or more packages a dependency for the current scope.
-# This is equivalent to declaring and requiring the package resources.
-# In other words, it ensures the package(s) are installed before
-# evaluating any of the resources in the current scope.
+# Declare a package as a dependency for the current scope.
 #
 # === Examples
 #
-#  # Single package
 #  require_package('python-redis')
 #
-#  # Multiple packages as arguments
-#  require_packages('redis-server', 'python-redis')
-#
-#  # Multiple packages as array
-#  $deps = [ 'redis-server', 'python-redis' ]
-#  require_packages($deps)
-#
 module Puppet::Parser::Functions
-  require_packages = proc do |args|
-    Puppet::Parser::Functions.function(:create_resources)
-    packages = @compiler.topscope.function_create_resources [
-      'package',
-      Hash[args.map { |package_name| [package_name, {}] }]
-    ]
-    resource.set_parameter(:require, resource[:require].to_a | packages) unless self.is_topscope?
+  newfunction(:require_package, :arity => 1) do |args|
+    unless args.first.is_a?(String)
+      fail(ArgumentError, 'require_package(): string argument required.')
+    end
+
+    package_name = args.first
+    class_name = 'packages::' + package_name.tr('-', '_')
+
+    unless compiler.topscope.find_hostclass(class_name)
+      host = Puppet::Resource::Type.new(:hostclass, class_name)
+      known_resource_types.add_hostclass(host)
+      send Puppet::Parser::Functions.function(:create_resources),
+           ['package', { package_name => { :ensure => :present } }]
+    end
+
+    send Puppet::Parser::Functions.function(:require), [class_name]
   end
-
-  newfunction :require_package,
-              :arity => 1,
-              &require_packages
-
-  newfunction :require_packages,
-              :arity => -2,
-              &require_packages
 end
