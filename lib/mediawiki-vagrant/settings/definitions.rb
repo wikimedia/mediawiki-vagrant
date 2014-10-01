@@ -51,5 +51,11 @@ module MediaWikiVagrant
       internal: true,
       default: {},
       coercion: ->(setting, new) { setting.value.merge(Hash[new.map { |kv| kv.map(&:to_i) }]) }
+
+    setting :forward_x11,
+      description: "Enable X11 forwarding over SSH connections by default",
+      help: "Enter 'yes' or 'no'. X11 forwarding enables GUI applications to be run on the guest.",
+      default: true,
+      coercion: ->(setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
   end
 end

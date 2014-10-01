@@ -55,6 +55,7 @@ Vagrant.configure('2') do |config|
     config.package.name = 'mediawiki.box'
 
     config.ssh.forward_agent = settings[:forward_agent]
+    config.ssh.forward_x11 = settings[:forward_x11]
 
     # Default VirtualBox provider
     config.vm.provider :virtualbox do |vb, override|

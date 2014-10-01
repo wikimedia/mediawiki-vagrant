@@ -133,6 +133,28 @@ module MediaWikiVagrant
           end
         end
       end
+
+      describe 'forward_x11' do
+        subject { definitions[:forward_x11] }
+
+        it { is_expected.to have_attributes(default: true) }
+
+        context 'when a new value is set' do
+          it 'considers values "true", "t", "yes", "y", "1" to be true' do
+            %w(true t yes y 1).each do |value|
+              subject.value = value
+              expect(subject.value).to be(true), "expected #{value} to be considered true"
+            end
+          end
+
+          it 'considers values "false", "f", "no", "n", "0" to be false' do
+            %w(false f no n 0).each do |value|
+              subject.value = value
+              expect(subject.value).to be(false), "expected #{value} to be considered false"
+            end
+          end
+        end
+      end
     end
   end
 end
