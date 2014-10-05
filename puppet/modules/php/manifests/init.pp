@@ -8,8 +8,9 @@ class php {
     include ::apache
     include ::apache::mod::php5
 
-    include php::remote_debug
-    include php::composer
+    include ::php::remote_debug
+    include ::php::composer
+    include ::php::sessionclean
 
     package { [
         'php5',

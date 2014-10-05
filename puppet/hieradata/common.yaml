@@ -83,6 +83,8 @@ mathoid::conf_path: /vagrant/mathoid/mathoid.config.json
 mathoid::log_dir: /vagrant/logs
 mathoid::port: 10042
 
+php::sessionclean::ensure: present
+
 iegreview::vhost_name: iegreview.local.wmftest.net
 iegreview::db_name: iegreview
 iegreview::db_user: iegreview
