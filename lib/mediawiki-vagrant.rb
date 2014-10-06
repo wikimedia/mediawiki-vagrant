@@ -2,6 +2,11 @@ module MediaWikiVagrant
     class Plugin < Vagrant.plugin('2')
         name 'MediaWiki-Vagrant'
 
+        command 'roles' do
+            require 'mediawiki-vagrant/roles'
+            Roles
+        end
+
         command 'config' do
             require 'mediawiki-vagrant/config'
             Config
@@ -27,22 +32,26 @@ module MediaWikiVagrant
             GitUpdates
         end
 
-        command 'list-roles' do
+        command('list-roles', primary: false) do
+            # deprecated in favor of `vagrant roles list`
             require 'mediawiki-vagrant/roles'
             ListRoles
         end
 
-        command 'reset-roles' do
+        command('reset-roles', primary: false) do
+            # deprecated in favor of `vagrant roles reset`
             require 'mediawiki-vagrant/roles'
             ResetRoles
         end
 
-        command 'enable-role' do
+        command('enable-role', primary: false) do
+            # deprecated in favor of `vagrant roles enable`
             require 'mediawiki-vagrant/roles'
             EnableRole
         end
 
-        command 'disable-role' do
+        command('disable-role', primary: false) do
+            # deprecated in favor of `vagrant roles disable`
             require 'mediawiki-vagrant/roles'
             DisableRole
         end

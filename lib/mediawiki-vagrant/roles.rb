@@ -1,7 +1,72 @@
 require 'mediawiki-vagrant/plugin_environment'
 
 module MediaWikiVagrant
-    COMMIT_CHANGES = "Ok. Run 'vagrant provision' to apply your changes."
+    COMMIT_CHANGES = 'Ok. Run `vagrant provision` to apply your changes.'
+
+    # Provides a command-line interface for managing Puppet roles.
+    #
+    class Roles < Vagrant.plugin(2, :command)
+        include PluginEnvironment
+
+        def self.synopsis
+            'manage mediawiki-vagrant roles: list, enable, disable, etc.'
+        end
+
+        def initialize(argv, env)
+            super
+
+            @args, @command, @sub_args = split_main_and_subcommand(argv)
+
+            @subcommands = Vagrant::Registry.new
+            @subcommands.register(:list) do
+                ListRoles
+            end
+            @subcommands.register(:reset) do
+                ResetRoles
+            end
+            @subcommands.register(:enable) do
+                EnableRole
+            end
+            @subcommands.register(:disable) do
+                DisableRole
+            end
+        end
+
+        def execute
+            if @args.include?('-h') || @args.include?('--help')
+                return help
+            end
+
+            command_class = @subcommands.get(@command.to_sym) if @command
+            return help if !command_class || !@command
+
+            command_class.new(@sub_args, @env).execute
+        end
+
+        def help
+            opts = OptionParser.new do |o|
+                o.banner = 'Usage: vagrant roles <command> [<args>]'
+                o.separator ''
+                o.separator 'Available subcommands:'
+
+                commands = {}
+                longest = 0
+                @subcommands.each do |key, klass|
+                    key           = key.to_s
+                    commands[key] = klass.synopsis
+                    longest       = key.length if key.length > longest
+                end
+
+                commands.keys.sort.each do |key|
+                    o.separator "    #{key.ljust(longest+1)} #{commands[key]}"
+                end
+
+                o.separator ''
+                o.separator 'For help on any individual command run `vagrant roles COMMAND -h`'
+            end
+            @env.ui.info(opts.help, prefix: false)
+        end
+    end
 
     class ListRoles < Vagrant.plugin(2, :command)
         include PluginEnvironment
@@ -11,6 +76,15 @@ module MediaWikiVagrant
         end
 
         def execute
+            opts = OptionParser.new do |o|
+                o.banner = 'Usage: vagrant roles list [-h]'
+                o.separator ''
+                o.separator '  List available roles.'
+                o.separator ''
+            end
+            argv = parse_options(opts)
+            return if !argv
+
             @env.ui.info "Available roles:\n"
             enabled = @mwv.roles_enabled
 
@@ -25,7 +99,7 @@ module MediaWikiVagrant
 
             @env.ui.info "\nRoles marked with '*' are enabled."
             @env.ui.info "Note that roles enabled by dependency are not marked."
-            @env.ui.info 'Use "vagrant enable-role" & "vagrant disable-role" to customize.'
+            @env.ui.info 'Use `vagrant roles enable` & `vagrant roles disable` to customize.'
             return 0
         end
     end
@@ -38,14 +112,18 @@ module MediaWikiVagrant
         end
 
         def execute
-            if @argv.empty? or ['-h', '--help'].include? @argv.first
-                @env.ui.info 'Enable an optional role (run "vagrant list-roles" for a list).'
-                @env.ui.info 'USAGE: vagrant enable-role ROLE'
-                return 0
+            opts = OptionParser.new do |o|
+                o.banner = 'Usage: vagrant roles enable <name> [<name2> <name3> ...] [-h]'
+                o.separator ''
+                o.separator '  Enable an optional role (run `vagrant roles list` for a list).'
+                o.separator ''
             end
+            argv = parse_options(opts)
+            return if !argv
+            raise Vagrant::Errors::CLIInvalidUsage, help: opts.help.chomp if argv.length < 1
+
             avail = @mwv.roles_available
-            @argv = @argv.take_while { |r| r != '--' }.map(&:downcase)
-            @argv.each do |r|
+            argv.map(&:downcase).each do |r|
                 if not avail.include? r
                     @env.ui.error "'#{r}' is not a valid role."
                     return 1
@@ -65,14 +143,18 @@ module MediaWikiVagrant
         end
 
         def execute
-            if @argv.empty? or ['-h', '--help'].include? @argv.first
-                @env.ui.info 'Disable one or more optional roles.'
-                @env.ui.info 'USAGE: vagrant disable-role ROLE'
-                return 0
+            opts = OptionParser.new do |o|
+                o.banner = 'Usage: vagrant roles disable <name> [<name2> <name3> ...] [-h]'
+                o.separator ''
+                o.separator '  Disable one or more optional roles.'
+                o.separator ''
             end
+            argv = parse_options(opts)
+            return if !argv
+            raise Vagrant::Errors::CLIInvalidUsage, help: opts.help.chomp if argv.length < 1
+
             enabled = @mwv.roles_enabled
-            @argv = @argv.take_while { |r| r != '--' }.map(&:downcase)
-            @argv.each do |r|
+            argv.map(&:downcase).each do |r|
                 if not enabled.include? r
                     @env.ui.error "'#{r}' is not enabled."
                     return 1
@@ -92,11 +174,15 @@ module MediaWikiVagrant
         end
 
         def execute
-            if ['-h', '--help'].include? @argv.first
-                @env.ui.info 'Disable all optional roles.'
-                @env.ui.info 'USAGE: vagrant reset-roles'
-                return 0
+            opts = OptionParser.new do |o|
+                o.banner = 'Usage: vagrant roles reset [-h]'
+                o.separator ''
+                o.separator '  Disable all optional roles.'
+                o.separator ''
             end
+            argv = parse_options(opts)
+            return if !argv
+
             @mwv.update_roles []
             @env.ui.warn "All roles were disabled."
             @env.ui.info COMMIT_CHANGES
