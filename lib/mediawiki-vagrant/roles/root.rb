@@ -30,6 +30,10 @@ module MediaWikiVagrant
           require_relative 'disable'
           Disable
         end
+        @subcommands.register(:info) do
+          require_relative 'info'
+          Info
+        end
       end
 
       def execute

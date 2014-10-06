@@ -74,6 +74,17 @@ module MediaWikiVagrant
             hiera_set('classes', classes)
         end
 
+        # Get comment header for a role
+        #
+        def role_docstring(role)
+            role_file = module_path("role/manifests/#{role}.pp")
+            return nil unless role_file.exist?
+
+            role_file.each_line.take_while { |line| line =~ /^#( |$)/ }.inject("") do |doc, line|
+                doc << line.sub(/^# ?/, "")
+            end
+        end
+
         # If it has been a week or more since remote commits have been fetched,
         # run 'git fetch origin', unless the user disabled automatic fetching.
         # You can disable automatic fetching by creating an empty 'no-updates'

@@ -1,9 +1,8 @@
 # == Class: role::mediawiki
-# Provisions a MediaWiki instance powered by PHP, MySQL, and redis.
+# Provisions a MediaWiki instance powered by HHVM, MySQL, and redis.
 #
 # === Parameters
-#
-# [*hostname*]
+# [+hostname+]
 #   Hostname for the main wiki.
 #
 class role::mediawiki(
