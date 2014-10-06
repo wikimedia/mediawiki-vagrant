@@ -81,7 +81,7 @@ define mediawiki::wiki(
     exec { "${db_name}_setup":
         command => template('mediawiki/wiki/run_installer.erb'),
         unless  => template('mediawiki/wiki/check_installed.erb'),
-        require => Class["mysql"],
+        require => Class['mysql'],
     }
 
     exec { "${db_name}_include_extra_settings":
