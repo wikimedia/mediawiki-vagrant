@@ -3,8 +3,8 @@ module MediaWikiVagrant
         name 'MediaWiki-Vagrant'
 
         command 'roles' do
-            require 'mediawiki-vagrant/roles'
-            Roles
+            require 'mediawiki-vagrant/roles/root'
+            Roles::Root
         end
 
         command 'config' do
@@ -34,26 +34,26 @@ module MediaWikiVagrant
 
         command('list-roles', primary: false) do
             # deprecated in favor of `vagrant roles list`
-            require 'mediawiki-vagrant/roles'
-            ListRoles
+            require 'mediawiki-vagrant/roles/list'
+            Roles::List
         end
 
         command('reset-roles', primary: false) do
             # deprecated in favor of `vagrant roles reset`
-            require 'mediawiki-vagrant/roles'
-            ResetRoles
+            require 'mediawiki-vagrant/roles/reset'
+            Roles::Reset
         end
 
         command('enable-role', primary: false) do
             # deprecated in favor of `vagrant roles enable`
-            require 'mediawiki-vagrant/roles'
-            EnableRole
+            require 'mediawiki-vagrant/roles/enable'
+            Roles::Enable
         end
 
         command('disable-role', primary: false) do
             # deprecated in favor of `vagrant roles disable`
-            require 'mediawiki-vagrant/roles'
-            DisableRole
+            require 'mediawiki-vagrant/roles/disable'
+            Roles::Disable
         end
 
         command 'import-dump' do
