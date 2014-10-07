@@ -1,4 +1,4 @@
-if ( !empty( $wmgUseWikibaseRepo ) ) {
+if ( $wmgUseWikibaseRepo ) {
 	// Define custom namespaces. Use these exact constant names.
 	$wgNamespaceAliases['Item'] = NS_MAIN;
 	$wgNamespaceAliases['Item_talk'] = NS_TALK;
@@ -13,12 +13,11 @@ if ( !empty( $wmgUseWikibaseRepo ) ) {
 	$wgWBNamespaces[WB_NS_PROPERTY] = 'Property';
 	$wgWBNamespaces[WB_NS_PROPERTY_TALK] = 'Property_talk';
 	$wgExtraNamespaces = $wgWBNamespaces + $wgExtraNamespaces;
-}
-
-if ( !empty( $wmgUseWikibaseClient ) ) {
+} else {
 	$wgWBClientSettings['siteGlobalID'] = 'enwiki';
-	$wgWBClientSettings['repoUrl'] = '//wikidata<%= scope['::mediawiki::multiwiki::base_domain'] %><%= scope['::port_fragment'] %>';
 
 	$wgWBClientSettings['changesDatabase'] = 'wikidatawiki';
 	$wgWBClientSettings['repoDatabase'] = 'wikidatawiki';
 }
+
+$wgWBClientSettings['repoUrl'] = '//wikidata<%= scope['::mediawiki::multiwiki::base_domain'] %><%= scope['::port_fragment'] %>';

@@ -5,8 +5,10 @@
 #
 class role::wikidata {
     require ::role::mediawiki
+    include ::role::sitematrix
 
     mediawiki::wiki { 'wikidata': }
+    mediawiki::wiki { 'en': }
 
     mediawiki::extension { 'WikidataBuildResources':
         remote       => 'https://github.com/wmde/WikidataBuildResources.git',
@@ -22,13 +24,13 @@ class role::wikidata {
     }
 
     exec { 'wikidata-populate-site-tables':
-        command     => 'mwscript extensions/WikidataBuildResources/extensions/Wikibase/lib/maintenance/populateSitesTable.php --wiki=wikidatawiki',
+        command     => "foreachwiki extensions/WikidataBuildResources/extensions/Wikibase/lib/maintenance/populateSitesTable.php --load-from http://en${mediawiki::multiwiki::base_domain}${::port_fragment}/w/api.php",
         refreshonly => true,
         user        => 'www-data',
-        subscribe   => Mediawiki::Wiki['wikidata'],
         require     => [
             Class['::mediawiki::multiwiki'],
             Mediawiki::Extension['WikidataBuildResources'],
         ],
     }
+    Mediawiki::Wiki<| |> ~> Exec['wikidata-populate-site-tables']
 }
