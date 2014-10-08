@@ -75,6 +75,11 @@ hhvm::common_settings:
       slow_query_threshold: 300000
 hhvm::fcgi_settings:
   max_execution_time: 180
+  hhvm:
+    xdebug-not-done:
+      enable: 1
+      remote_connect_back: 1
+      remote_enable: 1
 hhvm::logroot: /vagrant/logs
 
 mathoid::base_path: /vagrant/mathoid
