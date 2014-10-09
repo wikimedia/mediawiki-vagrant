@@ -91,6 +91,7 @@ iegreview::deploy_dir: /vagrant/iegreview
 iegreview::cache_dir: /var/cache/iegreview
 iegreview::log_file: /vagrant/logs/iegreview.log
 iegreview::smtp_server: 127.0.0.1
+iegreview::parsoid_url: "http://localhost:%{::mediawiki::parsoid::port}/wiki/"
 
 mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki

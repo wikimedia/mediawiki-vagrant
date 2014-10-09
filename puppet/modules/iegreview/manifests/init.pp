@@ -23,13 +23,16 @@
 #   Apache vhost name. (example: 'iegreview.local.wmftest.net')
 #
 # [*cache_dir*]
-#   The directory to use for caching twig templates
+#   The directory to use for caching twig templates and parsoid responses
 #
 # [*log_file*]
 #   File to write log messages to
 #
 # [*smtp_server*]
 #   SMTP server to send mail through
+#
+# [*parsoid_url*]
+#   Parsoid API url
 #
 class iegreview(
     $db_name,
@@ -40,6 +43,7 @@ class iegreview(
     $cache_dir,
     $log_file,
     $smtp_server,
+    $parsoid_url,
 ){
     include ::php
     include ::apache
