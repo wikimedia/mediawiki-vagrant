@@ -52,7 +52,6 @@ class role::wikitech {
         'OpenStackManager',
         'Renameuser',
         'TitleBlacklist',
-        'Vector'
     ]:
         needs_update  => true,
     }
