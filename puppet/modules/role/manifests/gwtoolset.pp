@@ -4,14 +4,23 @@
 #
 # [1] https://www.mediawiki.org/wiki/Extension:GWToolset
 class role::gwtoolset {
+  # required by scribunto
   require ::role::codeeditor
   require ::role::geshi
+
+  # required by gwtoolset
   require ::role::multimedia
+
+  # required by complex templates such as Artwork
   require ::role::parserfunctions
   require ::role::scribunto
   require ::role::templatedata
   require ::role::translate
+
+  # required by codeeditor
   require ::role::wikieditor
+
+  # required by commons templates such as Artwork
   require ::role::wikimediamessages
 
   php::ini { 'GWToolset':
