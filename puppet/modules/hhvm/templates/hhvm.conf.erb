@@ -32,6 +32,9 @@ exec /sbin/start-stop-daemon --quiet --start \
 # Don't limit the size of core dumps.
 limit core unlimited unlimited
 
+# Increase the maximum number of open files.
+limit nofile 65536 65536
+
 # When 'hhvm.server.graceful_shutdown_wait' is set to a positive
 # integer, HHVM will perform a graceful shutdown on SIGHUP.
 kill signal HUP
