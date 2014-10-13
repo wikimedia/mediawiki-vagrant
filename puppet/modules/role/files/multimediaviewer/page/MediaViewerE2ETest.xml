@@ -1,0 +1,83 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.9/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.9/ http://www.mediawiki.org/xml/export-0.9.xsd" version="0.9" xml:lang="en">
+  <siteinfo>
+    <sitename>MediaWiki</sitename>
+    <dbname>mediawikiwiki</dbname>
+    <base>http://www.mediawiki.org/wiki/MediaWiki</base>
+    <generator>MediaWiki 1.25wmf3</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Project</namespace>
+      <namespace key="5" case="first-letter">Project talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+      <namespace key="90" case="first-letter">Thread</namespace>
+      <namespace key="91" case="first-letter">Thread talk</namespace>
+      <namespace key="92" case="first-letter">Summary</namespace>
+      <namespace key="93" case="first-letter">Summary talk</namespace>
+      <namespace key="100" case="first-letter">Manual</namespace>
+      <namespace key="101" case="first-letter">Manual talk</namespace>
+      <namespace key="102" case="first-letter">Extension</namespace>
+      <namespace key="103" case="first-letter">Extension talk</namespace>
+      <namespace key="104" case="first-letter">API</namespace>
+      <namespace key="105" case="first-letter">API talk</namespace>
+      <namespace key="106" case="first-letter">Skin</namespace>
+      <namespace key="107" case="first-letter">Skin talk</namespace>
+      <namespace key="484" case="first-letter">Graph</namespace>
+      <namespace key="485" case="first-letter">Graph talk</namespace>
+      <namespace key="486" case="first-letter">Data</namespace>
+      <namespace key="487" case="first-letter">Data talk</namespace>
+      <namespace key="828" case="first-letter">Module</namespace>
+      <namespace key="829" case="first-letter">Module talk</namespace>
+      <namespace key="1198" case="first-letter">Translations</namespace>
+      <namespace key="1199" case="first-letter">Translations talk</namespace>
+      <namespace key="2500" case="first-letter">VisualEditor</namespace>
+      <namespace key="2501" case="first-letter">VisualEditor talk</namespace>
+      <namespace key="2600" case="first-letter">Topic</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>MediaViewerE2ETest</title>
+    <ns>0</ns>
+    <id>216598</id>
+    <revision>
+      <id>976577</id>
+      <timestamp>2014-04-22T06:54:46Z</timestamp>
+      <contributor>
+        <username>GDubuc (WMF)</username>
+        <id>1232234</id>
+      </contributor>
+      <comment>Created page with &quot;&lt;big&gt;PLEASE DO NOT EDIT THIS PAGE! IT NEEDS TO STAY THE SAME FOR THE PURPOSE OF AUTOMATED TESTING&lt;/big&gt;  ==Test Images== Here are some sample images for testing different feat...&quot;</comment>
+      <text xml:space="preserve" bytes="1030">&lt;big&gt;PLEASE DO NOT EDIT THIS PAGE! IT NEEDS TO STAY THE SAME FOR THE PURPOSE OF AUTOMATED TESTING&lt;/big&gt;
+
+==Test Images==
+Here are some sample images for testing different features of Media Viewer. 
+
+[[File:Sunrise over fishing boats in Kerala.jpg|thumb|left|Sunrise over fishing boats]] [[File:Wikimedia_Foundation_2013_All_Hands_Offsite_-_Day_2_-_Photo_24.jpg|thumb|Tropical Fish Aquarium]]  [[File:Wikimania 2013 - Hong Kong - Photo 090.jpg|thumb|center|Hong Kong Harbor at night]] 
+&lt;br clear=&quot;all&quot;/&gt;
+
+[[File:Wikimedia_Foundation_2013_All_Hands_Offsite_-_Day_2_-_Photo_16.jpg|thumb|left|Nautilus Shell at California Academy of Sciences]] [[File:Multimedia_Team_-_Wikimedia_Foundation.jpg|thumb|center|Multimedia Team]] [[File:Zonotrichia atricapilla -British Columbia, Canada-8.jpg|thumb|Golden-crowned Sparrow]] 
+&lt;br clear=&quot;all&quot;/&gt;
+
+[[File:Multimedia Roundtable 5 Photo 2.jpg|thumb|left|Multimedia Roundtable]]  [[File:Wikimedia Foundation - Team 1 - California Academy of Sciences.jpg|thumb|Wikimedia Team]] 
+
+&lt;br clear=&quot;all&quot;/&gt;</text>
+      <sha1>0fcvxpgqg233klpoplx8ra4jl0ak3fi</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+</mediawiki>
