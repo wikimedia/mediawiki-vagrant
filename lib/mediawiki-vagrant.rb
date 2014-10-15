@@ -1,5 +1,18 @@
 module MediaWikiVagrant
   class Plugin < Vagrant.plugin('2')
+    class << self
+      # Overrides command for older Vagrant versions that don't support command
+      # options despite claiming compatibility with the v2 plugin API. Note
+      # that any provided options are simply ignored when run against Vagrant
+      # <= 1.4.
+      #
+      def command(name = Vagrant::Plugin::V2::Plugin::UNSET_VALUE, options = {}, &blk)
+        super
+      rescue ArgumentError
+        super(name, &blk)
+      end
+    end
+
     name 'MediaWiki-Vagrant'
 
     command 'roles' do
@@ -32,25 +45,25 @@ module MediaWikiVagrant
       GitUpdates
     end
 
-    command('list-roles', primary: false) do
+    command 'list-roles', primary: false do
       # deprecated in favor of `vagrant roles list`
       require 'mediawiki-vagrant/roles/list'
       Roles::List
     end
 
-    command('reset-roles', primary: false) do
+    command 'reset-roles', primary: false do
       # deprecated in favor of `vagrant roles reset`
       require 'mediawiki-vagrant/roles/reset'
       Roles::Reset
     end
 
-    command('enable-role', primary: false) do
+    command 'enable-role', primary: false do
       # deprecated in favor of `vagrant roles enable`
       require 'mediawiki-vagrant/roles/enable'
       Roles::Enable
     end
 
-    command('disable-role', primary: false) do
+    command 'disable-role', primary: false do
       # deprecated in favor of `vagrant roles disable`
       require 'mediawiki-vagrant/roles/disable'
       Roles::Disable
