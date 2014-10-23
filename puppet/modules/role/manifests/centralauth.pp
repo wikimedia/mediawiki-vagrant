@@ -1,8 +1,14 @@
 # == Class: role::centralauth
-# This role installs the CentralAuth extension and creates two additional
-# wikis. login.wiki.local.wmftest.net is the login wiki and
-# centralauthtest.wiki.local.wmftest.net is configured to show that logins
-# work automatically across the wiki farm.
+# Install the CentralAuth extension and create two additional wikis:
+#
+# _login.wiki.local.wmftest.net_::
+#   Wiki where central authentication happens
+#
+# _centralauthtest.wiki.local.wmftest.net_::
+#   Provisioned to show that logins work automatically across the wiki farm
+#
+# The default +Admin+ user will be automatically converted to a global
+# account.
 #
 class role::centralauth {
     require ::role::mediawiki
