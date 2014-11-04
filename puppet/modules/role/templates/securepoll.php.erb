@@ -1,0 +1,7 @@
+if ( $wgDBname === 'votewiki' ) {
+	$wgSecurePollUseNamespace = true;
+	$wgGroupPermissions["sysop"]["securepoll-create-poll"] = true;
+}
+
+# It seems https isn't configured right in Vagrant, so use http instead.
+$wgSecurePollCreateRemoteScriptPath = 'http:$wgServer/w';
