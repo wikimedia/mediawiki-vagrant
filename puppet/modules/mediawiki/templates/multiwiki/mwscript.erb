@@ -2,6 +2,6 @@
 # Shell wrapper for multiwiki/MWScript.php.
 
 # Ensure that the script is run as the www-data user
-[[ $(whoami) = www-data ]] || exec sudo -u www-data -- "$0" "$@"
+[[ $(whoami) = www-data ]] || exec sudo -u www-data -n -- "$0" "$@"
 
 exec php5 <%= @script_dir %>/MWScript.php "$@"
