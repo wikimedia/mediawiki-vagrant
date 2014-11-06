@@ -10,7 +10,6 @@ class php {
 
     include ::php::remote_debug
     include ::php::composer
-    include ::php::sessionclean
 
     package { [
         'php5',
@@ -57,5 +56,9 @@ class php {
 
     php::ini { 'session_defaults':
       settings => { 'session.save_path' => '/tmp' },
+    }
+
+    class { '::php::sessionclean':
+        require => Package['php5'],
     }
 }
