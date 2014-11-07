@@ -31,7 +31,12 @@ hhvm::common_settings:
       apc:
         enable_apc: true
         table_type: concurrent
+      fatal_error_message: true
     dynamic_extension_path: /usr/lib/x86_64-linux-gnu/hhvm/extensions/current
+    dynamic_extensions:
+      - fss.so
+      - luasandbox.so
+      - wikidiff2.so
     jit: false
     jit_afrozen_size: 100000000
     log:
@@ -43,12 +48,15 @@ hhvm::common_settings:
       use_log_file: true
       use_syslog: false
       file: "%{hiera('hhvm::logroot')}/hhvm/error.log"
-      access:
-        file: "%{hiera('hhvm::logroot')}/hhvm/access.log"
-        format: "%h %l %u % t \\”%r\\” %>s %b"
+      admin_log:
+        file: "%{hiera('hhvm::logroot')}/hhvm/admin.log"
+    perf_pid_map: false
     debug:
       core_dump_report_directory: "%{hiera('hhvm::logroot')}/hhvm"
       server_error_message: true
+      full_backtrace: true
+      native_stack_trace: true
+      translate_source: true
     repo:
       central:
         path: /var/run/hhvm/hhvm.hhbc
@@ -76,6 +84,10 @@ hhvm::common_settings:
 hhvm::fcgi_settings:
   max_execution_time: 180
   hhvm:
+    jit: true
+    repo:
+      central:
+        path: /var/run/hhvm/fcgi.hhbc.sq3
     xdebug-not-done:
       enable: 1
       remote_connect_back: 1

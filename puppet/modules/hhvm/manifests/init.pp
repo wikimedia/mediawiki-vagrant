@@ -6,16 +6,8 @@
 # The layout of configuration files in /etc/hhvm is as follows:
 #
 #   /etc/hhvm
-#   │
-#   ├── config.hdf        ┐
-#   │                     ├ Settings for CLI mode
-#   ├── php.ini           ┘
-#   │
-#   └── fcgi
-#       │
-#       ├── config.hdf    ┐
-#       │                 ├ Settings for FastCGI mode
-#       └── php.ini       ┘
+#   ├── php.ini  # Settings for CLI mode
+#   └── fcgi.ini # Settings for FastCGI mode
 #
 # The CLI configs are located in the paths HHVM automatically loads by
 # default. This makes it easy to invoke HHVM from the command line,
@@ -64,7 +56,7 @@ class hhvm (
         require     => Package['hhvm'],
     }
 
-    file { ['/etc/hhvm', '/etc/hhvm/fcgi']:
+    file { '/etc/hhvm':
         ensure => directory,
     }
 
@@ -72,21 +64,29 @@ class hhvm (
         content => php_ini($common_settings),
     }
 
-    file { '/etc/hhvm/fcgi/php.ini':
+    file { '/etc/hhvm/fcgi.ini':
         content => php_ini($common_settings, $fcgi_settings),
         notify  => Service['hhvm'],
     }
 
-    file { '/etc/hhvm/config.hdf':
-        content => template('hhvm/config.hdf.erb'),
-        require => Package['hhvm'],
+    file { '/etc/default/hhvm':
+        ensure  => file,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        content => template('hhvm/hhvm.default.erb'),
         notify  => Service['hhvm'],
     }
 
     file { '/etc/init/hhvm.conf':
         ensure  => file,
-        content => template('hhvm/hhvm.conf.erb'),
-        require => [ Env::Alternative['hhvm_as_default_php'], File['/etc/hhvm/config.hdf'] ],
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        source  => 'puppet:///modules/hhvm/hhvm.conf',
+        require => [
+          Env::Alternative['hhvm_as_default_php'],
+        ],
         notify  => Service['hhvm'],
     }
 
@@ -105,5 +105,17 @@ class hhvm (
         ensure  => present,
         content => template('hhvm/admin-apache-site.erb'),
         require => Class['::apache::mod::proxy_fcgi'],
+    }
+
+    # Clean up legacy config files
+    file { [
+      '/etc/hhvm/config.hdf',
+      '/etc/hhvm/server.ini',
+      '/etc/hhvm/fcgi',
+      '/etc/hhvm/fcgi/php.ini',
+      '/etc/hhvm/fcgi/config.hdf',
+    ]:
+        ensure => absent,
+        force  => true,
     }
 }
