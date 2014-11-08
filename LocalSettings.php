@@ -108,3 +108,6 @@ $wgHooks['GetIP'][] = function ( &$ip ) {
 // Execute all jobs via standalone jobrunner service rather than
 // piggybacking them on web requests.
 $wgJobRunRate = 0;
+
+// Bug 73037: handmade gzipping sometimes makes error messages impossible to see in HHVM
+$wgDisableOutputCompression = true;
