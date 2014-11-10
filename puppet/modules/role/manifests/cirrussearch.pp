@@ -36,13 +36,13 @@ class role::cirrussearch {
     elasticsearch::plugin { 'highlighter':
         group   => 'org.wikimedia.search.highlighter',
         name    => 'experimental-highlighter-elasticsearch-plugin',
-        version => '0.0.12',
+        version => '0.0.13',
     }
     ## Trigram accelerated regular expressions
     elasticsearch::plugin { 'extra':
         group   => 'org.wikimedia.search',
         name    => 'extra',
-        version => '0.0.1',
+        version => '0.0.2',
     }
 
     mediawiki::extension { 'Elastica': }
