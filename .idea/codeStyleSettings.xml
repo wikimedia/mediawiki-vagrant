@@ -16,7 +16,7 @@
           </value>
         </option>
         <option name="LINE_SEPARATOR" value="&#10;" />
-        <option name="RIGHT_MARGIN" value="110" />
+        <option name="RIGHT_MARGIN" value="100" />
         <XML>
           <option name="XML_LEGACY_SETTINGS_IMPORTED" value="true" />
         </XML>
@@ -24,6 +24,13 @@
           <indentOptions>
             <option name="USE_TAB_CHARACTER" value="true" />
             <option name="SMART_TABS" value="true" />
+          </indentOptions>
+        </codeStyleSettings>
+        <codeStyleSettings language="LESS">
+          <indentOptions>
+            <option name="INDENT_SIZE" value="4" />
+            <option name="CONTINUATION_INDENT_SIZE" value="4" />
+            <option name="USE_TAB_CHARACTER" value="true" />
           </indentOptions>
         </codeStyleSettings>
         <codeStyleSettings language="PHP">
@@ -70,13 +77,11 @@
         </codeStyleSettings>
         <codeStyleSettings language="Puppet">
           <indentOptions>
-            <option name="INDENT_SIZE" value="4" />
-            <option name="CONTINUATION_INDENT_SIZE" value="4" />
-          </indentOptions>
+            <option name="INDENT_SIZE" value="2" />
+            <option name="CONTINUATION_INDENT_SIZE" value="2" />
         </codeStyleSettings>
       </value>
     </option>
     <option name="USE_PER_PROJECT_SETTINGS" value="true" />
   </component>
 </project>
-
