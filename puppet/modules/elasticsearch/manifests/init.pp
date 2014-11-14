@@ -8,9 +8,7 @@ class elasticsearch {
         ensure => '1.3.4',
     }
 
-    package { 'openjdk-7-jre-headless':
-        ensure => present,
-    }
+    require_package('openjdk-7-jre-headless')
 
     service { 'elasticsearch':
         ensure  => running,

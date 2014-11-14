@@ -94,6 +94,16 @@ hhvm::fcgi_settings:
 
 hhvm::logroot: /vagrant/logs
 
+kibana::deploy_dir: /srv/kibana
+kibana::default_route: /dashboard/elasticsearch/default
+
+logstash::heap_memory_mb: 64
+logstash::filter_workers: 1
+logstash::output::elasticsearch::host: 127.0.0.1
+logstash::output::elasticsearch::replication: async
+logstash::output::elasticsearch::manage_indices: true
+logstash::output::elasticsearch::priority: 90
+
 mathoid::base_path: /vagrant/mathoid
 mathoid::node_path: /vagrant/mathoid/node_modules
 mathoid::conf_path: /vagrant/mathoid/mathoid.config.json
@@ -148,6 +158,8 @@ puppet::agent::enable: false
 
 redis::persist: true
 redis::max_memory: 256M
+
+role::elk::vhost_name: 'logstash.local.wmftest.net'
 
 role::mediawiki::hostname: 127.0.0.1
 

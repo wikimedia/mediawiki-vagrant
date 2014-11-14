@@ -1,0 +1,13 @@
+output {
+<%- if @require_tag %>if "<%= @require_tag %>" in [tags] {<% end -%>
+    elasticsearch_http {
+        flush_size         => <%= @flush_size %>
+        host               => "<%= @host %>"
+        replication        => "async"
+        idle_flush_time    => <%= @idle_flush_time %>
+        index              => "<%= @index %>"
+        port               => <%= @port %>
+        replication        => "<%= @replication %>"
+    }
+<% if @require_tag %>}<% end %>
+}

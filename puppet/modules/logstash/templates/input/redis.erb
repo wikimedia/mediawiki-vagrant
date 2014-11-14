@@ -1,0 +1,11 @@
+input {
+  redis {
+    host      => "<%= @host %>"
+    port      => <%= @port %>
+    data_type => "<%= @data_type %>"
+    key       => "<%= @key %>"
+<%- if @password -%>
+    password  => "<%= @password %>"
+<%- end -%>
+  }
+}

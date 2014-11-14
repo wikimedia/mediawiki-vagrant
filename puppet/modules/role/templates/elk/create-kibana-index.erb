@@ -1,0 +1,6 @@
+/usr/bin/curl -XPUT 'http://127.0.0.1:9200/kibana-int/' -d '{
+    "settings": {
+        "number_of_shards": 1,
+        "number_of_replicas": 0
+    }
+}'
