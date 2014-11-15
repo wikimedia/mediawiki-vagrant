@@ -18,7 +18,7 @@ crm::db_pass: "%{hiera('mysql::root_password')}"
 
 hhvm::common_settings:
   date:
-    timezone: "UTC"
+    timezone: UTC
   include_path: .:/usr/share/php:/usr/share/pear
   pid: /var/run/hhvm/hhvm.pid
   hhvm:
@@ -45,9 +45,7 @@ hhvm::common_settings:
       native_stack_trace: true
       always_log_unhandled_exceptions: true
       runtime_error_reporting_level: 8191
-      use_log_file: true
-      use_syslog: false
-      file: "%{hiera('hhvm::logroot')}/hhvm/error.log"
+      use_syslog: true
       admin_log:
         file: "%{hiera('hhvm::logroot')}/hhvm/admin.log"
     perf_pid_map: false
@@ -81,6 +79,7 @@ hhvm::common_settings:
       socket_default_timeout: 300
     http:
       slow_query_threshold: 300000
+
 hhvm::fcgi_settings:
   max_execution_time: 180
   hhvm:
@@ -92,6 +91,7 @@ hhvm::fcgi_settings:
       enable: 1
       remote_connect_back: 1
       remote_enable: 1
+
 hhvm::logroot: /vagrant/logs
 
 mathoid::base_path: /vagrant/mathoid

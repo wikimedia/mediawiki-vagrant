@@ -107,6 +107,12 @@ class hhvm (
         require => Class['::apache::mod::proxy_fcgi'],
     }
 
+    rsyslog::conf { 'hhvm':
+        content  => template('hhvm/rsyslog.conf.erb'),
+        priority => 40,
+        before   => Service['hhvm'],
+    }
+
     # Clean up legacy config files
     file { [
       '/etc/hhvm/config.hdf',
