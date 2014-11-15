@@ -24,6 +24,15 @@ class apache {
         content => 'EnableSendfile Off',
     }
 
+    apache::conf { 'errors to syslog':
+        content => 'ErrorLog syslog',
+    }
+
+    rsyslog::conf { 'apache':
+        source   => 'puppet:///modules/apache/rsyslog.conf',
+        priority => 40,
+    }
+
     file { [
         '/etc/apache2/conf-available',
         '/etc/apache2/conf-enabled',
