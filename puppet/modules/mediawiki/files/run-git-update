@@ -27,9 +27,9 @@ function pull {
         if [[ $url == ssh://* ]]; then
             # Convert remote git url from ssh:// to anonymous https://
             tempurl=$(echo $url | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
-            $git_cmd pull $tempurl
+            $git_cmd pull --rebase $tempurl
         else
-            $git_cmd pull
+            $git_cmd pull --rebase
         fi
         if [[ $? -ne 0 ]]; then
           # If we didn't successfully update (possibly because we're on
