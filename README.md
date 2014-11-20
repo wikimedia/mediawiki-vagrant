@@ -87,8 +87,8 @@ changes you may have made to MediaWiki's source code, Puppet will not update
 MediaWiki.
 
 To pick up other changes to the install, on the host computer in the directory
-with the vagrant files run `git pull` and then `vagrant reload`.  The latter
-will restart the VM.
+with the vagrant files run `git pull --rebase` and then `vagrant reload`. 
+The latter will restart the VM.
 
 
 ## Extend

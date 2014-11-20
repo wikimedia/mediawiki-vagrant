@@ -21,7 +21,7 @@ export LC_ALL="en_US.UTF-8"
 commits=$(git --git-dir=/vagrant/.git rev-list HEAD...origin/master --right-only --count 2>/dev/null)
 if [ -n "$commits" ] && [ "$commits" -gt 0 ]; then
     printf "Updates for MediaWiki-Vagrant are available. "
-    printf "Run '$(tput bold; tput setaf 3)git pull$(tput sgr0)' in your Vagrant directory to get them.\n"
+    printf "Run '$(tput bold; tput setaf 3)git pull --rebase$(tput sgr0)' in your Vagrant directory to get them.\n"
 fi
 
 # enable bash completion
