@@ -1,6 +1,7 @@
 # == Class: role::zero
 # Configures Zero for local use
 class role::zero {
+    include ::role::zend
     include ::role::mobilefrontend
     include ::role::jsonconfig
     include ::role::thumb_on_404
