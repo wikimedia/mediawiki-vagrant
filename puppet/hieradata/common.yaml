@@ -6,6 +6,8 @@ classes:
 cdh::hue::secret_key: vagrant
 cdh::hue::hive_server_host: "%{::fqdn}"
 
+arcanist::deploy_dir: /vagrant/phab
+
 cdh::oozie::server::db_root_password: "%{hiera('mysql::root_password')}"
 cdh::oozie::server::heapsize: 64
 

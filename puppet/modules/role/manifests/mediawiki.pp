@@ -9,6 +9,7 @@ class role::mediawiki(
     $hostname,
 ){
     include ::apt
+    include ::arcanist
     include ::env
     include ::git
     include ::misc
