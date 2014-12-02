@@ -36,4 +36,10 @@ Vagrant.configure('2') do |config|
     # Sequel Pro) to manage the database server running on the VM.
     # config.vm.network :forwarded_port,
     #    guest: 3306, host: 3306, id: 'mysql'
+
+    # Mount an additional local directory under the default vhost root in the
+    # VM so that it can be accessed at <http://127.0.0.1:8080/extra/>.
+    # The relative path in this example will be resolved relative to the
+    # location of the main Vagrantfile for your Mediawiki-Vagarant install.
+    # config.vm.synced_folder '../extra', '/var/www/extra'
 end
