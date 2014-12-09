@@ -25,6 +25,7 @@ class php {
         'php5-mysql',
         'php5-sqlite',
         'php5-readline',
+        'php5-xhprof',
     ]:
         ensure  => present,
         require => Class['::apache::mod::php5'],

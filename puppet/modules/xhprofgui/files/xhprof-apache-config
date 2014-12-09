@@ -4,8 +4,9 @@
 # This file is managed by Puppet.
 #
 
-<Directory /usr/share/php/xhprof_html>
+<Directory /srv/xhprof/xhprof_html>
+	Require all granted
 </Directory>
 
-Alias /xhprof "/usr/share/php/xhprof_html"
+Alias /xhprof "/srv/xhprof/xhprof_html"
 
