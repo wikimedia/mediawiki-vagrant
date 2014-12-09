@@ -1,0 +1,23 @@
+ServerName <%= @vhost_name %>
+ServerAdmin "https://mediawiki.org/wiki/Phabricator"
+
+# Change this to the path where you put 'phabricator' when you checked it
+# out from GitHub when following the Installation Guide.
+#
+# Make sure you include "/webroot" at the end!
+DocumentRoot <%= @deploy_dir %>/phabricator/webroot
+
+RewriteEngine on
+RewriteRule ^/rsrc/(.*)     -                       [L,QSA]
+RewriteRule ^/favicon.ico   -                       [L,QSA]
+RewriteRule ^(.*)$          /index.php?__path__=$1  [B,L,QSA]
+
+<Directory />
+  Options FollowSymLinks
+  AllowOverride None
+  Require all denied
+</Directory>
+
+<Directory <%= @deploy_dir %>/phabricator/webroot>
+  Require all granted
+</Directory>
