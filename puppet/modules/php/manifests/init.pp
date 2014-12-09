@@ -20,6 +20,7 @@ class php {
         'php5-dev',
         'php5-gd',
         'php5-intl',
+        'php5-json',
         'php5-mcrypt',
         'php5-mysql',
         'php5-sqlite',
