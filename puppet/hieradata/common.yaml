@@ -36,6 +36,7 @@ hhvm::common_settings:
     dynamic_extensions:
       - fss.so
       - luasandbox.so
+      - tidy.so
       - wikidiff2.so
     jit: false
     jit_afrozen_size: 100000000
