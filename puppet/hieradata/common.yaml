@@ -28,6 +28,46 @@ citoid::log_level: info
 
 crm::dir: "%{hiera('mwv::services_dir')}/org.wikimedia.civicrm"
 crm::site_name: crm.local.wmftest.net
+
+contenttranslation::dir: "%{hiera('mediawiki::dir')}/extensions/ContentTranslation"
+contenttranslation::cxserver::dir: "%{hiera('mwv::services_dir')}/cxserver"
+contenttranslation::parsoid_url: "http://127.0.0.1:%{::mediawiki::parsoid::port}"
+contenttranslation::parsoid_timeout: 100000
+contenttranslation::parsoid_prefix: 'enwiki'
+contenttranslation::view_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/wiki/$2"
+contenttranslation::action_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/index.php?title=$2"
+contenttranslation::api_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/api.php"
+contenttranslation::cx_template: "//127.0.0.1:%{::contenttranslation::cxserver::port}/v1"
+contenttranslation::database: 'contenttranslation'
+contenttranslation::database_user: "%{hiera('mediawiki::db_user')}"
+contenttranslation::database_password: "%{hiera('mysql::root_password')}"
+contenttranslation::eventlogging: false
+contenttranslation::betafeature: false
+contenttranslation::experimental: false
+contenttranslation::intarget: true
+contenttranslation::namespace: 'Main'
+
+contenttranslation::wikis:
+  en:
+    category_keyword: 'Category'
+    high_mt_category: 'MT'
+
+contenttranslation::cxserver::dir: "%{hiera('mwv::services_dir')}/cxserver"
+contenttranslation::cxserver::port: 8090
+contenttranslation::cxserver::proxy: 'null'
+contenttranslation::cxserver::log: /vagrant/logs
+contenttranslation::cxserver::allow_cors: '*'
+contenttranslation::cxserver::parsoid: "http://127.0.0.1:%{::mediawiki::parsoid::port}"
+contenttranslation::cxserver::apertium: 'http://apertium.wmflabs.org'
+contenttranslation::cxserver::yandex: 'https://translate.yandex.net'
+contenttranslation::cxserver::yandex_key: 'null'
+contenttranslation::cxserver::secure: 'false'
+contenttranslation::cxserver::ssl_key: 'null'
+contenttranslation::cxserver::cert: 'null'
+contenttranslation::cxserver::workers: 2
+
+crm::dir: /srv/org.wikimedia.civicrm
+crm::site_name: crm.dev
 crm::drupal_db: drupal
 crm::civicrm_db: civicrm
 crm::db_user: root

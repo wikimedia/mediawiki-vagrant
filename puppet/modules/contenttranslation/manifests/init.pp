@@ -1,0 +1,136 @@
+# == Class: contenttranslation
+#
+# ContentTranslation is a tool for creating new articles in a
+# target language from existing articles in a source language.
+#
+# This manifest supports installing the extension on multiple
+# language wikis and with a shared database for the translation
+# dashboard.
+#
+# === Parameters
+#
+# [*parsoid_url*]
+#   The local url for the parsoid service.
+#
+# [*parsoid_timeout*]
+#   The timeout for the parsoid service.
+#
+# [*parsoid_prefix*]
+#   The prefix for the parsoid service.
+#
+# [*view_template*]
+#   The url template for viewing articles.
+#
+# [*action_template*]
+#   The url template for accessing articles.
+#
+# [*api_template*]
+#   The url template for api calls. Used only for adapting information.
+#
+# [*cx_template*]
+#   The url template for the local cxserver service.
+#
+# [*database*]
+#   The name of the shared database in which to put the cx tables.
+#   Will be created if does not exist.
+#
+# [*database_user*]
+#   The user for the shared database.
+#
+# [*database_password*]
+#   The password for the database user.
+#
+# [*eventlogging*]
+#   Whether or not to enable event logging.
+#
+# [*betafeature*]
+#   Whether of not to make ContentTranslation only accessible as a beta
+#   feature.
+#
+# [*experimental*]
+#   Whether or not to enable experimental ContentTranslation features.
+#
+# [*intarget*]
+#   Whether or not to translate article on the target language wiki.
+#
+# [*namespace*]
+#   Namespace to publish translations to.
+#
+# [*wikis*]
+#   A hash containing the settings for the different language wikis.
+#   The key for each entry is the wiki's language and name (eg 'en', 'fr', ...).
+#   The value for each entry is settings for a ::contenttranslation::wiki:
+#     * 'category_keyword': the word for 'category'in the language of the wiki
+#     * 'high_mt_category': the name of the category to use for
+#       translations published with a high amount of machine translation.
+#
+# == Examples
+#
+#   class { 'contenttranslation':
+#     'cx_template' => '//cxserver.wikimedia.org/v1'
+#   }
+#
+# == Customization
+#
+#   Default values are defined in /vagrant/puppet/hieradata/common.yaml
+#   To customize create a file called 'local.yaml' in the same location
+#   and include entries for the settings you want to override.
+#
+class contenttranslation(
+    $parsoid_url,
+    $parsoid_timeout,
+    $parsoid_prefix,
+    $view_template,
+    $action_template,
+    $api_template,
+    $cx_template,
+    $database,
+    $database_user,
+    $database_password,
+    $eventlogging,
+    $betafeature,
+    $experimental,
+    $intarget,
+    $namespace,
+    $wikis,
+) {
+    include ::mediawiki
+    include ::mysql
+
+    create_resources(contenttranslation::wiki, $wikis)
+
+    mediawiki::extension { 'ContentTranslation':
+        settings => {
+            'wgContentTranslationParsoid["url"]'          => $parsoid_url,
+            'wgContentTranslationParsoid["timeout"]'      => $parsoid_timeout,
+            'wgContentTranslationParsoid["prefix"]'       => $parsoid_prefix,
+            'wgContentTranslationSiteTemplates["view"]'   => $view_template,
+            'wgContentTranslationSiteTemplates["action"]' => $action_template,
+            'wgContentTranslationSiteTemplates["api"]'    => $api_template,
+            'wgContentTranslationSiteTemplates["cx"]'     => $cx_template,
+            'wgContentTranslationDatabase'                => $database,
+            'wgContentTranslationEventLogging'            => $eventlogging,
+            'wgContentTranslationTranslateInTarget'       => $intarget,
+            'wgContentTranslationAsBetaFeature'           => $betafeature,
+            'wgContentTranslationeExperimentalFeatures'   => $experimental,
+            'wgContentTranslationTargetNamespace'         => $namespace,
+        }
+    }
+
+    mysql::db { $database:
+        ensure => present,
+    }
+
+    mysql::user { $database_user:
+        ensure   => present,
+        grant    => "ALL ON ${database}.*",
+        password => $database_password,
+        require  => Mysql::Db[$database],
+    }
+
+    mysql::sql { 'Load ContentTranslation schema':
+        sql     => "USE ${database}; SOURCE ${::mediawiki::dir}/extensions/ContentTranslation/sql/contenttranslation.sql;",
+        unless  => template('contenttranslation/load_unless.sql.erb'),
+        require => Git::Clone['mediawiki/extensions/ContentTranslation'],
+    }
+}

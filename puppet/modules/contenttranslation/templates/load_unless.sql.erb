@@ -1,0 +1,4 @@
+SELECT COUNT(*)
+FROM INFORMATION_SCHEMA.TABLES
+WHERE table_schema = '<%= @database %>'
+  AND table_name = 'cx_translations'

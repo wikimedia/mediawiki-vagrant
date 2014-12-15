@@ -1,0 +1,19 @@
+# vim: set ft=upstart:
+
+# Upstart job configuration for cxserver
+# This file is managed by Puppet
+
+description "cxserver service"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+
+setuid "www-data"
+setgid "www-data"
+
+env NODE_PATH="<%= @dir %>/node_modules"
+
+chdir "<%= @dir %>"
+exec node src/Server.js --num-workers <%= @workers %>
+
+respawn

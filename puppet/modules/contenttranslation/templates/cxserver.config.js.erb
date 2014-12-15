@@ -1,0 +1,23 @@
+'use strict';
+
+module.exports = {
+  // CX Server port
+  port: <%= @port %>,
+  proxy: <%= @proxy %>,
+  // Log directory
+  logDir: '<%= @log %>',
+  // Accept requests from the given domains. * for all domains.
+  allowCORS: '<%= @allow_cors %>',
+  // Parsoid API URL
+  'parsoid.api': '<%= @parsoid %>',
+  // Apertium web API URL
+  'mt.apertium.api': '<%= @apertium %>',
+  'mt.yandex.api': '<%= @yandex %>',
+  'mt.yandex.key': <%= @yandex_key %>,
+  // Use SSL?
+  secure: <%= @secure %>,
+  // SSL key filename
+  sslkey: <%= @ssl_key %>,
+  // SSL cert filename
+  cert: <%= @cert %>,
+}
