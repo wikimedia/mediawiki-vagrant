@@ -56,6 +56,10 @@ class php {
         }
     }
 
+    php::ini { 'date_timezone':
+      settings => { 'date.timezone' => 'UTC' },
+    }
+
     php::ini { 'session_defaults':
       settings => { 'session.save_path' => '/tmp' },
     }
