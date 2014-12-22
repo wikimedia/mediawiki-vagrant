@@ -1,5 +1,6 @@
 # == Class: role::antispam
-# Installs and sets up AntiSpoof, AbuseFilter, and the SpamBlacklist extensions
+# Installs and sets up AntiSpoof, AbuseFilter, SpamBlacklist, and the
+# TitleBlacklist extensions
 class role::antispam {
     include ::role::antispoof
 
@@ -19,6 +20,12 @@ class role::antispam {
     mediawiki::extension { 'SpamBlacklist':
         settings => {
             wgLogSpamBlacklistHits => true,
+        },
+    }
+
+    mediawiki::extension { 'TitleBlacklist':
+        settings => {
+            wgTitleBlacklistLogHits => true,
         },
     }
 }
