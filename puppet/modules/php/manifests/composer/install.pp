@@ -29,7 +29,7 @@ define php::composer::install(
           'COMPOSER_NO_INTERACTION=1',
         ],
         user        => 'vagrant',
-        creates     => "${directory}/vendor",
+        creates     => "${directory}/composer.lock",
         require     => [
             Class['::php::composer'],
         ],
