@@ -45,7 +45,9 @@ class role::cirrussearch {
         version => '1.3.0',
     }
 
-    mediawiki::extension { 'Elastica': }
+    mediawiki::extension { 'Elastica':
+        composer => true,
+    }
 
     mediawiki::extension { 'CirrusSearch':
         settings => template('elasticsearch/CirrusSearch.php.erb'),
