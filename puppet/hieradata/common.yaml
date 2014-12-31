@@ -155,6 +155,9 @@ mediawiki::parsoid::workers: 2
 mysql::default_db_name: wiki
 mysql::root_password: vagrant
 
+phabricator::deploy_dir: /vagrant/phab
+phabricator::vhost_name: phabricator.local.wmftest.net
+
 # We are masterless and have no need to run an agent.
 puppet::agent::ensure: stopped
 puppet::agent::enable: false
