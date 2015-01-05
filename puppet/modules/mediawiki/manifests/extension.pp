@@ -175,6 +175,7 @@ define mediawiki::extension(
 
     if $composer {
         php::composer::install{ $ext_dir:
+            prefer  => 'source',
             require => Git::Clone[$ext_repo],
         }
 

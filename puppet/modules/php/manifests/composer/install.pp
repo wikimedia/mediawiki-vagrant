@@ -11,6 +11,10 @@
 #   Directory that composer provisions vendor libraries to. Default
 #   $directory/vendor.
 #
+# [*prefer*]
+#   Specify preferred source for composer install ('dist' or 'source').
+#   Default 'dist'.
+#
 # === Examples
 #
 #  php::composer::install { $::mediawiki::dir:
@@ -20,8 +24,13 @@
 define php::composer::install(
     $directory  = $title,
     $vendor_dir = undef,
+    $prefer     = 'dist',
 ) {
     require ::php::composer
+
+    if ! ($prefer in ['dist', 'source']) {
+        fail('prefer parameter must be dist or source')
+    }
 
     $safe_dir = regsubst($directory, '\W', '-', 'G')
     $creates = $vendor_dir ? {
@@ -30,7 +39,7 @@ define php::composer::install(
     }
 
     exec { "composer-install-${safe_dir}":
-        command     => 'composer install --optimize-autoloader',
+        command     => "composer install --optimize-autoloader --prefer-${prefer}",
         cwd         => $directory,
         environment => [
           "COMPOSER_HOME=${::php::composer::home}",
