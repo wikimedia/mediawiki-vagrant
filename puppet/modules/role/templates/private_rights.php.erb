@@ -1,0 +1,17 @@
+$wgGroupPermissions['*'] = array(
+	'read'                          => false,
+	'edit'                          => false,
+	'createaccount'                 => false,
+) + $wgGroupPermissions['*'];
+
+$wgGroupPermissions['user'] = array(
+	'move'                          => true,
+	'upload'                        => true,
+	'autoconfirmed'                 => true,
+	'editsemiprotected'             => true,
+	'reupload'                      => true,
+	'skipcaptcha'                   => true,
+	'collectionsaveascommunitypage' => true,
+	'collectionsaveasuserpage'      => true,
+) + $wgGroupPermissions['user'];
+
