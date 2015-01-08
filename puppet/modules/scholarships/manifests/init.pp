@@ -65,7 +65,7 @@ class scholarships(
         require => Git::Clone['wikimedia/wikimania-scholarships'],
     }
 
-    mysql::sql { 'Create default admin user':
+    mysql::sql { 'create_scholarships_admin_user':
         sql     => template('scholarships/create_user.sql.erb'),
         unless  => template('scholarships/create_user_unless.sql.erb'),
         require => Mysql::Sql['Load scholarships schema'],
