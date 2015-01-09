@@ -13,7 +13,6 @@ class role::simple_miser {
         values => {
             # Database
             wgMiserMode       => true,
-            wgDisableCounters => true,
             wgSQLMode         => 'null',
             wgUseFileCache    => true,
             wgUseGzip         => true,

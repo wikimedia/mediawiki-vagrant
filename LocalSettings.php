@@ -79,8 +79,6 @@ $wgJobQueueAggregator = array(
 	'redisConfig'  => array( 'connectTimeout' => 2 ),
 );
 
-$wgDisableCounters = true;
-
 $wgLegacyJavaScriptGlobals = false;
 $wgEnableJavaScriptTest = true;
 
