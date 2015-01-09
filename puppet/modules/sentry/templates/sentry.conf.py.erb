@@ -1,0 +1,54 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+from sentry.conf.server import *
+
+import os.path
+
+CONF_ROOT = os.path.dirname(__file__)
+
+################
+##  Database  ##
+################
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': '<%= @db_name %>',
+        'USER': '<%= @db_user %>',
+        'PASSWORD': '<%= @db_pass %>',
+    }
+}
+
+################
+## Web Server ##
+################
+
+SENTRY_URL_PREFIX = 'http://<%= @vhost_name %>:<%= scope['::forwarded_port'] %>'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+USE_X_FORWARDED_HOST = True
+
+SENTRY_ALLOW_ORIGIN = '*'
+
+SENTRY_WEB_HOST = '0.0.0.0'
+SENTRY_WEB_PORT = 9002 # 9000 is PHP-FVM, 9001 is Xdebug proxy
+SENTRY_WEB_OPTIONS = {
+    'limit_request_line': 0,  # required for raven-js
+    'secure_scheme_headers': {'X-FORWARDED-PROTO': 'https'},
+}
+
+#################
+## Mail Server ##
+#################
+
+EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
+EMAIL_FILE_PATH = '<%= @mail_log_file %>'
+SERVER_EMAIL = 'sentry@<%= @vhost_name %>'
+
+###########
+## etc. ##
+###########
+
+SECRET_KEY = '<%= @secret_key %>'
