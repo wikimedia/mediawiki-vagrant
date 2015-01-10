@@ -14,40 +14,43 @@ mediawiki must be directly underneath.
 Replace /usb_drive with the location of the USB drive, or the location where
 you copied the files from the drive.
 
-1. If you don't have a Gerrit username yet, signup at
+1. If you don't have git installed (typically only windows users), install it
+   from http://git-scm.com/downloads
+
+2. If you don't have a Gerrit username yet, signup at
    https://wikitech.wikimedia.org/wiki/Special:UserLogin/signup .  The
    username you choose will be referred to below as GERRIT_USER .
 
-2. From the directory for your OS, install VirtualBox.
+3. From the directory for your OS, install VirtualBox.
 
-3. From the directory for your OS, install Vagrant.  If you use Linux,
+4. From the directory for your OS, install Vagrant.  If you use Linux,
    use files from Linux/DEB/ for Debian or Ubuntu and Linux/RPM/ for Red Hat,
    Centos, Fedora, etc.
 
-4. Install the virtual machine Vagrant uses as a base:
+5. Install the virtual machine Vagrant uses as a base:
 
     $ cd /usb_drive
     $ vagrant box add trusty-cloud trusty-server-cloudimg-amd64-vagrant-disk1.box
 
-5. Install the "vagrant-vbguest" Vagrant plugin:
+6. Install the "vagrant-vbguest" Vagrant plugin:
 
     $ cd /usb_drive/Plugins
     $ vagrant plugin install vagrant-vbguest-0.10.0.gem
 
-5. Clone MediaWiki-Vagrant from the provided git bundle file:
+7. Clone MediaWiki-Vagrant from the provided git bundle file:
 
     $ cd /usb_drive
     $ git clone -b master mediawiki_vagrant.bundle ~/Vagrant
 
-7. Copy pre-populated caches:
+8. Copy pre-populated caches:
 
-    $ cp -R cache ~/Vagrant/cache
+    $ cp -Rf cache ~/Vagrant/cache
 
-8. Clone MediaWiki core from the provided git bundle file:
+9. Clone MediaWiki core from the provided git bundle file:
 
     $ git clone -b master mediawiki_core.bundle ~/Vagrant/mediawiki
 
-9. Configure git repositories to sync with Gerrit:
+10. Configure git repositories to sync with Gerrit:
 
     $ cd ~/Vagrant
     $ git remote set-url origin ssh://GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/vagrant.git
@@ -55,17 +58,18 @@ you copied the files from the drive.
     $ cd ~/Vagrant/mediawiki
     $ git remote set-url origin ssh://GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/core.git
 
-10. Update MediaWiki-Vagrant and MediaWiki core git repositories to latest
+11. Update MediaWiki-Vagrant and MediaWiki core git repositories to latest
    versions:
 
    $ cd ~/Vagrant
    $ git pull
    $ git submodule update --init --recursive
+   $ git checkout -- .
 
    $ cd ~/Vagrant/mediawiki
    $ git pull
 
-11. Start your MediaWiki-Vagrant virtual machine for the first time:
+12. Start your MediaWiki-Vagrant virtual machine for the first time:
 
     $ cd ~/Vagrant
     $ ./setup.sh
