@@ -16,76 +16,80 @@ VirtualBox:
   # https://www.virtualbox.org/wiki/Linux_Downloads
   Linux:
     Debian Squeeze:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/virtualbox-4.3_4.3.12-93733~Debian~squeeze_amd64.deb
-      sha256: 37def5abbd1b806be58497dd628fbdc7bd070ea3cf21e61b6ae46c3a29a66da5
+      url: http://download.virtualbox.org/virtualbox/4.3.20/virtualbox-4.3_4.3.20-96996~Debian~squeeze_amd64.deb
+      sha256: 398ec57ad5fc76aac063486fc0bdd97aaab85eab8fad9ba41cfbbb06e06211ad
 
     Debian Wheezy:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/virtualbox-4.3_4.3.12-93733~Debian~wheezy_amd64.deb
-      sha256: 655469a22c0d0259cd34b8cc15057a6a47f47e70fc790e8c85bf596354ae23ab
+      url: http://download.virtualbox.org/virtualbox/4.3.20/virtualbox-4.3_4.3.20-96996~Debian~wheezy_amd64.deb
+      sha256: eba5535888eb2b7379ed9272a93a0d103c3e79a8389ee0f38fdd64df639f1d45
 
     Fedora 17:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3-4.3.12_93733_fedora17-1.x86_64.rpm
-      sha256: 943618f60d17136c0f518bfb75674aab5dcb2d19dd425b55be45111e4095bea9
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3-4.3.20_96996_fedora17-1.x86_64.rpm
+      sha256: a373306bc638f1b68ea213c0eb7de0cc2b4d6ffc9bc8bc0a03a94dc763de81a2
 
     Fedora 18 and 19:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3-4.3.12_93733_fedora18-1.x86_64.rpm
-      sha256: 9beb861740b99d4ab8bec948dd00fb7fa216f90f5ecba88d75c8dd84fb023b4c
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3-4.3.20_96996_fedora18-1.x86_64.rpm
+      sha256: a9b7a2b8725d34586c7b63f594d069ccd5db14785018028987e3b69987bdd275
 
     Mandriva 2011.0:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3-4.3.12_93733_mdv2011.0-1.x86_64.rpm
-      sha256: 6c971b34ae2d67ced8c5c3647e044ea7ac068db35a5d16d44e9cfe30230dcade
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3-4.3.20_96996_mdv2011.0-1.x86_64.rpm
+      sha256: 379def1fbbe5c073d8d0d5a379090ab716f8a3c471f5e4ef890e846d4f8dd60d
 
     openSUSE 12.3 and 13.1:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3-4.3.12_93733_openSUSE123-1.x86_64.rpm
-      sha256: cf482dabdeb90e8eee238ced29133815f06ed07f564dde78dcc7a5d24a412886
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3-4.3.20_96996_openSUSE123-1.x86_64.rpm
+      sha256: 180bc6c26dd057817ca09824aa9953fb0286dcf517821ec07d6d072761d38ca4
 
     openSUSE 11.4, 12.1, and 12.2:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3-4.3.12_93733_openSUSE114-1.x86_64.rpm
-      sha256: 6eeeb655fbc3655cfe2c46468008c4a9e7e978b083bc2f5404686425fbfb7542
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3-4.3.20_96996_openSUSE114-1.x86_64.rpm
+      sha256: f8dea6f42fc04baf77280df386595162c55420337c39ba966862f458358bbfec
 
     Other:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3.12-93733-Linux_amd64.run
-      sha256: d37075e601f13ed3564ba51359b4a43b725cb532266cedd9af5e42304d533a2c
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3.20-96996-Linux_amd64.run
+      sha256: 46ac2b2848e71259274ee975a71da0c93189b2f02dad74a84a46e152af68e0ca
 
     Red Hat Enterprise Linux and CentOS and Oracle Linux 5:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3-4.3.12_93733_el5-1.x86_64.rpm
-      sha256: 480da924464bac4696f21cbae59de94d0133758bc07c2b33acfd1ab7b185a282
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3-4.3.20_96996_el5-1.x86_64.rpm
+      sha256: 4eb970778e287ffd7f985ddf0a3aa5a272b8d48cb7d59b79f504036cbbf8247d
 
     Red Hat Enterprise Linux and CentOS and Oracle Linux 6:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3-4.3.12_93733_el6-1.x86_64.rpm
-      sha256: f38494b87254909688a5df92b9703216900449bd32a90e0a8562669394fa7e2e
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3-4.3.20_96996_el6-1.x86_64.rpm
+      sha256: f26a6a71b57b58dfb11c4afc2a709aae73fb2628c5d2224575ce5f4011f0db86
+
+    Red Hat Enterprise Linux and CentOS and Oracle Linux 7:
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3-4.3.20_96996_el7-1.x86_64.rpm
+      sha256: ced4ebbf905342386f9b694047b8a3ad8d3548add4998f2430ca2543dfb39801
 
     SUSE Linux Enterprise Server 10:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3-4.3.12_93733_sles10.1-1.x86_64.rpm
-      sha256: bcd8938b7da55dbe79331f52f3997caaf1c3012f9404cca72130b702629a144d
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3-4.3.20_96996_sles10.1-1.x86_64.rpm
+      sha256: 12cefe1ea65335f719aa550653ca5dd409b9c8608a2d537fd93684a71b337a4a
 
     SUSE Linux Enterprise Server 11:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3-4.3.12_93733_sles11.0-1.x86_64.rpm
-      sha256: 747f147c97aa50e781d60231e0c0cdca08f968ff25646132afaaa88869ad1f80
+      url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3-4.3.20_96996_sles11.0-1.x86_64.rpm
+      sha256: b982cfb8c7932603cedc7639a2ecd8db9a15b2a9452b21d729132b583b8af0a8
 
     Ubuntu Lucid:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/virtualbox-4.3_4.3.12-93733~Ubuntu~lucid_amd64.deb
-      sha256: cf0a574ab502ae889616854b04c99576440a16fc3e916f65d8d55a99c2e9f7a2
+      url: http://download.virtualbox.org/virtualbox/4.3.20/virtualbox-4.3_4.3.20-96996~Ubuntu~lucid_amd64.deb
+      sha256: f7f14a14bfbc5ed40932214c551cc69cf8f04d0c88442c4ff85b105a56ac0c2a
 
     Ubuntu Precise:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/virtualbox-4.3_4.3.12-93733~Ubuntu~precise_amd64.deb
-      sha256: 8c617f250d46f0b7bc20f0ade66a142243b0e357320d1982a958a9717d73221a
+      url: http://download.virtualbox.org/virtualbox/4.3.20/virtualbox-4.3_4.3.20-96996~Ubuntu~precise_amd64.deb
+      sha256: aeb7ef1dbd7832eeec030a2a7d06c5d649389d9d346056543c4958fb507f0944
 
     Ubuntu Quantal:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/virtualbox-4.3_4.3.12-93733~Ubuntu~quantal_amd64.deb
-      sha256: 4909793be864002f7b412f02485b1ddeb96311f022195279353afc3f47c09c88
+      url: http://download.virtualbox.org/virtualbox/4.3.20/virtualbox-4.3_4.3.20-96996~Ubuntu~quantal_amd64.deb
+      sha256: 5671afb36777063700f1d8e4ba080d2531ef16ebad5f3fa742ed4e8f9e2a6bff
 
-    Ubuntu Raring, Saucy and Trusty:
-      url: http://download.virtualbox.org/virtualbox/4.3.12/virtualbox-4.3_4.3.12-93733~Ubuntu~raring_amd64.deb
-      sha256: 26c126bbb31b89720a6d2f0214c5c1ce33113f79625ae05850bc82ca50e44428
+    Ubuntu Raring, Saucy, Trusty and Utopic:
+      url: http://download.virtualbox.org/virtualbox/4.3.20/virtualbox-4.3_4.3.20-96996~Ubuntu~raring_amd64.deb
+      sha256: ab367fe4815bfb30941b31ed432a91e3e1628a00922a200f0d676f4ef55069d5
 
   Mac:
-    url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3.12-93733-OSX.dmg
-    sha256: a9d9e3b3217177bc175839747de663ba25886f71e97a9c35ad802f618f11e23e
+    url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3.20-96996-OSX.dmg
+    sha256: 744e77119a640a5974160213c9912568a3d88dbd06a2fc6b6970070941732705
 
   Windows:
-    url: http://download.virtualbox.org/virtualbox/4.3.12/VirtualBox-4.3.12-93733-Win.exe
-    sha256: d1c4f76ef80db122b28ab8f5bdf28b4e1338ce0764a81f4ac56a038e5d4478db
+    url: http://download.virtualbox.org/virtualbox/4.3.20/VirtualBox-4.3.20-96997-Win.exe
+    sha256: 5edd8cd2dc01ad7adc5c71f188ed64061b183ab2fd5b83da84f90948d4b4e3d6
 
 # http://www.vagrantup.com/downloads.html
 # One package for all .deb, one for all .rpm
@@ -95,20 +99,20 @@ VirtualBox:
 Vagrant:
   Linux:
     DEB:
-      url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.deb
-      sha256: 0fc3259cf08b693e3383636256734513ee93bf258f8328efb64e1dde447aadbe
+      url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
+      sha256: 9d7f1c587134011e2d5429eb21b6c0e95487f52e6d6d47c03ecc82cbeee73968
 
     RPM:
-      url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3_x86_64.rpm
-      sha256: e4d6318a0d204818f3742f3280f3150d51b613e96a457cae4d0ea16c84be9fd3
+      url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.rpm
+      sha256: 683d9926922685adfb456605ef6becaa811b87f18f54faf7c19abc4888636617
 
   Mac:
-    url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3.dmg
-    sha256: ed1de41ca11a2251e4748a7a88fb46c3312780b7952f2248683f8ed2a007bc72
+    url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2.dmg
+    sha256: 78d02afada2f066368bd0ce1883f900f89b6dc20f860463ce125e7cb295e347c
 
   Windows:
-    url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.6.3.msi
-    sha256: 7942cf02125444e057bb00323c9b465638b36d980b3dd703d6082d0f3654c846
+    url: https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2.msi
+    sha256: 37750541f29e7161b9ac56136c02c3b2d07d2080ed01d5ff71f464357f1a3bdf
 
   Plugins:
     vagrant-vbguest:
