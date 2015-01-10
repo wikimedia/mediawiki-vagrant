@@ -44,6 +44,7 @@ class role::math {
             'texlive-pictures',
             'texlive-pstricks',
             'texlive-publishers',
+            'texlive-generic-extra'
         ]:
     }
 
