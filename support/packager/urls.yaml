@@ -118,3 +118,13 @@ Vagrant:
     vagrant-vbguest:
       url: https://rubygems.org/downloads/vagrant-vbguest-0.10.0.gem
       sha256: 5eadad72fc80d2ae78463966654dab1f5e4d9803e084a4ff2c85a01be23ff105
+
+Git:
+  Mac:
+    url: http://iweb.dl.sourceforge.net/project/git-osx-installer/git-2.2.1-intel-universal-mavericks.dmg
+    sha256: f9b1d926736a7d5dbcff2ffe0920ae25c03b9880d4e218e23e3c06c231ba6b63
+
+  Windows:
+    url: https://s3.amazonaws.com/github-cloud/releases/325827/e8237682-8701-11e4-9dbe-7fb433262871.exe?response-content-disposition=attachment%3B%20filename%3DGit-1.9.5-preview20141217.exe&response-content-type=application/octet-stream&AWSAccessKeyId=AKIAISTNZFOVBIJMK3TQ&Expires=1420854625&Signature=yV4yIngIM5ns31s59eeqXIxRxHk%3D
+    filename: Git-1.9.5-preview20141217.exe
+    shar256: d7e78da2251a35acd14a932280689c57ff9499a474a448ae86e6c43b882692dd

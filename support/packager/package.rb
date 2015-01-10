@@ -137,12 +137,14 @@ def mac()
   mac_dir = $contents_dir + 'Mac'
   download_file(mac_dir, $url_config['VirtualBox']['Mac'])
   download_file(mac_dir, $url_config['Vagrant']['Mac'])
+  download_file(mac_dir, $url_config['Git']['Mac'])
 end
 
 def windows()
   windows_dir = $contents_dir + 'Windows'
   download_file(windows_dir, $url_config['VirtualBox']['Windows'])
   download_file(windows_dir, $url_config['Vagrant']['Windows'])
+  download_file(windows_dir, $url_config['Git']['Windows'])
 end
 
 def build_iso()
