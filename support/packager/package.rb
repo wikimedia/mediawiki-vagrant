@@ -115,7 +115,7 @@ def common()
 
   template = $packager_dir + 'template'
   puts 'Copying template files...'
-  cp(template + 'README', $contents_dir)
+  cp(template + 'README.txt', $contents_dir)
   cp(template + 'LICENSE', $contents_dir)
 end
 

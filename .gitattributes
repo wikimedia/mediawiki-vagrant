@@ -2,3 +2,6 @@
 *.png binary
 *.ico binary
 *.ppk binary
+
+# Keep README for iso easily readable by Windows clients
+/support/packager/template/README.txt text eol=crlf
