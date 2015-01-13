@@ -43,3 +43,9 @@ Alias /images "<%= scope['mediawiki::upload_dir'] %>"
     RewriteRule ^/$ /w/index.php [R=301]
     Alias /wiki <%= @docroot %>/w/index.php
 </IfDefine>
+
+# Reverse proxy for eventlogging devserver
+<IfDefine ELDevServer>
+    ProxyPass /event.gif http://127.0.0.1:8100/event.gif
+    ProxyPassReverse /event.gif http://127.0.0.1:8100/event.gif
+</IfDefine>
