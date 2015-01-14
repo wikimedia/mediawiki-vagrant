@@ -5,7 +5,11 @@
 # === Parameters
 #
 # [*directory*]
-#   Directory containing composer.json to modify. Default $title.
+#   Directory containing composer.json to provision. Default $title.
+#
+# [*vendor_dir*]
+#   Directory that composer provisions vendor libraries to. Default
+#   $directory/vendor.
 #
 # === Examples
 #
@@ -14,11 +18,16 @@
 #  }
 #
 define php::composer::install(
-    $directory = $title,
+    $directory  = $title,
+    $vendor_dir = undef,
 ) {
     require ::php::composer
 
     $safe_dir = regsubst($directory, '\W', '-', 'G')
+    $creates = $vendor_dir ? {
+        undef   => "${directory}/vendor",
+        default => $vendor_dir,
+    }
 
     exec { "composer-install-${safe_dir}":
         command     => 'composer install --optimize-autoloader',
@@ -29,7 +38,7 @@ define php::composer::install(
           'COMPOSER_NO_INTERACTION=1',
         ],
         user        => 'vagrant',
-        creates     => "${directory}/composer.lock",
+        creates     => $creates,
         require     => [
             Class['::php::composer'],
         ],
