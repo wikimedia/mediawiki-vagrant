@@ -21,4 +21,7 @@ Gem::Specification.new do |s|
     s.version = MediaWikiVagrant::VERSION
 
     s.require_paths = ['lib']
+
+    s.add_development_dependency 'rspec', '~> 3.1', '>= 3.1.0'
+    s.add_development_dependency 'fakefs', '~> 0.6', '>= 0.6.5'
 end
