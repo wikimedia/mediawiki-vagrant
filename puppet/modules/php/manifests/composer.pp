@@ -15,9 +15,11 @@ class php::composer (
     $home        = '/vagrant/cache/composer',
     $cache_dir   = '/vagrant/cache/composer',
 ) {
+    $bin = '/usr/local/bin/composer'
+
     exec { 'download_composer':
-        command => 'curl https://getcomposer.org/composer.phar -o /usr/local/bin/composer',
-        creates => '/usr/local/bin/composer',
+        command => "curl https://getcomposer.org/composer.phar -o ${bin}",
+        unless  => "php5 -r 'try { Phar::loadPhar(\"${bin}\"); exit(0); } catch(Exception \$e) { exit(1); }'",
     }
 
     file { '/usr/local/bin/composer':
