@@ -38,8 +38,10 @@ setup = Vagrant::Util::Platform.windows? ? 'setup.bat' : 'setup.sh'
 
 if gemspec.nil?
     raise "The mediawiki-vagrant plugin hasn't been installed yet. Please run `#{setup}`."
-elsif gemspec.version < Gem::Version.new(MediaWikiVagrant::VERSION)
-    raise "Your mediawiki-vagrant plugin isn't up-to-date. Please re-run `#{setup}`."
+else
+    installed = gemspec.version
+    latest = Gem::Version.new(MediaWikiVagrant::VERSION)
+    raise "Your mediawiki-vagrant plugin isn't up-to-date. Please re-run `#{setup}`." unless Gem::Requirement.new(latest.approximate_recommendation).satisfied_by?(installed)
 end
 
 mwv = MediaWikiVagrant::Environment.new($DIR)
