@@ -12,9 +12,11 @@ class php {
     include ::php::composer
 
     package { [
-        'php5',
         'php-apc',
+        'php-mail',
+        'php-mail-mime',
         'php-pear',
+        'php5',
         'php5-cli',
         'php5-curl',
         'php5-dev',
@@ -23,8 +25,8 @@ class php {
         'php5-json',
         'php5-mcrypt',
         'php5-mysql',
-        'php5-sqlite',
         'php5-readline',
+        'php5-sqlite',
         'php5-xhprof',
     ]:
         ensure  => present,
