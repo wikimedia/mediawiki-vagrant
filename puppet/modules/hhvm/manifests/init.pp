@@ -69,6 +69,14 @@ class hhvm (
 
     file { '/etc/hhvm/php.ini':
         content => php_ini($common_settings),
+
+        # @todo
+        # remove force => true once the dpkg for hhvm is updated to create
+        # its version of php.ini in /etc/hhvm/php.ini instead of in
+        # /etc/hhvm/php.ini/php.ini
+        #
+        # @see https://phabricator.wikimedia.org/T87478
+        force   => true
     }
 
     file { '/etc/hhvm/fcgi.ini':
