@@ -3,6 +3,7 @@
 class role::flow {
     include ::role::parsoid
     include ::role::mantle
+    include ::role::echo
 
     mediawiki::extension { 'Flow':
         needs_update => true,
