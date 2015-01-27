@@ -70,6 +70,7 @@ module MediaWikiVagrant
       configure_settings unless @silent
 
       notify "\nYou're all set! Simply run `vagrant up` to boot your new environment."
+      notify "\n(Or try `vagrant config --list` to see what else you can tweak.)"
     end
 
     private
