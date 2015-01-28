@@ -4,5 +4,9 @@ class role::wikigrok {
     include ::role::wikidata
     include ::role::mobilefrontend
 
-    mediawiki::extension { 'WikiGrok': }
+    mediawiki::extension { 'WikiGrok':
+        settings => [
+            '$wgWikiGrokRepoMode = $wmgUseWikibaseRepo;',
+        ],
+    }
 }
