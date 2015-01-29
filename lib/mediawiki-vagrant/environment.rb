@@ -9,6 +9,59 @@ module MediaWikiVagrant
   class Environment
     STALENESS = 604800
 
+    class << self
+      # Host operating system.
+      #
+      # @return [:osx, :linux, :windows, :unknown]
+      #
+      def operating_system
+        case RbConfig::CONFIG['host_os']
+        when /mac|darwin/i
+          :osx
+        when /linux/i
+          :linux
+        when /mswin|mingw|cygwin/i
+          :windows
+        else
+          :unknown
+        end
+      end
+
+      # Total host OS CPU cores.
+      #
+      # @return [Fixnum]
+      #
+      def total_cpus
+        case operating_system
+        when :osx
+          `sysctl -n hw.ncpu`.to_i
+        when :linux
+          `nproc`.to_i
+        when :windows
+          `wmic CPU get NumberOfLogicalProcessors | more +1`.to_i
+        else
+          1
+        end
+      end
+
+      # Total host OS memory in MB.
+      #
+      # @return [Fixnum]
+      #
+      def total_memory
+        case operating_system
+        when :osx
+          `sysctl -n hw.memsize`.to_i / 1024 / 1024
+        when :linux
+          `awk '$1 == "MemTotal:" { print $2 }' /proc/meminfo`.to_i / 1024
+        when :windows
+          `wmic OS get TotalVisibleMemorySize | more +1`.to_i / 1024
+        else
+          0
+        end
+      end
+    end
+
     # Initialize a new environment for the given directory.
     #
     def initialize(directory)
