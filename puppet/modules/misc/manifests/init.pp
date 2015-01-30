@@ -37,4 +37,8 @@ class misc {
       command => 'sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile',
       onlyif  => 'grep -q "^mesg n" /root/.profile',
     }
+
+    env::profile_script { 'xdebug':
+        content => template('misc/xdebug.erb'),
+    }
 }

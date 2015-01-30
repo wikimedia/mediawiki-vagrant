@@ -31,6 +31,7 @@ $DIR = File.expand_path('..', __FILE__)
 # Ensure we're using the latest version of the plugin
 require_relative 'lib/mediawiki-vagrant/version'
 require 'fileutils'
+require 'ipaddr'
 
 # NOTE Use RubyGems over the Vagrant plugin manager as it's more reliable
 gemspec = Gem::Specification.find { |s| s.name == 'mediawiki-vagrant' }
@@ -196,6 +197,12 @@ Vagrant.configure('2') do |config|
             $FACTER['share_group'] = 'www-data'
         end
 
+        # Derive a host IP from the configured static IP by getting the first
+        # usable IP in the 8-bit network
+        if settings[:static_ip]
+            network = IPAddr.new("#{settings[:static_ip]}/24")
+            $FACTER['host_ip'] = network.to_range.take(2).last.to_s
+        end
     end
 
     if Vagrant.plugin('2').manager.provisioners[:mediawiki_reload] && \
