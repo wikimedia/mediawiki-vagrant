@@ -1,6 +1,7 @@
 /.vagrant
 /.bundle
 /.gem
+/.idea
 /.rbenv-version
 /.settings.yaml
 /*.gem

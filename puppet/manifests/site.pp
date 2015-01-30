@@ -89,6 +89,13 @@ package { [ 'chef', 'chef-zero' ]:
 # Install common development tools
 package { [ 'build-essential', 'python-dev', 'ruby-dev' ]: }
 
+# Initialize PHPStorm environment
+file { "/vagrant/.idea":
+    source  => "/vagrant/support/idea-dist",
+    recurse => true,
+    replace => false,
+}
+
 # Assign classes to nodes via hiera
 # See hiera.yaml and hieradata/*.yaml
 hiera_include('classes')
