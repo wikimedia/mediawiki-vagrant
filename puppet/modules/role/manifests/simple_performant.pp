@@ -60,7 +60,7 @@ class role::simple_performant {
         require => Class['::apache::mod::expires'],
     }
 
-    file { '/var/www/robots.txt':
+    file { "${::mediawiki::apache::docroot}/robots.txt":
         ensure  => present,
         mode    => '0444',
         source  => 'puppet:///modules/role/robots.txt',

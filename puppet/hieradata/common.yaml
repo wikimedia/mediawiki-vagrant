@@ -3,6 +3,8 @@ classes:
   - '::role::mediawiki'
   - '::puppet::agent'
 
+apache::docroot: /var/www
+
 cdh::hue::secret_key: vagrant
 cdh::hue::hive_server_host: "%{::fqdn}"
 
@@ -95,8 +97,9 @@ hhvm::fcgi_settings:
       remote_connect_back: 1
       remote_enable: 1
 
-hhvm::logroot: /vagrant/logs
+hhvm::docroot: "%{hiera('apache::docroot')}"
 hhvm::hhbc_dir: /var/run/hhvm
+hhvm::logroot: /vagrant/logs
 
 kibana::deploy_dir: /srv/kibana
 kibana::default_route: /dashboard/elasticsearch/default
@@ -145,7 +148,7 @@ mediawiki::admin_user: admin
 mediawiki::admin_pass: vagrant
 mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fragment}"
 
-mediawiki::apache::docroot: /var/www
+mediawiki::apache::docroot: "%{hiera('apache::docroot')}"
 
 mediawiki::jobrunner::commit: 5c927f9091f446452b9fd7bcb69614c7a7fe6eff
 

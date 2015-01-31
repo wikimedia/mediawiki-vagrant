@@ -6,7 +6,7 @@
 ServerName hhvm-admin
 ServerAlias hhvm-admin.local.wmftest.net
 ServerAdmin http://www.mediawiki.org/wiki/Vagrant
-DocumentRoot "/var/www"
+DocumentRoot "<%= @docroot %>"
 LogLevel error
 
 <Directory />
@@ -14,7 +14,7 @@ LogLevel error
     AllowOverride None
 </Directory>
 
-<Directory /var/www/>
+<Directory <%= @docroot %>/>
 </Directory>
 
 ProxyPass / fcgi://127.0.0.1:9001/ retry=0

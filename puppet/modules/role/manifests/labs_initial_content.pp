@@ -4,17 +4,19 @@
 #  initial wiki.
 #
 class role::labs_initial_content {
+    include mediawiki::apache
+
     mediawiki::import_dump { 'labs_privacy':
         xml_dump           => '/vagrant/puppet/modules/labs/files/labs_privacy_policy.xml',
         dump_sentinel_page => 'Testwiki:Privacy_policy',
     }
 
-    file { '/var/www/labs_mediawiki_logo.png':
+    file { "${::mediawiki::apache::docroot}/labs_mediawiki_logo.png":
         ensure   => present,
         source   => '/vagrant/puppet/modules/labs/files/labs_vagrant_logo.png'
     }
 
-    file { '/var/www/robots.txt':
+    file { "${::mediawiki::apache::docroot}/robots.txt":
         ensure   => present,
         source   => '/vagrant/puppet/modules/labs/files/robots.txt'
     }

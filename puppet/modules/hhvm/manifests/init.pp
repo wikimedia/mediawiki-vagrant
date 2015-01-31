@@ -39,11 +39,15 @@
 # [*hhbc_dir*]
 #   Parent directory to store shared hhbc bytecode cache files in.
 #
+# [*docroot*]
+#   Web server docroot directory.
+#
 class hhvm (
-  $common_settings,
-  $fcgi_settings,
-  $logroot,
-  $hhbc_dir,
+    $common_settings,
+    $fcgi_settings,
+    $logroot,
+    $hhbc_dir,
+    $docroot,
 ) {
     include ::apache
     include ::apache::mod::proxy_fcgi

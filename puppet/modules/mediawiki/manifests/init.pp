@@ -142,7 +142,7 @@ class mediawiki(
         value => $dir,
     }
 
-    file { '/var/www/mediawiki-vagrant.png':
+    file { "${mediawiki::apache::docroot}/mediawiki-vagrant.png":
         source => 'puppet:///modules/mediawiki/mediawiki-vagrant.png',
     }
 

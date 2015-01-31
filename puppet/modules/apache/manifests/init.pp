@@ -2,8 +2,14 @@
 #
 # Configures Apache HTTP Server
 #
-class apache {
-
+# == Parameters:
+#
+# [*docroot*]
+#   Web server docroot directory.
+#
+class apache (
+    $docroot,
+) {
     package { 'apache2':
         ensure  => present,
     }
@@ -63,8 +69,16 @@ class apache {
         require => Package['apache2'],
     }
 
-    file { '/var/www':
+    file { $docroot:
         ensure => directory,
+    }
+
+    # compatibility with old location
+    if $docroot != '/var/www' {
+        file { '/var/www':
+            ensure => 'link',
+            target => $docroot,
+        }
     }
 
     Apache::Env <| |> -> Apache::Mod_conf <| |> -> Apache::Conf <| |>

@@ -60,6 +60,7 @@ class sentry (
     $admin_user,
     $admin_pass,
 ) {
+    include ::apache
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
     include ::apache::mod::headers
@@ -144,11 +145,11 @@ class sentry (
     }
 
     # temporary bugfix for T90832
-    file { '/var/www/.sentry':
+    file { "${::apache::docroot}/.sentry":
         ensure => directory,
         owner  => 'www-data',
     }
-    file { '/var/www/.sentry/sentry.conf.py':
+    file { "${::apache::docroot}/.sentry/sentry.conf.py":
         ensure => link,
         target => '/etc/sentry.conf.py',
     }
