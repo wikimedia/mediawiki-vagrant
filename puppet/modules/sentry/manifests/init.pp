@@ -4,6 +4,11 @@
 # error aggregator and dashboard which can be used to view and
 # organize MediaWiki PHP and JS errors.
 #
+# Sentry is installed as a Python package, and as part of that,
+# pip compiles lxml. This is memory-intensive; you might have to
+# increase the memory available to the VM with something like
+# 'vagrant config vagrant_ram 2048; vagrant reload'.
+#
 # === Parameters
 #
 # [*user*]
