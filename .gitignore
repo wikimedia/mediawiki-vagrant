@@ -13,6 +13,7 @@
 /mediawiki/
 /mediawiki-*/
 /settings.d
+/srv/docroot
 !/settings.d/README
 !/settings.d/puppet-managed/README
 /puppet/manifests/manifests.d

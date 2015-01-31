@@ -81,6 +81,14 @@ class apache (
         }
     }
 
+    # make sure all PHP files are available from the host machine so they can be debugged
+    file { '/vagrant/srv/docroot':
+        ensure             => present,
+        source             => $docroot,
+        source_permissions => ignore,
+        recurse            => remote,
+    }
+
     Apache::Env <| |> -> Apache::Mod_conf <| |> -> Apache::Conf <| |>
     Apache::Site <| |> -> Apache::Site_conf <| |>
 
