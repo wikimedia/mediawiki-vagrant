@@ -5,7 +5,7 @@
 #
 class jsduck {
     package { 'jsduck':
-        ensure   => '4.10.4',
+        ensure   => '5.3.4',
         provider => 'gem',
     }
 }
