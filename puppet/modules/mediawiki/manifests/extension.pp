@@ -167,7 +167,7 @@ define mediawiki::extension(
     mediawiki::settings { $title:
         ensure       => $ensure,
         wiki         => $ext_wiki,
-        header       => sprintf('include_once "$IP/extensions/%s/%s";', $ext_name, $ext_entrypoint),
+        header       => template('mediawiki/extension.php.erb'),
         values       => $settings,
         priority     => $priority,
         require      => Git::Clone[$ext_repo],

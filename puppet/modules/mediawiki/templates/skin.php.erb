@@ -1,7 +1,9 @@
-if ( class_exists( 'SkinFactory' ) ) {
-	// MediaWiki Vagrant only supports loading skins using SkinFactory
+if ( class_exists( 'ExtensionRegistry' ) && file_exists( "$IP/skins/<%= @skin %>/skin.json" ) ) {
+	ExtensionRegistry::getInstance()->queue( "$IP/skins/<%= @skin %>/skin.json" );
+} else {
 	include_once "$IP/skins/<%= @skin %>/<%= @skin %>.php";
-<% if @default -%>
-	$wgDefaultSkin = '<%= @skin.downcase %>';
-<% end -%>
 }
+<% if @default -%>
+$wgDefaultSkin = '<%= @skin.downcase %>';
+<% end -%>
+

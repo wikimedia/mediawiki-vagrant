@@ -1,0 +1,6 @@
+if ( class_exists( 'ExtensionRegistry' ) && file_exists( "$IP/extensions/<%= @ext_name %>/extension.json" ) ) {
+	ExtensionRegistry::getInstance()->queue( "$IP/extensions/<%= @ext_name %>/extension.json" );
+} else {
+	include_once "$IP/extensions/<%= @ext_name %>/<%= @ext_entrypoint %>";
+}
+
