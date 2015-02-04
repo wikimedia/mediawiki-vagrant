@@ -1,4 +1,5 @@
 require 'mediawiki-vagrant/settings'
+require 'vagrant/util/platform'
 
 module MediaWikiVagrant
   Settings.define do

@@ -68,7 +68,7 @@ module MediaWikiVagrant
     end
 
     def initialize
-      @settings = self.class.definitions.clone
+      @settings = self.class.definitions
     end
 
     # The given setting's current value.
@@ -106,14 +106,14 @@ module MediaWikiVagrant
     #
     def load(path_or_io)
       case path_or_io
-      when IO
-        update(YAML.load(path_or_io))
-      else
+      when String
         if File.directory?(path_or_io)
           Dir.glob("#{path_or_io}/*.yaml").each { |f| load(f) }
         else
           load(File.new(path_or_io))
         end
+      else
+        update(YAML.load(path_or_io))
       end
     end
 
@@ -136,10 +136,10 @@ module MediaWikiVagrant
       yaml = YAML.dump(to_yaml_hash)
 
       case path_or_io
-      when IO
-        path_or_io.write(yaml)
-      else
+      when String
         File.open(path_or_io, 'w') { |f| f.write(yaml) }
+      else
+        path_or_io.write(yaml)
       end
     end
 

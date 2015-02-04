@@ -20,7 +20,7 @@ module MediaWikiVagrant
       context 'where .git/refs/heads/master exists' do
         before { mock_files_in(directory, '.git/refs/heads/master' => '123456789abc') }
 
-        it('should be the first 9 characters of the master ref') do
+        it 'should be the first 9 characters of the master ref' do
           expect(subject).to eq('123456789')
         end
       end

@@ -4,11 +4,19 @@ module MediaWikiVagrant
       super
 
       class << other
-        attr_accessor :definitions
+        def definitions
+          @definitions_hash.each.with_object({}) do |(key, setting), hash|
+            hash[key] = setting.dup
+          end
+        end
+
+        protected
+
+        attr_reader :definitions_hash
       end
 
+      other.class_exec { @definitions_hash ||= {} }
       other.extend(Macros)
-      other.definitions ||= {}
     end
 
     private
@@ -19,8 +27,9 @@ module MediaWikiVagrant
       end
 
       def setting(name, params = {})
-        self.definitions[name] = Setting.new(name).tap do |setting|
+        self.definitions_hash[name] = Setting.new(name).tap do |setting|
           params.each { |name, value| setting.send("#{name}=", value) }
+          setting.freeze
         end
       end
     end
