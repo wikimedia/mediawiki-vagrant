@@ -126,6 +126,11 @@ class mediawiki::multiwiki(
         target => "${::mediawiki::dir}/resources",
     }
 
+    file { "${script_dir}/mw-config":
+        ensure => link,
+        target => "${::mediawiki::dir}/mw-config",
+    }
+
     file { "${script_dir}/skins":
         ensure => link,
         target => "${::mediawiki::dir}/skins",
