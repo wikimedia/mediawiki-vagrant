@@ -13,8 +13,10 @@ class php {
 
     package { [
         'php-apc',
+        'php-auth-sasl',
         'php-mail',
         'php-mail-mime',
+        'php-net-smtp',
         'php-pear',
         'php5',
         'php5-cli',
