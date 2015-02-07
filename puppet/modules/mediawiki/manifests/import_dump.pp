@@ -1,6 +1,8 @@
 # == Define: mediawiki::import_dump
 #
-# Imports an xml dump into the wiki.
+# Imports an xml dump into the wiki. This is the recommended method for
+# importing "live" content from a wiki; for importing content that should live
+# in the puppet repository, see mediawiki::import_text.
 #
 # === Parameters
 # [*xml_dump*]

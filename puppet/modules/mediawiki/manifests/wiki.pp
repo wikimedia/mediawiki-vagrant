@@ -130,6 +130,11 @@ define mediawiki::wiki(
         source  => 'puppet:///modules/mediawiki/wiki/settings.d-empty',
     }
 
+    # used by import_page
+    file { "${::mediawiki::page_dir}/wiki/${db_name}":
+        ensure => directory,
+    }
+
     # Provision primary wiki before others
     Mediawiki::Wiki <| primary_wiki == true |> -> Mediawiki::Wiki <| primary_wiki == false |>
     # Provision wikis before adding extensions

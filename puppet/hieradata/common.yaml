@@ -131,6 +131,7 @@ mediawiki::dir: /vagrant/mediawiki
 mediawiki::cache_dir: /var/cache/mediawiki
 mediawiki::settings_dir: /vagrant/settings.d
 mediawiki::upload_dir: /srv/images
+mediawiki::page_dir: /srv/pages
 mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
 mediawiki::db_user: root
 mediawiki::db_pass: "%{hiera('mysql::root_password')}"

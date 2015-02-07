@@ -40,6 +40,10 @@
 #   The file system path of the folder where files will be uploaded
 #   (example: '/srv/mediawiki/images').
 #
+# [*page_dir*]
+#   The file system path of the folder where the content of vagrant-managed
+#   pages is stored (example: '/srv/pages').
+#
 # [*branch*]
 #   Version to check out
 #
@@ -57,6 +61,7 @@ class mediawiki(
     $cache_dir,
     $settings_dir,
     $upload_dir,
+    $page_dir,
     $branch     = undef,
     $server_url = undef,
 ) {
@@ -108,6 +113,11 @@ class mediawiki(
         purge   => true,
         force   => true,
         source  => 'puppet:///modules/mediawiki/mediawiki-settings.d-empty',
+    }
+
+    # needed by import_page
+    file { [$page_dir, "${page_dir}/wiki"]:
+        ensure => directory,
     }
 
     mediawiki::wiki { $wiki_name:
