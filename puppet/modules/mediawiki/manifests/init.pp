@@ -175,4 +175,8 @@ class mediawiki(
     env::profile_script { 'add mediawiki vendor bin to path':
         content => "export PATH=\$PATH:${dir}/vendor/bin",
     }
+
+    mediawiki::import_text { 'Main_Page':
+        source => 'puppet:///modules/mediawiki/main_page.wiki',
+    }
 }

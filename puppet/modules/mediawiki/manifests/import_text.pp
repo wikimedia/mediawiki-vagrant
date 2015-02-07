@@ -13,7 +13,8 @@
 # === Parameters
 # [*page_title*]
 #   Full title of the page where the text should be imported. Defaults to the
-#   resource title.
+#   resource title. Should start with 'VagrantRole' to have it included in the
+#   default index provided on Main_Page.
 #
 # [*source*]
 #   Fully qualified path to the file to import.

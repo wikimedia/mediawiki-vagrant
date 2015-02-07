@@ -1,0 +1,9 @@
+'''Welcome to MediaWiki-Vagrant!'''
+
+* [//www.mediawiki.org/wiki/MediaWiki-Vagrant MediaWiki-Vagrant help]
+* [//www.mediawiki.org/wiki/Help:Contents MediaWiki help]
+
+== Help for enabled roles ==
+:''(run <code>vagrant roles help</code> in the directory where you installed MediaWiki-Vagrant to get help about enabling roles)''
+
+{{Special:Prefixindex/VagrantRole}}
