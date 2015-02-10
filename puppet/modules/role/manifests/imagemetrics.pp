@@ -7,6 +7,7 @@ class role::imagemetrics {
     mediawiki::extension { 'ImageMetrics':
         settings => {
             wgImageMetricsSamplingFactor => 1,
+            wgImageMetricsCorsSamplingFactor => 1,
         },
     }
 }
