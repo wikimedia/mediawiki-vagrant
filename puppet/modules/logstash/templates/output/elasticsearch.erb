@@ -3,7 +3,6 @@ output {
     elasticsearch_http {
         flush_size         => <%= @flush_size %>
         host               => "<%= @host %>"
-        replication        => "async"
         idle_flush_time    => <%= @idle_flush_time %>
         index              => "<%= @index %>"
         port               => <%= @port %>
