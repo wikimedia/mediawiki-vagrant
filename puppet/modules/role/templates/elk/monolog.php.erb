@@ -7,7 +7,7 @@ $wgMWLoggerDefaultSpi = array(
 		'loggers' => array(
 			'@default' => array(
 				'processors' => array( 'wiki', 'psr', 'pid', 'uid', 'web' ),
-				'handlers'   => array( 'default', 'redis' ),
+				'handlers'   => array( 'default', 'syslog' ),
 			),
 			'wfDebug' => array(
 				'handlers'   => array( 'default' ),
@@ -43,16 +43,9 @@ $wgMWLoggerDefaultSpi = array(
 				'args' => array( '/vagrant/logs/monolog-'.date('Ymd').'.log' ),
 				'formatter' => 'line',
 			),
-			'redis' => array(
-				'class' => '\\Monolog\\Handler\\RedisHandler',
-				'args' => array(
-					function() {
-						$redis = new Redis();
-						$redis->connect( '127.0.0.1', 6379 );
-						return $redis;
-					},
-					'logstash'
-				),
+			'syslog' => array(
+				'class' => 'MWLoggerMonologSyslogHandler',
+				'args' => array( 'mediawiki', '127.0.0.1', 10514 ),
 				'formatter' => 'logstash',
 			),
 			'profiler' => array(

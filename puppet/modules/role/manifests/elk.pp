@@ -25,11 +25,6 @@ class role::elk (
         port => 10514,
     }
 
-    logstash::input::redis { 'redis':
-        host => '127.0.0.1',
-        key  => 'logstash',
-    }
-
     logstash::input::gelf { 'gelf':
         port => 12201,
     }
