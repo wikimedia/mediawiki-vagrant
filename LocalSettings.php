@@ -69,6 +69,7 @@ $wgSessionCacheType = 'redis';
 // Jobqueue
 $wgJobTypeConf['default'] = array(
 	'class'       => 'JobQueueRedis',
+	'daemonized'  => true,
 	'redisServer' => '127.0.0.1',
 	'redisConfig' => array( 'connectTimeout' => 2, 'compression' => 'gzip' ),
 );
