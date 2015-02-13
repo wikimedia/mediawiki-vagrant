@@ -106,7 +106,7 @@ module MediaWikiVagrant
     #
     def load(path_or_io)
       case path_or_io
-      when String
+      when String, Pathname
         if File.directory?(path_or_io)
           Dir.glob("#{path_or_io}/*.yaml").each { |f| load(f) }
         else
@@ -136,7 +136,7 @@ module MediaWikiVagrant
       yaml = YAML.dump(to_yaml_hash)
 
       case path_or_io
-      when String
+      when String, Pathname
         File.open(path_or_io, 'w') { |f| f.write(yaml) }
       else
         path_or_io.write(yaml)

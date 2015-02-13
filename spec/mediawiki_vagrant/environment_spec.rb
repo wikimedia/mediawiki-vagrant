@@ -26,6 +26,57 @@ module MediaWikiVagrant
       end
     end
 
+    describe '#configure_settings' do
+      subject { environment.configure_settings(&block) }
+
+      let(:block) { proc {} }
+      let(:settings_path) { Pathname.new('/example/.settings.yaml') }
+
+      it 'delegates to `Settings.configure` with the right path' do
+        expect(Settings).to receive(:configure).with(settings_path)
+        subject
+      end
+    end
+
+    describe '#load_settings', :fakefs do
+      subject { environment.load_settings(*additional_paths) }
+
+      let(:additional_paths) { [] }
+
+      let(:settings_path) { Pathname.new('/example/.settings.yaml') }
+      let(:settings) { double(Settings) }
+
+      before { expect(Settings).to receive(:new).and_return(settings) }
+
+      context 'when the settings file does not exist' do
+        it 'returns the settings' do
+          expect(subject).to be(settings)
+        end
+      end
+
+      context 'when the settings file exists' do
+        before { mock_file(settings_path) }
+
+        it 'loads it and returns the settings' do
+          expect(settings).to receive(:load).with(settings_path)
+          expect(subject).to be(settings)
+        end
+
+        context 'and additional paths are given' do
+          let(:additional_paths) { ['foo'] }
+          let(:additional_path) { Pathname.new('/example/foo') }
+
+          before { mock_file(additional_path) }
+
+          it 'loads them as well' do
+            expect(settings).to receive(:load).with(additional_path)
+            expect(settings).to receive(:load).with(settings_path)
+            expect(subject).to be(settings)
+          end
+        end
+      end
+    end
+
     describe '#hiera_delete', :fakefs do
       subject { environment.hiera_delete(key) }
 

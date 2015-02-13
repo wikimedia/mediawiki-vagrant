@@ -78,8 +78,8 @@ module MediaWikiVagrant
     #
     def configure_setting(name, value)
       configure do |settings|
-      settings.unset!(name)
-      settings[name] = parse_setting(settings.setting(name), value)
+        settings.unset!(name)
+        settings[name] = parse_setting(settings.setting(name), value)
       end
     end
 

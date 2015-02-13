@@ -10,7 +10,7 @@ module MediaWikiVagrant
     # Configures .settings.yaml with the given block.
     #
     def configure(&blk)
-      Settings.configure(@mwv.path(".settings.yaml"), &blk)
+      @mwv.configure_settings(&blk)
     end
 
     # Parses user input and returns a Ruby object. User input is expected

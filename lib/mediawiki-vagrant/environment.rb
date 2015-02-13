@@ -2,6 +2,8 @@ require 'fileutils'
 require 'pathname'
 require 'yaml'
 
+require 'mediawiki-vagrant/settings'
+
 module MediaWikiVagrant
   # Represents the current environment from which MediaWiki-Vagrant commands
   # are executed.
@@ -75,6 +77,35 @@ module MediaWikiVagrant
     def commit
       master = path('.git/refs/heads/master')
       master.read[0..8] if master.exist?
+    end
+
+    # Configures settings for this environment using the given block.
+    #
+    # @yield [settings]
+    # @yieldparam settings [Settings]
+    #
+    # @see Settings.configure
+    #
+    def configure_settings(&blk)
+      Settings.configure(settings_path, &blk)
+    end
+
+    # Loads and returns settings for this environment. Additional files and
+    # directories of settings can be loaded first by providing
+    # `additional_paths`.
+    #
+    # @param *additional_paths [Array<String>]
+    #
+    # @return [Settings]
+    #
+    def load_settings(*additional_paths)
+      settings = Settings.new
+
+      (additional_paths.map { |p| path(p) } << settings_path).each do |path|
+        settings.load(path) if path.exist?
+      end
+
+      settings
     end
 
     # Returns an absolute path from the given relative path.
@@ -222,6 +253,10 @@ module MediaWikiVagrant
 
     def hiera_save(data)
       hiera_data.open('w') { |f| f.write(YAML.dump(data)) }
+    end
+
+    def settings_path
+      path('.settings.yaml')
     end
 
     def stale_head?

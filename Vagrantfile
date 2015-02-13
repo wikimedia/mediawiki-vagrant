@@ -45,16 +45,10 @@ else
     raise "Your mediawiki-vagrant plugin isn't up-to-date. Please re-run `#{setup}`." unless Gem::Requirement.new(latest.approximate_recommendation).satisfied_by?(installed)
 end
 
-mwv = MediaWikiVagrant::Environment.new($DIR)
-
 require 'mediawiki-vagrant/settings/definitions'
 
-settings = MediaWikiVagrant::Settings.new
-
-['vagrant.d', '.settings.yaml'].each do |path|
-    path = File.join($DIR, path)
-    settings.load(path) if File.exists?(path)
-end
+mwv = MediaWikiVagrant::Environment.new($DIR)
+settings = mwv.load_settings('vagrant.d')
 
 Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
