@@ -1,0 +1,79 @@
+Feature: Command line configuration via `vagrant config`
+
+  Simple VM configurations should be manageable from the command line so that
+  developers can easily fine tune settings that are appropriate to their
+  systems and workflows.
+
+  Scenario: Running `vagrant list-commands` includes `config`
+    When I run vagrant with `list-commands`
+    Then the tabular output should contain:
+      | config | configures mediawiki-vagrant settings |
+
+  Scenario: Running `vagrant config --help` prints usage
+    When I run vagrant with `config --help`
+    Then the output should contain:
+      """
+      Usage: vagrant config [options] [name] [value]
+      """
+
+  Scenario: Running `vagrant config --list` lists available settings
+    When I run vagrant with `config --list`
+    Then the first column of output should contain:
+      | git_user      |
+      | vagrant_ram   |
+      | vagrant_cores |
+      | static_ip     |
+      | http_port     |
+      | nfs_shares    |
+      | forward_agent |
+      | forward_x11   |
+
+  Scenario: Running `vagrant config name value` configures a setting
+    When I run vagrant with `config foo bar`
+    Then the "foo" setting should be "bar"
+
+  Scenario: Running `vagrant config --get name` outputs a setting
+    Given the "foo" setting is "bar"
+    When I run vagrant with `config --get foo`
+    Then the output should contain "bar"
+
+  Scenario: Running `vagrant config --unset name` removes a setting
+    Given the "foo" setting is "bar"
+    When I run vagrant with `config --unset foo`
+    Then the "foo" setting should not be configured
+
+  Scenario: Running `vagrant config --all` prompts for each available setting
+    When I run vagrant with `config --all` interactively
+    And I enter the following at each prompt:
+      | git_user      | foo     |
+      | vagrant_ram   | 8096    |
+      | vagrant_cores | 8       |
+      | static_ip     | 1.1.1.1 |
+      | http_port     | 8888    |
+      | nfs_shares    | no      |
+      | forward_agent | yes     |
+      | forward_x11   | no      |
+    Then the command should have completed successfully
+    And the current settings should be:
+      | git_user      | foo     |
+      | vagrant_ram   | 8096    |
+      | vagrant_cores | 8       |
+      | static_ip     | 1.1.1.1 |
+      | http_port     | 8888    |
+      | nfs_shares    | no      |
+      | forward_agent | yes     |
+      | forward_x11   | no      |
+
+  Scenario: Running `vagrant config --required` prompts for only required settings
+    Given the "git_user" setting is not configured
+    When I run vagrant with `config --required` interactively
+    And I enter the following at each prompt:
+      | git_user | foo |
+    Then the command should have completed successfully
+    And the current settings should be:
+      | git_user | foo |
+
+  Scenario: Running `vagrant config --required` skips configured settings
+    Given the "git_user" setting is "foo"
+    When I run vagrant with `config --required` interactively
+    Then the command should have completed successfully

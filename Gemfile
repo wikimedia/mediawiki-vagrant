@@ -6,6 +6,7 @@ group :development do
 end
 
 group :development, :test do
+  gem 'fakefs', '~> 0.6.5'
   gem 'pry-byebug'
 end
 
