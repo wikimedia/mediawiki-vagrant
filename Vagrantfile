@@ -76,6 +76,20 @@ Vagrant.configure('2') do |config|
         override.nfs.functional = false
     end
 
+    # Microsoft Hyper-V provider. Enable with `--provider=hyperv`
+    # Not quite in 'just works' shape yet.
+    #
+    # You must run vagrant from an administrator shell to interact
+    # with the Hyper-V virtual machines...
+    #
+    # Note you must configure networking manually in Hyper-V Manager!
+    # NAT and port redirection are not automatically set up for you.
+    #
+    config.vm.provider :hyperv do |hyperv, override|
+        # Our default box doesn't have Hyper-V support...
+        override.vm.box = 'cirex/ubuntu-14.04'
+    end
+
     config.vm.network :private_network, ip: settings[:static_ip]
 
     config.vm.network :forwarded_port,
