@@ -22,7 +22,7 @@ hhvm::common_settings:
   date:
     timezone: UTC
   include_path: .:/usr/share/php:/usr/share/pear
-  pid: /var/run/hhvm/hhvm.pid
+  pid: "%{hiera('hhvm::hhbc_dir')}/hhvm.pid"
   hhvm:
     server:
       type: fastcgi
@@ -60,7 +60,7 @@ hhvm::common_settings:
       translate_source: true
     repo:
       central:
-        path: /var/run/hhvm/hhvm.hhbc
+        path: "%{hiera('hhvm::hhbc_dir')}/hhvm.hhbc"
       local:
         mode: --
     enable_obj_destruct_call: true
@@ -89,13 +89,14 @@ hhvm::fcgi_settings:
     jit: true
     repo:
       central:
-        path: /var/run/hhvm/fcgi.hhbc.sq3
+        path: "%{hiera('hhvm::hhbc_dir')}/fcgi.hhbc.sq3"
     xdebug-not-done:
       enable: 1
       remote_connect_back: 1
       remote_enable: 1
 
 hhvm::logroot: /vagrant/logs
+hhvm::hhbc_dir: /var/run/hhvm
 
 kibana::deploy_dir: /srv/kibana
 kibana::default_route: /dashboard/elasticsearch/default

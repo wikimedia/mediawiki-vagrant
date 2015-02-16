@@ -36,10 +36,14 @@
 #   made here to store access and error logs and core dumps . (eg /var/log or
 #   /vagrant/logs)
 #
+# [*hhbc_dir*]
+#   Parent directory to store shared hhbc bytecode cache files in.
+#
 class hhvm (
   $common_settings,
   $fcgi_settings,
   $logroot,
+  $hhbc_dir,
 ) {
     include ::apache
     include ::apache::mod::proxy_fcgi
@@ -103,6 +107,27 @@ class hhvm (
           Env::Alternative['hhvm_as_default_php'],
         ],
         notify  => Service['hhvm'],
+    }
+
+    file { $hhbc_dir:
+        ensure => directory,
+        owner  => 'www-data',
+        group  => 'www-data',
+        mode   => '0755',
+    }
+
+    file { $common_settings['hhvm']['repo']['central']['path']:
+        ensure => file,
+        owner  => 'www-data',
+        group  => 'www-data',
+        mode   => '0666',
+    }
+
+    file { $fcgi_settings['hhvm']['repo']['central']['path']:
+        ensure => file,
+        owner  => 'www-data',
+        group  => 'www-data',
+        mode   => '0644',
     }
 
     service { 'hhvm':
