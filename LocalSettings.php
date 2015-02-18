@@ -52,6 +52,7 @@ $wgEnableUploads = true;
 
 // User settings and permissions
 $wgAllowUserJs = true;
+$wgAllowUserCss = true;
 
 // Eligibility for autoconfirmed group
 $wgAutoConfirmAge = 3600 * 24; // one day
