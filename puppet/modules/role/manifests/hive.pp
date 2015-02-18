@@ -11,7 +11,7 @@ class role::hive {
         metastore_host   => $role::hadoop::namenode_hosts[0],
         db_root_password => $::mysql::root_password,
         # $hive_version and $cdh_version are custom facts added by the cdh module.
-        auxpath          => 'file:///usr/lib/hive-hcatalog/share/hcatalog/hive-hcatalog-core-0.12.0-cdh5.0.2.jar',
+        auxpath          => 'file:///usr/lib/hive-hcatalog/share/hcatalog/hive-hcatalog-core.jar'
     }
 
     # Setup Hive server and Metastore

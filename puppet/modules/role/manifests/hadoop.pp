@@ -76,4 +76,29 @@ class role::hadoop {
         subscribe   => [Service['hadoop-hdfs-namenode'], Service['hadoop-hdfs-datanode']],
         refreshonly => true,
     }
+
+    # This packages conflicts with the hadoop-fuse-dfs
+    # script in that two libjvm.so files get added
+    # to LD_LIBRARY_PATH.  We dont't need this
+    # package anyway, so ensure it is absent.
+    package { 'icedtea-7-jre-jamvm':
+        ensure => 'absent'
+    }
+    # Mount HDFS via Fuse on Analytics client nodes.
+    # This will mount HDFS at /mnt/hdfs read only.
+    class { 'cdh::hadoop::mount':
+        # Make sure this package is removed before
+        # cdh::hadoop::mount evaluates.
+        require => [
+            Package['icedtea-7-jre-jamvm'],
+            Exec['wait_for_hdfs'],
+        ]
+    }
+
+    # Create HDFS /user/vagrant hdfs homedir.
+    cdh::hadoop::directory { '/user/vagrant':
+        owner   => 'vagrant',
+        group   => 'vagrant',
+        require => Exec['wait_for_hdfs'],
+    }
 }
