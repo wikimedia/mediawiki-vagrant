@@ -41,4 +41,5 @@ class role::analytics {
     include ::cdh::mahout
     include ::cdh::pig
     include ::cdh::sqoop
+    include ::cdh::spark
 }
