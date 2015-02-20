@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 
-require_relative 'mediawiki-vagrant/environment'
+# Add mediawiki-vagrant ruby libs to default load path
+libdir = '/vagrant/lib'
+$LOAD_PATH.unshift(libdir) unless $LOAD_PATH.include?(libdir)
+
+require 'mediawiki-vagrant/environment'
 @mwv = MediaWikiVagrant::Environment.new('/vagrant')
 
 COMMIT_CHANGES = "Ok. Run 'labs-vagrant provision' to apply your changes."
