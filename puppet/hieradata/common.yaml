@@ -114,6 +114,12 @@ mathoid::conf_path: /vagrant/mathoid/mathoid.config.json
 mathoid::log_dir: /vagrant/logs
 mathoid::port: 10042
 
+graphoid::base_path: /vagrant/graphoid
+graphoid::node_path: /vagrant/graphoid/node_modules
+graphoid::conf_path: /vagrant/graphoid/graphoid.config.json
+graphoid::log_dir: /vagrant/logs
+graphoid::port: 11042
+
 php::sessionclean::ensure: present
 
 iegreview::vhost_name: iegreview.local.wmftest.net
