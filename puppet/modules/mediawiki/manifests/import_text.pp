@@ -61,6 +61,9 @@ define mediawiki::import_text(
         command     => "mwscript edit.php --wiki=${db_name} --summary='Vagrant import' --no-rc '${page_title}' < ${path}",
         refreshonly => true,
         user        => 'www-data',
-        require     => Mediawiki::Wiki[$wiki],
+        require     => [
+            Mediawiki::Wiki[$wiki],
+            Exec['copy_LocalSettings'],
+        ],
     }
 }
