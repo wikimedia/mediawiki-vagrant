@@ -78,6 +78,8 @@ class sentry (
     require_package('libmysqlclient-dev')
     # needed for building the python package lxml
     require_package('libxml2-dev', 'libxslt1-dev')
+    # needed for building the python package cffi
+    require_package('libffi-dev')
 
     $sentry_cli = "${deploy_dir}/bin/sentry --config='${cfg_file}'"
     $sentry_create_project_script = "${deploy_dir}/bin/sentry_create_project.py"
