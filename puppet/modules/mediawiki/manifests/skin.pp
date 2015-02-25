@@ -36,6 +36,10 @@
 #   Settings may be specified as a hash, array, or string. See examples
 #   below. Empty by default.
 #
+# [*composer*]
+#   Whether this skin has dependencies that need to be installed via Composer.
+#   Default: false.
+#
 # === Examples
 #
 # The following example configures the Vector skin and
@@ -54,13 +58,15 @@ define mediawiki::skin(
     $default        = false,
     $branch         = undef,
     $settings       = {},
+    $composer       = false,
 ) {
     include ::mediawiki
 
     $skin_dir = "${mediawiki::dir}/skins/${skin}"
+    $skin_repo = "mediawiki/skins/${skin}"
 
-    if ! defined(Git::Clone["mediawiki/skins/${skin}"]) {
-        git::clone { "mediawiki/skins/${skin}":
+    if ! defined(Git::Clone[$skin_repo]) {
+        git::clone { $skin_repo:
             directory => $skin_dir,
             branch    => $branch,
             require   => Git::Clone['mediawiki/core'],
@@ -72,6 +78,14 @@ define mediawiki::skin(
         wiki         => $wiki,
         header       => template('mediawiki/skin.php.erb'),
         values       => $settings,
-        require      => Git::Clone["mediawiki/skins/${skin}"],
+        require      => Git::Clone[$skin_repo],
+    }
+
+    if $composer {
+        php::composer::install{ $skin_dir:
+            require => Git::Clone[$skin_repo],
+        }
+
+        Php::Composer::Install[$skin_dir] ~> Mediawiki::Settings[$title]
     }
 }
