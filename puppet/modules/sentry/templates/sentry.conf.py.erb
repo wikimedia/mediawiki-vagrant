@@ -45,7 +45,7 @@ SENTRY_WEB_OPTIONS = {
 #################
 
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
-EMAIL_FILE_PATH = '<%= @mail_log_file %>'
+EMAIL_FILE_PATH = '<%= @mail_log_dir %>'
 SERVER_EMAIL = 'sentry@<%= @vhost_name %>'
 
 ###########

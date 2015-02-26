@@ -7,6 +7,6 @@ description "Sentry error log tracker"
 start on startup
 
 exec /sbin/start-stop-daemon --quiet --start \
-  --chuid '<%= @user %>:<%= @group %>' \
+  --chuid 'www-data:www-data' \
   --make-pidfile --pidfile /var/run/sentry.pid \
   --startas '<%= @deploy_dir %>/bin/sentry' -- --config='<%= @cfg_file %>' start
