@@ -42,7 +42,9 @@ if gemspec.nil?
 else
     installed = gemspec.version
     latest = Gem::Version.new(MediaWikiVagrant::VERSION)
-    raise "Your mediawiki-vagrant plugin isn't up-to-date. Please re-run `#{setup}`." unless Gem::Requirement.new(latest.approximate_recommendation).satisfied_by?(installed)
+    requirement = Gem::Requirement.new("~> #{latest.segments.first(2).join('.')}")
+
+    raise "Your mediawiki-vagrant plugin isn't up-to-date. Please re-run `#{setup}`." unless requirement.satisfied_by?(installed)
 end
 
 require 'mediawiki-vagrant/settings/definitions'
