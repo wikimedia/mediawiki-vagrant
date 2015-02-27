@@ -141,6 +141,16 @@ class sentry (
         mode    => '0444',
     }
 
+    # temporary bugfix for T90832
+    file { '/var/www/.sentry':
+        ensure => directory,
+        owner  => 'www-data',
+    }
+    file { '/var/www/.sentry/sentry.conf.py':
+        ensure => link,
+        target => '/etc/sentry.conf.py',
+    }
+
     service { 'sentry':
         ensure     => running,
         provider   => 'upstart',
