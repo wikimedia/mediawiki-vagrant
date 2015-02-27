@@ -187,15 +187,13 @@ scholarships::deploy_dir: /vagrant/scholarships
 scholarships::cache_dir: /var/cache/scholarships
 scholarships::log_file: /vagrant/logs/scholarships.log
 
-sentry::user: sentry
-sentry::group: sentry
 sentry::db_name: sentry
 sentry::db_user: sentry
 sentry::db_pass: vagrant
 sentry::vhost_name: sentry.local.wmftest.net
 sentry::deploy_dir: /srv/sentry
 sentry::cfg_file: /etc/sentry.conf.py
-sentry::mail_log_file: /vagrant/logs/sentry.mail.log
+sentry::mail_log_dir: /vagrant/logs/sentry-mail
 sentry::secret_key: s0F2ybS8jPLvzadqVudo7VykVWT1JO9FoErhc6gkJj6/KNWeFUbUiQ==
 sentry::dsn_file: /srv/sentry/sentry_dsn.txt
 sentry::admin_user: admin
