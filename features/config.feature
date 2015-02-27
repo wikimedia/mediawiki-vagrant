@@ -1,4 +1,4 @@
-Feature: Command line configuration via `vagrant config`
+Feature: Command line configuration
 
   Simple VM configurations should be manageable from the command line so that
   developers can easily fine tune settings that are appropriate to their

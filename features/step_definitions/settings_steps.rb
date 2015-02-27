@@ -16,6 +16,8 @@ Then(/^the "([^"]+)" setting should be "([^"]+)"$/) do |name, value|
   settings = @mwv.load_settings
 
   setting = settings.setting(name)
+  expect(setting).not_to be(nil), "setting `#{name}' is not set"
+
   existing_value = setting.value
   setting.value = value
 
