@@ -17,4 +17,10 @@ class role::sentry (
             "\$wgSentryDsn = file_get_contents('${dsn}');",
         ],
     }
+
+    mediawiki::extension { 'Buggy': }
+
+    mediawiki::import_text{ 'VagrantRoleSentry':
+        source => 'puppet:///modules/role/VagrantRoleSentry.wiki',
+    }
 }
