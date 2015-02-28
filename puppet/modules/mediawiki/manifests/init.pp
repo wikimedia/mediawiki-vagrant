@@ -179,4 +179,8 @@ class mediawiki(
     mediawiki::import_text { 'Main_Page':
         source => 'puppet:///modules/mediawiki/main_page.wiki',
     }
+
+    mediawiki::import_text { 'Template:Main_Page':
+        source => 'puppet:///modules/mediawiki/main_page_template.wiki',
+    }
 }

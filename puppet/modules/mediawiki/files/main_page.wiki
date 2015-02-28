@@ -1,9 +1,10 @@
-'''Welcome to MediaWiki-Vagrant!'''
+<!--
+    If you are reading the source wikitext of the main page:
+        This page is created by Vagrant, but it is safe to do changes by editing it.
+        Automatic updates will happen via [[Template:Main Page]].
 
-* [//www.mediawiki.org/wiki/MediaWiki-Vagrant MediaWiki-Vagrant help]
-* [//www.mediawiki.org/wiki/Help:Contents MediaWiki help]
-
-== Help for enabled roles ==
-:''(run <code>vagrant roles help</code> in the directory where you installed MediaWiki-Vagrant to get help about enabling roles)''
-
-{{Special:Prefixindex/VagrantRole}}
+    If you are reading puppet/modules/mediawiki/files/main_page.wiki:
+        DO NOT MODIFY THIS FILE! Updates would cause all local changes to be overwritten.
+        If you want to add content to the main page, use main_page_template.wiki instead.
+-->
+{{Main Page}}
