@@ -11,7 +11,7 @@ module MediaWikiVagrant
     setting :vagrant_ram,
       description: "Amount of RAM (in MB) allocated to the guest VM",
       help: "Specify 'auto' to automatically allocate 1/4 of your system's memory",
-      default: 1024,
+      default: 1536,
       coercion: ->(setting, new) do
         new = (new == "auto") ? (Environment.total_memory / 4) : new.to_i
         [setting.default, new].max

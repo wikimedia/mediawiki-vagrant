@@ -15,22 +15,22 @@ module MediaWikiVagrant
       describe 'vagrant_ram' do
         subject { definitions[:vagrant_ram] }
 
-        it { is_expected.to have_attributes(default: 1024) }
+        it { is_expected.to have_attributes(default: 1536) }
 
         context 'when a new value is set' do
           context 'higher than the current value' do
-            before { subject.value = 1025 }
+            before { subject.value = 2048 }
 
             it 'uses the given value' do
-              expect(subject.value).to eq(1025)
+              expect(subject.value).to eq(2048)
             end
           end
 
           context 'lower than the current value' do
-            before { subject.value = 1023 }
+            before { subject.value = 1024 }
 
             it 'retains its current value' do
-              expect(subject.value).to eq(1024)
+              expect(subject.value).to eq(1536)
             end
           end
         end
