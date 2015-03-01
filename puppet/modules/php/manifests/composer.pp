@@ -48,4 +48,8 @@ class php::composer (
     env::var { 'COMPOSER_CACHE_DIR':
         value => $cache_dir,
     }
+
+    env::profile_script { 'add composer global bin to path':
+        content => 'export PATH=$PATH:~/.composer/vendor/bin',
+    }
 }
