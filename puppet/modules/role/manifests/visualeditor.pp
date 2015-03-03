@@ -7,6 +7,7 @@ class role::visualeditor {
     include ::role::parsoid
     include ::role::scribunto
     include ::role::templatedata
+    include ::role::uls
 
     mediawiki::extension { 'VisualEditor':
         settings      => template('role/ve-config.php.erb'),
