@@ -69,13 +69,7 @@ Vagrant.configure('2') do |config|
     # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
     config.vm.provider :vmware_fusion do |vw, override|
         override.vm.box = 'puppetlabs/ubuntu-14.04-64-puppet'
-    end
 
-    # Docker provider. Enable with `--provider=docker`
-    config.vm.provider :docker do |docker, override|
-        # Disable nfs shares for
-        # https://github.com/mitchellh/vagrant/issues/4011
-        override.nfs.functional = false
     end
 
     # Microsoft Hyper-V provider. Enable with `--provider=hyperv`
@@ -155,13 +149,6 @@ Vagrant.configure('2') do |config|
         #vw.gui = true
     end
 
-    config.vm.provider :docker do |docker|
-        docker.build_dir = './support/docker'
-        docker.create_args = ['-i', '-t']
-        docker.has_ssh = true
-        docker.remains_running = true
-        docker.privileged = true
-    end
 
     config.vm.provision :lsb_check do |lsb|
         lsb.version = '14.04'
