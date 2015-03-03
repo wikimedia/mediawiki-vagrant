@@ -8,13 +8,13 @@
 class role::mediawiki(
     $hostname,
 ){
-    include ::apt
+    require ::apt
     include ::arcanist
-    include ::env
-    include ::git
-    include ::misc
-    include ::mysql
-    include ::redis
+    require ::env
+    require ::git
+    require ::misc
+    require ::mysql
+    require ::redis
     include ::mediawiki
 
     require_package('php5-tidy')
