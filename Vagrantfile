@@ -64,12 +64,15 @@ Vagrant.configure('2') do |config|
         override.vm.box = 'trusty-cloud'
         override.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
         override.vm.box_download_insecure = true
+
+        override.vm.network :private_network, ip: settings[:static_ip]
     end
 
     # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
     config.vm.provider :vmware_fusion do |vw, override|
         override.vm.box = 'puppetlabs/ubuntu-14.04-64-puppet'
 
+        override.vm.network :private_network, ip: settings[:static_ip]
     end
 
     # Microsoft Hyper-V provider. Enable with `--provider=hyperv`
@@ -84,9 +87,15 @@ Vagrant.configure('2') do |config|
     config.vm.provider :hyperv do |hyperv, override|
         # Our default box doesn't have Hyper-V support...
         override.vm.box = 'cirex/ubuntu-14.04'
+
+        override.vm.network :private_network, ip: settings[:static_ip]
     end
 
-    config.vm.network :private_network, ip: settings[:static_ip]
+    # LXC provider. Enable wtih `--provider=lxc`
+    # Requires vagrant-lxc plugin and Vagrant 1.7+
+    config.vm.provider :lxc do |lxc, override|
+        override.vm.box = 'Wikimedia/trusty64-puppet-lxc'
+    end
 
     config.vm.network :forwarded_port,
         guest: 80, host: settings[:http_port], id: 'http'
@@ -149,6 +158,10 @@ Vagrant.configure('2') do |config|
         #vw.gui = true
     end
 
+    config.vm.provider :lxc do |lxc, override|
+        lxc.customize 'cgroup.memory.limit_in_bytes',
+            "#{settings[:vagrant_ram]}M"
+    end
 
     config.vm.provision :lsb_check do |lsb|
         lsb.version = '14.04'
