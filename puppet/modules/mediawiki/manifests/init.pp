@@ -70,7 +70,7 @@ class mediawiki(
     }
 
     require ::php
-    include ::hhvm
+    require ::hhvm
 
     include ::mediawiki::apache
     include ::mediawiki::jobrunner
