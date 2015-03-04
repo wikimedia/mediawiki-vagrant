@@ -84,17 +84,6 @@ $wgJobQueueAggregator = array(
 $wgLegacyJavaScriptGlobals = false;
 $wgEnableJavaScriptTest = true;
 
-$wgProfilerParams = array(
-	'forceprofile' => 'ProfilerSimpleText',
-	'forcetrace' => 'ProfilerSimpleTrace'
-);
-
-foreach( $wgProfilerParams as $param => $cls ) {
-	if ( array_key_exists( $param, $_REQUEST ) ) {
-		$wgProfiler['class'] = $cls;
-	}
-}
-
 require_once __DIR__ . '/settings.d/wikis/CommonSettings.php';
 
 // XXX: Is this a bug in core? (ori-l, 27-Aug-2013)
