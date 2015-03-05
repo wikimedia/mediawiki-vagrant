@@ -22,6 +22,6 @@ Gem::Specification.new do |s|
 
     s.require_paths = ['lib']
 
-    s.add_development_dependency 'aruba', '~> 0.6', '>= 0.6.2'
+    s.add_development_dependency 'cucumber', '~> 2.0.0.rc4'
     s.add_development_dependency 'rspec', '~> 3.1', '>= 3.1.0'
 end

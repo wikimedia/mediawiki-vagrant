@@ -1,31 +1,29 @@
-require 'mediawiki-vagrant/environment'
+When(/^I run `vagrant ([^`]+)`( interactively)?$/) do |arguments, interactively|
+  allow($stdin).to receive(:tty?).and_return(!interactively.nil?)
+  allow($stdout).to receive(:tty?).and_return(!interactively.nil?)
 
-When(/^I enter the following at each prompt:$/) do |inputs|
-  inputs = inputs.rows_hash
-  prompt_pattern = /(#{inputs.keys.join('|')})/
-
-  inputs.values.each do |input|
-    matches = expect_pty_output(prompt_pattern)
-    type_on_pty(inputs[matches[1]])
+  @thread = Thread.new do
+    @exit_status = @vagrant.cli(arguments.split)
   end
 end
 
-When(/^I run vagrant with `([^`]+)`( interactively)?$/) do |arguments, interactively|
-  cmd = "#{@bundle} exec vagrant #{arguments}"
-
-  if interactively.nil?
-    run_simple(cmd, false)
-  else
-    run_with_pty(cmd)
+When(/^I enter the following at each prompt:$/) do |inputs|
+  inputs.raw.each do |(prompt, input)|
+    enter(input)
   end
 end
 
 Then(/^the command should have completed successfully$/) do
-  if pty_process?
-    expect(status_of_pty_process.exitstatus).to eq(0)
-  else
-    assert_success(true)
-  end
+  @thread.join
+  expect(@exit_status).to be(0)
+end
+
+Then(/^the output should contain "(.*)"$/) do |output|
+  expect(stdout).to include(output)
+end
+
+Then(/^the output should contain:$/) do |output|
+  expect(stdout).to include(output)
 end
 
 Then(/^the (\w+) column of output should contain "([^"]+)"$/) do |col, output|
@@ -44,4 +42,8 @@ Then(/^the tabular output should contain:$/) do |table|
   output = output_table(rows.first.length)
 
   rows.each { |row| expect(output).to include(row) }
+end
+
+Then(/^the output should be:$/) do |output|
+  expect(stdout.chomp).to eq(output)
 end

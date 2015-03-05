@@ -40,19 +40,15 @@ module MediaWikiVagrant
           end
         end
 
-        begin
-          optparse.parse!
-        rescue OptionParser::ParseError => e
-          @env.ui.error e
-          @env.ui.info optparse
-          exit
-        end
+        return unless parse_options(optparse)
 
         if opts[:enabled]
           show_enabled(opts)
         else
           show_all(opts)
         end
+
+        0
       end
 
       def show_enabled(opts)

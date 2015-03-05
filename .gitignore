@@ -5,7 +5,6 @@
 /.settings.yaml
 /*.gem
 /*.sublime-workspace
-/Gemfile.lock
 /no-update
 /Vagrantfile-extra.rb
 /Roles.yaml
@@ -32,3 +31,4 @@
 /profiles
 /phab
 /node_modules
+/tmp

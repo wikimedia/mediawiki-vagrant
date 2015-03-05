@@ -1,7 +1,6 @@
-require 'aruba/cucumber'
+require 'rspec/mocks'
 
-require_relative 'interactive_helper'
 require_relative 'output_helper'
 
-World(MediaWikiVagrant::InteractiveHelper)
+World(RSpec::Mocks::ExampleMethods)
 World(MediaWikiVagrant::OutputHelper)
