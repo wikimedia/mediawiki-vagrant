@@ -8,6 +8,39 @@ module MediaWikiVagrant
     let(:name) { :foo }
     let(:value) { nil }
 
+    describe '#auto!' do
+      subject { setting.auto! }
+
+      context 'where `auto=` is set' do
+        before { setting.auto = -> { :bar } }
+
+        context 'and no value is set' do
+          it 'sets the value using the auto result' do
+            subject
+            expect(setting.value).to eq(:bar)
+          end
+        end
+
+        context 'but a value is set' do
+          let(:value) { :baz }
+
+          it 'sets the value using the auto result' do
+            subject
+            expect(setting.value).to eq(:baz)
+          end
+        end
+      end
+
+      context 'where `auto=` is not set' do
+        context 'and no value is set' do
+          it 'the value remains unset' do
+            subject
+            expect(setting).not_to be_set
+          end
+        end
+      end
+    end
+
     describe '#set?' do
       subject { setting.set? }
 
@@ -80,6 +113,28 @@ module MediaWikiVagrant
         it 'uses the result of the coercion for the new value' do
           subject
           expect(setting.value).to eq(20)
+        end
+      end
+
+      context 'given a value of "auto"' do
+        let(:new_value) { 'auto' }
+
+        context 'where an auto configuration is defined' do
+          let(:auto) { -> { 15 } }
+
+          before { setting.auto = auto }
+
+          it 'calls the auto configuration' do
+            subject
+            expect(setting.value).to eq(15)
+          end
+        end
+
+        context 'where an auto configuration is not defined' do
+          it 'sets the value as literally "auto"' do
+            subject
+            expect(setting.value).to eq('auto')
+          end
         end
       end
     end

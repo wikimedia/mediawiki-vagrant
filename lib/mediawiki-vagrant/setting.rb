@@ -6,6 +6,7 @@ module MediaWikiVagrant
   # @attr description [String] Brief description of the setting
   # @attr help [String] Additional help text
   # @attr default [Object] Default value
+  # @attr auto [Proc] Used to automatically configure the setting
   # @attr coercion [Proc] Used to process a given setting value
   # @attr internal [true, false] Whether the setting is only used internally
   # @attr allows_empty [true, false] Whether to allow empty string values
@@ -15,7 +16,7 @@ module MediaWikiVagrant
   #
   class Setting
     attr_reader :name
-    attr_accessor :description, :help, :default, :coercion, :internal, :allows_empty
+    attr_accessor :description, :help, :default, :auto, :coercion, :internal, :allows_empty
 
     def initialize(name, value = nil)
       @name = name
@@ -26,6 +27,10 @@ module MediaWikiVagrant
     end
 
     alias allows_empty? allows_empty
+
+    def auto!
+      self.value = @auto.call unless @auto.nil? || set?
+    end
 
     alias internal? internal
 
@@ -46,6 +51,7 @@ module MediaWikiVagrant
     end
 
     def value=(other)
+      other = @auto.call if @auto && other == 'auto'
       @value = @coercion.call(self, other)
     end
   end
