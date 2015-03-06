@@ -66,6 +66,13 @@ class browsertests(
         value => $default_browser,
     }
 
+    # support mediawiki_selenium >= 1.0
+    env::var { 'MEDIAWIKI_ENVIRONMENT':
+        value => 'mw-vagrant-guest',
+    }
+
+    # remain backwards compatible with mediawiki_selenium < 1.0
+    # TODO remove these settings once all repos are upgraded
     env::var { 'MEDIAWIKI_URL':
         value => $mediawiki_url,
     }
