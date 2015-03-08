@@ -1,0 +1,19 @@
+
+if( !isset( $wgVirtualRestConfig ) ) {
+	$wgVirtualRestConfig = array(
+		'modules' => array(),
+		'global' => array(
+			'timeout' => 360,
+			'forwardCookies' => false,
+			'HTTPProxy' => null
+		)
+	);
+}
+
+$wgVirtualRestConfig['modules']['restbase'] = array(
+	'url' => 'http://localhost:<%= scope.lookupvar('::restbase::port') %>',
+	'domain' => '<%= scope.lookupvar('::restbase::domain') %>',
+	'forwardCookies' => true,
+	'parsoidCompat' => true
+);
+

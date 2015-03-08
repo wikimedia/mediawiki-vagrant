@@ -1,0 +1,4 @@
+# NOTE: This file is managed by Puppet
+
+deb http://debian.datastax.com/community stable main
+

@@ -11,6 +11,10 @@ mwv::vendor_dir: /srv
 apache::docroot: /var/www
 arcanist::deploy_dir: "%{hiera('mwv::services_dir')}"
 
+cassandra::max_heap: "64M"
+cassandra::new_size: "10M"
+cassandra::logdir: /vagrant/logs/cassandra
+
 cdh::hue::secret_key: vagrant
 cdh::hue::hive_server_host: "%{::fqdn}"
 
@@ -186,6 +190,12 @@ puppet::agent::enable: false
 redis::dir: "%{hiera('mwv::vendor_dir')}/redis"
 redis::persist: true
 redis::max_memory: 256M
+
+restbase::dir: "%{hiera('mwv::services_dir')}/restbase"
+restbase::port: 7231
+restbase::domain: localhost
+restbase::log_file: /vagrant/logs/restbase.log
+restbase::log_level: debug
 
 role::commons::upload_dir: "%{hiera('mediawiki::upload_root')}/commonsimages"
 
