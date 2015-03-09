@@ -66,4 +66,7 @@ define mediawiki::import_text(
             Exec['copy_LocalSettings'],
         ],
     }
+
+    # Add extensions before importing text (bug T92036)
+    MediaWiki::Extension <| |> -> Mediawiki::Import_text <| |>
 }
