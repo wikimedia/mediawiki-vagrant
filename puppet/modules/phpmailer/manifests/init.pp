@@ -9,7 +9,7 @@
 #   Root directory for the package
 #
 class phpmailer(
-    $dir = '/srv/phpmailer',
+    $dir,
 ) {
     git::clone { 'wikimedia/fundraising/phpmailer':
         directory => $dir,

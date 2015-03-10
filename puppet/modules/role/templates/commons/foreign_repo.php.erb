@@ -3,7 +3,7 @@ if ( $wgDBname !== 'commonswiki' ) {
 	$wgForeignFileRepos[] = array(
 		'class'            => 'ForeignDBViaLBRepo',
 		'name'             => 'shared',
-		'directory'        => '/srv/commonsimages',
+		'directory'        => '<%= @upload_dir %>',
 		'url'              => '//commons<%= scope['::mediawiki::multiwiki::base_domain'] %><%= scope['::port_fragment'] %>/commonsimages',
 		'hashLevels'       => 2,
 		'thumbScriptUrl'   => false,

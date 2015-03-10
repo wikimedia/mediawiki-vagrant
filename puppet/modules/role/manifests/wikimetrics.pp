@@ -15,14 +15,14 @@
 #
 #    git submodule update --init
 #
-class role::wikimetrics {
+class role::wikimetrics(
+    $dir,
+) {
     require ::role::mediawiki
     require ::role::centralauth
     require ::mysql::packages
 
     require_package('python-nose')
-
-    $wikimetrics_path = '/vagrant/wikimetrics'
 
     # Should Wikimetrics run under Apache or using the development server?
     # Legal values are 'daemon' and 'apache'.
@@ -36,7 +36,7 @@ class role::wikimetrics {
     }
 
     class { '::wikimetrics':
-        path                  => $wikimetrics_path,
+        path                  => $dir,
         group                 => $wikimetrics_group,
         # Use the role::mediawiki MySQL database for
         # wikimetrics editor cohort analysis
@@ -75,7 +75,7 @@ class role::wikimetrics {
     # because it is an improper way to do things in
     # WMF production.
     exec { 'install_wikimetrics_dependencies':
-        command => "${wikimetrics_path}/scripts/install ${wikimetrics_path}",
+        command => "${dir}/scripts/install ${dir}",
         creates => '/usr/local/bin/wikimetrics',
         path    => '/usr/local/bin:/usr/bin:/bin',
         user    => 'root',
@@ -84,7 +84,7 @@ class role::wikimetrics {
 
     class { '::wikimetrics::database':
         db_root_pass     => $::mysql::root_password,
-        wikimetrics_path => $wikimetrics_path,
+        wikimetrics_path => $dir,
         require          => Exec['install_wikimetrics_dependencies'],
     }
 

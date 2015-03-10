@@ -11,7 +11,7 @@
   /proc/*/smaps r,
   /proc/sys/vm/overcommit_memory r,
   /run/redis/redis-server.pid w,
-  /srv/redis/*.rdb rw,
+  <%= scope['::redis::dir'] %>/*.rdb rw,
   /usr/bin/redis-server mr,
   /var/log/redis/redis-server.log w,
 

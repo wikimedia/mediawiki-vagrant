@@ -1,6 +1,6 @@
-<Directory /srv/commonsimages>
+<Directory <%= @upload_dir %>>
     Require all granted
     Header set Access-Control-Allow-Origin "*"
 </Directory>
 
-Alias /commonsimages /srv/commonsimages
+Alias /commonsimages <%= @upload_dir %>

@@ -64,7 +64,7 @@ define mediawiki::wiki(
     $admin_pass   = $::mediawiki::admin_pass,
     $src_dir      = $::mediawiki::dir,
     $cache_dir    = "${::mediawiki::cache_dir}/${title}",
-    $upload_dir   = "/srv/${title}images",
+    $upload_dir   = "${::mediawiki::upload_root}/${title}images",
     $server_url   = "http://${title}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
     $primary_wiki = false,
 ) {

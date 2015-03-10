@@ -4,11 +4,10 @@ classes:
   - '::puppet::agent'
 
 apache::docroot: /var/www
+arcanist::deploy_dir: /vagrant/phab
 
 cdh::hue::secret_key: vagrant
 cdh::hue::hive_server_host: "%{::fqdn}"
-
-arcanist::deploy_dir: /vagrant/phab
 
 cdh::oozie::server::db_root_password: "%{hiera('mysql::root_password')}"
 cdh::oozie::server::heapsize: 64
@@ -19,6 +18,9 @@ crm::drupal_db: drupal
 crm::civicrm_db: civicrm
 crm::db_user: root
 crm::db_pass: "%{hiera('mysql::root_password')}"
+
+crm::drupal::dir: "%{hiera('crm::dir')/drupal}"
+crm::drupal::files_dir: '/srv/org.wikimedia.civicrm-files'
 
 hhvm::common_settings:
   date:
@@ -139,7 +141,8 @@ mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki
 mediawiki::cache_dir: /var/cache/mediawiki
 mediawiki::settings_dir: /vagrant/settings.d
-mediawiki::upload_dir: /srv/images
+mediawiki::upload_dir: "%{hiera('mediawiki::upload_root')}/images"
+mediawiki::upload_root: /srv
 mediawiki::page_dir: /srv/pages
 mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
 mediawiki::db_user: root
@@ -149,6 +152,8 @@ mediawiki::admin_pass: vagrant
 mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fragment}"
 
 mediawiki::apache::docroot: "%{hiera('apache::docroot')}"
+
+mediawiki::jobrunner::dir: /srv/jobrunner
 
 mediawiki::multiwiki::base_domain: '.wiki.local.wmftest.net'
 mediawiki::multiwiki::script_dir: "%{hiera('mediawiki::apache::docroot')}/w"
@@ -167,12 +172,17 @@ mysql::root_password: vagrant
 phabricator::deploy_dir: /vagrant/phab
 phabricator::vhost_name: phabricator.local.wmftest.net
 
+phpmailer::dir: /srv/phpmailer
+
 # We are masterless and have no need to run an agent.
 puppet::agent::ensure: stopped
 puppet::agent::enable: false
 
+redis::dir: /srv/redis
 redis::persist: true
 redis::max_memory: 256M
+
+role::commons::upload_dir: "%{hiera('mediawiki::upload_root')}/commonsimages"
 
 role::elk::vhost_name: 'logstash.local.wmftest.net'
 
@@ -182,6 +192,8 @@ role::fundraising_wiki::dir: /vagrant/mediawiki-fr
 role::mediawiki::hostname: 127.0.0.1
 
 role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
+
+role::wikimetrics::dir: /vagrant/wikimetrics
 
 scholarships::vhost_name: scholarships.local.wmftest.net
 scholarships::db_name: scholarships
@@ -204,3 +216,8 @@ sentry::admin_user: admin
 sentry::admin_pass: vagrant
 
 smtplog::log_file: /vagrant/logs/smtp.log
+
+twig::dir: /srv/twig
+
+xhprofgui::dir: /srv/xhprof
+xhprofgui::profile_storage_dir: /vagrant/profiles

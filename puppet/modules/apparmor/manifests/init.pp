@@ -12,6 +12,8 @@
 #  class { '::apparmor': }
 #
 class apparmor {
+    include ::redis
+
     package { 'apparmor':
         ensure => 'present',
     }
@@ -25,7 +27,7 @@ class apparmor {
     }
 
     file { '/etc/apparmor.d/usr.bin.redis-server':
-        source  => 'puppet:///modules/apparmor/usr.bin.redis-server',
+        content => template('apparmor/usr.bin.redis-server.erb'),
         owner   => 'root',
         group   => 'root',
         mode    => '0444',

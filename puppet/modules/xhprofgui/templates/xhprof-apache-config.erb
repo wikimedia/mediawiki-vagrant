@@ -4,9 +4,9 @@
 # This file is managed by Puppet.
 #
 
-<Directory /srv/xhprof/xhprof_html>
+<Directory <%= @dir %>/xhprof_html>
 	Require all granted
 </Directory>
 
-Alias /xhprof "/srv/xhprof/xhprof_html"
+Alias /xhprof "<%= @dir %>/xhprof_html"
 

@@ -4,6 +4,12 @@
 #
 # === Parameters
 #
+# [*dir*]
+#   Drupal installation directory.
+#
+# [*files_dir*]
+#   Directory used for Drupal file store.
+#
 # [*modules*]
 #   Array of all modules that should be enabled
 #
@@ -11,13 +17,12 @@
 #   Map from drupal variable names to default values.
 #
 class crm::drupal(
+    $dir,
+    $files_dir,
     $modules,
     $settings = {},
 ) {
     include ::crm
-
-    $files_dir = '/srv/org.wikimedia.civicrm-files'
-    $dir = "${crm::dir}/drupal"
 
     $install_script = "${dir}/sites/default/drupal-install.php"
     $settings_path = "${dir}/sites/default/settings.php"

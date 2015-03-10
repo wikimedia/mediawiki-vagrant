@@ -6,6 +6,9 @@
 #
 # === Parameters
 #
+# [*dir*]
+#   Working directory.
+#
 # [*max_memory*]
 #   This parameter specifies the maximum amount of memory Redis will be
 #   allowed to consume. Legal units include 'kb', 'mb', and 'gb'. If no
@@ -39,6 +42,7 @@
 #  }
 #
 class redis(
+    $dir,
     $max_memory = '256mb',
     $persist    = false,
     $settings   = {},
@@ -49,7 +53,7 @@ class redis(
         daemonize        => 'yes',
         pidfile          => '/var/run/redis/redis-server.pid',
         logfile          => '/var/log/redis/redis-server.log',
-        dir              => '/srv/redis',
+        dir              => $dir,
         dbfilename       => 'redis-db.rdb',
         maxmemory        => $max_memory,
         maxmemory_policy => 'volatile-lru',
@@ -61,7 +65,7 @@ class redis(
         ensure => present,
     }
 
-    file { '/srv/redis':
+    file { $dir:
         ensure  => directory,
         owner   => 'redis',
         group   => 'redis',
@@ -71,7 +75,7 @@ class redis(
 
     file { '/etc/redis/redis.conf':
         content => template('redis/redis.conf.erb'),
-        require => [ Package['redis-server'], File['/srv/redis'] ],
+        require => [ Package['redis-server'], File[$dir] ],
     }
 
     service { 'redis-server':

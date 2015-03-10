@@ -2,7 +2,12 @@
 # This role creates one additional wiki, commons.wiki.local.wmftest.net
 # which is configured to approximate commons' setup
 #
-class role::commons {
+# [*upload_dir*]
+#   Directory where files uploaded to commons will be stored.
+#
+class role::commons(
+    $upload_dir,
+) {
     require ::role::mediawiki
     include ::role::multimedia
     include ::role::thumb_on_404
@@ -13,7 +18,7 @@ class role::commons {
     mediawiki::settings { 'commons:general':
         values => {
             wgUseInstantCommons    => false,
-            wgUploadDirectory      => '/srv/commonsimages',
+            wgUploadDirectory      => $upload_dir,
             wgUploadPath           => '/commonsimages',
             wgCrossSiteAJAXdomains => ['*'],
         },
