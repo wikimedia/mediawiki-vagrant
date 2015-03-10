@@ -61,11 +61,17 @@ class php {
     }
 
     php::ini { 'date_timezone':
-      settings => { 'date.timezone' => 'UTC' },
+        settings => { 'date.timezone' => 'UTC' },
     }
 
     php::ini { 'session_defaults':
-      settings => { 'session.save_path' => '/tmp' },
+        settings => { 'session.save_path' => '/tmp' },
+    }
+
+    # Enable xhprof for all SAPIs
+    exec { '/usr/sbin/php5enmod -s ALL xhprof':
+        unless  => '/usr/sbin/php5query -s cli -m xhprof',
+        require => Package['php5-xhprof'],
     }
 
     class { '::php::sessionclean':
