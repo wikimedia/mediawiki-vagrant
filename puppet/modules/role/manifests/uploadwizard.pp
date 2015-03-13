@@ -15,6 +15,8 @@ class role::uploadwizard {
 
     mediawiki::extension { 'Campaigns': }
 
+    mediawiki::extension { 'TitleBlacklist': }
+
     mediawiki::extension { 'UploadWizard':
         browser_tests => true,
         require       => Package['imagemagick'],
