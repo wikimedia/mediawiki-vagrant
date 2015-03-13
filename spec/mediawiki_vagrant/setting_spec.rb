@@ -41,6 +41,27 @@ module MediaWikiVagrant
       end
     end
 
+    describe '#combine!' do
+      subject { setting.combine!(other) }
+
+      let(:value) { 1 }
+      let(:other) { 2 }
+
+      it 'defaults to simply taking the other value' do
+        expect(setting).to receive(:value=).with(2)
+        subject
+      end
+
+      context 'where a combiner is defined' do
+        before { setting.combiner = ->(setting, new) { setting.value + new } }
+
+        it 'uses it to get the new value' do
+          expect(setting).to receive(:value=).with(3)
+          subject
+        end
+      end
+    end
+
     describe '#set?' do
       subject { setting.set? }
 

@@ -1,8 +1,17 @@
+require 'stringio'
+require 'yaml'
+
 require 'mediawiki-vagrant/settings/definitions'
+
+Given(/^my current settings are:$/) do |yaml|
+  @mwv.configure_settings do |settings|
+    settings.load(StringIO.new(yaml))
+  end
+end
 
 Given(/^the "([^"]+)" setting is "([^"]+)"$/) do |name, value|
   @mwv.configure_settings do |settings|
-    settings[name] = value
+    settings[name] = YAML.load(value)
   end
 end
 

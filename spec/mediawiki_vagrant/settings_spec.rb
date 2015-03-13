@@ -79,6 +79,22 @@ module MediaWikiVagrant
       end
     end
 
+    describe '#combine' do
+      subject { settings.combine(other) }
+
+      let(:definitions) { { foo: Setting.new(:foo, 1) } }
+      let(:other) { { foo: 2 } }
+
+      before do
+        definitions[:foo].combiner = ->(setting, new) { setting.value + new }
+      end
+
+      it 'combines the given values into the existing settings' do
+        subject
+        expect(settings[:foo]).to eq(3)
+      end
+    end
+
     describe '#each' do
       subject { settings.each }
 

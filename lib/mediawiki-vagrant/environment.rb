@@ -71,6 +71,12 @@ module MediaWikiVagrant
       @path = Pathname.new(@directory)
     end
 
+    # Removes the reload trigger for the next provision.
+    #
+    def cancel_reload
+      reload_trigger.delete if reload_trigger.exist?
+    end
+
     # The HEAD commit of local master branch, if we're executing from
     # within a cloned Git repo.
     #
@@ -90,20 +96,19 @@ module MediaWikiVagrant
       Settings.configure(settings_path, &blk)
     end
 
-    # Loads and returns settings for this environment. Additional files and
-    # directories of settings can be loaded first by providing
-    # `additional_paths`.
+    # Loads and returns settings for this environment. Settings for the given
+    # or currently enabled roles will augment those loaded from
+    # `.settings.yaml`.
     #
-    # @param *additional_paths [Array<String>]
+    # @param roles [Array<String>] Names of roles for which to load settings.
     #
     # @return [Settings]
     #
-    def load_settings(*additional_paths)
+    def load_settings(roles = roles_enabled)
       settings = Settings.new
 
-      (additional_paths.map { |p| path(p) } << settings_path).each do |path|
-        settings.load(path) if path.exist?
-      end
+      settings.load(settings_path) if settings_path.exist?
+      role_settings(roles).each { |_, rsettings| settings.combine(rsettings) }
 
       settings
     end
@@ -121,6 +126,14 @@ module MediaWikiVagrant
     def prune_roles
       migrate_roles
       update_roles(roles_enabled & roles_available)
+    end
+
+    # Whether the environment is set to reload upon the next provision.
+    #
+    # @return [true, false]
+    #
+    def reload?
+      reload_trigger.exist?
     end
 
     # Returns all available Puppet roles.
@@ -158,6 +171,26 @@ module MediaWikiVagrant
       role_file.each_line.take_while { |line| line =~ /^#( |$)/ }.inject("") do |doc, line|
         doc << line.sub(/^# ?/, "")
       end
+    end
+
+    # Settings for the given or currently enabled roles.
+    #
+    # @param roles [Array] Array of roles for which to return settings.
+    #
+    # @return [{String => Settings}] Hash of role name to settings.
+    #
+    def role_settings(roles = roles_enabled)
+      roles.each.with_object({}) do |role, settings|
+        settings[role] = role_settings_load(role)
+      end
+    end
+
+    # Triggers a reload upon the next provision.
+    #
+    def trigger_reload
+      dir = reload_trigger.dirname
+      dir.mkdir unless dir.exist?
+      reload_trigger.open('w') { |io| io.puts }
     end
 
     # Updates the enabled Puppet roles to the given set.
@@ -262,6 +295,17 @@ module MediaWikiVagrant
     def stale_head?
       head = path('.git/FETCH_HEAD')
       head.exist? && (Time.now - head.mtime) > STALENESS
+    end
+
+    def reload_trigger
+      path('tmp/RELOAD')
+    end
+
+    def role_settings_load(role)
+      path = module_path('role/settings').join("#{role}.yaml")
+      path.exist? ? YAML.load_file(path) : {}
+    rescue
+      {}
     end
 
     # Migrate legacy roles to new format

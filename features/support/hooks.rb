@@ -6,6 +6,8 @@ require 'vagrant/cli'
 require 'vagrant/util/platform'
 
 AfterConfiguration do
+  # Create an isolated environment for our tests by copying the working
+  # directory to a temporary location
   FileUtils.mkdir_p('tmp/testenv/home')
   FileUtils.mkdir_p('tmp/testenv/mwv')
 
@@ -18,8 +20,6 @@ Before do
 end
 
 Before do
-  # Create a clean environment for each scenario by copying the working
-  # directory to a temporary location
   @project_path = Pathname.pwd
 
   @home_path = @project_path.join('tmp/testenv/home')
@@ -43,6 +43,12 @@ Before do
     home_path: @home_path.to_s,
     vagrantfile_name: @mwv.path('Vagrantfile').to_s
   )
+
+  # Clear settings and role state before each scenario
+  settings = @mwv.path('.settings.yaml')
+  settings.delete if settings.exist?
+  Dir.glob(@mwv.path('puppet/modules/role/settings/*.yaml')).each { |path| FileUtils.rm(path) }
+  @mwv.update_roles([])
 end
 
 After do

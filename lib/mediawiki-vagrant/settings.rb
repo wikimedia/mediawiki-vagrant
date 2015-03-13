@@ -91,9 +91,32 @@ module MediaWikiVagrant
       end
     end
 
+    # Computes differences between these and the given settings.
+    #
+    # @param other [Settings]
+    #
+    # @return [Hash] Hash of { setting => [current, new] }
+    #
+    def -(other)
+      each.with_object({}) do |(name, setting), changes|
+        other_value = other.setting(name).value
+        changes[setting] = [other_value, setting.value] if setting.value != other_value
+      end
+    end
+
+    # Combine the given settings with the current ones.
+    #
+    # @param other [Hash] Other settings.
+    #
+    def combine(other)
+      other.each { |key, value| setting(key).combine!(value) } if other.is_a?(Hash)
+    end
+
     # Iterate over each setting.
     #
     # @yield [name, setting]
+    # @yieldparam name [Symbol]
+    # @yieldparam setting [Setting]
     #
     def each(&blk)
       @settings.each(&blk)
@@ -107,11 +130,10 @@ module MediaWikiVagrant
     def load(path_or_io)
       case path_or_io
       when String, Pathname
-        if File.directory?(path_or_io)
-          Dir.glob("#{path_or_io}/*.yaml").each { |f| load(f) }
-        else
-          load(File.new(path_or_io))
-        end
+        path = Pathname.new(path_or_io)
+        path = path.join('*.{yaml,yml}') if path.directory?
+
+        Dir.glob(path).each { |f| load(File.new(f)) }
       else
         update(YAML.load(path_or_io))
       end

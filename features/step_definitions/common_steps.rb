@@ -1,3 +1,7 @@
+Given(/^a reload should have been triggered$/) do
+  expect(@mwv.reload?).to be(true)
+end
+
 When(/^I run `vagrant ([^`]+)`( interactively)?$/) do |arguments, interactively|
   allow($stdin).to receive(:tty?).and_return(!interactively.nil?)
   allow($stdout).to receive(:tty?).and_return(!interactively.nil?)

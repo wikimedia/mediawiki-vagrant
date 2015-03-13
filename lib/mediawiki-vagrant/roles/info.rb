@@ -1,10 +1,13 @@
-require 'mediawiki-vagrant/plugin_environment'
 require 'rdoc'
+
+require 'mediawiki-vagrant/plugin_environment'
+require 'mediawiki-vagrant/settings_plugin'
 
 module MediaWikiVagrant
   module Roles
     class Info < Vagrant.plugin(2, :command)
       include PluginEnvironment
+      include SettingsPlugin
 
       def self.synopsis
         'get information about a mediawiki-vagrant role'
@@ -35,9 +38,26 @@ module MediaWikiVagrant
 
         rd = RDoc::Markup::ToAnsi.new
 
+        settings = @mwv.load_settings
+
         roles.each do |role|
           if doc = @mwv.role_docstring(role)
             @env.ui.info rd.convert(doc)
+          end
+
+          changes = @mwv.load_settings(@mwv.roles_enabled + [role]) - settings
+
+          if changes.any?
+            @env.ui.warn 'Enabling this role will adjust the following settings:'
+
+            changes.each do |setting, change|
+              cur, new = *change.map { |v| setting_display_value(v) }
+
+              @env.ui.info ''
+              @env.ui.info setting.description unless setting.description.nil?
+              @env.ui.info "#{setting.name}: #{cur} -> ", new_line: false
+              @env.ui.info "#{new}", bold: true
+            end
           end
         end
 

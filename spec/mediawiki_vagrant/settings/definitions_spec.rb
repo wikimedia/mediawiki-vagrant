@@ -49,6 +49,14 @@ module MediaWikiVagrant
             expect(subject.value).to eq(2048)
           end
         end
+
+        context 'combination' do
+          it 'increments the current value' do
+            subject.value = 2048
+            subject.combine!(200)
+            expect(subject.value).to eq(2248)
+          end
+        end
       end
 
       describe 'vagrant_cores' do

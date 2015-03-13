@@ -26,6 +26,17 @@ module MediaWikiVagrant
       end
     end
 
+    describe '#cancel_reload', :fakefs do
+      subject { environment.cancel_reload }
+
+      before { mock_file(environment.path('tmp/RELOAD')) }
+
+      it 'removes the reload trigger' do
+        subject
+        expect(environment.reload?).to be(false)
+      end
+    end
+
     describe '#configure_settings' do
       subject { environment.configure_settings(&block) }
 
@@ -39,14 +50,21 @@ module MediaWikiVagrant
     end
 
     describe '#load_settings', :fakefs do
-      subject { environment.load_settings(*additional_paths) }
+      subject { environment.load_settings(roles) }
 
-      let(:additional_paths) { [] }
+      let(:roles) { double(Array) }
 
+      let(:role_settings) { {} }
       let(:settings_path) { Pathname.new('/example/.settings.yaml') }
       let(:settings) { double(Settings) }
 
-      before { expect(Settings).to receive(:new).and_return(settings) }
+      before do
+        expect(Settings).to receive(:new).and_return(settings)
+        expect(environment).to receive(:role_settings).with(roles).and_return(role_settings)
+
+        allow(settings).to receive(:load).with(settings_path)
+        allow(settings).to receive(:combine)
+      end
 
       context 'when the settings file does not exist' do
         it 'returns the settings' do
@@ -62,15 +80,16 @@ module MediaWikiVagrant
           expect(subject).to be(settings)
         end
 
-        context 'and additional paths are given' do
-          let(:additional_paths) { ['foo'] }
-          let(:additional_path) { Pathname.new('/example/foo') }
+        context 'given roles' do
+          let(:role_settings) { { 'foo' => foo_settings, 'bar' => bar_settings } }
 
-          before { mock_file(additional_path) }
+          let(:foo_settings) { double(Hash) }
+          let(:bar_settings) { double(Hash) }
 
-          it 'loads them as well' do
-            expect(settings).to receive(:load).with(additional_path)
-            expect(settings).to receive(:load).with(settings_path)
+          it 'combines all role settings with core settings' do
+            expect(settings).to receive(:load).with(settings_path).ordered
+            expect(settings).to receive(:combine).with(foo_settings).ordered
+            expect(settings).to receive(:combine).with(bar_settings).ordered
             expect(subject).to be(settings)
           end
         end
@@ -202,6 +221,20 @@ module MediaWikiVagrant
       end
     end
 
+    describe '#reload?', :fakefs do
+      subject { environment.reload? }
+
+      context 'where the reload flag file does not exist' do
+        it { is_expected.to be(false) }
+      end
+
+      context 'where the reload flag file exists' do
+        before { mock_file(environment.path('tmp/RELOAD')) }
+
+        it { is_expected.to be(true) }
+      end
+    end
+
     describe '#roles_available', :fakefs do
       subject { environment.roles_available }
 
@@ -296,6 +329,59 @@ module MediaWikiVagrant
       end
     end
 
+    describe '#role_settings', :fakefs do
+      subject { environment.role_settings(roles) }
+
+      before do
+        mock_files_in(
+          environment.path('puppet/modules/role/settings'),
+          'foo.yaml' => align(<<-end),
+            ---
+            vagrant_ram: 200
+          end
+          'bar.yaml' => align(<<-end)
+            ---
+            vagrant_ram: 50
+          end
+        )
+      end
+
+      context 'given no roles' do
+        subject { environment.role_settings }
+
+        before do
+          expect(environment).to receive(:roles_enabled).and_return(['foo'])
+        end
+
+        it 'returns settings for the enabled roles' do
+          expect(subject).to eq('foo' => { 'vagrant_ram' => 200 })
+        end
+      end
+
+      context 'given roles' do
+        let(:roles) { ['foo', 'bar'] }
+
+        it 'returns settings for the given roles' do
+          expect(subject).to eq(
+            'foo' => { 'vagrant_ram' => 200 },
+            'bar' => { 'vagrant_ram' => 50 }
+          )
+        end
+      end
+
+      context 'given roles that has no settings' do
+        let(:roles) { ['baz'] }
+
+        it 'returns an empty hash' do
+          expect(subject).to eq('baz' => {})
+        end
+      end
+    end
+
+    describe '#trigger_reload' do
+      subject { environment.trigger_reload }
+    end
+
     describe '#update_roles', :fakefs do
       subject { environment.update_roles(roles) }
 
@@ -318,6 +404,17 @@ module MediaWikiVagrant
           - role::bar
           - role::foo
         end
+      end
+    end
+
+    describe '#trigger_reload', :fakefs do
+      subject { environment.trigger_reload }
+
+      before { mock_directory(environment.path) }
+
+      it 'triggers a reload' do
+        subject
+        expect(environment.reload?).to be(true)
       end
     end
 

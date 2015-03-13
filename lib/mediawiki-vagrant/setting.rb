@@ -8,6 +8,7 @@ module MediaWikiVagrant
   # @attr default [Object] Default value
   # @attr auto [Proc] Used to automatically configure the setting
   # @attr coercion [Proc] Used to process a given setting value
+  # @attr combiner [Proc] Used to make an incremental change to the setting.
   # @attr internal [true, false] Whether the setting is only used internally
   # @attr allows_empty [true, false] Whether to allow empty string values
   # @attr value [Object] Current value
@@ -16,12 +17,13 @@ module MediaWikiVagrant
   #
   class Setting
     attr_reader :name
-    attr_accessor :description, :help, :default, :auto, :coercion, :internal, :allows_empty
+    attr_accessor :description, :help, :default, :auto, :coercion, :combiner, :internal, :allows_empty
 
     def initialize(name, value = nil)
       @name = name
       @value = value
       @coercion = ->(_, new) { new }
+      @combiner = ->(_, new) { new }
       @internal = false
       @allows_empty = false
     end
@@ -33,6 +35,10 @@ module MediaWikiVagrant
     end
 
     alias internal? internal
+
+    def combine!(other)
+      self.value = @combiner.call(self, other)
+    end
 
     def default?
       !@default.nil?

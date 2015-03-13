@@ -13,7 +13,8 @@ module MediaWikiVagrant
       help: "Specify 'auto' to automatically allocate 1/4 of your system's memory",
       default: 1536,
       auto: -> { Environment.total_memory / 4 },
-      coercion: ->(setting, new) { [setting.default, new.to_i].max }
+      coercion: ->(setting, new) { [setting.default, new.to_i].max },
+      combiner: ->(setting, new) { setting.value + new.to_i }
 
     setting :vagrant_cores,
       description: "CPU cores allocated to the guest VM",

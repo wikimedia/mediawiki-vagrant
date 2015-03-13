@@ -50,7 +50,7 @@ end
 require 'mediawiki-vagrant/settings/definitions'
 
 mwv = MediaWikiVagrant::Environment.new($DIR)
-settings = mwv.load_settings('vagrant.d')
+settings = mwv.load_settings
 
 Vagrant.configure('2') do |config|
     config.vm.hostname = 'mediawiki-vagrant.dev'
@@ -167,6 +167,8 @@ Vagrant.configure('2') do |config|
         lsb.version = '14.04'
     end
 
+    config.vm.provision :mediawiki_reload if mwv.reload?
+
     config.vm.provision :puppet do |puppet|
         puppet.module_path = 'puppet/modules'
         puppet.manifests_path = 'puppet/manifests'
@@ -214,11 +216,6 @@ Vagrant.configure('2') do |config|
             network = IPAddr.new("#{settings[:static_ip]}/24")
             $FACTER['host_ip'] = network.to_range.take(2).last.to_s
         end
-    end
-
-    if Vagrant.plugin('2').manager.provisioners[:mediawiki_reload] && \
-        File.exists?(File.join($DIR, 'vagrant.d', 'RELOAD'))
-        config.vm.provision :mediawiki_reload
     end
 end
 

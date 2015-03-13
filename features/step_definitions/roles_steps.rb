@@ -15,6 +15,11 @@ Given(/^the "(.*?)" role is enabled$/) do |role|
   @mwv.update_roles(@mwv.roles_enabled + [role])
 end
 
+Given(/^the settings for the "(.*?)" role are:$/) do |role, settings|
+  FileUtils.mkdir_p(@mwv.path("puppet/modules/role/settings"))
+  @mwv.path("puppet/modules/role/settings/#{role}.yaml").open('w') { |io| io.write(settings) }
+end
+
 Then(/^the "(.*?)" role should be enabled$/) do |role|
   expect(@mwv.roles_enabled).to include(role)
 end

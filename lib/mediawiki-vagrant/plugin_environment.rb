@@ -4,7 +4,8 @@ module MediaWikiVagrant
   module PluginEnvironment
     def initialize(*args)
       super
-      @mwv = Environment.new(@env.root_path || @env.cwd)
+      env = @env || @machine.env
+      @mwv = Environment.new(env.root_path || env.cwd)
     end
 
     # Whether we're sending output to an interactive terminal.
