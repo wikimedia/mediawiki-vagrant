@@ -106,6 +106,9 @@ define mediawiki::wiki(
         ensure => directory,
     }
 
+    # $wgDebugLogFile
+    $debug_log_file = "/vagrant/logs/mediawiki-${db_name}-debug.log"
+
     file { "${settings_root}/wgConf.php":
         ensure  => present,
         mode    => '0644',
@@ -116,6 +119,13 @@ define mediawiki::wiki(
         ensure  => present,
         mode    => '0644',
         content => template('mediawiki/wiki/dbConf.php.erb'),
+    }
+
+    file { "/etc/logrotate.d/mediawiki_${db_name}_debug_log":
+        content => template('mediawiki/logrotate.d-mediawiki-debug-log.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
     }
 
     file { $settings_dir:

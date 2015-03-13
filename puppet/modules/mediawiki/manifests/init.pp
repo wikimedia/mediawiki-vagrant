@@ -169,7 +169,7 @@ class mediawiki(
     }
 
     php::composer::install { $dir:
-        require     => Git::Clone['mediawiki/core'],
+        require => Git::Clone['mediawiki/core'],
     }
 
     env::profile_script { 'add mediawiki vendor bin to path':
@@ -182,5 +182,12 @@ class mediawiki(
 
     mediawiki::import_text { 'Template:Main_Page':
         source => 'puppet:///modules/mediawiki/main_page_template.wiki',
+    }
+
+    file { '/etc/logrotate.d/mediawiki_shared_log_groups':
+        source  => 'puppet:///modules/mediawiki/wiki/logrotate.d-mediawiki-shared-log-groups',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
     }
 }

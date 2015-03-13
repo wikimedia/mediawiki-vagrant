@@ -1,0 +1,12 @@
+# logrotate config for MediaWiki wgDebugLogFIle
+# This file is managed by Puppet
+
+<%= @debug_log_file %> {
+    daily
+    missingok
+    rotate 7
+    compress
+    notifempty
+    nocreate
+    nomail
+}

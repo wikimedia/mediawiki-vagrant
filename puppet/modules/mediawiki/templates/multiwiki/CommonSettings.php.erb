@@ -22,8 +22,6 @@ $wgDBname = $multiVersion->getDatabase();
 
 include_once __DIR__ . '/LoadWgConf.php';
 
-$wgDebugLogFile = "/vagrant/logs/mediawiki-{$wgDBname}-debug.log";
-
 foreach(
 	array_merge(
 		// Settings from default wiki
