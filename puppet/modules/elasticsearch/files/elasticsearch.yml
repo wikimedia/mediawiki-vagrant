@@ -6,6 +6,10 @@
 # Cirrus will port to that when it is released, but for now, we use dynamic scripting.
 script.disable_dynamic: false
 
+## But turning dynamic scripting on is a security vulnerability if the server
+## is accessible to the world. Turn off global accessibility
+network.host: "127.0.0.1"
+
 # The default sandbox for Groovy is too restrictive for Cirrus.  This adds a
 # few more allowed invocations.
 script.groovy.sandbox.class_whitelist:
