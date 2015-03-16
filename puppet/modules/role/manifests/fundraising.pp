@@ -9,10 +9,6 @@ class role::fundraising {
 
     require_package('rsyslog')
 
-    # apache-activemq is a memory-slurping Java zombie.
-    vagrant::settings { 'fundraising': ram => 2048, }
-
-
     $rsyslog_max_message_size = '64k'
 
     service { 'rsyslog':

@@ -9,8 +9,4 @@ class role::graphoid {
             '$wgGraphImgServiceUrl = "//$wgServerName:11042?server=%1\$s&title=%2\$s&revid=%3\$s&id=%4\$s";',
         ],
     }
-
-    vagrant::settings { 'graphoid':
-        forward_ports => { 11042 => 11042 },
-    }
 }

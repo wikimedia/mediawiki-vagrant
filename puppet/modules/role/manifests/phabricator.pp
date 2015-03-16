@@ -7,8 +7,4 @@
 # http://phabricator.local.wmftest.net:8080/ to access the site.
 class role::phabricator {
     include ::phabricator
-
-    vagrant::settings { 'phabricator':
-        ram => 2000,
-    }
 }

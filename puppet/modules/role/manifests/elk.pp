@@ -87,12 +87,4 @@ class role::elk (
         source   => 'puppet:///modules/role/elk/rsyslog.conf',
         priority => 30,
     }
-
-    ## Configure VM
-    vagrant::settings { 'logstash':
-        ram           => 2048,
-        forward_ports => {
-          9200 => 9200,
-        },
-    }
 }

@@ -9,8 +9,4 @@ class role::mathoid {
             '$wgMathMathMLUrl = "http://localhost:10042";',
         ],
     }
-
-    vagrant::settings { 'mathoid':
-        forward_ports => { 10042 => 10042 },
-    }
 }

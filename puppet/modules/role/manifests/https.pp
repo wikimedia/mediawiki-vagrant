@@ -15,10 +15,6 @@ class role::https {
         notify => Service['nginx'],
     }
 
-    vagrant::settings { 'https':
-        forward_ports => { 443 => 4430 },
-    }
-
     # enable secure login
     mediawiki::settings { 'SSL-related settings':
         values => {

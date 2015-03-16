@@ -54,14 +54,6 @@ class role::cirrussearch {
         require  => Service['elasticsearch'],
     }
 
-    vagrant::settings { 'cirrussearch':
-        ram           => 2000,
-        forward_ports => {
-          9200 => 9200,
-          9300 => 9300,
-        },
-    }
-
     exec { 'build_search_index':
         command => 'foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --startOver && foreachwiki extensions/CirrusSearch/maintenance/forceSearchIndex.php',
         onlyif  => 'mwscript extensions/CirrusSearch/maintenance/cirrusNeedsToBeBuilt.php --quiet',
