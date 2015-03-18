@@ -114,6 +114,9 @@ module MediaWikiVagrant
           Settings.definitions.include?(name) && !setting.internal?
         end
 
+        # Automatically configure settings that defaults to it
+        scope.each { |_, setting| setting.auto! if setting.default == :auto }
+
         if options[:required]
           scope = scope.reject { |_, setting| setting.default? || setting.set? }
         end

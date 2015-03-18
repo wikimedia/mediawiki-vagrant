@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'mediawiki-vagrant/environment'
 require 'mediawiki-vagrant/settings/definitions'
 
 module MediaWikiVagrant
@@ -34,18 +35,46 @@ module MediaWikiVagrant
             end
           end
         end
+
+        context 'auto configuration' do
+          before { expect(Environment).to receive(:total_memory).and_return(8192) }
+
+          it 'allocates 1/4 of total system memory' do
+            subject.auto!
+            expect(subject.value).to eq(2048)
+          end
+
+          it 'should work when set to "auto"' do
+            subject.value = 'auto'
+            expect(subject.value).to eq(2048)
+          end
+        end
       end
 
       describe 'vagrant_cores' do
         subject { definitions[:vagrant_cores] }
 
-        it { is_expected.to have_attributes(default: 2) }
+        it { is_expected.to have_attributes(default: :auto) }
 
         context 'when a new value is set' do
           before { subject.value = '4' }
 
           it 'ensures it is an integer' do
             expect(subject.value).to eq(4)
+          end
+        end
+
+        context 'auto configuration' do
+          before { expect(Environment).to receive(:total_cpus).and_return(8) }
+
+          it 'uses all available cores/CPUs' do
+            subject.auto!
+            expect(subject.value).to eq(8)
+          end
+
+          it 'should work when set to "auto"' do
+            subject.value = 'auto'
+            expect(subject.value).to eq(8)
           end
         end
       end

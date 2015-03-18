@@ -12,19 +12,15 @@ module MediaWikiVagrant
       description: "Amount of RAM (in MB) allocated to the guest VM",
       help: "Specify 'auto' to automatically allocate 1/4 of your system's memory",
       default: 1536,
-      coercion: ->(setting, new) do
-        new = (new == "auto") ? (Environment.total_memory / 4) : new.to_i
-        [setting.default, new].max
-      end
+      auto: -> { Environment.total_memory / 4 },
+      coercion: ->(setting, new) { [setting.default, new.to_i].max }
 
     setting :vagrant_cores,
       description: "CPU cores allocated to the guest VM",
-      help: "If you're on a single-core system, be sure to enter '1'. Specify 'auto' to automatically allocate all of your host system's cores.",
-      default: 2,
-      coercion: ->(setting, new) do
-        new = (new == "auto") ? Environment.total_cpus : new.to_i
-        new && new.to_i
-      end
+      help: "All of your host system's cores are allocated by default.",
+      default: :auto,
+      auto: -> { Environment.total_cpus },
+      coercion: ->(setting, new) { new && new.to_i }
 
     setting :static_ip,
       description: "IP address assigned to the guest VM",
