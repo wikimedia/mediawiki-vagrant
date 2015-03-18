@@ -54,6 +54,7 @@ module MediaWikiVagrant
       def show_enabled(opts)
         @env.ui.info "Enabled roles:\n" if opts[:verbose]
         roles = @mwv.roles_enabled
+
         if opts[:single_col]
           roles.each { |x| @env.ui.info x }
         else
@@ -86,10 +87,12 @@ module MediaWikiVagrant
       end
 
       def print_cols(roles)
-        col, *cols = roles.each_slice((roles.size/3.0).ceil).to_a
-        col.zip(*cols) { |a,b,c|
-          @env.ui.info sprintf("%-26s %-26s %-26s", a, b, c)
-        }
+        if roles.any?
+          col, *cols = roles.each_slice((roles.size/3.0).ceil).to_a
+          col.zip(*cols) { |a,b,c|
+            @env.ui.info sprintf("%-26s %-26s %-26s", a, b, c)
+          }
+        end
       end
     end
   end
