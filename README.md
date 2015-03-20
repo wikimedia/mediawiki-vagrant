@@ -13,10 +13,13 @@ inspecting and interacting with MediaWiki code, including a powerful debugger
 and an interactive interpreter. Best of all, because the configuration is
 automated and contained in a virtual environment, mistakes are easy to undo.
 
-
 ## Install
 
 You'll need to install recent versions of Vagrant and VirtualBox.
+
+(Note that *experimental* support for Parallels, LXC, VMWare Fusion, and
+Microsoft Hyper-V providers exists. See `support/README-lxc.md` or
+`support/README-parallels.md` for details on the former two.)
 
  * VirtualBox: https://www.virtualbox.org/wiki/Downloads
  * Vagrant: http://www.vagrantup.com/downloads-archive.html (the version must be
@@ -95,12 +98,8 @@ The latter will restart the VM.
 
 You can add roles to MediaWiki-Vagrant! A 'role' represents a set of software
 configurations required for giving this machine some special function. Vagrant
-has several commands to manage enabled roles:
-
- * disable-role
- * enable-role
- * list-roles
- * reset-roles
+has several commands to manage enabled roles. See `vagrant roles -h` for more
+help on usage.
 
 If you'd like to use the Vagrant-Mediawiki codebase to describe a development
 environment that you could then share with other developers, you should do so

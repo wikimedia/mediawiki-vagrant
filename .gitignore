@@ -3,6 +3,7 @@
 /.gem
 /.rbenv-version
 /.settings.yaml
+/.yardoc/
 /*.gem
 /*.sublime-workspace
 /no-update
@@ -32,3 +33,4 @@
 /phab
 /node_modules
 /tmp
+/doc/
