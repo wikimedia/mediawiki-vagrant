@@ -97,6 +97,25 @@ Vagrant.configure('2') do |config|
         override.vm.box = 'Wikimedia/trusty64-puppet-lxc'
     end
 
+    # Parallels provider. Enable with `--provider=parallels`
+    #
+    # Requires plugins:
+    #   * Parallels provider - http://parallels.github.io/vagrant-parallels/
+    #     $ vagrant plugin install vagrant-parallels
+    #   * Puppet installer - https://github.com/petems/vagrant-puppet-install
+    #     $ vagrant plugin install vagrant-puppet-install
+    #
+    # Note that port forwarding works via localhost but not via external interfaces
+    # of the host machine by default...
+    config.vm.provider :parallels do |parallels, override|
+        override.vm.box = 'parallels/ubuntu-14.04'
+
+        # Pin to a 3.x version, current as of this config writing.
+        config.puppet_install.puppet_version = '3.7.4'
+
+        override.vm.network :private_network, ip: settings[:static_ip]
+    end
+
     config.vm.network :forwarded_port,
         guest: 80, host: settings[:http_port], id: 'http'
 
