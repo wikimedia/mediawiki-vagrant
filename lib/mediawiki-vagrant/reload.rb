@@ -5,6 +5,7 @@ module MediaWikiVagrant
     include PluginEnvironment
 
     def provision
+      return unless @mwv.reload?
       @mwv.cancel_reload
 
       @machine.ui.warn 'Reloading vagrant...'
