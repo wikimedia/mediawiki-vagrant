@@ -111,7 +111,7 @@ Vagrant.configure('2') do |config|
         override.vm.box = 'parallels/ubuntu-14.04'
 
         # Pin to a 3.x version, current as of this config writing.
-        config.puppet_install.puppet_version = '3.7.4' if Vagrant.has_plugin?('vagrant-puppet-install')
+        override.puppet_install.puppet_version = '3.7.4'
 
         override.vm.network :private_network, ip: settings[:static_ip]
     end
