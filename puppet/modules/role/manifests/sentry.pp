@@ -20,12 +20,6 @@ class role::sentry (
 
     mediawiki::extension { 'Buggy': }
 
-    mediawiki::settings { 'Sentry-core':
-        values => {
-            wgJavascriptErrorLoggingSamplingRate => 1,
-        },
-    }
-
     mediawiki::import_text{ 'VagrantRoleSentry':
         source => 'puppet:///modules/role/VagrantRoleSentry.wiki',
     }
