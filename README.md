@@ -97,14 +97,14 @@ The latter will restart the VM.
 ## Extend
 
 You can add roles to MediaWiki-Vagrant! A 'role' represents a set of software
-configurations required for giving this machine some special function. Vagrant
-has several commands to manage enabled roles. See `vagrant roles -h` for more
-help on usage.
+configurations required for giving this machine some special function.
+Mediawiki-Vagrant has several commands to manage enabled roles.
+See `vagrant roles -h` for help on usage.
 
-If you'd like to use the Vagrant-Mediawiki codebase to describe a development
+If you'd like to use the Mediawiki-Vagrant codebase to describe a development
 environment that you could then share with other developers, you should do so
-by adding a role file to puppet/manifests/roles and submitting it as a patch to
-the Mediawiki-Vagrant project.
+by adding a role file to puppet/modules/role/manifests/ and submitting it as a
+patch to the Mediawiki-Vagrant project.
 
 
 ## Settings
@@ -119,8 +119,8 @@ Stuck? Here's where to get help.
  * http://www.mediawiki.org/wiki/Mediawiki-Vagrant#Troubleshooting
  * irc://chat.freenode.net/#mediawiki
 
-Please report any bugs on Wikimedia's Bugzilla:
-https://bugzilla.wikimedia.org/enter_bug.cgi?product=MediaWiki-Vagrant
+Please report any bugs on Wikimedia's Phabricator:
+ * https://phabricator.wikimedia.org/maniphest/task/create/?projects=MediaWiki-Vagrant
 
 Patches and contributions are welcome!
 See <http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker> for details.
