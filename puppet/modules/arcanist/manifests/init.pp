@@ -14,12 +14,12 @@ class arcanist(
 
     git::clone { 'https://github.com/phacility/libphutil':
         directory => "${deploy_dir}/libphutil",
-        remote => 'https://github.com/phacility/libphutil',
+        remote    => 'https://github.com/phacility/libphutil',
     }
 
     git::clone { 'https://github.com/phacility/arcanist':
         directory => "${deploy_dir}/arcanist",
-        remote => 'https://github.com/phacility/arcanist',
+        remote    => 'https://github.com/phacility/arcanist',
     }
 
     env::profile_script { 'add arcanist bin to path':
