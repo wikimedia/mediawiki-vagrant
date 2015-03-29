@@ -30,7 +30,7 @@ function getMediaWiki( $file ) {
 		exit;
 	}
 
-	$IP = MULTIVER_COMMON_APACHE;
+	$IP = $multiVersion->getMediawikiRoot();
 	chdir( $IP );
 	putenv( "MW_INSTALL_PATH=$IP" );
 
@@ -53,12 +53,12 @@ function getMediaWikiCli( $file ) {
 	global $IP;
 	require_once( __DIR__ . '/MWMultiVersion.php' );
 	$multiVersion = MWMultiVersion::getInstance();
-	if( !$multiVersion ) {
+	if ( !$multiVersion ) {
 		$multiVersion = MWMultiVersion::initializeForMaintenance();
 	}
 
 	# Get the correct MediaWiki path based on this version...
-	$IP = MULTIVER_COMMON_APACHE;
+	$IP = $multiVersion->getMediawikiRoot();
 	chdir( $IP );
 	putenv( "MW_INSTALL_PATH=$IP" );
 

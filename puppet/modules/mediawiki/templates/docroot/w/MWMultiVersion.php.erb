@@ -1,7 +1,7 @@
 <?php
 // This file is managed by Puppet.
 // Based on operations/mediawiki-config.git multiversion/MWMultiversion.php @9abf4ac
-require_once( __DIR__ . '/defines.php' );
+require_once __DIR__ . '/defines.php';
 
 /**
  * Class to handle basic information related to what
@@ -69,6 +69,7 @@ class MWMultiVersion {
 	 * @return MWMultiVersion object for the wiki derived from --wiki CLI parameter
 	 */
 	public static function initializeForMaintenance() {
+		require_once __DIR__ . '/dblist.php';
 		$instance = self::createInstance();
 		$instance->setSiteInfoForMaintenance();
 		return $instance;
@@ -138,6 +139,11 @@ class MWMultiVersion {
 	 */
 	public function getDatabase() {
 		return $this->db;
+	}
+
+	public function getMediawikiRoot() {
+		global $wgMediawikiRoot;
+		return $wgMediawikiRoot[$this->db];
 	}
 
 	/**

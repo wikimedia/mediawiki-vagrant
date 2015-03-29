@@ -13,6 +13,7 @@
 /Roles
 /LocalSettings.php
 /mediawiki/
+/mediawiki-*/
 /settings.d
 !/settings.d/README
 !/settings.d/puppet-managed/README

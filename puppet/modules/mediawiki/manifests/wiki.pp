@@ -4,6 +4,22 @@
 #
 # Provision a new wiki instance.
 #
+# === Multi-instance: known limitations
+#
+# By specifying the *src_dir* parameter it is possible to have multiple wikis,
+# each running a separate branch of the mediawiki/core repository.
+# There are, however, some limitations.
+#
+# Currently support for multiple mediawiki source directories is incomplete
+# in the following ways:
+#
+# 1. By default, *::mediawiki::extension* makes config files that are shared by
+#  all of the configured wikis, however, that code only clones extensions in
+#  to */vagrant/mediawiki/extensions*.  This means that if you have roles
+#  enabled that setup any extensions, the source for each extension will need
+#  to be manually cloned into each additional mediawiki branch you are using.
+# 2. *::mediawiki::settings* has same problem as above
+#
 # === Parameters
 #
 # [*wiki_name*]
@@ -58,6 +74,7 @@ define mediawiki::wiki(
     $settings_root = "${::mediawiki::multiwiki::settings_root}/${db_name}"
     $settings_dir = "${settings_root}/settings.d"
     $installer_args = {
+        wiki       => $db_name,
         dbname     => $db_name,
         dbpass     => $db_pass,
         dbuser     => $db_user,
@@ -81,7 +98,11 @@ define mediawiki::wiki(
     exec { "${db_name}_setup":
         command => template('mediawiki/wiki/run_installer.erb'),
         unless  => template('mediawiki/wiki/check_installed.erb'),
-        require => Class['mysql'],
+        user    => 'vagrant',
+        require => [
+            Class['mysql'],
+            File[$settings_root],
+        ],
     }
 
     exec { "${db_name}_include_extra_settings":
@@ -89,6 +110,12 @@ define mediawiki::wiki(
         cwd     => $settings_root,
         unless  => 'grep "/vagrant/LocalSettings.php" LocalSettings.php',
         require => Exec["${db_name}_setup"],
+    }
+
+    exec { "${db_name}_copy_LocalSettings":
+        command => "cp ${settings_root}/LocalSettings.php ${src_dir}/LocalSettings.php",
+        creates => "${src_dir}/LocalSettings.php",
+        require => Exec["${db_name}_include_extra_settings"],
     }
 
     exec { "update_${db_name}_database":

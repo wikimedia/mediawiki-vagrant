@@ -5,7 +5,9 @@
 
 set -e
 
-IP=<%= scope['::mediawiki::dir'] %>
+IP=$1
+shift
+export MW_INSTALL_PATH=$IP
 
 if [[ -e $IP/LocalSettings.php ]]; then
   # Save existing LocalSettings

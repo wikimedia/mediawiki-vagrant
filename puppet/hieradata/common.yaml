@@ -176,6 +176,9 @@ redis::max_memory: 256M
 
 role::elk::vhost_name: 'logstash.local.wmftest.net'
 
+role::fundraising_wiki::branch: fundraising/REL1_23
+role::fundraising_wiki::dir: /vagrant/mediawiki-fr
+
 role::mediawiki::hostname: 127.0.0.1
 
 role::sentry::dsn: "%{hiera('sentry::dsn_file')}"

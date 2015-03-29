@@ -63,7 +63,7 @@ define mediawiki::import_text(
         user        => 'www-data',
         require     => [
             Mediawiki::Wiki[$wiki],
-            Exec['copy_LocalSettings'],
+            Exec["${db_name}_copy_LocalSettings"],
         ],
     }
 
