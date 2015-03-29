@@ -150,8 +150,6 @@ mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fra
 
 mediawiki::apache::docroot: "%{hiera('apache::docroot')}"
 
-mediawiki::jobrunner::commit: 5c927f9091f446452b9fd7bcb69614c7a7fe6eff
-
 mediawiki::multiwiki::base_domain: '.wiki.local.wmftest.net'
 mediawiki::multiwiki::script_dir: "%{hiera('mediawiki::apache::docroot')}/w"
 mediawiki::multiwiki::settings_root: "%{hiera('mediawiki::settings_dir')}/wikis"

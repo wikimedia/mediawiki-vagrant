@@ -19,10 +19,10 @@
 # [*owner*]
 #   User that should own the checked out repository. Git commands will run as
 #   this user so the user must have the ability to create the target
-#   directory. Default 'vagrant'.
+#   directory. Default $::share_owner.
 #
 # [*group*]
-#   Group that should own the checked out repostory. Default 'vagrant'.
+#   Group that should own the checked out repostory. Default $::share_group.
 #
 # [*ensure*]
 #   What state the clone should be in. Valid values are `present` and
@@ -48,8 +48,8 @@ define git::clone(
     $directory,
     $branch             = undef,
     $remote             = undef,
-    $owner              = 'vagrant',
-    $group              = 'vagrant',
+    $owner              = $::share_owner,
+    $group              = $::share_group,
     $ensure             = 'present',
     $depth              = $::git::default_depth,
     $recurse_submodules = true,
@@ -86,6 +86,15 @@ define git::clone(
         group       => $group,
         require     => Package['git'],
         timeout     => 0,
+    }
+
+    if (!defined(File[$directory])) {
+        file { $directory:
+            ensure => 'directory',
+            owner  => $owner,
+            group  => $group,
+            before => Exec["git_clone_${title}"],
+        }
     }
 
     if $ensure == 'latest' {

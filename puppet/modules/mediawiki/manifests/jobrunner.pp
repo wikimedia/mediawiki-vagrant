@@ -3,20 +3,12 @@
 # jobrunner continuously processes the MediaWiki job queue by dispatching
 # workers to perform tasks and monitoring their success or failure.
 #
-# === Parameters
-#
-# [*commit*]
-#   Git commit to install.
-#
-class mediawiki::jobrunner(
-    $commit,
-) {
+class mediawiki::jobrunner {
     include ::mediawiki
     require ::mediawiki::multiwiki
 
-    git::install { 'mediawiki/services/jobrunner':
+    git::clone { 'mediawiki/services/jobrunner':
         directory => '/srv/jobrunner',
-        commit    => $commit,
         before    => Service['jobrunner'],
     }
 
