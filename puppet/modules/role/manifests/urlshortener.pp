@@ -11,6 +11,6 @@ class role::urlshortener {
 
     apache::site_conf { 'urlshortener_short_url_support':
         site    => $::mediawiki::wiki_name,
-        content => template('role/urlshortener_shortening.conf.erb'),
+        content => template('role/urlshortener/apache2.conf.erb'),
     }
 }

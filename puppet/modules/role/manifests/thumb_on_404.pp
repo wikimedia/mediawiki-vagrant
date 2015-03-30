@@ -19,6 +19,6 @@ class role::thumb_on_404 {
     $images_path = '/images'
     apache::site_conf { 'thumb.php on 404':
         site    => $::mediawiki::wiki_name,
-        content => template('role/thumb_on_404.conf.erb'),
+        content => template('role/thumb_on_404/apache2.conf.erb'),
     }
 }

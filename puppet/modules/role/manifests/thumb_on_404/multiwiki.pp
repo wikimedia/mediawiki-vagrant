@@ -8,6 +8,6 @@ define role::thumb_on_404::multiwiki {
 
     apache::site_conf { "${title}:thumb.php on 404":
         site    => $::mediawiki::wiki_name,
-        content => template('role/thumb_on_404.conf.erb'),
+        content => template('role/thumb_on_404/apache2.conf.erb'),
     }
 }

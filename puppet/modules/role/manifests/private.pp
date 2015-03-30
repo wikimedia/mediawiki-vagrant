@@ -18,15 +18,15 @@ class role::private {
         },
     }
     mediawiki::settings { 'private:repo':
-        values => template('role/private_local_repo.php.erb'),
+        values => template('role/private/local_repo.php.erb'),
     }
     mediawiki::settings { 'private:rights':
-        values => template('role/private_rights.php.erb'),
+        values => template('role/private/rights.php.erb'),
     }
 
     apache::site_conf { 'private_deny_images':
         site    => $::mediawiki::wiki_name,
-        content => template('role/private_deny_images.conf.erb'),
+        content => template('role/private/apache2.conf.erb'),
         require => Mediawiki::Wiki['private'],
     }
 

@@ -15,12 +15,12 @@ class role::wikidata {
         entrypoint   => 'Wikidata.php',
         composer     => true,
         needs_update => true,
-        settings     => template('role/wikidata-shared.php.erb'),
+        settings     => template('role/wikidata/shared.php.erb'),
     }
 
     mediawiki::settings { 'WikiData-Init':
         priority => $::LOAD_EARLY,
-        values   => template('role/wikidata-init.php.erb'),
+        values   => template('role/wikidata/init.php.erb'),
     }
 
     exec { 'wikidata-populate-site-tables':

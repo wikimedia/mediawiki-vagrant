@@ -20,7 +20,7 @@ class role::gadgets2 {
     mediawiki::wiki { 'gadgetsclient': }
 
     mediawiki::settings { 'Gadgets_Foreign_Repo':
-        values => template('role/gadget_foreign_repo.php.erb'),
+        values => template('role/gadgets2/foreign_repo.php.erb'),
         wiki   => 'gadgetsclient',
     }
 }

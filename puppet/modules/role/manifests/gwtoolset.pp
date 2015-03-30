@@ -30,7 +30,7 @@ class role::gwtoolset {
   }
 
   mediawiki::extension { 'GWToolset':
-    settings => template('role/gwtoolset-config.php.erb')
+    settings => template('role/gwtoolset/conf.php.erb')
   }
 
   mediawiki::import_dump { 'mediawiki_common_css':

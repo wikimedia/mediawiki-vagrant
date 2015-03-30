@@ -10,7 +10,7 @@ class role::visualeditor {
     include ::role::uls
 
     mediawiki::extension { 'VisualEditor':
-        settings      => template('role/ve-config.php.erb'),
+        settings      => template('role/visualeditor/conf.php.erb'),
         browser_tests => 'modules/ve-mw/tests/browser',
         priority      => $::LOAD_EARLY,
     }
