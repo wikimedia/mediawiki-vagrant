@@ -107,8 +107,8 @@ if $::share_owner =~ /^\d+$/ {
 package { [ 'build-essential', 'python-dev', 'ruby-dev' ]: }
 
 # Initialize PHPStorm environment
-file { "/vagrant/.idea":
-    source  => "/vagrant/support/idea-dist",
+file { '/vagrant/.idea':
+    source  => '/vagrant/support/idea-dist',
     recurse => true,
     replace => false,
 }
