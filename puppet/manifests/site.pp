@@ -86,6 +86,23 @@ package { [ 'chef', 'chef-zero' ]:
   ensure => absent,
 }
 
+# Ensure the uid/gid used for shared files exists in the VM
+if $::share_group =~ /^\d+$/ {
+    group { 'vagrant_share':
+        ensure    => 'present',
+        gid       => $::share_group,
+        allowdupe => true,
+    }
+}
+if $::share_owner =~ /^\d+$/ {
+    user { 'vagrant_share':
+        ensure    => 'present',
+        uid       => $::share_owner,
+        gid       => $::share_group,
+        allowdupe => true,
+    }
+}
+
 # Install common development tools
 package { [ 'build-essential', 'python-dev', 'ruby-dev' ]: }
 
