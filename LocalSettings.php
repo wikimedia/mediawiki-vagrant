@@ -65,7 +65,9 @@ $wgObjectCaches['redis'] = array(
     'persistent' => true,
 );
 $wgMainCacheType = 'redis';
+// Avoid user request serialization and other slowness
 $wgSessionCacheType = 'redis';
+$wgSessionsInObjectCache = true;
 
 // Jobqueue
 $wgJobTypeConf['default'] = array(
