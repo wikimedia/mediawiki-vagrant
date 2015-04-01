@@ -11,7 +11,7 @@ class role::securepoll {
 
     mediawiki::extension { 'SecurePoll':
         needs_update => true,
-        settings     => template('role/securepoll.php.erb'),
+        settings     => template('role/securepoll/conf.php.erb'),
     }
 
     mediawiki::wiki { 'vote': }

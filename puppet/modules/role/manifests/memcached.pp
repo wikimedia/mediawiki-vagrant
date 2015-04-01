@@ -6,7 +6,7 @@ class role::memcached {
     include ::memcached::php
 
     mediawiki::settings { 'Memcached':
-        values   => template('role/memcached.php.erb'),
+        values   => template('role/memcached/conf.php.erb'),
     }
 
 }

@@ -6,6 +6,6 @@
 # [1]https://www.mediawiki.org/wiki/Extension:WikimediaMessages
 class role::wikimediamessages {
   mediawiki::extension { 'WikimediaMessages':
-    settings => template('role/wikimediamessages-config.php.erb')
+    settings => template('role/wikimediamessages/conf.php.erb')
   }
 }
