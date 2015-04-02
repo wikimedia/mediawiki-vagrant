@@ -57,6 +57,7 @@ Feature: Command line configuration
       | static_ip     | 1.1.1.1 |
       | http_port     | 8888    |
       | nfs_shares    | no      |
+      | nfs_cache     | yes     |
       | forward_agent | yes     |
       | forward_x11   | no      |
     Then the command should have completed successfully
@@ -67,6 +68,7 @@ Feature: Command line configuration
       | static_ip     | 1.1.1.1 |
       | http_port     | 8888    |
       | nfs_shares    | no      |
+      | nfs_cache     | yes     |
       | forward_agent | yes     |
       | forward_x11   | no      |
 

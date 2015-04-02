@@ -55,4 +55,20 @@ class mwv (
     package { [ 'chef', 'chef-zero' ]:
       ensure => absent,
     }
+
+    # Support the `nfs_cache` setting with cachefilesd
+    package { 'cachefilesd':
+        ensure => present,
+    }
+
+    file { '/etc/default/cachefilesd':
+        content => "RUN=yes\nSTARTTIME=5\n",
+        require => Package['cachefilesd'],
+    }
+
+    service { 'cachefilesd':
+        ensure    => running,
+        require   => Package['cachefilesd'],
+        subscribe => File['/etc/default/cachefilesd'],
+    }
 }

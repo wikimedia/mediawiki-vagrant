@@ -37,6 +37,12 @@ module MediaWikiVagrant
       default: defined?(Vagrant::Util::Platform) ? !Vagrant::Util::Platform.windows? : true,
       coercion: ->(setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
 
+    setting :nfs_cache,
+      description: "Use cachefilesd to speed up NFS file access (EXPERIMENTAL)",
+      help: "Enter 'yes' or 'no'. If your VM is currently running, reload it after changing this setting.",
+      default: false,
+      coercion: ->(setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
+
     setting :forward_agent,
       description: "Enable agent forwarding over SSH connections by default",
       help: "Enter 'yes' or 'no'. Agent forwarding requires an SSH agent running on the host computer.",
