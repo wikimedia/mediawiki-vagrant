@@ -102,7 +102,6 @@ $wgJobTypeConf['default'] = array(
 	'daemonized'  => true,
 	'redisServer' => '127.0.0.1',
 	'redisConfig' => array( 'connectTimeout' => 2, 'compression' => 'gzip' ),
-	'daemonized' => true,
 );
 
 $wgJobQueueAggregator = array(
