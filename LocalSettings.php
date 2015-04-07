@@ -13,35 +13,6 @@
 error_reporting( -1 );
 ini_set( 'display_errors', 1 );
 
-if ( !defined( 'MW_PHPUNIT_TEST' ) ) {
-	# Simulate master/slave setup a bit, e.g.:
-	# a) uncommitted data will not show up with DB_SLAVE
-	# b) the DB_SLAVE connection to the DB will often be in
-	#    a REPEATABLE-READ snapshot that does not reflect
-	#    writes just committed by this process
-	$wgDBservers = array(
-		array(
-			'host' => $wgDBserver,
-			'dbname' => $wgDBname,
-			'user' => $wgDBuser,
-			'password' => $wgDBpassword,
-			'type' => $wgDBtype,
-			'flags' => DBO_DEFAULT,
-			'load' => 0,
-		),
-		array(
-			'host' => $wgDBserver,
-			'dbname' => $wgDBname,
-			'user' => $wgDBuser,
-			'password' => $wgDBpassword,
-			'type' => $wgDBtype,
-			'flags' => DBO_DEFAULT,
-			'load' => 1,
-			'fakeSlaveLag' => 0
-		),
-	);
-}
-
 $wgUploadDirectory = '/srv/images';
 $wgUploadPath = '/images';
 $wgArticlePath = "/wiki/$1";
