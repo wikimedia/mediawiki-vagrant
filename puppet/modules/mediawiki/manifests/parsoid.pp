@@ -48,8 +48,6 @@ class mediawiki::parsoid(
 
     git::clone { 'mediawiki/services/parsoid/deploy':
         directory  => $dir,
-        owner      => 'root',
-        group      => 'root',
         require    => Package['nodejs', 'nodejs-legacy'],
     }
 
