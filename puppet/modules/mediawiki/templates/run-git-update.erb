@@ -56,7 +56,7 @@ function pull {
   echo
 }
 
-for srvdir in $(find /srv -maxdepth 2 -type d -name .git -printf "%h\n"); do
+for srvdir in $(find <%= scope['::mwv::services_dir'] %> -maxdepth 2 -type d -name .git -printf "%h\n"); do
   cd "${srvdir}"
   pull
 done

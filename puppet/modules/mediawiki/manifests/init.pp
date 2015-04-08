@@ -69,6 +69,7 @@ class mediawiki(
       environment => "MW_INSTALL_PATH=${dir}",
     }
 
+    include ::mwv
     require ::php
     require ::hhvm
 
@@ -145,7 +146,7 @@ class mediawiki(
     }
 
     file { '/usr/local/bin/run-git-update':
-        source  => 'puppet:///modules/mediawiki/run-git-update',
+        content => template('mediawiki/run-git-update.erb'),
         mode    => '0755',
     }
 
