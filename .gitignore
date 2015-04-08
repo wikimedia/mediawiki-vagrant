@@ -9,8 +9,6 @@
 /*.sublime-workspace
 /no-update
 /Vagrantfile-extra.rb
-/Roles.yaml
-/Roles
 /LocalSettings.php
 /mediawiki/
 /mediawiki-*/
@@ -22,17 +20,9 @@
 !/puppet/manifests/manifests.d/dummy.pp
 /logs
 !/logs/puppet/.gitignore
-/apt-cache
-!/apt-cache/partial/.gitignore
-/wikimania_scholarships/
-/scholarships/
 /vagrant.d/
 /support/packager/output
-/wikimetrics/
-/mathoid
-/iegreview
 /profiles
-/phab
 /node_modules
 /tmp
 /doc/
