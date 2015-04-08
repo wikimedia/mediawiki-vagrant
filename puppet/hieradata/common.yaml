@@ -1,14 +1,15 @@
 ---
 classes:
+  - '::mwv'
   - '::role::mediawiki'
   - '::puppet::agent'
 
-files_dir: /srv
-services_dir: /vagrant/srv
-vendor_dir: /srv
+mwv::files_dir: /srv
+mwv::services_dir: /vagrant/srv
+mwv::vendor_dir: /srv
 
 apache::docroot: /var/www
-arcanist::deploy_dir: "%{hiera('services_dir')}"
+arcanist::deploy_dir: "%{hiera('mwv::services_dir')}"
 
 cdh::hue::secret_key: vagrant
 cdh::hue::hive_server_host: "%{::fqdn}"
@@ -16,7 +17,7 @@ cdh::hue::hive_server_host: "%{::fqdn}"
 cdh::oozie::server::db_root_password: "%{hiera('mysql::root_password')}"
 cdh::oozie::server::heapsize: 64
 
-crm::dir: "%{hiera('services_dir')}/org.wikimedia.civicrm"
+crm::dir: "%{hiera('mwv::services_dir')}/org.wikimedia.civicrm"
 crm::site_name: crm.dev
 crm::drupal_db: drupal
 crm::civicrm_db: civicrm
@@ -24,7 +25,7 @@ crm::db_user: root
 crm::db_pass: "%{hiera('mysql::root_password')}"
 
 crm::drupal::dir: "%{hiera('crm::dir')/drupal}"
-crm::drupal::files_dir: "%{hiera('files_dir')}/org.wikimedia.civicrm-files"
+crm::drupal::files_dir: "%{hiera('mwv::files_dir')}/org.wikimedia.civicrm-files"
 
 hhvm::common_settings:
   date:
@@ -107,7 +108,7 @@ hhvm::docroot: "%{hiera('apache::docroot')}"
 hhvm::hhbc_dir: /var/run/hhvm
 hhvm::logroot: /vagrant/logs
 
-kibana::deploy_dir: "%{hiera('vendor_dir')}/kibana"
+kibana::deploy_dir: "%{hiera('mwv::vendor_dir')}/kibana"
 kibana::default_route: /dashboard/elasticsearch/default
 
 logstash::heap_memory_mb: 64
@@ -117,13 +118,13 @@ logstash::output::elasticsearch::replication: async
 logstash::output::elasticsearch::manage_indices: true
 logstash::output::elasticsearch::priority: 90
 
-mathoid::base_path: "%{hiera('services_dir')}/mathoid"
+mathoid::base_path: "%{hiera('mwv::services_dir')}/mathoid"
 mathoid::node_path: "%{hiera('mathoid::base_path')}/node_modules"
 mathoid::conf_path: "%{hiera('mathoid::base_path')}/mathoid.config.json"
 mathoid::log_dir: /vagrant/logs
 mathoid::port: 10042
 
-graphoid::base_path: "%{hiera('services_dir')}/graphoid"
+graphoid::base_path: "%{hiera('mwv::services_dir')}/graphoid"
 graphoid::node_path: "%{hiera('graphoid::base_path')}/node_modules"
 graphoid::conf_path: "%{hiera('graphoid::base_path')}/graphoid.config.json"
 graphoid::log_dir: /vagrant/logs
@@ -135,7 +136,7 @@ iegreview::vhost_name: iegreview.local.wmftest.net
 iegreview::db_name: iegreview
 iegreview::db_user: iegreview
 iegreview::db_pass: iegreview
-iegreview::deploy_dir: "%{hiera('services_dir')}/iegreview"
+iegreview::deploy_dir: "%{hiera('mwv::services_dir')}/iegreview"
 iegreview::cache_dir: /var/cache/iegreview
 iegreview::log_file: /vagrant/logs/iegreview.log
 iegreview::smtp_server: 127.0.0.1
@@ -146,8 +147,8 @@ mediawiki::dir: /vagrant/mediawiki
 mediawiki::cache_dir: /var/cache/mediawiki
 mediawiki::settings_dir: /vagrant/settings.d
 mediawiki::upload_dir: "%{hiera('mediawiki::upload_root')}/images"
-mediawiki::upload_root: "%{hiera('files_dir')}"
-mediawiki::page_dir: "%{hiera('files_dir')}/pages"
+mediawiki::upload_root: "%{hiera('mwv::files_dir')}"
+mediawiki::page_dir: "%{hiera('mwv::files_dir')}/pages"
 mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
 mediawiki::db_user: root
 mediawiki::db_pass: "%{hiera('mysql::root_password')}"
@@ -157,13 +158,13 @@ mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fra
 
 mediawiki::apache::docroot: "%{hiera('apache::docroot')}"
 
-mediawiki::jobrunner::dir: "%{hiera('services_dir')}/jobrunner"
+mediawiki::jobrunner::dir: "%{hiera('mwv::services_dir')}/jobrunner"
 
 mediawiki::multiwiki::base_domain: '.wiki.local.wmftest.net'
 mediawiki::multiwiki::script_dir: "%{hiera('mediawiki::apache::docroot')}/w"
 mediawiki::multiwiki::settings_root: "%{hiera('mediawiki::settings_dir')}/wikis"
 
-mediawiki::parsoid::dir: "%{hiera('services_dir')}/parsoid"
+mediawiki::parsoid::dir: "%{hiera('mwv::services_dir')}/parsoid"
 mediawiki::parsoid::port: 8000
 mediawiki::parsoid::use_php_preprocessor: true
 mediawiki::parsoid::use_selser: true
@@ -173,16 +174,16 @@ mediawiki::parsoid::workers: 2
 mysql::default_db_name: wiki
 mysql::root_password: vagrant
 
-phabricator::deploy_dir: "%{hiera('services_dir')}"
+phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
 phabricator::vhost_name: phabricator.local.wmftest.net
 
-phpmailer::dir: "%{hiera('services_dir')}/phpmailer"
+phpmailer::dir: "%{hiera('mwv::services_dir')}/phpmailer"
 
 # We are masterless and have no need to run an agent.
 puppet::agent::ensure: stopped
 puppet::agent::enable: false
 
-redis::dir: "%{hiera('vendor_dir')}/redis"
+redis::dir: "%{hiera('mwv::vendor_dir')}/redis"
 redis::persist: true
 redis::max_memory: 256M
 
@@ -197,13 +198,13 @@ role::mediawiki::hostname: 127.0.0.1
 
 role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
 
-role::wikimetrics::dir: "%{hiera('services_dir')}/wikimetrics"
+role::wikimetrics::dir: "%{hiera('mwv::services_dir')}/wikimetrics"
 
 scholarships::vhost_name: scholarships.local.wmftest.net
 scholarships::db_name: scholarships
 scholarships::db_user: scholarships
 scholarships::db_pass: scholarships
-scholarships::deploy_dir: "%{hiera('services_dir')}/scholarships"
+scholarships::deploy_dir: "%{hiera('mwv::services_dir')}/scholarships"
 scholarships::cache_dir: /var/cache/scholarships
 scholarships::log_file: /vagrant/logs/scholarships.log
 
@@ -211,7 +212,7 @@ sentry::db_name: sentry
 sentry::db_user: sentry
 sentry::db_pass: vagrant
 sentry::vhost_name: sentry.local.wmftest.net
-sentry::deploy_dir: "%{hiera('vendor_dir')}/sentry"
+sentry::deploy_dir: "%{hiera('mwv::vendor_dir')}/sentry"
 sentry::cfg_file: /etc/sentry.conf.py
 sentry::mail_log_dir: /vagrant/logs/sentry-mail
 sentry::secret_key: s0F2ybS8jPLvzadqVudo7VykVWT1JO9FoErhc6gkJj6/KNWeFUbUiQ==
@@ -221,7 +222,7 @@ sentry::admin_pass: vagrant
 
 smtplog::log_file: /vagrant/logs/smtp.log
 
-twig::dir: "%{hiera('services_dir')}/twig"
+twig::dir: "%{hiera('mwv::services_dir')}/twig"
 
-xhprofgui::dir: "%{hiera('vendor_dir')}/xhprof"
+xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
 xhprofgui::profile_storage_dir: /vagrant/profiles
