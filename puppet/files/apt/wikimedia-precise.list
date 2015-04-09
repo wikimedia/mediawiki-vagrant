@@ -1,5 +1,0 @@
-# Include precise packages so that CDH can be installed in Trusty.
-# This file is managed by Puppet.
-#
-deb http://apt.wikimedia.org/wikimedia precise-wikimedia main universe
-deb-src http://apt.wikimedia.org/wikimedia precise-wikimedia main universe

@@ -74,7 +74,6 @@ when 'provision'
     --modulepath #{puppet_path}/modules \
     --manifestdir #{puppet_path}/manifests \
     --templatedir #{puppet_path}/templates \
-    --fileserverconfig #{puppet_path}/extra/fileserver.conf \
     --config_version #{puppet_path}/extra/config-version \
     --hiera_config #{puppet_path}/hiera.yaml \
     --verbose \
