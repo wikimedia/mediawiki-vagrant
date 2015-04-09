@@ -32,5 +32,27 @@ class apt {
         before  => Exec['update_package_index'],
     }
 
+    if $::shared_apt_cache {
+        file { '/etc/apt/apt.conf.d/20shared-cache':
+            content => "Dir::Cache::archives \"${::shared_apt_cache}\";\n",
+        }
+
+        # bug 67976: don't clean up legacy cache locations until apt has been
+        # reconfigured with new location.
+        file { ['/vagrant/apt-cache', '/vagrant/composer-cache']:
+            ensure  => absent,
+            recurse => true,
+            purge   => true,
+            force   => true,
+            require => File['/etc/apt/apt.conf.d/20shared-cache'],
+        }
+    }
+    file { '/etc/apt/apt.conf.d/01no-recommended':
+        source => 'puppet:///modules/apt/01no-recommended',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0444',
+    }
+
     Class['Apt'] -> Package <| |>
 }
