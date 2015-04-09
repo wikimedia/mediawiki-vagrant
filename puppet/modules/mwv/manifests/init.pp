@@ -1,6 +1,6 @@
 # == Class: mwv
 #
-# General settings for mediawiki-vagrant deployments
+# General settings and configuration for mediawiki-vagrant deployments
 #
 # === Parameters
 #
@@ -18,5 +18,41 @@ class mwv (
     $services_dir,
     $vendor_dir,
 ) {
-    # FIXME: do we have initialization that can/should be moved here?
+    include ::apt
+    include ::env
+    include ::git
+
+    file { $vendor_dir:
+        owner => 'root',
+        group => 'root',
+        mode  => '0755',
+    }
+
+    # Ensure the uid/gid used for shared files exists in the VM
+    if $::share_group =~ /^\d+$/ {
+        group { 'vagrant_share':
+            ensure    => 'present',
+            gid       => $::share_group,
+            allowdupe => true,
+        } -> File <| |>
+    }
+    if $::share_owner =~ /^\d+$/ {
+        user { 'vagrant_share':
+            ensure    => 'present',
+            uid       => $::share_owner,
+            gid       => $::share_group,
+            allowdupe => true,
+        } -> File <| |>
+    }
+
+    package { 'python-pip': } -> Package <| provider == pip |>
+
+    # Install common development tools
+    package { [ 'build-essential', 'python-dev', 'ruby-dev' ]: }
+
+    # Remove chef if it is installed in the base image
+    # Bug: 67693
+    package { [ 'chef', 'chef-zero' ]:
+      ensure => absent,
+    }
 }

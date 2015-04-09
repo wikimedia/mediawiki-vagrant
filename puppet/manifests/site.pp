@@ -46,47 +46,6 @@ File {
     backup => false,
 }
 
-file { '/srv':
-    owner => 'root',
-    group => 'root',
-    mode  => '0755',
-}
-
-package { 'python-pip': } -> Package <| provider == pip |>
-
-# Remove chef if it is installed in the base image
-# Bug: 67693
-package { [ 'chef', 'chef-zero' ]:
-  ensure => absent,
-}
-
-# Ensure the uid/gid used for shared files exists in the VM
-if $::share_group =~ /^\d+$/ {
-    group { 'vagrant_share':
-        ensure    => 'present',
-        gid       => $::share_group,
-        allowdupe => true,
-    }
-}
-if $::share_owner =~ /^\d+$/ {
-    user { 'vagrant_share':
-        ensure    => 'present',
-        uid       => $::share_owner,
-        gid       => $::share_group,
-        allowdupe => true,
-    }
-}
-
-# Install common development tools
-package { [ 'build-essential', 'python-dev', 'ruby-dev' ]: }
-
-# Initialize PHPStorm environment
-file { '/vagrant/.idea':
-    source  => '/vagrant/support/idea-dist',
-    recurse => true,
-    replace => false,
-}
-
 # Assign classes to nodes via hiera
 # See hiera.yaml and hieradata/*.yaml
 hiera_include('classes')
