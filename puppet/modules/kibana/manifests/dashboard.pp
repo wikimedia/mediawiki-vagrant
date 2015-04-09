@@ -8,10 +8,10 @@ define kibana::dashboard(
 ) {
     $safe_title = regsubst($title, '\W_', '-', 'G')
     $dashboard = {
-        "user"      => "guest",
-        "group"     => "guest",
-        "title"     => $safe_title,
-        "dashboard" => $content,
+        'user'      => 'guest',
+        'group'     => 'guest',
+        'title'     => $safe_title,
+        'dashboard' => $content,
     }
     exec { "save dashboard ${title}":
         command => template('kibana/save-dashboard.erb'),

@@ -7,15 +7,15 @@ class role::geodata_elastic {
 
     mediawiki::settings { 'GeoData-elastic':
         priority => $::LOAD_LATER,
-        values => {
+        values   => {
             wgGeoDataBackend => 'elastic',
         },
-        notify => Exec['force geodata index'],
+        notify   => Exec['force geodata index'],
     }
 
     exec { 'force geodata index':
-        command => '/usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php',
-        user => 'vagrant',
+        command     => '/usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php',
+        user        => 'vagrant',
         refreshonly => true,
     }
 }

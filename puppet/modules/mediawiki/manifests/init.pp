@@ -122,11 +122,11 @@ class mediawiki(
     }
 
     mediawiki::wiki { $wiki_name:
-        db_name       => $db_name,
-        upload_dir    => $upload_dir,
-        server_url    => $server_url,
-        primary_wiki  => true,
-        require       => [
+        db_name      => $db_name,
+        upload_dir   => $upload_dir,
+        server_url   => $server_url,
+        primary_wiki => true,
+        require      => [
             Exec['set_mysql_password'],
             Git::Clone['mediawiki/core'],
         ],
@@ -141,8 +141,8 @@ class mediawiki(
     }
 
     file { '/usr/local/bin/run-mediawiki-tests':
-        source  => 'puppet:///modules/mediawiki/run-mediawiki-tests',
-        mode    => '0755',
+        source => 'puppet:///modules/mediawiki/run-mediawiki-tests',
+        mode   => '0755',
     }
 
     file { '/usr/local/bin/run-git-update':
@@ -151,8 +151,8 @@ class mediawiki(
     }
 
     file { '/usr/local/bin/import-mediawiki-dump':
-        source  => 'puppet:///modules/mediawiki/import-mediawiki-dump',
-        mode    => '0755',
+        source => 'puppet:///modules/mediawiki/import-mediawiki-dump',
+        mode   => '0755',
     }
 
     exec { 'update_all_databases':
@@ -179,9 +179,9 @@ class mediawiki(
     }
 
     file { '/etc/logrotate.d/mediawiki_shared_log_groups':
-        source  => 'puppet:///modules/mediawiki/wiki/logrotate.d-mediawiki-shared-log-groups',
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
+        source => 'puppet:///modules/mediawiki/wiki/logrotate.d-mediawiki-shared-log-groups',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0444',
     }
 }

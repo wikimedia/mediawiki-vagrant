@@ -10,9 +10,9 @@ define phabricator::config(
 ){
     include ::phabricator
 
-    exec { "phab_set_$title":
-        command => "$deploy_dir/phabricator/bin/config set ${title} '${value}'",
+    exec { "phab_set_${title}":
+        command => "${deploy_dir}/phabricator/bin/config set ${title} '${value}'",
         require => Git::Clone['https://github.com/phacility/phabricator'],
-        unless => "grep '${title}' $deploy_dir/phabricator/conf/local/local.json | grep '${value}'",
+        unless  => "grep '${title}' ${deploy_dir}/phabricator/conf/local/local.json | grep '${value}'",
     }
 }

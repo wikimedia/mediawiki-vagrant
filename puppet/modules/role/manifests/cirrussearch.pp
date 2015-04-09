@@ -29,8 +29,8 @@ class role::cirrussearch {
     }
     elasticsearch::plugin { 'hebrew':
         # Less stable then icu plugin
-        ensure  => 'absent',
-        name    => 'elasticsearch-analysis-hebrew',
+        ensure => 'absent',
+        name   => 'elasticsearch-analysis-hebrew',
     }
     ## Highlighter
     elasticsearch::plugin { 'highlighter':

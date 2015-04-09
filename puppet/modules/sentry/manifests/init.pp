@@ -108,7 +108,7 @@ class sentry (
         ensure  => present,
         group   => 'www-data',
         content => template('sentry/sentry.conf.py.erb'),
-        mode    => 0640,
+        mode    => '0640',
     }
 
     exec { 'initialize sentry database':
@@ -120,15 +120,15 @@ class sentry (
     file { $sentry_create_project_script:
         ensure  => present,
         content => template('sentry/sentry_create_project.py.erb'),
-        mode    => '755',
+        mode    => '0755',
         require => Virtualenv::Environment[$deploy_dir],
     }
 
     # make sure www-data can write to $dsn_file
     file { $dsn_file:
-        ensure  => present,
-        owner   => 'www-data',
-        mode    => '644',
+        ensure => present,
+        owner  => 'www-data',
+        mode   => '0644',
     }
 
     exec { 'create sentry project':
@@ -155,9 +155,9 @@ class sentry (
     }
 
     service { 'sentry':
-        ensure     => running,
-        provider   => 'upstart',
-        require    => [Virtualenv::Environment[$deploy_dir], Mysql::User[$db_user]],
-        subscribe  => [File[$cfg_file], Exec['create sentry project']],
+        ensure    => running,
+        provider  => 'upstart',
+        require   => [Virtualenv::Environment[$deploy_dir], Mysql::User[$db_user]],
+        subscribe => [File[$cfg_file], Exec['create sentry project']],
     }
 }

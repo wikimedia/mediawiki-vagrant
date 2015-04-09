@@ -9,8 +9,8 @@ class role::globaluserpage {
 
     mediawiki::extension { 'GlobalUserPage':
         settings => {
-            wgGlobalUserPageDBname      => 'gupwiki',
-            wgGlobalUserPageAPIUrl      => "http://gup${::mediawiki::multiwiki::base_domain}${::port_fragment}/w/api.php",
+            wgGlobalUserPageDBname => 'gupwiki',
+            wgGlobalUserPageAPIUrl => "http://gup${::mediawiki::multiwiki::base_domain}${::port_fragment}/w/api.php",
         }
     }
 

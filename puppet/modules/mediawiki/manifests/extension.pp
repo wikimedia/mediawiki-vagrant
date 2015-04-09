@@ -165,12 +165,12 @@ define mediawiki::extension(
     }
 
     mediawiki::settings { $title:
-        ensure       => $ensure,
-        wiki         => $ext_wiki,
-        header       => template('mediawiki/extension.php.erb'),
-        values       => $settings,
-        priority     => $priority,
-        require      => Git::Clone[$ext_repo],
+        ensure   => $ensure,
+        wiki     => $ext_wiki,
+        header   => template('mediawiki/extension.php.erb'),
+        values   => $settings,
+        priority => $priority,
+        require  => Git::Clone[$ext_repo],
     }
 
     if $composer {

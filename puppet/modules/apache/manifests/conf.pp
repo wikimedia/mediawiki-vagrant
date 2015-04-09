@@ -68,11 +68,11 @@ define apache::conf(
     }
 
     file { "/etc/apache2/${conf_type}-enabled/${conf_file}":
-        ensure  => $link_ensure,
-        target  => "/etc/apache2/${conf_type}-available/${conf_file}",
-        notify  => Service['apache2'],
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
+        ensure => $link_ensure,
+        target => "/etc/apache2/${conf_type}-available/${conf_file}",
+        notify => Service['apache2'],
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0444',
     }
 }

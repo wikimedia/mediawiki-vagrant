@@ -62,12 +62,12 @@ define git::install(
 
     if $preserve_commit {
         exec { "git_install_reset_${title}":
-            command   => 'git clean -d --force & git checkout -- .',
-            cwd       => $directory,
-            user      => $owner,
-            unless    => "git diff HEAD..${commit} --exit-code",
-            notify    => Exec["git_install_checkout_${title}"],
-            require   => Git::Clone[$title],
+            command => 'git clean -d --force & git checkout -- .',
+            cwd     => $directory,
+            user    => $owner,
+            unless  => "git diff HEAD..${commit} --exit-code",
+            notify  => Exec["git_install_checkout_${title}"],
+            require => Git::Clone[$title],
         }
     }
 }

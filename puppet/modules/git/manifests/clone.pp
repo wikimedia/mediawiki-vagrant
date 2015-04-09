@@ -79,13 +79,13 @@ define git::clone(
     }
 
     exec { "git_clone_${title}":
-        command     => "git clone ${arg_recurse} ${arg_depth} ${arg_branch} ${repository} ${directory}",
-        cwd         => '/',
-        creates     => "${directory}/.git",
-        user        => $owner,
-        group       => $group,
-        require     => Package['git'],
-        timeout     => 0,
+        command => "git clone ${arg_recurse} ${arg_depth} ${arg_branch} ${repository} ${directory}",
+        cwd     => '/',
+        creates => "${directory}/.git",
+        user    => $owner,
+        group   => $group,
+        require => Package['git'],
+        timeout => 0,
     }
 
     if (!defined(File[$directory])) {

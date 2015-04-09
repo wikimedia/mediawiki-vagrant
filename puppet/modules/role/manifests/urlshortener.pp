@@ -6,7 +6,9 @@ class role::urlshortener {
 
     mediawiki::extension { 'UrlShortener':
         needs_update => true,
-        settings     => { 'wgUrlShortenerTemplate' => '/s/$1' },
+        settings     => {
+            'wgUrlShortenerTemplate' => '/s/$1',
+        },
     }
 
     apache::site_conf { 'urlshortener_short_url_support':

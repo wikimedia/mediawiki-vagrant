@@ -12,13 +12,13 @@ class role::labs_initial_content {
     }
 
     file { "${::mediawiki::apache::docroot}/labs_mediawiki_logo.png":
-        ensure   => present,
-        source   => '/vagrant/puppet/modules/labs/files/labs_vagrant_logo.png'
+        ensure => present,
+        source => '/vagrant/puppet/modules/labs/files/labs_vagrant_logo.png'
     }
 
     file { "${::mediawiki::apache::docroot}/robots.txt":
-        ensure   => present,
-        source   => '/vagrant/puppet/modules/labs/files/robots.txt'
+        ensure => present,
+        source => '/vagrant/puppet/modules/labs/files/robots.txt'
     }
 
     mediawiki::settings { 'labs-vagrant logo':

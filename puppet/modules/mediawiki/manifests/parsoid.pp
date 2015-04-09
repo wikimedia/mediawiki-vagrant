@@ -47,8 +47,8 @@ class mediawiki::parsoid(
     require_package( 'nodejs-legacy' )
 
     git::clone { 'mediawiki/services/parsoid/deploy':
-        directory  => $dir,
-        require    => Package['nodejs', 'nodejs-legacy'],
+        directory => $dir,
+        require   => Package['nodejs', 'nodejs-legacy'],
     }
 
     file { 'localsettings.js':

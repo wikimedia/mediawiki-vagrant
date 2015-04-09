@@ -57,8 +57,8 @@ class mediawiki::multiwiki(
     }
 
     file { $script_dir:
-        ensure  => directory,
-        mode    => '0755',
+        ensure => directory,
+        mode   => '0755',
     }
 
     file { [
@@ -70,9 +70,9 @@ class mediawiki::multiwiki(
             "${script_dir}/thumb.php",
             "${script_dir}/thumb_handler.php",
         ]:
-        ensure  => present,
-        mode    => '0644',
-        source  => 'puppet:///modules/mediawiki/multiwiki/stub.php',
+        ensure => present,
+        mode   => '0644',
+        source => 'puppet:///modules/mediawiki/multiwiki/stub.php',
     }
 
     file { "${script_dir}/dblist.php":

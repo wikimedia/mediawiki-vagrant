@@ -47,9 +47,9 @@ File {
 }
 
 file { '/srv':
-    owner  => 'root',
-    group  => 'root',
-    mode   => '0755',
+    owner => 'root',
+    group => 'root',
+    mode  => '0755',
 }
 
 package { 'python-pip': } -> Package <| provider == pip |>

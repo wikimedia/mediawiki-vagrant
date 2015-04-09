@@ -23,7 +23,7 @@ class role::simple_performant {
     }
 
     mediawiki::settings { 'simple_performant':
-        values  => {
+        values => {
             wgCacheDirectory        => '/var/cache/mediawiki',
             wgMainCacheType         => $CACHE_ACCEL,
             wgParserCacheType       => $CACHE_DB,
@@ -41,7 +41,7 @@ class role::simple_performant {
                 },
             },
         },
-        notify  => Exec['rebuild_localisation_cache'],
+        notify => Exec['rebuild_localisation_cache'],
     }
 
     exec { 'rebuild_localisation_cache':
@@ -61,9 +61,9 @@ class role::simple_performant {
     }
 
     file { "${::mediawiki::apache::docroot}/robots.txt":
-        ensure  => present,
-        mode    => '0444',
-        source  => 'puppet:///modules/role/simple_performant/robots.txt',
+        ensure => present,
+        mode   => '0444',
+        source => 'puppet:///modules/role/simple_performant/robots.txt',
     }
 
     file { '/vagrant/mediawiki/skins/.htaccess':

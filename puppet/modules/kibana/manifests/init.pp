@@ -19,17 +19,17 @@ class kibana (
     $default_route,
 ) {
     git::clone { 'operations/software/kibana':
-        directory => $deploy_dir,
         ensure    => 'latest',
+        directory => $deploy_dir,
         owner     => 'root',
         group     => 'root',
     }
 
     file { '/etc/kibana':
-        ensure  => directory,
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0755',
+        ensure => directory,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
     }
 
     file { '/etc/kibana/config.js':

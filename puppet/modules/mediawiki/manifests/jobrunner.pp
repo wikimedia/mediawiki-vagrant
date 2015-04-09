@@ -48,10 +48,10 @@ class mediawiki::jobrunner(
     }
 
     file { '/etc/logrotate.d/mediawiki_jobrunner':
-        source  => 'puppet:///modules/mediawiki/logrotate.d_mediawiki_jobrunner',
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
+        source => 'puppet:///modules/mediawiki/logrotate.d_mediawiki_jobrunner',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0444',
     }
 
     service { 'jobrunner':

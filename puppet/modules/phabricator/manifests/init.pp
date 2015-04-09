@@ -37,47 +37,47 @@ class phabricator(
         require => Class['::apache::mod::rewrite'],
     }
 
-    phabricator::config { "mysql.pass":
+    phabricator::config { 'mysql.pass':
         deploy_dir => $deploy_dir,
-        value      => "${mysql::root_password}",
+        value      => $::mysql::root_password,
         require    => Class['::mysql'],
     }
 
-    phabricator::config { "phabricator.base-uri":
+    phabricator::config { 'phabricator.base-uri':
         deploy_dir => $deploy_dir,
         value      => "http://${vhost_name}${::port_fragment}/",
     }
 
-    phabricator::config { "search.elastic.host":
+    phabricator::config { 'search.elastic.host':
         deploy_dir => $deploy_dir,
-        value      => "http://localhost:9200",
+        value      => 'http://localhost:9200',
         require    => Class['::elasticsearch'],
     }
 
-    phabricator::config { "pygments.enabled":
+    phabricator::config { 'pygments.enabled':
         deploy_dir => $deploy_dir,
-        value      => "true",
+        value      => true,
         require    => Package['python-pygments'],
     }
 
-    phabricator::config { "metamta.mail-adapter":
+    phabricator::config { 'metamta.mail-adapter':
         deploy_dir => $deploy_dir,
-        value      => "PhabricatorMailImplementationTestAdapter",
+        value      => 'PhabricatorMailImplementationTestAdapter',
     }
 
-    phabricator::config { "storage.upload-size-limit":
+    phabricator::config { 'storage.upload-size-limit':
         deploy_dir => $deploy_dir,
-        value      => "100M",
+        value      => '100M',
     }
 
     # Setup databases
     exec { 'phab_setup_db':
-        command => "$deploy_dir/phabricator/bin/storage upgrade --force",
+        command => "${deploy_dir}/phabricator/bin/storage upgrade --force",
         require => Phabricator::Config['mysql.pass'],
-        unless  => "$deploy_dir/phabricator/bin/storage status > /dev/null",
+        unless  => "${deploy_dir}/phabricator/bin/storage status > /dev/null",
     }
 
-    $phd = "$deploy_dir/phabricator/bin/phd"
+    $phd = "${deploy_dir}/phabricator/bin/phd"
     service { 'phd':
         ensure   => running,
         provider => base,

@@ -6,7 +6,9 @@ class role::accountinfo {
     include ::role::checkuser
 
     mediawiki::extension { 'AccountInfo':
-        settings => { 'wgPutIPinRC' => true, },
+        settings => {
+          'wgPutIPinRC' => true,
+        },
         require  => Mediawiki::Extension['CheckUser'],
     }
 }

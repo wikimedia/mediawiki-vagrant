@@ -12,11 +12,11 @@ class role::simple_miser {
     mediawiki::settings { 'simple_miser':
         values => {
             # Database
-            wgMiserMode       => true,
-            wgSQLMode         => 'null',
-            wgUseFileCache    => true,
-            wgUseGzip         => true,
-            wgFileCacheDepth  => 0,
+            wgMiserMode      => true,
+            wgSQLMode        => 'null',
+            wgUseFileCache   => true,
+            wgUseGzip        => true,
+            wgFileCacheDepth => 0,
         },
         notify => Exec['rebuild_file_cache'],
     }

@@ -36,37 +36,37 @@ class role::wikimetrics(
     }
 
     class { '::wikimetrics':
-        path                  => $dir,
-        group                 => $wikimetrics_group,
+        path                => $dir,
+        group               => $wikimetrics_group,
         # Use the role::mediawiki MySQL database for
         # wikimetrics editor cohort analysis
-        db_user_mediawiki     => $::mediawiki::db_user,
-        db_pass_mediawiki     => $::mediawiki::db_pass,
-        db_name_mediawiki     => $::mediawiki::db_name,
-        db_host_mediawiki     => 'localhost',
+        db_user_mediawiki   => $::mediawiki::db_user,
+        db_pass_mediawiki   => $::mediawiki::db_pass,
+        db_name_mediawiki   => $::mediawiki::db_name,
+        db_host_mediawiki   => 'localhost',
         # Use the role::centralauth MySQL database for
         # wikimetrics cohort user expansion
-        db_user_centralauth   => $::mediawiki::db_user,
-        db_pass_centralauth   => $::mediawiki::db_pass,
-        db_name_centralauth   => $::role::centralauth::shared_db,
-        db_host_centralauth   => 'localhost',
+        db_user_centralauth => $::mediawiki::db_user,
+        db_pass_centralauth => $::mediawiki::db_pass,
+        db_name_centralauth => $::role::centralauth::shared_db,
+        db_host_centralauth => 'localhost',
         # clone wikimetrics as vagrant user
         # so that it works properly in the shared
         # /vagrant directory
-        repository_owner      => 'vagrant',
+        repository_owner    => 'vagrant',
         # wikimetrics runs on the LabsDB usually,
         # where this table is called 'revision_userindex'.
         # The mediawiki database usually calls this 'revision'.
-        revision_tablename    => 'revision',
-        archive_tablename     => 'archive',
+        revision_tablename  => 'revision',
+        archive_tablename   => 'archive',
         # Since we are using the /vagrant shared directory for configs,
         # make sure puppet doesn't try to change the ownership every time
         # it runs.
-        config_file_owner     => 'vagrant',
-        config_file_group     => 'www-data',
+        config_file_owner   => 'vagrant',
+        config_file_group   => 'www-data',
         # make upstart managed services start after
         # /vagrant shared directory is mounted.
-        service_start_on      => 'vagrant-mounted',
+        service_start_on    => 'vagrant-mounted',
     }
 
     # Run the wikimetrics/scripts/install script

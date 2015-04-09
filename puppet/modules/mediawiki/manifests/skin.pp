@@ -74,11 +74,11 @@ define mediawiki::skin(
     }
 
     mediawiki::settings { $title:
-        ensure       => $ensure,
-        wiki         => $wiki,
-        header       => template('mediawiki/skin.php.erb'),
-        values       => $settings,
-        require      => Git::Clone[$skin_repo],
+        ensure  => $ensure,
+        wiki    => $wiki,
+        header  => template('mediawiki/skin.php.erb'),
+        values  => $settings,
+        require => Git::Clone[$skin_repo],
     }
 
     if $composer {

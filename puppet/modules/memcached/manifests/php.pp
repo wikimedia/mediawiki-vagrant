@@ -7,7 +7,7 @@ class memcached::php {
     include ::apache
 
     package { 'php5-memcached':
-        ensure  => present,
-        notify  => Service['apache2'],
+        ensure => present,
+        notify => Service['apache2'],
     }
 }
