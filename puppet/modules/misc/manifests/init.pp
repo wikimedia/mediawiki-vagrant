@@ -41,4 +41,11 @@ class misc {
     env::profile_script { 'xdebug':
         content => template('misc/xdebug.erb'),
     }
+
+    # Initialize PHPStorm environment from common template
+    file { '/vagrant/.idea':
+        source  => '/vagrant/support/idea-dist',
+        recurse => true,
+        replace => false,
+    }
 }
