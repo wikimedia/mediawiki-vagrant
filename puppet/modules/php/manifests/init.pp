@@ -10,6 +10,7 @@ class php {
 
     include ::php::remote_debug
     include ::php::composer
+    include ::php::xhprof
 
     package { [
         'php-apc',
@@ -29,7 +30,6 @@ class php {
         'php5-mysql',
         'php5-readline',
         'php5-sqlite',
-        'php5-xhprof',
     ]:
         ensure  => present,
         require => Class['::apache::mod::php5'],
@@ -66,12 +66,6 @@ class php {
 
     php::ini { 'session_defaults':
         settings => { 'session.save_path' => '/tmp' },
-    }
-
-    # Enable xhprof for all SAPIs
-    exec { '/usr/sbin/php5enmod -s ALL xhprof':
-        unless  => '/usr/sbin/php5query -s cli -m xhprof',
-        require => Package['php5-xhprof'],
     }
 
     class { '::php::sessionclean':

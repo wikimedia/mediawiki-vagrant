@@ -131,6 +131,7 @@ graphoid::log_dir: /vagrant/logs
 graphoid::port: 11042
 
 php::sessionclean::ensure: present
+php::xhprof::profile_storage_dir: /vagrant/profiles
 
 iegreview::vhost_name: iegreview.local.wmftest.net
 iegreview::db_name: iegreview
@@ -225,4 +226,3 @@ smtplog::log_file: /vagrant/logs/smtp.log
 twig::dir: "%{hiera('mwv::services_dir')}/twig"
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
-xhprofgui::profile_storage_dir: /vagrant/profiles
