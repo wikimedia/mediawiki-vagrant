@@ -43,6 +43,11 @@ class crm(
         directory => $dir,
     }
 
+    php::composer::install { 'crm-composer':
+        directory => $dir,
+        require => Git::Clone[$repo],
+    }
+
     # required by module ganglia_reporter
     package { 'ganglia-monitor': }
 
@@ -89,8 +94,7 @@ class crm(
             'environment_indicator_text'     => 'DEVELOPMENT',
             'environment_indicator_position' => 'left',
             'environment_indicator_color'    => '#3FBF57',
-            'wmf_common_phpmailer_location'  => $::phpmailer::dir,
-            'wmf_common_twig_location'       => "${::twig::dir}/current",
-        }
+        },
+        require => Php::Composer::Install['crm-composer'],
     }
 }
