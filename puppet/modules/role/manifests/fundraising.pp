@@ -4,6 +4,7 @@
 #
 class role::fundraising {
     include ::role::centralnotice
+    include ::role::payments
     include ::activemq
     include ::crm
 
