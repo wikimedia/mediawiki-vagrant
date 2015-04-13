@@ -28,7 +28,6 @@ if ( !empty( $_REQUEST['debug'] ) ) {
 $wgShowExceptionDetails = true;
 
 $logDir = '/vagrant/logs';
-$wgDebugLogFile = "{$logDir}/mediawiki-debug.log";
 foreach ( array( 'exception', 'runJobs', 'JobQueueRedis' ) as $logGroup ) {
 	$wgDebugLogGroups[$logGroup] = "{$logDir}/mediawiki-{$logGroup}.log";
 }

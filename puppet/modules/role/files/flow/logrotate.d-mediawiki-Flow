@@ -1,0 +1,11 @@
+# This file is managed by Puppet
+
+/vagrant/logs/mediawiki-Flow.log
+    daily
+    missingok
+    rotate 7
+    compress
+    notifempty
+    nocreate
+    nomail
+}

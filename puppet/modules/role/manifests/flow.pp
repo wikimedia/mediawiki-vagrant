@@ -11,4 +11,11 @@ class role::flow {
         priority      => $::LOAD_LAST,  # load *after* Mantle and Echo
         browser_tests => '.',
     }
+
+    file { '/etc/logrotate.d/mediawiki_Flow':
+        source  => 'puppet:///modules/role/flow/logrotate.d-mediawiki-Flow',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+    }
 }
