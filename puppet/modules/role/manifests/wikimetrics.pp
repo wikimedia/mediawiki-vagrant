@@ -50,10 +50,10 @@ class role::wikimetrics(
         db_pass_centralauth => $::mediawiki::db_pass,
         db_name_centralauth => $::role::centralauth::shared_db,
         db_host_centralauth => 'localhost',
-        # clone wikimetrics as vagrant user
+        # clone wikimetrics as vagrant share user
         # so that it works properly in the shared
         # /vagrant directory
-        repository_owner    => 'vagrant',
+        repository_owner    => $::share_owner,
         # wikimetrics runs on the LabsDB usually,
         # where this table is called 'revision_userindex'.
         # The mediawiki database usually calls this 'revision'.
@@ -62,8 +62,8 @@ class role::wikimetrics(
         # Since we are using the /vagrant shared directory for configs,
         # make sure puppet doesn't try to change the ownership every time
         # it runs.
-        config_file_owner   => 'vagrant',
-        config_file_group   => 'www-data',
+        config_file_owner   => $::share_owner,
+        config_file_group   => $::share_group,
         # make upstart managed services start after
         # /vagrant shared directory is mounted.
         service_start_on    => 'vagrant-mounted',
