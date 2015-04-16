@@ -69,4 +69,6 @@ define mediawiki::import_text(
 
     # Add extensions before importing text (bug T92036)
     MediaWiki::Extension <| |> -> Mediawiki::Import_text <| |>
+    # Run sql before importing text
+    Mysql::Sql <| |> -> Mediawiki::Import_text <| |>
 }
