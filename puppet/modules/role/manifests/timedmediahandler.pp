@@ -10,6 +10,9 @@ class role::timedmediahandler {
     mediawiki::extension { 'MwEmbedSupport': }
 
     mediawiki::extension { 'TimedMediaHandler':
+        settings     => {
+            wgWaitTimeForTranscodeReset => 1,
+        },
         needs_update => true,
         require      => [
             Package['libav-tools', 'ffmpeg2theora'],
