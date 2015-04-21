@@ -11,6 +11,7 @@ $wgFlowParsoidURL = 'http://localhost:<%= scope['mediawiki::parsoid::port'] %>';
 $wgFlowParsoidPrefix = 'localhost';
 $wgFlowParsoidTimeout = 100;
 
+$wgGroupPermissions['autoconfirmed']['flow-edit-post'] = true;
 $wgGroupPermissions['sysop']['flow-create-board'] = true;
 $wgGroupPermissions['sysop']['flow-suppress'] = true;
 

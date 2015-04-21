@@ -3,7 +3,6 @@
 class role::flow {
     include ::role::eventlogging
     include ::role::parsoid
-    include ::role::mantle
     include ::role::echo
 
     mediawiki::extension { 'Flow':
