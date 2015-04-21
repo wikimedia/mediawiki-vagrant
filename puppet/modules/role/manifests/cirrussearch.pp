@@ -45,13 +45,26 @@ class role::cirrussearch {
         version => '1.3.0',
     }
 
+    mediawiki::wiki { 'cirrustest': }
+
     mediawiki::extension { 'Elastica':
         composer => true,
     }
 
     mediawiki::extension { 'CirrusSearch':
-        settings => template('elasticsearch/CirrusSearch.php.erb'),
-        require  => Service['elasticsearch'],
+        require       => Service['elasticsearch'],
+        browser_tests => 'tests/browser',
+    }
+
+    mediawiki::settings { 'cirrustest:cirrussearch test suite':
+        values => template('elasticsearch/CirrusSearch.php.erb'),
+    }
+
+    # By default vagrant sets up firefox as the global browsertest runner, we want
+    # to ensure phantomjs is available for running the cirrussearch tests in a 
+    # headless and parallelized maner
+    package { 'phantomjs':
+        ensure => present
     }
 
     exec { 'build_search_index':
