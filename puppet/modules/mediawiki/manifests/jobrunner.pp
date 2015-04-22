@@ -11,8 +11,7 @@
 class mediawiki::jobrunner(
     $dir,
 ) {
-    include ::mediawiki
-    require ::mediawiki::multiwiki
+    require ::mediawiki
 
     git::clone { 'mediawiki/services/jobrunner':
         directory => $dir,
