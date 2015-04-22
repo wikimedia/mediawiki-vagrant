@@ -79,6 +79,7 @@ class phabricator(
 
     $phd = "${deploy_dir}/phabricator/bin/phd"
     service { 'phd':
+        enable   => true,
         ensure   => running,
         provider => base,
         binary   => $phd,

@@ -26,6 +26,7 @@ class mysql(
     include ::mysql::packages
 
     service { 'mysql':
+        enable     => true,
         ensure     => running,
         hasrestart => true,
         require    => Package['mysql-server'],

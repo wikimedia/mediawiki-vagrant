@@ -54,6 +54,7 @@ class mediawiki::jobrunner(
     }
 
     service { 'jobrunner':
+        enable   => true,
         ensure   => 'running',
         provider => 'upstart',
         require  => Mediawiki::Wiki[$::mediawiki::wiki_name],

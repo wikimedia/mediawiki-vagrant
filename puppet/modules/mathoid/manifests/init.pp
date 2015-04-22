@@ -52,6 +52,7 @@ class mathoid(
     }
 
     service { 'mathoid':
+        enable     => true,
         ensure     => running,
         hasstatus  => true,
         hasrestart => true,

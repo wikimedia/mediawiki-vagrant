@@ -49,6 +49,7 @@ class activemq(
     }
 
     service { 'activemq':
+        enable    => true,
         ensure    => running,
         provider  => 'upstart',
         require   => [

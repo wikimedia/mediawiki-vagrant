@@ -13,6 +13,7 @@ class role::fundraising {
     $rsyslog_max_message_size = '64k'
 
     service { 'rsyslog':
+        enable     => true,
         ensure     => running,
         provider   => 'init',
         hasrestart => true,

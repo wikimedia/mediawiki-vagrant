@@ -155,6 +155,7 @@ class sentry (
     }
 
     service { 'sentry':
+        enable    => true,
         ensure    => running,
         provider  => 'upstart',
         require   => [Virtualenv::Environment[$deploy_dir], Mysql::User[$db_user]],

@@ -7,6 +7,7 @@ class role::poolcounter {
     require_package('poolcounter')
 
     service { 'poolcounter':
+        enable  => true,
         ensure  => 'running',
         require => Package['poolcounter'],
     }
