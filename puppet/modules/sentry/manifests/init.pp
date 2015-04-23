@@ -83,7 +83,7 @@ class sentry (
     # Use virtualenv because Sentry has lots of dependencies
     virtualenv::environment { $deploy_dir:
         ensure   => present,
-        packages => ['sentry[mysql]==7.*'],
+        packages => ['sentry[mysql]==7.4.3'],
         require  => Package['libmysqlclient-dev'],
     }
 
@@ -142,16 +142,6 @@ class sentry (
         ensure  => present,
         content => template('sentry/upstart.erb'),
         mode    => '0444',
-    }
-
-    # temporary bugfix for T90832
-    file { "${::apache::docroot}/.sentry":
-        ensure => directory,
-        owner  => 'www-data',
-    }
-    file { "${::apache::docroot}/.sentry/sentry.conf.py":
-        ensure => link,
-        target => '/etc/sentry.conf.py',
     }
 
     service { 'sentry':
