@@ -34,16 +34,24 @@ module MediaWikiVagrant
       # @return [Fixnum]
       #
       def total_cpus
-        case operating_system
-        when :osx
-          `sysctl -n hw.ncpu`.to_i
-        when :linux
-          `nproc`.to_i
-        when :windows
-          `wmic CPU get NumberOfLogicalProcessors | more +1`.to_i
-        else
-          1
-        end
+        cores =
+          case operating_system
+          when :osx
+            `sysctl -n hw.ncpu`.to_i
+          when :linux
+            `nproc`.to_i
+          when :windows
+            require 'win32ole'
+
+            wmi = WIN32OLE.connect('winmgmts://')
+            q = wmi.ExecQuery('select NumberOfCores from Win32_Processor')
+
+            q.to_enum.reduce(0) { |cores, processor| cores + processor.NumberOfCores }
+          else
+            1
+          end
+
+        [1, cores].max
       end
 
       # Total host OS memory in MB.
