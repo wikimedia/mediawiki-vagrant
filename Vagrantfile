@@ -189,18 +189,22 @@ Vagrant.configure('2') do |config|
     config.vm.provision :mediawiki_reload if mwv.reload?
 
     config.vm.provision :puppet do |puppet|
-        puppet.module_path = 'puppet/modules'
-        puppet.manifests_path = 'puppet/manifests'
+        # Use empty module path to avoid an extra mount.
+        # See --modulepath below
+        puppet.module_path = []
+        # Tell Vagrant that the manifests are already on the guest
+        puppet.manifests_path = [:guest, '/vagrant/puppet/manifests']
         puppet.manifest_file = 'site.pp'
-        puppet.hiera_config_path = 'puppet/hiera.yaml'
 
         puppet.options = [
-            '--templatedir', '/vagrant/puppet/templates',
+            '--modulepath', '/vagrant/puppet/modules',
+            '--hiera_config', '/vagrant/puppet/hiera.yaml',
             '--verbose',
             '--config_version', '/vagrant/puppet/extra/config-version',
             '--logdest', "/vagrant/logs/puppet/puppet.#{mwv.commit || 'unknown'}.log",
             '--logdest', 'console',
             '--write-catalog-summary',
+            '--detailed-exitcodes',
         ]
 
         # For more output, uncomment the following line:
