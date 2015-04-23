@@ -53,7 +53,13 @@ module MediaWikiVagrant
     end
 
     def value
-      @value.nil? ? default : @value
+      if !@value.nil?
+        @value
+      elsif @default == :auto && @auto
+        @auto.call
+      else
+        @default
+      end
     end
 
     def value=(other)

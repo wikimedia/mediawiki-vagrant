@@ -106,6 +106,17 @@ module MediaWikiVagrant
             expect(subject).to be(:bar)
           end
         end
+
+        context 'and there is an auto value' do
+          before do
+            setting.default = :auto
+            setting.auto = -> { :bar }
+          end
+
+          it 'returns the auto value' do
+            expect(subject).to be(:bar)
+          end
+        end
       end
     end
 
