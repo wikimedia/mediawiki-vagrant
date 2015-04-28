@@ -7,16 +7,5 @@ class role::fundraising {
     include ::role::payments
     include ::activemq
     include ::crm
-
-    require_package('rsyslog')
-
-    $rsyslog_max_message_size = '64k'
-
-    service { 'rsyslog':
-        enable     => true,
-        ensure     => running,
-        provider   => 'init',
-        hasrestart => true,
-        require    => Package['rsyslog'],
-    }
+    include ::rsyslog
 }
