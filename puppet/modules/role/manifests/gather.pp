@@ -9,5 +9,6 @@ class role::gather {
 
     mediawiki::extension { 'Gather':
         browser_tests => true,
+        needs_update  => true,
     }
 }
