@@ -178,8 +178,6 @@ mysql::root_password: vagrant
 phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
 phabricator::vhost_name: phabricator.local.wmftest.net
 
-phpmailer::dir: "%{hiera('mwv::services_dir')}/phpmailer"
-
 # We are masterless and have no need to run an agent.
 puppet::agent::ensure: stopped
 puppet::agent::enable: false
@@ -222,7 +220,5 @@ sentry::admin_user: admin
 sentry::admin_pass: vagrant
 
 smtplog::log_file: /vagrant/logs/smtp.log
-
-twig::dir: "%{hiera('mwv::services_dir')}/twig"
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
