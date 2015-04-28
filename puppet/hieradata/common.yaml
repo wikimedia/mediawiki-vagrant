@@ -24,7 +24,7 @@ crm::civicrm_db: civicrm
 crm::db_user: root
 crm::db_pass: "%{hiera('mysql::root_password')}"
 
-crm::drupal::dir: "%{hiera('crm::dir')/drupal}"
+crm::drupal::dir: "%{hiera('crm::dir')}/drupal"
 crm::drupal::files_dir: "%{hiera('mwv::files_dir')}/org.wikimedia.civicrm-files"
 
 hhvm::common_settings:
