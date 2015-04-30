@@ -1,0 +1,5 @@
+echo '$u = User::newFromName( "<%= @username %>" );
+$u->setEmail( "<%= @email %>" );
+$u->setEmailAuthenticationTimestamp( wfTimestamp() );
+$u->saveSettings();' |
+/usr/local/bin/mwscript eval.php --wiki=<%= @wiki %>

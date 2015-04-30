@@ -4,11 +4,14 @@
 #
 # === Parameters
 #
+# [*password*]
+#   Password for the new account.
+#
 # [*username*]
 #   User name of account to create. Defaults to the resource title.
 #
-# [*password*]
-#   Password for the new account.
+# [*email*]
+#   Email address for the new account.
 #
 # [*wiki*]
 #   Wiki to create account on. Defaults to the primary wiki.
@@ -24,6 +27,7 @@
 define mediawiki::user(
     $password,
     $username = $title,
+    $email    = undef,
     $wiki     = $::mediawiki::db_name,
 ) {
     include ::mediawiki
@@ -38,5 +42,14 @@ define mediawiki::user(
             MediaWiki::Wiki[$::mediawiki::wiki_name],
             Env::Var['MW_INSTALL_PATH'],
         ],
+    }
+
+    if $email {
+        exec { "mediawiki_user_${username}_email":
+            command     => template('mediawiki/set_user_email.erb'),
+            user        => 'www-data',
+            refreshonly => true,
+            subscribe   => Exec["mediawiki_user_${username}"],
+        }
     }
 }
