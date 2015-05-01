@@ -21,9 +21,7 @@ class crm::civicrm {
 
     file { $install_script:
         content => template('crm/civicrm-install.php.erb'),
-        mode    => '0640',
-        owner   => 'www-data',
-        group   => 'www-data',
+        mode    => '0644',
         require => Git::Clone[$::crm::repo],
     }
 }

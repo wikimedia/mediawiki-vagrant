@@ -47,18 +47,21 @@ class crm::drupal(
         subscribe => Exec['civicrm_setup'],
     }
 
+    file { "${dir}/sites/default":
+        mode => '0755',
+    }
+
     file { "${dir}/sites/default/files":
         ensure    => link,
         target    => $files_dir,
         force     => true,
         subscribe => Exec['drupal_db_install'],
+        require   => File["${dir}/sites/default"],
     }
 
     file { $install_script:
         content => template('crm/drupal-install.sh.erb'),
-        owner   => 'www-data',
-        group   => 'www-data',
-        mode    => '0750',
+        mode    => '0755',
         require => Git::Clone[$::crm::repo],
     }
 
@@ -76,9 +79,7 @@ class crm::drupal(
 
     file { $settings_path:
         content => template('crm/settings.php.erb'),
-        owner   => 'www-data',
-        group   => 'www-data',
-        mode    => '0440',
+        mode    => '0644',
         require => Git::Clone[$::crm::repo],
     }
 
