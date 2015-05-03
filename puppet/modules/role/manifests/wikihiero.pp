@@ -1,4 +1,4 @@
-# == Class: role::mantle
+# == Class: role::wikihiero
 # Configures WikiHiero, an extension for displaying Egyptian hieroglyphs
 class role::wikihiero {
   mediawiki::extension { 'wikihiero':

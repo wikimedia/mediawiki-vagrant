@@ -8,7 +8,7 @@ class role::flow {
     mediawiki::extension { 'Flow':
         needs_update  => true,
         settings      => template('role/flow/conf.php.erb'),
-        priority      => $::LOAD_LAST,  # load *after* Mantle and Echo
+        priority      => $::LOAD_LAST,  # load *after* Echo
         browser_tests => '.',
     }
 

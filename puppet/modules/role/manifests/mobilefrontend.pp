@@ -9,7 +9,6 @@
 class role::mobilefrontend {
     require ::role::mediawiki
     include ::role::eventlogging
-    include ::role::mantle
     include ::role::pageimages
     include ::role::textextracts
 
