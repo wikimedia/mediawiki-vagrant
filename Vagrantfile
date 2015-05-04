@@ -211,6 +211,7 @@ Vagrant.configure('2') do |config|
 
         puppet.facter = $FACTER = {
             'fqdn'               => config.vm.hostname,
+            'git_user'           => settings[:git_user],
             'forwarded_port'     => settings[:http_port],
             'shared_apt_cache'   => '/vagrant/cache/apt/',
             'environment'        => 'vagrant',

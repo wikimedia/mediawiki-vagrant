@@ -18,5 +18,14 @@ class git::gerrit {
         mode   => '0644',
     }
 
+    if $::git_user {
+        exec { 'gitreview.username':
+            command => "git config --global --add gitreview.username '${::git_user}'",
+            user    => 'vagrant',
+            unless  => 'git config --global gitreview.username',
+            require => Package['git'],
+        }
+    }
+
     Sshkey <| |> -> File['/etc/ssh/ssh_known_hosts']
 }
