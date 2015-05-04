@@ -55,7 +55,6 @@ class crm::drupal(
         ensure    => link,
         target    => $files_dir,
         force     => true,
-        subscribe => Exec['drupal_db_install'],
         require   => File["${dir}/sites/default"],
     }
 
@@ -74,21 +73,26 @@ class crm::drupal(
             Git::Clone[$::crm::repo],
             Mysql::Db[$databases],
             Package['drush'],
+            File["${dir}/sites/default/files"],
         ],
     }
 
-    file { $settings_path:
+    file { 'drupal_settings_php':
+        path    => $settings_path,
         content => template('crm/settings.php.erb'),
         mode    => '0644',
         require => Git::Clone[$::crm::repo],
     }
 
     exec { 'enable_drupal_modules':
-        command => inline_template('<%= scope["::crm::drush::cmd"] %> pm-enable <%= @modules.join(" ") %>'),
-        require => [
+        command     => inline_template('<%= scope["::crm::drush::cmd"] %> pm-enable <%= @modules.join(" ") %>'),
+        refreshonly => true,
+        subscribe   => [
             Exec['drupal_db_install'],
+        ],
+        require     => [
             Exec['civicrm_setup'],
-            File[$settings_path],
+            File['drupal_settings_php'],
         ],
     }
 }
