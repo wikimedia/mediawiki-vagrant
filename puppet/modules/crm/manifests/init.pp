@@ -33,9 +33,7 @@ class crm(
     $repo = 'wikimedia/fundraising/crm'
 
     include ::php
-    include ::phpmailer
     include ::postfix
-    include ::twig
     include ::crm::apache
     include ::crm::civicrm
 
