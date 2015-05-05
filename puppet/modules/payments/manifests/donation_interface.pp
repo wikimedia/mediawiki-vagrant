@@ -50,7 +50,26 @@ class payments::donation_interface {
 
       wgStompServer                          => 'tcp://localhost:61613',
 
+      wgDonationInterfaceMemcacheHost        => 'localhost',
+
       wgDonationInterfaceUseSyslog           => true,
+
+      wgDonationInterfaceDefaultQueueServer  => {
+        'type'       => 'PHPQueue\Backend\Stomp',
+        'uri'        => 'tcp://localhost:61613',
+        # 30 days, in seconds
+        'expiry'     => '2592000',
+        'persistent' => 1
+      },
+
+      wgDonationInterfaceQueues              => {
+        'limbo' => {
+          'type'    => 'PHPQueue\Backend\Memcache',
+          'servers' => [
+            'localhost'
+          ],
+        },
+      },
     },
     needs_update => true,
     require      => [
