@@ -1,1 +1,5 @@
 vagrant_ram: 512
+
+# ActiveMQ admin UI
+forward_ports:
+	8161: 8161
