@@ -5,4 +5,4 @@ start on (local-filesystems and net-device-up IFACE!=lo)
 setuid activemq
 setgid activemq
 
-exec <%= @pkgdir %>/bin/activemq-admin
+exec <%= @pkgdir %>/bin/activemq-admin start
