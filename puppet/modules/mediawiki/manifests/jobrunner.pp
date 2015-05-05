@@ -34,6 +34,14 @@ class mediawiki::jobrunner(
         notify  => Service['jobrunner'],
     }
 
+    file { '/etc/init/jobchron.conf':
+        content => template('mediawiki/jobchron.conf.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        notify  => Service['jobchron'],
+    }
+
     file { '/etc/jobrunner.ini':
         ensure => absent,
     }
@@ -53,7 +61,21 @@ class mediawiki::jobrunner(
         mode   => '0444',
     }
 
+    file { '/etc/logrotate.d/mediawiki_jobchron':
+        source => 'puppet:///modules/mediawiki/logrotate.d_mediawiki_jobchron',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0444',
+    }
+
     service { 'jobrunner':
+        enable   => true,
+        ensure   => 'running',
+        provider => 'upstart',
+        require  => Mediawiki::Wiki[$::mediawiki::wiki_name],
+    }
+
+    service { 'jobchron':
         enable   => true,
         ensure   => 'running',
         provider => 'upstart',

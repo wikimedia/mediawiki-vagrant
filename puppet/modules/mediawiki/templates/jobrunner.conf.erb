@@ -12,7 +12,7 @@ pre-start script
   . /etc/default/jobrunner
   mkdir -p -m0755 $(dirname "${JOBRUNNER_LOGFILE:=/var/log/mediawiki/jobrunner.log}")
   [ ! -r "${JOBRUNNER_CONFIG:=/etc/jobrunner.json}" ] && { stop; exit 1; }
-  sudo -u "${JOBRUNNER_USER:-nobody}" php -r "exit( !@is_array( json_decode( file_get_contents( '$JOBRUNNER_CONFIG' ), true ) ) );" >/dev/null 2>&1
+  php5 -r "exit( !@is_array( json_decode( file_get_contents( '$JOBRUNNER_CONFIG' ), true ) ) );" >/dev/null 2>&1
   [ $? -eq 0 ] || { stop; exit 1; }
 end script
 
@@ -20,7 +20,7 @@ script
   . /etc/default/jobrunner
   exec start-stop-daemon --quiet --start --pidfile "${JOBRUNNER_PID:-/var/run/jobrunner/pid}" \
     --chuid "${JOBRUNNER_USER:-nobody}:${JOBRUNNER_GROUP:-nogroup}" --make-pidfile \
-    --chdir "${JOBRUNNER_DIR:-/}" --exec /usr/bin/php -- '<%= @dir %>/redisJobRunnerService' \
+    --chdir "${JOBRUNNER_DIR:-/}" --exec /usr/bin/php5 -- '<%= @dir %>/redisJobRunnerService' \
     --config-file="${JOBRUNNER_CONFIG:-/etc/jobrunner.json}" $DAEMON_OPTS \
     >> "${JOBRUNNER_LOGFILE:-/var/log/mediawiki/jobrunner.log}" 2>&1
 end script

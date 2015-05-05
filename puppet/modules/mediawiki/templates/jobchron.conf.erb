@@ -1,0 +1,29 @@
+# jobchron -- Continuously maintain MediaWiki job queue
+description "MediaWiki job queue chron loop"
+
+start on (runlevel [2345] and net-device-up IFACE!=lo)
+stop on runlevel [!2345]
+
+pre-start script
+  mkdir -p -m0755 /var/run/jobchron
+  [ ! -r /etc/default/jobrunner ] && { stop; exit 0; }
+  . /etc/default/jobrunner
+  mkdir -p -m0755 $(dirname "${JOBCHRON_LOGFILE:=/var/log/mediawiki/jobchron.log}")
+  [ ! -r "${JOBRUNNER_CONFIG:=/etc/jobrunner.json}" ] && { stop; exit 1; }
+  php5 -r "exit( !@is_array( json_decode( file_get_contents( '$JOBRUNNER_CONFIG' ) ) ) );" >/dev/null 2>&1
+  [ $? -eq 0 ] || { stop; exit 1; }
+end script
+
+script
+  . /etc/default/jobrunner
+  exec start-stop-daemon --quiet --start --pidfile "${JOBCHRON_PID:-/var/run/jobchron/pid}" \
+    --chuid "${JOBRUNNER_USER:-nobody}:${JOBRUNNER_GROUP:-nogroup}" --make-pidfile \
+    --exec /usr/bin/php5 -- <%= @dir %>/redisJobChronService \
+    --config-file="${JOBRUNNER_CONFIG:-/etc/jobrunner.json}" $DAEMON_OPTS \
+        >> "${JOBCHRON_LOGFILE:-/var/log/mediawiki/jobchron.log}" 2>&1
+end script
+
+respawn
+
+# vim: set ft=upstart:
+
