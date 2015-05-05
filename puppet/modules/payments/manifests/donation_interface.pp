@@ -18,7 +18,9 @@ class payments::donation_interface {
       wgDonationInterfaceEnablePaypal        => true,
       wgDonationInterfaceEnableQueue         => true,
       wgDonationInterfaceEnableStomp         => true,
-      wgDonationInterfaceTestMode            => true,
+
+      # FIXME: Causes failure to run GlobalCollect, cos donation.api.php will rely on a test class.
+      wgDonationInterfaceTestMode            => false,
 
       # TODO: the following cruft is brought to u by a forward reference snafu.
       # Better if DonationInterfaceFormSettings would use relative paths?
