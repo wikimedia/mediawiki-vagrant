@@ -5,13 +5,22 @@
 #
 # === Parameters
 #
+# [*enable*]
+#   Enable/disable jobrunner services.
+#
 # [*dir*]
 #   Installation directory.
 #
 class mediawiki::jobrunner(
+    $enable,
     $dir,
 ) {
     require ::mediawiki
+
+    $ensure = $enable ? {
+        false   => 'stopped',
+        default => 'running',
+    }
 
     git::clone { 'mediawiki/services/jobrunner':
         directory => $dir,
@@ -69,15 +78,15 @@ class mediawiki::jobrunner(
     }
 
     service { 'jobrunner':
-        enable   => true,
-        ensure   => 'running',
+        enable   => $enable,
+        ensure   => $ensure,
         provider => 'upstart',
         require  => Mediawiki::Wiki[$::mediawiki::wiki_name],
     }
 
     service { 'jobchron':
-        enable   => true,
-        ensure   => 'running',
+        enable   => $enable,
+        ensure   => $ensure,
         provider => 'upstart',
         require  => Mediawiki::Wiki[$::mediawiki::wiki_name],
     }
