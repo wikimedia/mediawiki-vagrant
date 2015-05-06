@@ -18,7 +18,7 @@ cdh::oozie::server::db_root_password: "%{hiera('mysql::root_password')}"
 cdh::oozie::server::heapsize: 64
 
 crm::dir: "%{hiera('mwv::services_dir')}/org.wikimedia.civicrm"
-crm::site_name: crm.dev
+crm::site_name: crm.local.wmftest.net
 crm::drupal_db: drupal
 crm::civicrm_db: civicrm
 crm::db_user: root
