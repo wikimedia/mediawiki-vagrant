@@ -38,10 +38,7 @@ class payments(
     ],
   }
 
-  mediawiki::extension { 'payments:FundraisingEmailUnsubscribe':
-    entrypoint => 'FundraiserUnsubscribe.php',
-  }
-
+  mediawiki::extension { 'payments:FundraisingEmailUnsubscribe': }
   mediawiki::extension { 'payments:ParserFunctions': }
 
   mediawiki::import_text { 'payments:Main_Page':
