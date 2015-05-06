@@ -1,3 +1,28 @@
+__NOTOC__
+
+Beware that you are using a '''beta''' version of the WMF Fundraising Paymentswiki development puppet module, and there are many rough edges.
+
+== Configuration ==
+
+Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to receive credentials, or arrange for your own with the payment processor.  We are committed to eliminating this barrier to entry.  Here is a rough outline of the missing settings,
+
+    <?php
+    # settings.d/wikis/paymentswiki/settings.d/01-DI-real.php
+    
+    $wgGlobalCollectGatewayAccountInfo = array(
+        'default' => array(
+            'MerchantID' => '1234',
+        ),
+    );
+    
+    $wgPaypalGatewayAccountInfo = array(
+        'default' => array(
+            'AccountEmail' => 'magoo@localhost.net',
+        ),
+    );
+
+= Example URLs =
+
 See the [https://www.mediawiki.org/wiki/Extension:DonationInterface help page] of the DonationInterface extension for more information.
 
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=EUR&country=US&amount=2.01}} GlobalCollect in the US, English, EUR]
@@ -5,6 +30,12 @@ See the [https://www.mediawiki.org/wiki/Extension:DonationInterface help page] o
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=ILS&country=IL&amount=20.01}} GlobalCollect in IL, English]
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=he&language=he&currency=ILS&country=IL&amount=20.01}} GlobalCollect in IL, Hebrew]
 
+* [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency_code=EUR&country=NL&paymentmethod=cc&amount=3&amountGiven=&country=US&currency_code=USD&frequency=onetime&language=en&payment_method=cc&utm_campaign=none&utm_key=27&utm_medium=sitenotice&utm_source=B14_120723_5C_tp_tw1.no-LP.cc}} Form chooser, credit card in NL]
+
 == Errors ==
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=USD&country=US&amount=.01}} Donation amount too low (GlobalCollect)]
 * [{{fullurl:Special:PayPalGateway|appeal=JimmyQuote&ffname=paypal&recurring=&uselang=en&language=en&currency=INR&country=US&amount=200.01}} Correcting currency (PayPal)]
+
+== Debugging ==
+* [{{fullurl:Special:GatewayFormChooser|testGetAll=1}} Dump gateway form choices]
+* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=qqx&language=qqx&currency=USD&country=US&amount=1.01}} Payment form with message labels (GlobalCollect)]
