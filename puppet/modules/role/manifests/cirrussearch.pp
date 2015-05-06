@@ -2,10 +2,13 @@
 # The CirrusSearch extension implements searching for MediaWiki using
 # Elasticsearch.
 class role::cirrussearch {
+    include ::role::commons
     include ::role::timedmediahandler
     include ::role::pdfhandler
     include ::role::cite
     include ::elasticsearch
+    # not strictly required for cirrussearch, but used in the tests
+    include ::role::svg
 
     require_package('jq')
 
@@ -59,6 +62,10 @@ class role::cirrussearch {
 
     mediawiki::settings { 'cirrustest:cirrussearch test suite':
         values => template('elasticsearch/CirrusSearchTest.php.erb'),
+    }
+
+    mediawiki::settings { 'commons:cirrussearch':
+        values => template('elasticsearch/CirrusSearch-commons.php.erb'),
     }
 
     # By default vagrant sets up firefox as the global browsertest runner, we want
