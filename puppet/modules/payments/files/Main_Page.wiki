@@ -1,0 +1,10 @@
+See the [https://www.mediawiki.org/wiki/Extension:DonationInterface help page] of the DonationInterface extension for more information.
+
+* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=EUR&country=US&amount=2.01}} GlobalCollect in the US, English, EUR]
+* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=1&uselang=en&language=en&currency=EUR&country=US&amount=2.01}} GlobalCollect recurring in the US, English, EUR]
+* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=ILS&country=IL&amount=20.01}} GlobalCollect in IL, English]
+* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=he&language=he&currency=ILS&country=IL&amount=20.01}} GlobalCollect in IL, Hebrew]
+
+== Errors ==
+* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=USD&country=US&amount=.01}} Donation amount too low (GlobalCollect)]
+* [{{fullurl:Special:PayPalGateway|appeal=JimmyQuote&ffname=paypal&recurring=&uselang=en&language=en&currency=INR&country=US&amount=200.01}} Correcting currency (PayPal)]

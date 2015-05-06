@@ -35,13 +35,16 @@ class payments(
     require => [
       Git::Clone['mediawiki-core-fr'],
       Mediawiki::Wiki[$::mediawiki::wiki_name],
-    ]
+    ],
   }
 
   mediawiki::extension { 'payments:FundraisingEmailUnsubscribe':
     entrypoint => 'FundraiserUnsubscribe.php',
-    # FIXME: don't require: wgTwigPath => "${::twig::dir}/current/lib/Twig",
   }
 
   mediawiki::extension { 'payments:ParserFunctions': }
+
+  mediawiki::import_text { 'payments:Main_Page':
+      source  => 'puppet:///modules/payments/Main_Page.wiki',
+  }
 }
