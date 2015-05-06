@@ -20,9 +20,12 @@ class git::gerrit {
 
     if $::git_user {
         exec { 'gitreview.username':
-            command => "git config --global --add gitreview.username '${::git_user}'",
+            command => "/usr/bin/git config --global --add gitreview.username '${::git_user}'",
+            environment => [
+                "HOME=/home/vagrant",
+            ],
             user    => 'vagrant',
-            unless  => 'git config --global gitreview.username',
+            unless  => '/usr/bin/git config --global gitreview.username',
             require => Package['git'],
         }
     }
