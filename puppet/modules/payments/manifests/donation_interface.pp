@@ -57,18 +57,34 @@ class payments::donation_interface {
       wgDonationInterfaceDefaultQueueServer  => {
         'type'       => 'PHPQueue\Backend\Stomp',
         'uri'        => 'tcp://localhost:61613',
-        # 30 days, in seconds
-        'expiry'     => '2592000',
         'persistent' => 1
       },
 
       wgDonationInterfaceQueues              => {
+        'globalcollect-cc-limbo' => {
+          'type'    => 'PHPQueue\Backend\Memcache',
+          'servers' => [
+            'localhost'
+          ],
+          # 30 days, in seconds
+          'expiry'     => 2592000,
+        },
         'limbo' => {
           'type'    => 'PHPQueue\Backend\Memcache',
           'servers' => [
             'localhost'
           ],
+          # 30 days, in seconds
+          'expiry'     => 2592000,
         },
+      },
+
+      wgDonationInterfaceOrphanCron          => {
+        'enable'                       => true,
+        'function'                     => 'orphan_stomp',
+        'max_per_execute'              => '',
+        'override_command_line_params' => true,
+        'target_execute_time'          => 300,
       },
     },
     needs_update => true,
