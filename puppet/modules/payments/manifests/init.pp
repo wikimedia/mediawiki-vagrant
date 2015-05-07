@@ -51,4 +51,18 @@ class payments(
       page_title => 'Main_Page',
       source     => 'puppet:///modules/payments/Main_Page.wiki',
   }
+
+  mediawiki::import_text { 'payments:Donate-error':
+      wiki       => 'payments',
+      db_name    => 'paymentswiki',
+      page_title => 'Donate-error',
+      source     => 'puppet:///modules/payments/Donate-error.wiki',
+  }
+
+  mediawiki::import_text { 'payments:Donate-thanks':
+      wiki       => 'payments',
+      db_name    => 'paymentswiki',
+      page_title => 'Donate-thanks',
+      source     => 'puppet:///modules/payments/Donate-thanks.wiki',
+  }
 }
