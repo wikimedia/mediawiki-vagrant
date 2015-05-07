@@ -4,5 +4,7 @@
 # This role creates one additional wiki, payments.wiki.local.wmftest.net
 #
 class role::payments {
+  require ::role::mediawiki
+  require ::role::memcached
   include ::payments
 }

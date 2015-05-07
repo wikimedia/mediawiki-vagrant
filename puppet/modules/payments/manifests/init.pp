@@ -21,7 +21,6 @@ class payments(
     $branch,
     $dir,
 ) {
-  require ::role::mediawiki
   include ::payments::donation_interface
 
   git::clone { 'mediawiki-core-fr':
