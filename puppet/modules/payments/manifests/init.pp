@@ -45,6 +45,10 @@ class payments(
   mediawiki::extension { 'payments:ParserFunctions': }
 
   mediawiki::import_text { 'payments:Main_Page':
-      source  => 'puppet:///modules/payments/Main_Page.wiki',
+      # N.b. - Creepy abnormal multiwiki syntax
+      wiki       => 'payments',
+      db_name    => 'paymentswiki',
+      page_title => 'Main_Page',
+      source     => 'puppet:///modules/payments/Main_Page.wiki',
   }
 }
