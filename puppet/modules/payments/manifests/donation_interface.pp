@@ -80,9 +80,4 @@ class payments::donation_interface {
       ],
     ],
   }
-
-  mediawiki::settings { 'payments:DonationInterfaceFormSettings':
-    values => {},
-    footer => "require_once( '${::payments::dir}/DonationInterfaceFormSettings.php' );"
-  }
 }
