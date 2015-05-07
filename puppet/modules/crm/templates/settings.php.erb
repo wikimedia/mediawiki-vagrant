@@ -6,7 +6,8 @@ define( 'WMF_UNSUB_SALT', 'vagrant' );
 $dbs = array(
     'civicrm' => 'civicrm',
     'default' => 'drupal',
-    'donations' => 'donations',
+    # FIXME: Separate database not correctly supported by the contribution_tracking installer...
+    'donations' => 'drupal',
     'fredge' => 'fredge',
 );
 foreach ( $dbs as $key => $db ) {
@@ -24,3 +25,6 @@ foreach ( $dbs as $key => $db ) {
 <% @settings.each do |k, v| %>
     $conf['<%= k %>'] = '<%= v %>';
 <% end %>
+
+# FIXME: That's annoying.
+require_once __DIR__ . '/../../vendor/autoload.php';

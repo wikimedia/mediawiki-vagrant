@@ -92,6 +92,8 @@ class crm(
             'environment_indicator_position' => 'left',
             'environment_indicator_color'    => '#3FBF57',
             'queue2civicrm_subscription'     => 'complete',
+            'thank_you_days'                 => 14,
+            'thank_you_batch'                => 100,
         },
         require => Php::Composer::Install['crm-composer'],
     }
