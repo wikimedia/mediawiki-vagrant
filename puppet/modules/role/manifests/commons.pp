@@ -22,6 +22,14 @@ class role::commons(
             wgUploadPath           => '/commonsimages',
             wgCrossSiteAJAXdomains => ['*'],
         },
+        require => File[$upload_dir],
+    }
+
+    file { $upload_dir:
+        ensure => directory,
+        owner  => 'vagrant',
+        group  => 'www-data',
+        mode   => '0775',
     }
 
     mediawiki::settings { 'commons_ForeignRepo':
