@@ -41,3 +41,7 @@ put your custom settings there, because Puppet will erase or override them.
 Keep your custom settings files in this directory instead. Settings files in
 this directory will load *after* any Puppet-managed files, so you can override
 any unwanted settings that are set by Puppet.
+
+If you are using a multiwiki setup, please note that puppet-managed settings
+specific to each wiki can only be overridden by configuration in:
+	settings.d/wikis/<dbname>/settings.d/*.php
