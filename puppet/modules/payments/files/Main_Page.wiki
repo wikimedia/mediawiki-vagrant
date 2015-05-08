@@ -2,9 +2,11 @@ __NOTOC__
 
 Beware that you are using a '''beta''' version of the WMF Fundraising Paymentswiki development puppet module, and there are many rough edges.
 
+To contribute to development or for more help, please visit the [https://www.mediawiki.org/wiki/Extension:DonationInterface help page] of the DonationInterface extension, or join the IRC channel #wikimedia-fundraising on Freenode.
+
 == Configuration ==
 
-Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to receive credentials, or arrange for your own with the payment processor.  We are committed to eliminating this barrier to entry.  Here is a rough outline of the missing settings,
+Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to receive credentials.  Alternatively, you may arrange for a development account with the payment processor.  We are committed to eliminating this barrier to entry by providing mock API responses, but in the meantime, here's an overview of the missing settings,
 
     <?php
     # settings.d/wikis/paymentswiki/settings.d/01-DI-real.php
@@ -22,8 +24,6 @@ Some minimum configuration is "non-free", meaning you will have to be oathed to 
     );
 
 = Example URLs =
-
-See the [https://www.mediawiki.org/wiki/Extension:DonationInterface help page] of the DonationInterface extension for more information.
 
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=EUR&country=US&amount=2.01}} GlobalCollect in the US, English, EUR]
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=1&uselang=en&language=en&currency=EUR&country=US&amount=2.01}} GlobalCollect recurring in the US, English, EUR]
