@@ -1,0 +1,5 @@
+$wgCirrusSearchNamespaceMappings[ NS_FILE ] = 'file';
+$wgCirrusSearchReplicaCount['file'] = 1;
+$wgCirrusSearchShardCount['file'] = 1;
+// Undo global config that includes commons files in other wikis search results
+unset( $wgCirrusSearchExtraIndexes[ NS_FILE ] );
