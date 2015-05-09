@@ -1,6 +1,6 @@
 if ( class_exists( 'ExtensionRegistry' ) && file_exists( "$IP/extensions/<%= @ext_name %>/extension.json" ) ) {
 	wfLoadExtension( '<%= @ext_name %>' );
-} else {
+} elseif file_exists( "$IP/extensions/<%= @ext_name %>/<%= @ext_entrypoint %>" ) {
 	include_once "$IP/extensions/<%= @ext_name %>/<%= @ext_entrypoint %>";
 }
 
