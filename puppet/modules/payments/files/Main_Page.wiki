@@ -39,3 +39,16 @@ Some minimum configuration is "non-free", meaning you will have to be oathed to 
 == Debugging ==
 * [{{fullurl:Special:GatewayFormChooser|testGetAll=1}} Dump gateway form choices]
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=qqx&language=qqx&currency=USD&country=US&amount=1.01}} Payment form with message labels (GlobalCollect)]
+
+= Orphan slayer =
+
+    vagrant ssh
+    
+    mwscript extensions/DonationInterface/globalcollect_gateway/scripts/orphans.php --wiki paymentswiki
+
+= ActiveMQ =
+
+You currently have to set up the port forwarding manually, I donno what's wrong with that.
+
+    vagrant forward-port 8161 8161
+    vagrant reload

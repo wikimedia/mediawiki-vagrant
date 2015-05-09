@@ -37,8 +37,14 @@ class payments(
     ],
   }
 
-  mediawiki::extension { 'payments:FundraisingEmailUnsubscribe': }
-  mediawiki::extension { 'payments:ParserFunctions': }
+  mediawiki::extension { 'payments:ContributionTracking':
+    needs_update => true,
+  }
+
+  mediawiki::extension { [
+    'payments:FundraisingEmailUnsubscribe',
+    'payments:ParserFunctions',
+  ]: }
 
   mediawiki::import_text { 'payments:Main_Page':
       # N.b. - Creepy abnormal multiwiki syntax

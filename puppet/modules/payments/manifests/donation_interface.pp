@@ -50,6 +50,16 @@ class payments::donation_interface {
 
       wgStompServer                          => 'tcp://localhost:61613',
 
+      wgStompQueueNames => {
+        'default'                => 'complete',
+        'pending'                => 'pending',
+        'limbo'                  => 'limbo',
+        'cc-limbo'               => 'cc-limbo',
+        'globalcollect-cc-limbo' => 'globalcollect-cc-limbo',
+        'payments-antifraud'     => 'payments-antifraud',
+        'payments-init'          => 'payments-init',
+      },
+
       wgDonationInterfaceMemcacheHost        => 'localhost',
 
       wgDonationInterfaceUseSyslog           => true,
@@ -90,9 +100,7 @@ class payments::donation_interface {
     needs_update => true,
     require      => [
       Mediawiki::Extension[
-        'payments:ContributionTracking',
-        'payments:FundraisingEmailUnsubscribe',
-        'payments:ParserFunctions'
+        'payments:ContributionTracking'
       ],
     ],
   }
