@@ -2,10 +2,6 @@
 # Configure the DonationInterface extension
 #
 class payments::donation_interface {
-  mediawiki::extension { 'payments:ContributionTracking':
-    needs_update => true,
-  }
-
   # FIXME: Use relative paths to load forms.
   $DI = "${::payments::dir}/extensions/DonationInterface"
 

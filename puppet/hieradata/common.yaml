@@ -220,6 +220,9 @@ sentry::dsn_file: "%{hiera('sentry::deploy_dir')}/sentry_dsn.txt"
 sentry::admin_user: admin
 sentry::admin_pass: vagrant
 
+smashpig::dir: "%{hiera('mwv::services_dir')}/SmashPig"
+smashpig::vhost_name: payments-listener.local.wmftest.net
+
 smtplog::log_file: /vagrant/logs/smtp.log
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"

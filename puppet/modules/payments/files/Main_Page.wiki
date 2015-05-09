@@ -52,3 +52,12 @@ You currently have to set up the port forwarding manually, I donno what's wrong 
 
     vagrant forward-port 8161 8161
     vagrant reload
+
+= SmashPig =
+
+Test the SmashPig listener using something like the following:
+
+    cd srv/SmashPig
+    python PaymentProviders/Amazon/Tests/inject.py \
+	    payments-listener.local.wmftest.net:8080 /smashpig/amazon/listener \
+		PaymentProviders/Amazon/Tests/Data/IPN/SubscriptionSuccessful.json
