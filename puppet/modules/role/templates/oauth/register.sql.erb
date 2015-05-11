@@ -1,0 +1,34 @@
+-- registers the "Hello World" consumer
+REPLACE INTO /*_*/oauth_registered_consumer(
+	oarc_consumer_key,
+	oarc_name,
+	oarc_user_id,
+	oarc_version,
+	oarc_callback_url,
+	oarc_description,
+	oarc_email,
+	oarc_email_authenticated,
+	oarc_wiki,
+	oarc_grants,
+	oarc_registration,
+	oarc_secret_key,
+	oarc_restrictions,
+	oarc_stage,
+	oarc_stage_timestamp
+) VALUES (
+	'<%= @example_consumer_key %>', -- oarc_consumer_key
+	'Hello World', -- oarc_name
+	1, -- oarc_user_id (1=Admin)
+	1.0, -- oarc_version
+	'<%= scope['::mediawiki::server_url'] %>/oauth-hello-world/', -- oarc_callback_url
+	'OAuth test for MW-Vagrant', -- oarc_description
+	'nobody@example.com', -- oarc_email
+	'20000101000000', -- oarc_email_authenticated
+	'*', -- oarc_wiki
+	'["useoauth","editpage","createeditmovepage"]', -- oarc_grants
+	'20000101000000', -- oarc_registration
+	'<%= @example_secret_key %>', -- oarc_secret_key
+	'{"IPAddresses":["0.0.0.0/0","::/0"]}', -- oarc_restrictions
+	1, -- oarc_stage
+	'20000101000000' -- oarc_stage_timestamp
+);
