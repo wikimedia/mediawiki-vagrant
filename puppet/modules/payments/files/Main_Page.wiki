@@ -6,7 +6,7 @@ To contribute to development or for more help, please visit the [https://www.med
 
 == Configuration ==
 
-Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to receive credentials.  Alternatively, you may arrange for a development account with the payment processor.  We are committed to eliminating this barrier to entry by providing mock API responses, but in the meantime, here's an overview of the missing settings,
+Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to receive credentials.  Alternatively, you may arrange for your own development account with the payment processor.  We are committed to eliminating this barrier by providing mock API responses, but in the meantime, here's an overview of what the missing settings look like,
 
     <?php
     # settings.d/wikis/paymentswiki/settings.d/01-DI-real.php
@@ -57,7 +57,7 @@ You currently have to set up the port forwarding manually, I donno what's wrong 
 
 Test the SmashPig listener using something like the following:
 
-    cd srv/SmashPig
-    python PaymentProviders/Amazon/Tests/inject.py \
-	    payments-listener.local.wmftest.net:8080 /smashpig/amazon/listener \
-		PaymentProviders/Amazon/Tests/Data/IPN/SubscriptionSuccessful.json
+    cd srv/SmashPig/PaymentProviders/Amazon/Tests
+    python ./inject.py \
+        http://payments-listener.local.wmftest.net:8080/smashpig/amazon/listener \
+        Data/IPN/SubscriptionSuccessful.json

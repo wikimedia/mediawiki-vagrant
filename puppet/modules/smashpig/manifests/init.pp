@@ -1,6 +1,6 @@
 # == Class: smashpig
 #
-# Provision a site for realtime payment notifications
+# Provision a site to listen for realtime payment notifications.
 #
 class smashpig(
     $vhost_name,
