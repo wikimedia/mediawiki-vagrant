@@ -1,0 +1,9 @@
+DocumentRoot "<%= scope.lookupvar('smashpig::dir') %>/PublicHttp"
+
+ServerName <%= scope.lookupvar('smashpig::vhost_name') %>
+
+<Directory "<%= scope.lookupvar('smashpig::dir') %>/PublicHttp">
+    Options -Indexes
+    AllowOverride all
+    Require all granted
+</Directory>

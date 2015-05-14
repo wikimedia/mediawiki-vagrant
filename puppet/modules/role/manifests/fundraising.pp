@@ -8,4 +8,5 @@ class role::fundraising {
     include ::activemq
     include ::crm
     include ::rsyslog
+    include ::smashpig
 }
