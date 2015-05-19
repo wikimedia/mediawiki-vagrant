@@ -59,6 +59,9 @@ function pull {
 for srvdir in $(find <%= scope['::mwv::services_dir'] %> -maxdepth 2 -type d -name .git -printf "%h\n"); do
   cd "${srvdir}"
   pull
+  if ! git ls-files node_modules --error-unmatch > /dev/null 2>&1 && [[ -f package.json ]]; then
+    npm update
+  fi
 done
 
 cd "$MW_INSTALL_PATH"
