@@ -1,3 +1,5 @@
+This help page was generated from [http://git.wikimedia.org/blob/mediawiki%2Fvagrant.git/HEAD/puppet%2Fmodules%2Fpayments%2Ffiles%2FMain_Page.wiki a file], please submit improvements back to that code repo.
+
 __NOTOC__
 
 Beware that you are using a '''beta''' version of the WMF Fundraising Paymentswiki development puppet module, and there are many rough edges.
@@ -6,7 +8,7 @@ To contribute to development or for more help, please visit the [https://www.med
 
 == Configuration ==
 
-Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to receive credentials.  Alternatively, you may arrange for your own development account with the payment processor.  We are committed to eliminating this barrier by providing mock API responses, but in the meantime, here's an overview of what the missing settings look like,
+Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to use our credentials.  Alternatively, you may make your own arrangements for a development account with the payment processor.  We are committed to eliminating this barrier by [https://phabricator.wikimedia.org/T89188 providing mock API responses], but in the meantime, here's an overview of what the missing settings look like,
 
     <?php
     # settings.d/wikis/paymentswiki/settings.d/01-DI-real.php
@@ -23,7 +25,7 @@ Some minimum configuration is "non-free", meaning you will have to be oathed to 
         ),
     );
 
-= Example URLs =
+= Some donation forms =
 
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=EUR&country=US&amount=2.01}} GlobalCollect in the US, English, EUR]
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=1&uselang=en&language=en&currency=EUR&country=US&amount=2.01}} GlobalCollect recurring in the US, English, EUR]
@@ -31,6 +33,8 @@ Some minimum configuration is "non-free", meaning you will have to be oathed to 
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=he&language=he&currency=ILS&country=IL&amount=20.01}} GlobalCollect in IL, Hebrew]
 
 * [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency_code=EUR&country=NL&paymentmethod=cc&amount=3&amountGiven=&country=US&currency_code=USD&frequency=onetime&language=en&payment_method=cc&utm_campaign=none&utm_key=27&utm_medium=sitenotice&utm_source=B14_120723_5C_tp_tw1.no-LP.cc}} Form chooser, credit card in NL]
+
+See also [https://phabricator.wikimedia.org/T86247 T86247], this would be a good use of a Special page, to build a payments query out of adjustable parameters.
 
 == Errors ==
 * [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=USD&country=US&amount=.01}} Donation amount too low (GlobalCollect)]
