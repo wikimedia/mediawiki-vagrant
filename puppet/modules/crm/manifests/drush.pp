@@ -7,6 +7,9 @@ class crm::drush( $root ) {
 
     require_package('drush')
 
-    $bare_cmd = "drush -y --root=${root}"
-    $cmd = "sudo -u www-data ${bare_cmd}"
+    file { '/usr/local/bin/drush':
+        ensure  => present,
+        mode    => '0755',
+        content => template('crm/drush-wrapper.sh.erb'),
+    }
 }
