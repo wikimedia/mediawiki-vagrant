@@ -1,0 +1,2 @@
+printf 'APP_KEY=' >> <%= @install_dir %>/.env
+php artisan key:generate | awk -F '[][]' '{print $2}' >> <%= @install_dir %>/.env

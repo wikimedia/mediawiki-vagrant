@@ -183,6 +183,10 @@ mysql::root_password: vagrant
 phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
 phabricator::vhost_name: phabricator.local.wmftest.net
 
+role::phragile::debug: true
+role::phragile::install_dir: "%{hiera('mwv::services_dir')}/phragile"
+role::phragile::vhost_name: phragile.local.wmftest.net
+
 # We are masterless and have no need to run an agent.
 puppet::agent::ensure: stopped
 puppet::agent::enable: false

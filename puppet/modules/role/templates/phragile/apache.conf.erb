@@ -1,0 +1,13 @@
+ServerName <%= @vhost_name %>
+DocumentRoot <%= @install_dir %>/public
+ProxyPass /index.php fcgi://127.0.0.1:9000/vagrant/srv/phragile/public/index.php retry=0
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^ /index.php [L]
+
+<Directory />
+  AllowOverride All
+  Require all granted
+</Directory>
+
