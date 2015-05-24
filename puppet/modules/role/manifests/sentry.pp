@@ -21,6 +21,7 @@ class role::sentry (
     mediawiki::extension { 'Buggy': }
 
     mediawiki::import_text{ 'VagrantRoleSentry':
-        source => 'puppet:///modules/role/sentry/VagrantRoleSentry.wiki',
+        content => template('role/sentry/VagrantRoleSentry.wiki.erb'),
     }
 }
+

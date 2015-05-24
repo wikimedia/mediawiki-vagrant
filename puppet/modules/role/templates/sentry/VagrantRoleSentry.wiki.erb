@@ -1,3 +1,5 @@
+Sentry instance: [//sentry.local.wmftest.net:<%= @forwarded_port %>/mediawiki/default/ sentry.local.wmftest.net]
+
 See [https://www.mediawiki.org/wiki/Extension:Sentry the help page of the Sentry extension] for more information.
 
 == Normal ==
@@ -25,3 +27,8 @@ See [https://www.mediawiki.org/wiki/Extension:Sentry the help page of the Sentry
 * [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=mwload}} Error in mw.loader.using callback]
 * [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=logError}} Manual error reporting]
 * [{{fullurl:{{FULLPAGENAME}}|<nowiki>debug=1&buggy&#91;0&#93;=startup&buggy&#91;1&#93;=setTimeout&buggy&#91;2&#93;=onready&buggy&#91;3&#93;=click</nowiki>}} Multiple errors (startup + setTimeout + $.ready + click)]
+
+== Server-side ==
+* [{{fullurl:{{FULLPAGENAME}}|buggy=php-exception}} PHP exception]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=php-mwexception}} PHP MWException]
+
