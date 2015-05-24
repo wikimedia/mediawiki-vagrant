@@ -30,4 +30,4 @@ project.save()
 
 key = ProjectKey.objects.filter(project=project)[0]
 with open('<%= @dsn_file %>', 'w+') as f:
-    f.write(key.dsn_public)
+    f.write(key.dsn_private)
