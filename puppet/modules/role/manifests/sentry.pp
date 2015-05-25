@@ -14,7 +14,7 @@ class role::sentry (
         settings => [
             # OMG that's ugly. Did not find a better way to reuse
             # the output of a script.
-            "\$wgSentryDsn = file_get_contents('${dsn}');",
+            "\$wgSentryDsn = trim(file_get_contents('${dsn}'));",
         ],
     }
 
