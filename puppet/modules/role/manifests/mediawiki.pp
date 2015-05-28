@@ -10,6 +10,7 @@ class role::mediawiki(
 ){
     include ::arcanist
     include ::mediawiki
+    include ::postfix
     require ::misc
     require ::mwv
     require ::mysql
@@ -17,4 +18,10 @@ class role::mediawiki(
 
     require_package('php5-tidy')
     require_package('tidy')
+
+    # mailutils depends on default MTA or any MTA.  This way we
+    # explicitly install postfix, not relying on it happening to be the
+    # default MTA.
+    require_package('mailutils')
+    Package['postfix'] -> Package['mailutils']
 }
