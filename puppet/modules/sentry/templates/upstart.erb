@@ -4,7 +4,7 @@
 
 description "Sentry error log tracker"
 
-start on startup
+start on mediawiki-ready
 
 exec /sbin/start-stop-daemon --quiet --start \
   --chuid 'www-data:www-data' \

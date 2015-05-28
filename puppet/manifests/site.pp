@@ -35,6 +35,7 @@ Exec {
 
 Service {
     ensure => running,
+    enable => true,
 }
 
 Package {

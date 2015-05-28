@@ -1,7 +1,7 @@
 # This file is managed by puppet
 description "Debugging smtp server that logs to <%= @log_file %>"
 
-start on (local-filesystems and net-device-up IFACE=lo)
+start on mediawiki-ready
 stop on shutdown
 
 script
