@@ -22,5 +22,11 @@
         }
     },
 
+    "chron": {
+        // One second is required to make delayed job testing not crazy slow
+        // and doesn't seem to cause a ton of load.
+        "period": 1
+    },
+
     "dispatcher": "nice -19 mwscript maintenance/runJobs.php --wiki=%(db)x --type=%(type)x --maxtime=%(maxtime)x --memory-limit=%(maxmem)x --result=json"
 }

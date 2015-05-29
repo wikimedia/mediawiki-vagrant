@@ -60,7 +60,10 @@ class mediawiki::jobrunner(
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
-        notify  => Service['jobrunner'],
+        notify  => [
+            Service['jobrunner'],
+            Service['jobchron'],
+        ]
     }
 
     file { '/etc/logrotate.d/mediawiki_jobrunner':
