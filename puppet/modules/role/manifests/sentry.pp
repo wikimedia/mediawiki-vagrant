@@ -9,6 +9,7 @@ class role::sentry (
     $dsn,
 ) {
     include ::sentry
+    include ::role::buggy
 
     mediawiki::extension { 'Sentry':
         settings => [
@@ -17,8 +18,6 @@ class role::sentry (
             "\$wgSentryDsn = trim(file_get_contents('${dsn}'));",
         ],
     }
-
-    mediawiki::extension { 'Buggy': }
 
     mediawiki::import_text{ 'VagrantRoleSentry':
         content => template('role/sentry/VagrantRoleSentry.wiki.erb'),

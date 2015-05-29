@@ -1,0 +1,37 @@
+<noinclude>
+'''Buggy''' is an extension that is intentionally buggy. This is useful when you want to test functionality related to bug handling or error reporting. Buggy has originally been created to help with the testing of [[:mw:Extension:Sentry|]]
+</noinclude>
+
+== Trigger errors ==
+=== Normal ===
+* [{{fullurl:{{FULLPAGENAME}}|buggy=css}} Syntax error in CSS]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=less}} LESS error]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=startup}} Error in module initialization code]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=setTimeout}} Error in setTimeout callback]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=onready}} Error in $.ready callback]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=click}} Error in jQuery click handler]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=ajax}} Error in jQuery AJAX success handler]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=misc-cb}} Other (unwrapped) callback]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=mwload}} Error in mw.loader.using callback]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=logError}} Manual error reporting]
+* [{{fullurl:{{FULLPAGENAME}}|buggy&#91;0&#93;=startup&buggy&#91;1&#93;=setTimeout&buggy&#91;2&#93;=onready&buggy&#91;3&#93;=click}} Multiple errors (startup + setTimeout + $.ready + click)]
+
+=== Debug mode ===
+* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=css}} Syntax error in CSS]
+* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=less}} LESS error]
+* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=startup}} Error in module initialization code]
+* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=setTimeout}} Error in setTimeout callback]
+* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=onready}} Error in $.ready callback]
+* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=click}} Error in jQuery click handler]
+* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=ajax}} Error in jQuery AJAX success handler]
+* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=misc-cb}} Other (unwrapped) callback]
+* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=mwload}} Error in mw.loader.using callback]
+* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=logError}} Manual error reporting]
+* [{{fullurl:{{FULLPAGENAME}}|<nowiki>debug=1&buggy&#91;0&#93;=startup&buggy&#91;1&#93;=setTimeout&buggy&#91;2&#93;=onready&buggy&#91;3&#93;=click</nowiki>}} Multiple errors (startup + setTimeout + $.ready + click)]
+
+=== Server-side ===
+* [{{fullurl:{{FULLPAGENAME}}|buggy=php-exception}} PHP exception]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=php-mwexception}} PHP MWException]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=missing-class}} Using non-existent class]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=sql}} SQL error]
+* [{{SERVER}}/w/api.php?action=buggy API error]
