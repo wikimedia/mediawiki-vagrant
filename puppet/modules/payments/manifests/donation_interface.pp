@@ -73,20 +73,16 @@ class payments::donation_interface {
 
       wgDonationInterfaceQueues              => {
         'globalcollect-cc-limbo' => {
-          'type'    => 'PHPQueue\Backend\Memcache',
-          'servers' => [
-            'localhost'
-          ],
-          # 30 days, in seconds
-          'expiry'     => 2592000,
+          'type'      => 'PHPQueue\Backend\Predis',
+          'servers'   => 'tcp://localhost',
+          'expiry'    => 3600,
+          'order_key' => 'date',
         },
         'limbo' => {
-          'type'    => 'PHPQueue\Backend\Memcache',
-          'servers' => [
-            'localhost'
-          ],
-          # 30 days, in seconds
-          'expiry'     => 2592000,
+          'type'      => 'PHPQueue\Backend\Predis',
+          'servers'   => 'tcp://localhost',
+          'expiry'    => 3600,
+          'order_key' => 'date',
         },
       },
 
