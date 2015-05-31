@@ -13,13 +13,14 @@ define npm::install(
     require ::npm
 
     exec { "${title}_npm_install":
-        command     => '/usr/bin/npm install',
+        command     => '/usr/bin/npm install --no-bin-links',
         cwd         => $directory,
         user        => 'vagrant',
         environment => [
             "NPM_CONFIG_CACHE=${::npm::cache_dir}",
             'NPM_CONFIG_GLOBAL=false',
             'LINK=g++',
+            'HOME=/home/vagrant',
         ],
         creates     => "${directory}/node_modules",
         logoutput   => true,

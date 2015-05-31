@@ -17,13 +17,14 @@ define npm::update(
     require ::npm
 
     exec { "${title}_npm_install":
-        command     => '/usr/bin/npm update',
+        command     => '/usr/bin/npm update --no-bin-links',
         cwd         => $directory,
         user        => 'vagrant',
         environment => [
             "NPM_CONFIG_CACHE=${::npm::cache_dir}",
             'NPM_CONFIG_GLOBAL=false',
             'LINK=g++',
+            'HOME=/home/vagrant',
         ],
         unless      => $unless,
     }

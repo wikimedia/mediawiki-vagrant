@@ -1,11 +1,4 @@
 # RESTBase config
-#
-# NOTE: this file is managed by Puppet
-
-info:
-  name: restbase
-
-
 templates:
 
   wmf-content-1.0.0: &wp/content/1.0.0
@@ -132,24 +125,5 @@ spec: &spec
   # Some more general RESTBase info
   paths:
     /{domain:<%= @domain %>}: *wp/default/1.0.0
-
-num_workers: ncpu
-
-services:
-  - name: restbase
-    module: ./lib/server
-    conf:
-      port: <%= @port %>
-      spec: *spec
-
-logging:
-  name: restbase
-  level: <%= @log_level %>
-  streams:
-    - type: file
-      path: <%= @log_file %>
-
-metrics:
-  type: log
-  #host: localhost
-  #port: 8125
+salt: secret
+default_page_size: 100

@@ -1,0 +1,43 @@
+# NOTE: This file is managed by Puppet
+
+
+# Number of worker processes to spawn.
+# Set to 0 to run everything in a single process without clustering.
+# Use 'ncpu' to run as many workers as there are CPU units
+num_workers: 1
+
+# Log error messages and gracefully restart a worker if v8 reports that it
+# uses more heap (note: not RSS) than this many mb.
+worker_heap_limit_mb: 150
+
+# Logger info
+logging:
+  name: <%= @title %>
+  level: <%= @loglev %>
+  streams:
+    - type: file
+      path: <%= @log_file %>
+
+metrics:
+  type: log
+
+services:
+  - name: <%= @title %>
+    # a relative path or the name of an npm package, if different from name
+    module: <%= @module %>
+    # optionally, a version constraint of the npm package
+    # version: ^0.4.0
+    # per-service config
+    conf:
+      # the port to bind to
+      port: <%= @port %>
+      # IP address to bind to, all IPs by default
+      # interface: localhost # uncomment to only listen on localhost
+      # allow cross-domain requests to the API (default '*')
+      cors: '*'
+      # to disable use:
+      # cors: false
+      # to restrict to a particular domain, use:
+      # cors: restricted.domain.org
+      # URL of the outbound proxy to use (complete with protocol)
+      # proxy:
