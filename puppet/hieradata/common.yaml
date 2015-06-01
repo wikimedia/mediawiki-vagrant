@@ -128,11 +128,11 @@ logstash::output::elasticsearch::replication: async
 logstash::output::elasticsearch::manage_indices: true
 logstash::output::elasticsearch::priority: 90
 
-mathoid::base_path: "%{hiera('mwv::services_dir')}/mathoid"
-mathoid::node_path: "%{hiera('mathoid::base_path')}/node_modules"
-mathoid::conf_path: "%{hiera('mathoid::base_path')}/mathoid.config.json"
-mathoid::log_dir: /vagrant/logs
 mathoid::port: 10042
+mathoid::svg: true
+mathoid::img: true
+mathoid::png: true
+mathoid::speak_text: true
 
 graphoid::base_path: "%{hiera('mwv::services_dir')}/graphoid"
 graphoid::node_path: "%{hiera('graphoid::base_path')}/node_modules"
