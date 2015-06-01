@@ -7,13 +7,18 @@ class payments::donation_interface {
 
   mediawiki::extension { 'payments:DonationInterface':
     settings     => {
-      wgDonationInterfaceEnableAdyen         => true,
-      wgDonationInterfaceEnableAmazon        => true,
-      wgDonationInterfaceEnableFormChooser   => true,
-      wgDonationInterfaceEnableGlobalCollect => true,
-      wgDonationInterfaceEnablePaypal        => true,
-      wgDonationInterfaceEnableQueue         => true,
-      wgDonationInterfaceEnableStomp         => true,
+      wgGlobalCollectGatewayEnabled            => true,
+      wgAdyenGatewayEnabled                    => true,
+      wgAstropayGatewayEnabled                 => true,
+      wgWorldpayGatewayEnabled                 => true,
+      wgPaypalGatewayEnabled                   => true,
+      wgDonationInterfaceEnableFormChooser     => true,
+      wgDonationInterfaceEnableQueue           => true,
+      wgDonationInterfaceEnableStomp           => true,
+      wgDonationInterfaceEnableFunctionsFilter => true,
+      wgDonationInterfaceEnableMinfraud        => true,
+      wgDonationInterfaceEnableReferrerFilter  => true,
+      wgDonationInterfaceEnableSourceFilter    => true,
 
       # FIXME: Causes failure to run GlobalCollect, cos donation.api.php will rely on a test class.
       wgDonationInterfaceTestMode            => false,
