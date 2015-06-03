@@ -3,6 +3,7 @@
 # - installs ImageMagick
 # - raises file size limits
 # - configures 404-handler[https://www.mediawiki.org/wiki/Manual:Thumb.php#404_Handler]
+# - installs exiftool
 # It is meant to contain general configuration of shared use to other
 # extensions that are commonly used by the multimedia team in
 # development and testing.
@@ -16,4 +17,6 @@ class role::multimedia {
             post_max_size       => '100M',
         }
     }
+
+    require_package('libimage-exiftool-perl')
 }
