@@ -38,26 +38,26 @@ class phabricator(
     }
 
     phabricator::config { 'mysql.pass':
-        value      => $::mysql::root_password,
-        require    => Class['::mysql'],
+        value   => $::mysql::root_password,
+        require => Class['::mysql'],
     }
 
     phabricator::config { 'phabricator.base-uri':
-        value      => "http://${vhost_name}${::port_fragment}/",
+        value => "http://${vhost_name}${::port_fragment}/",
     }
 
     phabricator::config { 'search.elastic.host':
-        value      => 'http://localhost:9200',
-        require    => Class['::elasticsearch'],
+        value   => 'http://localhost:9200',
+        require => Class['::elasticsearch'],
     }
 
     phabricator::config { 'pygments.enabled':
-        value      => true,
-        require    => Package['python-pygments'],
+        value   => true,
+        require => Package['python-pygments'],
     }
 
     phabricator::config { 'metamta.mail-adapter':
-        value      => 'PhabricatorMailImplementationTestAdapter',
+        value => 'PhabricatorMailImplementationTestAdapter',
     }
 
     phabricator::config { 'phabricator.developer-mode':
