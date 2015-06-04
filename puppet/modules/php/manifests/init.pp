@@ -13,13 +13,13 @@ class php {
     include ::php::xhprof
 
     package { [
-        'php-apc',
         'php-auth-sasl',
         'php-mail',
         'php-mail-mime',
         'php-net-smtp',
         'php-pear',
         'php5',
+        'php5-apcu',
         'php5-cli',
         'php5-curl',
         'php5-dev',
@@ -66,6 +66,16 @@ class php {
 
     php::ini { 'session_defaults':
         settings => { 'session.save_path' => '/tmp' },
+    }
+
+    php::ini { 'opcache_validate_timestamps':
+        settings => { 'opcache.validate_timestamps' => 'on' },
+        require => Package['php5-apcu']
+    }
+
+    php::ini { 'opcache_revalidate_freq':
+        settings => { 'opcache.revalidate_freq' => 0 },
+        require => Package['php5-apcu'],
     }
 
     class { '::php::sessionclean':
