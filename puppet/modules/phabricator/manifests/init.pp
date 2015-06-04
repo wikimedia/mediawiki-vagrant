@@ -65,11 +65,6 @@ class phabricator(
         value      => 'PhabricatorMailImplementationTestAdapter',
     }
 
-    phabricator::config { 'storage.upload-size-limit':
-        deploy_dir => $deploy_dir,
-        value      => '100M',
-    }
-
     # Setup databases
     exec { 'phab_setup_db':
         command => "${deploy_dir}/phabricator/bin/storage upgrade --force",
