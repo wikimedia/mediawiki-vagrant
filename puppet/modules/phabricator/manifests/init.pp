@@ -60,6 +60,10 @@ class phabricator(
         value      => 'PhabricatorMailImplementationTestAdapter',
     }
 
+    phabricator::config { 'phabricator.developer-mode':
+        value => true,
+    }
+
     # Setup databases
     exec { 'phab_setup_db':
         command => "${deploy_dir}/phabricator/bin/storage upgrade --force",
