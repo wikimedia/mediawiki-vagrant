@@ -13,6 +13,11 @@
 error_reporting( -1 );
 ini_set( 'display_errors', 1 );
 
+// WMF specific HHVM builds don't support unix socket connections to MySQL.
+// Use IP address rather than default of 'localhost' to help runtime pick the
+// right connection method.
+$wgDBserver = '127.0.0.1';
+
 $wgUploadDirectory = '/srv/images';
 $wgUploadPath = '/images';
 $wgArticlePath = "/wiki/$1";
