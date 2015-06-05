@@ -64,6 +64,10 @@ class phabricator(
         value => true,
     }
 
+    file { "/var/repo":
+        ensure => directory,
+    }
+
     # Setup databases
     exec { 'phab_setup_db':
         command => "${deploy_dir}/phabricator/bin/storage upgrade --force",
