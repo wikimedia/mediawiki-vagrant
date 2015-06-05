@@ -2,7 +2,7 @@ $wgDebugTimestamps = false;
 $wgDBerrorLog = true;
 
 $wgMWLoggerDefaultSpi = array(
-	'class' => 'MWLoggerMonologSpi',
+	'class' => '\\MediaWiki\\Logger\\MonologSpi',
 	'args' => array( array(
 		'loggers' => array(
 			'@default' => array(
@@ -21,7 +21,7 @@ $wgMWLoggerDefaultSpi = array(
 
 		'processors' => array(
 			'wiki' => array(
-				'class' => 'MWLoggerMonologProcessor',
+				'class' => '\\MediaWiki\\Logger\\Monolog\\WikiProcessor',
 			),
 			'psr' => array(
 				'class' => '\\Monolog\\Processor\\PsrLogMessageProcessor',
@@ -39,26 +39,22 @@ $wgMWLoggerDefaultSpi = array(
 
 		'handlers' => array(
 			'default' => array(
-				'class' => 'MWLoggerMonologHandler',
+				'class' => '\\MediaWiki\\Logger\\Monolog\\LegacyHandler',
 				'args' => array( '/vagrant/logs/monolog-'.date('Ymd').'.log' ),
-				'formatter' => 'line',
 			),
 			'syslog' => array(
-				'class' => 'MWLoggerMonologSyslogHandler',
+				'class' => '\\MediaWiki\\Logger\\Monolog\\SyslogHandler',
 				'args' => array( 'mediawiki', '127.0.0.1', 10514 ),
 				'formatter' => 'logstash',
 			),
 			'profiler' => array(
-				'class' => 'MWLoggerMonologHandler',
+				'class' => '\\MediaWiki\\Logger\\Monolog\\LegacyHandler',
 				'args' => array( '/vagrant/logs/profiler-'.date('Ymd').'.log' ),
 				'formatter' => 'profiler',
 			),
 		),
 
 		'formatters' => array(
-			'line' => array(
-				'class' => '\\Monolog\\Formatter\\LineFormatter',
-			),
 			'logstash' => array(
 				'class' => '\\Monolog\\Formatter\\LogstashFormatter',
 				'args'  => array( 'mediawiki', php_uname( 'n' ), null, '', 1 ),
