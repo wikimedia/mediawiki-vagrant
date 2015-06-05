@@ -64,6 +64,10 @@ class phabricator(
         value => true,
     }
 
+    phabricator::config { 'storage.mysql-engine.max-size':
+        value => 0,
+    }
+
     file { "/var/repo":
         ensure => directory,
     }
