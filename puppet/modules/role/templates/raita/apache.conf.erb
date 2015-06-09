@@ -1,0 +1,12 @@
+ServerName <%= @vhost_name %>
+DocumentRoot "<%= @dir %>/docroot"
+
+Header set Access-Control-Allow-Origin "*"
+Header set Access-Control-Allow-Methods "GET,POST,HEAD,DELETE,PUT,OPTIONS"
+
+ProxyRequests Off
+ProxyPass /db "<%= @index_url %>"
+
+<Directory "<%= @dir %>/docroot">
+    Require all granted
+</Directory>

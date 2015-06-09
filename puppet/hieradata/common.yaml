@@ -213,6 +213,9 @@ payments::dir: /vagrant/mediawiki-fr
 
 role::mediawiki::hostname: 127.0.0.1
 
+role::raita::dir: "%{hiera('mwv::services_dir')}/raita"
+role::raita::vhost_name: 'raita.local.wmftest.net'
+
 role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
 
 role::wikimetrics::dir: "%{hiera('mwv::services_dir')}/wikimetrics"
