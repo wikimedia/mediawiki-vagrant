@@ -1,13 +1,13 @@
 # == Class: role::citoid
-# Configures Citoid, a MediaWiki extension which adds an auto-
-# filled citation tool to VisualEditor using the citoid service
-# (not installed by this mainfest).
+# Provisions Citoid, a MediaWiki extension which adds an auto-
+# filled citation tool to VisualEditor using the citoid service.
 class role::citoid {
-    include ::role::visualeditor
+    include ::role::zotero
+    include ::citoid
 
     mediawiki::extension { 'Citoid':
         settings => {
-            wgCitoidServiceUrl => 'http://citoid.wikimedia.org/api'
+            wgCitoidServiceUrl => "//\$wgServerName:${::citoid::port}/api"
         }
     }
 }

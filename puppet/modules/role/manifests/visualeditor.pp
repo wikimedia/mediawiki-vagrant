@@ -3,6 +3,7 @@
 # instance.
 class role::visualeditor {
     include ::role::cite
+    include ::role::citoid
     include ::role::parserfunctions
     include ::role::parsoid
     include ::role::scribunto
