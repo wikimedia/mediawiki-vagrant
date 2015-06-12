@@ -1,0 +1,12 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+### puppet:///modules/elasticsearch/logrotate
+#####################################################################
+
+/var/log/elasticsearch/*.log {
+    size 50M
+    copytruncate
+    missingok
+    notifempty
+    rotate 2
+}

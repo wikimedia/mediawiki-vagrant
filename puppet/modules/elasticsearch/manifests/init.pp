@@ -27,4 +27,27 @@ class elasticsearch {
         require => Package['elasticsearch'],
         notify  => Service['elasticsearch'],
     }
+
+    file { '/etc/elasticsearch/logging.yml':
+        ensure  => file,
+        owner   => 'root',
+        group   => 'root',
+        content => template('elasticsearch/logging.yml.erb'),
+        mode    => '0444',
+        require => Package['elasticsearch'],
+    }
+
+    file { '/etc/logrotate.d/elasticsearch':
+        source => 'puppet:///modules/elasticsearch/logrotate',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0444',
+    }
+
+    # The logrotate above works on size, rather than daily.  For this to work
+    # reasonably well logrotate needs to run multiple times per day
+    file { '/etc/cron.hourly/logrotate':
+        ensure => 'link',
+        target => '/etc/cron.daily/logrotate',
+    }
 }
