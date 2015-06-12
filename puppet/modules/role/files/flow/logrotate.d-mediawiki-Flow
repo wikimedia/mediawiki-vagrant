@@ -1,6 +1,6 @@
 # This file is managed by Puppet
 
-/vagrant/logs/mediawiki-Flow.log
+/vagrant/logs/mediawiki-Flow.log {
     daily
     missingok
     rotate 7
