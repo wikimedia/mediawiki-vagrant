@@ -106,3 +106,7 @@ $wgJobRunRate = 0;
 
 // Bug 73037: handmade gzipping sometimes makes error messages impossible to see in HHVM
 $wgDisableOutputCompression = true;
+
+// Allow 'vagrant' password.
+$wgPasswordPolicy['policies']['sysop']['MinimalPasswordLength'] = 7;
+$wgPasswordPolicy['policies']['bureaucrat']['MinimalPasswordLength'] = 7;
