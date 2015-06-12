@@ -11,7 +11,6 @@ class phabricator(
 ){
     include ::apache
     include ::apache::mod::rewrite
-    include ::elasticsearch
     include ::mysql
     include ::php
 
@@ -44,11 +43,6 @@ class phabricator(
 
     phabricator::config { 'phabricator.base-uri':
         value => "http://${vhost_name}${::port_fragment}/",
-    }
-
-    phabricator::config { 'search.elastic.host':
-        value   => 'http://localhost:9200',
-        require => Class['::elasticsearch'],
     }
 
     phabricator::config { 'pygments.enabled':
