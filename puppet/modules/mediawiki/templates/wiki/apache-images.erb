@@ -1,0 +1,10 @@
+# vim: filetype=apache sts=4 sw=4 autoindent
+#
+# This file is managed by Puppet.
+#
+<Directory <%= @upload_dir %>>
+    Require all granted
+    Header set Access-Control-Allow-Origin "*"
+</Directory>
+
+Alias <%= @upload_path %> <%= @upload_dir %>
