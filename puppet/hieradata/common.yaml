@@ -95,6 +95,9 @@ hhvm::common_settings:
       socket_default_timeout: 300
     http:
       slow_query_threshold: 300000
+    hack:
+      lang:
+        iconv_ignore_correct: true
 
 hhvm::fcgi_settings:
   max_execution_time: 180
