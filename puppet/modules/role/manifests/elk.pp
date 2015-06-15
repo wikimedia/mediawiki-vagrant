@@ -11,6 +11,7 @@ class role::elk (
     $vhost_name,
 ){
     require ::role::mediawiki
+    require ::role::psr3
     include ::elasticsearch
     include ::redis
     include ::logstash
@@ -71,15 +72,8 @@ class role::elk (
     }
 
     ## Configure MediaWiki
-    mediawiki::composer::require { 'monolog/monolog for elk role':
-        package => 'monolog/monolog',
-        version => '~1.11',
-        require => Php::Composer::Install[$::mediawiki::dir],
-    }
-
     mediawiki::settings { 'Monolog':
         values  => template('role/elk/monolog.php.erb'),
-        require => Mediawiki::Composer::Require['monolog/monolog for elk role'],
     }
 
     ## Configure rsyslog

@@ -1,0 +1,102 @@
+# <?php
+call_user_func( function() {
+	global $wgMWLoggerDefaultSpi, $wgDebugLogFile, $wgDebugLogGroups;
+
+	$wgMWLoggerDefaultSpi = array(
+		'class' => '\\MediaWiki\\Logger\\MonologSpi',
+		'args' => array( array(
+			'loggers' => array(
+				'@default' => array(
+					'processors' => array( 'wiki', 'psr', 'pid', 'uid', 'web' ),
+					'handlers' => array( 'default' ),
+				),
+				'runJobs' => array(
+					'processors' => array( 'wiki', 'psr', 'pid' ),
+					'handlers' => array( 'default' ),
+				),
+				'profileoutput' => array(
+					'handlers' => array( 'profiler' ),
+					'processors' => array( 'psr' ),
+				),
+				'error-json' => array(
+					'handlers' => array( 'blackhole' ),
+				),
+				'exception-json' => array(
+					'handlers' => array( 'blackhole' ),
+				),
+				'fatal-json' => array(
+					'handlers' => array( 'blackhole' ),
+				),
+			),
+			'processors' => array(
+				'wiki' => array(
+					'class' => '\\MediaWiki\\Logger\\Monolog\\WikiProcessor',
+				),
+				'psr' => array(
+					'class' => '\\Monolog\\Processor\\PsrLogMessageProcessor',
+				),
+				'pid' => array(
+					'class' => '\\Monolog\\Processor\\ProcessIdProcessor',
+				),
+				'uid' => array(
+					'class' => '\\Monolog\\Processor\\UidProcessor',
+				),
+				'web' => array(
+					'class' => '\\Monolog\\Processor\\WebProcessor',
+				),
+			),
+			'handlers' => array(
+				'default' => array(
+					'class' => '\\Monolog\\Handler\\StreamHandler',
+					'args' => array( $wgDebugLogFile ?: '/vagrant/logs/mediawiki-' . wfWikiID() . '-debug.log' ),
+					'formatter' => 'line',
+				),
+				'blackhole' => array(
+					'class' => '\\Monolog\\Handler\\NullHandler',
+				),
+				'profiler' => array(
+					'class' => '\\Monolog\\Handler\\StreamHandler',
+					'args' => array( '/vagrant/logs/mediawiki-' . wfWikiID() . '-profiler.log' ),
+					'formatter' => 'profiler',
+				),
+			),
+			'formatters' => array(
+				'line' => array(
+					'class' => '\\MediaWiki\\Logger\\Monolog\\LineFormatter',
+					'args' => array(
+						"%datetime% %extra.wiki% %channel% %level_name%: %message% %context% %exception%\n",
+						'Y-m-d H:i:s',
+						true, // allowInlineLineBreaks
+						true, // ignoreEmptyContextAndExtra
+						true, // includeStacktraces
+					),
+				),
+				'profiler' => array(
+					'class' => '\\Monolog\\Formatter\\LineFormatter',
+					'args' => array( "%datetime% %message%\n\n", null, true, true ),
+				),
+			),
+		) ),
+	);
+
+	foreach ( $wgDebugLogGroups as $group => $target ) {
+		if ( is_array( $target ) ) {
+			// advanced settings like sample rate are ignored
+			$target = $target['destination'];
+		}
+		if ( !$target ) {
+			$wgMWLoggerDefaultSpi['args'][0]['loggers'][$group] = array( 'blackhole' );
+			continue;
+		}
+		$wgMWLoggerDefaultSpi['args'][0]['loggers'][$group] = array(
+			'processors' => array( 'wiki', 'psr', 'pid', 'uid', 'web' ),
+			'handlers' => array( $group ),
+		);
+		$wgMWLoggerDefaultSpi['args'][0]['handlers'][$group] = array(
+			'class' => '\\Monolog\\Handler\\StreamHandler',
+			'args' => array( $target ),
+			'formatter' => 'line',
+		);
+	}
+
+} );
