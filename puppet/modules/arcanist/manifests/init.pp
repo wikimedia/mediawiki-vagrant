@@ -25,4 +25,13 @@ class arcanist(
     env::profile_script { 'add arcanist bin to path':
         content => "export PATH=\$PATH:${deploy_dir}/arcanist/bin",
     }
+
+    service::gitupdate { 'libphutil':
+        dir => "${deploy_dir}/libphutil",
+    }
+
+    service::gitupdate { 'arcanist':
+        dir => "${deploy_dir}/arcanist",
+    }
+
 }

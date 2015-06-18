@@ -46,6 +46,10 @@ class scholarships(
         directory => $deploy_dir,
     }
 
+    service::gitupdate { 'scholarships':
+        dir => $deploy_dir,
+    }
+
     # Create an application database
     mysql::db { $db_name:
         ensure => present,

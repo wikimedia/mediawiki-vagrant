@@ -66,6 +66,11 @@ class mediawiki::parsoid(
         settings   => { wgParsoidCacheServers => [], },
     }
 
+    service::gitupdate { 'parsoid':
+        dir     => $dir,
+        restart => true,
+    }
+
     service { 'parsoid':
         enable    => true,
         ensure    => running,

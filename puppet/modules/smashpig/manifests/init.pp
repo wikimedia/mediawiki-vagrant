@@ -14,6 +14,12 @@ class smashpig(
         directory => $dir,
     }
 
+    service::gitupdate { 'smashpig':
+        dir    => $dir,
+        type   => 'php',
+        update => true,
+    }
+
     file { "${dir}/config.php":
         content => template('smashpig/config.php.erb'),
         require => [

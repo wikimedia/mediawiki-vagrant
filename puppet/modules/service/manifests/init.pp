@@ -7,6 +7,9 @@
 # [*root_dir*]
 #   The directory where to install WMF services.
 #
+# [*conf_dir*]
+#   The directory containing the configuration files managing service updates.
+#
 # [*log_dir*]
 #   The directory where the logs should be stored.
 #
@@ -16,9 +19,23 @@
 #
 class service (
     $root_dir,
+    $conf_dir,
     $log_dir,
     $log_level,
 ) {
-    # no-op, just config for now
+
+    require ::mwv
+
+    file { $conf_dir:
+        ensure  => directory,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        purge   => true,
+        force   => true,
+        recurse => true,
+        source  => 'puppet:///modules/service/confd'
+    }
+
 }
 

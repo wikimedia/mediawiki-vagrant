@@ -127,12 +127,20 @@ define service::node(
         mode    => '0444',
     }
 
+    # the upstart config
     file { "/etc/init/${title}.conf":
         content => template('service/node/upstart.conf.erb'),
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
         notify  => Service[$title],
+    }
+
+    # schedule the service for git-updates via vagrant git-update
+    service::gitupdate { $title:
+        type    => 'nodejs',
+        update  => true,
+        restart => true,
     }
 
     # the service definition
