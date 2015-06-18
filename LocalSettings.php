@@ -58,6 +58,9 @@ $wgEnableUploads = true;
 $wgAllowUserJs = true;
 $wgAllowUserCss = true;
 
+$wgEnotifWatchlist = true;
+$wgEnotifUserTalk = true;
+
 // Eligibility for autoconfirmed group
 $wgAutoConfirmAge = 3600 * 24; // one day
 $wgAutoConfirmCount = 5; // five edits
