@@ -1,5 +1,11 @@
 # == Class: role::geshi
 # Configures SyntaxHighlight_GeSHi, an extension for syntax-highlighting
 class role::geshi {
-    mediawiki::extension { 'SyntaxHighlight_GeSHi': }
+    require_package('python-pygments')
+
+    mediawiki::extension { 'SyntaxHighlight_GeSHi':
+        settings => {
+            wgPygmentizePath => '/usr/local/bin/pygmentize',
+        },
+    }
 }
