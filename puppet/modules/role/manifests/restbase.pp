@@ -1,10 +1,7 @@
 # == Class: role::restbase
 # Provisions RESTBase, a REST content API service
 class role::restbase {
-
-    include ::role::parsoid
-    include ::role::cassandra
-    include ::restbase
+    require ::restbase
 
     # set up the update extension
     mediawiki::extension { 'RestBaseUpdateJobs':
@@ -19,7 +16,6 @@ class role::restbase {
     mediawiki::settings { 'restbase-vrs':
         values   => template('role/restbase/vrs.php.erb'),
         priority => 4,
-        require  => Git::Clone['wikimedia/restbase'],
     }
 
     # let VE load stuff directly from RB if it's active

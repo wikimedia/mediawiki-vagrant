@@ -1,4 +1,4 @@
-vagrant_ram: 512
+vagrant_ram: 768
 forward_ports:
   7231: 7231
 

@@ -198,11 +198,8 @@ redis::dir: "%{hiera('mwv::vendor_dir')}/redis"
 redis::persist: true
 redis::max_memory: 256M
 
-restbase::dir: "%{hiera('mwv::services_dir')}/restbase"
 restbase::port: 7231
 restbase::domain: localhost
-restbase::log_file: /vagrant/logs/restbase.log
-restbase::log_level: debug
 
 role::commons::upload_dir: "%{hiera('mediawiki::upload_root')}/commonsimages"
 
@@ -236,6 +233,10 @@ sentry::secret_key: s0F2ybS8jPLvzadqVudo7VykVWT1JO9FoErhc6gkJj6/KNWeFUbUiQ==
 sentry::dsn_file: "%{hiera('sentry::deploy_dir')}/sentry_dsn.txt"
 sentry::admin_user: admin
 sentry::admin_pass: vagrant
+
+service::root_dir: "%{hiera('mwv::services_dir')}"
+service::log_dir: /vagrant/logs
+service::log_level: info
 
 smashpig::dir: "%{hiera('mwv::services_dir')}/SmashPig"
 smashpig::vhost_name: payments-listener.local.wmftest.net
