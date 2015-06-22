@@ -21,6 +21,9 @@ cdh::hue::hive_server_host: "%{::fqdn}"
 cdh::oozie::server::db_root_password: "%{hiera('mysql::root_password')}"
 cdh::oozie::server::heapsize: 64
 
+citoid::port: 1970
+citoid::log_level: info
+
 crm::dir: "%{hiera('mwv::services_dir')}/org.wikimedia.civicrm"
 crm::site_name: crm.local.wmftest.net
 crm::drupal_db: drupal
@@ -244,3 +247,6 @@ smashpig::vhost_name: payments-listener.local.wmftest.net
 smtplog::log_file: /vagrant/logs/smtp.log
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
+
+zotero::base_path: "%{hiera('mwv::services_dir')}/zotero"
+zotero::log_file: /vagrant/logs/zotero.log
