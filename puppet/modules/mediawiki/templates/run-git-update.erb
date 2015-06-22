@@ -86,8 +86,17 @@ done
 for f in . extensions/*; do
   if [[ -d $f ]] && [[ -f $f/composer.json ]]; then
     pushd $f > /dev/null
-    echo -e "\e[36m==> Updating composer dependencies in $(pwd) ...\e[0m"
-    composer update --no-interaction --optimize-autoloader
+    if git ls-files --error-unmatch composer.lock >/dev/null 2>&1; then
+      # composer.lock is git-versioned, so rely on it
+      composer_cmd=install
+      composer_action=Installing
+    else
+      composer_cmd=update
+      composer_action=Updating
+    fi
+
+    echo -e "\e[36m==> ${composer_action} composer dependencies in $(pwd) ...\e[0m"
+    composer "$composer_cmd" --no-interaction --optimize-autoloader
     popd > /dev/null
     echo
   fi
