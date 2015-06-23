@@ -15,11 +15,17 @@ class role::https {
         notify => Service['nginx'],
     }
 
-    # enable secure login
     mediawiki::settings { 'SSL-related settings':
         values => {
             'wgSecureLogin' => true,
             'wgHttpsPort'   => 4430,
+            'wgAssumeProxiesUseDefaultProtocolPorts' => false,
         }
+    }
+
+    mediawiki::settings { 'Redeclaring wgServer to take wgAssumeProxiesUseDefaultProtocolPorts into account':
+        values => [
+            '$wgServer = WebRequest::detectServer();',
+        ],
     }
 }
