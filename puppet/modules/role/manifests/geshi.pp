@@ -4,6 +4,7 @@ class role::geshi {
     require_package('python-pygments')
 
     mediawiki::extension { 'SyntaxHighlight_GeSHi':
+        composer => true,
         settings => {
             wgPygmentizePath => '/usr/local/bin/pygmentize',
         },
