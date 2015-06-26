@@ -12,34 +12,20 @@ class role::commons(
     include ::role::multimedia
     include ::role::thumb_on_404
 
-    mediawiki::wiki { 'commons': }
+    mediawiki::wiki { 'commons':
+        upload_dir => $upload_dir,
+    }
     role::thumb_on_404::multiwiki { 'commons': }
 
     mediawiki::settings { 'commons:general':
         values => {
             wgUseInstantCommons    => false,
-            wgUploadDirectory      => $upload_dir,
-            wgUploadPath           => '/commonsimages',
             wgCrossSiteAJAXdomains => ['*'],
         },
-        require => File[$upload_dir],
-    }
-
-    file { $upload_dir:
-        ensure => directory,
-        owner  => 'vagrant',
-        group  => 'www-data',
-        mode   => '0775',
     }
 
     mediawiki::settings { 'commons_ForeignRepo':
         values => template('role/commons/foreign_repo.php.erb'),
-    }
-
-    apache::site_conf { 'custom_images_dir_for_commons':
-        site    => $::mediawiki::wiki_name,
-        content => template('role/commons/images_folder.conf.erb'),
-        require => Mediawiki::Wiki['commons'],
     }
 
     mediawiki::extension { 'GlobalUsage':

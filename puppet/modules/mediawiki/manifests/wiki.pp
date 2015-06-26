@@ -52,6 +52,9 @@
 #   The file system path of the folder where files will be uploaded
 #   (example: '/srv/mediawiki/images').
 #
+# [*upload_path*]
+#   URL path for uploaded content (example: '/images')
+#
 # [*server_url*]
 #   Full base URL of host (example: 'http://mywiki.net:8080').
 #
@@ -64,10 +67,12 @@ define mediawiki::wiki(
     $admin_pass   = $::mediawiki::admin_pass,
     $src_dir      = $::mediawiki::dir,
     $cache_dir    = "${::mediawiki::cache_dir}/${title}",
-    $upload_dir   = "${::mediawiki::upload_root}/${title}images",
+    $upload_dir   = "${::mwv::files_dir}/${title}images",
+    $upload_path  = "/${title}images",
     $server_url   = "http://${title}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
     $primary_wiki = false,
 ) {
+    include ::mwv
     include ::mediawiki
     require ::mediawiki::multiwiki
 
@@ -170,6 +175,11 @@ define mediawiki::wiki(
     # used by import_page
     file { "${::mediawiki::page_dir}/wiki/${db_name}":
         ensure => directory,
+    }
+
+    apache::site_conf { "${title}_images":
+        site    => $::mediawiki::wiki_name,
+        content => template('mediawiki/wiki/apache-images.erb'),
     }
 
     # Provision primary wiki before others

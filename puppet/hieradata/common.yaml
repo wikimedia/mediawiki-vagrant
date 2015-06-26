@@ -157,8 +157,7 @@ mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki
 mediawiki::cache_dir: /var/cache/mediawiki
 mediawiki::settings_dir: /vagrant/settings.d
-mediawiki::upload_dir: "%{hiera('mediawiki::upload_root')}/images"
-mediawiki::upload_root: "%{hiera('mwv::files_dir')}"
+mediawiki::upload_dir: "%{hiera('mwv::files_dir')}/images"
 mediawiki::page_dir: "%{hiera('mwv::files_dir')}/pages"
 mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
 mediawiki::db_user: root
@@ -204,7 +203,7 @@ redis::max_memory: 256M
 restbase::port: 7231
 restbase::domain: localhost
 
-role::commons::upload_dir: "%{hiera('mediawiki::upload_root')}/commonsimages"
+role::commons::upload_dir: "%{hiera('mwv::files_dir')}/commonsimages"
 
 role::elk::vhost_name: 'logstash.local.wmftest.net'
 

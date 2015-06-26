@@ -124,6 +124,7 @@ class mediawiki(
     mediawiki::wiki { $wiki_name:
         db_name      => $db_name,
         upload_dir   => $upload_dir,
+        upload_path  => '/images',
         server_url   => $server_url,
         primary_wiki => true,
         require      => [
