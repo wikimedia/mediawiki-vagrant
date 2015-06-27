@@ -58,6 +58,6 @@ class role::wikitech {
 
     mediawiki::import_dump { 'wikitech_content':
         xml_dump           => '/vagrant/puppet/modules/wikitech/files/wikitech-initial-pages.xml',
-        dump_sentinel_page => 'Testwiki:wiki/Wikimedia_Labs',
+        dump_sentinel_page => 'Shell_Request/Andrew',
     }
 }
