@@ -137,6 +137,29 @@ class mediawiki(
         ],
     }
 
+    mediawiki::user { "admin_user_in_suppress_on_${db_name}":
+        username => $admin_user,
+        password => $admin_pass,
+        wiki     => $db_name,
+        groups   => [
+            'suppress',
+        ],
+        require  => MediaWiki::Wiki[$wiki_name],
+    }
+
+    mediawiki::group { "${wiki_name}_suppress":
+        wiki              => $wiki_name,
+        group_name        => 'suppress',
+        grant_permissions => [
+            'deletelogentry',
+            'deleterevision',
+            'hideuser',
+            'suppressrevision',
+            'suppressionlog',
+            'viewsuppressed',
+        ],
+    }
+
     env::var { 'MW_INSTALL_PATH':
         value => $dir,
     }
