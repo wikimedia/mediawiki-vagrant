@@ -36,10 +36,11 @@ class role::analytics {
     include ::role::hive
     include ::role::oozie
     include ::role::hue
+    include ::role::spark
+
     # cdh::mahout, cdh::pig and cdh::sqoop are not parameterized so they
     # do not need their own role classes.
     include ::cdh::mahout
     include ::cdh::pig
     include ::cdh::sqoop
-    include ::cdh::spark
 }

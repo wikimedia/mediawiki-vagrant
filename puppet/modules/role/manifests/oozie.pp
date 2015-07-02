@@ -4,8 +4,10 @@
 class role::oozie {
     require ::mysql
     require ::role::hadoop
-    include ::cdh::oozie
-    include ::cdh::oozie::server
+    class { '::cdh::oozie': }
+    class { '::cdh::oozie::server':
+        db_root_password => $::mysql::root_password,
+    }
 
     # Make sure HDFS is totally ready before the CDH
     # module tries to create this directory.
