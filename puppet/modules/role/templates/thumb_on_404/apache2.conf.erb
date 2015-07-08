@@ -1,15 +1,17 @@
-RewriteEngine On
-
-# needs to be in a location block otherwise apache would not apply aliases before testing the RewriteCond
 <Location <%= @images_path %>>
-  # call thumb.php for thumb images not on disk
-  RewriteCond %{REQUEST_FILENAME} !-f
-  RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^<%= @images_path %>/thumb/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/[^/]*([0-9]+)px-.*$ /w/thumb_handler.php [PT,QSA,B]
+  # Wrap rewrite rules in a location block so apache will apply aliases before
+  # testing the RewriteCond
+  RewriteEngine On
+  RewriteBase <%= @images_path %>/
 
-  # call thumb.php for thumb archive images not on disk
+  # Call thumb.php for thumb images not on disk
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
-  RewriteRule ^<%= @images_path %>/thumb/archive/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/[^/]*([0-9]+)px-.*$ /w/thumb_handler.php [PT,QSA,B]
+  RewriteRule ^thumb/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/[^/]*([0-9]+)px-.*$ /w/thumb_handler.php [PT,QSA,B]
+
+  # Call thumb.php for thumb archive images not on disk
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule ^thumb/archive/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/[^/]*([0-9]+)px-.*$ /w/thumb_handler.php [PT,QSA,B]
 </Location>
-
+# vim:sw=2:ts=2:sts=2:ft=apache:

@@ -6,19 +6,8 @@ class role::thumb_on_404 {
 
     require_package('imagemagick')
 
-    # Enable dynamic thumbnail generation via the thumb.php
-    # script for 404 thumb images.
-    mediawiki::settings { 'thumb.php on 404':
-        values => {
-            wgThumbnailScriptPath      => false,
-            wgGenerateThumbnailOnParse => false,
-            wgUseImageMagick           => true,
-        },
-    }
-
-    $images_path = '/images'
-    apache::site_conf { 'thumb.php on 404':
-        site    => $::mediawiki::wiki_name,
-        content => template('role/thumb_on_404/apache2.conf.erb'),
+    role::thumb_on_404::multiwiki { $::mediawiki::wiki_name:
+        images_path => '/images',
+        wiki        => $::mediawiki::wiki_db,
     }
 }
