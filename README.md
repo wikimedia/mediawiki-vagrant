@@ -1,6 +1,6 @@
 ## MediaWiki-Vagrant
 
-http://www.mediawiki.org/wiki/Mediawiki-vagrant
+https://www.mediawiki.org/wiki/Mediawiki-vagrant
 
 MediaWiki-Vagrant is a portable MediaWiki development environment. It consists
 of a set of configuration scripts that automate the creation of a virtual
@@ -22,7 +22,7 @@ Microsoft Hyper-V providers exists. See `support/README-lxc.md` or
 `support/README-parallels.md` for details on the former two.)
 
  * VirtualBox: https://www.virtualbox.org/wiki/Downloads
- * Vagrant: http://www.vagrantup.com/downloads-archive.html (the version must be
+ * Vagrant: https://www.vagrantup.com/downloads-archive.html (the version must be
    1.4.0 or higher). For NFS, use 1.5.4 or higher.
 
    To check your Vagrant version, run
@@ -90,7 +90,7 @@ changes you may have made to MediaWiki's source code, Puppet will not update
 MediaWiki.
 
 To pick up other changes to the install, on the host computer in the directory
-with the vagrant files run `git pull --rebase` and then `vagrant reload`. 
+with the vagrant files run `git pull --rebase` and then `vagrant reload`.
 The latter will restart the VM.
 
 
@@ -116,11 +116,11 @@ For information about settings, see settings.d/README.
 
 Stuck? Here's where to get help.
 
- * http://www.mediawiki.org/wiki/Mediawiki-Vagrant#Troubleshooting
+ * https://www.mediawiki.org/wiki/Mediawiki-Vagrant#Troubleshooting
  * irc://chat.freenode.net/#mediawiki
 
 Please report any bugs on Wikimedia's Phabricator:
  * https://phabricator.wikimedia.org/maniphest/task/create/?projects=MediaWiki-Vagrant
 
 Patches and contributions are welcome!
-See <http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker> for details.
+See <https://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker> for details.
