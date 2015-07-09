@@ -1,0 +1,14 @@
+$wgExternalServers['external'] = array(
+    array(
+        'host' => '<%= @db_host %>',
+        'user' => '<%= @db_user %>',
+        'password' => '<%= @db_pass %>',
+        'dbname' => '<%= @db_name %>',
+        'type' => 'mysql',
+        'load' => 1,
+        'flags' => DBO_DEBUG | DBO_DEFAULT,
+    ),
+);
+
+$wgExternalStores = array( 'DB' );
+$wgDefaultExternalStore = array( 'DB://external' ); // = $wgExternalServers['external']

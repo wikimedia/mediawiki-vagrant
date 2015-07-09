@@ -243,6 +243,7 @@ mediawiki::parsoid::use_selser: true
 mediawiki::parsoid::allow_cors: '*'
 mediawiki::parsoid::workers: 2
 
+mysql::host: '127.0.0.1'
 mysql::default_db_name: wiki
 mysql::root_password: vagrant
 mysql::grant_host_name: 'localhost'
@@ -279,6 +280,11 @@ role::echo::shared_tracking_db: "%{hiera('mediawiki::multiwiki::extension_cluste
 role::echo::echo_dir: "%{hiera('mediawiki::dir')}/extensions/Echo"
 
 role::elk::vhost_name: "logstash%{hiera('mwv::tld')}"
+
+role::externalstore::db_host: "%{hiera('mysql::grant_host_name')}"
+role::externalstore::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
+role::externalstore::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
+role::externalstore::db_name: 'external'
 
 payments::branch: fundraising/REL1_25
 payments::dir: /vagrant/mediawiki-fr
