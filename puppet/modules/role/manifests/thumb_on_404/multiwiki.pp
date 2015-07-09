@@ -29,7 +29,7 @@ define role::thumb_on_404::multiwiki(
     }
 
     apache::site_conf { "${wiki}:thumb.php on 404":
-        site    => $wiki,
+        site    => $::mediawiki::wiki_name,
         content => template('role/thumb_on_404/apache2.conf.erb'),
     }
 }
