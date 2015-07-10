@@ -5,15 +5,24 @@
 #
 class elasticsearch {
     package { 'elasticsearch':
-        ensure => present,
+        ensure => '1.6.0',
     }
 
     require_package('openjdk-7-jre-headless')
 
+    file { '/var/run/elasticsearch/':
+        # Temporary and poor work around for
+        # https://github.com/elastic/elasticsearch/issues/11594
+        ensure => 'directory'
+    }
+
     service { 'elasticsearch':
         ensure  => running,
         enable  => true,
-        require => Package['elasticsearch', 'openjdk-7-jre-headless'],
+        require => [
+            Package['elasticsearch', 'openjdk-7-jre-headless'],
+            File['/var/run/elasticsearch/'],
+        ]
     }
 
     file { '/etc/default/elasticsearch':
