@@ -54,7 +54,7 @@ define php::composer::require(
     if $ensure == 'present' {
         exec { "composer-require-${safe_package}":
             command     => template('php/composer-require-command.erb'),
-            unless      => "grep '${title}' composer.lock",
+            unless      => "composer show --installed | grep -w '${title}'",
             cwd         => $directory,
             environment => [
                 "COMPOSER_HOME=${::php::composer::home}",
@@ -65,7 +65,7 @@ define php::composer::require(
     } else {
         exec { "composer-remove-${safe_package}":
             command     => template('php/composer-remove-command.erb'),
-            onlyif      => "grep '${title}' composer.lock",
+            onlyif      => "composer show --installed | grep -w '${title}'",
             cwd         => $directory,
             environment => [
                 "COMPOSER_HOME=${::php::composer::home}",
