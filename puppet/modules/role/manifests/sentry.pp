@@ -17,6 +17,7 @@ class role::sentry (
             # the output of a script.
             "\$wgSentryDsn = trim(file_get_contents('${dsn}'));",
         ],
+        composer => true,
     }
 
     mediawiki::import_text{ 'VagrantRoleSentry':
