@@ -22,7 +22,7 @@ class misc {
         mode   => '0755',
     }
 
-    package { [ 'ack-grep', 'htop', 'curl' ]:
+    package { [ 'ack-grep', 'htop', 'curl', 'httpie', 'jq' ]:
         ensure => present,
     }
 
