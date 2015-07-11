@@ -1,3 +1,4 @@
 composer <% if @dev %>--dev<% end %> --prefer-<%= @prefer %> \
   --no-progress --update-with-dependencies \
-  require '<%= @title %>' '<%= @version %>'
+  require '<%= @title %>' '<%= @version %>' &&
+composer dump-autoload --optimize

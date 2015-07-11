@@ -1,3 +1,4 @@
 composer <% if @dev %>--dev<% end %> \
   --no-progress --update-with-dependencies \
-  remove '<%= @title %>'
+  remove '<%= @title %>' &&
+composer dump-autoload --optimize
