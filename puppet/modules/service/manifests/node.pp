@@ -126,13 +126,15 @@ define service::node(
         mode    => '0444',
     }
 
-    # upstart config
-    file { "/etc/init/${title}.conf":
-        content => template('service/node/upstart.conf.erb'),
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
-        notify  => Service[$title],
+    # upstart config, can be overridden
+    unless File["/etc/init/${title}.conf"] {
+        file { "/etc/init/${title}.conf":
+            content => template('service/node/upstart.conf.erb'),
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0444',
+            notify  => Service[$title],
+        }
     }
 
     # the service definition
