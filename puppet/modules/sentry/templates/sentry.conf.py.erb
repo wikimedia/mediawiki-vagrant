@@ -21,6 +21,35 @@ DATABASES = {
     }
 }
 
+#################
+# Cache / Queue #
+#################
+
+SENTRY_REDIS_OPTIONS = {
+    'hosts': {
+        0: {
+            'host': '127.0.0.1',
+            'port': 6379,
+        }
+    }
+}
+BROKER_URL = "redis://localhost:6379"
+SENTRY_CACHE = 'sentry.cache.redis.RedisCache'
+CELERY_ALWAYS_EAGER = False
+SENTRY_RATELIMITER = 'sentry.ratelimits.redis.RedisRateLimiter'
+SENTRY_BUFFER = 'sentry.buffer.redis.RedisBuffer'
+SENTRY_QUOTAS = 'sentry.quotas.redis.RedisQuota'
+SENTRY_TSDB = 'sentry.tsdb.redis.RedisTSDB'
+
+################
+# File storage #
+################
+
+SENTRY_FILESTORE = 'django.core.files.storage.FileSystemStorage'
+SENTRY_FILESTORE_OPTIONS = {
+    'location': '/tmp/sentry-files',
+}
+
 ################
 ## Web Server ##
 ################
@@ -36,12 +65,9 @@ SENTRY_DISALLOWED_IPS = ()
 SENTRY_WEB_HOST = '0.0.0.0'
 SENTRY_WEB_PORT = 9002 # 9000 is PHP-FVM, 9001 is Xdebug proxy
 SENTRY_WEB_OPTIONS = {
-    'workers': 3,  # the number of gunicorn workers
     'limit_request_line': 0,  # required for raven-js
     'secure_scheme_headers': {'X-FORWARDED-PROTO': 'https'},
 }
-
-SENTRY_CACHE = 'sentry.cache.django.DjangoCache'
 
 #################
 ## Mail Server ##
@@ -50,6 +76,7 @@ SENTRY_CACHE = 'sentry.cache.django.DjangoCache'
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = '<%= @mail_log_dir %>'
 SERVER_EMAIL = 'sentry@<%= @vhost_name %>'
+SENTRY_ADMIN_EMAIL = 'sentry@<%= @vhost_name %>'
 
 ###########
 ## etc. ##

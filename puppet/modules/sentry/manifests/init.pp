@@ -83,7 +83,7 @@ class sentry (
     # Use virtualenv because Sentry has lots of dependencies
     virtualenv::environment { $deploy_dir:
         ensure   => present,
-        packages => ['sentry[mysql]==7.4.3', 'raven'],
+        packages => ['sentry[mysql]==7.6.2', 'raven'],
         require  => Package['libmysqlclient-dev'],
     }
 
@@ -138,13 +138,27 @@ class sentry (
         require => [Exec['initialize sentry database'], File[$sentry_create_project_script], File[$dsn_file]],
     }
 
-    file { '/etc/init/sentry.conf':
+    file { '/etc/init/sentry-server.conf':
         ensure  => present,
-        content => template('sentry/upstart.erb'),
+        content => template('sentry/upstart-server.erb'),
         mode    => '0444',
     }
 
-    service { 'sentry':
+    file { '/etc/init/sentry-worker.conf':
+        ensure  => present,
+        content => template('sentry/upstart-worker.erb'),
+        mode    => '0444',
+    }
+
+    service { 'sentry-server':
+        enable    => true,
+        ensure    => running,
+        provider  => 'upstart',
+        require   => [Virtualenv::Environment[$deploy_dir], Mysql::User[$db_user]],
+        subscribe => [File[$cfg_file], Exec['create sentry project']],
+    }
+
+    service { 'sentry-worker':
         enable    => true,
         ensure    => running,
         provider  => 'upstart',
