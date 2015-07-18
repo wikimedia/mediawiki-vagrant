@@ -16,7 +16,7 @@ Puppet structure.
 
     require 'yaml'
 
-    YAML::load(arguments[0])
+    YAML.load(arguments[0])
 
   end
 end
