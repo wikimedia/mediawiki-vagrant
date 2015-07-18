@@ -20,7 +20,7 @@ ENDOFDOC
 ) do |vals|
   reference, params = vals
   raise(ArgumentError, 'Must specify a reference') unless reference
-  if (! params) || params == ''
+  if (!params) || params == ''
     params = {}
   end
   ret = false
