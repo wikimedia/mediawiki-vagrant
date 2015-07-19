@@ -7,6 +7,7 @@ classes:
 mwv::files_dir: /srv
 mwv::services_dir: /vagrant/srv
 mwv::vendor_dir: /srv
+mwv::enable_cachefilesd: true
 
 apache::docroot: /var/www
 arcanist::deploy_dir: "%{hiera('mwv::services_dir')}"

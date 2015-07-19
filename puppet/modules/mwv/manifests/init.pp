@@ -13,10 +13,14 @@
 # [*vendor_dir*]
 #   Root directory for provisioning 3rd party services (eg Redis storage)
 #
+# [*enable_cachefilesd*]
+#   Enable cachefilesd service
+#
 class mwv (
     $files_dir,
     $services_dir,
     $vendor_dir,
+    $enable_cachefilesd,
 ) {
     include ::apt
     include ::env
@@ -56,19 +60,26 @@ class mwv (
       ensure => absent,
     }
 
-    # Support the `nfs_cache` setting with cachefilesd
-    package { 'cachefilesd':
-        ensure => present,
-    }
+    if $enable_cachefilesd {
+        # Support the `nfs_cache` setting with cachefilesd
+        package { 'cachefilesd':
+            ensure => present,
+        }
 
-    file { '/etc/default/cachefilesd':
-        content => "RUN=yes\nSTARTTIME=5\n",
-        require => Package['cachefilesd'],
-    }
+        file { '/etc/default/cachefilesd':
+            content => "RUN=yes\nSTARTTIME=5\n",
+            require => Package['cachefilesd'],
+        }
 
-    service { 'cachefilesd':
-        ensure    => running,
-        require   => Package['cachefilesd'],
-        subscribe => File['/etc/default/cachefilesd'],
+        service { 'cachefilesd':
+            ensure    => running,
+            require   => Package['cachefilesd'],
+            subscribe => File['/etc/default/cachefilesd'],
+        }
+    } else {
+        # Cleanup cachefilesd if param has been toggled
+        package { 'cachefilesd':
+            ensure => absent,
+        }
     }
 }
