@@ -57,6 +57,7 @@ define service::node(
 ) {
 
     require ::service
+    require_package( 'nodejs-legacy' )
 
     # we do not allow empty names
     unless $title and size($title) > 0 {
@@ -126,15 +127,12 @@ define service::node(
         mode    => '0444',
     }
 
-    # upstart config, can be overridden
-    unless File["/etc/init/${title}.conf"] {
-        file { "/etc/init/${title}.conf":
-            content => template('service/node/upstart.conf.erb'),
-            owner   => 'root',
-            group   => 'root',
-            mode    => '0444',
-            notify  => Service[$title],
-        }
+    file { "/etc/init/${title}.conf":
+        content => template('service/node/upstart.conf.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        notify  => Service[$title],
     }
 
     # the service definition

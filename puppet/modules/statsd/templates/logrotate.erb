@@ -1,0 +1,12 @@
+# logrotate(8) config for statsd
+
+<%= @log_file %> {
+    daily
+    copytruncate
+    missingok
+    compress
+    notifempty
+    rotate 15
+    size 32M
+}
+
