@@ -6,6 +6,12 @@ AllCops:
   Exclude:
     - 'mediawiki/**/*'
     - 'mediawiki-*/**/*'
+    - 'puppet/modules/cdh/**/*'
+    - 'puppet/modules/mariadb/**/*'
+    - 'puppet/modules/nginx/**/*'
+    - 'puppet/modules/stdlib/**/*'
+    - 'puppet/modules/wikimetrics/**/*'
+    - 'puppet/modules/wmflib/**/*'
     - 'tmp/**/*'
     - 'Vagrantfile-extra.rb'
     - 'vendor/**/*'
