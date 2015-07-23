@@ -7,23 +7,31 @@
 # [*port*]
 #   the port statsd will be running on
 #
-# [*log_level*]
-#  the lowest level to log (trace, debug, info, warn, error, fatal)
-#
 class statsd (
     $port,
-    $log_level = undef,
 ) {
     require ::service
+    require_package( 'nodejs-legacy' )
 
     $dir = "${::service::root_dir}/statsd"
     $logdir = "${::service::log_dir}"
+
+    git::clone { 'statsd':
+        directory => $dir,
+        remote    => 'https://github.com/etsy/statsd.git',
+    }
+
+    npm::install { $dir:
+        directory => $dir,
+        require   => Git::Clone['statsd'],
+    }
 
     file { "${dir}/config.js":
         ensure  => present,
         group   => 'www-data',
         content => template('statsd/config.js.erb'),
         mode    => '0640',
+        require => Git::Clone['statsd'],
     }
 
     file { "/etc/init/statsd.conf":
@@ -31,13 +39,25 @@ class statsd (
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
-        notify  => Service[$title],
+        notify  => Service['statsd'],
     }
 
-    service::node { 'statsd':
-        port       => $port,
-        git_remote => 'https://github.com/etsy/statsd.git',
-        log_level  => $log_level,
+    file { '/etc/logrotate.d/statsd':
+        content => template('statsd/logrotate.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
     }
 
+    service { 'statsd':
+        ensure    => running,
+        enable    => true,
+        provider  => 'upstart',
+        require   => [
+            Package['nodejs-legacy'],
+            Git::Clone['statsd'],
+            Npm::Install[$dir],
+            File["${dir}/config.js"],
+        ],
+    }
 }
