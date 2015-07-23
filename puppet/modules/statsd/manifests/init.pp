@@ -28,9 +28,8 @@ class statsd (
 
     file { "${dir}/config.js":
         ensure  => present,
-        group   => 'www-data',
         content => template('statsd/config.js.erb'),
-        mode    => '0640',
+        mode    => '0644',
         require => Git::Clone['statsd'],
     }
 
