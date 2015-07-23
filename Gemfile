@@ -5,7 +5,7 @@ group :development do
   # https://github.com/mitchellh/vagrant/issues/5546
   gem 'vagrant', git: 'https://github.com/mitchellh/vagrant.git', tag: 'v1.7.2'
 
-  gem 'rubocop', require: false
+  gem 'rubocop', '~> 0.32.1', require: false
 end
 
 group :development, :test do
