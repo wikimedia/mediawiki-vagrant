@@ -208,7 +208,7 @@ role::commons::upload_dir: "%{hiera('mwv::files_dir')}/commonsimages"
 
 role::elk::vhost_name: 'logstash.local.wmftest.net'
 
-payments::branch: fundraising/REL1_23
+payments::branch: fundraising/REL1_25
 payments::dir: /vagrant/mediawiki-fr
 
 role::mediawiki::hostname: 127.0.0.1
