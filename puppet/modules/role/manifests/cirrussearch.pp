@@ -10,8 +10,6 @@ class role::cirrussearch {
     # not strictly required for cirrussearch, but used in the tests
     include ::role::svg
 
-    require_package('jq')
-
     # Elasticsearch plugins
     ## Analysis
     elasticsearch::plugin { 'icu':
