@@ -3,8 +3,12 @@
 # See commons.pp
 #
 # === Parameters
-# [*images_path*]
-#   URL path to site images. Default "/${title}images".
+# [*images_url*]
+#   URL prefix to site images. Default "/${title}images".
+#
+# [*images_dir*]
+#   Directory path prefix to site images.
+#   Default "${::mwv::files_dir}/${title}images".
 #
 # [*wiki*]
 #   Wiki to configure. Default $title.
@@ -13,8 +17,9 @@
 # role::thumb_on_404::multiwiki { 'commons' }
 #
 define role::thumb_on_404::multiwiki(
-    $images_path = "/${title}images",
-    $wiki        = $title,
+    $images_url = "/${title}images",
+    $images_dir = "${::mwv::files_dir}/${title}images",
+    $wiki       = $title,
 ) {
     require ::role::mediawiki
 

@@ -7,7 +7,8 @@ class role::thumb_on_404 {
     require_package('imagemagick')
 
     role::thumb_on_404::multiwiki { $::mediawiki::wiki_name:
-        images_path => '/images',
-        wiki        => $::mediawiki::wiki_db,
+        images_url => '/images',
+        images_dir => "${::mwv::files_dir}/images",
+        wiki       => $::mediawiki::wiki_db,
     }
 }
