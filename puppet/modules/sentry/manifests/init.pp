@@ -112,7 +112,7 @@ class sentry (
     }
 
     exec { 'initialize sentry database':
-        command => "${sentry_cli} upgrade",
+        command => "${sentry_cli} upgrade --noinput",
         user    => 'www-data',
         require => [Virtualenv::Environment[$deploy_dir], Mysql::User[$db_user], File[$cfg_file]],
     }
