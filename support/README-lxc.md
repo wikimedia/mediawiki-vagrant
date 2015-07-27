@@ -114,3 +114,43 @@ available, but if is not picked for you it can be forced:
 
 You can also set `VAGRANT_DEFAULT_PROVIDER=lxc` in your shell environment to
 tell Vagrant your preferred default provider.
+
+
+Setup on a Fedora 22 host
+----------------------------
+
+Since Fedora 22, everything is packaged, you just need to remember all the
+packages:
+
+    sudo dnf install lxc lxc-templates lxc-extra vagrant vagrant-libvirt \
+    vagrant-lxc vagrant-libvirt-doc gcc ruby-devel rubygems libvirt-devel \
+    redir nfs-utils
+
+Now you can simplify your life reducing the sudo passwords to type in vagrant:
+
+    sudo cp /usr/share/vagrant/gems/doc/vagrant-libvirt-0.0.*/polkit/10-vagrant-libvirt.rules /usr/share/polkit-1/rules.d/
+
+Start NFS and allow access to it:
+
+    sudo systemctl start rpcbind.service nfs-idmap.service nfs-server.service
+    sudo firewall-cmd --zone=internal --change-interface=virbr0
+    sudo firewall-cmd --permanent --zone=public --add-service=nfs
+    sudo firewall-cmd --permanent --zone=public --add-service=rpc-bind
+    sudo firewall-cmd --permanent --zone=public --add-service=mountd
+    sudo firewall-cmd --permanent --zone=public --add-port=2049/udp
+    sudo firewall-cmd --reload
+
+Continue installing MediaWiki-Vagrant using normal instructions:
+
+    git clone https://gerrit.wikimedia.org/r/mediawiki/vagrant
+    cd vagrant
+    git submodule update --init --recursive
+    ./setup.sh
+
+Vagrant may automatically select LXC as the default provider when it is
+available, but if is not picked for you it can be forced:
+
+    vagrant up --provider=lxc
+
+You can also set `VAGRANT_DEFAULT_PROVIDER=lxc` in your shell environment to
+tell Vagrant your preferred default provider.
