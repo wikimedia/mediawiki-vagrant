@@ -1,6 +1,12 @@
 # == Class: statsd
 #
-# This Puppet class installs and configures a statsd instance.
+# This Puppet class installs and configures a StatsD instance.
+#
+# /tmp/statsd.log will contain the last flush (10 sec worth of data)
+# in JSON format; you can process it with something like
+#   tail -fn0 /tmp/statsd.json 2> /dev/null | \
+#     jq '.counters | with_entries(select(.value!=0)) | select(.!=null)'
+# (this will output any counters that have been updated)
 #
 # === Parameters
 #
@@ -46,6 +52,10 @@ class statsd (
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
+    }
+
+    file { "${dir}/backends/statsd-json-backend.js":
+        source  => 'puppet:///modules/statsd/statsd-json-backend.js',
     }
 
     service { 'statsd':

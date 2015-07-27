@@ -1,6 +1,6 @@
 # logrotate(8) config for statsd
 
-<%= @log_file %> {
+"<%= @logdir %>/statsd.log" {
     daily
     copytruncate
     missingok
