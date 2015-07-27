@@ -1,1 +1,9 @@
 include_once "$IP/extensions/WikimediaMessages/WikimediaLicenseTexts.php";
+
+// This is the default in InitialiseSettings.php and triggers special
+// behavior in WikimediaMessagesHooks::onSkinCopyrightFooter.
+$wgRightsUrl = '//creativecommons.org/licenses/by-sa/3.0/';
+
+// These are also defaults in InitialiseSettings.php.
+$wgRightsText = 'Creative Commons Attribution-Share Alike 3.0';
+$wgRightsIcon = '//creativecommons.org/images/public/somerights20.png';
