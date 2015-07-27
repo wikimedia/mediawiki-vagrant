@@ -6,7 +6,7 @@ class role::geshi {
     mediawiki::extension { 'SyntaxHighlight_GeSHi':
         composer => true,
         settings => {
-            wgPygmentizePath => '/usr/local/bin/pygmentize',
+            wgPygmentizePath => '/usr/bin/pygmentize',
         },
     }
 }
