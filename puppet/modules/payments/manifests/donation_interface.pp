@@ -16,7 +16,7 @@ class payments::donation_interface {
       wgDonationInterfaceEnableQueue           => true,
       wgDonationInterfaceEnableStomp           => true,
       wgDonationInterfaceEnableFunctionsFilter => true,
-      wgDonationInterfaceEnableMinfraud        => true,
+      wgDonationInterfaceEnableMinfraud        => false,
       wgDonationInterfaceEnableReferrerFilter  => true,
       wgDonationInterfaceEnableSourceFilter    => true,
 
