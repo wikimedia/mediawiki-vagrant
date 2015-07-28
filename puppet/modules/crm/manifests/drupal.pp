@@ -85,7 +85,7 @@ class crm::drupal(
     }
 
     exec { 'enable_drupal_modules':
-        command     => inline_template('<%= scope["::crm::drush::cmd"] %> pm-enable <%= @modules.join(" ") %>'),
+        command     => inline_template('<%= scope["::crm::drush::wrapper"] %> pm-enable <%= @modules.join(" ") %>'),
         refreshonly => true,
         subscribe   => [
             Exec['drupal_db_install'],

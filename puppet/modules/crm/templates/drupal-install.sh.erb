@@ -1,6 +1,6 @@
 #!/bin/bash
 
-<%= scope['::crm::drush::bare_cmd'] %> \
+<%= scope['::crm::drush::wrapper'] %> \
     site-install standard \
     --db-url='<%= @db_url %>' \
     --site-name='<%= scope['::crm::site_name'] %>' \

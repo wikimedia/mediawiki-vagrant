@@ -7,7 +7,10 @@ class crm::drush( $root ) {
 
     require_package('drush')
 
-    file { '/usr/local/bin/drush':
+    # FIXME: Correctly handle path everywhere.
+    $wrapper = '/usr/local/bin/drush'
+
+    file { $wrapper:
         ensure  => present,
         mode    => '0755',
         content => template('crm/drush-wrapper.sh.erb'),
