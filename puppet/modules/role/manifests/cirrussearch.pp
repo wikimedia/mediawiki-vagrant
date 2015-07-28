@@ -14,19 +14,19 @@ class role::cirrussearch {
     ## Analysis
     elasticsearch::plugin { 'icu':
         name    => 'elasticsearch-analysis-icu',
-        version => '2.6.0',
+        version => '2.7.0',
     }
     elasticsearch::plugin { 'kuromoji':
         name    => 'elasticsearch-analysis-kuromoji',
-        version => '2.6.0',
+        version => '2.7.0',
     }
     elasticsearch::plugin { 'stempel':
         name    => 'elasticsearch-analysis-stempel',
-        version => '2.6.0',
+        version => '2.7.0',
     }
     elasticsearch::plugin { 'smartcn':
         name    => 'elasticsearch-analysis-smartcn',
-        version => '2.6.0',
+        version => '2.7.0',
     }
     elasticsearch::plugin { 'hebrew':
         # Less stable then icu plugin
@@ -37,13 +37,13 @@ class role::cirrussearch {
     elasticsearch::plugin { 'highlighter':
         group   => 'org.wikimedia.search.highlighter',
         name    => 'experimental-highlighter-elasticsearch-plugin',
-        version => '1.6.0',
+        version => '1.7.0',
     }
     ## Trigram accelerated regular expressions, "safer" query, and friends
     elasticsearch::plugin { 'extra':
         group   => 'org.wikimedia.search',
         name    => 'extra',
-        version => '1.6.0',
+        version => '1.7.0',
     }
 
     mediawiki::wiki { 'cirrustest': }

@@ -5,7 +5,7 @@
 #
 class elasticsearch {
     package { 'elasticsearch':
-        ensure => '1.6.0',
+        ensure => '1.7.0',
     }
 
     require_package('openjdk-7-jre-headless')
