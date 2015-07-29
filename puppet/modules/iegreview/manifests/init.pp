@@ -54,6 +54,10 @@ class iegreview(
         directory => $deploy_dir,
     }
 
+    service::gitupdate { 'iegreview':
+        dir => $deploy_dir,
+    }
+
     # Create an application database
     mysql::db { $db_name:
         ensure => present,

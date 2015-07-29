@@ -7,6 +7,11 @@
 # [*files_dir*]
 #   Root directory for general file storage
 #
+# [*etc_dir*]
+#
+#   /etc/ directory to use for storing MW-Vagrant-specific configuration files
+#   which need not to be shared with the host (example: '/etc/mw-vagrant').
+#
 # [*services_dir*]
 #   Root directory for provisioning new services to use in the VM
 #
@@ -18,6 +23,7 @@
 #
 class mwv (
     $files_dir,
+    $etc_dir,
     $services_dir,
     $vendor_dir,
     $enable_cachefilesd,
@@ -26,10 +32,18 @@ class mwv (
     include ::env
     include ::git
 
+    file { $etc_dir:
+        ensure => directory,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
+    }
+
     file { $vendor_dir:
-        owner => 'root',
-        group => 'root',
-        mode  => '0755',
+        ensure => directory,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
     }
 
     # Ensure the uid/gid used for shared files exists in the VM

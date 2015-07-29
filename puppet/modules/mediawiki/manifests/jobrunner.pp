@@ -22,6 +22,11 @@ class mediawiki::jobrunner(
         default => 'running',
     }
 
+    $restart = $enable ? {
+        false   => false,
+        default => true,
+    }
+
     git::clone { 'mediawiki/services/jobrunner':
         directory => $dir,
         before    => Service['jobrunner'],
@@ -78,6 +83,17 @@ class mediawiki::jobrunner(
         owner  => 'root',
         group  => 'root',
         mode   => '0444',
+    }
+
+    service::gitupdate { 'jobrunner':
+        dir     => $dir,
+        restart => $restart,
+    }
+
+    service::gitupdate { 'jobchron':
+        dir     => $dir,
+        pull    => false,
+        restart => $restart,
     }
 
     service { 'jobrunner':

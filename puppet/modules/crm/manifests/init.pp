@@ -46,6 +46,12 @@ class crm(
         require => Git::Clone[$repo],
     }
 
+    service::gitupdate { 'crm':
+        dir    => $dir,
+        type   => 'php',
+        update => true,
+    }
+
     # required by module ganglia_reporter
     package { 'ganglia-monitor': }
 

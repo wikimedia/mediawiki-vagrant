@@ -21,6 +21,12 @@ class role::phragile(
         remote    => 'https://github.com/wmde/phragile.git',
     }
 
+    service::gitupdate { 'phragile':
+        dir    => $install_dir,
+        type   => 'php',
+        update => true,
+    }
+
     file { "${install_dir}/.env":
         content => template('role/phragile/env.erb'),
         require => Git::Clone['https://github.com/wmde/phragile.git'],

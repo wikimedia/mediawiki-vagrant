@@ -10,40 +10,44 @@ declare -a UPDATE_ERRORS
 UPDATE_ERRORS=( )
 
 function pull {
-  git_cmd=git
-  # /srv dirs are all root, so use sudo in that case
-  [[ -O . ]] || git_cmd="sudo git"
-  echo -e "\e[36m==> Updating $(pwd) ...\e[0m"
-  branch=$(expr $($git_cmd symbolic-ref HEAD) : 'refs/heads/\(.*\)')
+  print_empty_line=''
+  if [[ $# -eq 0 ]]; then
+    echo -e "\e[36m==> Updating $(pwd) ...\e[0m"
+    print_empty_line='yes'
+  else
+    echo "[*] Updating repo in $(pwd) ..."
+  fi
+  # some srv dirs may be still under root, chown them
+  find . -uid 0 -exec sudo chown -R <%= "#{scope['::share_owner']}:#{scope['::share_group']}" %> {} \;
+  branch=$(expr $(git symbolic-ref HEAD) : 'refs/heads/\(.*\)')
   if [[ -z "$branch" ]]; then
-    $git_cmd checkout master
-    branch=$(expr $($git_cmd symbolic-ref HEAD) : 'refs/heads/\(.*\)')
+    git checkout master
+    branch=$(expr $(git symbolic-ref HEAD) : 'refs/heads/\(.*\)')
   fi
   err=''
   if [[ -n "$branch" ]]; then
-    remote=$($git_cmd config branch.${branch}.remote)
+    remote=$(git config branch.${branch}.remote)
     if [[ -n "$remote" ]]; then
-        url=$($git_cmd config --get remote.${remote}.url)
-        if [[ $url == ssh://* ]]; then
-            # Convert remote git url from ssh:// to anonymous https://
-            tempurl=$(echo $url | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
-            $git_cmd pull --rebase $tempurl
-        else
-            $git_cmd pull --rebase
-        fi
+      url=$(git config --get remote.${remote}.url)
+      if [[ $url == ssh://* ]]; then
+        # Convert remote git url from ssh:// to anonymous https://
+        tempurl=$(echo $url | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
+        git pull --rebase $tempurl
+      else
+        git pull --rebase
+      fi
+      if [[ $? -ne 0 ]]; then
+        # If we didn't successfully update (possibly because we're on
+        # a local branch), leave the submodules alone.
+        err="GIT PULL failed in $(pwd) for branch '$branch'"
+      else
+        git submodule update --init --recursive
         if [[ $? -ne 0 ]]; then
-          # If we didn't successfully update (possibly because we're on
-          # a local branch), leave the submodules alone.
-          err="GIT PULL failed in $(pwd) for branch '$branch'"
-        else
-          $git_cmd submodule update --init --recursive
-          if [[ $? -ne 0 ]]; then
-            err="GIT SUBMODULE UPDATE failed in $(pwd) for branch '$branch'"
-          fi
+          err="GIT SUBMODULE UPDATE failed in $(pwd) for branch '$branch'"
         fi
-
+      fi
     else
-        err="Remote not found in $(pwd) for branch '$branch'"
+      err="Remote not found in $(pwd) for branch '$branch'"
     fi
   else
     err="Unable to get current branch in $(pwd)"
@@ -53,15 +57,27 @@ function pull {
     echo -e "\e[1;31m ***** $err\e[0m"
     UPDATE_ERRORS+=("$err")
   fi
-  echo
+
+  [[ -n "${print_empty_line}" ]] && echo
+
 }
 
-for srvdir in $(find <%= scope['::mwv::services_dir'] %> -maxdepth 2 -type d -name .git -printf "%h\n"); do
-  cd "${srvdir}"
-  pull
-  if ! git ls-files node_modules --error-unmatch > /dev/null 2>&1 && [[ -f package.json ]]; then
-    npm update
+for srvconf in <%= scope['::service::conf_dir'] %>/*.conf; do
+  source ${srvconf}
+  echo -e "\e[36m==> Updating ${SERVICE_NAME} ...\e[0m"
+  if [[ -n "${NEED_CHDIR}" && -d ${SERVICE_DIR} ]]; then
+    cd "${SERVICE_DIR}"
+    [[ -n "${DO_PULL}" ]] && pull no_title
+    if [[ -n ${UPDATE_CMD} ]]; then
+      echo "[*] Updating dependencies for ${SERVICE_NAME} ..."
+      ${UPDATE_CMD}
+    fi
   fi
+  if [[ -n "${DO_RESTART}" ]]; then
+    echo "[*] Restarting service ${RESTART_NAME} ..."
+    sudo service ${RESTART_NAME} restart
+  fi
+  echo
 done
 
 cd "$MW_INSTALL_PATH"

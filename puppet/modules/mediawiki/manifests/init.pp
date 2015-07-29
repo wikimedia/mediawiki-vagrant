@@ -73,6 +73,8 @@ class mediawiki(
     require ::php
     require ::hhvm
 
+    require ::service
+
     include ::mediawiki::apache
     include ::mediawiki::jobrunner
     include ::mediawiki::multiwiki

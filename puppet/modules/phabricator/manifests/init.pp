@@ -29,6 +29,10 @@ class phabricator(
         require   => Class['::arcanist'],
     }
 
+    service::gitupdate { 'phd':
+        dir => "${deploy_dir}/phabricator",
+    }
+
     # Add our vhost
     apache::site { $vhost_name:
         ensure  => present,
@@ -36,9 +40,19 @@ class phabricator(
         require => Class['::apache::mod::rewrite'],
     }
 
+    phabricator::config { 'mysql.host':
+        value   => '127.0.0.1',
+        require => Class['::mysql'],
+    }
+
+    phabricator::config { 'mysql.port':
+        value   => 3306,
+        require => Phabricator::Config['mysql.host'],
+    }
+
     phabricator::config { 'mysql.pass':
         value   => $::mysql::root_password,
-        require => Class['::mysql'],
+        require => Phabricator::Config['mysql.port'],
     }
 
     phabricator::config { 'phabricator.base-uri':

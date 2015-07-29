@@ -64,6 +64,18 @@ class zotero(
         notify  => Service['zotero'],
     }
 
+    service::gitupdate { 'zotero_translation_server':
+        dir          => "${base_path}/translation-server",
+        restart      => true,
+        service_name => 'zotero',
+    }
+
+    service::gitupdate { 'zotero_translators':
+        dir          => "${base_path}/translators",
+        restart      => true,
+        service_name => 'zotero',
+    }
+
     service { 'zotero':
         enable     => true,
         ensure     => running,

@@ -1,0 +1,7 @@
+SERVICE_NAME=<%= @title %>
+SERVICE_DIR=<%= @srv_dir %>
+NEED_CHDIR=<%= if @pull || @update then 'yes' else '' end %>
+DO_PULL=<%= if @pull then 'yes' else '' end %>
+UPDATE_CMD=<%= if @update then "'#{@up_cmd}'" else '' end %>
+DO_RESTART=<%= if @restart then 'yes' else '' end %>
+RESTART_NAME=<%= @restart_name %>
