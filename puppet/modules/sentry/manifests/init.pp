@@ -83,7 +83,7 @@ class sentry (
     # Use virtualenv because Sentry has lots of dependencies
     virtualenv::environment { $deploy_dir:
         ensure   => present,
-        packages => ['sentry[mysql]==7.6.2', 'raven'],
+        packages => ['sentry[mysql]==7.7.0', 'raven'],
         require  => Package['libmysqlclient-dev'],
     }
 
