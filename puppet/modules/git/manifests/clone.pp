@@ -79,7 +79,9 @@ define git::clone(
     }
 
     exec { "git_clone_${title}":
-        command => "git clone ${arg_recurse} ${arg_depth} ${arg_branch} ${repository} ${directory}",
+        # lint:ignore:80chars
+        command => "/usr/bin/git clone ${arg_recurse} ${arg_depth} ${arg_branch} ${repository} ${directory}",
+        # lint:endignore
         cwd     => '/',
         creates => "${directory}/.git",
         user    => $owner,
@@ -99,8 +101,10 @@ define git::clone(
 
     if $ensure == 'latest' {
         exec { "git_pull_${title}":
-            command  => "git pull ${arg_recurse} ${arg_depth}",
-            unless   => "git fetch ${arg_depth} && git diff --quiet @{upstream}",
+            command  => "/usr/bin/git pull ${arg_recurse} ${arg_depth}",
+            # lint:ignore:80chars
+            unless   => "/usr/bin/git fetch ${arg_depth} && /usr/bin/git diff --quiet @{upstream}",
+            # lint:endignore
             cwd      => $directory,
             user     => $owner,
             group    => $group,
@@ -110,7 +114,9 @@ define git::clone(
 
         if $recurse_submodules {
             exec { "git_submodule_update_${title}":
-                command     => 'git submodule update --init --recursive',
+                # lint:ignore:80chars
+                command     => '/usr/bin/git submodule update --init --recursive',
+                # lint:endignore
                 cwd         => $directory,
                 user        => $owner,
                 group       => $group,
