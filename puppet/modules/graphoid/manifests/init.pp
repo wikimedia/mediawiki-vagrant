@@ -52,8 +52,8 @@ class graphoid(
     }
 
     service { 'graphoid':
-        enable     => true,
         ensure     => running,
+        enable     => true,
         hasstatus  => true,
         hasrestart => true,
         provider   => 'upstart',
