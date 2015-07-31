@@ -45,11 +45,21 @@ define apache::conf(
 ) {
     include ::apache
 
-    if $priority  !~ /^\d?\d$/                 { fail('"priority" must be between 0 - 99')             }
-    if $ensure    !~ /^(present|absent)$/      { fail('"ensure" must be "present" or "absent"')        }
-    if $conf_type !~ /^(conf|sites)$/          { fail('"conf_type" must be "conf" or "sites"')         }
-    if $source == undef and $content == undef  { fail('you must provide either "source" or "content"') }
-    if $source != undef and $content != undef  { fail('"source" and "content" are mutually exclusive') }
+    if $priority !~ /^\d?\d$/ {
+        fail('"priority" must be between 0 - 99')
+    }
+    if $ensure !~ /^(present|absent)$/ {
+        fail('"ensure" must be "present" or "absent"')
+    }
+    if $conf_type !~ /^(conf|sites)$/ {
+        fail('"conf_type" must be "conf" or "sites"')
+    }
+    if $source == undef and $content == undef {
+        fail('you must provide either "source" or "content"')
+    }
+    if $source != undef and $content != undef {
+        fail('"source" and "content" are mutually exclusive')
+    }
 
     $title_safe  = regsubst($title, '[\W_]', '-', 'G')
     $conf_file   = sprintf('%02d-%s.conf', $priority, $title_safe)
