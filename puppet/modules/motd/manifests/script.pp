@@ -33,8 +33,12 @@ define motd::script(
 ) {
     include ::motd
 
-    if $priority  !~ /^\d?\d$/             { fail('"priority" must be between 0 - 99')      }
-    if $ensure    !~ /^(present|absent)$/  { fail('"ensure" must be "present" or "absent"') }
+    if $priority !~ /^\d?\d$/ {
+        fail('"priority" must be between 0 - 99')
+    }
+    if $ensure !~ /^(present|absent)$/ {
+        fail('"ensure" must be "present" or "absent"')
+    }
 
     $safe_name = regsubst($title, '[\W_]', '-', 'G')
     $script    = sprintf('%02d-%s', $priority, $safe_name)
