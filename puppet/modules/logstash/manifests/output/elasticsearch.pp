@@ -58,7 +58,9 @@ class logstash::output::elasticsearch(
 
     cron { 'logstash_delete_index':
         ensure  => $ensure_cron,
+        # lint:ignore:80chars
         command => "/usr/local/bin/curator delete --host ${host} --port ${port} --timestring '%Y.%m.%d' --older-than 15",
+        # lint:endignore
         user    => 'root',
         hour    => 0,
         minute  => 42,
@@ -67,7 +69,9 @@ class logstash::output::elasticsearch(
 
     cron { 'logstash_optimize_index':
         ensure  => $ensure_cron,
+        # lint:ignore:80chars
         command => "/usr/local/bin/curator optimize --host ${host} --port ${port} --timestring '%Y.%m.%d' --older-than 2",
+        # lint:endignore
         user    => 'root',
         hour    => 1,
         minute  => 5,
