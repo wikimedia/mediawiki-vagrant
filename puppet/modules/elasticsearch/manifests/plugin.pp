@@ -50,14 +50,18 @@ define elasticsearch::plugin(
             # remove it and reinstall.
             exec { "prune_es_plugin_${name}":
                 command => "${es_dir}/bin/plugin --remove ${name}",
-                onlyif  => "test -d ${plugin_dir}",
-                unless  => "test -f ${plugin_dir}/${name}-${version}.jar",
+                onlyif  => "/usr/bin/test -d ${plugin_dir}",
+                # lint:ignore:80chars
+                unless  => "/usr/bin/test -f ${plugin_dir}/${name}-${version}.jar",
+                # lint:endignore
                 require => Package['elasticsearch'],
                 notify  => Service['elasticsearch'],
             }
             exec { "install_es_plugin_${name}":
+                # lint:ignore:80chars
                 command => "${es_dir}/bin/plugin --install ${plugin_identifier} ${url_param}",
-                unless  => "test -d ${plugin_dir}",
+                # lint:endignore
+                unless  => "/usr/bin/test -d ${plugin_dir}",
                 require => [
                     Package['elasticsearch'],
                     Exec["prune_es_plugin_${name}"],
@@ -68,7 +72,7 @@ define elasticsearch::plugin(
         absent: {
             exec { "uninstall_es_plugin_${name}":
                 command => "${es_dir}/bin/plugin --remove ${name}",
-                onlyif  => "test -d ${plugin_dir}",
+                onlyif  => "/usr/bin/test -d ${plugin_dir}",
                 require => Package['elasticsearch'],
                 notify  => Service['elasticsearch'],
             }
