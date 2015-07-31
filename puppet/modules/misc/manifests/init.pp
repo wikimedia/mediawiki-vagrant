@@ -22,7 +22,15 @@ class misc {
         mode   => '0755',
     }
 
-    package { [ 'ack-grep', 'htop', 'curl', 'httpie', 'jq' ]:
+    # Install generally useful packages
+    package { [
+        'ack-grep',
+        'curl',
+        'htop',
+        'httpie',
+        'jq',
+        'nano', # for legoktm and other vi haters
+    ]:
         ensure => present,
     }
 
@@ -34,8 +42,10 @@ class misc {
     # fix for 'stdin: not a tty'
     # <https://github.com/mitchellh/vagrant/issues/1673>
     exec { 'fix_root_profile':
-      command => 'sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile',
-      onlyif  => 'grep -q "^mesg n" /root/.profile',
+        # lint:ignore:80chars
+        command => '/bin/sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile',
+        # lint:endignore
+        onlyif  => '/bin/grep -q "^mesg n" /root/.profile',
     }
 
     env::profile_script { 'xdebug':
