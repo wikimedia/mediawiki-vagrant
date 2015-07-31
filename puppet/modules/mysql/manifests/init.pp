@@ -26,15 +26,15 @@ class mysql(
     include ::mysql::packages
 
     service { 'mysql':
-        enable     => true,
         ensure     => running,
+        enable     => true,
         hasrestart => true,
         require    => Package['mysql-server'],
     }
 
     exec { 'set_mysql_password':
-        command => "mysqladmin -u root password \"${root_password}\"",
-        unless  => "mysqladmin -u root -p\"${root_password}\" status",
+        command => "/usr/bin/mysqladmin -u root password \"${root_password}\"",
+        unless  => "/usr/bin/mysqladmin -u root -p\"${root_password}\" status",
         require => Service['mysql'],
     }
 

@@ -32,6 +32,8 @@ define mysql::db(
     }
 
     mysql::sql { "${command} database ${dbname}":
+        # lint:ignore:80chars
         unless => "select ${unless}(select * from information_schema.schemata where schema_name = '${dbname}')",
+        # lint:endignore
     }
 }
