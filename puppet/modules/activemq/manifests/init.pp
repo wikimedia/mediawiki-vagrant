@@ -49,8 +49,8 @@ class activemq(
     }
 
     service { 'activemq':
-        enable    => true,
         ensure    => running,
+        enable    => true,
         provider  => 'upstart',
         require   => [
             Package['default-jre-headless'],
