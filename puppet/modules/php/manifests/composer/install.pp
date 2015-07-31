@@ -39,7 +39,9 @@ define php::composer::install(
     }
 
     exec { "composer-install-${safe_dir}":
+        # lint:ignore:80chars
         command     => "composer install --optimize-autoloader --prefer-${prefer}",
+        # lint:endignore
         cwd         => $directory,
         environment => [
           "COMPOSER_HOME=${::php::composer::home}",

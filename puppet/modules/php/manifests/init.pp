@@ -69,13 +69,17 @@ class php {
     }
 
     php::ini { 'opcache_validate_timestamps':
-        settings => { 'opcache.validate_timestamps' => 'on' },
-        require => Package['php5-apcu']
+        settings => {
+            'opcache.validate_timestamps' => 'on',
+        },
+        require  => Package['php5-apcu']
     }
 
     php::ini { 'opcache_revalidate_freq':
-        settings => { 'opcache.revalidate_freq' => 0 },
-        require => Package['php5-apcu'],
+        settings => {
+            'opcache.revalidate_freq' => 0,
+        },
+        require  => Package['php5-apcu'],
     }
 
     class { '::php::sessionclean':

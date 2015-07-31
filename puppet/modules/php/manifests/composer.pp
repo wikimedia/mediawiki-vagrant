@@ -19,7 +19,9 @@ class php::composer (
 
     exec { 'download_composer':
         command => "curl https://getcomposer.org/composer.phar -o ${bin}",
+        # lint:ignore:80chars
         unless  => "php5 -r 'try { Phar::loadPhar(\"${bin}\"); exit(0); } catch(Exception \$e) { exit(1); }'",
+        # lint:endignore
         require => Package['curl', 'php5-cli'],
     }
 
