@@ -77,8 +77,8 @@ class zotero(
     }
 
     service { 'zotero':
-        enable     => true,
         ensure     => running,
+        enable     => true,
         hasstatus  => true,
         hasrestart => true,
         provider   => 'upstart',
