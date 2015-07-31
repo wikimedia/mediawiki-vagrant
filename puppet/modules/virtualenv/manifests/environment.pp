@@ -27,12 +27,12 @@
 #
 define virtualenv::environment (
     $packages,
-    $dir    = $title,
-    $ensure = 'present',
-    $owner  = 'root',
-    $group  = 'root',
+    $dir       = $title,
+    $ensure    = 'present',
+    $owner     = 'root',
+    $group     = 'root',
 ) {
-    require virtualenv
+    require ::virtualenv
 
     if $ensure == 'present' {
         file { $dir:
@@ -42,7 +42,7 @@ define virtualenv::environment (
         }
 
         exec { "virtualenv-${dir}":
-            command => join(["virtualenv . && ./bin/pip install '", join($packages, "' '"), "'"]),
+            command => template('virtualenv/create-virtualenv.sh.erb'),
             cwd     => $dir,
             creates => "${dir}/lib",
             user    => $owner,
