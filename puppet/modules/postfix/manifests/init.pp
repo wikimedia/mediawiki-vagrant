@@ -28,8 +28,9 @@ class postfix {
     }
 
     exec { 'postmap_virtual':
-        command   => 'postmap /etc/postfix/virtual',
-        subscribe => File['/etc/postfix/virtual'],
+        command     => 'postmap /etc/postfix/virtual',
+        subscribe   => File['/etc/postfix/virtual'],
+        refreshonly => true,
     }
 
     service { 'postfix':
