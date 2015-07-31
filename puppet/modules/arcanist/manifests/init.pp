@@ -5,7 +5,8 @@
 # This class clones arcanist and libphutil for developer use
 #
 # [*deploy_dir*]
-#   The system path to checkout arcanist & libphutil to. (example: '/vagrant/phab')
+#   The system path to checkout arcanist & libphutil to (example:
+#   '/vagrant/phab').
 #
 class arcanist(
     $deploy_dir,
