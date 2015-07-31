@@ -17,7 +17,8 @@
 #   Password for MySQL account (example: 'secret123').
 #
 # [*deploy_dir*]
-#   The system path to checkout scholarships to. (example: '/vagrant/scholarships')
+#   The system path to checkout scholarships to (example:
+#   '/vagrant/scholarships').
 #
 # [*vhost_name*]
 #   Apache vhost name. (example: 'scholarships.local.wmftest.net')
