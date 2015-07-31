@@ -22,8 +22,8 @@ class smtplog(
     }
 
     service { 'smtplog':
-        enable   => true,
         ensure   => running,
+        enable   => true,
         provider => 'upstart',
         require  => File['/etc/init/smtplog.conf'],
     }
