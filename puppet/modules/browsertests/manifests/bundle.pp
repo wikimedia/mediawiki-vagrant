@@ -6,10 +6,10 @@
 #
 # Ensure dependencies are installed for the VisualEditor tests.
 #
-#   browsertests::bundle { '/vagrant/mediawiki/extensions/VisualEditor/modules/ve-mw/test/browser': }
+#   browsertests::bundle { '/path/to/extension/browser/tests': }
 #
 #   browsertests::bundle { 'VisualEditorTests':
-#       directory => '/vagrant/mediawiki/extensions/VisualEditor/modules/ve-mw/test/browser'
+#       directory => '/path/to/extension/browser/tests'
 #   }
 #
 define browsertests::bundle(
@@ -23,4 +23,3 @@ define browsertests::bundle(
         missing_ok => true,
     }
 }
-
