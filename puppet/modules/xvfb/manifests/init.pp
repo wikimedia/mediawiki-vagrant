@@ -47,8 +47,8 @@ class xvfb(
     }
 
     service { 'xvfb':
-        enable   => true,
         ensure   => running,
+        enable   => true,
         provider => 'upstart',
         require  => File['/etc/init/xvfb.conf'],
     }
