@@ -43,7 +43,7 @@ class crm(
 
     php::composer::install { 'crm-composer':
         directory => $dir,
-        require => Git::Clone[$repo],
+        require   => Git::Clone[$repo],
     }
 
     service::gitupdate { 'crm':
@@ -101,6 +101,6 @@ class crm(
             'thank_you_days'                 => 14,
             'thank_you_batch'                => 100,
         },
-        require => Php::Composer::Install['crm-composer'],
+        require  => Php::Composer::Install['crm-composer'],
     }
 }
