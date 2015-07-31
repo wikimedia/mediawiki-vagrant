@@ -6,7 +6,7 @@
 #
 class apt {
     exec { 'update_package_index':
-        command  => 'apt-get update',
+        command  => '/usr/bin/apt-get update',
         schedule => hourly,
     }
 
@@ -17,7 +17,9 @@ class apt {
     }
 
     exec { 'add_wikimedia_apt_key':
+        # lint:ignore:80chars
         command     => '/usr/bin/apt-key add /usr/local/share/wikimedia-pubkey.asc',
+        # lint:endignore
         before      => File['/etc/apt/sources.list.d/wikimedia.list'],
         refreshonly => true,
     }
