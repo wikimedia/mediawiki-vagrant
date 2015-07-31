@@ -16,9 +16,9 @@ class citoid (
 ) {
 
     service::node { 'citoid':
-        port       => $port,
-        log_level  => $log_level,
-        config     => {
+        port      => $port,
+        log_level => $log_level,
+        config    => {
             userAgent       => undef,
             zoteroInterface => '127.0.0.1',
             zoteroPort      => '1969',
