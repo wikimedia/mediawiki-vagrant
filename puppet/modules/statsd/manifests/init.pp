@@ -20,7 +20,7 @@ class statsd (
     require_package( 'nodejs-legacy' )
 
     $dir = "${::service::root_dir}/statsd"
-    $logdir = "${::service::log_dir}"
+    $logdir = $::service::log_dir
 
     git::clone { 'statsd':
         directory => $dir,
@@ -39,7 +39,7 @@ class statsd (
         require => Git::Clone['statsd'],
     }
 
-    file { "/etc/init/statsd.conf":
+    file { '/etc/init/statsd.conf':
         content => template('statsd/upstart.conf.erb'),
         owner   => 'root',
         group   => 'root',
@@ -59,10 +59,10 @@ class statsd (
     }
 
     service { 'statsd':
-        ensure    => running,
-        enable    => true,
-        provider  => 'upstart',
-        require   => [
+        ensure   => running,
+        enable   => true,
+        provider => 'upstart',
+        require  => [
             Package['nodejs-legacy'],
             Git::Clone['statsd'],
             Npm::Install[$dir],
