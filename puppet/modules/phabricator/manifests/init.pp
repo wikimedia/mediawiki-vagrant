@@ -76,7 +76,7 @@ class phabricator(
         value => 0,
     }
 
-    file { "/var/repo":
+    file { '/var/repo':
         ensure => directory,
     }
 
@@ -89,8 +89,8 @@ class phabricator(
 
     $phd = "${deploy_dir}/phabricator/bin/phd"
     service { 'phd':
-        enable   => true,
         ensure   => running,
+        enable   => true,
         provider => base,
         binary   => $phd,
         start    => "${phd} start",

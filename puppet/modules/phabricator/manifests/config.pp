@@ -10,8 +10,12 @@ define phabricator::config(
     include ::phabricator
 
     exec { "phab_set_${title}":
+        # lint:ignore:80chars
         command => "${::phabricator::deploy_dir}/phabricator/bin/config set ${title} '${value}'",
+        # lint:endignore
         require => Git::Clone['https://github.com/phacility/phabricator'],
+        # lint:ignore:80chars
         unless  => "grep '${title}' ${::phabricator::deploy_dir}/phabricator/conf/local/local.json | grep '${value}'",
+        # lint:endignore
     }
 }
