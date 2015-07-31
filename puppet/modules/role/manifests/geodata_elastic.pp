@@ -14,7 +14,9 @@ class role::geodata_elastic {
     }
 
     exec { 'force geodata index':
+        # lint:ignore:80chars
         command     => '/usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php',
+        # lint:endignore
         user        => 'vagrant',
         refreshonly => true,
     }

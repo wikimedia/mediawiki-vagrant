@@ -8,10 +8,15 @@ class role::molhandler {
     require_package('openbabel')
 
     mediawiki::extension { 'MolHandler':
+        # lint:ignore:80chars
         settings => [
             '$wgApiFrameOptions = \'SAMEORIGIN\'',
             '$wgFileExtensions = array_merge( $wgFileExtensions, array( \'mol\', \'rxn\' ) )',
         ],
-        require  => Package['indigo-utils', 'openbabel'],
+        # lint:endignore
+        require  => [
+            Package['indigo-utils'],
+            Package['openbabel'],
+        ],
     }
 }

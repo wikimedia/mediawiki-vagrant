@@ -7,13 +7,14 @@ class role::poolcounter {
     require_package('poolcounter')
 
     service { 'poolcounter':
-        enable  => true,
         ensure  => 'running',
+        enable  => true,
         require => Package['poolcounter'],
     }
 
     mediawiki::extension { 'PoolCounter':
         priority => $::LOAD_EARLY,
+        # lint:ignore:80chars
         settings => [
             '$wgPoolCountClientConf["servers"][] = "127.0.0.1";',
             '$wgPoolCountClientConf["timeout"] = 0.5;',
@@ -22,6 +23,7 @@ class role::poolcounter {
             '$wgPoolCounterConf["ArticleView"]["workers"] = 2;',
             '$wgPoolCounterConf["ArticleView"]["maxqueue"] = 100;',
         ],
+        # lint:endignore
         require  => Service['poolcounter'],
     }
 }

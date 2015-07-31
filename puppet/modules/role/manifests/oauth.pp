@@ -35,7 +35,7 @@ class role::oauth (
     }
 
     apache::site_conf { 'oauth-hello-world':
-        site   => 'devwiki',
+        site    => 'devwiki',
         content => template('role/oauth/apache.conf.erb'),
     }
 

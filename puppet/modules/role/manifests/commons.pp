@@ -37,7 +37,9 @@ class role::commons(
     }
 
     exec { 'refresh globalusage table':
-        command => 'foreachwiki extensions/GlobalUsage/refreshGlobalimagelinks.php --pages existing,nonexisting',
+        # lint:ignore:80chars
+        command => '/usr/local/bin/foreachwiki extensions/GlobalUsage/refreshGlobalimagelinks.php --pages existing,nonexisting',
+        # lint:endignore
         cwd     => $::mediawiki::dir,
         user    => 'www-data',
         require => Mediawiki::Extension['GlobalUsage'],

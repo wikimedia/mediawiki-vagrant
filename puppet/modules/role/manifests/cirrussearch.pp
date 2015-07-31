@@ -10,6 +10,11 @@ class role::cirrussearch {
     # not strictly required for cirrussearch, but used in the tests
     include ::role::svg
 
+    # By default Vagrant sets up firefox as the global browsertest
+    # runner, we want to ensure phantomjs is available for running the
+    # cirrussearch tests in a headless and parallelized manner.
+    require_package('phantomjs')
+
     # Elasticsearch plugins
     ## Analysis
     elasticsearch::plugin { 'icu':
@@ -66,16 +71,11 @@ class role::cirrussearch {
         values => template('elasticsearch/CirrusSearch-commons.php.erb'),
     }
 
-    # By default vagrant sets up firefox as the global browsertest runner, we want
-    # to ensure phantomjs is available for running the cirrussearch tests in a
-    # headless and parallelized maner
-    package { 'phantomjs':
-        ensure => present
-    }
-
     exec { 'build_search_index':
-        command => 'foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --startOver && foreachwiki extensions/CirrusSearch/maintenance/forceSearchIndex.php',
-        onlyif  => 'mwscript extensions/CirrusSearch/maintenance/cirrusNeedsToBeBuilt.php --quiet',
+        # lint:ignore:80chars
+        command => '/usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --startOver && /usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/forceSearchIndex.php',
+        onlyif  => '/usr/local/bin/mwscript extensions/CirrusSearch/maintenance/cirrusNeedsToBeBuilt.php --quiet',
+        # lint:endignore
         user    => 'www-data',
         require => [
             Class['::mediawiki::multiwiki'],

@@ -13,17 +13,17 @@ class role::gettingstarted {
 
     mediawiki::extension { 'GettingStarted':
         browser_tests => true,
+        # lint:ignore:80chars
         settings      => {
             wgGettingStartedRedis                  => '127.0.0.1',
-
             # A sample category configuration for local testing.
             wgGettingStartedCategoriesForTaskTypes => {
                 copyedit => 'Category:All_articles_needing_copy_edit',
                 clarify  => 'Category:All_Wikipedia_articles_needing_clarification',
                 addlinks => 'Category:All_articles_with_too_few_wikilinks',
             },
-
             wgGettingStartedExcludedCategories     => ['Category:Living people'],
         },
+        # lint:endignore
     }
 }

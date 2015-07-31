@@ -13,9 +13,9 @@ class role::flow {
     }
 
     file { '/etc/logrotate.d/mediawiki_Flow':
-        source  => 'puppet:///modules/role/flow/logrotate.d-mediawiki-Flow',
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
+        source => 'puppet:///modules/role/flow/logrotate.d-mediawiki-Flow',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0444',
     }
 }

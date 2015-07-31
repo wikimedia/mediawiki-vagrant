@@ -31,9 +31,12 @@ class role::raita(
     }
 
     exec { 'raita elasticsearch index':
-        command => "curl -X PUT '${index_url}/' -d '${index}'",
-        unless  => "curl -sf '${index_url}/_settings' 2> /dev/null",
-        require => [Class['elasticsearch'], Git::Clone['integration/raita']],
+        command => "/usr/bin/curl -X PUT '${index_url}/' -d '${index}'",
+        unless  => "/usr/bin/curl -sf '${index_url}/_settings' 2> /dev/null",
+        require => [
+            Class['elasticsearch'],
+            Git::Clone['integration/raita'],
+        ],
     }
 
     exec { 'raita elasticsearch mappings':
@@ -48,8 +51,10 @@ class role::raita(
     }
 
     exec { 'raita import elasticsearch data':
-        command   => "curl -X POST '${index_url}/_bulk' --data-binary @/tmp/raita-data.json",
-        onlyif    => "curl -sf '${index_url}/_count' | grep -q '\"count\":0'",
+        # lint:ignore:80chars
+        command   => "/usr/bin/curl -X POST '${index_url}/_bulk' --data-binary @/tmp/raita-data.json",
+        onlyif    => "/usr/bin/curl -sf '${index_url}/_count' | /bin/grep -q '\"count\":0'",
+        # lint:endignore
         require   => Exec['raita elasticsearch mappings'],
         subscribe => File['/tmp/raita-data.json'],
     }

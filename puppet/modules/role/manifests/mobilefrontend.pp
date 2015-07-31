@@ -26,10 +26,12 @@ class role::mobilefrontend {
 
     mediawiki::settings { 'AlwaysMobileSkin':
         wiki   => 'mobile',
+        # lint:ignore:80chars
         values => {
             wgMFAutodetectMobileView => false,
             wgMFMobileHeader         => 'Host',
             wgMobileUrlTemplate      => "mobile${::mediawiki::multiwiki::base_domain}",
-        }
+        },
+        # lint:endignore
     }
 }

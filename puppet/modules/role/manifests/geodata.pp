@@ -4,6 +4,7 @@
 class role::geodata {
     mediawiki::extension { 'GeoData':
         needs_update => true,
-        priority     => $::LOAD_LATER,  # Should come after either CirrusSearch or Solarium
+        # Should come after either CirrusSearch or Solarium.
+        priority     => $::LOAD_LATER,
     }
 }

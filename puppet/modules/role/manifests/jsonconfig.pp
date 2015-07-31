@@ -5,6 +5,7 @@ class role::jsonconfig {
     include ::role::codeeditor   # optional - looks better for editing
 
     mediawiki::extension { 'JsonConfig':
-        priority => $::LOAD_EARLY, # ensure that extensions that use JsonConfig will load later
+        # Ensure that extensions that use JsonConfig will load later.
+        priority => $::LOAD_EARLY,
     }
 }

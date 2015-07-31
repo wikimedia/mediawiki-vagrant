@@ -33,7 +33,8 @@ class role::wikitech {
         values  => template('wikitech/Local.php.erb'),
     }
 
-    # Secret OSM passwords (will need to change on the fly for OpenStack integration)
+    # Secret OSM passwords (will need to change on the fly for
+    # OpenStack integration).
     mediawiki::settings { 'WikitechPrivateSettings':
         values  => template('wikitech/Private.php.erb'),
     }
@@ -57,7 +58,9 @@ class role::wikitech {
     }
 
     mediawiki::import_dump { 'wikitech_content':
+        # lint:ignore:80chars
         xml_dump           => '/vagrant/puppet/modules/wikitech/files/wikitech-initial-pages.xml',
         dump_sentinel_page => 'Shell_Request/Andrew',
+        # lint:endignore
     }
 }

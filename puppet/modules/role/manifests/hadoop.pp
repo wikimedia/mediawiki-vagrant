@@ -24,6 +24,7 @@ class role::hadoop {
 
     # Install Hadoop client and configs.
     class { '::cdh::hadoop':
+        # lint:ignore:80chars
         cluster_name                             => 'vagrant',
         namenode_hosts                           => $namenode_hosts,
         datanode_mounts                          => $datanode_mounts,
@@ -42,6 +43,7 @@ class role::hadoop {
         # Use small heapsize for vagrant.
         hadoop_heapsize                          => 64,
         yarn_heapsize                            => 64,
+        # lint:endignore
     }
 
     # Install and run master and worker classes all on this node.
@@ -70,20 +72,24 @@ class role::hadoop {
     # cdh module classes.  This ensures that HDFS is totally
     # ready before puppet attempts to set up Hive and Oozie.
     exec { 'wait_for_hdfs':
+        # lint:ignore:80chars
         command     => '/usr/bin/hdfs dfs -touchz /tmp/puppet_wait_for_hdfs > /dev/null 2>&1 && /usr/bin/hdfs dfs -rm /tmp/puppet_wait_for_hdfs > /dev/null 2>&1',
+        # lint:endignore
         tries       => 10,
         try_sleep   => 2,
-        subscribe   => [Service['hadoop-hdfs-namenode'], Service['hadoop-hdfs-datanode']],
+        subscribe   => [Service['hadoop-hdfs-namenode'],
+                        Service['hadoop-hdfs-datanode']],
         refreshonly => true,
     }
 
     # This packages conflicts with the hadoop-fuse-dfs
     # script in that two libjvm.so files get added
-    # to LD_LIBRARY_PATH.  We dont't need this
+    # to LD_LIBRARY_PATH. We don't need this
     # package anyway, so ensure it is absent.
     package { 'icedtea-7-jre-jamvm':
         ensure => 'absent'
     }
+
     # Mount HDFS via Fuse on Analytics client nodes.
     # This will mount HDFS at /mnt/hdfs read only.
     class { 'cdh::hadoop::mount':

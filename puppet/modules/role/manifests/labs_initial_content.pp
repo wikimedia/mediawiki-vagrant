@@ -7,7 +7,9 @@ class role::labs_initial_content {
     include mediawiki::apache
 
     mediawiki::import_dump { 'labs_privacy':
+        # lint:ignore:80chars
         xml_dump           => '/vagrant/puppet/modules/labs/files/labs_privacy_policy.xml',
+        # lint:endignore
         dump_sentinel_page => 'Testwiki:Privacy_policy',
     }
 

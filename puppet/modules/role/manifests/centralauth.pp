@@ -39,12 +39,14 @@ class role::centralauth {
     }
 
     mediawiki::settings { 'CentralAuthPermissions':
+        # lint:ignore:80chars
         values => [
             '$wgGroupPermissions["sysop"]["centralauth-lock"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-oversight"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-unmerge"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-rename"] = true;',
         ]
+        # lint:endignore
     }
 
     mysql::db { $shared_db:
@@ -52,8 +54,10 @@ class role::centralauth {
     }
 
     mysql::sql { 'Create CentralAuth tables':
+        # lint:ignore:80chars
         sql     => "USE ${shared_db}; SOURCE ${::mediawiki::dir}/extensions/CentralAuth/central-auth.sql;",
         unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${shared_db}' AND table_name = 'globalnames';",
+        # lint:endignore
         require => [
             Mysql::Db[$shared_db],
             Mediawiki::Extension['CentralAuth']
@@ -61,8 +65,10 @@ class role::centralauth {
     }
 
     mysql::sql { 'Create CentralAuth spoofuser table':
+        # lint:ignore:80chars
         sql     => "USE ${shared_db}; SOURCE ${::mediawiki::dir}/extensions/CentralAuth/AntiSpoof/patch-antispoof-global.mysql.sql;",
         unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${shared_db}' AND table_name = 'spoofuser';",
+        # lint:endignore
         require => [
             Mysql::Db[$shared_db],
             Mediawiki::Extension['CentralAuth']
@@ -75,10 +81,14 @@ class role::centralauth {
 
     # Environment variables used by browser tests
     env::var { 'MEDIAWIKI_CENTRALAUTH_LOGINWIKI_URL':
+        # lint:ignore:80chars
         value => "http://${loginwiki}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
+        # lint:endignore
     }
 
     env::var { 'MEDIAWIKI_CENTRALAUTH_ALTWIKI_URL':
+        # lint:ignore:80chars
         value => "http://${alt_testwiki}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
+        # lint:endignore
     }
 }

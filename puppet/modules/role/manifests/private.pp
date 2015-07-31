@@ -11,7 +11,11 @@ class role::private {
         values => {
             wgUploadPath                        => '/w/img_auth.php',
             wgThumbnailScriptPath               => '/w/thumb.php',
-            wgWhitelistRead                     => ['Main Page', 'Special:UserLogin', 'Special:UserLogout'],
+            wgWhitelistRead                     => [
+                'Main Page',
+                'Special:UserLogin',
+                'Special:UserLogout',
+            ],
             wgEmailAuthentication               => false,
             wgBlockDisablesLogin                => true,
             wgVisualEditorParsoidForwardCookies => true,
@@ -30,6 +34,7 @@ class role::private {
         require => Mediawiki::Wiki['private'],
     }
 
-    # GlobalUsage (from the commons role) should be disabled but there is no easy way to do that
+    # GlobalUsage (from the commons role) should be disabled but there
+    # is no easy way to do that.
 }
 
