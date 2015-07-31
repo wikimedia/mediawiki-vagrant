@@ -33,13 +33,17 @@ define env::alternative(
     if !defined( Exec["clear_alternatives_${alternative}"] ) {
         exec { "clear_alternatives_${alternative}":
             command => '/bin/true',
+            # lint:ignore:80chars
             unless  => "update-alternatives --remove-all ${alternative} || true",
+            # lint:endignore
         }
     }
 
     exec { "install_alternative_${title}":
         command => '/bin/true',
+        # lint:ignore:80chars
         unless  => "update-alternatives --install ${symlink} ${alternative} ${target} ${priority}",
+        # lint:endignore
         require => Exec["clear_alternatives_${alternative}"],
     }
 }
