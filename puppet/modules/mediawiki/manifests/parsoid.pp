@@ -72,8 +72,8 @@ class mediawiki::parsoid(
     }
 
     service { 'parsoid':
-        enable    => true,
         ensure    => running,
+        enable    => true,
         provider  => 'upstart',
         subscribe => File['localsettings.js', '/etc/init/parsoid.conf'],
     }

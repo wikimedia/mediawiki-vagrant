@@ -11,13 +11,13 @@
 define mediawiki::extension::browsertests(
     $path = false,
 ) {
-    $browser_tests_dir = $path ? {
+    $dir = $path ? {
         true    => 'tests/browser', # b/c with mediawiki::extension
         false   => 'tests/browser',
         default => $path,
     }
 
     ::browsertests::bundle { "${title}_browsertests_bundle":
-        directory => "${mediawiki::dir}/extensions/${title}/${browser_tests_dir}",
+        directory => "${mediawiki::dir}/extensions/${title}/${dir}",
     }
 }

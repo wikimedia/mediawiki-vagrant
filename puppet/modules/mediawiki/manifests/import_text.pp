@@ -58,7 +58,9 @@ define mediawiki::import_text(
     }
 
     exec { "add page ${wiki}/${page_title}":
-        command     => "mwscript edit.php --wiki=${db_name} --summary='Vagrant import' --no-rc '${page_title}' < ${path}",
+        # lint:ignore:80chars
+        command     => "/usr/local/bin/mwscript edit.php --wiki=${db_name} --summary='Vagrant import' --no-rc '${page_title}' < ${path}",
+        # lint:endignore
         refreshonly => true,
         user        => 'www-data',
         require     => [

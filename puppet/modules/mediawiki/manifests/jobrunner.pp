@@ -97,15 +97,15 @@ class mediawiki::jobrunner(
     }
 
     service { 'jobrunner':
-        enable   => $enable,
         ensure   => $ensure,
+        enable   => $enable,
         provider => 'upstart',
         require  => Mediawiki::Wiki[$::mediawiki::wiki_name],
     }
 
     service { 'jobchron':
-        enable   => $enable,
         ensure   => $ensure,
+        enable   => $enable,
         provider => 'upstart',
         require  => Mediawiki::Wiki[$::mediawiki::wiki_name],
     }

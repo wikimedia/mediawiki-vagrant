@@ -29,14 +29,16 @@
 define mediawiki::import_dump(
     $xml_dump,
     $dump_sentinel_page,
-    $db_name = $::mediawiki::db_name,
-    $wiki = $::mediawiki::wiki_name,
+    $db_name             = $::mediawiki::db_name,
+    $wiki                = $::mediawiki::wiki_name,
 ) {
     require ::mediawiki
 
     exec { "import_dump_${title}":
-        command => "mwscript importDump.php --wiki=${db_name} ${xml_dump}",
-        unless  => "mwscript pageExists.php --wiki=${db_name} ${dump_sentinel_page}",
+        # lint:ignore:80chars
+        command => "/usr/local/bin/mwscript importDump.php --wiki=${db_name} ${xml_dump}",
+        unless  => "/usr/local/bin/mwscript pageExists.php --wiki=${db_name} ${dump_sentinel_page}",
+        # lint:endignore
         user    => 'www-data',
         require => Mediawiki::Wiki[$wiki],
     }

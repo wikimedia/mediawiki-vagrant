@@ -122,7 +122,9 @@ define mediawiki::settings(
     # Determine collection to place settings in: shared or wiki specific
     $dir = $wiki_name ? {
         undef   => $::mediawiki::managed_settings_dir,
+        # lint:ignore:80chars
         default => "${::mediawiki::multiwiki::settings_root}/${db_name}/settings.d/puppet-managed",
+        # lint:endignore
     }
 
     # make a safe filename based on our title

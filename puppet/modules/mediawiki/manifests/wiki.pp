@@ -97,7 +97,10 @@ define mediawiki::wiki(
     }
 
     Exec {
-        require => [File[$cache_dir], File[$upload_dir]],
+        require => [
+            File[$cache_dir],
+            File[$upload_dir],
+        ],
     }
 
     exec { "${db_name}_setup":
@@ -111,20 +114,26 @@ define mediawiki::wiki(
     }
 
     exec { "${db_name}_include_extra_settings":
-        command => 'echo "include_once \'/vagrant/LocalSettings.php\';" >> LocalSettings.php',
+        # lint:ignore:80chars
+        command => '/bin/echo "include_once \'/vagrant/LocalSettings.php\';" >> LocalSettings.php',
+        # lint:endignore
         cwd     => $settings_root,
-        unless  => 'grep "/vagrant/LocalSettings.php" LocalSettings.php',
+        unless  => '/bin/grep "/vagrant/LocalSettings.php" LocalSettings.php',
         require => Exec["${db_name}_setup"],
     }
 
     exec { "${db_name}_copy_LocalSettings":
-        command => "cp ${settings_root}/LocalSettings.php ${src_dir}/LocalSettings.php",
+        # lint:ignore:80chars
+        command => "/bin/cp ${settings_root}/LocalSettings.php ${src_dir}/LocalSettings.php",
+        # lint:endignore
         creates => "${src_dir}/LocalSettings.php",
         require => Exec["${db_name}_include_extra_settings"],
     }
 
     exec { "update_${db_name}_database":
-        command     => "mwscript update.php --wiki ${db_name} --quick",
+        # lint:ignore:80chars
+        command     => "/usr/local/bin/mwscript update.php --wiki ${db_name} --quick",
+        # lint:endignore
         refreshonly => true,
         user        => 'www-data',
     }
@@ -183,7 +192,9 @@ define mediawiki::wiki(
     }
 
     # Provision primary wiki before others
+    # lint:ignore:80chars
     Mediawiki::Wiki <| primary_wiki == true |> -> Mediawiki::Wiki <| primary_wiki == false |>
+    # lint:endignore
     # Provision wikis before adding extensions
     Mediawiki::Wiki <| |> -> MediaWiki::Extension <| |>
 }

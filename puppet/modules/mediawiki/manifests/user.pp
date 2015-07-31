@@ -29,8 +29,10 @@ define mediawiki::user(
     include ::mediawiki
 
     exec { "mediawiki_user_${username}":
-        command => "mwscript createAndPromote.php --wiki=${wiki} ${username} ${password}",
-        unless  => "mwscript createAndPromote.php --wiki=${wiki} ${username} 2>&1 | grep -q '^Account exists'",
+        # lint:ignore:80chars
+        command => "/usr/local/bin/mwscript createAndPromote.php --wiki=${wiki} ${username} ${password}",
+        unless  => "/usr/local/bin/mwscript createAndPromote.php --wiki=${wiki} ${username} 2>&1 | grep -q '^Account exists'",
+        # lint:endignore
         user    => 'www-data',
         require => [
             MediaWiki::Wiki[$::mediawiki::wiki_name],

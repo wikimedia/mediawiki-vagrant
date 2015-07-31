@@ -26,13 +26,20 @@ class mediawiki::apache(
     apache::site { $mediawiki::wiki_name:
         ensure  => present,
         content => template('mediawiki/mediawiki-apache-site.erb'),
-        require => Class['::apache::mod::alias', '::apache::mod::rewrite', '::apache::mod::proxy_fcgi'],
+        require => [
+            Class['::apache::mod::alias'],
+            Class['::apache::mod::rewrite'],
+            Class['::apache::mod::proxy_fcgi'],
+        ],
     }
 
     apache::site { "php5-${mediawiki::wiki_name}":
         ensure  => present,
         content => template('mediawiki/mediawiki-php5-site.erb'),
-        require => Class['::apache::mod::alias', '::apache::mod::rewrite'],
+        require => [
+            Class['::apache::mod::alias'],
+            Class['::apache::mod::rewrite'],
+        ],
     }
 
     file { "${docroot}/favicon.ico":
