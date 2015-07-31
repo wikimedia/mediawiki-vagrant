@@ -12,8 +12,8 @@ class role::mathsearch {
         require      => Mediawiki::Extension['Math'],
         needs_update => true,
         settings     => [
-            '$wgMathValidModes[] = MW_MATH_LATEXML',
-            '$wgDefaultUserOptions["math"] = MW_MATH_LATEXML',
+            '$wgMathValidModes[] = "latexml"',
+            '$wgDefaultUserOptions["math"] = "latexml"',
         ],
     }
 }
