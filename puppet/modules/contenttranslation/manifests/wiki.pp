@@ -20,16 +20,16 @@
 #     high_mt_category: 'MT'
 #
 define contenttranslation::wiki(
-  $category_keyword,
-  $high_mt_category,
+    $category_keyword,
+    $high_mt_category,
 ) {
-  mediawiki::wiki { $title: }
+    mediawiki::wiki { $title: }
 
-  mediawiki::settings { "contenttranslation_${title}":
-    wiki   => $title,
-    values => {
-      'wgLanguageCode'                     => $title,
-      'wgContentTranslationHighMTCategory' => "${category_keyword}:${high_mt_category}"
+    mediawiki::settings { "contenttranslation_${title}":
+        wiki   => $title,
+        values => {
+            'wgLanguageCode'                     => $title,
+            'wgContentTranslationHighMTCategory' => "${category_keyword}:${high_mt_category}"
+        },
     }
-  }
 }

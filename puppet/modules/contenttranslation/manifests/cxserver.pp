@@ -88,10 +88,10 @@ class contenttranslation::cxserver(
     require_package( 'nodejs-legacy' )
 
     git::clone { 'mediawiki/services/cxserver/deploy':
-        directory  => $dir,
-        owner      => $::share_owner,
-        group      => $::share_group,
-        require    => Package['nodejs', 'nodejs-legacy'],
+        directory => $dir,
+        owner     => $::share_owner,
+        group     => $::share_group,
+        require   => Package['nodejs', 'nodejs-legacy'],
     }
 
     file { "${dir}/src/config.js":
@@ -110,6 +110,6 @@ class contenttranslation::cxserver(
         subscribe => [
             File['/etc/init/cxserver.conf'],
             File["${dir}/src/config.js"],
-        ]
+        ],
     }
 }
