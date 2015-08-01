@@ -28,9 +28,7 @@ class cassandra(
 
     # add the key
     exec { 'add_datastax_apt_key':
-        # lint:ignore:80chars
         command     => '/usr/bin/apt-key add /usr/local/share/datastax-pubkey.asc',
-        # lint:endignore
         before      => File['/etc/apt/sources.list.d/datastax.sources.list'],
         refreshonly => true,
     }

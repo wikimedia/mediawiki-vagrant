@@ -26,14 +26,10 @@ define apt::ppa(
     $listfile = "/etc/apt/sources.list.d/${safename}-${::lsbdistcodename}.list"
 
     if $ensure == 'absent' {
-        # lint:ignore:80chars
         $command = "/usr/bin/add-apt-repository --yes --remove ppa:${ppa} && /usr/bin/apt-get update"
-        # lint:endignore
         $onlyif  = "/usr/bin/test -e ${listfile}"
     } else {
-        # lint:ignore:80chars
         $command = "/usr/bin/add-apt-repository --yes ppa:${ppa} && /usr/bin/apt-get update"
-        # lint:endignore
         $onlyif  = "/usr/bin/test ! -e ${listfile}"
     }
 

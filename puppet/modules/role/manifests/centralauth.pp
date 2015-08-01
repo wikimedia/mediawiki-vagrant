@@ -81,14 +81,10 @@ class role::centralauth {
 
     # Environment variables used by browser tests
     env::var { 'MEDIAWIKI_CENTRALAUTH_LOGINWIKI_URL':
-        # lint:ignore:80chars
         value => "http://${loginwiki}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
-        # lint:endignore
     }
 
     env::var { 'MEDIAWIKI_CENTRALAUTH_ALTWIKI_URL':
-        # lint:ignore:80chars
         value => "http://${alt_testwiki}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
-        # lint:endignore
     }
 }

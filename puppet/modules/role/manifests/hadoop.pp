@@ -72,9 +72,7 @@ class role::hadoop {
     # cdh module classes.  This ensures that HDFS is totally
     # ready before puppet attempts to set up Hive and Oozie.
     exec { 'wait_for_hdfs':
-        # lint:ignore:80chars
         command     => '/usr/bin/hdfs dfs -touchz /tmp/puppet_wait_for_hdfs > /dev/null 2>&1 && /usr/bin/hdfs dfs -rm /tmp/puppet_wait_for_hdfs > /dev/null 2>&1',
-        # lint:endignore
         tries       => 10,
         try_sleep   => 2,
         subscribe   => [Service['hadoop-hdfs-namenode'],

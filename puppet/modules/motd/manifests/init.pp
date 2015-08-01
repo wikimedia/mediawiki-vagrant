@@ -12,9 +12,7 @@ class motd {
     }
 
     exec { 'update_motd':
-        # lint:ignore:80chars
         command     => '/bin/run-parts --lsbsysinit /etc/update-motd.d > /run/motd',
-        # lint:endignore
         refreshonly => true,
     }
 }

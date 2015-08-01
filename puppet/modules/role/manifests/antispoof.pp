@@ -8,9 +8,7 @@ class role::antispoof {
     }
 
     exec { 'populate_spoofuser':
-        # lint:ignore:80chars
         command     => "/usr/local/bin/foreachwiki ${::mediawiki::dir}/extensions/AntiSpoof/maintenance/batchAntiSpoof.php",
-        # lint:endignore
         refreshonly => true,
         user        => 'www-data',
         require     => Mediawiki::Extension['AntiSpoof'],

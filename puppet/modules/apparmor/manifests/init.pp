@@ -36,9 +36,7 @@ class apparmor {
     }
 
     exec { 'confine_redis':
-        # lint:ignore:80chars
         command     => '/sbin/apparmor_parser -r /etc/apparmor.d/usr.bin.redis-server',
-        # lint:endignore
         refreshonly => true,
         notify      => Service['redis-server'],
     }

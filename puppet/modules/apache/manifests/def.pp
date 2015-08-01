@@ -20,8 +20,6 @@ define apache::def( $ensure = present ) {
 
     apache::env { "define_${title}":
         ensure  => $ensure,
-        # lint:ignore:80chars
         content => "export APACHE_ARGUMENTS=\"\$APACHE_ARGUMENTS -D ${title}\"\n"
-        # lint:endignore
     }
 }

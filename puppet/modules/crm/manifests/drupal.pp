@@ -68,9 +68,7 @@ class crm::drupal(
 
     exec { 'drupal_db_install':
         command => $install_script,
-        # lint:ignore:80chars
         unless  => "/usr/bin/mysql -u '${::crm::db_user}' -p'${::crm::db_pass}' '${::crm::drupal_db}' -e 'select 1 from system'",
-        # lint:endignore
         require => [
             Git::Clone[$::crm::repo],
             Mysql::Db[$databases],
@@ -87,9 +85,7 @@ class crm::drupal(
     }
 
     exec { 'enable_drupal_modules':
-        # lint:ignore:80chars
         command     => inline_template('<%= scope["::crm::drush::wrapper"] %> pm-enable <%= @modules.join(" ") %>'),
-        # lint:endignore
         refreshonly => true,
         subscribe   => Exec['drupal_db_install'],
         require     => [

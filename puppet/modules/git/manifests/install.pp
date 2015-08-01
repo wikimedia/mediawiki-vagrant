@@ -54,9 +54,7 @@ define git::install(
     }
 
     exec { "git_install_checkout_${title}":
-        # lint:ignore:80chars
         command     => "/usr/bin/git remote update && /usr/bin/git checkout ${commit}",
-        # lint:endignore
         cwd         => $directory,
         user        => $owner,
         refreshonly => true
@@ -64,9 +62,7 @@ define git::install(
 
     if $preserve_commit {
         exec { "git_install_reset_${title}":
-            # lint:ignore:80chars
             command => '/usr/bin/git clean -d --force & /usr/bin/git checkout -- .',
-            # lint:endignore
             cwd     => $directory,
             user    => $owner,
             unless  => "/usr/bin/git diff HEAD..${commit} --exit-code",

@@ -42,9 +42,7 @@ class misc {
     # fix for 'stdin: not a tty'
     # <https://github.com/mitchellh/vagrant/issues/1673>
     exec { 'fix_root_profile':
-        # lint:ignore:80chars
         command => '/bin/sed -i -e "s/^mesg n/tty -s \&\& mesg n/" /root/.profile',
-        # lint:endignore
         onlyif  => '/bin/grep -q "^mesg n" /root/.profile',
     }
 

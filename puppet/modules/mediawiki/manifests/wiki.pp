@@ -114,26 +114,20 @@ define mediawiki::wiki(
     }
 
     exec { "${db_name}_include_extra_settings":
-        # lint:ignore:80chars
         command => '/bin/echo "include_once \'/vagrant/LocalSettings.php\';" >> LocalSettings.php',
-        # lint:endignore
         cwd     => $settings_root,
         unless  => '/bin/grep "/vagrant/LocalSettings.php" LocalSettings.php',
         require => Exec["${db_name}_setup"],
     }
 
     exec { "${db_name}_copy_LocalSettings":
-        # lint:ignore:80chars
         command => "/bin/cp ${settings_root}/LocalSettings.php ${src_dir}/LocalSettings.php",
-        # lint:endignore
         creates => "${src_dir}/LocalSettings.php",
         require => Exec["${db_name}_include_extra_settings"],
     }
 
     exec { "update_${db_name}_database":
-        # lint:ignore:80chars
         command     => "/usr/local/bin/mwscript update.php --wiki ${db_name} --quick",
-        # lint:endignore
         refreshonly => true,
         user        => 'www-data',
     }
@@ -192,9 +186,7 @@ define mediawiki::wiki(
     }
 
     # Provision primary wiki before others
-    # lint:ignore:80chars
     Mediawiki::Wiki <| primary_wiki == true |> -> Mediawiki::Wiki <| primary_wiki == false |>
-    # lint:endignore
     # Provision wikis before adding extensions
     Mediawiki::Wiki <| |> -> MediaWiki::Extension <| |>
 }

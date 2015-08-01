@@ -3,8 +3,6 @@
 class role::sitematrix {
     mediawiki::extension { 'SiteMatrix':
         # TODO: DB postfixes other than 'wiki' aren't supported elsewhere
-        # lint:ignore:80chars
         settings => "\$wgSiteMatrixSites['wiki']['host'] = 'www${mediawiki::multiwiki::base_domain}${::port_fragment}';",
-        # lint:endignore
     }
 }

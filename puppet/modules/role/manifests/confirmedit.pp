@@ -35,9 +35,7 @@ class role::confirmedit {
     }
 
     exec { 'generate_captchas':
-        # lint:ignore:80chars
         command     => "/usr/bin/python captcha.py --font=${font} --wordlist=${wordlist} --key=${key} --output=${output}",
-        # lint:endignore
         cwd         => "${::mediawiki::dir}/extensions/ConfirmEdit",
         require     => [
             Package['wbritish-small'],

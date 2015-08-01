@@ -51,16 +51,12 @@ define elasticsearch::plugin(
             exec { "prune_es_plugin_${name}":
                 command => "${es_dir}/bin/plugin --remove ${name}",
                 onlyif  => "/usr/bin/test -d ${plugin_dir}",
-                # lint:ignore:80chars
                 unless  => "/usr/bin/test -f ${plugin_dir}/${name}-${version}.jar",
-                # lint:endignore
                 require => Package['elasticsearch'],
                 notify  => Service['elasticsearch'],
             }
             exec { "install_es_plugin_${name}":
-                # lint:ignore:80chars
                 command => "${es_dir}/bin/plugin --install ${plugin_identifier} ${url_param}",
-                # lint:endignore
                 unless  => "/usr/bin/test -d ${plugin_dir}",
                 require => [
                     Package['elasticsearch'],
