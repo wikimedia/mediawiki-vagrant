@@ -14,6 +14,7 @@ class payments::donation_interface {
       wgPaypalGatewayEnabled                   => true,
       wgDonationInterfaceEnableFormChooser     => true,
       wgDonationInterfaceEnableQueue           => true,
+      wgDonationInterfaceEnableSystemStatus    => true,
       wgDonationInterfaceEnableFunctionsFilter => true,
       wgDonationInterfaceEnableMinfraud        => false,
       wgDonationInterfaceEnableReferrerFilter  => true,
