@@ -1,12 +1,12 @@
-# == Define: mediawiki::import_text
+# == Define: mediawiki::import::text
 #
 # Imports a string or text file into the wiki. This is the recommended method
 # for importing version-controlled content such as documentation for vagrant
-# roles; for importing current content from a wiki, see import_dump.
+# roles; for importing current content from a wiki, see mediawiki::import::dump.
 #
 # Apart from cleaner diffs when put into version control, the main difference
-# from import_dump is that import_text will update existing pages when
-# necessary.
+# from mediawiki::import::dump is that mediawiki::import::text will update
+# existing pages when necessary.
 #
 # Required parameters are page_title and exactly one of path or content.
 #
@@ -31,11 +31,11 @@
 #
 # == Usage
 #
-#   mediawiki::import_text { 'Main_Page':
+#   mediawiki::import::text { 'Main_Page':
 #       content => template('mediawiki/mainpage.erb'),
 #   }
 #
-define mediawiki::import_text(
+define mediawiki::import::text(
     $page_title = $title,
     $source     = undef,
     $content    = undef,
@@ -68,7 +68,7 @@ define mediawiki::import_text(
     }
 
     # Add extensions before importing text (bug T92036)
-    MediaWiki::Extension <| |> -> Mediawiki::Import_text <| |>
+    MediaWiki::Extension <| |> -> Mediawiki::Import::Text <| |>
     # Run sql before importing text
-    Mysql::Sql <| |> -> Mediawiki::Import_text <| |>
+    Mysql::Sql <| |> -> Mediawiki::Import::Text <| |>
 }

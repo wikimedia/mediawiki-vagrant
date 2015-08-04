@@ -46,7 +46,7 @@ class payments(
     'payments:ParserFunctions',
   ]: }
 
-  mediawiki::import_text { 'payments:Main_Page':
+  mediawiki::import::text { 'payments:Main_Page':
       # N.b. - Creepy abnormal multiwiki syntax
       wiki       => 'payments',
       db_name    => 'paymentswiki',
@@ -54,14 +54,14 @@ class payments(
       source     => 'puppet:///modules/payments/Main_Page.wiki',
   }
 
-  mediawiki::import_text { 'payments:Donate-error':
+  mediawiki::import::text { 'payments:Donate-error':
       wiki       => 'payments',
       db_name    => 'paymentswiki',
       page_title => 'Donate-error',
       source     => 'puppet:///modules/payments/Donate-error.wiki',
   }
 
-  mediawiki::import_text { 'payments:Donate-thanks':
+  mediawiki::import::text { 'payments:Donate-thanks':
       wiki       => 'payments',
       db_name    => 'paymentswiki',
       page_title => 'Donate-thanks',

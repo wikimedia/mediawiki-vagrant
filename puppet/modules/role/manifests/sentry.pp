@@ -20,7 +20,7 @@ class role::sentry (
         composer => true,
     }
 
-    mediawiki::import_text{ 'VagrantRoleSentry':
+    mediawiki::import::text { 'VagrantRoleSentry':
         content => template('role/sentry/VagrantRoleSentry.wiki.erb'),
     }
 }

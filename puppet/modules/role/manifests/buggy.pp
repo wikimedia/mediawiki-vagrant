@@ -4,7 +4,7 @@
 class role::buggy {
     mediawiki::extension { 'Buggy': }
 
-    mediawiki::import_text { 'VagrantRoleBuggy':
+    mediawiki::import::text { 'VagrantRoleBuggy':
         source => 'puppet:///modules/role/buggy/VagrantRoleBuggy.wiki',
     }
 }

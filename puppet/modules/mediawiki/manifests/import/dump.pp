@@ -1,8 +1,8 @@
-# == Define: mediawiki::import_dump
+# == Define: mediawiki::import::dump
 #
 # Imports an xml dump into the wiki. This is the recommended method for
 # importing "live" content from a wiki; for importing content that should live
-# in the puppet repository, see mediawiki::import_text.
+# in the puppet repository, see mediawiki::import::text.
 #
 # === Parameters
 # [*xml_dump*]
@@ -21,12 +21,12 @@
 #
 # == Usage
 #
-#   mediawiki::import_dump { 'labs_privacy':
+#   mediawiki::import::dump { 'labs_privacy':
 #       xml_dump           => '/vagrant/labs_privacy_policy.xml',
 #       dump_sentinel_page => 'Testwiki:Privacy_policy',
 #   }
 #
-define mediawiki::import_dump(
+define mediawiki::import::dump(
     $xml_dump,
     $dump_sentinel_page,
     $db_name             = $::mediawiki::db_name,
@@ -42,4 +42,7 @@ define mediawiki::import_dump(
         user    => 'www-data',
         require => Mediawiki::Wiki[$wiki],
     }
+
+    MediaWiki::Extension <| |> -> Mediawiki::Import::Dump <| |>
+    Mysql::Sql <| |> -> Mediawiki::Import::Dump <| |>
 }
