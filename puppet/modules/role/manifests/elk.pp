@@ -71,15 +71,15 @@ class role::elk (
     }
 
     ## Configure MediaWiki
-    php::composer::require { 'monolog/monolog':
-        version   => '~1.11',
-        directory => $::mediawiki::dir,
-        require   => Php::Composer::Install[$::mediawiki::dir],
+    mediawiki::composer::require { 'monolog/monolog for elk role':
+        package => 'monolog/monolog',
+        version => '~1.11',
+        require => Php::Composer::Install[$::mediawiki::dir],
     }
 
     mediawiki::settings { 'Monolog':
         values  => template('role/elk/monolog.php.erb'),
-        require => Php::Composer::Require['monolog/monolog'],
+        require => Mediawiki::Composer::Require['monolog/monolog for elk role'],
     }
 
     ## Configure rsyslog

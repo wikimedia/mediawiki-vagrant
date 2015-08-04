@@ -1,0 +1,5 @@
+{
+    "<% if @ensure == 'absent' %>conflict<% elseif @dev %>require-dev<% else %>require<% end %>": {
+        "<%= @package %>": "<%= @version %>"
+    }
+}

@@ -62,6 +62,7 @@ class mediawiki(
     $settings_dir,
     $upload_dir,
     $page_dir,
+    $composer_fragment_dir,
     $branch     = undef,
     $server_url = undef,
 ) {
@@ -118,7 +119,7 @@ class mediawiki(
         source  => 'puppet:///modules/mediawiki/mediawiki-settings.d-empty',
     }
 
-    # needed by ::mediawiki::import::text
+    # Needed by ::mediawiki::import::text
     file { [$page_dir, "${page_dir}/wiki"]:
         ensure => directory,
     }
@@ -168,6 +169,30 @@ class mediawiki(
 
     php::composer::install { $dir:
         require => Git::Clone['mediawiki/core'],
+    }
+
+    # Needed by mediawiki::composer::require
+    file { $composer_fragment_dir:
+        ensure  => directory,
+        recurse => true,
+        purge   => true,
+        notify  => Exec["composer update ${dir}"],
+    }
+
+    file { "${dir}/composer.local.json":
+        source  => 'puppet:///modules/mediawiki/composer.local.json',
+    }
+
+    exec { "composer update ${dir}":
+        command     => '/usr/local/bin/composer update --no-progress',
+        cwd         => $::mediawiki::dir,
+        environment => [
+            "COMPOSER_HOME=${::php::composer::home}",
+            "COMPOSER_CACHE_DIR=${::php::composer::cache_dir}",
+            'COMPOSER_NO_INTERACTION=1',
+        ],
+        refreshonly => true,
+        require     => Php::Composer::Install[$::mediawiki::dir],
     }
 
     env::profile_script { 'add mediawiki vendor bin to path':

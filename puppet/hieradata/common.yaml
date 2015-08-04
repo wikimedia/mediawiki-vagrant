@@ -203,6 +203,7 @@ mediawiki::cache_dir: /var/cache/mediawiki
 mediawiki::settings_dir: /vagrant/settings.d
 mediawiki::upload_dir: "%{hiera('mwv::files_dir')}/images"
 mediawiki::page_dir: "%{hiera('mwv::files_dir')}/pages"
+mediawiki::composer_fragment_dir: "%{hiera('mediawiki::settings_dir')}/composer"
 mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
 mediawiki::db_user: root
 mediawiki::db_pass: "%{hiera('mysql::root_password')}"
