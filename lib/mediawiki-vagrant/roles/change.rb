@@ -14,13 +14,24 @@ module MediaWikiVagrant
       end
 
       def execute
+        options = {
+          provision: false,
+        }
+
         opts = OptionParser.new do |o|
           subcommands = o.default_argv.first(2).join(' ')
 
-          o.banner = "Usage: vagrant #{subcommands} <name> [<name2> <name3> ...] [options]"
+          o.banner = "Usage: vagrant #{subcommands} <name> [<name2> <name3> ...] [-h | -p]"
           o.separator ''
           o.separator "  #{banner}"
           o.separator ''
+          o.separator 'Options:'
+          o.separator ''
+
+
+          o.on('-p', '--provision', "Run 'vagrant provision' afterwards") do
+            options[:provision] = true
+          end
         end
 
         argv = parse_options(opts)
@@ -42,8 +53,19 @@ module MediaWikiVagrant
 
         @mwv.update_roles(roles)
 
-        @env.ui.info 'Ok. Run `vagrant provision` to apply your changes.'
-        describe_settings_changes(changes)
+        if options[:provision]
+          with_target_vms(nil, single_target: true) do |vm|
+            if vm.state.id == :running
+              @mwv.trigger_reload if changes.any?
+              vm.action :provision
+            else
+              vm.action :up, provision_enabled: true
+            end
+          end
+        else
+          @env.ui.info 'Ok. Run `vagrant provision` to apply your changes.'
+          describe_settings_changes(changes)
+        end
 
         0
       end
