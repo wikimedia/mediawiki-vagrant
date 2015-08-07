@@ -50,7 +50,7 @@ class role::oauth (
         ]
     }
 
-    mediawiki::import_text{ 'VagrantRoleOAuth':
+    mediawiki::import::text{ 'VagrantRoleOAuth':
         source => 'puppet:///modules/role/oauth/VagrantRoleOAuth.wiki',
     }
 }

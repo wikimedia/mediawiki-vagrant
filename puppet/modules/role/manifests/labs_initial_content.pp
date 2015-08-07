@@ -6,7 +6,7 @@
 class role::labs_initial_content {
     include mediawiki::apache
 
-    mediawiki::import_dump { 'labs_privacy':
+    mediawiki::import::dump { 'labs_privacy':
         xml_dump           => '/vagrant/puppet/modules/labs/files/labs_privacy_policy.xml',
         dump_sentinel_page => 'Testwiki:Privacy_policy',
     }

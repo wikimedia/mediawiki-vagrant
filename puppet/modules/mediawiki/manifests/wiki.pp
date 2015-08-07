@@ -175,7 +175,7 @@ define mediawiki::wiki(
         source  => 'puppet:///modules/mediawiki/wiki/settings.d-empty',
     }
 
-    # used by import_page
+    # used by ::mediawiki::import::text
     file { "${::mediawiki::page_dir}/wiki/${db_name}":
         ensure => directory,
     }

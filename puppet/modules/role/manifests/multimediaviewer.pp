@@ -15,10 +15,8 @@ class role::multimediaviewer {
     content => template('role/multimediaviewer/apache2.conf.erb'),
   }
 
-  # lint:ignore:80chars
-  mediawiki::import_dump { 'page_mediaviewere2etest':
+  mediawiki::import::dump { 'page_mediaviewere2etest':
     xml_dump           => '/vagrant/puppet/modules/role/files/multimediaviewer/page/MediaViewerE2ETest.xml',
     dump_sentinel_page => 'MediaViewerE2ETest',
   }
-  # lint:endignore
 }

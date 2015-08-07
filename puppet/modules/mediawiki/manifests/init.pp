@@ -118,7 +118,7 @@ class mediawiki(
         source  => 'puppet:///modules/mediawiki/mediawiki-settings.d-empty',
     }
 
-    # needed by import_page
+    # needed by ::mediawiki::import::text
     file { [$page_dir, "${page_dir}/wiki"]:
         ensure => directory,
     }
@@ -173,11 +173,11 @@ class mediawiki(
         content => "export PATH=\$PATH:${dir}/vendor/bin",
     }
 
-    mediawiki::import_text { 'Main_Page':
+    mediawiki::import::text { 'Main_Page':
         source => 'puppet:///modules/mediawiki/main_page.wiki',
     }
 
-    mediawiki::import_text { 'Template:Main_Page':
+    mediawiki::import::text { 'Template:Main_Page':
         source => 'puppet:///modules/mediawiki/main_page_template.wiki',
     }
 
