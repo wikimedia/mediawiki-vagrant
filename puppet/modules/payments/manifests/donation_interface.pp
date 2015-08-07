@@ -14,7 +14,6 @@ class payments::donation_interface {
       wgPaypalGatewayEnabled                   => true,
       wgDonationInterfaceEnableFormChooser     => true,
       wgDonationInterfaceEnableQueue           => true,
-      wgDonationInterfaceEnableStomp           => true,
       wgDonationInterfaceEnableFunctionsFilter => true,
       wgDonationInterfaceEnableMinfraud        => false,
       wgDonationInterfaceEnableReferrerFilter  => true,
@@ -52,18 +51,6 @@ class payments::donation_interface {
 
       wgPaypalGatewayURL                       => 'https://www.sandbox.paypal.com/cgi-bin/webscr',
 
-      wgStompServer                            => 'tcp://localhost:61613',
-
-      wgStompQueueNames                        => {
-        'default'                => 'complete',
-        'pending'                => 'pending',
-        'limbo'                  => 'limbo',
-        'cc-limbo'               => 'cc-limbo',
-        'globalcollect-cc-limbo' => 'globalcollect-cc-limbo',
-        'payments-antifraud'     => 'payments-antifraud',
-        'payments-init'          => 'payments-init',
-      },
-
       wgDonationInterfaceMemcacheHost          => 'localhost',
 
       wgDonationInterfaceUseSyslog             => true,
@@ -91,7 +78,6 @@ class payments::donation_interface {
 
       wgDonationInterfaceOrphanCron            => {
         'enable'                       => true,
-        'function'                     => 'orphan_stomp',
         'max_per_execute'              => '',
         'override_command_line_params' => true,
         'target_execute_time'          => 300,
