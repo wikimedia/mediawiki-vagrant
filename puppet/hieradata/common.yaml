@@ -259,6 +259,12 @@ payments::dir: /vagrant/mediawiki-fr
 
 role::mediawiki::hostname: 127.0.0.1
 
+role::quips::vhost_name: "quips.local.wmftest.net%{::port_fragment}"
+role::quips::dir: "%{hiera('mwv::services_dir')}/quips"
+role::quips::env:
+  CACHE_DIR: /var/cache/quips
+  SLIM_MODE: development
+
 role::raita::dir: "%{hiera('mwv::services_dir')}/raita"
 role::raita::vhost_name: 'raita.local.wmftest.net'
 
