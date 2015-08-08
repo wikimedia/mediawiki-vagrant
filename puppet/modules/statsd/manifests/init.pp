@@ -4,8 +4,12 @@
 #
 # logs/statsd.log will contain the last flush (10 sec worth of data)
 # in JSON format; you can process it with something like
-#   tail -fn0 /vagrant/logs/statsd.json 2> /dev/null | \
-#     jq '.counters | with_entries(select(.value!=0)) | select(.!=null)'
+#   while inotifywait -qqe modify /vagrant/logs/statsd.json; do
+#     cat /vagrant/logs/statsd.json | \
+#       jq '.counters
+#          | with_entries(select(.value!=0 and (.key|contains("MediaWiki"))))
+#          | select(.!=null)'
+#   done
 # (this will output any counters that have been updated)
 #
 # === Parameters
