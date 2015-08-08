@@ -262,6 +262,12 @@ role::mediawiki::hostname: 127.0.0.1
 role::raita::dir: "%{hiera('mwv::services_dir')}/raita"
 role::raita::vhost_name: 'raita.local.wmftest.net'
 
+role::sal::vhost_name: "sal.local.wmftest.net%{::port_fragment}"
+role::sal::dir: "%{hiera('mwv::services_dir')}/sal"
+role::sal::env:
+  CACHE_DIR: /var/cache/sal
+  SLIM_MODE: development
+
 role::oauth::dir: "%{hiera('mwv::services_dir')}/oauth-hello-world"
 role::oauth::secret_key: 292ed299345a01c1c0520b60f628c01ea817a0b3372b89dbb7637a2f678d018a
 role::oauth::example_consumer_key: 81cf4c1f885de4ed6b475c05c408c9b4
