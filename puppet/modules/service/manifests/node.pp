@@ -57,7 +57,8 @@ define service::node(
 ) {
 
     require ::service
-    require_package( 'nodejs-legacy' )
+
+    require ::npm::globals
 
     # we do not allow empty names
     unless $title and size($title) > 0 {

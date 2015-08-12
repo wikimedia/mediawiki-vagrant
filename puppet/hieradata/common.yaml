@@ -244,6 +244,7 @@ redis::max_memory: 256M
 
 restbase::port: 7231
 restbase::domain: localhost
+restbase::dbdir: /var/lib/restbase
 
 role::commons::upload_dir: "%{hiera('mwv::files_dir')}/commonsimages"
 
