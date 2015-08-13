@@ -62,10 +62,6 @@ class mediawiki::parsoid(
         require => Package['nodejs', 'nodejs-legacy'],
     }
 
-    mediawiki::extension { 'Parsoid':
-        settings   => { wgParsoidCacheServers => [], },
-    }
-
     service::gitupdate { 'parsoid':
         dir     => $dir,
         restart => true,
