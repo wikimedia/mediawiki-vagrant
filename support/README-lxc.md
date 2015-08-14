@@ -59,3 +59,58 @@ available, but if is not picked for you it can be forced:
 
 You can also set `VAGRANT_DEFAULT_PROVIDER=lxc` in your shell environment to
 tell Vagrant your preferred default provider.
+
+Setup on a Debian Jessie host
+-----------------------------
+
+Install LXC and helper programs for network and NFS:
+
+    sudo apt-get install lxc libvirt-bin dnsmasq-base
+    sudo apt-get install nfs-kernel-server
+
+Install the latest version of Vagrant (1.7+ required).  Jessie shipped with
+1.6.5, which is too old.  For the ambituous, pinning 1.7.2 from Debian
+testing might be an option, otherwise you should install the package provided
+at vagrantup.com. Check https://www.vagrantup.com/downloads.html for the
+most up to date download URL.
+
+    wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb
+    sudo dpkg -i vagrant_1.7.4_x86_64.deb
+
+Install the Vagrant LXC provider plugin:
+
+    sudo apt-get install build-essential
+    vagrant plugin install vagrant-lxc
+
+Install custom sudo rules for vagrant-lxc (optional but recommended)
+See https://github.com/fgrehm/vagrant-lxc/wiki/Avoiding-%27sudo%27-passwords
+
+    vagrant lxc sudoers
+
+Edit /etc/lxc/default.conf so that it includes the following:
+
+    lxc.network.type = veth
+    lxc.network.link = virbr0
+    lxc.network.flags = up
+    lxc.network.hwaddr = 00:16:3e:xx:xx:xx
+
+Set the default network, start it, and configure it to start automatically.
+
+    sudo virsh -c lxc:/// net-define /etc/libvirt/qemu/networks/default.xml
+    sudo virsh -c lxc:/// net-start default
+    sudo virsh -c lxc:/// net-autostart default
+
+Continue installing MediaWiki-Vagrant using normal instructions:
+
+    git clone https://gerrit.wikimedia.org/r/mediawiki/vagrant
+    cd vagrant
+    git submodule update --init --recursive
+    ./setup.sh
+
+Vagrant may automatically select LXC as the default provider when it is
+available, but if is not picked for you it can be forced:
+
+    vagrant up --provider=lxc
+
+You can also set `VAGRANT_DEFAULT_PROVIDER=lxc` in your shell environment to
+tell Vagrant your preferred default provider.
