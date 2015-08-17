@@ -7,6 +7,7 @@ class role::echo {
         needs_update => true,
         settings     => {
             wgEchoEnableEmailBatch => false,
+            wgAllowHTMLEmail       => true,
         },
     }
 
