@@ -214,31 +214,31 @@ Vagrant.configure('2') do |config|
         # Windows's Command Prompt has poor support for ANSI escape sequences.
         puppet.options << '--color=false' if Vagrant::Util::Platform.windows?
 
-        puppet.facter = $FACTER = {
-            'fqdn'               => config.vm.hostname,
-            'git_user'           => settings[:git_user],
-            'forwarded_port'     => settings[:http_port],
-            'shared_apt_cache'   => '/vagrant/cache/apt/',
-            'environment'        => ENV['MWV_ENVIRONMENT'] || 'vagrant',
+        puppet.facter = {
+            'fqdn'             => config.vm.hostname,
+            'git_user'         => settings[:git_user],
+            'forwarded_port'   => settings[:http_port],
+            'shared_apt_cache' => '/vagrant/cache/apt/',
+            'environment'      => ENV['MWV_ENVIRONMENT'] || 'vagrant',
         }
 
         if settings[:http_port] != 80
-            $FACTER['port_fragment'] = ":#{settings[:http_port]}"
+            puppet.facter['port_fragment'] = ":#{settings[:http_port]}"
         end
 
         if settings[:nfs_shares]
-            $FACTER['share_owner'] = Process.uid
-            $FACTER['share_group'] = Process.gid
+            puppet.facter['share_owner'] = Process.uid
+            puppet.facter['share_group'] = Process.gid
         else
-            $FACTER['share_owner'] = 'vagrant'
-            $FACTER['share_group'] = 'www-data'
+            puppet.facter['share_owner'] = 'vagrant'
+            puppet.facter['share_group'] = 'www-data'
         end
 
         # Derive a host IP from the configured static IP by getting the first
         # usable IP in the 8-bit network
         if settings[:static_ip]
             network = IPAddr.new("#{settings[:static_ip]}/24")
-            $FACTER['host_ip'] = network.to_range.take(2).last.to_s
+            puppet.facter['host_ip'] = network.to_range.take(2).last.to_s
         end
     end
 end
