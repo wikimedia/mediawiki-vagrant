@@ -66,9 +66,6 @@ Vagrant.configure('2') do |config|
         override.vm.box_download_insecure = true
 
         override.vm.network :private_network, ip: settings[:static_ip]
-
-        # https://github.com/mitchellh/vagrant/issues/1867
-        settings[:provider] = 'virtualbox'
     end
 
     # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
@@ -76,9 +73,6 @@ Vagrant.configure('2') do |config|
         override.vm.box = 'puppetlabs/ubuntu-14.04-64-puppet'
 
         override.vm.network :private_network, ip: settings[:static_ip]
-
-        # https://github.com/mitchellh/vagrant/issues/1867
-        settings[:provider] = 'vmware_fusion'
     end
 
     # Microsoft Hyper-V provider. Enable with `--provider=hyperv`
@@ -95,18 +89,12 @@ Vagrant.configure('2') do |config|
         override.vm.box = 'cirex/ubuntu-14.04'
 
         override.vm.network :private_network, ip: settings[:static_ip]
-
-        # https://github.com/mitchellh/vagrant/issues/1867
-        settings[:provider] = 'hyperv'
     end
 
     # LXC provider. Enable wtih `--provider=lxc`
     # Requires vagrant-lxc plugin and Vagrant 1.7+
     config.vm.provider :lxc do |lxc, override|
         override.vm.box = 'Wikimedia/trusty64-puppet-lxc'
-
-        # https://github.com/mitchellh/vagrant/issues/1867
-        settings[:provider] = 'lxc'
     end
 
     # Parallels provider. Enable with `--provider=parallels`
@@ -126,9 +114,6 @@ Vagrant.configure('2') do |config|
         override.puppet_install.puppet_version = '3.7.4'
 
         override.vm.network :private_network, ip: settings[:static_ip]
-
-        # https://github.com/mitchellh/vagrant/issues/1867
-        settings[:provider] = 'parallels'
     end
 
     config.vm.network :forwarded_port,
@@ -235,7 +220,6 @@ Vagrant.configure('2') do |config|
             'forwarded_port'     => settings[:http_port],
             'shared_apt_cache'   => '/vagrant/cache/apt/',
             'environment'        => ENV['MWV_ENVIRONMENT'] || 'vagrant',
-            'provider'           => settings[:provider],
         }
 
         if settings[:http_port] != 80
