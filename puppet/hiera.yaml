@@ -7,5 +7,6 @@
   - local
   - vagrant-managed
   - "environment/%{::environment}"
+  - "provider/%{::provider}"
   - common
 :logger: console
