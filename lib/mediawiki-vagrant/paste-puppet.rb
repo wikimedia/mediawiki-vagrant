@@ -1,34 +1,42 @@
 require 'net/http'
+require 'pathname'
 
-class PastePuppet < Vagrant.plugin(2, :command)
+require 'mediawiki-vagrant/plugin_environment'
 
-  URL = URI('http://dpaste.de/api/')
+module MediaWikiVagrant
+  class PastePuppet < Vagrant.plugin(2, :command)
+    include PluginEnvironment
 
-  def self.synopsis
-    "uploads your puppet logs to dpaste.de pastebin"
-  end
+    URL = URI.parse('http://dpaste.de/api/')
 
-  def latest_logfile
-    Dir[File.join $DIR, '/logs/puppet/*.log'].max_by { |f| File.mtime f }
-  end
+    def self.synopsis
+      "uploads your puppet logs to dpaste.de pastebin"
+    end
 
-  def execute
-    begin
-      res = Net::HTTP.post_form URL, content: File.read(latest_logfile)
-      raise unless res.value.nil? and res.body =~ /^"[^"]+"$/
-    rescue RuntimeError
-      @env.ui.error "Unexpected response from #{URL}."
-      1
-    rescue TypeError
-      @env.ui.error 'No Puppet log files found.'
-      1
-    rescue SocketError, Net::HTTPExceptions
-      @env.ui.error "Unable to connect to #{URL}."
-      1
-    else
-      @env.ui.success "HTTP #{res.code} #{res.msg}"
-      @env.ui.info res.body[1...-1]
-      0
+    def execute
+      begin
+        res = Net::HTTP.post_form URL, content: latest_logfile.read
+        raise unless res.value.nil? and res.body =~ /^"[^"]+"$/
+      rescue RuntimeError
+        @env.ui.error "Unexpected response from #{URL}."
+        1
+      rescue TypeError
+        @env.ui.error 'No Puppet log files found.'
+        1
+      rescue SocketError, Net::HTTPExceptions
+        @env.ui.error "Unable to connect to #{URL}."
+        1
+      else
+        @env.ui.success "HTTP #{res.code} #{res.msg}"
+        @env.ui.info res.body[1...-1]
+        0
+      end
+    end
+
+    private
+
+    def latest_logfile
+      Pathname.glob(@mwv.path('logs', 'puppet', '*.log')).max_by(&:mtime)
     end
   end
 end

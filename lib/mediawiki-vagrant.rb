@@ -91,17 +91,17 @@ module MediaWikiVagrant
 
     provisioner 'mediawiki_reload' do
       require 'mediawiki-vagrant/reload'
-      MediaWikiVagrant::Reload
+      Reload
     end
 
     config(:lsb_check, :provisioner) do
       require 'mediawiki-vagrant/lsb_check/config'
-      MediaWikiVagrant::LsbCheck::Config
+      LsbCheck::Config
     end
 
     provisioner :lsb_check do
       require 'mediawiki-vagrant/lsb_check/provisioner'
-      MediaWikiVagrant::LsbCheck::Provisioner
+      LsbCheck::Provisioner
     end
 
   end

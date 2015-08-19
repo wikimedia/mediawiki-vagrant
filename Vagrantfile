@@ -26,7 +26,6 @@
 # Patches and contributions are welcome!
 # http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
 #
-$DIR = File.expand_path('..', __FILE__)
 
 # Ensure we're using the latest version of the plugin
 require_relative 'lib/mediawiki-vagrant/version'
@@ -49,7 +48,7 @@ end
 
 require 'mediawiki-vagrant/settings/definitions'
 
-mwv = MediaWikiVagrant::Environment.new($DIR)
+mwv = MediaWikiVagrant::Environment.new(File.expand_path('..', __FILE__))
 settings = mwv.load_settings
 
 Vagrant.configure('2') do |config|
@@ -247,13 +246,16 @@ end
 
 # Migrate {apt,composer}-cache to cache/{apt,composer}
 ['apt', 'composer'].each do |type|
-    src = File.join $DIR, "#{type}-cache"
-    if File.directory? src
-        dst = File.join $DIR, 'cache', type
-        Dir.foreach(src) do |f|
-            next if File.directory? f or f.start_with? '.'
-            File.rename(File.join(src, f), File.join(dst, f)) rescue nil
-        end rescue nil
+    src = mwv.path("#{type}-cache")
+
+    if src.directory?
+        dst = mwv.path('cache', type)
+
+        src.each_child do |src_file|
+            unless src_file.directory? || src_file.basename.fnmatch?('.*')
+                src_file.rename(dst.join(src_file.basename)) rescue nil
+            end
+        end
     end
 end
 
@@ -263,6 +265,6 @@ end
 # to the parent directory.  Editing it without copying it will only cause
 # sadness.
 begin
-    require File.join($DIR, 'Vagrantfile-extra')
+    require mwv.path('Vagrantfile-extra')
 rescue LoadError
 end
