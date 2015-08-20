@@ -7,7 +7,7 @@ module MediaWikiVagrant
   class PastePuppet < Vagrant.plugin(2, :command)
     include PluginEnvironment
 
-    URL = URI.parse('http://dpaste.de/api/')
+    URL = URI.parse('https://dpaste.de/api/')
 
     def self.synopsis
       "uploads your puppet logs to dpaste.de pastebin"
