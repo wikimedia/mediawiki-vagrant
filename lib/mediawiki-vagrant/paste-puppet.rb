@@ -16,7 +16,7 @@ module MediaWikiVagrant
     def execute
       begin
         res = Net::HTTP.post_form URL, content: latest_logfile.read
-        raise unless res.value.nil? and res.body =~ /^"[^"]+"$/
+        raise unless res.value.nil? && res.body =~ /^"[^"]+"$/
       rescue RuntimeError
         @env.ui.error "Unexpected response from #{URL}."
         1

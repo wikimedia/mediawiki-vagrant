@@ -26,7 +26,7 @@ when 'list-roles'
   puts 'Use "labs-vagrant enable-role" & "labs-vagrant disable-role" to customize.'
 
 when 'reset-roles'
-  if not ARGV.empty? or ['-h', '--help'].include? ARGV.first
+  if ARGV.any? || ['-h', '--help'].include?(ARGV.first)
     puts 'Disable all optional roles.'
     puts 'USAGE: labs-vagrant reset-roles'
   end
@@ -36,7 +36,7 @@ when 'reset-roles'
   puts COMMIT_CHANGES
 
 when 'enable-role'
-  if ARGV.empty? or ['-h', '--help'].include? ARGV.first
+  if ARGV.empty? || ['-h', '--help'].include?(ARGV.first)
     puts 'Enable an optional role (run "labs-vagrant list-roles" for a list).'
     puts 'USAGE: labs-vagrant enable-role ROLE'
     return 0
@@ -52,7 +52,7 @@ when 'enable-role'
   puts COMMIT_CHANGES
 
 when 'disable-role'
-  if ARGV.empty? or ['-h', '--help'].include? ARGV.first
+  if ARGV.empty? || ['-h', '--help'].include?(ARGV.first)
     puts 'Disable one or more optional roles.'
     puts 'USAGE: labs-vagrant disable-role ROLE'
     return 0

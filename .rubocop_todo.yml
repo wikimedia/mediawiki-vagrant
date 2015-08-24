@@ -25,12 +25,6 @@ Metrics/LineLength:
 
 # Offense count: 5
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/AndOr:
-  Enabled: false
-
-# Offense count: 5
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyle, SupportedStyles, ProceduralMethods, FunctionalMethods, IgnoredMethods.
 Style/BlockDelimiters:
   Enabled: false
