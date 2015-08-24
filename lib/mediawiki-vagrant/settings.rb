@@ -198,7 +198,7 @@ module MediaWikiVagrant
       key.to_s.downcase.to_sym
     end
 
-    def to_yaml_hash(options = {})
+    def to_yaml_hash
       @settings.each.with_object({}) do |(key, setting), hash|
         hash[key.to_s] = setting.value if setting.value != setting.default
       end

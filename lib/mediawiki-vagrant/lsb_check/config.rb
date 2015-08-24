@@ -14,7 +14,7 @@ module MediaWikiVagrant
         @version = nil if @version == UNSET_VALUE
       end
 
-      def validate(machine)
+      def validate(_machine)
         errors = _detected_errors
         if !version
           errors << '`version` must be set.'

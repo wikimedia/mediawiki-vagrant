@@ -18,11 +18,6 @@ Lint/HandleExceptions:
 Lint/NestedMethodDefinition:
   Enabled: false
 
-# Offense count: 3
-# Cop supports --auto-correct.
-Lint/UnusedMethodArgument:
-  Enabled: false
-
 # Offense count: 89
 # Configuration parameters: AllowURI, URISchemes.
 Metrics/LineLength:
