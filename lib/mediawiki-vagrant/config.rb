@@ -88,9 +88,8 @@ module MediaWikiVagrant
     def get_settings(names)
       configure do |settings|
         names.each do |name|
-          if setting = settings.setting(name)
-            @env.ui.info setting.value, :bold => setting.set?
-          end
+          setting = settings.setting(name)
+          @env.ui.info setting.value, :bold => setting.set? if setting
         end
       end
     end

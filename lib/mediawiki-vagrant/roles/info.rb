@@ -41,9 +41,8 @@ module MediaWikiVagrant
         settings = @mwv.load_settings
 
         roles.each do |role|
-          if doc = @mwv.role_docstring(role)
-            @env.ui.info rd.convert(doc)
-          end
+          doc = @mwv.role_docstring(role)
+          @env.ui.info rd.convert(doc) if doc
 
           changes = @mwv.load_settings(@mwv.roles_enabled + [role]) - settings
 
