@@ -13,14 +13,14 @@ case ARGV.shift
 when 'list-roles'
   puts "Available roles:\n\n"
   enabled = @mwv.roles_enabled
-  roles = @mwv.roles_available.sort.map { |role|
+  roles = @mwv.roles_available.sort.map do |role|
     prefix = enabled.include?(role) ? '*' : ' '
     "#{prefix} #{role}"
-  }
+  end
   col, *cols = roles.each_slice((roles.size/3.0).ceil).to_a
-  col.zip(*cols) { |a,b,c|
+  col.zip(*cols) do |a,b,c|
     puts sprintf("%-26s %-26s %-26s", a, b, c)
-  }
+  end
   puts "\nRoles marked with '*' are enabled."
   puts "Note that roles enabled by dependency are not marked."
   puts 'Use "labs-vagrant enable-role" & "labs-vagrant disable-role" to customize.'
