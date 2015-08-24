@@ -16,30 +16,30 @@
 # found in the Vagrant documentation, at:
 # <http://docs.vagrantup.com/v2/vagrantfile/index.html>.
 #
-Vagrant.configure('2') do |config|
-    config.vm.provider :virtualbox do |vb|
-        # For a full list of options you can pass to 'modifyvm', see
-        # <http://www.virtualbox.org/manual/ch08.html>.
-
-        # Boot the VM in graphical mode:
-        # vb.gui = true
-
-        # Increase memory allocation from 768MB to 1GB:
-        # vb.customize ['modifyvm', :id, '--memory', '1024']
-
-        # But limit the virtual machine to 1 CPU core:
-        # vb.customize ['modifyvm', :id, '--cpus', '1']
-    end
-
-    # Forward MySQL port. This allows you to use a graphical database
-    # management application on your host environment (like HeidiSQL or
-    # Sequel Pro) to manage the database server running on the VM.
-    # config.vm.network :forwarded_port,
-    #    guest: 3306, host: 3306, id: 'mysql'
-
-    # Mount an additional local directory under the default vhost root in the
-    # VM so that it can be accessed at <http://127.0.0.1:8080/extra/>.
-    # The relative path in this example will be resolved relative to the
-    # location of the main Vagrantfile for your Mediawiki-Vagarant install.
-    # config.vm.synced_folder '../extra', '/var/www/extra'
-end
+# Vagrant.configure('2') do |config|
+#     config.vm.provider :virtualbox do |vb|
+#         # For a full list of options you can pass to 'modifyvm', see
+#         # <http://www.virtualbox.org/manual/ch08.html>.
+#
+#         # Boot the VM in graphical mode:
+#         vb.gui = true
+#
+#         # Increase memory allocation from 768MB to 1GB:
+#         vb.customize ['modifyvm', :id, '--memory', '1024']
+#
+#         # But limit the virtual machine to 1 CPU core:
+#         vb.customize ['modifyvm', :id, '--cpus', '1']
+#     end
+#
+#     # Forward MySQL port. This allows you to use a graphical database
+#     # management application on your host environment (like HeidiSQL or
+#     # Sequel Pro) to manage the database server running on the VM.
+#     # config.vm.network :forwarded_port,
+#     #    guest: 3306, host: 3306, id: 'mysql'
+#
+#     # Mount an additional local directory under the default vhost root in the
+#     # VM so that it can be accessed at <http://127.0.0.1:8080/extra/>.
+#     # The relative path in this example will be resolved relative to the
+#     # location of the main Vagrantfile for your Mediawiki-Vagarant install.
+#     # config.vm.synced_folder '../extra', '/var/www/extra'
+# end

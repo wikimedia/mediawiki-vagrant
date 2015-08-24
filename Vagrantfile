@@ -59,7 +59,7 @@ Vagrant.configure('2') do |config|
     config.ssh.forward_x11 = settings[:forward_x11]
 
     # Default VirtualBox provider
-    config.vm.provider :virtualbox do |vb, override|
+    config.vm.provider :virtualbox do |_vb, override|
         override.vm.box = 'trusty-cloud'
         override.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
         override.vm.box_download_insecure = true
@@ -68,7 +68,7 @@ Vagrant.configure('2') do |config|
     end
 
     # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
-    config.vm.provider :vmware_fusion do |vw, override|
+    config.vm.provider :vmware_fusion do |_vw, override|
         override.vm.box = 'puppetlabs/ubuntu-14.04-64-puppet'
 
         override.vm.network :private_network, ip: settings[:static_ip]
@@ -83,7 +83,7 @@ Vagrant.configure('2') do |config|
     # Note you must configure networking manually in Hyper-V Manager!
     # NAT and port redirection are not automatically set up for you.
     #
-    config.vm.provider :hyperv do |hyperv, override|
+    config.vm.provider :hyperv do |_hyperv, override|
         # Our default box doesn't have Hyper-V support...
         override.vm.box = 'cirex/ubuntu-14.04'
 
@@ -92,7 +92,7 @@ Vagrant.configure('2') do |config|
 
     # LXC provider. Enable wtih `--provider=lxc`
     # Requires vagrant-lxc plugin and Vagrant 1.7+
-    config.vm.provider :lxc do |lxc, override|
+    config.vm.provider :lxc do |_lxc, override|
         override.vm.box = 'Wikimedia/trusty64-puppet-lxc'
     end
 
@@ -106,7 +106,7 @@ Vagrant.configure('2') do |config|
     #
     # Note that port forwarding works via localhost but not via external interfaces
     # of the host machine by default...
-    config.vm.provider :parallels do |parallels, override|
+    config.vm.provider :parallels do |_parallels, override|
         override.vm.box = 'parallels/ubuntu-14.04'
 
         # Pin to a 3.x version, current as of this config writing.
@@ -177,7 +177,7 @@ Vagrant.configure('2') do |config|
         #vw.gui = true
     end
 
-    config.vm.provider :lxc do |lxc, override|
+    config.vm.provider :lxc do |lxc|
         lxc.customize 'cgroup.memory.limit_in_bytes',
             "#{settings[:vagrant_ram]}M"
     end
