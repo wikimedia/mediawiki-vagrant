@@ -98,6 +98,8 @@ hhvm::common_settings:
       - luasandbox.so
       - tidy.so
       - wikidiff2.so
+    error_handling:
+      call_user_handler_on_fatals: true
     jit: false
     jit_afrozen_size: 100000000
     log:
