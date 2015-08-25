@@ -24,7 +24,7 @@ class crm::drupal(
 ) {
     include ::crm
 
-    $install_script = "${dir}/sites/default/drupal-install.php"
+    $install_script = "${dir}/sites/default/drupal-install.sh"
     $settings_path = "${dir}/sites/default/settings.php"
 
     $databases = [
