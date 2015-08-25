@@ -7,7 +7,6 @@
 /.yardoc/
 /*.gem
 /*.sublime-workspace
-/Gemfile.lock
 /no-update
 /Vagrantfile-extra.rb
 /LocalSettings.php
