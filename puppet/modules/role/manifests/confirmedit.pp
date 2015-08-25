@@ -20,13 +20,14 @@ class role::confirmedit {
     }
 
     mediawiki::settings { 'ConfirmEdit FancyCaptcha':
-        header => 'require_once "$IP/extensions/ConfirmEdit/FancyCaptcha.php";',
-        values => {
+        header   => 'require_once "$IP/extensions/ConfirmEdit/FancyCaptcha.php";',
+        values   => {
             wgCaptchaClass           => 'FancyCaptcha',
             wgCaptchaDirectory       => '$IP/images/temp/captcha',
             wgCaptchaDirectoryLevels => 0,
             wgCaptchaSecret          => $key,
         },
+        priority => 11,
     }
 
     file { [ "${::mediawiki::dir}/images/temp", $output ]:
