@@ -6,13 +6,13 @@ $config = array(
     'mysql' => array(
         'username' => "<%= scope['::crm::db_user'] %>",
         'password' => "<%= scope['::crm::db_pass'] %>",
-        'server' => 'localhost',
+        'server' => '127.0.0.1',
         'database' => "<%= scope['::crm::civicrm_db'] %>",
     ),
     'drupal' => array(
         'username' => "<%= scope['::crm::db_user'] %>",
         'password' => "<%= scope['::crm::db_pass'] %>",
-        'server' => 'localhost',
+        'server' => '127.0.0.1',
         'database' => "<%= scope['::crm::drupal_db'] %>",
     ),
 );

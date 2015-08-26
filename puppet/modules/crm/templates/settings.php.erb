@@ -1,5 +1,6 @@
 <?php
-# This file is managed by Puppet.
+# This file is managed by Puppet. Edit settings.local.php if you want to make
+# local changes.
 
 define( 'WMF_UNSUB_SALT', 'vagrant' );
 
@@ -16,7 +17,7 @@ foreach ( $dbs as $key => $db ) {
         'database' => $db,
         'username' => '<%= @db_user %>',
         'password' => '<%= @db_pass %>',
-        'host' => 'localhost',
+        'host' => '127.0.0.1', // FIXME: Use socket
         'prefix' => '',
     );
 }
@@ -28,3 +29,8 @@ foreach ( $dbs as $key => $db ) {
 
 # FIXME: That's annoying.
 require_once __DIR__ . '/../../vendor/autoload.php';
+
+# Include local overrides.
+if ( file_exists( __DIR__ . '/settings.local.php' ) ) {
+    require_once __DIR__ . '/settings.local.php';
+}
