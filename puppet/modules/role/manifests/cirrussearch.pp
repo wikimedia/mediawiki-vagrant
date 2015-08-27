@@ -50,6 +50,13 @@ class role::cirrussearch {
         name    => 'extra',
         version => '1.7.0',
     }
+    ## Language detection plugin ( built from https://github.com/jprante/elasticsearch-langdetect )
+    elasticsearch::plugin { 'langdetect':
+        group   => 'org.xbib.elasticsearch.plugin',
+        name    => 'elasticsearch-langdetect',
+        version => '1.7.0.0',
+        url     => 'https://archiva.wikimedia.org/repository/releases/org/xbib/elasticsearch/plugin/elasticsearch-langdetect/1.7.0.0/elasticsearch-langdetect-1.7.0.0.zip'
+    }
 
     mediawiki::wiki { 'cirrustest': }
 

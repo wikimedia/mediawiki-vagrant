@@ -1,2 +1,5 @@
 ## Turn off global accessibility.
 network.host: "127.0.0.1"
+
+## Use short-text langdetect profile
+profile: "/langdetect/short-text/"
