@@ -118,11 +118,13 @@ Vagrant.configure('2') do |config|
     config.vm.network :forwarded_port,
         guest: 80, host: settings[:http_port], id: 'http'
 
-    settings[:forward_ports].each { |guest_port,host_port|
-        config.vm.network :forwarded_port,
-            :host => host_port, :guest => guest_port,
-            auto_correct: true
-    } unless settings[:forward_ports].nil?
+    unless settings[:forward_ports].nil?
+        settings[:forward_ports].each do |guest_port,host_port|
+            config.vm.network :forwarded_port,
+                :host => host_port, :guest => guest_port,
+                auto_correct: true
+        end
+    end
 
     root_share_options = {:id => 'vagrant-root'}
 
