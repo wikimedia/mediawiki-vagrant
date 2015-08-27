@@ -76,7 +76,7 @@ module MediaWikiVagrant
         raise NotImplementedError
       end
 
-      def new_roles(roles)
+      def new_roles(_roles)
         raise NotImplementedError
       end
 
@@ -84,7 +84,7 @@ module MediaWikiVagrant
         raise NotImplementedError
       end
 
-      def role_error(role)
+      def role_error(_role)
         raise NotImplementedError
       end
     end

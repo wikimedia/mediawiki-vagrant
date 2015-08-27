@@ -35,7 +35,7 @@ module MediaWikiVagrant
     # Parses user input and returns a Ruby object. User input is expected
     # to be valid YAML.
     #
-    def parse_setting(setting, input)
+    def parse_setting(_setting, input)
       YAML.load(input)
     rescue Psych::SyntaxError
       nil
