@@ -110,7 +110,7 @@ def common()
 
   plugins_dir = $contents_dir + 'Plugins'
   $url_config['Vagrant']['Plugins'].each do |_plugin, url|
-      download_file(plugins_dir, url)
+    download_file(plugins_dir, url)
   end
 
   template = $packager_dir + 'template'
@@ -151,7 +151,7 @@ def build_iso()
   puts 'Creating iso image to distribute...'
   # -r: Rock Ridge with recommended values for permissions, etc.
   if system('which genisoimage >/dev/null 2>&1')
-      system('genisoimage', '-r', '-o', $iso_file.to_s, $contents_dir.to_s)
+    system('genisoimage', '-r', '-o', $iso_file.to_s, $contents_dir.to_s)
   else
     puts '"genisoimage" not found. Iso image not created.'
   end
