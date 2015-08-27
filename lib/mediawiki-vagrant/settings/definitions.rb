@@ -20,7 +20,7 @@ module MediaWikiVagrant
       help: "All of your host system's cores are allocated by default.",
       default: :auto,
       auto: -> { Environment.total_cpus },
-      coercion: ->(setting, new) { new && new.to_i }
+      coercion: ->(_setting, new) { new && new.to_i }
 
     setting :static_ip,
       description: "IP address assigned to the guest VM",
@@ -29,25 +29,25 @@ module MediaWikiVagrant
     setting :http_port,
       description: "Host port forwarded to the guest VM's HTTP server (port 80)",
       default: 8080,
-      coercion: ->(setting, new) { new && new.to_i }
+      coercion: ->(_setting, new) { new && new.to_i }
 
     setting :nfs_shares,
       description: "Use synced folders backed by NFS",
       help: "Enter 'yes' or 'no'. NFS is faster, but unsupported on Windows and with some encrypted filesystems on Linux",
       default: defined?(Vagrant::Util::Platform) ? !Vagrant::Util::Platform.windows? : true,
-      coercion: ->(setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
+      coercion: ->(_setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
 
     setting :nfs_cache,
       description: "Use cachefilesd to speed up NFS file access (EXPERIMENTAL)",
       help: "Enter 'yes' or 'no'. If your VM is currently running, reload it after changing this setting.",
       default: false,
-      coercion: ->(setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
+      coercion: ->(_setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
 
     setting :forward_agent,
       description: "Enable agent forwarding over SSH connections by default",
       help: "Enter 'yes' or 'no'. Agent forwarding requires an SSH agent running on the host computer.",
       default: false,
-      coercion: ->(setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
+      coercion: ->(_setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
 
     setting :forward_ports,
       internal: true,
@@ -58,6 +58,6 @@ module MediaWikiVagrant
       description: "Enable X11 forwarding over SSH connections by default",
       help: "Enter 'yes' or 'no'. X11 forwarding enables GUI applications to be run on the guest.",
       default: true,
-      coercion: ->(setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
+      coercion: ->(_setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
   end
 end

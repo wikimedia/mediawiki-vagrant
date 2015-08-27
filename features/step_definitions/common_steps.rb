@@ -12,7 +12,7 @@ When(/^I run `vagrant ([^`]+)`( interactively)?$/) do |arguments, interactively|
 end
 
 When(/^I enter the following at each prompt:$/) do |inputs|
-  inputs.raw.each do |(prompt, input)|
+  inputs.raw.each do |(_prompt, input)|
     enter(input)
   end
 end

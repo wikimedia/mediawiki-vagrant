@@ -145,7 +145,7 @@ module MediaWikiVagrant
     # @return [Hash]
     #
     def required
-      select { |name, setting| setting.default.nil? }
+      select { |_name, setting| setting.default.nil? }
     end
 
     # Serializes and saves the current settings to the given file path.

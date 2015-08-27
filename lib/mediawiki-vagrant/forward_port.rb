@@ -78,7 +78,7 @@ module MediaWikiVagrant
     def remove(ports)
       configure do |settings|
         setting = settings.setting(:forward_ports)
-        setting.value.reject! { |guest, host| ports.include?(host) } if setting.set?
+        setting.value.reject! { |_guest, host| ports.include?(host) } if setting.set?
       end
     end
   end
