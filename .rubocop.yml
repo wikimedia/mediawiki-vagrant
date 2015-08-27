@@ -26,6 +26,11 @@ Metrics/MethodLength:
 Style/Alias:
   Enabled: false
 
+# Ignoring for now as many instances of strictly aligned parameters look
+# strange
+Style/AlignParameters:
+  Enabled: false
+
 Style/SignalException:
   Enabled: false
 
