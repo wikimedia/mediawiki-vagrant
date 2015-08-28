@@ -9,12 +9,12 @@ module Puppet::Parser::Functions
   newfunction(:merge_config, :type => :rvalue, :arity => 2) do |args|
     main_conf, service_conf = *args.map do |conf|
       case conf
-        when Hash
-          conf.empty? ? '' : function_ordered_yaml([conf])
-        when String
-          conf
+      when Hash
+        conf.empty? ? '' : function_ordered_yaml([conf])
+      when String
+        conf
         else
-          ''
+        ''
       end
     end
     main_conf += service_conf.split("\n").map do |line|
