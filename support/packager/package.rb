@@ -15,11 +15,11 @@ $iso_file = $output_dir + 'mediawiki-vagrant-installer.iso'
 
 $url_config = YAML.load(($packager_dir + 'urls.yaml').read)
 
-# TODO (mattflaschen, 2014-04-30): Symbolic links might be nice, but
+# TODO: (mattflaschen, 2014-04-30): Symbolic links might be nice, but
 # not sure if there's a USB filesystem (NTFS?) that supports symlinks
 # reliably and works cross-OS.
 
-# TODO (mattflaschen, 2014-04-30): Should it automatically find and
+# TODO: (mattflaschen, 2014-04-30): Should it automatically find and
 # download the latest file for each installer?
 
 $sha256 = Digest::SHA256.new

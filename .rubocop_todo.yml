@@ -22,12 +22,6 @@ Metrics/LineLength:
 Style/CaseEquality:
   Enabled: false
 
-# Offense count: 4
-# Cop supports --auto-correct.
-# Configuration parameters: Keywords.
-Style/CommentAnnotation:
-  Enabled: false
-
 # Offense count: 5
 # Cop supports --auto-correct.
 Style/DefWithParentheses:
