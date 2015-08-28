@@ -6,6 +6,7 @@ AllCops:
   Exclude:
     - 'mediawiki/**/*'
     - 'mediawiki-*/**/*'
+    - 'puppet/modules/activemq/**/*'
     - 'puppet/modules/cdh/**/*'
     - 'puppet/modules/mariadb/**/*'
     - 'puppet/modules/nginx/**/*'

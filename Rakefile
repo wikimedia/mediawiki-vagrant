@@ -10,7 +10,7 @@ Rake::Task[:lint].clear
 PuppetLint::RakeTask.new(:lint) do |config|
   gitmodules = File.expand_path('../.gitmodules', __FILE__)
   config.ignore_paths = IO.readlines(gitmodules).grep(/\s*path\s*=\s*(\S+)/) {
-      "#{$1}/**/*.pp"
+    "#{$1}/**/*.pp"
   }
   config.log_format = '%{path}:%{linenumber} %{KIND}: %{message}'
 end

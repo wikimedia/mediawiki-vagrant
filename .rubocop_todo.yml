@@ -75,12 +75,6 @@ Style/HashSyntax:
 Style/IfUnlessModifier:
   Enabled: false
 
-# Offense count: 45
-# Cop supports --auto-correct.
-# Configuration parameters: Width.
-Style/IndentationWidth:
-  Enabled: false
-
 # Offense count: 1
 # Cop supports --auto-correct.
 Style/LeadingCommentSpace:
