@@ -35,7 +35,7 @@ module MediaWikiVagrant
         end
 
         argv = parse_options(opts)
-        return if !argv
+        return unless argv
         raise Vagrant::Errors::CLIInvalidUsage, help: opts.help.chomp if argv.length < 1
 
         possible = possible_roles

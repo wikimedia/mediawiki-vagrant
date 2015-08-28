@@ -22,7 +22,7 @@ module MediaWikiVagrant
         end
 
         argv = parse_options(opts)
-        return if !argv
+        return unless argv
 
         if argv.any?
           roles = argv.map(&:downcase)

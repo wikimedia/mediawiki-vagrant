@@ -28,7 +28,7 @@ module MediaWikiVagrant
       end
 
       argv = parse_options(opts)
-      return if !argv
+      return unless argv
 
       if options[:unset].any?
         unset_key(options[:unset])

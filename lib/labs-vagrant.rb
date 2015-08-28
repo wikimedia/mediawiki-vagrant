@@ -43,7 +43,7 @@ when 'enable-role'
   end
   avail = @mwv.roles_available
   ARGV.each do |r|
-    if not avail.include? r
+    unless avail.include? r
       puts "'#{r}' is not a valid role."
       return 1
     end
@@ -59,7 +59,7 @@ when 'disable-role'
   end
   enabled = @mwv.roles_enabled
   ARGV.each do |r|
-    puts "'#{r}' is not enabled." if not enabled.include? r
+    puts "'#{r}' is not enabled." unless enabled.include? r
   end
   @mwv.update_roles(enabled - ARGV)
   puts COMMIT_CHANGES

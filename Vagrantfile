@@ -140,7 +140,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.synced_folder '.', '/vagrant', root_share_options
 
-  if !settings[:nfs_shares]
+  unless settings[:nfs_shares]
     # www-data needs to write to the logs, but doesn't need write
     # access for all of /vagrant
     #
