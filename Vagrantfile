@@ -175,7 +175,7 @@ Vagrant.configure('2') do |config|
     vw.vmx['numvcpus'] = settings[:vagrant_cores]
 
     # To boot the VM in graphical mode, uncomment the following line:
-    #vw.gui = true
+    # vw.gui = true
   end
 
   config.vm.provider :lxc do |lxc|
