@@ -81,7 +81,7 @@ def download_file_to_filename(filename, url)
   end
 end
 
-def common()
+def common
   old_cwd = Dir.pwd
 
   mkdir_p($contents_dir)
@@ -119,7 +119,7 @@ def common()
   cp(template + 'LICENSE', $contents_dir)
 end
 
-def linux()
+def linux
   linux_dir = $contents_dir + 'Linux'
 
   $url_config['VirtualBox']['Linux'].each do |distro, url|
@@ -133,21 +133,21 @@ def linux()
   end
 end
 
-def mac()
+def mac
   mac_dir = $contents_dir + 'Mac'
   download_file(mac_dir, $url_config['VirtualBox']['Mac'])
   download_file(mac_dir, $url_config['Vagrant']['Mac'])
   download_file(mac_dir, $url_config['Git']['Mac'])
 end
 
-def windows()
+def windows
   windows_dir = $contents_dir + 'Windows'
   download_file(windows_dir, $url_config['VirtualBox']['Windows'])
   download_file(windows_dir, $url_config['Vagrant']['Windows'])
   download_file(windows_dir, $url_config['Git']['Windows'])
 end
 
-def build_iso()
+def build_iso
   puts 'Creating iso image to distribute...'
   # -r: Rock Ridge with recommended values for permissions, etc.
   if system('which genisoimage >/dev/null 2>&1')
