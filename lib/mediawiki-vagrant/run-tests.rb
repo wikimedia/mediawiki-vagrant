@@ -10,7 +10,7 @@ module MediaWikiVagrant
         return 0
       end
       opts = { extra_args: @argv.unshift('run-mediawiki-tests') }
-      with_target_vms(nil, :single_target => true) do |vm|
+      with_target_vms(nil, single_target: true) do |vm|
         vm.action :ssh, ssh_opts: opts
       end
     end

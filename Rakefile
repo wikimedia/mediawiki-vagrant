@@ -15,4 +15,4 @@ PuppetLint::RakeTask.new(:lint) do |config|
   config.log_format = '%{path}:%{linenumber} %{KIND}: %{message}'
 end
 
-task :default => [:lint]
+task default: [:lint]

@@ -89,7 +89,7 @@ module MediaWikiVagrant
       configure do |settings|
         names.each do |name|
           setting = settings.setting(name)
-          @env.ui.info setting.value, :bold => setting.set? if setting
+          @env.ui.info setting.value, bold: setting.set? if setting
         end
       end
     end
@@ -121,12 +121,12 @@ module MediaWikiVagrant
         end
 
         scope.each do |name, setting|
-          @env.ui.info setting.description, :bold => true
+          @env.ui.info setting.description, bold: true
           @env.ui.info setting.help unless setting.help.nil?
 
           value = setting_display_value(setting.value)
 
-          @env.ui.info name, :bold => true, :new_line => false
+          @env.ui.info name, bold: true, new_line: false
 
           prompt = value.empty? ? "" : " [#{value}]"
           prompt += ": "
@@ -148,7 +148,7 @@ module MediaWikiVagrant
     def list_settings
       configure do |settings|
         settings.reject { |_, setting| setting.internal? }.each do |name, setting|
-          @env.ui.info "#{name}\t#{setting.description}", :bold => true
+          @env.ui.info "#{name}\t#{setting.description}", bold: true
           @env.ui.info indent(setting.help, 2) unless setting.help.nil?
           value_info = "Current value: #{setting.value}"
           value_info += " (default)" unless setting.set?

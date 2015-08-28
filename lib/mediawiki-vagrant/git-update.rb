@@ -10,9 +10,9 @@ module MediaWikiVagrant
         return 0
       end
 
-      with_target_vms(nil, :single_target => true) do |vm|
-        opts = { :extra_args => @argv.unshift('run-git-update') }
-        vm.action :ssh, :ssh_opts => opts
+      with_target_vms(nil, single_target: true) do |vm|
+        opts = { extra_args: @argv.unshift('run-git-update') }
+        vm.action :ssh, ssh_opts: opts
       end
     end
   end
