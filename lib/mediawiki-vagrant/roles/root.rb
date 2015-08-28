@@ -37,9 +37,7 @@ module MediaWikiVagrant
       end
 
       def execute
-        if @args.include?('-h') || @args.include?('--help')
-          return help
-        end
+        return help if @args.include?('-h') || @args.include?('--help')
 
         command_class = @subcommands.get(@command.to_sym) if @command
         return help if !command_class || !@command

@@ -16,9 +16,7 @@ module MediaWikiVagrant
 
       def validate(_machine)
         errors = _detected_errors
-        if !version
-          errors << '`version` must be set.'
-        end
+        errors << '`version` must be set.' if !version
         { 'lsb_check provisioner' => errors }
       end
     end
