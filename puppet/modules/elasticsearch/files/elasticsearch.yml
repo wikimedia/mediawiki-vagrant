@@ -1,5 +1,3 @@
-## Turn off global accessibility.
-network.host: "127.0.0.1"
-
+# This file managed by puppet
 ## Use short-text langdetect profile
 profile: "/langdetect/short-text/"
