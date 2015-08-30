@@ -146,10 +146,15 @@ module MediaWikiVagrant
     # Lists all defined settings and their currently set values.
     #
     def list_settings
-      Settings.definitions.reject { |_, setting| setting.internal? }.each do |name, setting|
-        @env.ui.info "#{name}\t#{setting.description}", :bold => true
-        @env.ui.info indent(setting.help, 2) unless setting.help.nil?
-        @env.ui.info ""
+      configure do |settings|
+        settings.reject { |_, setting| setting.internal? }.each do |name, setting|
+          @env.ui.info "#{name}\t#{setting.description}", :bold => true
+          @env.ui.info indent(setting.help, 2) unless setting.help.nil?
+          value_info = "Current value: #{setting.value}"
+          value_info += " (default)" unless setting.set?
+          @env.ui.info indent(value_info, 2)
+          @env.ui.info ""
+        end
       end
     end
 
