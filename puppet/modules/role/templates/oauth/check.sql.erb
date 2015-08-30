@@ -1,0 +1,4 @@
+SELECT count(*) FROM oauth_registered_consumer
+WHERE oarc_consumer_key = '<%= @example_consumer_key %>'
+  AND oarc_callback_url = '<%= scope['::mediawiki::server_url'] %>/oauth-hello-world/'
+  AND oarc_secret_key = '<%= @example_secret_key %>';
