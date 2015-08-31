@@ -19,7 +19,12 @@ end
 
 Then(/^the command should have completed successfully$/) do
   @thread.join
-  expect(@exit_status).to be(0)
+  expect(@exit_status).to eq(0)
+end
+
+Then(/^the command should have completed unsuccessfully$/) do
+  @thread.join
+  expect(@exit_status).to be > 0
 end
 
 Then(/^the output should contain "(.*)"$/) do |output|
@@ -50,4 +55,9 @@ end
 
 Then(/^the output should be:$/) do |output|
   expect(stdout.chomp).to eq(output)
+end
+
+Then(/^the errors should contain:$/) do |output|
+  errors = stderr
+  expect(errors).to include(output), "the command errors do not include `#{output}':\n#{errors}"
 end

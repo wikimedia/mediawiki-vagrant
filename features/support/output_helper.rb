@@ -1,7 +1,15 @@
 module MediaWikiVagrant
+  # Helper methods for simulating command I/O.
+  #
+  # @see file:hooks.rb
+  #
   module OutputHelper
     def stdout(bytes = 4096)
-      normalize_output(@output << @stdout_r.readpartial(bytes))
+      normalize_output(@stdout_r.readpartial(bytes))
+    end
+
+    def stderr(bytes = 4096)
+      normalize_output(@stderr_r.readpartial(bytes))
     end
 
     def enter(line)

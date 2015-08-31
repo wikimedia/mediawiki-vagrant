@@ -35,8 +35,6 @@ Before do
   @stdout_r, $stdout = IO.pipe
   @stderr_r, $stderr = IO.pipe
 
-  @output = ''
-
   @vagrant = Vagrant::Environment.new(
     ui_class: Vagrant::UI::Colored,
     cwd: @mwv.path.to_s,

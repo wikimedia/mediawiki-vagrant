@@ -43,7 +43,7 @@ module MediaWikiVagrant
 
         roles.each do |r|
           unless possible.include? r
-            @env.ui.error role_error
+            @env.ui.error role_error(r)
             return 1
           end
         end

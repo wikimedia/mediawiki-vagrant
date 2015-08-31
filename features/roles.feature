@@ -91,11 +91,28 @@ Feature: Command line role management
     Then the command should have completed successfully
     And the "foo" role should be enabled
 
+  Scenario: Running `vagrant roles enable <role>` complains about invalid roles
+    When I run `vagrant roles enable badrole`
+    Then the command should have completed unsuccessfully
+    And the errors should contain:
+      """
+      'badrole' is not a valid role.
+      """
+
   Scenario: Running `vagrant roles disable <role>` disables a role
     Given the "foo" role is enabled
     When I run `vagrant roles disable foo`
     Then the command should have completed successfully
     And the "foo" role should be disabled
+
+  Scenario: Running `vagrant roles disable <role>` complains about already disabled roles
+    Given the "foo" role is enabled
+    When I run `vagrant roles disable bar`
+    Then the command should have completed unsuccessfully
+    And the errors should contain:
+      """
+      'bar' is not currently enabled.
+      """
 
   Scenario: Running `vagrant roles reset` disables all roles
     Given the "foo" role is enabled
