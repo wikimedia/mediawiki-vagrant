@@ -300,6 +300,9 @@ smtplog::log_file: /vagrant/logs/smtp.log
 
 statsd::port: 8125
 
+thumbor::deploy_dir: "%{hiera('mwv::vendor_dir')}/thumbor"
+thumbor::cfg_file: /etc/thumbor.conf
+
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
 
 zotero::base_path: "%{hiera('mwv::services_dir')}/zotero"
