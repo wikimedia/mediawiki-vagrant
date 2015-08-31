@@ -1,0 +1,13 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+description "Thumbor"
+
+start on mediawiki-ready
+respawn
+
+setuid www-data
+setgid www-data
+
+exec <%= @deploy_dir %>/bin/thumbor -c <%= @cfg_file %>
