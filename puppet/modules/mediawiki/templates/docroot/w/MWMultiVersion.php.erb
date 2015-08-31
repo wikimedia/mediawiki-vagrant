@@ -147,6 +147,26 @@ class MWMultiVersion {
 	}
 
 	/**
+	* Handler for the wfShellMaintenanceCmd hook.
+	* This converts shell commands like "php $IP/maintenance/foo.php" into
+	* commands that use the "MWScript.php" wrapper, for example:
+	* "php /srv/mediawiki-staging/multiversion/MWScript.php maintenance/foo.php"
+	*
+	* @param &$script string
+	* @param &$params Array
+	* @param &$options Array
+	* @return boolean
+	*/
+	public static function onWfShellMaintenanceCmd( &$script, array &$params, array &$options ) {
+	   global $IP;
+	   if ( strpos( $script, "{$IP}/" ) === 0 ) {
+		   $script = substr( $script, strlen( "{$IP}/" ) );
+		   $options['wrapper'] = __DIR__ . '/MWScript.php';
+	   }
+	   return true;
+	}
+
+	/**
 	 * Check if this wiki is *not* specified in a cdb file
 	 * located at /usr/local/apache/common-local/wikiversions.cdb.
 	 * @return bool

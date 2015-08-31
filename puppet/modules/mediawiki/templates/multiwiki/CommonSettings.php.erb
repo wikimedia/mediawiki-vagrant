@@ -17,6 +17,8 @@ if ( $multiVersion === null ) {
 	$multiVersion = MWMultiVersion::initializeForWiki( '<%= scope['::mediawiki::db_name'] %>' );
 }
 
+$wgHooks['wfShellWikiCmd'][] = 'MWMultiVersion::onWfShellMaintenanceCmd';
+
 // This must be set *after* the DefaultSettings.php inclusion
 $wgDBname = $multiVersion->getDatabase();
 
