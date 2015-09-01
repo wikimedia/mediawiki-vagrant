@@ -7,7 +7,7 @@ class role::thumbor (
 
     mediawiki::settings { 'thumbor':
         values => [
-            '$wgThumbnailingService = array("type" => "thumbor", "host" => "127.0.0.1", "port" => 8888, "path" => "/unsafe/", "dimensionsSeparator" => "x", "sourceParameter" => "/",);',
+            '$wgThumbnailingService = array("type" => "thumbor", "uri" => "http://127.0.0.1:8888/unsafe/", "dimensionsSeparator" => "x", "sourceParameter" => "/",);',
         ],
     }
 }

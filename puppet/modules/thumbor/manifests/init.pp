@@ -24,13 +24,30 @@ class thumbor (
     # jpegtran
     require_package('libjpeg-progs')
 
+    # opencv engine
+    # activate it with ENGINE='opencv_engine' in thumbor.conf.erb
+    # not used here by default because of https://github.com/thumbor/opencv-engine/issues/16
+    require_package('python-opencv')
+
     $thumbor_cli = "${deploy_dir}/bin/thumbor -c '${cfg_file}'"
 
     virtualenv::environment { $deploy_dir:
         ensure   => present,
         packages => [
             'thumbor',
+            'cv2',
+            'numpy',
+            'opencv-engine',
+            'graphicsmagick-engine',
         ],
+    }
+
+    # Hack because pip install cv2 inside a virtualenv is broken
+    file { "${deploy_dir}/lib/python2.7/site-packages/cv2.so":
+        ensure  => present,
+        # From python-opencv
+        source  => '/usr/lib/python2.7/dist-packages/cv2.so',
+        require => Virtualenv::Environment[$deploy_dir],
     }
 
     file { $cfg_file:
