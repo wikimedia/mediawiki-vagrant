@@ -31,6 +31,23 @@ Feature: Command line configuration
       | forward_agent |
       | forward_x11   |
 
+  Scenario: Running `vagrant config --list` displays each setting's current value
+    Given the "http_port" setting is "8081"
+    When I run `vagrant config --list`
+    Then the command should have completed successfully
+    And the output should contain:
+      """
+      Current value: 8081
+      """
+
+  Scenario: Running `vagrant config --list` indicates current default values
+    When I run `vagrant config --list`
+    Then the command should have completed successfully
+    And the output should contain:
+      """
+      Current value: 8080 (default)
+      """
+
   Scenario: Running `vagrant config name value` configures a setting
     When I run `vagrant config foo bar`
     Then the command should have completed successfully
