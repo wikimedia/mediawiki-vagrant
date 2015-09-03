@@ -3,12 +3,18 @@
 #
 class role::thumbor (
 ) {
+    require ::mediawiki
     include ::thumbor
+    include ::apache::mod::proxy
+    include ::apache::mod::proxy_http
+    include ::apache::mod::headers
 
-    mediawiki::settings { 'thumbor':
-        values => [
-            '$wgThumbnailingService = array("type" => "thumbor", "uri" => "http://127.0.0.1:8888/unsafe/", "dimensionsSeparator" => "x", "sourceParameter" => "/",);',
-        ],
+    $images_dir = "${::mwv::files_dir}/images"
+    $server_url = $::mediawiki::server_url
+
+    apache::site_conf { 'Proxy thumbnail requests to thumbor for JPG and PNG':
+        site    => $::mediawiki::wiki_name,
+        content => template('role/thumbor/apache2.conf.erb'),
     }
 }
 

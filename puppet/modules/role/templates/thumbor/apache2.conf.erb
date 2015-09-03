@@ -1,0 +1,6 @@
+<Directory <%= @images_dir %>>
+RewriteEngine on
+RewriteBase "/images/"
+RewriteRule "^thumb/(\w+)/(\w+)/.*/(\d+)px-(.*\.jpg)" "http://127.0.0.1:8888/unsafe/$3x/filters:sharpen(0.04,1,false)/<%= @server_url %>/images/$1/$2/$4" [P]
+RewriteRule "^thumb/(\w+)/(\w+)/.*/(\d+)px-(.*\.png)" "http://127.0.0.1:8888/unsafe/$3x/<%= @server_url %>/images/$1/$2/$4" [P]
+</Directory>
