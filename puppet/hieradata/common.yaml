@@ -221,6 +221,8 @@ mediawiki::multiwiki::settings_root: "%{hiera('mediawiki::settings_dir')}/wikis"
 
 mediawiki::parsoid::dir: "%{hiera('mwv::services_dir')}/parsoid"
 mediawiki::parsoid::port: 8000
+mediawiki::parsoid::domain: "%{hiera('role::mediawiki::hostname')"
+mediawiki::parsoid::uri: "%{hiera('mediawiki::server_url')/w/api.php"
 mediawiki::parsoid::use_php_preprocessor: true
 mediawiki::parsoid::use_selser: true
 mediawiki::parsoid::allow_cors: '*'

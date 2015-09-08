@@ -13,6 +13,12 @@
 # [*port*]
 #   The Parsoid web service will listen on this port.
 #
+# [*domain*]
+#   The MediaWiki host domain name.
+#
+# [*uri*]
+#   The full URI to the MediaWiki api.php to use.
+#
 # [*use_php_preprocessor*]
 #   If true, use the PHP pre-processor to expand templates via the
 #   MediaWiki API.
@@ -27,15 +33,11 @@
 # [*workers*]
 #   Number of worker processes to fork.
 #
-# === Examples
-#
-#  class { 'mediawiki::parsoid':
-#    port => 8100,
-#  }
-#
 class mediawiki::parsoid(
     $dir,
     $port,
+    $domain,
+    $uri,
     $use_php_preprocessor,
     $use_selser,
     $allow_cors,

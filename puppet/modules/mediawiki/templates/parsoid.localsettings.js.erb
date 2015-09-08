@@ -5,8 +5,8 @@
 exports.setup = function( parsoidConfig ) {
     parsoidConfig.setMwApi( {
         prefix: 'localhost',
-        domain: '<%= scope["role::mediawiki::hostname"] %>',
-        uri: '<%= scope["mediawiki::server_url"] %>/w/api.php',
+        domain: '<%= @domain %>',
+        uri: '<%= @uri %>',
     } );
 
     parsoidConfig.usePHPPreProcessor = <%= @use_php_preprocessor %>;
