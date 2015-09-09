@@ -266,6 +266,6 @@ end
 # to the parent directory.  Editing it without copying it will only cause
 # sadness.
 begin
-  require mwv.path('Vagrantfile-extra')
+  require mwv.path('Vagrantfile-extra').to_s
 rescue LoadError
 end
