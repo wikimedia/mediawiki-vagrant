@@ -129,6 +129,11 @@ define mediawiki::extension(
 ) {
     include ::mediawiki
 
+    $mwbranch = $branch ? {
+      undef   => $::mediawiki::branch,
+      default => $branch,
+    }
+
     # Set wiki from title if appropriate
     if $title =~ /^(\w+):(.+)$/ {
         $parts = split($title, ':')
@@ -159,7 +164,7 @@ define mediawiki::extension(
 
     git::clone { $ext_repo:
         directory => $ext_dir,
-        branch    => $branch,
+        branch    => $mwbranch,
         remote    => $remote,
         require   => Git::Clone['mediawiki/core'],
     }

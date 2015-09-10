@@ -62,13 +62,17 @@ define mediawiki::skin(
 ) {
     include ::mediawiki
 
+    $mwbranch = $branch ? {
+      undef   => $::mediawiki::branch,
+      default => $branch,
+    }
     $skin_dir = "${mediawiki::dir}/skins/${skin}"
     $skin_repo = "mediawiki/skins/${skin}"
 
     if ! defined(Git::Clone[$skin_repo]) {
         git::clone { $skin_repo:
             directory => $skin_dir,
-            branch    => $branch,
+            branch    => $mwbranch,
             require   => Git::Clone['mediawiki/core'],
         }
     }

@@ -39,7 +39,7 @@ define php::composer::install(
     }
 
     exec { "composer-install-${safe_dir}":
-        command     => "composer install --optimize-autoloader --prefer-${prefer}",
+        command     => "/usr/local/bin/composer install --optimize-autoloader --prefer-${prefer}",
         cwd         => $directory,
         environment => [
           "COMPOSER_HOME=${::php::composer::home}",
@@ -47,9 +47,8 @@ define php::composer::install(
           'COMPOSER_NO_INTERACTION=1',
         ],
         user        => 'vagrant',
+        onlyif      => "/usr/bin/test -f ${directory}/composer.json",
         creates     => $creates,
-        require     => [
-            Class['::php::composer'],
-        ],
+        require     => Class['::php::composer'],
     }
 }
