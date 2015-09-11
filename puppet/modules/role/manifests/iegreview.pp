@@ -7,5 +7,4 @@
 class role::iegreview {
     include ::mediawiki::parsoid
     include ::iegreview
-    include ::smtplog
 }

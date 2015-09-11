@@ -302,8 +302,6 @@ service::log_level: info
 smashpig::dir: "%{hiera('mwv::services_dir')}/SmashPig"
 smashpig::vhost_name: payments-listener.local.wmftest.net
 
-smtplog::log_file: /vagrant/logs/smtp.log
-
 statsd::port: '8125'
 
 trafficserver::deploy_dir: "%{hiera('mwv::services_dir')}/trafficserver"

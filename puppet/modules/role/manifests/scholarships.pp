@@ -6,5 +6,4 @@
 # http://scholarships.local.wmftest.net:8080/ to access the site.
 class role::scholarships {
     include ::scholarships
-    include ::smtplog
 }
