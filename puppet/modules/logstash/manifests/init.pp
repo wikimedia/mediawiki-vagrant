@@ -26,10 +26,6 @@ class logstash(
         require => Package['openjdk-7-jre-headless'],
     }
 
-    package { 'logstash-contrib':
-        ensure  => present,
-    }
-
     file { '/etc/default/logstash':
         content => template('logstash/default.erb'),
         require => Package['logstash'],
@@ -51,7 +47,7 @@ class logstash(
         enable     => true,
         hasstatus  => true,
         hasrestart => true,
-        require    => [ Package['logstash'], Package['logstash-contrib'] ],
+        require    => Package['logstash'],
     }
 
     # Upstream package provides both sysv and upstart startup scripts. Remove
