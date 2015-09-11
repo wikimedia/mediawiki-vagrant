@@ -61,7 +61,10 @@ class hhvm (
         'hhvm-wikidiff2',
     ]:
         ensure => latest,
-        before => Service['hhvm'],
+        before => [
+            Service['hhvm'],
+            Env::Alternative['hhvm_as_default_php'],
+        ],
     }
 
     env::alternative { 'hhvm_as_default_php':
