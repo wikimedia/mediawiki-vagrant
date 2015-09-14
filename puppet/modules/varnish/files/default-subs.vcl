@@ -5,6 +5,13 @@ sub vcl_recv {
     set req.grace = 120s;
     set req.http.X-Forwarded-For = client.ip;
 
+    # Since we expose varnish on the default port (6081) we need to rewrite
+    # requests that are generated using the default wiki port (8080)
+    # This needs to be done early because it's needed for PURGE calls
+    if (req.url ~ ":8080") {
+        set req.url = regsub(req.url, "(.*):8080/(.*)", "\1:6081/\2");
+    }
+
     # This uses the ACL action called "purge". Basically if a request to
     # PURGE the cache comes from anywhere other than localhost, ignore it.
     if (req.request == "PURGE") {
