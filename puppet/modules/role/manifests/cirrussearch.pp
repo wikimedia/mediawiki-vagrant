@@ -48,7 +48,7 @@ class role::cirrussearch {
     elasticsearch::plugin { 'extra':
         group   => 'org.wikimedia.search',
         name    => 'extra',
-        version => '1.7.0',
+        version => '1.7.1',
     }
     ## Language detection plugin ( built from https://github.com/jprante/elasticsearch-langdetect )
     elasticsearch::plugin { 'langdetect':
