@@ -1,21 +1,9 @@
-# set default backend if no server cluster specified
-backend default {
-    .host = "127.0.0.1";
-    .port = "8080";
-}
-
-# access control list for "purge": open to only localhost and other local nodes
-acl purge {
-    "127.0.0.1";
-}
-
 # vcl_recv is called whenever a request is received
 sub vcl_recv {
     # Serve objects up to 2 minutes past their expiry if the backend
     # is slow to respond.
     set req.grace = 120s;
     set req.http.X-Forwarded-For = client.ip;
-    set req.backend = default;
 
     # This uses the ACL action called "purge". Basically if a request to
     # PURGE the cache comes from anywhere other than localhost, ignore it.

@@ -1,0 +1,10 @@
+backend <%= @title %> {
+    .host = "<%= @host %>";
+    .port = "<%= @port %>";
+}
+
+sub vcl_recv {
+    if (<%= @onlyif %>) {
+        set req.backend = <%= @title %>;
+    }
+}
