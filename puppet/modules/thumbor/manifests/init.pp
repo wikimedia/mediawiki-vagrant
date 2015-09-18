@@ -70,4 +70,14 @@ class thumbor (
         require   => Virtualenv::Environment[$deploy_dir],
         subscribe => File[$cfg_file, '/etc/init/thumbor.conf'],
     }
+
+    varnish::backend { 'thumbor':
+        host   => '127.0.0.1',
+        port   => '8888',
+        onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|png)"',
+    }
+
+    varnish::config { 'thumbor':
+        source => 'puppet:///modules/thumbor/varnish.vcl',
+    }
 }

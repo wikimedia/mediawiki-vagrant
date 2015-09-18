@@ -60,8 +60,9 @@ class varnish {
     }
 
     varnish::backend { 'default':
-        host => '127.0.0.1',
-        port => '8080',
+        host  => '127.0.0.1',
+        port  => '8080',
+        order => 20,
     }
 
     # acl for "purge": open to only localhost

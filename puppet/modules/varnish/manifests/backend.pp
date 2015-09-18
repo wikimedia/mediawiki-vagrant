@@ -13,6 +13,10 @@
 # [*onlyif*]
 #   VCL condition for routing to the backend.
 #
+# [*order*]
+#   Order in which Varnish will apply configuration for the backend (0-99).
+#   Default: 21 (apply just after the default backend).
+#
 # === Examples
 #
 #   varnish::backend { 'thumbor':
@@ -25,9 +29,10 @@ define varnish::backend(
     $host,
     $port,
     $onlyif = 'req.url ~ "."',
+    $order = 21,
 ) {
     varnish::config { "backend-${title}":
         content => template('varnish/backend.vcl.erb'),
-        order   => 20,
+        order   => $order,
     }
 }
