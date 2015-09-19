@@ -1,0 +1,3 @@
+Package: zookeeper
+Pin: version 3.4.5+cdh*
+Pin-Priority: 1001

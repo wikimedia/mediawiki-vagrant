@@ -43,4 +43,12 @@ class role::analytics {
     include ::cdh::mahout
     include ::cdh::pig
     include ::cdh::sqoop
+
+    file { '/etc/apt/preferences.d/cdh5':
+        source => 'puppet:///modules/role/analytics/cdh5.apt-pin',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0444',
+        before => Package['zookeeper'],
+    }
 }
