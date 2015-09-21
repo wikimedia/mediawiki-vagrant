@@ -41,6 +41,7 @@ define varnish::config(
     file_line { "${::varnish::conf}:${title}":
         line    => "include \"${path}\";",
         path    => $::varnish::conf,
+        match   => "${::varnish::confd}/[0-9]+-${title}.vcl",
         require => File[$path],
         notify  => Exec['varnish_sort_confd'],
     }
