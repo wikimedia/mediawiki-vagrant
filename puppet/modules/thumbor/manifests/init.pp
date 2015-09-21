@@ -38,8 +38,12 @@ class thumbor (
             'cv2',
             'numpy',
             'opencv-engine',
-            'graphicsmagick-engine',
         ],
+        require  => [
+            Package['libjpeg-progs'],
+            Package['python-opencv'],
+        ],
+        timeout  => 600, # This venv can be particularly long to download and setup
     }
 
     # Hack because pip install cv2 inside a virtualenv is broken

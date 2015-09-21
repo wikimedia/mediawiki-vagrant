@@ -25,12 +25,16 @@
 # [*group*]
 #   Group owner of the environment directory and created files.
 #
+# [*timeout*]
+#   Timeout for the command creating the environment.
+#
 define virtualenv::environment (
     $packages,
     $dir       = $title,
     $ensure    = 'present',
     $owner     = 'root',
     $group     = 'root',
+    $timeout   = 300,
 ) {
     require ::virtualenv
 
@@ -48,6 +52,7 @@ define virtualenv::environment (
             user    => $owner,
             group   => $group,
             require => File[$dir],
+            timeout => $timeout,
         }
     } elsif $ensure == 'absent' {
         file { $dir:

@@ -20,7 +20,7 @@
 module Puppet::Parser::Functions
   newfunction(:require_package, :arity => -2) do |args|
     args.each do |package_name|
-      class_name = 'packages::' + package_name.tr('-', '_')
+      class_name = 'packages::' + package_name.tr('-+', '_')
       unless compiler.topscope.find_hostclass(class_name)
         host = Puppet::Resource::Type.new(:hostclass, class_name)
         known_resource_types.add_hostclass(host)
