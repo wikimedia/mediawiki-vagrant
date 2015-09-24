@@ -11,7 +11,7 @@ class role::https {
     }
 
     nginx::site { 'devwiki':
-        source => 'puppet:///modules/role/nginx/nginx.conf',
+        source => 'puppet:///modules/role/https/nginx.conf',
         notify => Service['nginx'],
     }
 
