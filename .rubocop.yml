@@ -4,6 +4,7 @@ AllCops:
   # Only enforce rules that have an entry in the style guide
   StyleGuideCopsOnly: true
   Exclude:
+    - 'cache/**/*'
     - 'mediawiki/**/*'
     - 'mediawiki-*/**/*'
     - 'puppet/modules/activemq/**/*'
