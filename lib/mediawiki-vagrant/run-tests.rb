@@ -6,7 +6,7 @@ module MediaWikiVagrant
 
     def execute
       if ['-h', '--help'].include? @argv.first
-        @env.ui.info "Usage: vagrant run-tests [tests] [-h]"
+        @env.ui.info 'Usage: vagrant run-tests [tests] [-h]'
         return 0
       end
       opts = { extra_args: @argv.unshift('run-mediawiki-tests') }

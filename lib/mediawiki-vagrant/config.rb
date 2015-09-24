@@ -1,7 +1,7 @@
-require "mediawiki-vagrant/plugin_environment"
-require "mediawiki-vagrant/settings/definitions"
-require "mediawiki-vagrant/settings_plugin"
-require "optparse"
+require 'mediawiki-vagrant/plugin_environment'
+require 'mediawiki-vagrant/settings/definitions'
+require 'mediawiki-vagrant/settings_plugin'
+require 'optparse'
 
 module MediaWikiVagrant
   # Provides a command-line interface for configuration of MediaWiki-Vagrant
@@ -12,7 +12,7 @@ module MediaWikiVagrant
     include SettingsPlugin
 
     def self.synopsis
-      "configures mediawiki-vagrant settings"
+      'configures mediawiki-vagrant settings'
     end
 
     def execute
@@ -25,29 +25,29 @@ module MediaWikiVagrant
       }
 
       opts = OptionParser.new do |o|
-        o.banner = "Usage: vagrant config [options] [name] [value]"
-        o.separator ""
-        o.separator "Options:"
-        o.separator ""
+        o.banner = 'Usage: vagrant config [options] [name] [value]'
+        o.separator ''
+        o.separator 'Options:'
+        o.separator ''
 
-        o.on("--all", "Configure all settings") do
+        o.on('--all', 'Configure all settings') do
           options[:interactive] = true
         end
 
-        o.on("--required", "Configure only required settings") do
+        o.on('--required', 'Configure only required settings') do
           options[:interactive] = true
           options[:required] = true
         end
 
-        o.on("--list", "List all settings") do
+        o.on('--list', 'List all settings') do
           options[:list] = true
         end
 
-        o.on("--get NAME", "Get a configured setting") do |name|
+        o.on('--get NAME', 'Get a configured setting') do |name|
           options[:get] << name
         end
 
-        o.on("--unset NAME", "Remove a configured setting") do |name|
+        o.on('--unset NAME', 'Remove a configured setting') do |name|
           options[:unset] << name
         end
       end
@@ -128,11 +128,11 @@ module MediaWikiVagrant
 
           @env.ui.info name, bold: true, new_line: false
 
-          prompt = value.empty? ? "" : " [#{value}]"
-          prompt += ": "
+          prompt = value.empty? ? '' : " [#{value}]"
+          prompt += ': '
 
           input = @env.ui.ask(prompt).strip
-          @env.ui.info ""
+          @env.ui.info ''
 
           if !input.empty?
             setting.value = parse_setting(setting, input)
@@ -151,9 +151,9 @@ module MediaWikiVagrant
           @env.ui.info "#{name}\t#{setting.description}", bold: true
           @env.ui.info indent(setting.help, 2) unless setting.help.nil?
           value_info = "Current value: #{setting.value}"
-          value_info += " (default)" unless setting.set?
+          value_info += ' (default)' unless setting.set?
           @env.ui.info indent(value_info, 2)
-          @env.ui.info ""
+          @env.ui.info ''
         end
       end
     end

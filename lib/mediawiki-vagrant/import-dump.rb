@@ -1,12 +1,12 @@
 module MediaWikiVagrant
   class ImportDump < Vagrant.plugin(2, :command)
     def self.synopsis
-      "imports an XML file into MediaWiki"
+      'imports an XML file into MediaWiki'
     end
 
     def execute
       if ['-h', '--help'].include? @argv.first
-        @env.ui.info "Usage: vagrant import-dump dumpfile.xml [-h]"
+        @env.ui.info 'Usage: vagrant import-dump dumpfile.xml [-h]'
         return 0
       end
       opts = { extra_args: @argv.unshift('import-mediawiki-dump') }

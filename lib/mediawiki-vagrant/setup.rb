@@ -1,5 +1,5 @@
-require "optparse"
-require "rubygems"
+require 'optparse'
+require 'rubygems'
 
 module MediaWikiVagrant
   # Assists with the setup of MediaWiki-Vagrant.
@@ -9,7 +9,7 @@ module MediaWikiVagrant
   # mediawiki-vagrant plugin.
   #
   class Setup
-    PLUGINS = ["vagrant-vbguest"]
+    PLUGINS = ['vagrant-vbguest']
 
     class ExecutionError < RuntimeError
       attr_reader :command, :status
@@ -30,16 +30,16 @@ module MediaWikiVagrant
     #
     def initialize(invocation)
       @silent = false
-      @directory = File.expand_path("..", invocation)
+      @directory = File.expand_path('..', invocation)
 
       @options = OptionParser.new do |parser|
         parser.banner = "Usage: #{invocation}"
 
-        parser.on("-s", "--silent", "Run silently with no prompts or output") do
+        parser.on('-s', '--silent', 'Run silently with no prompts or output') do
           @silent = true
         end
 
-        parser.on_tail("-h", "--help", "Show this help message.") do
+        parser.on_tail('-h', '--help', 'Show this help message.') do
           puts parser
           exit
         end
@@ -63,7 +63,7 @@ module MediaWikiVagrant
       begin
         install_plugin(gem_path)
       ensure
-        Dir["mediawiki-vagrant-*.gem"].each { |gem| File.unlink(gem) }
+        Dir['mediawiki-vagrant-*.gem'].each { |gem| File.unlink(gem) }
       end
 
       # Configure required settings
@@ -78,7 +78,7 @@ module MediaWikiVagrant
     # Builds mediawiki-vagrant from the bundled gemspec.
     #
     def build_gem
-      spec = Gem::Specification.load(File.join(@directory, "mediawiki-vagrant.gemspec"))
+      spec = Gem::Specification.load(File.join(@directory, 'mediawiki-vagrant.gemspec'))
 
       # Support older versions of RubyGems as best we can
       if defined?(Gem::Builder)
@@ -95,7 +95,7 @@ module MediaWikiVagrant
       pwd = Dir.pwd
       verbose = Gem.configuration.verbose
 
-      Dir.chdir(File.expand_path("..", spec.loaded_from))
+      Dir.chdir(File.expand_path('..', spec.loaded_from))
       Gem.configuration.verbose = false
 
       Gem::Builder.new(spec).build
@@ -108,7 +108,7 @@ module MediaWikiVagrant
     # (>= 2.0).
     #
     def build_gem_using_package(spec)
-      require "rubygems/package"
+      require 'rubygems/package'
 
       package = Gem::Package.new(spec.file_name)
       package.spec = spec
@@ -120,20 +120,20 @@ module MediaWikiVagrant
     # Prompts the user to configure required settings.
     #
     def configure_settings
-      vagrant("config", "--required") { |pipe| pipe.each_char { |c| print c } }
+      vagrant('config', '--required') { |pipe| pipe.each_char { |c| print c } }
     end
 
     # Installs the given Vagrant plugin.
     #
     def install_plugin(name)
       notify "Installing plugin #{name}"
-      vagrant("plugin", "install", name)
+      vagrant('plugin', 'install', name)
     end
 
     # Currently installed Vagrant plugins.
     #
     def installed_plugins
-      @installed_plugins ||= vagrant("plugin", "list") do |pipe|
+      @installed_plugins ||= vagrant('plugin', 'list') do |pipe|
         pipe.each_line.with_object([]) do |line, plugins|
           line.match(/^([\w\-]+) \([\w\.]+\)/) { |m| plugins << m[1] }
         end
@@ -145,7 +145,7 @@ module MediaWikiVagrant
     #
     def notify(message_or_io, level = 0)
       unless @silent
-        prefix = ("-" * level) + (level > 0 ? " " : "")
+        prefix = ('-' * level) + (level > 0 ? ' ' : '')
         message_or_io.each_line { |line| puts "#{prefix}#{line}" }
       end
     end
@@ -159,11 +159,11 @@ module MediaWikiVagrant
     # Executes the vagrant commands with the given arguments.
     #
     def vagrant(*args, &blk)
-      command = ["vagrant"] + args
+      command = ['vagrant'] + args
       blk ||= proc { |pipe| notify pipe, 1 }
 
       result = IO.popen(command, err: [:child, :out], &blk)
-      raise ExecutionError.new(command.join(" "), $?) unless $?.success?
+      raise ExecutionError.new(command.join(' '), $?) unless $?.success?
 
       result
     end

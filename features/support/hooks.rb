@@ -11,7 +11,7 @@ AfterConfiguration do
   FileUtils.mkdir_p('tmp/testenv/home')
   FileUtils.mkdir_p('tmp/testenv/mwv')
 
-  excludes = "--exclude=/Gemfile --exclude=/vendor --exclude=/.git --exclude=/tmp"
+  excludes = '--exclude=/Gemfile --exclude=/vendor --exclude=/.git --exclude=/tmp'
   system("rsync -a #{excludes} --filter='dir-merge,- .gitignore' ./ 'tmp/testenv/mwv/'")
 end
 

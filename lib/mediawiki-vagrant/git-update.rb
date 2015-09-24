@@ -1,7 +1,7 @@
 module MediaWikiVagrant
   class GitUpdates < Vagrant.plugin(2, :command)
     def self.synopsis
-      "fetches new code from Gerrit"
+      'fetches new code from Gerrit'
     end
 
     def execute

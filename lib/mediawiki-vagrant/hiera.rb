@@ -1,5 +1,5 @@
-require "mediawiki-vagrant/plugin_environment"
-require "optparse"
+require 'mediawiki-vagrant/plugin_environment'
+require 'optparse'
 
 module MediaWikiVagrant
   # Provides a command-line interface for configuration of hiera settings.
@@ -8,7 +8,7 @@ module MediaWikiVagrant
     include PluginEnvironment
 
     def self.synopsis
-      "configures hiera settings"
+      'configures hiera settings'
     end
 
     def execute
@@ -17,12 +17,12 @@ module MediaWikiVagrant
       }
 
       opts = OptionParser.new do |o|
-        o.banner = "Usage: vagrant hiera [options] [key] [value]"
-        o.separator ""
-        o.separator "Options:"
-        o.separator ""
+        o.banner = 'Usage: vagrant hiera [options] [key] [value]'
+        o.separator ''
+        o.separator 'Options:'
+        o.separator ''
 
-        o.on("--unset NAME", "Remove a configured key") do |name|
+        o.on('--unset NAME', 'Remove a configured key') do |name|
           options[:unset] << name
         end
       end

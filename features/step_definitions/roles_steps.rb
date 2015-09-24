@@ -16,7 +16,7 @@ Given(/^the "(.*?)" role is enabled$/) do |role|
 end
 
 Given(/^the settings for the "(.*?)" role are:$/) do |role, settings|
-  FileUtils.mkdir_p(@mwv.path("puppet/modules/role/settings"))
+  FileUtils.mkdir_p(@mwv.path('puppet/modules/role/settings'))
   @mwv.path("puppet/modules/role/settings/#{role}.yaml").open('w') { |io| io.write(settings) }
 end
 

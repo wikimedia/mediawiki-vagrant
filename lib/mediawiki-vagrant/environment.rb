@@ -176,8 +176,8 @@ module MediaWikiVagrant
       role_file = module_path("role/manifests/#{role}.pp")
       return nil unless role_file.exist?
 
-      role_file.each_line.take_while { |line| line =~ /^#( |$)/ }.inject("") do |doc, line|
-        doc << line.sub(/^# ?/, "")
+      role_file.each_line.take_while { |line| line =~ /^#( |$)/ }.inject('') do |doc, line|
+        doc << line.sub(/^# ?/, '')
       end
     end
 

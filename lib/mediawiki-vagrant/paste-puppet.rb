@@ -10,7 +10,7 @@ module MediaWikiVagrant
     URL = URI.parse('https://dpaste.de/api/')
 
     def self.synopsis
-      "uploads your puppet logs to dpaste.de pastebin"
+      'uploads your puppet logs to dpaste.de pastebin'
     end
 
     def execute

@@ -1,7 +1,7 @@
-require "mediawiki-vagrant/plugin_environment"
-require "mediawiki-vagrant/settings/definitions"
-require "mediawiki-vagrant/settings_plugin"
-require "optparse"
+require 'mediawiki-vagrant/plugin_environment'
+require 'mediawiki-vagrant/settings/definitions'
+require 'mediawiki-vagrant/settings_plugin'
+require 'optparse'
 
 module MediaWikiVagrant
   # Configures port forwarding from the host to the guest VM.
@@ -11,7 +11,7 @@ module MediaWikiVagrant
     include SettingsPlugin
 
     def self.synopsis
-      "configures port forwarding from the host to the guest VM"
+      'configures port forwarding from the host to the guest VM'
     end
 
     def execute
@@ -21,16 +21,16 @@ module MediaWikiVagrant
       }
 
       opts = OptionParser.new do |o|
-        o.banner = "Usage: vagrant forward-port [options] [host-port guest-port [...]]"
-        o.separator ""
-        o.separator "Options:"
-        o.separator ""
+        o.banner = 'Usage: vagrant forward-port [options] [host-port guest-port [...]]'
+        o.separator ''
+        o.separator 'Options:'
+        o.separator ''
 
-        o.on("-l", "--list", "List currently forwarded ports") do
+        o.on('-l', '--list', 'List currently forwarded ports') do
           options[:list] = true
         end
 
-        o.on("-r", "--remove PORT", "Remove forwarding for the given host port") do |port|
+        o.on('-r', '--remove PORT', 'Remove forwarding for the given host port') do |port|
           options[:remove] << port
         end
       end
@@ -67,7 +67,7 @@ module MediaWikiVagrant
 
     def list
       @env.ui.info "Local port => VM's port"
-      @env.ui.info "-----------------------"
+      @env.ui.info '-----------------------'
       configure do |settings|
         settings[:forward_ports].each do |guest_port, host_port|
           @env.ui.info "#{host_port} => #{guest_port}"

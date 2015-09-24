@@ -6,7 +6,7 @@ module MediaWikiVagrant
   module Roles
     class Enable < Change
       def self.synopsis
-        "enables a mediawiki-vagrant role"
+        'enables a mediawiki-vagrant role'
       end
 
       private
