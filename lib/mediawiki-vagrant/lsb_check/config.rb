@@ -22,4 +22,3 @@ module MediaWikiVagrant
     end
   end
 end
-

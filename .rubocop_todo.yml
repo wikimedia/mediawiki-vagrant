@@ -151,15 +151,6 @@ Style/SpecialGlobalVars:
 Style/StringLiterals:
   Enabled: false
 
-# Offense count: 3
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, SupportedStyles.
-Style/TrailingBlankLines:
-  Exclude:
-    - 'lib/mediawiki-vagrant/config.rb'
-    - 'lib/mediawiki-vagrant/hiera.rb'
-    - 'lib/mediawiki-vagrant/lsb_check/config.rb'
-
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
