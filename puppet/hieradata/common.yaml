@@ -247,7 +247,7 @@ redis::persist: true
 redis::max_memory: 256M
 
 restbase::port: 7231
-restbase::domain: localhost
+restbase::domain: "%{hiera('role::mediawiki::hostname')}"
 restbase::dbdir: /var/lib/restbase
 
 role::commons::upload_dir: "%{hiera('mwv::files_dir')}/commonsimages"
