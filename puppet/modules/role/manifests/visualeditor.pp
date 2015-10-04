@@ -5,7 +5,7 @@ class role::visualeditor {
     include ::role::cite
     include ::role::citoid
     include ::role::parserfunctions
-    include ::role::parsoid
+    include ::role::restbase
     include ::role::scribunto
     include ::role::templatedata
     include ::role::uls
