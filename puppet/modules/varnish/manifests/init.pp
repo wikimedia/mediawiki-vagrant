@@ -105,4 +105,33 @@ class varnish {
         source => 'puppet:///modules/varnish/default-subs.vcl',
         order  => 50,
     }
+
+    # Build and install xkey vmod
+    require_package('libvarnishapi-dev')
+    require_package('python-docutils')
+
+    git::clone { 'https://github.com/varnish/libvmod-xkey':
+        directory => '/tmp/libvmod-xkey',
+        remote    => 'https://github.com/varnish/libvmod-xkey',
+        require   => [
+            Package['varnish'],
+            Package['libvarnishapi-dev'],
+            Package['python-docutils'],
+        ],
+        before    => Exec['build_xkey'],
+    }
+
+    file { '/tmp/build-xkey.sh':
+        source => 'puppet:///modules/varnish/build-xkey.sh',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0555',
+    }
+
+    exec { 'build_xkey':
+        command => '/tmp/build-xkey.sh',
+        creates => '/usr/lib/varnish/vmods/libvmod_xkey.so',
+        require => File['/tmp/build-xkey.sh'],
+        user    => 'root',
+    }
 }

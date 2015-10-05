@@ -1,4 +1,5 @@
 vcl 4.0;
+import xkey;
 
 # vcl_recv is called whenever a request is received
 # This is unfortunately a lot of copypasta from default-subs.vcl, because
@@ -8,8 +9,7 @@ vcl 4.0;
 sub vcl_recv {
     set req.http.X-Forwarded-For = client.ip;
 
-    # Copy the thumbnail URLs so that they create variants of the same object
-    # By later adding X-Url to the Vary header
+    # Save the original URL because we need to rewrite the request url for the backend
     if (req.url ~ "^/images/") {
         set req.http.X-Url = req.url;
     }
@@ -25,9 +25,23 @@ sub vcl_recv {
     # PURGE the cache comes from anywhere other than localhost, ignore it.
     if (req.method == "PURGE") {
         if (!client.ip ~ purge) {
-            return(synth(405, "This IP is not allowed to send PURGE requests."));
+            return (synth(405, "This IP is not allowed to send PURGE requests."));
         }
-        return(hash);
+
+        if (req.url ~ "^/images/thumb/") {
+            set req.http.xkey-purge = "File:" + regsub(req.url, "^/images/thumb/[^/]+/[^/]+/([^/]+)/[^/]+$", "\1");
+        } elsif (req.url ~ "^/images/") {
+            set req.http.xkey-purge = "File:" + regsub(req.url, "^/images/[^/]+/[^/]+/(.*)", "\1");
+        } else {
+            # Not an identifiable file, regular purge
+            return (hash);
+        }
+
+        if (xkey.purge(req.http.xkey-purge) != 0) {
+            return (synth(200, "Purged"));
+        } else {
+            return (synth(404, "Key not found"));
+        }
     }
 
     # Pass any requests that Varnish does not understand straight to the backend.
@@ -35,7 +49,7 @@ sub vcl_recv {
         req.method != "PUT" && req.method != "POST" &&
         req.method != "TRACE" && req.method != "OPTIONS" &&
         req.method != "DELETE") {
-        return(pipe); /* Non-RFC2616 or CONNECT which is weird. */
+        return (pipe); /* Non-RFC2616 or CONNECT which is weird. */
     }
 
     # Force lookup if the request is a no-cache request from the client.
@@ -62,32 +76,13 @@ sub vcl_recv {
 
 sub vcl_backend_response {
     if (bereq.http.X-Url) {
+        # Expose the X-Url in the response for debugging purposes
         set beresp.http.X-Url = bereq.http.X-Url;
-
-        if (!beresp.http.Vary) {
-            set beresp.http.Vary = "X-Url";
-        } elsif (beresp.http.Vary !~ "(?i)X-Url") {
-            set beresp.http.Vary = beresp.http.Vary + ", X-Url";
-        }
-    }
-}
-
-sub vcl_hash {
-    # For thumbnails and originals we hash on the filename, to store them all under the same object. This will make purging any of them purge all of them.
-    if (req.http.X-Url ~ "^/images/thumb/") {
-        hash_data("Image-" + regsub(req.http.X-Url, "^/images/thumb/[^/]+/[^/]+/([^/]+)/[^/]+$", "\1"));
-    } elsif (req.http.X-Url ~ "^/images/") {
-        hash_data("Image-" + regsub(req.http.X-Url, "^/images/[^/]+/[^/]+/(.*)", "\1"));
-    } elseif (req.http.X-Url) {
-        hash_data(req.http.X-Url);
-    } else {
-        hash_data(req.url);
     }
 
-    if (req.http.host) {
-        hash_data(req.http.host);
-    } else {
-        hash_data(server.ip);
+    if (bereq.http.X-Url ~ "^/images/thumb/") {
+        set beresp.http.xkey = "File:" + regsub(bereq.http.X-Url, "^/images/thumb/[^/]+/[^/]+/([^/]+)/[^/]+$", "\1");
+    } elsif (bereq.http.X-Url ~ "^/images/") {
+        set beresp.http.xkey = "File:" + regsub(bereq.http.X-Url, "^/images/[^/]+/[^/]+/(.*)", "\1");
     }
-    return (lookup);
 }
