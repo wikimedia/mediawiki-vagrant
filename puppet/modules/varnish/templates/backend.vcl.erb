@@ -1,3 +1,5 @@
+vcl 4.0;
+
 backend <%= @title %> {
     .host = "<%= @host %>";
     .port = "<%= @port %>";
@@ -5,6 +7,6 @@ backend <%= @title %> {
 
 sub vcl_recv {
     if (<%= @onlyif %>) {
-        set req.backend = <%= @title %>;
+        set req.backend_hint = <%= @title %>;
     }
 }

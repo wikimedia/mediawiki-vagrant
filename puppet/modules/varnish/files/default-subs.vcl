@@ -1,8 +1,7 @@
+vcl 4.0;
+
 # vcl_recv is called whenever a request is received
 sub vcl_recv {
-    # Serve objects up to 2 minutes past their expiry if the backend
-    # is slow to respond.
-    set req.grace = 120s;
     set req.http.X-Forwarded-For = client.ip;
 
     # Since we expose varnish on the default port (6081) we need to rewrite
@@ -14,28 +13,28 @@ sub vcl_recv {
 
     # This uses the ACL action called "purge". Basically if a request to
     # PURGE the cache comes from anywhere other than localhost, ignore it.
-    if (req.request == "PURGE") {
+    if (req.method == "PURGE") {
         if (!client.ip ~ purge) {
-            error 405 "Not allowed.";
+            return(synth(405, "This IP is not allowed to send PURGE requests."));
         }
-        return(lookup);
+        return(hash);
     }
 
     # Pass any requests that Varnish does not understand straight to the backend.
-    if (req.request != "GET" && req.request != "HEAD" &&
-        req.request != "PUT" && req.request != "POST" &&
-        req.request != "TRACE" && req.request != "OPTIONS" &&
-        req.request != "DELETE") {
+    if (req.method != "GET" && req.method != "HEAD" &&
+        req.method != "PUT" && req.method != "POST" &&
+        req.method != "TRACE" && req.method != "OPTIONS" &&
+        req.method != "DELETE") {
         return(pipe); /* Non-RFC2616 or CONNECT which is weird. */
     }
 
     # Pass anything other than GET and HEAD directly.
-    if (req.request != "GET" && req.request != "HEAD") {
+    if (req.method != "GET" && req.method != "HEAD") {
         return(pass);
     }
 
     # Pretend that image requests don't have cookie/auth, so that they get cached
-    if (req.url ~ "^/images/") {
+    if (req.url ~ "^/images/" || req.http.X-Url ~ "^/images/") {
         unset req.http.Authorization;
         unset req.http.Cookie;
     }
@@ -52,7 +51,7 @@ sub vcl_recv {
 
     # Force lookup if the request is a no-cache request from the client.
     if (req.http.Cache-Control ~ "no-cache") {
-        ban_url(req.url);
+        ban("req.url == " + req.url);
     }
 
     # Pass requests to potential non-plain reads on articles (eg. action=edit)
@@ -73,7 +72,7 @@ sub vcl_recv {
       }
     }
 
-    return(lookup);
+    return(hash);
 }
 
 sub vcl_pipe {
@@ -89,9 +88,9 @@ sub vcl_pipe {
 
 # Called if the cache has a copy of the page.
 sub vcl_hit {
-    if (req.request == "PURGE") {
-        ban_url(req.url);
-        error 200 "Purged";
+    if (req.method == "PURGE") {
+        ban("req.url == " + req.url);
+        return(synth(200, "Purged"));
     }
 
     if (!obj.ttl > 0s) {
@@ -101,8 +100,8 @@ sub vcl_hit {
 
 # Called if the cache does not have a copy of the page.
 sub vcl_miss {
-    if (req.request == "PURGE") {
-        error 200 "Not in cache";
+    if (req.method == "PURGE") {
+        return(synth(200, "Not in cache"));
     }
 }
 
@@ -115,28 +114,15 @@ sub vcl_deliver {
 }
 
 # Called after a document has been successfully retrieved from the backend.
-sub vcl_fetch {
-
-    # set minimum timeouts to auto-discard stored objects
-#       set beresp.prefetch = -30s;
+sub vcl_backend_response {
     set beresp.grace = 120s;
 
     if (beresp.ttl < 48h) {
         set beresp.ttl = 48h;
     }
 
-    if (!beresp.ttl > 0s) {
-        return(hit_for_pass);
-    }
-
-    if (beresp.http.Set-Cookie) {
-        return(hit_for_pass);
-    }
-
-#       if (beresp.http.Cache-Control ~ "(private|no-cache|no-store)")
-#           {return(hit_for_pass);}
-
-    if (req.http.Authorization && !beresp.http.Cache-Control ~ "public") {
-        return(hit_for_pass);
+    if (!beresp.ttl > 0s || beresp.http.Set-Cookie || (bereq.http.Authorization && !beresp.http.Cache-Control ~ "public") || beresp.status == 504) {
+        set beresp.uncacheable = true;
+        set beresp.ttl = 120s;
     }
 }

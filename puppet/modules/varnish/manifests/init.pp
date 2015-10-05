@@ -11,8 +11,38 @@
 # See https://www.varnish-cache.org/docs/3.0/reference/vcl.html#multiple-subroutines
 #
 class varnish {
+    require_package('apt-transport-https')
+
+    # set up the repo pubkey
+    file  { '/usr/local/share/varnish-cache.org-pubkey.txt':
+        source => 'puppet:///modules/varnish/varnish-cache.org-pubkey.txt',
+        owner  => 'root',
+        group  => 'root',
+    }
+
+    # add the varnish repo list file
+    file { '/etc/apt/sources.list.d/varnish-cache.list':
+        source => 'puppet:///modules/varnish/varnish-cache.list',
+        owner  => 'root',
+        group  => 'root',
+    }
+
+    # add the key and update
+    exec { 'add_varnish_apt_key_and_update':
+        command => '/usr/bin/apt-key add /usr/local/share/varnish-cache.org-pubkey.txt && /usr/bin/apt-get update',
+        require => [
+            File['/usr/local/share/varnish-cache.org-pubkey.txt'],
+            File['/etc/apt/sources.list.d/varnish-cache.list'],
+        ],
+        creates => '/var/lib/apt/lists/repo.varnish-cache.org_ubuntu_dists_trusty_InRelease',
+    }
+
     package { 'varnish':
-        ensure => 'present'
+        ensure  => 'latest',
+        require => [
+            Package['apt-transport-https'],
+            Exec['add_varnish_apt_key_and_update'],
+        ]
     }
 
     $conf = '/etc/varnish/conf-d.vcl'
@@ -21,7 +51,7 @@ class varnish {
     # This level of include indirection is annoying but necessary to escape
     # endless Puppet file/file_line conflicts.
     file { '/etc/varnish/default.vcl':
-        content => "include \"${conf}\";\n",
+        content => "vcl 4.0;\ninclude \"${conf}\";\n",
         mode    => '0644',
         owner   => 'root',
         group   => 'root',
@@ -67,7 +97,7 @@ class varnish {
 
     # acl for "purge": open to only localhost
     varnish::config { 'acl-purge':
-        content => 'acl purge { "127.0.0.1"; }',
+        content => "vcl 4.0;\nacl purge { \"127.0.0.1\"; }",
         order   => 10,
     }
 

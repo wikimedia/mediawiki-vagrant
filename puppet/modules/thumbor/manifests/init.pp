@@ -83,5 +83,6 @@ class thumbor (
 
     varnish::config { 'thumbor':
         source => 'puppet:///modules/thumbor/varnish.vcl',
+        order  => 49, # Needs to be before default for vcl_recv override
     }
 }
