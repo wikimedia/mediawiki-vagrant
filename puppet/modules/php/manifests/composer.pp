@@ -32,7 +32,7 @@ class php::composer (
     }
 
     exec { 'update_composer':
-        command     => 'composer self-update',
+        command     => '/usr/local/bin/composer self-update',
         environment => [
           "COMPOSER_HOME=${home}",
           "COMPOSER_CACHE_DIR=${cache_dir}",
