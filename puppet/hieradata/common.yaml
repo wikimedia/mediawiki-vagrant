@@ -303,10 +303,11 @@ smashpig::vhost_name: payments-listener.local.wmftest.net
 
 smtplog::log_file: /vagrant/logs/smtp.log
 
-statsd::port: 8125
+statsd::port: '8125'
 
 thumbor::deploy_dir: "%{hiera('mwv::vendor_dir')}/thumbor"
 thumbor::cfg_file: /etc/thumbor.conf
+thumbor::statsd_port: "%{hiera('statsd::port')}"
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
 
