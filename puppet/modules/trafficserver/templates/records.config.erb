@@ -1,0 +1,17 @@
+CONFIG proxy.config.admin.user_id STRING trafficserver
+CONFIG proxy.config.http.cache.http INT 1
+CONFIG proxy.config.reverse_proxy.enabled INT 1
+CONFIG proxy.config.url_remap.remap_required INT 1
+CONFIG proxy.config.url_remap.pristine_host_hdr INT 1
+CONFIG proxy.config.http.server_ports STRING <%= @port %>
+CONFIG proxy.config.log.logfile_dir STRING <%= @deploy_dir %>/var/log/trafficserver
+CONFIG proxy.config.output.logfile STRING traffic.out
+CONFIG proxy.config.log.logging_enabled INT 3
+CONFIG proxy.config.http.cache.required_headers INT 0
+CONFIG proxy.config.http.insert_response_via_str INT 3
+CONFIG proxy.config.http.cache.enable_default_vary_headers INT 1
+CONFIG proxy.config.http.cache.vary_default_text STRING X-URI
+CONFIG proxy.config.http.cache.vary_default_images STRING X-URI
+CONFIG proxy.config.http.cache.vary_default_other STRING X-URI
+CONFIG proxy.config.cache.limits.http.max_alts INT 0
+LOCAL proxy.local.cluster.type INT 3
