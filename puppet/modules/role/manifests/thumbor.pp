@@ -3,12 +3,13 @@
 #
 class role::thumbor (
 ) {
-    include ::role::varnish
-    include ::thumbor
+    require ::role::varnish
+    require ::role::statsd
+    require ::role::sentry
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
     include ::apache::mod::headers
-    include ::role::statsd
+    include ::thumbor
 
     mediawiki::settings { 'thumbor-repo':
         values => template('role/thumbor/local_repo.php.erb'),

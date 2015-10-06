@@ -88,6 +88,7 @@ class sentry (
             'raven',
         ],
         require  => Package['libmysqlclient-dev'],
+        timeout  => 600, # This can take a while
     }
 
     mysql::db { $db_name:

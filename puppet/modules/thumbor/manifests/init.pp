@@ -18,10 +18,14 @@
 # [*statsd_port*]
 #   Port the statsd instance runs on.
 #
+# [*sentry_dsn_file*]
+#   Path to file containing the sentry dsn file.
+#
 class thumbor (
     $deploy_dir,
     $cfg_file,
-    $statsd_port
+    $statsd_port,
+    $sentry_dsn_file,
 ) {
     require ::virtualenv
 
@@ -43,6 +47,7 @@ class thumbor (
             'cv2',
             'numpy',
             'opencv-engine',
+            'raven',
         ],
         require  => [
             Package['libjpeg-progs'],
@@ -60,10 +65,11 @@ class thumbor (
     }
 
     file { $cfg_file:
-        ensure  => present,
-        group   => 'www-data',
-        content => template('thumbor/thumbor.conf.erb'),
-        mode    => '0640',
+        ensure    => present,
+        group     => 'www-data',
+        content   => template('thumbor/thumbor.conf.erb'),
+        mode      => '0640',
+        subscribe => File[$sentry_dsn_file],
     }
 
     file { '/etc/init/thumbor.conf':

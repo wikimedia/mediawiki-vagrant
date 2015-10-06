@@ -310,6 +310,7 @@ trafficserver::port: 6090
 thumbor::deploy_dir: "%{hiera('mwv::vendor_dir')}/thumbor"
 thumbor::cfg_file: /etc/thumbor.conf
 thumbor::statsd_port: "%{hiera('statsd::port')}"
+thumbor::sentry_dsn_file: "%{hiera('sentry::dsn_file')}"
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
 
