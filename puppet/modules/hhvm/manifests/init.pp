@@ -61,17 +61,18 @@ class hhvm (
         'hhvm-wikidiff2',
     ]:
         ensure => latest,
-        before => [
-            Service['hhvm'],
-            Env::Alternative['hhvm_as_default_php'],
-        ],
+        notify => Service['hhvm'],
     }
 
     env::alternative { 'hhvm_as_default_php':
         alternative => 'php',
         target      => '/usr/bin/hhvm',
         priority    => 20,
-        require     => Package['hhvm'],
+        # T114811: Don't make /usr/bin/php point to HHVM until the service has
+        # started as the upstart script ensures that a needed symlink is in
+        # place. There is still a race when the hhvm package is updated but
+        # there's not a lot we can do about that.
+        require     => Service['hhvm'],
     }
 
     file { '/etc/hhvm':
@@ -87,7 +88,9 @@ class hhvm (
         # /etc/hhvm/php.ini/php.ini
         #
         # @see https://phabricator.wikimedia.org/T87478
-        force   => true
+        force   => true,
+
+        before  => Env::Alternative['hhvm_as_default_php'],
     }
 
     file { '/etc/hhvm/fcgi.ini':
@@ -105,15 +108,12 @@ class hhvm (
     }
 
     file { '/etc/init/hhvm.conf':
-        ensure  => file,
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
-        source  => 'puppet:///modules/hhvm/hhvm.conf',
-        require => [
-          Env::Alternative['hhvm_as_default_php'],
-        ],
-        notify  => Service['hhvm'],
+        ensure => file,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0444',
+        source => 'puppet:///modules/hhvm/hhvm.conf',
+        notify => Service['hhvm'],
     }
 
     file { $hhbc_dir:
@@ -128,6 +128,7 @@ class hhvm (
         owner  => 'www-data',
         group  => 'www-data',
         mode   => '0666',
+        before => Env::Alternative['hhvm_as_default_php'],
     }
 
     file { $fcgi_settings['hhvm']['repo']['central']['path']:
@@ -135,6 +136,7 @@ class hhvm (
         owner  => 'www-data',
         group  => 'www-data',
         mode   => '0644',
+        before => Service['hhvm'],
     }
 
     service { 'hhvm':
