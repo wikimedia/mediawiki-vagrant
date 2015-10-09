@@ -60,12 +60,6 @@ class role::simple_performant {
         require => Class['::apache::mod::expires'],
     }
 
-    file { "${::mediawiki::apache::docroot}/robots.txt":
-        ensure => present,
-        mode   => '0444',
-        source => 'puppet:///modules/role/simple_performant/robots.txt',
-    }
-
     file { '/vagrant/mediawiki/skins/.htaccess':
         ensure  => present,
         source  => 'puppet:///modules/role/simple_performant/skins-htaccess',

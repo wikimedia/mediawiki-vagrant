@@ -53,4 +53,11 @@ class mediawiki::apache(
         require => Package['apache2'],
         source  => 'puppet:///modules/mediawiki/info.php',
     }
+
+    # Define a default robots.txt file but let it be changed locally
+    file { "${docroot}/robots.txt":
+        ensure  => present,
+        source  => 'puppet:///modules/mediawiki/robots.txt',
+        replace => false,
+    }
 }

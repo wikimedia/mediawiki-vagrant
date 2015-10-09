@@ -1,0 +1,3 @@
+# This file was created by puppet but local changes will be preserved
+User-agent: *
+Disallow: /

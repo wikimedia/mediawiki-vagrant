@@ -1,5 +1,0 @@
-# Don't crawl history, API calls and whatever, and request delay between hits
-User-agent: *
-Disallow: /w/index.php?
-Disallow: /w/api.php
-Crawl-delay: 1
