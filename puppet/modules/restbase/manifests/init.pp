@@ -31,6 +31,11 @@ class restbase (
         default => 11042,
     }
 
+    $mathoid_port = defined(Class['mathoid']) ? {
+        true    => $::mathoid::port,
+        default => 10042,
+    }
+
     file { $dbdir:
         ensure => directory,
         owner  => 'www-data',

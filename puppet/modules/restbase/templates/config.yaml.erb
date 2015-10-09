@@ -4,7 +4,7 @@ templates:
   wmf-content-1.0.0: &wp/content/1.0.0
     swagger: '2.0'
     # swagger options, overriding the shared ones from the merged specs (?)
-    info:
+    info: &wp/content-info/1.0.0
       version: 1.0.0-beta
       title: Wikimedia REST API
       description: >
@@ -35,8 +35,9 @@ templates:
       - mediawiki/v1/content
       - mediawiki/v1/graphoid
       - mediawiki/v1/mobileapps
+      - media/v1/mathoid
     # - mediawiki/v1/revision-scoring
-    securityDefinitions:
+    securityDefinitions: &wp/content-security/1.0.0
       mediawiki_auth:
         description: Checks permissions using MW api
         type: apiKey
@@ -59,7 +60,7 @@ templates:
       title: Default MediaWiki sys API module
       version: 1.0.0
     paths:
-      /{module:table}:
+      /{module:table}: &wp/sys/table
         x-modules:
           # There can be multiple modules too per stanza, as long as the
           # exported symbols don't conflict. The operationIds from the spec
@@ -73,19 +74,19 @@ templates:
 
       /{module:page_revisions}: &wp/sys/page_revisions
         x-modules:
-            - name: page_revisions
-              version: 1.0.0
-              type: file
-
-      /{module:key_rev_value}: &wp/sys/key_rev_value
-        x-modules:
-          - name: key_rev_value
+          - name: page_revisions
             version: 1.0.0
             type: file
 
       /{module:key_value}: &wp/sys/key_value
         x-modules:
           - name: key_value
+            version: 1.0.0
+            type: file
+
+      /{module:key_rev_value}: &wp/sys/key_rev_value
+        x-modules:
+          - name: key_rev_value
             version: 1.0.0
             type: file
 
@@ -163,21 +164,105 @@ templates:
                       request:
                         uri: http://appservice.wmflabs.org/{domain}/v1/page/mobile-text/{title}
 
-#      /{module:revscore}:
-#        title: Simple revscore service wrapper
-#        x-modules:
-#          # Generic revision service interface; Expects requests of the form
-#          # /{title}/{revision}.
-#          # Specific interface documentation (content types etc) at public
-#          # entry point, although we might also want to enforce them
-#          # internally.
-#          - name: restbase-mod-service
-#            version: 1.0.0 # simple service module, to be shared
-#            options:
-#              storage:
-#                uri: /{domain}/sys/key_rev_value/revscore.scores/{title}/{revision}
-#              service:
-#                uri: http://revscore.wikimedia.org/{domain}/{title}/{revision}
+
+  global-content: &gb/content/1.0.0
+    swagger: '2.0'
+    info: *wp/content-info/1.0.0
+    securityDefinitions: *wp/content-security/1.0.0
+    x-subspecs:
+      - media/v1/mathoid
+
+
+  global-sys: &gb/sys/1.0.0
+    info:
+      title: global domain sys API module
+      version: 1.0.0
+    paths:
+      /{module:table}: *wp/sys/table
+      /{module:key_value}: *wp/sys/key_value
+      /{module:post_data}: *wp/sys/post_data
+      /{module:mathoid}/v1/request/{format}:
+        post:
+          x-request-handler:
+            - store:
+                request:
+                  method: put
+                  uri: /{domain}/sys/post_data/mathoid.request/
+                  body:
+                    q: '{$.request.body.q}'
+                    type: '{$$.default($.request.body.type, "tex")}'
+            - handle_req:
+                request:
+                  method: post
+                  uri: /{domain}/sys/mathoid/v1/handler/{format}
+                  headers:
+                    cache-control: '{cache-control}'
+                    x-resource-location: '{$.store.body}'
+                  body:
+                    q: '{$.request.body.q}'
+                    type: '{$$.default($.request.body.type, "tex")}'
+      /{module:mathoid}/v1/request/{format}/{hash}:
+        get:
+          x-setup-handler:
+            - init:
+                uri: /{domain}/sys/post_data/mathoid.request
+          x-request-handler:
+            - get_from_storage:
+                request:
+                  method: get
+                  uri: /{domain}/sys/post_data/mathoid.request/{hash}
+            - handle_req:
+                request:
+                  method: post
+                  uri: /{domain}/sys/mathoid/v1/handler/{format}
+                  headers:
+                    cache-control: '{cache-control}'
+                    x-resource-location: '{$.request.params.hash}'
+                  body: '{$.get_from_storage.body}'
+      /{module:mathoid}/v1/handler/{format}:
+        post:
+          x-setup-handler:
+            - init:
+                uri: /{domain}/sys/key_value/mathoid.data
+                body:
+                  keyType: string
+                  valueType: json
+          x-request-handler:
+            - check_storage:
+                request:
+                  method: get
+                  uri: /{domain}/sys/key_value/mathoid.data/{$.request.headers.x-resource-location}
+                  headers:
+                    cache-control: '{cache-control}'
+                return_if:
+                  status: '2xx'
+                return:
+                  status: 200
+                  headers: '{$$.merge($.check_storage.body.data[$.request.params.format].headers,$.check_storage.body.headers)}'
+                  body: '{$.check_storage.body.data[$.request.params.format].body}'
+                catch:
+                  status: 404
+            - mathoid:
+                request:
+                  method: post
+                  uri: http://localhost:<%= @mathoid_port %>/complete
+                  body:
+                    q: '{$.request.body.q}'
+                    type: '{$.request.body.type}'
+            - store:
+                request:
+                  method: put
+                  uri: /{domain}/sys/key_value/mathoid.data/{$.request.headers.x-resource-location}
+                  headers:
+                    content-type: application/json
+                  body:
+                    headers: '{$$.merge($.mathoid.headers, {"x-resource-location": $.request.headers.x-resource-location})}'
+                    data: '{$.mathoid.body}'
+                return:
+                  status: 200
+                  headers: '{$$.merge($.mathoid.body[$.request.params.format].headers,$$.merge($.mathoid.headers, {"x-resource-location": $.request.headers.x-resource-location}))}'
+                  body: '{$.mathoid.body[$.request.params.format].body}'
+
 
   wp-default-1.0.0: &wp/default/1.0.0
     x-subspecs:
@@ -189,11 +274,25 @@ templates:
             x-subspec: *wp/sys/1.0.0
 
 
+  global-default-1.0.0: &gb/default/1.0.0
+    x-subspecs:
+      - paths:
+          /{api:v1}:
+            x-subspec: *gb/content/1.0.0
+      - paths:
+          /{api:sys}:
+            x-subspec: *gb/sys/1.0.0
+
+
+# Swagger spec root.
 spec: &spec
   title: "The RESTBase root"
   # Some more general RESTBase info
   paths:
+    # locally-exposed domain
     /{domain:<%= @domain %>}: *wp/default/1.0.0
+    # global domain
+    /{domain:wikimedia.org}: *gb/default/1.0.0
 
 salt: secret
 default_page_size: 100
