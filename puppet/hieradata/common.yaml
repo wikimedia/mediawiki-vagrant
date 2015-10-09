@@ -180,6 +180,8 @@ mathoid::texvcinfo: true
 mathoid::speak_text: true
 mathoid::render_no_check: true
 
+mobilecontentservice::port: 8888
+
 graphoid::base_path: "%{hiera('mwv::services_dir')}/graphoid"
 graphoid::node_path: "%{hiera('graphoid::base_path')}/node_modules"
 graphoid::conf_path: "%{hiera('graphoid::base_path')}/graphoid.config.json"

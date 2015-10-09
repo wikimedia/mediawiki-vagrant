@@ -36,6 +36,11 @@ class restbase (
         default => 10042,
     }
 
+    $mobileapps_port = defined(Class['mobilecontentservice']) ? {
+        true    => $::mobilecontentservice::port,
+        default => 8888,
+    }
+
     file { $dbdir:
         ensure => directory,
         owner  => 'www-data',
