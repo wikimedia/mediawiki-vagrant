@@ -23,7 +23,7 @@ GIT
 PATH
   remote: .
   specs:
-    mediawiki-vagrant (0.10.0)
+    mediawiki-vagrant (0.11.0)
 
 GEM
   remote: https://rubygems.org/

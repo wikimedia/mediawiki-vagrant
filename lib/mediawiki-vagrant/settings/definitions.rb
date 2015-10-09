@@ -31,6 +31,11 @@ module MediaWikiVagrant
       default: 8080,
       coercion: ->(_setting, new) { new && new.to_i }
 
+    setting :host_ip,
+      description: "Host ip address to bind forwards to",
+      help: "Set to '0.0.0.0' to bind to all ips and allow external access",
+      default: "127.0.0.1"
+
     setting :nfs_shares,
       description: "Use synced folders backed by NFS",
       help: "Enter 'yes' or 'no'. NFS is faster, but unsupported on Windows and with some encrypted filesystems on Linux",

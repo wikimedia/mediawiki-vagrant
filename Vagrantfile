@@ -115,13 +115,14 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.network :forwarded_port,
-    guest: 80, host: settings[:http_port], id: 'http'
+    guest: 80, host: settings[:http_port], host_ip: settings[:host_ip],
+    id: 'http'
 
   unless settings[:forward_ports].nil?
     settings[:forward_ports].each do |guest_port,host_port|
       config.vm.network :forwarded_port,
-        host: host_port, guest: guest_port,
-        auto_correct: true
+        host: host_port, host_ip: settings[:host_ip],
+        guest: guest_port, auto_correct: true
     end
   end
 

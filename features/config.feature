@@ -73,6 +73,7 @@ Feature: Command line configuration
       | vagrant_cores | 8       |
       | static_ip     | 1.1.1.1 |
       | http_port     | 8888    |
+      | host_ip       | 0.0.0.0 |
       | nfs_shares    | no      |
       | nfs_cache     | yes     |
       | forward_agent | yes     |
@@ -84,6 +85,7 @@ Feature: Command line configuration
       | vagrant_cores | 8       |
       | static_ip     | 1.1.1.1 |
       | http_port     | 8888    |
+      | host_ip       | 0.0.0.0 |
       | nfs_shares    | no      |
       | nfs_cache     | yes     |
       | forward_agent | yes     |
