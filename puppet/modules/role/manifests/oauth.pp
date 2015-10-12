@@ -52,6 +52,7 @@ class role::oauth (
             Mediawiki::Extension['OAuth'],
             File["${dir}/register.sql"],
             File["${dir}/check.sql"],
+            Exec['update_all_databases'],
         ]
     }
 
