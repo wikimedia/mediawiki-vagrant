@@ -169,9 +169,3 @@ Style/TrailingComma:
     - 'lib/mediawiki-vagrant/config.rb'
     - 'lib/mediawiki-vagrant/hiera.rb'
     - 'lib/mediawiki-vagrant/roles/change.rb'
-
-# Offense count: 10
-# Cop supports --auto-correct.
-# Configuration parameters: WordRegex.
-Style/WordArray:
-  MinSize: 5
