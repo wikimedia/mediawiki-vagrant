@@ -180,7 +180,11 @@ class mediawiki(
     }
 
     file { "${dir}/composer.local.json":
+        owner   => $::share_owner,
+        group   => $::share_group,
+        mode    => '0664',
         source  => 'puppet:///modules/mediawiki/composer.local.json',
+        require => Git::Clone['mediawiki/core'],
     }
 
     exec { "composer update ${dir}":
@@ -192,7 +196,10 @@ class mediawiki(
             'COMPOSER_NO_INTERACTION=1',
         ],
         refreshonly => true,
-        require     => Php::Composer::Install[$::mediawiki::dir],
+        require     => [
+            Php::Composer::Install[$::mediawiki::dir],
+            File["${dir}/composer.local.json"],
+        ],
     }
 
     env::profile_script { 'add mediawiki vendor bin to path':
