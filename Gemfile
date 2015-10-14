@@ -6,6 +6,7 @@ group :development do
   gem 'vagrant', git: 'https://github.com/mitchellh/vagrant.git', tag: 'v1.7.2'
 
   gem 'rubocop', '~> 0.33.0', require: false
+  gem 'puppet-lint', '1.1.0'
 end
 
 group :development, :test do

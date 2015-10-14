@@ -111,6 +111,14 @@ patch to the Mediawiki-Vagrant project.
 
 For information about settings, see settings.d/README.
 
+## Testing
+
+You will need bundler < 1.8 (`gem install bundler -v '<1.8'`). Then:
+
+    bundler install
+    rake
+
+Will run all the linter, test and doc generation commands.
 
 ## Troubleshoot
 

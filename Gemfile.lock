@@ -104,6 +104,7 @@ GEM
     pry-byebug (2.0.0)
       byebug (~> 3.4)
       pry (~> 0.10)
+    puppet-lint (1.1.0)
     rack (1.6.0)
     rainbow (2.0.0)
     rb-fsevent (0.9.4)
@@ -168,6 +169,7 @@ DEPENDENCIES
   fakefs (~> 0.6.5)
   mediawiki-vagrant!
   pry-byebug
+  puppet-lint (= 1.1.0)
   rspec (~> 3.1, >= 3.1.0)
   rubocop (~> 0.33.0)
   vagrant!
