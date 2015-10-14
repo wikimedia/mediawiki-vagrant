@@ -23,7 +23,7 @@ define contenttranslation::wiki(
     $category_keyword,
     $high_mt_category,
 ) {
-    mediawiki::wiki { $title: }
+    ensure_resource('mediawiki::wiki', $title)
 
     mediawiki::settings { "contenttranslation_${title}":
         wiki   => $title,

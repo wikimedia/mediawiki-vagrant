@@ -8,7 +8,7 @@ class role::wikidata {
     include ::role::sitematrix
 
     mediawiki::wiki { 'wikidata': }
-    mediawiki::wiki { 'en': }
+    ensure_resource('mediawiki::wiki', 'en')
 
     mediawiki::extension { 'WikidataBuildResources':
         remote       => 'https://github.com/wmde/WikidataBuildResources.git',
