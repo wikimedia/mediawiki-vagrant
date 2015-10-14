@@ -26,9 +26,6 @@ cdh::oozie::server::heapsize: 64
 citoid::port: 1970
 citoid::log_level: info
 
-crm::dir: "%{hiera('mwv::services_dir')}/org.wikimedia.civicrm"
-crm::site_name: crm.local.wmftest.net
-
 contenttranslation::dir: "%{hiera('mediawiki::dir')}/extensions/ContentTranslation"
 contenttranslation::cxserver::dir: "%{hiera('mwv::services_dir')}/cxserver"
 contenttranslation::parsoid_url: "http://127.0.0.1:%{::mediawiki::parsoid::port}"
@@ -66,8 +63,8 @@ contenttranslation::cxserver::ssl_key: 'null'
 contenttranslation::cxserver::cert: 'null'
 contenttranslation::cxserver::workers: 2
 
-crm::dir: /srv/org.wikimedia.civicrm
-crm::site_name: crm.dev
+crm::dir: "%{hiera('mwv::services_dir')}/org.wikimedia.civicrm"
+crm::site_name: crm.local.wmftest.net
 crm::drupal_db: drupal
 crm::civicrm_db: civicrm
 crm::db_user: root
