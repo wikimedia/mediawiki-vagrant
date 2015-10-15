@@ -4,12 +4,12 @@
   RewriteEngine On
   RewriteBase <%= @images_url %>/
 
-  # Call thumb.php for thumb images not on disk
+  # Call thumb_handler.php for thumb images not on disk
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^thumb/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/[^/]*([0-9]+)px-.*$ /w/thumb_handler.php [PT,QSA,B]
 
-  # Call thumb.php for thumb archive images not on disk
+  # Call thumb_handler.php for thumb archive images not on disk
   RewriteCond %{REQUEST_FILENAME} !-f
   RewriteCond %{REQUEST_FILENAME} !-d
   RewriteRule ^thumb/archive/[0-9a-f]/[0-9a-f][0-9a-f]/([^/]+)/[^/]*([0-9]+)px-.*$ /w/thumb_handler.php [PT,QSA,B]
