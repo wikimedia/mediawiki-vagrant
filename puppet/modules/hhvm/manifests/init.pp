@@ -64,6 +64,13 @@ class hhvm (
         notify => Service['hhvm'],
     }
 
+    # T115450: Make all file resources declared here wait until after the hhvm
+    # package is installed. This should avoid race conditions where the hhvm
+    # package creates files that we are intending to overwrite.
+    File {
+        require => Package['hhvm'],
+    }
+
     env::alternative { 'hhvm_as_default_php':
         alternative => 'php',
         target      => '/usr/bin/hhvm',
