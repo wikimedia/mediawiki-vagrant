@@ -23,7 +23,6 @@ class restbase (
     $dbdir,
     $log_level = undef,
 ) {
-    require ::mediawiki::parsoid
 
     require_package('libsqlite3-dev')
 

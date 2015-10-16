@@ -1,0 +1,19 @@
+
+if( !isset( $wgVirtualRestConfig ) ) {
+	$wgVirtualRestConfig = array(
+		'modules' => array(),
+		'global' => array(
+			'timeout' => 360,
+			'forwardCookies' => false,
+			'HTTPProxy' => null
+		)
+	);
+}
+
+$wgVirtualRestConfig['modules']['parsoid'] = array(
+	'url' => 'http://localhost:<%= scope.lookupvar('::mediawiki::parsoid::port') %>',
+	'domain' => '<%= scope.lookupvar('::mediawiki::parsoid::domain') %>',
+	'forwardCookies' => true,
+	'restbaseCompat' => false
+);
+

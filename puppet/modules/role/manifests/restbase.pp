@@ -1,6 +1,7 @@
 # == Class: role::restbase
 # Provisions RESTBase, a REST content API service
 class role::restbase {
+    require ::role::parsoid
     require ::restbase
 
     # set up the update extension
