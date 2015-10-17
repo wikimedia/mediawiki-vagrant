@@ -11,9 +11,13 @@
 # [*dir*]
 #   Installation directory.
 #
+# [*verbose*]
+#   Enable verbose logging.
+#
 class mediawiki::jobrunner(
     $enable,
     $dir,
+    $verbose,
 ) {
     require ::mediawiki
 
@@ -33,11 +37,14 @@ class mediawiki::jobrunner(
     }
 
     file { '/etc/default/jobrunner':
-        source => 'puppet:///modules/mediawiki/jobrunner.default',
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0444',
-        notify => Service['jobrunner'],
+        content => template('mediawiki/jobrunner.default.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        notify  => [
+            Service['jobrunner'],
+            Service['jobchron'],
+        ],
     }
 
     file { '/etc/init/jobrunner.conf':
