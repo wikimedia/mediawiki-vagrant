@@ -3,6 +3,7 @@
 # TitleBlacklist extensions
 class role::antispam {
     include ::role::antispoof
+    include ::role::titleblacklist
 
     mediawiki::extension { 'AbuseFilter':
         needs_update => true,
@@ -22,12 +23,6 @@ class role::antispam {
     mediawiki::extension { 'SpamBlacklist':
         settings => {
             wgLogSpamBlacklistHits => true,
-        },
-    }
-
-    mediawiki::extension { 'TitleBlacklist':
-        settings => {
-            wgTitleBlacklistLogHits => true,
         },
     }
 }

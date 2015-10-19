@@ -7,6 +7,7 @@ class role::uploadwizard {
     include ::role::eventlogging
     include ::role::multimedia
     include ::role::codeeditor
+    include ::role::titleblacklist
 
     # API smoke test dependencies
     require_package('imagemagick')
@@ -14,8 +15,6 @@ class role::uploadwizard {
     require_package('python-poster')
 
     mediawiki::extension { 'Campaigns': }
-
-    mediawiki::extension { 'TitleBlacklist': }
 
     mediawiki::extension { 'UploadWizard':
         browser_tests => true,

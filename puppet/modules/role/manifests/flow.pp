@@ -1,6 +1,8 @@
 # == Class: role::flow
 # Configures Flow, a MediaWiki discussion system.
 class role::flow {
+    include ::role::antispam
+    include ::role::checkuser
     include ::role::eventlogging
     include ::role::parsoid
     include ::role::echo

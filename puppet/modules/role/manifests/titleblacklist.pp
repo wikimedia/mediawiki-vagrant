@@ -24,4 +24,3 @@ class role::titleblacklist {
         source => 'puppet:///modules/role/titleblacklist/VagrantRoleTitleBlacklist.wiki',
     }
 }
-
