@@ -35,6 +35,8 @@ class crm::drupal(
 
     $db_url = "mysql://${::crm::db_user}:${::crm::db_pass}@localhost/${::crm::drupal_db}"
 
+    $audit_base = '/var/spool/audit'
+
     class { 'crm::drush':
         root => $dir,
     }
@@ -62,6 +64,23 @@ class crm::drupal(
         content => template('crm/drupal-install.sh.erb'),
         mode    => '0755',
         require => Git::Clone[$::crm::repo],
+    }
+
+    file { [ $audit_base,
+            "${audit_base}/amazon",
+            "${audit_base}/astropay",
+            "${audit_base}/worldpay",
+            "${audit_base}/amazon/incoming",
+            "${audit_base}/amazon/completed",
+            "${audit_base}/astropay/incoming",
+            "${audit_base}/astropay/completed",
+            "${audit_base}/worldpay/incoming",
+            "${audit_base}/worldpay/completed",
+        ]:
+        ensure  => directory,
+        group   => 'www-data',
+        mode    => '2775',
+        recurse => true,
     }
 
     mysql::db { $databases: }
