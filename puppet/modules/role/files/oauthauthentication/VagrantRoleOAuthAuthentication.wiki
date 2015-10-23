@@ -1,0 +1,11 @@
+Use Wikimedia identities to log in. This uses a predefined consumer
+([https://meta.wikimedia.org/wiki/Special:OAuthListConsumers/view/7e5461e6907ad6ed43684793046fd3a9 7e5461e6907ad6ed43684793046fd3a9])
+and the secret key of that consumer is part of the MediaWiki-Vagrant
+code and thus public, which makes it somewhat insecure. It should
+be good enough for development, though (the consumer does not have
+permissions to do anything, and the only information it can leak 
+is the fact that you have authorized it).
+
+The Vagrant box must be available at the IP address 127.0.0.1 for the
+role to work (the port number can be arbitrary).
+
