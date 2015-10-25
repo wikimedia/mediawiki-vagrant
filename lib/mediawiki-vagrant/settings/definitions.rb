@@ -27,8 +27,13 @@ module MediaWikiVagrant
       default: '10.11.12.13'
 
     setting :http_port,
-      description: "Host port forwarded to the guest VM's HTTP server (port 80)",
+      description: "Host port forwarded to the guest VM's HTTP port (80)",
       default: 8080,
+      coercion: ->(_setting, new) { new && new.to_i }
+
+    setting :https_port,
+      description: "Host port forwarded to the guest VM's HTTPS port (443), for use with the https role",
+      default: 4430,
       coercion: ->(_setting, new) { new && new.to_i }
 
     setting :host_ip,

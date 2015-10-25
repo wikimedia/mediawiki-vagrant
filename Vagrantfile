@@ -118,6 +118,10 @@ Vagrant.configure('2') do |config|
     guest: 80, host: settings[:http_port], host_ip: settings[:host_ip],
     id: 'http'
 
+  config.vm.network :forwarded_port,
+    guest: 443, host: settings[:https_port], host_ip: settings[:host_ip],
+    id: 'https'
+
   unless settings[:forward_ports].nil?
     settings[:forward_ports].each do |guest_port, host_port|
       config.vm.network :forwarded_port,
@@ -216,11 +220,12 @@ Vagrant.configure('2') do |config|
     puppet.options << '--color=false' if Vagrant::Util::Platform.windows?
 
     puppet.facter = {
-      'fqdn'             => config.vm.hostname,
-      'git_user'         => settings[:git_user],
-      'forwarded_port'   => settings[:http_port],
-      'shared_apt_cache' => '/vagrant/cache/apt/',
-      'environment'      => ENV['MWV_ENVIRONMENT'] || 'vagrant',
+      'fqdn'                 => config.vm.hostname,
+      'git_user'             => settings[:git_user],
+      'forwarded_port'       => settings[:http_port],
+      'forwarded_https_port' => settings[:https_port],
+      'shared_apt_cache'     => '/vagrant/cache/apt/',
+      'environment'          => ENV['MWV_ENVIRONMENT'] || 'vagrant',
     }
 
     if settings[:http_port] != 80

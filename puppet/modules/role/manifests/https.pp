@@ -18,7 +18,7 @@ class role::https {
     mediawiki::settings { 'SSL-related settings':
         values => {
             'wgSecureLogin'                          => true,
-            'wgHttpsPort'                            => 4430,
+            'wgHttpsPort'                            => $::forwarded_https_port,
             'wgAssumeProxiesUseDefaultProtocolPorts' => false,
         }
     }
