@@ -182,4 +182,14 @@ class mediawiki::multiwiki(
         mode    => '0755',
         content => template('mediawiki/multiwiki/foreachwiki.erb'),
     }
+
+    file { '/usr/local/bin/sql':
+        ensure  => link,
+        target  => '/usr/bin/mysql',
+        # /usr/bin/mysql is provided by the package
+        # mysql-client-core-5.5, but that is only installed as an
+        # implicit dependency of mysql-server required by
+        # mysql::packages.
+        require => Package['mysql-server'],
+    }
 }
