@@ -3,3 +3,6 @@
 # painful, so just ignore the automated check and rely on manual checks to see
 # that this is not abused.
 --no-80chars-check
+
+# Be strict.
+--fail-on-warnings
