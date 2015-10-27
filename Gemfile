@@ -7,6 +7,7 @@ group :development do
 
   gem 'rubocop', '~> 0.33.0', require: false
   gem 'puppet-lint', '1.1.0'
+  gem 'rake', '~> 10.4.2'
 end
 
 group :development, :test do
