@@ -53,8 +53,8 @@ class mediawiki::parsoid(
         require   => Package['nodejs', 'nodejs-legacy'],
     }
 
-    file { 'localsettings.js':
-        path    => "${dir}/src/api/localsettings.js",
+    file { 'parsoid-localsettings.js':
+        path    => "${dir}/src/localsettings.js",
         content => template('mediawiki/parsoid.localsettings.js.erb'),
         require => Git::Clone['mediawiki/services/parsoid/deploy'],
     }
@@ -73,6 +73,6 @@ class mediawiki::parsoid(
         ensure    => running,
         enable    => true,
         provider  => 'upstart',
-        subscribe => File['localsettings.js', '/etc/init/parsoid.conf'],
+        subscribe => File['parsoid-localsettings.js', '/etc/init/parsoid.conf'],
     }
 }
