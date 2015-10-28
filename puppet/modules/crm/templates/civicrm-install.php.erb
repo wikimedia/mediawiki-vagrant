@@ -2,7 +2,7 @@
 
 $config = array(
     'site_dir' => 'default',
-    'base_url' => "http://<%= @site_name %>/",
+    'base_url' => "http://<%= @site_name %><%= scope['::port_fragment'] %>/",
     'mysql' => array(
         'username' => "<%= scope['::crm::db_user'] %>",
         'password' => "<%= scope['::crm::db_pass'] %>",
