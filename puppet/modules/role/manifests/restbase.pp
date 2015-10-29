@@ -23,7 +23,7 @@ class role::restbase {
     mediawiki::settings { 'restbase-visualeditor':
         values   => {
             wgVisualEditorRestbaseURL =>
-                "http://localhost:${::restbase::port}/${::restbase::domain}/v1/page/html/",
+                "http://${::restbase::domain}:${::restbase::port}/${::restbase::domain}/v1/page/html/",
         },
         priority => 6,
     }
