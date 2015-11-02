@@ -1,0 +1,3 @@
+The [[mw:Extension:TitleBlacklist|TitleBlacklist extension]] allows wiki administrators to block the creation, movement and upload of pages, the title of which matches one or more regular expressions, as well as blocking creation of accounts with matching usernames.
+
+The remote blacklist is fetched from [[metawikimedia:Title_blacklist]]. The local blacklist is at [[MediaWiki:Titleblacklist]].
