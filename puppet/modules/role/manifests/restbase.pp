@@ -22,8 +22,10 @@ class role::restbase {
     # let VE load stuff directly from RB if it's active
     mediawiki::settings { 'restbase-visualeditor':
         values   => {
-            wgVisualEditorRestbaseURL =>
+            wgVisualEditorRestbaseURL     =>
                 "http://${::restbase::domain}:${::restbase::port}/${::restbase::domain}/v1/page/html/",
+            wgVisualEditorFullRestbaseURL =>
+                "http://${::restbase::domain}:${::restbase::port}/${::restbase::domain}/",
         },
         priority => 6,
     }
