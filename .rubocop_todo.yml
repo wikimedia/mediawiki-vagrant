@@ -78,13 +78,6 @@ Style/RescueModifier:
     - 'lib/mediawiki-vagrant/config.rb'
 
 # Offense count: 1
-# Cop supports --auto-correct.
-# Configuration parameters: AllowAsExpressionSeparator.
-Style/Semicolon:
-  Exclude:
-    - 'support/packager/package.rb'
-
-# Offense count: 1
 # Configuration parameters: Methods.
 Style/SingleLineBlockParams:
   Exclude:

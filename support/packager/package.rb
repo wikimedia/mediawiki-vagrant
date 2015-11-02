@@ -28,7 +28,7 @@ $sha256 = Digest::SHA256.new
 def download_file(target_dir_pathname, url_info)
   url = url_info['url']
 
-  filename = target_dir_pathname;
+  filename = target_dir_pathname
   if url_info.key?('filename')
     filename += url_info['filename']
   else
