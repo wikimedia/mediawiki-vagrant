@@ -73,12 +73,6 @@ Style/Next:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/PerlBackrefs:
-  Exclude:
-    - 'Rakefile'
-
-# Offense count: 1
-# Cop supports --auto-correct.
 Style/RedundantBegin:
   Exclude:
     - 'lib/mediawiki-vagrant/paste-puppet.rb'
