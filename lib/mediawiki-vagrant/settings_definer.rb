@@ -27,7 +27,7 @@ module MediaWikiVagrant
       end
 
       def setting(name, params = {})
-        self.definitions_hash[name] = Setting.new(name).tap do |setting|
+        definitions_hash[name] = Setting.new(name).tap do |setting|
           params.each { |name, value| setting.send("#{name}=", value) }
           setting.freeze
         end

@@ -71,12 +71,6 @@ Style/Next:
     - 'Vagrantfile'
     - 'lib/mediawiki-vagrant/roles/info.rb'
 
-# Offense count: 1
-# Cop supports --auto-correct.
-Style/RedundantSelf:
-  Exclude:
-    - 'lib/mediawiki-vagrant/settings_definer.rb'
-
 # Offense count: 2
 Style/RescueModifier:
   Exclude:
