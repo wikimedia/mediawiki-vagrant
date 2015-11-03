@@ -40,7 +40,7 @@ class mathoid(
     # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742347
     # is fixed
 
-    require_package('openjdk-7-jre-headless')
+    require_package('openjdk-8-jre-headless')
 
     service::node { 'mathoid':
         port      => $port,
