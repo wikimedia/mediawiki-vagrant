@@ -11,7 +11,7 @@ define phabricator::config(
 
     exec { "phab_set_${title}":
         command => "${::phabricator::deploy_dir}/phabricator/bin/config set ${title} '${value}'",
-        require => Git::Clone['https://github.com/phacility/phabricator'],
+        require => Git::Clone['phabricator'],
         unless  => "grep '${title}' ${::phabricator::deploy_dir}/phabricator/conf/local/local.json | grep '${value}'",
     }
 }

@@ -23,9 +23,9 @@ class phabricator(
         ensure => present,
     }
 
-    git::clone { 'https://github.com/phacility/phabricator':
+    git::clone { 'phabricator':
         directory => "${deploy_dir}/phabricator",
-        remote    => 'https://github.com/phacility/phabricator',
+        remote    => 'https://secure.phabricator.com/diffusion/P/phabricator.git',
         require   => Class['::arcanist'],
     }
 

@@ -13,14 +13,14 @@ class arcanist(
 ){
     include ::php
 
-    git::clone { 'https://github.com/phacility/libphutil':
+    git::clone { 'libphutil':
         directory => "${deploy_dir}/libphutil",
-        remote    => 'https://github.com/phacility/libphutil',
+        remote    => 'https://secure.phabricator.com/diffusion/PHU/libphutil.git',
     }
 
-    git::clone { 'https://github.com/phacility/arcanist':
+    git::clone { 'arcanist':
         directory => "${deploy_dir}/arcanist",
-        remote    => 'https://github.com/phacility/arcanist',
+        remote    => 'https://secure.phabricator.com/diffusion/ARC/arcanist.git',
     }
 
     env::profile_script { 'add arcanist bin to path':
