@@ -23,6 +23,12 @@ class phabricator(
         ensure => present,
     }
 
+    php::ini { 'phab_post_max_size':
+        settings => [
+            'post_max_size = 32M'
+        ],
+    }
+
     git::clone { 'phabricator':
         directory => "${deploy_dir}/phabricator",
         remote    => 'https://secure.phabricator.com/diffusion/P/phabricator.git',
