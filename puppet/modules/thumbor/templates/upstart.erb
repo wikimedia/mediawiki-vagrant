@@ -10,4 +10,4 @@ respawn
 setuid www-data
 setgid www-data
 
-exec <%= @deploy_dir %>/bin/thumbor -c <%= @cfg_file %>
+exec <%= @deploy_dir %>/bin/thumbor -c <%= @cfg_file %> -a tc_core.app.App

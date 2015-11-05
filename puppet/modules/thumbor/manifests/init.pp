@@ -45,6 +45,8 @@ class thumbor (
         packages => [
             'git+git://github.com/thumbor/thumbor.git',
             'git+git://github.com/gi11es/thumbor-memcached.git',
+            'git+git://github.com/thumbor-community/core',
+            'git+https://gerrit.wikimedia.org/r/thumbor/purger',
             'cv2',
             'numpy',
             'opencv-engine',
