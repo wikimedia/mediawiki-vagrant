@@ -73,11 +73,6 @@ Style/Next:
 
 # Offense count: 1
 # Cop supports --auto-correct.
-Style/NumericLiterals:
-  MinDigits: 7
-
-# Offense count: 1
-# Cop supports --auto-correct.
 Style/PerlBackrefs:
   Exclude:
     - 'Rakefile'

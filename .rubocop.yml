@@ -33,6 +33,9 @@ Style/Alias:
 Style/AlignParameters:
   Enabled: false
 
+Style/NumericLiterals:
+  Enabled: false
+
 Style/SignalException:
   Enabled: false
 
