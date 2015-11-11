@@ -103,7 +103,7 @@ templates:
             options:
               apiRequest:
                 method: post
-                uri: '<%= scope['::mediawiki::server_url'] %>/w/api.php'
+                uri: 'http://localhost<%= scope['::port_fragment'] %>/w/api.php'
                 headers:
                   host: '{$.request.params.domain}'
                 body: '{$.request.body}'
