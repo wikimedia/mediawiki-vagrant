@@ -173,6 +173,7 @@ mathoid::port: 10042
 mathoid::svg: true
 mathoid::img: true
 mathoid::png: true
+mathoid::texvcinfo: true
 mathoid::speak_text: true
 
 graphoid::base_path: "%{hiera('mwv::services_dir')}/graphoid"

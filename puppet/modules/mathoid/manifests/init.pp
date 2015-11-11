@@ -16,6 +16,10 @@
 # [*png*]
 #   Whether to generate PNGs. Default: true
 #
+# [*texvcinfo*]
+#   Whether to provide extended information on the tex input and potential problems with it.
+#   Default: true
+#
 # [*speak_text*]
 #   Whether to generate speakText representation. Default: true
 #
@@ -28,6 +32,7 @@ class mathoid(
     $img,
     $png,
     $speak_text,
+    $texvcinfo,
     $log_level = undef,
 ) {
 
@@ -44,6 +49,7 @@ class mathoid(
             svg       => $svg,
             img       => $img,
             png       => $png,
+            texvcinfo => $texvcinfo,
             speakText => $speak_text,
         },
     }
