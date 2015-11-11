@@ -17,7 +17,6 @@ class php {
         'php-mail',
         'php-mail-mime',
         'php-net-smtp',
-        'php-pear',
         'php5',
         'php5-apcu',
         'php5-cli',
