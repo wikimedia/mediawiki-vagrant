@@ -60,7 +60,7 @@ module MediaWikiVagrant
           end
 
           commands.keys.sort.each do |key|
-            o.separator "    #{key.ljust(longest+1)} #{commands[key]}"
+            o.separator "    #{key.ljust(longest + 1)} #{commands[key]}"
           end
 
           o.separator ''

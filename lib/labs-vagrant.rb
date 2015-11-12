@@ -17,7 +17,7 @@ when 'list-roles'
     prefix = enabled.include?(role) ? '*' : ' '
     "#{prefix} #{role}"
   end
-  col, *cols = roles.each_slice((roles.size/3.0).ceil).to_a
+  col, *cols = roles.each_slice((roles.size / 3.0).ceil).to_a
   col.zip(*cols) do |a, b, c|
     puts sprintf('%-26s %-26s %-26s', a, b, c)
   end
