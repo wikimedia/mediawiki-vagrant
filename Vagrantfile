@@ -254,14 +254,16 @@ end
 # Migrate {apt,composer}-cache to cache/{apt,composer}
 ['apt', 'composer'].each do |type|
   src = mwv.path("#{type}-cache")
+  next unless src.directory?
 
-  if src.directory?
-    dst = mwv.path('cache', type)
+  dst = mwv.path('cache', type)
 
-    src.each_child do |src_file|
-      unless src_file.directory? || src_file.basename.fnmatch?('.*')
-        src_file.rename(dst.join(src_file.basename)) rescue nil
-      end
+  src.each_child do |src_file|
+    next if src_file.directory? || src_file.basename.fnmatch?('.*')
+
+    begin
+      src_file.rename(dst.join(src_file.basename))
+    rescue
     end
   end
 end

@@ -161,7 +161,11 @@ module MediaWikiVagrant
     # Current width of the terminal.
     #
     def screen_width
-      @screen_width ||= `tput cols`.chomp.to_i rescue 80
+      @screen_width ||= begin
+                          `tput cols`.chomp.to_i
+                        rescue
+                          80
+                        end
     end
 
     # Unsets the given settings.

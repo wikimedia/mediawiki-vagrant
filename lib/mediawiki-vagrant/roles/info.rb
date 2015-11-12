@@ -45,18 +45,17 @@ module MediaWikiVagrant
           @env.ui.info rd.convert(doc) if doc
 
           changes = @mwv.load_settings(@mwv.roles_enabled + [role]) - settings
+          next unless changes.any?
 
-          if changes.any?
-            @env.ui.warn 'Enabling this role will adjust the following settings:'
+          @env.ui.warn 'Enabling this role will adjust the following settings:'
 
-            changes.each do |setting, change|
-              cur, new = *change.map { |v| setting_display_value(v) }
+          changes.each do |setting, change|
+            cur, new = *change.map { |v| setting_display_value(v) }
 
-              @env.ui.info ''
-              @env.ui.info setting.description unless setting.description.nil?
-              @env.ui.info "#{setting.name}: #{cur} -> ", new_line: false
-              @env.ui.info "#{new}", bold: true
-            end
+            @env.ui.info ''
+            @env.ui.info setting.description unless setting.description.nil?
+            @env.ui.info "#{setting.name}: #{cur} -> ", new_line: false
+            @env.ui.info "#{new}", bold: true
           end
         end
 
