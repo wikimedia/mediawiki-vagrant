@@ -126,7 +126,7 @@ Vagrant.configure('2') do |config|
     end
   end
 
-  root_share_options = {id: 'vagrant-root'}
+  root_share_options = { id: 'vagrant-root' }
 
   if settings[:nfs_shares]
     root_share_options[:type] = :nfs

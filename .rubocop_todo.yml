@@ -83,12 +83,6 @@ Style/SingleLineBlockParams:
   Exclude:
     - 'lib/mediawiki-vagrant/environment.rb'
 
-# Offense count: 2
-# Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyle, EnforcedStyleForEmptyBraces, SupportedStyles.
-Style/SpaceInsideHashLiteralBraces:
-  Enabled: false
-
 # Offense count: 5
 # Cop supports --auto-correct.
 Style/SpecialGlobalVars:
