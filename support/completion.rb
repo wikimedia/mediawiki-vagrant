@@ -1,5 +1,5 @@
 project_path = File.expand_path('../..', __FILE__)
-$: << File.join(project_path, 'lib')
+$LOAD_PATH << File.join(project_path, 'lib')
 
 require 'mediawiki-vagrant/environment'
 require 'mediawiki-vagrant/settings/definitions'

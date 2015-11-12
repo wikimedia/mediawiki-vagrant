@@ -85,15 +85,6 @@ Style/SingleLineBlockParams:
 
 # Offense count: 5
 # Cop supports --auto-correct.
-Style/SpecialGlobalVars:
-  Exclude:
-    - 'lib/mediawiki-vagrant/setup.rb'
-    - 'mediawiki-vagrant.gemspec'
-    - 'support/completion.rb'
-    - 'support/setup.rb'
-
-# Offense count: 5
-# Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
 Style/TrailingComma:
   Exclude:

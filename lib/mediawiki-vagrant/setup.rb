@@ -163,7 +163,7 @@ module MediaWikiVagrant
       blk ||= proc { |pipe| notify pipe, 1 }
 
       result = IO.popen(command, err: [:child, :out], &blk)
-      raise ExecutionError.new(command.join(' '), $?) unless $?.success?
+      raise ExecutionError.new(command.join(' '), $CHILD_STATUS) unless $CHILD_STATUS.success?
 
       result
     end

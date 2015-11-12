@@ -14,6 +14,7 @@ AllCops:
     - 'puppet/modules/stdlib/**/*'
     - 'puppet/modules/wikimetrics/**/*'
     - 'puppet/modules/wmflib/**/*'
+    - 'srv/**/*'
     - 'tmp/**/*'
     - 'Vagrantfile-extra.rb'
     - 'vendor/**/*'

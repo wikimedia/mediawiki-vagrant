@@ -1,7 +1,7 @@
 # Cross-platform setup script for MediaWiki-Vagrant.
 #
 
-$: << File.expand_path('../../lib', __FILE__)
+$LOAD_PATH << File.expand_path('../../lib', __FILE__)
 
 require 'mediawiki-vagrant/setup'
 
