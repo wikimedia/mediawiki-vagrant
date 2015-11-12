@@ -143,7 +143,7 @@ STORAGE = 'thumbor_memcached.storage'
 ## The result storage thumbor should use to store generated images. This must be
 ## the full name of a python module (python must be able to import it)
 ## Defaults to: None
-#RESULT_STORAGE = 'thumbor.result_storages.file_storage'
+RESULT_STORAGE = 'wikimedia_thumbor_result_storage'
 
 ## The imaging engine thumbor should use to perform image operations. This must
 ## be the full name of a python module (python must be able to import it)
@@ -468,7 +468,7 @@ FILTERS = [
 
 ## Expiration in seconds of generated images in the result storage
 ## Defaults to: 0
-RESULT_STORAGE_EXPIRATION_SECONDS = 2592000
+#RESULT_STORAGE_EXPIRATION_SECONDS = 0
 
 ## Path where the Result storage will store generated images
 ## Defaults to: /tmp/thumbor/result_storage
