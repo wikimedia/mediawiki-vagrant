@@ -72,6 +72,11 @@ class thumbor (
         require => Virtualenv::Environment[$deploy_dir],
     }
 
+    file { "${deploy_dir}/tinyrgb.icc":
+        ensure => present,
+        source => 'puppet:///modules/thumbor/tinyrgb.icc',
+    }
+
     file { $cfg_file:
         ensure    => present,
         group     => 'www-data',
@@ -91,7 +96,7 @@ class thumbor (
         enable    => true,
         provider  => 'upstart',
         require   => Virtualenv::Environment[$deploy_dir],
-        subscribe => File[$cfg_file, '/etc/init/thumbor.conf'],
+        subscribe => File["${deploy_dir}/tinyrgb.icc", $cfg_file, '/etc/init/thumbor.conf'],
     }
 
     varnish::backend { 'thumbor':
