@@ -85,4 +85,7 @@ sub vcl_backend_response {
     } elsif (bereq.http.X-Url ~ "^/images/") {
         set beresp.http.xkey = "File:" + regsub(bereq.http.X-Url, "^/images/[^/]+/[^/]+/(.*)", "\1");
     }
+
+    # Allow CORS
+    set beresp.http.Access-Control-Allow-Origin = "*";
 }
