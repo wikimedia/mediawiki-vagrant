@@ -89,7 +89,7 @@ module MediaWikiVagrant
       def print_cols(roles)
         if roles.any?
           col, *cols = roles.each_slice((roles.size/3.0).ceil).to_a
-          col.zip(*cols) do |a,b,c|
+          col.zip(*cols) do |a, b, c|
             @env.ui.info sprintf('%-26s %-26s %-26s', a, b, c)
           end
         end

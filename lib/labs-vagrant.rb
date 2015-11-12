@@ -18,7 +18,7 @@ when 'list-roles'
     "#{prefix} #{role}"
   end
   col, *cols = roles.each_slice((roles.size/3.0).ceil).to_a
-  col.zip(*cols) do |a,b,c|
+  col.zip(*cols) do |a, b, c|
     puts sprintf('%-26s %-26s %-26s', a, b, c)
   end
   puts "\nRoles marked with '*' are enabled."

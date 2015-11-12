@@ -119,7 +119,7 @@ Vagrant.configure('2') do |config|
     id: 'http'
 
   unless settings[:forward_ports].nil?
-    settings[:forward_ports].each do |guest_port,host_port|
+    settings[:forward_ports].each do |guest_port, host_port|
       config.vm.network :forwarded_port,
         host: host_port, host_ip: settings[:host_ip],
         guest: guest_port, auto_correct: true
@@ -130,7 +130,7 @@ Vagrant.configure('2') do |config|
 
   if settings[:nfs_shares]
     root_share_options[:type] = :nfs
-    root_share_options[:mount_options] = ['noatime','rsize=32767','wsize=32767','async']
+    root_share_options[:mount_options] = ['noatime', 'rsize=32767', 'wsize=32767', 'async']
     root_share_options[:mount_options] << 'fsc' if settings[:nfs_cache]
     config.nfs.map_uid = Process.uid
     config.nfs.map_gid = Process.gid

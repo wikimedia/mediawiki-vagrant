@@ -83,14 +83,6 @@ Style/SingleLineBlockParams:
   Exclude:
     - 'lib/mediawiki-vagrant/environment.rb'
 
-# Offense count: 8
-# Cop supports --auto-correct.
-Style/SpaceAfterComma:
-  Exclude:
-    - 'Vagrantfile'
-    - 'lib/labs-vagrant.rb'
-    - 'lib/mediawiki-vagrant/roles/list.rb'
-
 # Offense count: 3
 # Cop supports --auto-correct.
 # Configuration parameters: MultiSpaceAllowedForOperators.
