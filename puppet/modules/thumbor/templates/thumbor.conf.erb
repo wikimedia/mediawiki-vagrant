@@ -101,7 +101,7 @@ RESPECT_ORIENTATION = True
 ## Preserves exif information in generated images. Increases image size in
 ## kbytes, use with caution.
 ## Defaults to: False
-#PRESERVE_EXIF_INFO = False
+PRESERVE_EXIF_INFO = True
 
 ## Indicates whether thumbor should enable the EXPERIMENTAL support for animated
 ## gifs.
@@ -433,8 +433,9 @@ MEMCACHE_STORAGE_SERVERS = [
 
 ## List of optimizers that thumbor will use to optimize images
 ## Defaults to: []
-#OPTIMIZERS = #    [
-#    ]
+OPTIMIZERS = [
+	'wikimedia_thumbor_exif_optimizer',
+]
 
 
 ## Path for the jpegtran binary
@@ -582,3 +583,6 @@ COMMUNITY_EXTENSIONS = [
 ]
 
 ################################################################################
+
+EXIFTOOL_PATH = '/usr/bin/exiftool'
+EXIF_FIELDS_TO_KEEP = [ 'Artist', 'Copyright', 'Description', 'icc_profile' ]

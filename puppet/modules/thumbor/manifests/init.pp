@@ -32,6 +32,9 @@ class thumbor (
     # jpegtran
     require_package('libjpeg-progs')
 
+    # exiftool is needed by exif-optimizer
+    require_package('libimage-exiftool-perl')
+
     # opencv engine
     # activate it with ENGINE='opencv_engine' in thumbor.conf.erb
     # not used here by default because of https://github.com/thumbor/opencv-engine/issues/16
@@ -52,6 +55,7 @@ class thumbor (
             'opencv-engine',
             'raven',
             'pylibmc', # For memcache original file storage
+            'git+https://gerrit.wikimedia.org/r/thumbor/exif-optimizer',
         ],
         require  => [
             Package['libjpeg-progs'],
