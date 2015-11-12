@@ -7,8 +7,9 @@ class role::varnish {
 
     mediawiki::settings { 'varnish':
         values => {
-            'wgUseSquid'     => true,
-            'wgSquidServers' => [ '127.0.0.1:6081' ],
+            'wgUploadBaseUrl' => 'http://127.0.0.1:6081',
+            'wgUseSquid'      => true,
+            'wgSquidServers'  => [ '127.0.0.1:6081' ],
         }
     }
 }
