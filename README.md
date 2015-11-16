@@ -17,9 +17,10 @@ automated and contained in a virtual environment, mistakes are easy to undo.
 
 You'll need to install recent versions of Vagrant and VirtualBox.
 
-(Note that *experimental* support for Parallels, LXC, VMWare Fusion, and
-Microsoft Hyper-V providers exists. See `support/README-lxc.md` or
-`support/README-parallels.md` for details on the former two.)
+(Note that *experimental* support for Parallels, LXC, libvirt
+(KVM/QEMU), VMWare Fusion, and Microsoft Hyper-V providers exists.
+See `support/README-libvirt.md` `support/README-lxc.md` or
+`support/README-parallels.md` for details on the former three.)
 
  * VirtualBox: https://www.virtualbox.org/wiki/Downloads
  * Vagrant: https://www.vagrantup.com/downloads-archive.html (the version must be

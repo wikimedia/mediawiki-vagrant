@@ -116,6 +116,13 @@ Vagrant.configure('2') do |config|
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
+  # libvirt (KVM/QEMU) provider.  Enable with `--provider=libvirt`.
+  config.vm.provider :libvirt do |_libvirt, override|
+    override.vm.box = 'trusty-cloud'
+
+    override.vm.network :private_network, ip: settings[:static_ip]
+  end
+
   config.vm.network :forwarded_port,
     guest: 80, host: settings[:http_port], host_ip: settings[:host_ip],
     id: 'http'
@@ -190,6 +197,12 @@ Vagrant.configure('2') do |config|
 
   config.vm.provider :lxc do |lxc|
     lxc.customize 'cgroup.memory.limit_in_bytes', "#{settings[:vagrant_ram]}M"
+  end
+
+  config.vm.provider :libvirt do |libvirt|
+    libvirt.driver = 'qemu'
+    libvirt.memory = settings[:vagrant_ram]
+    libvirt.cpus   = settings[:vagrant_cores]
   end
 
   config.vm.provision :lsb_check do |lsb|
