@@ -5,6 +5,7 @@ class role::flow {
     include ::role::parsoid
     include ::role::echo
     include ::role::betafeatures
+    include ::role::varnish
 
     mediawiki::extension { 'Flow':
         needs_update  => true,
