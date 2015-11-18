@@ -138,7 +138,7 @@ RESPECT_ORIENTATION = True
 ## The file storage thumbor should use to store original images. This must be the
 ## full name of a python module (python must be able to import it)
 ## Defaults to: thumbor.storages.file_storage
-#STORAGE = 'thumbor.storages.file_storage'
+STORAGE = 'thumbor_memcached.storage'
 
 ## The result storage thumbor should use to store generated images. This must be
 ## the full name of a python module (python must be able to import it)
@@ -275,7 +275,7 @@ RESPECT_ORIENTATION = True
 ## Expiration in seconds for the images in the File Storage. Defaults to one
 ## month
 ## Defaults to: 2592000
-STORAGE_EXPIRATION_SECONDS = 60
+STORAGE_EXPIRATION_SECONDS = 600
 
 ## Indicates whether thumbor should store the signing key for each image in the
 ## file storage. This allows the key to be changed and old images to still be
@@ -374,9 +374,9 @@ STORAGE_EXPIRATION_SECONDS = 60
 
 ## List of Memcache storage server hosts
 ## Defaults to: ['localhost:11211']
-#MEMCACHE_STORAGE_SERVERS = #    [
-#        'localhost:11211',
-#    ]
+MEMCACHE_STORAGE_SERVERS = [
+        'localhost:11211',
+]
 
 
 ################################################################################

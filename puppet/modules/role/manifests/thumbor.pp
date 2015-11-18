@@ -5,6 +5,7 @@ class role::thumbor (
 ) {
     require ::role::varnish
     require ::role::statsd
+    require ::role::memcached
     require ::role::sentry
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http

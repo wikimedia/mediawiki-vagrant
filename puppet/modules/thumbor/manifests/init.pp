@@ -43,11 +43,13 @@ class thumbor (
     virtualenv::environment { $deploy_dir:
         ensure   => present,
         packages => [
-            'thumbor',
+            'git+git://github.com/thumbor/thumbor.git',
+            'git+git://github.com/gi11es/thumbor-memcached.git',
             'cv2',
             'numpy',
             'opencv-engine',
             'raven',
+            'pylibmc', # For memcache original file storage
         ],
         require  => [
             Package['libjpeg-progs'],
