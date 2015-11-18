@@ -109,14 +109,14 @@ class varnish {
     # Build and install xkey vmod
     require_package('libvarnishapi-dev')
     require_package('python-docutils')
+    require_package('automake')
+    require_package('libtool')
 
     git::clone { 'https://github.com/varnish/libvmod-xkey':
         directory => '/tmp/libvmod-xkey',
         remote    => 'https://github.com/varnish/libvmod-xkey',
         require   => [
             Package['varnish'],
-            Package['libvarnishapi-dev'],
-            Package['python-docutils'],
         ],
         before    => Exec['build_xkey'],
     }
