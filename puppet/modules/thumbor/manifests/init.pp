@@ -43,7 +43,7 @@ class thumbor (
     virtualenv::environment { $deploy_dir:
         ensure   => present,
         packages => [
-            'git+git://github.com/thumbor/thumbor.git',
+            'git+git://github.com/gi11es/thumbor.git',
             'git+git://github.com/gi11es/thumbor-memcached.git',
             'git+git://github.com/thumbor-community/core',
             'git+https://gerrit.wikimedia.org/r/thumbor/purger',
