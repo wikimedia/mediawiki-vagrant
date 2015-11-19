@@ -7,6 +7,7 @@
 class role::titleblacklist {
     mediawiki::extension { 'TitleBlacklist':
         settings => {
+            wgTitleBlacklistLogHits => true,
             wgTitleBlacklistSources => [
                 {
                     type => 'localpage',
