@@ -29,6 +29,7 @@ Feature: Command line configuration
       | http_port     |
       | https_port    |
       | nfs_shares    |
+      | nfs_force_v3  |
       | forward_agent |
       | forward_x11   |
 
@@ -77,6 +78,7 @@ Feature: Command line configuration
       | https_port    | 4433    |
       | host_ip       | 0.0.0.0 |
       | nfs_shares    | no      |
+      | nfs_force_v3  | no      |
       | nfs_cache     | yes     |
       | forward_agent | yes     |
       | forward_x11   | no      |
@@ -90,6 +92,7 @@ Feature: Command line configuration
       | https_port    | 4433    |
       | host_ip       | 0.0.0.0 |
       | nfs_shares    | no      |
+      | nfs_force_v3  | no      |
       | nfs_cache     | yes     |
       | forward_agent | yes     |
       | forward_x11   | no      |

@@ -145,6 +145,7 @@ Vagrant.configure('2') do |config|
     root_share_options[:type] = :nfs
     root_share_options[:mount_options] = ['noatime', 'rsize=32767', 'wsize=32767', 'async']
     root_share_options[:mount_options] << 'fsc' if settings[:nfs_cache]
+    root_share_options[:mount_options] << 'vers=3' if settings[:nfs_force_v3]
     config.nfs.map_uid = Process.uid
     config.nfs.map_gid = Process.gid
   else
