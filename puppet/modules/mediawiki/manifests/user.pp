@@ -42,7 +42,7 @@ define mediawiki::user(
     $username = $title,
     $email    = undef,
     $wiki     = $::mediawiki::db_name,
-    $groups   = []
+    $groups   = [],
 ) {
     include ::mediawiki
 
@@ -50,7 +50,10 @@ define mediawiki::user(
     # In the meantime, just address one common issue.
 
     # Capitalize first character
-    $canonical_username = capitalize($username)
+    # Ruby's capitalize has a bug/feature where it *lower-cases* every
+    # character except the first even when they were already
+    # capitalized.  Puppet inherits this.
+    $canonical_username = inline_template('<%= @username[0].capitalize + @username[1..-1] %>')
 
     exec { "mediawiki_user_${canonical_username}_${wiki}":
         command => "/usr/local/bin/mwscript createAndPromote.php \
