@@ -25,6 +25,7 @@ class service (
 ) {
 
     require ::mwv
+    require ::npm
 
     file { $conf_dir:
         ensure  => directory,

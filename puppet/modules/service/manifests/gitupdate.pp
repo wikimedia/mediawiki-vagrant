@@ -75,7 +75,7 @@ define service::gitupdate(
     # descern the update command to use
     $up_cmd = $type ? {
         'php'    => 'composer update --no-interaction --optimize-autoloader',
-        'nodejs' => 'npm install --no-bin-links',
+        'nodejs' => 'sudo rm -rf node_modules && npm install --no-bin-links',
         default  => 'invalid'
     }
     if $update and $up_cmd == 'invalid' {

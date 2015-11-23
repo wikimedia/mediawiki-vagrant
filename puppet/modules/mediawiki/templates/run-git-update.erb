@@ -62,7 +62,18 @@ function pull {
 
 }
 
+# expose the needed npm env vars
+export NPM_CONFIG_CACHE="<%= scope['::npm::cache_dir'] %>"
+export NPM_CONFIG_GLOBAL=false
+export LINK=g++
+export HOME=/home/vagrant
+
+# clear the npm module cache as earlier cached versions
+# of larger modules cause npm to run out of memory
+sudo rm -rf <%= scope['::npm::cache_dir'] %>/* /home/vagrant/.npm
+
 for srvconf in <%= scope['::service::conf_dir'] %>/*.conf; do
+  err=''
   source ${srvconf}
   echo -e "\e[36m==> Updating ${SERVICE_NAME} ...\e[0m"
   if [[ -n "${NEED_CHDIR}" && -d ${SERVICE_DIR} ]]; then
@@ -70,10 +81,14 @@ for srvconf in <%= scope['::service::conf_dir'] %>/*.conf; do
     [[ -n "${DO_PULL}" ]] && pull no_title
     if [[ -n ${UPDATE_CMD} ]]; then
       echo "[*] Updating dependencies for ${SERVICE_NAME} ..."
-      ${UPDATE_CMD}
+      if ! /bin/sh -c "${UPDATE_CMD}"; then
+        err="Could not update dependencies of ${SERVICE_NAME} !"
+        echo -e "\e[1;31m ***** $err\e[0m"
+        UPDATE_ERRORS+=("${err}")
+      fi
     fi
   fi
-  if [[ -n "${DO_RESTART}" ]]; then
+  if [[ -n "${DO_RESTART}" && -z "${err}" ]]; then
     echo "[*] Restarting service ${RESTART_NAME} ..."
     sudo service ${RESTART_NAME} restart
   fi
