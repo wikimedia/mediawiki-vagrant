@@ -38,7 +38,7 @@ class cassandra(
         source => 'puppet:///modules/cassandra/datastax.sources.list',
         owner  => 'root',
         group  => 'root',
-        notify => Exec['update_package_index'],
+        notify => Exec['apt-get update'],
     }
 
     # copy over cassandra-env.sh with modified JVM memory settings

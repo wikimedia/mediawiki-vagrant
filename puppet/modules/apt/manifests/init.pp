@@ -5,7 +5,7 @@
 # supplementary sources.
 #
 class apt {
-    exec { 'update_package_index':
+    exec { 'apt-get update':
         command  => '/usr/bin/apt-get update',
         schedule => hourly,
     }
@@ -24,12 +24,19 @@ class apt {
 
     file { '/etc/apt/sources.list.d/wikimedia.list':
         content => template('apt/wikimedia.list.erb'),
-        before  => Exec['update_package_index'],
+        before  => Exec['apt-get update'],
     }
 
     file { '/etc/apt/sources.list.d/multiverse.list':
         content => template('apt/multiverse.list.erb'),
-        before  => Exec['update_package_index'],
+        before  => Exec['apt-get update'],
+    }
+
+    # prefer Wikimedia APT repository packages in all cases
+    apt::pin { 'wikimedia':
+        package  => '*',
+        pin      => 'release o=Wikimedia',
+        priority => 1001,
     }
 
     if $::shared_apt_cache {
