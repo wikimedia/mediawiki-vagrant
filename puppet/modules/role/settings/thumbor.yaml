@@ -1,3 +1,4 @@
 forward_ports:
-  8888: 8888
-  6081: 6081
+  8888: 8888 # thumbor
+  6081: 6081 # varnish
+  8040: 8040 # swift

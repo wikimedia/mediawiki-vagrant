@@ -105,8 +105,14 @@ class thumbor (
         onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|png)"',
     }
 
+    varnish::backend { 'swift':
+        host   => '127.0.0.1',
+        port   => $::swift::port,
+        onlyif => 'req.url ~ "^/images/(?!thumb/).*\.(jpeg|jpg|png)"',
+    }
+
     varnish::config { 'thumbor':
-        source => 'puppet:///modules/thumbor/varnish.vcl',
-        order  => 49, # Needs to be before default for vcl_recv override
+        content => template('thumbor/varnish.vcl.erb'),
+        order   => 49, # Needs to be before default for vcl_recv override
     }
 }

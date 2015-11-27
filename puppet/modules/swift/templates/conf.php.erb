@@ -1,15 +1,25 @@
+$wgFileBackends[] = array(
+	'name'           => 'swift-backend',
+	'class'          => 'SwiftFileBackend',
+	'lockManager'    => 'nullLockManager',
+	'fileMode'       => 0644,
+	'basePath'       => $IP . '/images/gwtoolset',
+	'swiftAuthUrl'   => '127.0.0.1:<%= scope['::swift::port'] %>/auth',
+	'swiftUser'      => 'testproj:testuser',
+	'swiftKey'       => 'testpwd',
+);
+
 $wgLocalFileRepo = array(
 	'class'             => 'LocalRepo',
 	'name'              => 'local',
 	'backend'           => 'swift-backend',
 	'directory'         => $wgUploadDirectory,
+	'url'               => $wgUploadPath,
 	'scriptDirUrl'      => $wgScriptPath,
 	'scriptExtension'   => $wgScriptExtension,
-	'url'               => 'http://127.0.0.1:6081' . $wgUploadPath,
 	'hashLevels'        => $wgHashedUploadDirectory ? 2 : 0,
 	'thumbScriptUrl'    => $wgThumbnailScriptPath,
 	'transformVia404'   => !$wgGenerateThumbnailOnParse,
 	'deletedDir'        => $wgDeletedDirectory,
 	'deletedHashLevels' => $wgHashedUploadDirectory ? 3 : 0,
-	'supportsSha1URLs'  => true,
 );

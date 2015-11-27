@@ -315,6 +315,14 @@ smashpig::vhost_name: payments-listener.local.wmftest.net
 
 statsd::port: '8125'
 
+swift::storage_dir: "%{hiera('mwv::files_dir')}/swift"
+swift::port: 8040
+swift::cfg_file: /etc/swift/swift.conf
+swift::proxy_cfg_file: /etc/swift/proxy-server.conf
+swift::account_cfg_file: /etc/swift/account-server.conf
+swift::object_cfg_file: /etc/swift/object-server.conf
+swift::container_cfg_file: /etc/swift/container-server.conf
+
 trafficserver::deploy_dir: "%{hiera('mwv::services_dir')}/trafficserver"
 trafficserver::version: 6.0.0
 trafficserver::port: 6090

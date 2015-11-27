@@ -1,0 +1,26 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+[DEFAULT]
+bind_port = <%= @port %>
+log_facility = LOG_LOCAL1
+
+[pipeline:main]
+pipeline = healthcheck cache tempauth proxy-server
+
+[app:proxy-server]
+use = egg:swift#proxy
+allow_account_management = true
+account_autocreate = true
+
+[filter:tempauth]
+use = egg:swift#tempauth
+user_admin_admin = admin .admin .reseller_admin
+user_testproj_testuser = testpwd .admin
+
+[filter:healthcheck]
+use = egg:swift#healthcheck
+
+[filter:cache]
+use = egg:swift#memcache

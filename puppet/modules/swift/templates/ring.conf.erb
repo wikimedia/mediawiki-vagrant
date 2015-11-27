@@ -1,0 +1,27 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+[DEFAULT]
+devices = <%= @storage_dir %>
+mount_check = false
+bind_port = <%= @ring_port %>
+
+[pipeline:main]
+pipeline = <%= @ring_type %>-server
+
+[app:<%= @ring_type %>-server]
+use = egg:swift#<%= @ring_type %>
+
+[<%= @ring_type %>-replicator]
+vm_test_mode = yes
+
+[<%= @ring_type %>-updater]
+
+[<%= @ring_type %>-auditor]
+
+# Only for container-sync but avoid making more complex template logic
+[<%= @ring_type %>-sync]
+
+# Same for account-reaper
+[<%= @ring_type %>-reaper]
