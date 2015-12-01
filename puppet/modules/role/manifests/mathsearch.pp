@@ -13,7 +13,6 @@ class role::mathsearch {
         needs_update => true,
         settings     => [
             '$wgMathValidModes[] = "latexml"',
-            '$wgDefaultUserOptions["math"] = "latexml"',
         ],
     }
 }
