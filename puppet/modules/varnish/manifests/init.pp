@@ -37,6 +37,14 @@ class varnish {
         creates => '/var/lib/apt/lists/repo.varnish-cache.org_ubuntu_dists_trusty_InRelease',
     }
 
+    # The varnish-cache repo only contains varnish-related packages, it's safe
+    # to use a wildcard here
+    apt::pin { 'varnish':
+        package  => '*',
+        pin      => 'release o=repo.varnish-cache.org',
+        priority => 1002,
+    }
+
     package { 'varnish':
         ensure  => 'latest',
         require => [
@@ -106,8 +114,15 @@ class varnish {
         order  => 50,
     }
 
+    package { 'libvarnishapi-dev':
+        ensure  => 'latest',
+        require => [
+            Package['apt-transport-https'],
+            Exec['add_varnish_apt_key_and_update'],
+        ]
+    }
+
     # Build and install xkey vmod
-    require_package('libvarnishapi-dev')
     require_package('python-docutils')
     require_package('automake')
     require_package('libtool')
@@ -117,6 +132,7 @@ class varnish {
         remote    => 'https://github.com/varnish/libvmod-xkey',
         require   => [
             Package['varnish'],
+            Package['libvarnishapi-dev'],
         ],
         before    => Exec['build_xkey'],
     }
