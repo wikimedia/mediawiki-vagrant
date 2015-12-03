@@ -40,6 +40,8 @@ class thumbor (
     # not used here by default because of https://github.com/thumbor/opencv-engine/issues/16
     require_package('python-opencv')
 
+    require_package('gifsicle')
+
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
 
@@ -102,13 +104,13 @@ class thumbor (
     varnish::backend { 'thumbor':
         host   => '127.0.0.1',
         port   => '8888',
-        onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|png)"',
+        onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|jpe|png|apng|gif)"',
     }
 
     varnish::backend { 'swift':
         host   => '127.0.0.1',
         port   => $::swift::port,
-        onlyif => 'req.url ~ "^/images/(?!thumb/).*\.(jpeg|jpg|png)"',
+        onlyif => 'req.url ~ "^/images/(?!thumb/).*"',
     }
 
     varnish::config { 'thumbor':
