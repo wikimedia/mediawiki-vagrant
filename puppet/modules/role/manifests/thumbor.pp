@@ -8,6 +8,7 @@ class role::thumbor (
     require ::role::memcached
     require ::role::sentry
     require ::role::swift
+    require ::role::thumb_on_404
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
     include ::apache::mod::headers
@@ -22,6 +23,13 @@ class role::thumbor (
     mediawiki::settings { 'thumbor':
         values => {
             'wgIgnoreImageErrors' => true,
+            'wgFileExtensions'    => [
+                'png',
+                'gif',
+                'jpg',
+                'jpeg',
+                'xcf',
+            ],
         },
     }
 }

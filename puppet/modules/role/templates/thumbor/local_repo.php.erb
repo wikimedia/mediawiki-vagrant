@@ -1,15 +1,26 @@
 $wgLocalFileRepo = array(
-	'class'             => 'LocalRepo',
-	'name'              => 'local',
-	'backend'           => 'swift-backend',
-	'directory'         => $wgUploadDirectory,
-	'scriptDirUrl'      => $wgScriptPath,
-	'scriptExtension'   => $wgScriptExtension,
-	'url'               => 'http://127.0.0.1:6081' . $wgUploadPath,
-	'hashLevels'        => $wgHashedUploadDirectory ? 2 : 0,
-	'thumbScriptUrl'    => $wgThumbnailScriptPath,
-	'transformVia404'   => !$wgGenerateThumbnailOnParse,
-	'deletedDir'        => $wgDeletedDirectory,
-	'deletedHashLevels' => $wgHashedUploadDirectory ? 3 : 0,
-	'supportsSha1URLs'  => true,
+    'class'             => 'LocalRepo',
+    'name'              => 'local',
+    'backend'           => 'swift-backend',
+    'directory'         => $wgUploadDirectory,
+    'scriptDirUrl'      => $wgScriptPath,
+    'scriptExtension'   => $wgScriptExtension,
+    // Formats unsupported by thumbor hit mediawiki
+    'url'               => $wgUploadPath,
+    'zones'             => array(
+        'thumb' => array(
+            // Formats supported by thumbor hit varnish
+            'urlsByExt' => array (
+                'jpg' => 'http://127.0.0.1:6081' . $wgUploadPath . '/thumb',
+                'png' => 'http://127.0.0.1:6081' . $wgUploadPath . '/thumb',
+                'gif' => 'http://127.0.0.1:6081' . $wgUploadPath . '/thumb',
+            ),
+        ),
+    ),
+    'hashLevels'        => $wgHashedUploadDirectory ? 2 : 0,
+    'thumbScriptUrl'    => $wgThumbnailScriptPath,
+    'transformVia404'   => !$wgGenerateThumbnailOnParse,
+    'deletedDir'        => $wgDeletedDirectory,
+    'deletedHashLevels' => $wgHashedUploadDirectory ? 3 : 0,
+    'supportsSha1URLs'  => true,
 );
