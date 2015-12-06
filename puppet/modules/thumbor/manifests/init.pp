@@ -60,6 +60,7 @@ class thumbor (
             'raven',
             'pylibmc', # For memcache original file storage
             'git+https://gerrit.wikimedia.org/r/thumbor/exif-optimizer',
+            'git+https://gerrit.wikimedia.org/r/thumbor/proxy-engine',
         ],
         require  => [
             Package['libjpeg-progs'],

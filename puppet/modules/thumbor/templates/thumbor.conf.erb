@@ -148,7 +148,7 @@ STORAGE = 'thumbor_memcached.storage'
 ## The imaging engine thumbor should use to perform image operations. This must
 ## be the full name of a python module (python must be able to import it)
 ## Defaults to: thumbor.engines.pil
-#ENGINE = 'thumbor.engines.pil'
+ENGINE = 'wikimedia_thumbor_proxy_engine'
 
 ## The gif engine thumbor should use to perform image operations. This must be
 ## the full name of a python module (python must be able to import it)
@@ -582,9 +582,11 @@ COMMUNITY_EXTENSIONS = [
     'tc_purger',
 ]
 
-################################################################################
-
 EXIFTOOL_PATH = '/usr/bin/exiftool'
 EXIF_FIELDS_TO_KEEP = [ 'Artist', 'Copyright', 'Description', 'icc_profile' ]
 EXIF_TINYRGB_PATH = '/srv/thumbor/tinyrgb.icc'
 EXIF_TINYRGB_ICC_REPLACE = 'IEC 61966-2.1 Default RGB colour space - sRGB'
+
+PROXY_ENGINE_ENGINES = [ 'thumbor.engines.pil' ]
+
+################################################################################
