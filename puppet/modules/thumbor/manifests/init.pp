@@ -28,6 +28,8 @@ class thumbor (
     $sentry_dsn_file,
 ) {
     require ::virtualenv
+    # Needed by the venv, which clones a few git repos
+    require ::git
 
     # jpegtran
     require_package('libjpeg-progs')
@@ -62,6 +64,8 @@ class thumbor (
         require  => [
             Package['libjpeg-progs'],
             Package['python-opencv'],
+            # Needs to be an explicit dependency, for the packages pointing to git repos
+            Package['git'],
         ],
         timeout  => 600, # This venv can be particularly long to download and setup
     }
