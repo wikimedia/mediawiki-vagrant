@@ -31,6 +31,7 @@
 require_relative 'lib/mediawiki-vagrant/version'
 require 'fileutils'
 require 'ipaddr'
+require 'socket'
 
 # NOTE Use RubyGems over the Vagrant plugin manager as it's more reliable
 gemspec = Gem::Specification.find { |s| s.name == 'mediawiki-vagrant' }
@@ -226,6 +227,7 @@ Vagrant.configure('2') do |config|
       'forwarded_https_port' => settings[:https_port],
       'shared_apt_cache'     => '/vagrant/cache/apt/',
       'environment'          => ENV['MWV_ENVIRONMENT'] || 'vagrant',
+      'vmhost'               => Socket.gethostname,
     }
 
     if settings[:http_port] != 80

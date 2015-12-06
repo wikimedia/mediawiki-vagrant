@@ -1,7 +1,7 @@
 ---
 classes: ['::role::labs_initial_content']
 
-role::mediawiki::hostname: "%{::hostname}.wmflabs.org"
-mediawiki::multiwiki::base_domain: "-%{::hostname}.wmflabs.org"
+role::mediawiki::hostname: "%{::vmhost}.wmflabs.org"
+mediawiki::multiwiki::base_domain: "-%{::vmhost}.wmflabs.org"
 
 hhvm::logroot: /var/log
