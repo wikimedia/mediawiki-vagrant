@@ -42,10 +42,22 @@ class thumbor (
     # not used here by default because of https://github.com/thumbor/opencv-engine/issues/16
     require_package('python-opencv')
 
+    # For GIF engine
     require_package('gifsicle')
 
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
+
+    group { 'thumbor':
+        ensure => present,
+    }
+
+    user { 'thumbor':
+        ensure  => present,
+        home    => '/var/run/thumbor',
+        gid     => 'thumbor',
+        require => Group['thumbor'],
+    }
 
     virtualenv::environment { $deploy_dir:
         ensure   => present,
@@ -86,10 +98,16 @@ class thumbor (
 
     file { $cfg_file:
         ensure    => present,
-        group     => 'www-data',
+        group     => 'thumbor',
         content   => template('thumbor/thumbor.conf.erb'),
         mode      => '0640',
         subscribe => File[$sentry_dsn_file],
+        require   => User['thumbor'],
+    }
+
+    cgroup::config { 'thumbor':
+        limits  => 'memory { memory.limit_in_bytes = "104857600"; }', # 100MB
+        cgrules => '@thumbor memory thumbor',
     }
 
     file { '/etc/init/thumbor.conf':
@@ -102,8 +120,14 @@ class thumbor (
         ensure    => running,
         enable    => true,
         provider  => 'upstart',
-        require   => Virtualenv::Environment[$deploy_dir],
-        subscribe => File["${deploy_dir}/tinyrgb.icc", $cfg_file, '/etc/init/thumbor.conf'],
+        require   => [
+            Virtualenv::Environment[$deploy_dir],
+            User['thumbor'],
+        ],
+        subscribe => [
+            File["${deploy_dir}/tinyrgb.icc", $cfg_file, '/etc/init/thumbor.conf'],
+            Cgroup::Config['thumbor'],
+        ],
     }
 
     varnish::backend { 'thumbor':
