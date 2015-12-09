@@ -5,6 +5,7 @@ class role::notebook {
     package { [
         'nbconvert',
         'ipython',
+        'bleach',
     ]:
         ensure   => present,
         provider => pip,
