@@ -14,6 +14,7 @@ class role::oauth (
 
     mediawiki::extension { 'OAuth':
         needs_update => true,
+        composer     => true,
         settings     => [
             '$wgMWOAuthSecureTokenTransfer = false',
             "\$wgOAuthSecretKey = '${secret_key}'",
