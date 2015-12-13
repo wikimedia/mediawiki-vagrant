@@ -222,13 +222,16 @@ Vagrant.configure('2') do |config|
     puppet.options << '--color=false' if Vagrant::Util::Platform.windows?
 
     puppet.facter = {
-      'fqdn'                 => config.vm.hostname,
-      'git_user'             => settings[:git_user],
-      'forwarded_port'       => settings[:http_port],
-      'forwarded_https_port' => settings[:https_port],
-      'shared_apt_cache'     => '/vagrant/cache/apt/',
-      'environment'          => ENV['MWV_ENVIRONMENT'] || 'vagrant',
-      'vmhost'               => Socket.gethostname,
+      'fqdn'                   => config.vm.hostname,
+      'git_user'               => settings[:git_user],
+      'forwarded_port'         => settings[:http_port],
+      'forwarded_https_port'   => settings[:https_port],
+      'shared_apt_cache'       => '/vagrant/cache/apt/',
+      'environment'            => ENV['MWV_ENVIRONMENT'] || 'vagrant',
+      'vmhost'                 => Socket.gethostname,
+      # T86282: Force Puppet's LANG env var by exploiting a factor quirk.
+      # See https://stackoverflow.com/a/23502693/582542
+      'x=x LANG=en_US.UTF-8 x' => 'x',
     }
 
     if settings[:http_port] != 80
