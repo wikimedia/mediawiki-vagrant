@@ -434,7 +434,7 @@ MEMCACHE_STORAGE_SERVERS = [
 ## List of optimizers that thumbor will use to optimize images
 ## Defaults to: []
 OPTIMIZERS = [
-	'wikimedia_thumbor_exif_optimizer',
+    'wikimedia_thumbor_exif_optimizer',
 ]
 
 
@@ -444,7 +444,7 @@ JPEGTRAN_PATH = '/usr/bin/jpegtran'
 
 ## Path for the ffmpeg binary used to generate gifv(h.264)
 ## Defaults to: /usr/local/bin/ffmpeg
-#FFMPEG_PATH = '/usr/local/bin/ffmpeg'
+FFMPEG_PATH = '/usr/bin/ffmpeg'
 
 ################################################################################
 
@@ -594,6 +594,12 @@ SUBPROCESS_CGROUP = 'memory:thumbor'
 
 RSVG_CONVERT_PATH = '/usr/bin/rsvg-convert'
 
-PROXY_ENGINE_ENGINES = [ 'wikimedia_thumbor_svg_engine', 'thumbor.engines.pil' ]
+FFPROBE_PATH = '/usr/bin/ffprobe'
+
+PROXY_ENGINE_ENGINES = [
+    'wikimedia_thumbor_svg_engine',
+    'wikimedia_thumbor_video_engine',
+    'thumbor.engines.pil'
+]
 
 ################################################################################

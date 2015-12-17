@@ -8,6 +8,7 @@ class role::thumbor (
     require ::role::memcached
     require ::role::sentry
     require ::role::swift
+    require ::role::timedmediahandler
     require ::role::thumb_on_404
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
@@ -30,6 +31,8 @@ class role::thumbor (
                 'jpeg',
                 'xcf',
                 'svg',
+                'ogv',
+                'webm',
             ],
         },
     }

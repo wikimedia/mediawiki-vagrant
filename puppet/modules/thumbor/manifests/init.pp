@@ -46,6 +46,9 @@ class thumbor (
     # For SVG engine
     require_package('librsvg2-bin')
 
+    # For Video engine
+    require_package('ffmpeg')
+
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
 
@@ -76,6 +79,7 @@ class thumbor (
             'git+https://gerrit.wikimedia.org/r/thumbor/proxy-engine',
             'git+https://gerrit.wikimedia.org/r/thumbor/base-engine',
             'git+https://gerrit.wikimedia.org/r/thumbor/svg-engine',
+            'git+https://gerrit.wikimedia.org/r/thumbor/video-engine',
         ],
         require  => [
             Package['libjpeg-progs'],
@@ -136,7 +140,7 @@ class thumbor (
     varnish::backend { 'thumbor':
         host   => '127.0.0.1',
         port   => '8888',
-        onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|jpe|png|apng|gif|svg)"',
+        onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|jpe|png|apng|gif|svg|ogv|webm)"',
     }
 
     varnish::backend { 'swift':

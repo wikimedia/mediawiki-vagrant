@@ -58,16 +58,24 @@ sub vcl_recv {
     }
 
     # qlow jpg thumbs (thumbor)
-    if (req.url ~ "^/images/thumb/(.*)/qlow-(\d+)px-.*\.(jpg|jpeg|jpe)") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)/qlow-(\d+)px-.*\.(jpg|jpeg|jpe)", "\2") + "x/filters:quality(40):sharpen(0.6,0.01,false)/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)/qlow-(\d+)px-.*\.(jpg|jpeg|jpe)", "\1");
+    if (req.url ~ "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/qlow-(\d+)px-.*") {
+        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/qlow-(\d+)px-.*", "\3") + "x/filters:quality(40):sharpen(0.6,0.01,false)/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/qlow-(\d+)px-.*", "\1.\2");
         return (hash);
     # regular jpg thumbs (thumbor)
-    } else if (req.url ~ "^/images/thumb/(.*)/(\d+)px-.*\.(jpg|jpeg|jpe)") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)/(\d+)px-.*\.(jpg|jpeg|jpe)", "\2") + "x/filters:quality(87):sharpen(0.6,0.01,false)/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)/(\d+)px-.*\.(jpg|jpeg|jpe)", "\1");
+    } else if (req.url ~ "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/(\d+)px-.*") {
+        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/(\d+)px-.*", "\3") + "x/filters:quality(87):sharpen(0.6,0.01,false)/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/(\d+)px-.*", "\1.\2");
         return (hash);
-    # png & gif thumbs, no filters (thumbor)
-    } else if (req.url ~ "^/images/thumb/(.*)/(\d+)px-.*\.(png|apng|gif)") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)/(\d+)px-.*\.(png|apng|gif)", "\2") + "x/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)/(\d+)px-.*\.(png|apng|gif)", "\1");
+    # png, gif & svg thumbs, no filters (thumbor)
+    } else if (req.url ~ "^/images/thumb/(.*)\.(png|apng|gif|svg)/(\d+)px-.*") {
+        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(png|apng|gif|svg)/(\d+)px-.*", "\3") + "x/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(png|apng|gif|svg)/(\d+)px-.*", "\1.\2");
+        return (hash);
+    # ogv & webm thumbs, with seek parameter (thumbor)
+    } else if (req.url ~ "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px-(\d+)-.*") {
+        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px-(\d+)-.*", "\3") + "x/filters:page(" + regsub(req.url, "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px-(\d+)-.*", "\4")  + ")/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px-(\d+)-.*", "\1.\2");
+        return (hash);
+    # ogv & webm thumbs, without seek parameter (thumbor)
+    } else if (req.url ~ "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px--.*") {
+        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px--.*", "\3") + "x/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px--.*", "\1.\2");
         return (hash);
     # thumbs unsupported by thumbor (mediawiki)
     } else if (req.url ~ "^/images/thumb/.*") {
@@ -86,6 +94,8 @@ sub vcl_backend_response {
         # Expose the X-Url in the response for debugging purposes
         set beresp.http.X-Url = bereq.http.X-Url;
     }
+
+    set beresp.http.X-Backend-Url = bereq.url;
 
     if (bereq.http.X-Url ~ "^/images/thumb/") {
         set beresp.http.xkey = "File:" + regsub(bereq.http.X-Url, "^/images/thumb/[^/]+/[^/]+/([^/]+)/[^/]+$", "\1");
