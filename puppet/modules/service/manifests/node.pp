@@ -116,7 +116,7 @@ define service::node(
     file { $log_file:
         ensure => present,
         mode   => '0666',
-        owner  => 'www-data',
+        owner  => $::share_owner,
         group  => $::share_group,
     }
 
