@@ -7,116 +7,125 @@
 set -u
 declare -a UPDATE_ERRORS
 
+# Set default values for configuration variables
+: ${SHARE_OWNER=<%= scope['::share_owner'] %>}
+: ${SHARE_GROUP=<%= scope['::share_group'] %>}
+: ${NPM_CONFIG_CACHE=<%= scope['::npm::cache_dir'] %>}
+: ${SERVICE_CONF_DIR=<%= scope['::service::conf_dir'] %>}
+
 UPDATE_ERRORS=( )
 
 function pull {
-  print_empty_line=''
+  local PRINT_EMPTY_LINE=''
   if [[ $# -eq 0 ]]; then
     echo -e "\e[36m==> Updating $(pwd) ...\e[0m"
-    print_empty_line='yes'
+    PRINT_EMPTY_LINE='yes'
   else
     echo "[*] Updating repo in $(pwd) ..."
   fi
-  # some srv dirs may be still under root, chown them
-  find . -uid 0 -exec sudo chown -R <%= "#{scope['::share_owner']}:#{scope['::share_group']}" %> {} \;
-  branch=$(expr $(git symbolic-ref HEAD) : 'refs/heads/\(.*\)')
-  if [[ -z "$branch" ]]; then
+
+  # Some srv dirs may be still under root, chown them
+  find . -uid 0 -exec sudo chown -R ${SHARE_OWNER}:${SHARE_GROUP} {} \+
+
+  local BRANCH=$(expr $(git symbolic-ref HEAD) : 'refs/heads/\(.*\)')
+  if [[ -z $BRANCH ]]; then
     git checkout master
-    branch=$(expr $(git symbolic-ref HEAD) : 'refs/heads/\(.*\)')
+    BRANCH=$(expr $(git symbolic-ref HEAD) : 'refs/heads/\(.*\)')
   fi
-  err=''
-  if [[ -n "$branch" ]]; then
-    remote=$(git config branch.${branch}.remote)
-    if [[ -n "$remote" ]]; then
-      url=$(git config --get remote.${remote}.url)
-      if [[ $url == ssh://* ]]; then
+
+  local ERR=''
+  if [[ -n $BRANCH ]]; then
+    local REMOTE=$(git config branch.${BRANCH}.remote)
+    if [[ -n $REMOTE ]]; then
+      local URL=$(git config --get remote.${REMOTE}.url)
+      if [[ $URL == ssh://* ]]; then
         # Convert remote git url from ssh:// to anonymous https://
-        tempurl=$(echo $url | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
-        git pull --rebase $tempurl
+        local TEMPURL=$(echo $URL | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
+        git pull --rebase $TEMPURL
       else
         git pull --rebase
       fi
+
       if [[ $? -ne 0 ]]; then
         # If we didn't successfully update (possibly because we're on
         # a local branch), leave the submodules alone.
-        err="GIT PULL failed in $(pwd) for branch '$branch'"
+        ERR="GIT PULL failed in $(pwd) for branch '${BRANCH}'"
       else
         git submodule update --init --recursive
         if [[ $? -ne 0 ]]; then
-          err="GIT SUBMODULE UPDATE failed in $(pwd) for branch '$branch'"
+          ERR="GIT SUBMODULE UPDATE failed in $(pwd) for branch '${BRANCH}'"
         fi
       fi
     else
-      err="Remote not found in $(pwd) for branch '$branch'"
+      ERR="Remote not found in $(pwd) for branch '${BRANCH}'"
     fi
   else
-    err="Unable to get current branch in $(pwd)"
+    ERR="Unable to get current branch in $(pwd)"
   fi
 
-  if [[ -n "$err" ]]; then
-    echo -e "\e[1;31m ***** $err\e[0m"
-    UPDATE_ERRORS+=("$err")
+  if [[ -n $ERR ]]; then
+    echo -e "\e[1;31m ***** ${ERR}\e[0m"
+    UPDATE_ERRORS+=("$ERR")
   fi
 
-  [[ -n "${print_empty_line}" ]] && echo
-
+  [[ -n $PRINT_EMPTY_LINE ]] && echo
 }
 
-# expose the needed npm env vars
-export NPM_CONFIG_CACHE="<%= scope['::npm::cache_dir'] %>"
+# Expose the needed npm env vars
+export NPM_CONFIG_CACHE
 export NPM_CONFIG_GLOBAL=false
 export LINK=g++
 export HOME=/home/vagrant
 
-# clear the npm module cache as earlier cached versions
+# Clear the npm module cache as earlier cached versions
 # of larger modules cause npm to run out of memory
-sudo rm -rf <%= scope['::npm::cache_dir'] %>/* /home/vagrant/.npm
+sudo rm -rf ${NPM_CONFIG_CACHE}/* /home/vagrant/.npm
 
-for srvconf in <%= scope['::service::conf_dir'] %>/*.conf; do
-  err=''
-  source ${srvconf}
+for SRVCONF in ${SERVICE_CONF_DIR}/*.conf; do
+  ERR=''
+  source $SRVCONF
   echo -e "\e[36m==> Updating ${SERVICE_NAME} ...\e[0m"
-  if [[ -n "${NEED_CHDIR}" && -d ${SERVICE_DIR} ]]; then
-    cd "${SERVICE_DIR}"
-    [[ -n "${DO_PULL}" ]] && pull no_title
-    if [[ -n ${UPDATE_CMD} ]]; then
+  if [[ -n $NEED_CHDIR && -d $SERVICE_DIR ]]; then
+    cd $SERVICE_DIR
+    [[ -n $DO_PULL ]] && pull no_title
+    if [[ -n $UPDATE_CMD ]]; then
       echo "[*] Updating dependencies for ${SERVICE_NAME} ..."
-      if ! /bin/sh -c "${UPDATE_CMD}"; then
-        err="Could not update dependencies of ${SERVICE_NAME} !"
-        echo -e "\e[1;31m ***** $err\e[0m"
-        UPDATE_ERRORS+=("${err}")
+      if ! /bin/sh -c "$UPDATE_CMD"; then
+        ERR="Could not update dependencies of ${SERVICE_NAME} !"
+        echo -e "\e[1;31m ***** ${ERR}\e[0m"
+        UPDATE_ERRORS+=("${ERR}")
       fi
     fi
   fi
-  if [[ -n "${DO_RESTART}" && -z "${err}" ]]; then
+  if [[ -n $DO_RESTART && -z $ERR ]]; then
     echo "[*] Restarting service ${RESTART_NAME} ..."
     sudo service ${RESTART_NAME} restart
   fi
   echo
 done
 
-cd "$MW_INSTALL_PATH"
+cd $MW_INSTALL_PATH
 pull
 
-for f in extensions/*; do
-  if [[ -d $f ]] && [[ -d $f/.git ]]; then
-    pushd $f > /dev/null
+for DIR in ${MW_INSTALL_PATH}/extensions/*; do
+  if [[ -d $DIR ]] && [[ -d ${DIR}/.git ]]; then
+    pushd $DIR > /dev/null
     pull
     popd > /dev/null
   fi
 done
 
-for f in skins/*; do
-  if [[ -d $f ]] && [[ -d $f/.git ]]; then
-    pushd $f > /dev/null
+for DIR in ${MW_INSTALL_PATH}/skins/*; do
+  if [[ -d $DIR ]] && [[ -d ${DIR}/.git ]]; then
+    pushd $DIR > /dev/null
     pull
     popd > /dev/null
   fi
 done
 
-for f in . extensions/*; do
-  if [[ -d $f ]] && [[ -f $f/composer.json ]]; then
-    pushd $f > /dev/null
+for DIR in . ${MW_INSTALL_PATH}/extensions/*; do
+  if [[ -d $DIR ]] && [[ -f ${DIR}/composer.json ]]; then
+    pushd $DIR > /dev/null
     if git ls-files --error-unmatch composer.lock >/dev/null 2>&1; then
       # composer.lock is git-versioned, so rely on it
       COMPOSER_CMD=install
