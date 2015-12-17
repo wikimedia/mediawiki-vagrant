@@ -1,3 +1,4 @@
+vagrant_ram: 256
 forward_ports:
   8888: 8888 # thumbor
   6081: 6081 # varnish

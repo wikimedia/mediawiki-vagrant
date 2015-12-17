@@ -3,9 +3,7 @@
 # This Puppet class installs and configures a Thumbor instance
 #
 # Thumbor is installed as a Python package, and as part of that,
-# pip compiles lxml. This is memory-intensive; you might have to
-# increase the memory available to the VM with something like
-# 'vagrant config vagrant_ram 2048; vagrant reload'.
+# pip compiles lxml.
 #
 # === Parameters
 #
@@ -106,7 +104,7 @@ class thumbor (
     }
 
     cgroup::config { 'thumbor':
-        limits  => 'memory { memory.limit_in_bytes = "104857600"; }', # 100MB
+        limits  => "perm { task { uid = thumbor; gid = thumbor; } admin { uid = thumbor; gid = thumbor; } } memory { memory.limit_in_bytes = \"1048576000\"; }", # 1GB
         cgrules => '@thumbor memory thumbor',
     }
 
