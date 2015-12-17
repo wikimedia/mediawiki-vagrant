@@ -592,6 +592,8 @@ SUBPROCESS_TIMEOUT = 60
 SUBPROCESS_CGEXEC_PATH = '/usr/bin/cgexec'
 SUBPROCESS_CGROUP = 'memory:thumbor'
 
-PROXY_ENGINE_ENGINES = [ 'thumbor.engines.pil' ]
+RSVG_CONVERT_PATH = '/usr/bin/rsvg-convert'
+
+PROXY_ENGINE_ENGINES = [ 'wikimedia_thumbor_svg_engine', 'thumbor.engines.pil' ]
 
 ################################################################################

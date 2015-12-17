@@ -43,6 +43,9 @@ class thumbor (
     # For GIF engine
     require_package('gifsicle')
 
+    # For SVG engine
+    require_package('librsvg2-bin')
+
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
 
@@ -71,6 +74,8 @@ class thumbor (
             'pylibmc', # For memcache original file storage
             'git+https://gerrit.wikimedia.org/r/thumbor/exif-optimizer',
             'git+https://gerrit.wikimedia.org/r/thumbor/proxy-engine',
+            'git+https://gerrit.wikimedia.org/r/thumbor/base-engine',
+            'git+https://gerrit.wikimedia.org/r/thumbor/svg-engine',
         ],
         require  => [
             Package['libjpeg-progs'],
@@ -131,7 +136,7 @@ class thumbor (
     varnish::backend { 'thumbor':
         host   => '127.0.0.1',
         port   => '8888',
-        onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|jpe|png|apng|gif)"',
+        onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|jpe|png|apng|gif|svg)"',
     }
 
     varnish::backend { 'swift':

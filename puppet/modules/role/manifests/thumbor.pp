@@ -29,6 +29,7 @@ class role::thumbor (
                 'jpg',
                 'jpeg',
                 'xcf',
+                'svg',
             ],
         },
     }
