@@ -7,7 +7,9 @@ description "Thumbor"
 start on mediawiki-ready
 respawn
 
-setuid www-data
-setgid www-data
+setuid thumbor
+setgid thumbor
 
+# Wrapping this with cgexec fails silently, which is why we rely on cgrulesengd
+# to put the thumbor process into a cgroup
 exec <%= @deploy_dir %>/bin/thumbor -c <%= @cfg_file %> -a tc_core.app.App
