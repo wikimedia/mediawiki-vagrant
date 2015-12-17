@@ -119,22 +119,22 @@ for f in . extensions/*; do
     pushd $f > /dev/null
     if git ls-files --error-unmatch composer.lock >/dev/null 2>&1; then
       # composer.lock is git-versioned, so rely on it
-      composer_cmd=install
-      composer_action=Installing
+      COMPOSER_CMD=install
+      COMPOSER_ACTION=Installing
     else
-      composer_cmd=update
-      composer_action=Updating
+      COMPOSER_CMD=update
+      COMPOSER_ACTION=Updating
     fi
 
-    echo -e "\e[36m==> ${composer_action} composer dependencies in $(pwd) ...\e[0m"
-    composer "$composer_cmd" --no-interaction --optimize-autoloader
+    echo -e "\e[36m==> $COMPOSER_ACTION composer dependencies in $(pwd) ...\e[0m"
+    /usr/local/bin/composer $COMPOSER_CMD --no-interaction --optimize-autoloader
     popd > /dev/null
     echo
   fi
 done
 
 echo -e "\e[36m==> Updating database ...\e[0m"
-foreachwiki update.php --quick --doshared
+/usr/local/bin/foreachwiki update.php --quick --doshared
 
 if [[ ${#UPDATE_ERRORS[@]} -ne 0 ]]; then
   echo
