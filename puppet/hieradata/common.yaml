@@ -36,7 +36,7 @@ contenttranslation::action_template: "//$1%{hiera('mediawiki::multiwiki::base_do
 contenttranslation::api_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/api.php"
 contenttranslation::cx_template: "//127.0.0.1:%{::contenttranslation::cxserver::port}/v1"
 contenttranslation::database: 'contenttranslation'
-contenttranslation::database_user: "%{hiera('mediawiki::db_user')}"
+contenttranslation::database_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 contenttranslation::database_password: "%{hiera('mysql::root_password')}"
 contenttranslation::eventlogging: false
 contenttranslation::betafeature: false
@@ -203,8 +203,6 @@ mediawiki::upload_dir: "%{hiera('mwv::files_dir')}/images"
 mediawiki::page_dir: "%{hiera('mwv::files_dir')}/pages"
 mediawiki::composer_fragment_dir: "%{hiera('mediawiki::settings_dir')}/composer"
 mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
-mediawiki::db_user: root
-mediawiki::db_pass: "%{hiera('mysql::root_password')}"
 mediawiki::admin_user: admin
 mediawiki::admin_pass: vagrant
 mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fragment}"
@@ -219,6 +217,8 @@ mediawiki::multiwiki::base_domain: '.wiki.local.wmftest.net'
 mediawiki::multiwiki::script_dir: "%{hiera('mediawiki::apache::docroot')}/w"
 mediawiki::multiwiki::wiki_priority_dir: "%{hiera('mediawiki::multiwiki::settings_root')}/dbConf"
 mediawiki::multiwiki::settings_root: "%{hiera('mediawiki::settings_dir')}/wikis"
+mediawiki::multiwiki::db_user: 'wikiadmin'
+mediawiki::multiwiki::db_pass: 'wikipassword'
 
 mediawiki::parsoid::dir: "%{hiera('mwv::services_dir')}/parsoid"
 mediawiki::parsoid::port: 8000
@@ -231,6 +231,7 @@ mediawiki::parsoid::workers: 2
 
 mysql::default_db_name: wiki
 mysql::root_password: vagrant
+mysql::grant_host_name: 'localhost'
 
 phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
 phabricator::vhost_name: phabricator.local.wmftest.net
@@ -250,6 +251,9 @@ redis::max_memory: 256M
 restbase::port: 7231
 restbase::domain: "%{hiera('role::mediawiki::hostname')}"
 restbase::dbdir: /var/lib/restbase
+
+role::centralauth::db_host: "%{hiera('mysql::grant_host_name')}"
+role::centralauth::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 
 role::commons::upload_dir: "%{hiera('mwv::files_dir')}/commonsimages"
 

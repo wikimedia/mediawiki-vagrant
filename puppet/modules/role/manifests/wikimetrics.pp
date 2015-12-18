@@ -40,14 +40,14 @@ class role::wikimetrics(
         group               => $wikimetrics_group,
         # Use the role::mediawiki MySQL database for
         # wikimetrics editor cohort analysis
-        db_user_mediawiki   => $::mediawiki::db_user,
-        db_pass_mediawiki   => $::mediawiki::db_pass,
+        db_user_mediawiki   => $::mediawiki::multiwiki::db_user,
+        db_pass_mediawiki   => $::mediawiki::multiwiki::db_pass,
         db_name_mediawiki   => $::mediawiki::db_name,
         db_host_mediawiki   => 'localhost',
         # Use the role::centralauth MySQL database for
         # wikimetrics cohort user expansion
-        db_user_centralauth => $::mediawiki::db_user,
-        db_pass_centralauth => $::mediawiki::db_pass,
+        db_user_centralauth => $::mediawiki::multiwiki::db_user,
+        db_pass_centralauth => $::mediawiki::multiwiki::db_pass,
         db_name_centralauth => $::role::centralauth::shared_db,
         db_host_centralauth => 'localhost',
         # clone wikimetrics as vagrant share user

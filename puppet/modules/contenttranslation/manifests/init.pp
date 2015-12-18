@@ -30,6 +30,9 @@
 # [*cx_template*]
 #   The url template for the local cxserver service.
 #
+# [*database_host*]
+#   The DB host for grant purposes
+#
 # [*database*]
 #   The name of the shared database in which to put the cx tables.
 #   Will be created if does not exist.
@@ -84,6 +87,7 @@ class contenttranslation(
     $action_template,
     $api_template,
     $cx_template,
+    $database_host = $::mysql::grant_host_name,
     $database,
     $database_user,
     $database_password,
@@ -121,11 +125,10 @@ class contenttranslation(
         ensure => present,
     }
 
-    mysql::user { $database_user:
-        ensure   => present,
-        grant    => "ALL ON ${database}.*",
-        password => $database_password,
-        require  => Mysql::Db[$database],
+    mysql::sql { "${database_user}_full_priv_${database}":
+        sql     => "GRANT ALL PRIVILEGES ON ${database}.* TO ${database_user}@${database_host}",
+        unless  => "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE TABLE_SCHEMA = '${database}' AND GRANTEE = \"'${database_user}'@'${database_host}'\" LIMIT 1",
+        require => Mysql::User[$database_user],
     }
 
     mysql::sql { 'Load ContentTranslation schema':

@@ -12,6 +12,9 @@
 #   If defined, the 'mysql' command-line client will be configured to
 #   use this database by default (default: undefined).
 #
+# [*grant_host_name*]
+#   Host name used for grant statements
+#
 # === Examples
 #
 #  class { 'mysql':
@@ -22,6 +25,7 @@
 class mysql(
     $root_password = 'vagrant',
     $default_db_name = undef,
+    $grant_host_name = undef,
 ) {
     include ::mysql::packages
 

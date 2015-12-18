@@ -66,9 +66,10 @@
 #   the LOAD_ constants from site.php.  Default is $LOAD_NORMAL.
 define mediawiki::wiki(
     $wiki_name    = $title,
+    $db_host      = $::mysql::grant_host_name,
     $db_name      = "${title}wiki",
-    $db_user      = $::mediawiki::db_user,
-    $db_pass      = $::mediawiki::db_pass,
+    $db_user      = $::mediawiki::multiwiki::db_user,
+    $db_pass      = $::mediawiki::multiwiki::db_pass,
     $admin_user   = $::mediawiki::admin_user,
     $admin_pass   = $::mediawiki::admin_pass,
     $src_dir      = $::mediawiki::dir,
@@ -82,6 +83,12 @@ define mediawiki::wiki(
     include ::mwv
     include ::mediawiki
     require ::mediawiki::multiwiki
+
+    mysql::sql { "${db_user}_full_priv_${db_name}":
+        sql     => "GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}@${db_host}",
+        unless  => "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE TABLE_SCHEMA = '${db_name}' AND GRANTEE = \"'${db_user}'@'${db_host}'\" LIMIT 1",
+        require => Mysql::User[$db_user],
+    }
 
     $settings_root = "${::mediawiki::multiwiki::settings_root}/${db_name}"
     $settings_dir = "${settings_root}/settings.d"
@@ -117,7 +124,9 @@ define mediawiki::wiki(
         require => [
             Class['mysql'],
             File[$settings_root],
+            Mysql::Sql["${db_user}_full_priv_${db_name}"],
         ],
+        before  => Exec['update_all_databases'],
     }
 
     exec { "${db_name}_include_extra_settings":

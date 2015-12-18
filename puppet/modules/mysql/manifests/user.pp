@@ -18,7 +18,8 @@
 #
 # [*hostname*]
 #   Hostname or host mask specifying from where the user may connect.
-#   Defaults to 'localhost'.
+#   Used for grant command.
+#   Defaults to $::mysql::grant_host_name.
 #
 # [*grant*]
 #   SQL sub-expression of the form 'priv_type ON object_type'.
@@ -39,7 +40,7 @@ define mysql::user(
     $ensure   = present,
     $username = $title,
     $grant    = 'usage on *.*',
-    $hostname = 'localhost',
+    $hostname = $::mysql::grant_host_name,
 ) {
     if $ensure == 'absent' {
         $command = 'drop'

@@ -10,7 +10,16 @@
 # The default +Admin+ user will be automatically converted to a global
 # account.
 #
-class role::centralauth {
+# [*db_host*]
+#   Database host used to connect to CentralAuth database
+#
+# [*db_user*]
+#   Database user used for CentralAuth database
+#
+class role::centralauth(
+    $db_host,
+    $db_user,
+){
     require ::role::mediawiki
     include ::role::antispoof
     include ::role::renameuser
@@ -51,6 +60,11 @@ class role::centralauth {
 
     mysql::db { $shared_db:
         ensure => present,
+    }
+
+    mysql::sql { "GRANT ALL PRIVILEGES ON ${shared_db}.* TO ${db_user}@${db_host}":
+        unless  => "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE TABLE_SCHEMA = '${shared_db}' AND GRANTEE = \"'${db_user}'@'${db_host}'\" LIMIT 1",
+        require => Mysql::User[$db_user],
     }
 
     mysql::sql { 'Create CentralAuth tables':

@@ -24,16 +24,28 @@
 # [*settings_root*]
 #   Location of settings files.
 #
+# [*db_user*]
+#   Database user used by MediaWiki for main database
+#
+# [*db_pass*]
+#   Database password used by MediaWiki
 class mediawiki::multiwiki(
     $base_domain,
     $script_dir,
     $wiki_priority_dir,
     $settings_root,
+    $db_user,
+    $db_pass,
 ) {
 
     File {
         owner => 'vagrant',
         group => 'www-data',
+    }
+
+    mysql::user { $db_user:
+        password => $db_pass,
+        grant    => 'CREATE ON *.*'
     }
 
     file { $settings_root:

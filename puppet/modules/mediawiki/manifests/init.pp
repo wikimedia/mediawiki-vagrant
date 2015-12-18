@@ -17,12 +17,6 @@
 # [*db_name*]
 #   Logical MySQL database name (example: 'devwiki').
 #
-# [*db_user*]
-#   MySQL user to use to connect to the database (example: 'wikidb').
-#
-# [*db_pass*]
-#   Password for MySQL account (example: 'secret123').
-#
 # [*dir*]
 #   The system path to which MediaWiki files have been installed
 #   (example: '/srv/mediawiki').
@@ -55,8 +49,6 @@ class mediawiki(
     $admin_user,
     $admin_pass,
     $db_name,
-    $db_pass,
-    $db_user,
     $dir,
     $cache_dir,
     $settings_dir,

@@ -14,6 +14,9 @@
 #   for determining whether or not to execute the code contained in
 #   the 'sql' param.
 #
+#   It should always SELECT 1, with appropriate other clauses (WHERE,
+#   etc.).
+#
 # === Examples
 #
 # Create a user named 'monty', unless one already exists:
