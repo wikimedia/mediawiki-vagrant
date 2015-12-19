@@ -1,7 +1,7 @@
 <Directory <%= @images_dir %>>
 RewriteEngine on
 RewriteBase "/images/"
-RewriteRule "^thumb/(.*)/qlow-(\d+)px-.*\.jpg" "http://127.0.0.1:8888/unsafe/$2x/filters:quality(40):sharpen(0.6,0.01,false)/<%= @server_url %>/images/$1" [P]
-RewriteRule "^thumb/(.*)/(\d+)px-.*\.jpg" "http://127.0.0.1:8888/unsafe/$2x/filters:quality(87):sharpen(0.6,0.01,false)/<%= @server_url %>/images/$1" [P]
+RewriteRule "^thumb/(.*)/qlow-(\d+)px-.*\.jpg" "http://127.0.0.1:8888/unsafe/$2x/filters:quality(40):conditional_sharpen(0.6,0.01,false,0.85)/<%= @server_url %>/images/$1" [P]
+RewriteRule "^thumb/(.*)/(\d+)px-.*\.jpg" "http://127.0.0.1:8888/unsafe/$2x/filters:quality(87):conditional_sharpen(0.6,0.01,false,0.85)/<%= @server_url %>/images/$1" [P]
 RewriteRule "^thumb/(.*)/(\d+)px-.*\.png" "http://127.0.0.1:8888/unsafe/$2x/<%= @server_url %>/images/$1" [P]
 </Directory>

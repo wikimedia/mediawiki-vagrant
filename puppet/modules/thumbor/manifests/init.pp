@@ -75,6 +75,7 @@ class thumbor (
             'opencv-engine',
             'raven',
             'pylibmc', # For memcache original file storage
+            'git+https://gerrit.wikimedia.org/r/thumbor/conditional-sharpen',
             'git+https://gerrit.wikimedia.org/r/thumbor/exif-optimizer',
             'git+https://gerrit.wikimedia.org/r/thumbor/proxy-engine',
             'git+https://gerrit.wikimedia.org/r/thumbor/base-engine',
