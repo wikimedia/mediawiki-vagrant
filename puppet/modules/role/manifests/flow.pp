@@ -24,8 +24,8 @@ class role::flow {
       ],
     }
 
-    mediawiki::user { 'Selenium_privileged_Flow_user':
-        username => 'Selenium Flow user',
+    $privileged_username = 'Selenium Flow user'
+    mediawiki::user { $privileged_username:
         password => $::mediawiki::admin_pass,
         wiki     => $::mediawiki::db_name,
         groups   => [
@@ -35,11 +35,13 @@ class role::flow {
         ],
     }
 
-    mediawiki::user { 'Selenium_regular_Flow_user':
-        username => 'Selenium Flow user 2',
+    $regular_username = 'Selenium Flow user 2'
+    mediawiki::user { $regular_username:
         password => $::mediawiki::admin_pass,
         wiki     => $::mediawiki::db_name,
     }
+
+    role::centralauth::migrate_user { [ $privileged_username, $regular_username ]: }
 
     file { '/etc/logrotate.d/mediawiki_Flow':
         source => 'puppet:///modules/role/flow/logrotate.d-mediawiki-Flow',

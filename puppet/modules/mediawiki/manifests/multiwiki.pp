@@ -24,18 +24,39 @@
 # [*settings_root*]
 #   Location of settings files.
 #
+# [*db_host*]
+#   Hostname used for connecting to MySQL
+#
 # [*db_user*]
 #   Database user used by MediaWiki for main database
 #
 # [*db_pass*]
-#   Database password used by MediaWiki
+#   Database password used by MediaWiki for main database
+#
+# [*extension_db_cluster*]
+#   Cluster used for extension data (refers to wgExternalServers key)
+#
+# [*extension_cluster_shared_db_name*]
+#   Database on the extension cluster (potentially) shared by multiple
+#   extensions.  The cluster can have additional databases, though.
+#
+# [*extension_cluster_db_user*]
+#   Database user used for extension cluster
+#
+# [*extension_cluster_db_pass*]
+#   Database password used for extension cluster
 class mediawiki::multiwiki(
     $base_domain,
     $script_dir,
     $wiki_priority_dir,
     $settings_root,
+    $db_host,
     $db_user,
     $db_pass,
+    $extension_db_cluster,
+    $extension_cluster_shared_db_name,
+    $extension_cluster_db_user,
+    $extension_cluster_db_pass,
 ) {
 
     File {
@@ -57,6 +78,18 @@ class mediawiki::multiwiki(
         purge   => true,
         force   => true,
     }
+
+    mysql::user { $extension_cluster_db_user:
+        password => $extension_cluster_db_pass,
+        grant    => "ALL PRIVILEGES ON ${extension_cluster_shared_db_name}.*"
+    }
+
+    # This does not need to be the only DB on the cluster,
+    # but we set it up in multiwiki because in production
+    # there is a single DB used by multiple extensions,
+    # (BounceHandler, ContentTranslation, Echo), so there
+    # is not a natural extension role that should own it.
+    mysql::db { $extension_cluster_shared_db_name: }
 
     file { "${settings_root}/CommonSettings.php":
         ensure  => present,

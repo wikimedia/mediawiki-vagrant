@@ -19,6 +19,18 @@ if ( $multiVersion === null ) {
 
 $wgHooks['wfShellWikiCmd'][] = 'MWMultiVersion::onWfShellMaintenanceCmd';
 
+$wgExternalServers['<%= @extension_db_cluster %>'] = array(
+	array(
+		'host' => '<%= @db_host %>',
+		'user' => '<%= @extension_cluster_db_user %>',
+		'password' => '<%= @extension_cluster_db_pass %>',
+		'dbname' => '<%= @extension_cluster_shared_db_name %>',
+		'type' => 'mysql',
+		'load' => 1,
+		'flags' => DBO_DEBUG | DBO_DEFAULT,
+	),
+);
+
 // This must be set *after* the DefaultSettings.php inclusion
 $wgDBname = $multiVersion->getDatabase();
 
