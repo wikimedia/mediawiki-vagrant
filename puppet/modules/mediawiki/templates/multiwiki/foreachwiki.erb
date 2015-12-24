@@ -6,10 +6,20 @@
 CMD=$1
 shift
 
+FAILURES=0
 for db in $(alldbs); do
   echo -----------------------------------------------------------------
   echo $db
   echo -----------------------------------------------------------------
   mwscript "$CMD" --wiki=$db "$@" |
   sed -u "s/^/$db:  /"
+
+  if [[ ${PIPESTATUS[0]} -ne 0 ]]; then
+      ((FAILURES++))
+  fi
 done
+
+if [[ $FAILURES -ne 0 ]]; then
+    echo "$FAILURES wikis failed." >&2
+    exit 1
+fi
