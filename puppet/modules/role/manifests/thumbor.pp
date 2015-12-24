@@ -6,6 +6,8 @@ class role::thumbor (
     require ::role::varnish
     require ::role::statsd
     require ::role::memcached
+    require ::role::pagedtiffhandler
+    require ::role::pdfhandler
     require ::role::sentry
     require ::role::swift
     require ::role::timedmediahandler
@@ -24,15 +26,25 @@ class role::thumbor (
     mediawiki::settings { 'thumbor':
         values => {
             'wgIgnoreImageErrors' => true,
+            'wgDjvuRenderer'      => '/usr/bin/ddjvu',
+            'wgDjvuDump'          => '/usr/bin/djvudump',
+            'wgDjvuToXML'         => '/usr/bin/djvutoxml',
+            'wgDjvuTxt'           => '/usr/bin/djvutxt',
             'wgFileExtensions'    => [
+                'apng',
                 'png',
                 'gif',
                 'jpg',
+                'jpe',
                 'jpeg',
                 'xcf',
                 'svg',
                 'ogv',
                 'webm',
+                'djvu',
+                'pdf',
+                'tiff',
+                'tif',
             ],
         },
     }

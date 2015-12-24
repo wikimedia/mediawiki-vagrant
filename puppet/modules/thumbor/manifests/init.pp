@@ -49,6 +49,15 @@ class thumbor (
     # For Video engine
     require_package('ffmpeg')
 
+    # For XCF engine
+    require_package('xcftools')
+
+    # For DjVu engine
+    require_package('djvulibre-bin')
+
+    # For Ghostscript engine (PDF)
+    require_package('ghostscript')
+
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
 
@@ -66,21 +75,26 @@ class thumbor (
     virtualenv::environment { $deploy_dir:
         ensure   => present,
         packages => [
-            'git+git://github.com/gi11es/thumbor.git',
-            'git+git://github.com/gi11es/thumbor-memcached.git',
-            'git+git://github.com/thumbor-community/core',
-            'git+https://gerrit.wikimedia.org/r/thumbor/purger',
             'cv2',
             'numpy',
             'opencv-engine',
             'raven',
             'pylibmc', # For memcache original file storage
+            'git+git://github.com/gi11es/thumbor.git',
+            'git+git://github.com/gi11es/thumbor-memcached.git',
+            'git+git://github.com/thumbor-community/core',
             'git+https://gerrit.wikimedia.org/r/thumbor/conditional-sharpen',
+            'git+https://gerrit.wikimedia.org/r/thumbor/page',
+            'git+https://gerrit.wikimedia.org/r/thumbor/purger',
             'git+https://gerrit.wikimedia.org/r/thumbor/exif-optimizer',
             'git+https://gerrit.wikimedia.org/r/thumbor/proxy-engine',
             'git+https://gerrit.wikimedia.org/r/thumbor/base-engine',
             'git+https://gerrit.wikimedia.org/r/thumbor/svg-engine',
             'git+https://gerrit.wikimedia.org/r/thumbor/video-engine',
+            'git+https://gerrit.wikimedia.org/r/thumbor/xcf-engine',
+            'git+https://gerrit.wikimedia.org/r/thumbor/tiff-engine',
+            'git+https://gerrit.wikimedia.org/r/thumbor/djvu-engine',
+            'git+https://gerrit.wikimedia.org/r/thumbor/ghostscript-engine',
         ],
         require  => [
             Package['libjpeg-progs'],
@@ -141,7 +155,7 @@ class thumbor (
     varnish::backend { 'thumbor':
         host   => '127.0.0.1',
         port   => '8888',
-        onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|jpe|png|apng|gif|svg|ogv|webm)"',
+        onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|jpe|png|apng|gif|svg|ogv|webm|xcf|djvu|pdf|tif|tiff)"',
     }
 
     varnish::backend { 'swift':

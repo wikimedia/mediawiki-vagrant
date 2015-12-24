@@ -65,9 +65,17 @@ sub vcl_recv {
     } else if (req.url ~ "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/(\d+)px-.*") {
         set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/(\d+)px-.*", "\3") + "x/filters:quality(87):conditional_sharpen(0.6,0.01,false,0.85)/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/(\d+)px-.*", "\1.\2");
         return (hash);
-    # png, gif & svg thumbs, no filters (thumbor)
-    } else if (req.url ~ "^/images/thumb/(.*)\.(png|apng|gif|svg)/(\d+)px-.*") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(png|apng|gif|svg)/(\d+)px-.*", "\3") + "x/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(png|apng|gif|svg)/(\d+)px-.*", "\1.\2");
+    # png, gif, svg, xcf & tiff thumbs, no filters (thumbor)
+    } else if (req.url ~ "^/images/thumb/(.*)\.(png|apng|gif|svg|xcf|tif|tiff)/(\d+)px-.*") {
+        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(png|apng|gif|svg|xcf|tif|tiff)/(\d+)px-.*", "\3") + "x/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(png|apng|gif|svg|xcf|tif|tiff)/(\d+)px-.*", "\1.\2");
+        return (hash);
+    # pdf & djvu thumbs, with page parameter (thumbor)
+    } else if (req.url ~ "^/images/thumb/(.*)\.(pdf|djvu)/page(\d+)-(\d+)px-.*") {
+        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(pdf|djvu)/page(\d+)-(\d+)px-.*", "\4") + "x/filters:page(" + regsub(req.url, "^/images/thumb/(.*)\.(pdf|djvu)/page(\d+)-(\d+)px-.*", "\3")  + ")/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(pdf|djvu)/page(\d+)-(\d+)px-.*", "\1.\2");
+        return (hash);
+    # tiff thumbs, with lossy and page parameter (thumbor)
+    } else if (req.url ~ "^/images/thumb/(.*)\.(tif|tiff)/lossy-page(\d+)-(\d+)px-.*") {
+        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(tif|tiff)/lossy-page(\d+)-(\d+)px-.*", "\4") + "x/filters:page(" + regsub(req.url, "^/images/thumb/(.*)\.(tif|tiff)/lossy-page(\d+)-(\d+)px-.*", "\3")  + ")/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(tif|tiff)/lossy-page(\d+)-(\d+)px-.*", "\1.\2");
         return (hash);
     # ogv & webm thumbs, with seek parameter (thumbor)
     } else if (req.url ~ "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px-(\d+)-.*") {

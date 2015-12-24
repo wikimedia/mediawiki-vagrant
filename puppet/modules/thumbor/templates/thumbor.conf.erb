@@ -457,7 +457,8 @@ FFMPEG_PATH = '/usr/bin/ffmpeg'
 ## Defaults to: ['thumbor.filters.brightness', 'thumbor.filters.colorize', 'thumbor.filters.contrast', 'thumbor.filters.rgb', 'thumbor.filters.round_corner', 'thumbor.filters.quality', 'thumbor.filters.noise', 'thumbor.filters.watermark', 'thumbor.filters.equalize', 'thumbor.filters.fill', 'thumbor.filters.sharpen', 'thumbor.filters.strip_icc', 'thumbor.filters.frame', 'thumbor.filters.grayscale', 'thumbor.filters.rotate', 'thumbor.filters.format', 'thumbor.filters.max_bytes', 'thumbor.filters.convolution', 'thumbor.filters.blur', 'thumbor.filters.extract_focal', 'thumbor.filters.no_upscale', 'thumbor.filters.saturation', 'thumbor.filters.max_age', 'thumbor.filters.curve']
 FILTERS = [
     'wikimedia_thumbor_conditional_sharpen',
-    'thumbor.filters.quality',
+    'wikimedia_thumbor_page',
+    'thumbor.filters.quality'
 ]
 
 
@@ -574,9 +575,19 @@ RSVG_CONVERT_PATH = '/usr/bin/rsvg-convert'
 
 FFPROBE_PATH = '/usr/bin/ffprobe'
 
+XCF2PNG_PATH = '/usr/bin/xcf2png'
+
+DDJVU_PATH = '/usr/bin/ddjvu'
+
+GHOSTSCRIPT_PATH = '/usr/bin/gs'
+
 PROXY_ENGINE_ENGINES = [
     'wikimedia_thumbor_svg_engine',
     'wikimedia_thumbor_video_engine',
+    'wikimedia_thumbor_xcf_engine',
+    'wikimedia_thumbor_djvu_engine',
+    'wikimedia_thumbor_ghostscript_engine',
+    'wikimedia_thumbor_tiff_engine',
     'thumbor.engines.pil'
 ]
 
