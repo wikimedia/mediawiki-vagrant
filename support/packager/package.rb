@@ -15,14 +15,11 @@ $iso_file = $output_dir + 'mediawiki-vagrant-installer.iso'
 
 $url_config = YAML.load(($packager_dir + 'urls.yaml').read)
 
-# TODO: (mattflaschen, 2014-04-30): Symbolic links might be nice, but
-# not sure if there's a USB filesystem (NTFS?) that supports symlinks
-# reliably and works cross-OS.
-
 # TODO: (mattflaschen, 2014-04-30): Should it automatically find and
 # download the latest file for each installer?
 
 $sha256 = Digest::SHA256.new
+$stdout.sync = true
 
 # Checks the SHA256.  If it matches, doesn't need to be downloaded again
 def download_file(target_dir_pathname, url_info)
@@ -151,7 +148,7 @@ def build_iso
   puts 'Creating iso image to distribute...'
   # -r: Rock Ridge with recommended values for permissions, etc.
   if system('which genisoimage >/dev/null 2>&1')
-    system('genisoimage', '-r', '-o', $iso_file.to_s, $contents_dir.to_s)
+    system('genisoimage', '-quiet', '-r', '-o', $iso_file.to_s, $contents_dir.to_s)
   else
     puts '"genisoimage" not found. Iso image not created.'
   end

@@ -12,25 +12,26 @@ Installation instructions
 NOTE: You can replace ~/Vagrant with your choice of directory, but
 mediawiki must be directly underneath.
 
-Replace /USB_DRIVE_PATH with the location of the USB drive, or the location where
-you copied the files from the drive.
+Replace /USB_DRIVE_PATH with the location of the USB drive, or the
+location where you copied the files from the drive.
 
-1. If you don't have git installed (typically only windows users), install it
-   from http://git-scm.com/downloads
+1. If you don't have git installed (typically only windows users),
+   install it from the directory for your OS.
 
 2. If you don't have a Gerrit username yet, signup at
    https://wikitech.wikimedia.org/wiki/Special:UserLogin/signup .  The
-   "Instance shell account name" you give (not your Wiki username) is your
-   username in Gerrit, replace GERRIT_USER in the instructions below with it.
+   "Instance shell account name" you give (not your Wiki username) is
+   your username in Gerrit, replace GERRIT_USER in the instructions
+   below with it.
 
 3. From the directory for your OS, install VirtualBox.
 
 4. From the directory for your OS, install Vagrant.  If you use Linux,
-   use files from Linux/DEB/ for Debian or Ubuntu and Linux/RPM/ for Red Hat,
-   Centos, Fedora, etc.
+   use files from Linux/DEB/ for Debian or Ubuntu and Linux/RPM/ for Red
+   Hat, Centos, Fedora, etc.
 
-5. Install the virtual machine (an Ubuntu 14.04 "Trusty" Linux distribution)
-   that Vagrant uses as a base:
+5. Install the virtual machine (an Ubuntu 14.04 "Trusty" Linux
+   distribution) that Vagrant uses as a base:
 
     $ cd /USB_DRIVE_PATH
     $ vagrant box add trusty-cloud trusty-server-cloudimg-amd64-vagrant-disk1.box
@@ -55,8 +56,9 @@ you copied the files from the drive.
 
 9a. You're done with the USB drive, you can unmount/safely remove it.
 
-10. You've got fairly recent code off the USB drive, but development continues.
-   So configure git repositories to sync with Gerrit over the network:
+10. You've got fairly recent code off the USB drive, but development
+    continues. Configure git repositories to sync with Gerrit over
+    the network:
 
     $ cd ~/Vagrant
     $ git remote set-url origin ssh://GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/vagrant.git
@@ -64,8 +66,8 @@ you copied the files from the drive.
     $ cd ~/Vagrant/mediawiki
     $ git remote set-url origin ssh://GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/core.git
 
-11. Update MediaWiki-Vagrant and MediaWiki core git repositories to latest
-   versions:
+11. Update MediaWiki-Vagrant and MediaWiki core git repositories to
+    latest versions:
 
    $ cd ~/Vagrant
    $ git pull
