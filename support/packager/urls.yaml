@@ -105,4 +105,4 @@ Git:
   Windows:
     url: https://github.com/git-for-windows/git/releases/download/v2.6.4.windows.1/Git-2.6.4-32-bit.exe
     filename: Git-2.6.4-32-bit.exe
-    shar256: c2c27746010f3b09949fb8435ac8a8d1496aeb6fb26fc6ac787ed09686cffcaa
+    sha256: c2c27746010f3b09949fb8435ac8a8d1496aeb6fb26fc6ac787ed09686cffcaa
