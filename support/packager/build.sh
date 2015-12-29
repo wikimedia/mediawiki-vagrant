@@ -46,6 +46,8 @@ export DEBIAN_FRONTEND=noninteractive
     # Populate apt cache from local cache
     rsync -a --delete --include='*.deb' ${MWV}/cache/apt/ ${CONTENTS}/cache/apt
     mkdir -p ${CONTENTS}/cache/apt/partial
+    # Ensure that we don't sneak a lock file into the cache clone
+    rm -f ${CONTENTS}/cache/apt/lock
 
     # Generate installer output (directory and iso)
     cd ${MWV}/support/packager
