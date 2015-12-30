@@ -43,12 +43,6 @@ export DEBIAN_FRONTEND=noninteractive
     echo "MediaWiki-Vagrant: $(cd ${MWV}; git rev-parse HEAD)" >>${BUILD_INFO}
     echo "MediaWiki: $(cd ${MWV}/mediawiki; git rev-parse HEAD)" >>${BUILD_INFO}
 
-    # Populate apt cache from local cache
-    rsync -a --delete --include='*.deb' ${MWV}/cache/apt/ ${CONTENTS}/cache/apt
-    mkdir -p ${CONTENTS}/cache/apt/partial
-    # Ensure that we don't sneak a lock file into the cache clone
-    rm -f ${CONTENTS}/cache/apt/lock
-
     # Generate installer output (directory and iso)
     cd ${MWV}/support/packager
     ruby package.rb

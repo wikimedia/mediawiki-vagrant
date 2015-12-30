@@ -99,6 +99,11 @@ def common
   Dir.chdir(mediawiki_vagrant_dir)
   puts 'Copying cache...'
   system('cp', '-R', 'cache', $contents_dir.to_s)
+  # Ensure that a 'partial' directory is present for the apt cache
+  mkdir_p(($contents_dir + 'cache' + 'apt' + 'partial').to_s)
+  # An apt lock file may not exist but make sure that it it removed from the
+  # copy just in case as it will cause annoying problems otherwise.
+  rm_f(($contents_dir + 'cache' + 'apt' + 'lock').to_s)
 
   Dir.chdir(old_cwd)
 
