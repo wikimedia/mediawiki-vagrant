@@ -58,6 +58,12 @@
 # [*server_url*]
 #   Full base URL of host (example: 'http://mywiki.net:8080').
 #
+# [*primary_wiki*]
+#   Whether this is the primary wiki (defaults false)
+#
+# [*priority*]
+#   Position of this wiki in foreachwiki.  Uses the scale of
+#   the LOAD_ constants from site.php.  Default is $LOAD_NORMAL.
 define mediawiki::wiki(
     $wiki_name    = $title,
     $db_name      = "${title}wiki",
@@ -71,6 +77,7 @@ define mediawiki::wiki(
     $upload_path  = "/${title}images",
     $server_url   = "http://${title}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
     $primary_wiki = false,
+    $priority     = $::LOAD_NORMAL,
 ) {
     include ::mwv
     include ::mediawiki
@@ -132,6 +139,13 @@ define mediawiki::wiki(
         user        => 'www-data',
     }
 
+    $priority_filename = sprintf('%s/%.2d-%s-dbConf.php', $::mediawiki::multiwiki::wiki_priority_dir, $priority, $db_name)
+    file { $priority_filename:
+        ensure  => present,
+        mode    => '0644',
+        content => template('mediawiki/wiki/dbConf.php.erb'),
+    }
+
     File {
         owner   => $::share_owner,
         group   => $::share_group,
@@ -148,12 +162,6 @@ define mediawiki::wiki(
         ensure  => present,
         mode    => '0644',
         content => template('mediawiki/wiki/wgConf.php.erb'),
-    }
-
-    file { "${settings_root}/dbConf.php":
-        ensure  => present,
-        mode    => '0644',
-        content => template('mediawiki/wiki/dbConf.php.erb'),
     }
 
     file { "/etc/logrotate.d/mediawiki_${db_name}_debug_log":

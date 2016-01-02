@@ -190,6 +190,13 @@ class mediawiki(
         refreshonly => true,
     }
 
+    # Make sure settings which will affect update_all_databases are
+    # in place before it runs.
+    Mediawiki::Settings <| |> -> Exec['update_all_databases']
+
+    # Make sure all wikis are defined before it runs.
+    Mediawiki::Wiki <| |> -> Exec['update_all_databases']
+
     php::composer::install { $dir:
         require => Git::Clone['mediawiki/core'],
     }

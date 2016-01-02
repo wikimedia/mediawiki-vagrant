@@ -217,6 +217,7 @@ mediawiki::jobrunner::verbose: false
 
 mediawiki::multiwiki::base_domain: '.wiki.local.wmftest.net'
 mediawiki::multiwiki::script_dir: "%{hiera('mediawiki::apache::docroot')}/w"
+mediawiki::multiwiki::wiki_priority_dir: "%{hiera('mediawiki::multiwiki::settings_root')}/dbConf"
 mediawiki::multiwiki::settings_root: "%{hiera('mediawiki::settings_dir')}/wikis"
 
 mediawiki::parsoid::dir: "%{hiera('mwv::services_dir')}/parsoid"

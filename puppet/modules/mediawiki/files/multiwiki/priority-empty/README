@@ -1,0 +1,4 @@
+This directory is managed by Puppet.
+
+The purpose is to control the ordering of the various wikis for scripts that
+act on all of them.

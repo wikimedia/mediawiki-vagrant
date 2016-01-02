@@ -16,7 +16,7 @@ stage { 'first': } -> Stage['main'] -> stage { 'last': }
 
 # Human-readable constants which may be used in lieu of literal numbers
 # for specifying loading priority of resource types which support this
-# notion (like mediawiki::extension and mediawiki::settings).
+# notion (like mediawiki::extension, mediawiki::settings, and mediawiki::wiki).
 $LOAD_FIRST  = 0
 $LOAD_EARLY  = 5
 $LOAD_NORMAL = 10

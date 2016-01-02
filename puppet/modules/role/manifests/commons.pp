@@ -14,6 +14,7 @@ class role::commons(
 
     mediawiki::wiki { 'commons':
         upload_dir => $upload_dir,
+        priority   => $::LOAD_EARLY,
     }
     role::thumb_on_404::multiwiki { 'commons': }
 
@@ -36,7 +37,7 @@ class role::commons(
         require      => Mediawiki::Wiki['commons'],
     }
 
-    exec { 'refresh globalusage table':
+    mediawiki::maintenance { 'refresh globalusage table':
         command => '/usr/local/bin/foreachwiki extensions/GlobalUsage/refreshGlobalimagelinks.php --pages existing,nonexisting',
         cwd     => $::mediawiki::dir,
         user    => 'www-data',

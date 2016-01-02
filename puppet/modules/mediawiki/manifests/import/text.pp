@@ -64,11 +64,13 @@ define mediawiki::import::text(
         require     => [
             Mediawiki::Wiki[$wiki],
             Exec["${db_name}_copy_LocalSettings"],
+            Exec['update_all_databases'],
         ],
     }
 
     # Add extensions before importing text (bug T92036)
     MediaWiki::Extension <| |> -> Mediawiki::Import::Text <| |>
+
     # Run sql before importing text
     Mysql::Sql <| |> -> Mediawiki::Import::Text <| |>
 }

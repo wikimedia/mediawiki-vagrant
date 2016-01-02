@@ -6,6 +6,6 @@ global $wgLocalDatabases, $wgCentralAuthAutoLoginWikis, $wgMediawikiRoot;
 $wgLocalDatabases = array();
 $wgCentralAuthAutoLoginWikis = array();
 $wgMediawikiRoot = array();
-foreach ( glob( '<%= @settings_root %>/*/dbConf.php' ) as $file ) {
+foreach ( glob( '<%= @wiki_priority_dir %>/*dbConf.php' ) as $file ) {
 	require $file;
 }

@@ -15,7 +15,9 @@ class role::gadgets2 {
         branch       => 'RL2',
     }
 
-    mediawiki::wiki { 'gadgets': }
+    mediawiki::wiki { 'gadgets':
+        priority   => $::LOAD_EARLY,
+    }
 
     mediawiki::wiki { 'gadgetsclient': }
 

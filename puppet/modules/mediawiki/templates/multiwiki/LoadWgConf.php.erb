@@ -3,7 +3,7 @@
 
 $wgCentralAuthAutoLoginWikis = array();
 $wgLocalDatabases = array();
-foreach ( glob( __DIR__ . '/*/dbConf.php' ) as $file) {
+foreach ( glob( '<%= @wiki_priority_dir %>/*dbConf.php' ) as $file ) {
 	// Use require rather than require_once as something in the request may have
 	// loaded the dbConf files previously.
 	require $file;

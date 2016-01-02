@@ -16,12 +16,18 @@
 # [*script_dir*]
 #   Apache vhost document root.
 #
+# [*wiki_priority_dir*]
+#   The directory used to control wiki priority.  This is primarily
+#   intended for update_all_databases, but affects alldbs and all uses
+#   of foreachwiki
+#
 # [*settings_root*]
 #   Location of settings files.
 #
 class mediawiki::multiwiki(
     $base_domain,
     $script_dir,
+    $wiki_priority_dir,
     $settings_root,
 ) {
 
@@ -149,6 +155,16 @@ class mediawiki::multiwiki(
     file { "${script_dir}/CREDITS":
         ensure => link,
         target => "${::mediawiki::dir}/CREDITS",
+    }
+
+    file { $wiki_priority_dir:
+        ensure  => directory,
+        owner   => $::share_owner,
+        group   => $::share_group,
+        recurse => true,
+        purge   => true,
+        force   => true,
+        source  => 'puppet:///modules/mediawiki/multiwiki/priority-empty',
     }
 
     file { '/usr/local/bin/multiversion-install':
