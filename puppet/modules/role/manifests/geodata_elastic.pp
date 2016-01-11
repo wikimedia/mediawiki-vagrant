@@ -6,7 +6,7 @@ class role::geodata_elastic {
     include ::role::cirrussearch
 
     mediawiki::settings { 'GeoData-elastic':
-        priority => $::LOAD_LATER,
+        priority => $::LOAD_LAST,
         values   => {
             wgGeoDataBackend => 'elastic',
         },
