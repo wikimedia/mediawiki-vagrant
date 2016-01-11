@@ -14,6 +14,6 @@ setgid "www-data"
 env NODE_PATH="<%= @dir %>/node_modules"
 
 chdir "<%= @dir %>"
-exec node src/Server.js --num-workers <%= @workers %>
+exec node src/server.js --num-workers <%= @workers %>
 
 respawn

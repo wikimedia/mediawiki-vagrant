@@ -26,9 +26,6 @@
 # [*allow_cors*]
 #   Hosts for CORS. Defaults to '*'.
 #
-# [*parsoid*]
-#   The local url for the parsoid service.
-#
 # [*apertium*]
 #   The url for the apertium machine translation service.
 #   Defaults to '//apertium.wmflabs.org'
@@ -39,6 +36,14 @@
 #
 # [*yandex_key*]
 #   Api key for yandex translation service.
+#   Defaults to 'null'.
+#
+# [*youdao*]
+#   The url for the youdao machine translation service.
+#   Defaults to 'https://fanyi.youdao.com/paidapi/fanyiapi'
+#
+# [*youdao_key*]
+#   Api key for youdao translation service.
 #   Defaults to 'null'.
 #
 # [*secure*]
@@ -75,10 +80,11 @@ class contenttranslation::cxserver(
     $proxy,
     $log,
     $allow_cors,
-    $parsoid,
     $apertium,
     $yandex,
     $yandex_key,
+    $youdao,
+    $youdao_key,
     $secure,
     $ssl_key,
     $cert,
@@ -92,8 +98,8 @@ class contenttranslation::cxserver(
         group     => $::share_group,
     }
 
-    file { "${dir}/src/config.js":
-        content => template('contenttranslation/cxserver.config.js.erb'),
+    file { "${dir}/src/config.yaml":
+        content => template('contenttranslation/cxserver.config.yaml.erb'),
         require => Git::Clone['mediawiki/services/cxserver/deploy'],
     }
 
@@ -106,7 +112,7 @@ class contenttranslation::cxserver(
         provider  => 'upstart',
         subscribe => [
             File['/etc/init/cxserver.conf'],
-            File["${dir}/src/config.js"],
+            File["${dir}/src/config.yaml"],
         ],
     }
 }

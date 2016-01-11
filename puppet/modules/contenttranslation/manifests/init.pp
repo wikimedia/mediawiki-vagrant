@@ -9,15 +9,6 @@
 #
 # === Parameters
 #
-# [*parsoid_url*]
-#   The local url for the parsoid service.
-#
-# [*parsoid_timeout*]
-#   The timeout for the parsoid service.
-#
-# [*parsoid_prefix*]
-#   The prefix for the parsoid service.
-#
 # [*view_template*]
 #   The url template for viewing articles.
 #
@@ -59,6 +50,9 @@
 # [*namespace*]
 #   Namespace to publish translations to.
 #
+# [*suggestions*]
+#   Whether or not enable suggestions.
+#
 # [*wikis*]
 #   A hash containing the settings for the different language wikis.
 #   The key for each entry is the wiki's language and name (eg 'en', 'fr', ...).
@@ -80,9 +74,6 @@
 #   and include entries for the settings you want to override.
 #
 class contenttranslation(
-    $parsoid_url,
-    $parsoid_timeout,
-    $parsoid_prefix,
     $view_template,
     $action_template,
     $api_template,
@@ -96,6 +87,7 @@ class contenttranslation(
     $experimental,
     $intarget,
     $namespace,
+    $suggestions,
     $wikis,
 ) {
     include ::mediawiki
@@ -106,9 +98,6 @@ class contenttranslation(
 
     mediawiki::extension { 'ContentTranslation':
         settings => {
-            'wgContentTranslationParsoid["url"]'          => $parsoid_url,
-            'wgContentTranslationParsoid["timeout"]'      => $parsoid_timeout,
-            'wgContentTranslationParsoid["prefix"]'       => $parsoid_prefix,
             'wgContentTranslationSiteTemplates["view"]'   => $view_template,
             'wgContentTranslationSiteTemplates["action"]' => $action_template,
             'wgContentTranslationSiteTemplates["api"]'    => $api_template,
@@ -119,6 +108,7 @@ class contenttranslation(
             'wgContentTranslationAsBetaFeature'           => $betafeature,
             'wgContentTranslationeExperimentalFeatures'   => $experimental,
             'wgContentTranslationTargetNamespace'         => $namespace,
+            'wgContentTranslationEnableSuggestions'       => $suggestions,
         }
     }
 

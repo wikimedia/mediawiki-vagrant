@@ -34,9 +34,6 @@ changeprop::port: 7272
 
 contenttranslation::dir: "%{hiera('mediawiki::dir')}/extensions/ContentTranslation"
 contenttranslation::cxserver::dir: "%{hiera('mwv::services_dir')}/cxserver"
-contenttranslation::parsoid_url: "http://127.0.0.1:%{::parsoid::port}"
-contenttranslation::parsoid_timeout: 100000
-contenttranslation::parsoid_prefix: 'enwiki'
 contenttranslation::view_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/wiki/$2"
 contenttranslation::action_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/index.php?title=$2"
 contenttranslation::api_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/api.php"
@@ -48,8 +45,9 @@ contenttranslation::database_password: "%{hiera('mysql::root_password')}"
 contenttranslation::eventlogging: false
 contenttranslation::betafeature: false
 contenttranslation::experimental: false
-contenttranslation::intarget: true
+contenttranslation::intarget: false
 contenttranslation::namespace: 'Main'
+contenttranslation::suggestions: true
 
 contenttranslation::wikis:
   en:
@@ -61,10 +59,11 @@ contenttranslation::cxserver::port: 8090
 contenttranslation::cxserver::proxy: 'null'
 contenttranslation::cxserver::log: /vagrant/logs
 contenttranslation::cxserver::allow_cors: '*'
-contenttranslation::cxserver::parsoid: "http://127.0.0.1:%{::parsoid::port}"
 contenttranslation::cxserver::apertium: 'http://apertium.wmflabs.org'
 contenttranslation::cxserver::yandex: 'https://translate.yandex.net'
 contenttranslation::cxserver::yandex_key: 'null'
+contenttranslation::cxserver::youdao: 'https://fanyi.youdao.com/paidapi/fanyiapi'
+contenttranslation::cxserver::youdao_key: 'null'
 contenttranslation::cxserver::secure: 'false'
 contenttranslation::cxserver::ssl_key: 'null'
 contenttranslation::cxserver::cert: 'null'
