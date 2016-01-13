@@ -9,7 +9,10 @@ class role::varnish {
         values => {
             'wgUploadBaseUrl' => 'http://127.0.0.1:6081',
             'wgUseSquid'      => true,
-            'wgSquidServers'  => [ '127.0.0.1:6081' ],
+            # Address without port is needed for isTrustedProxy's sake
+            'wgSquidServers'  => [ '127.0.0.1:6081', '127.0.0.1' ],
+            # Makes X-Forwarded-For header trusted
+            'wgUsePrivateIPs' => true,
         }
     }
 }
