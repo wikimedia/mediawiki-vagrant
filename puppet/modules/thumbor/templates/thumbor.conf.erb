@@ -133,22 +133,22 @@ USE_GIFSICLE_ENGINE = True
 ## The loader thumbor should use to load the original image. This must be the
 ## full name of a python module (python must be able to import it)
 ## Defaults to: thumbor.loaders.http_loader
-#LOADER = 'thumbor.loaders.http_loader'
+LOADER = 'wikimedia_thumbor.loader.proxy'
 
 ## The file storage thumbor should use to store original images. This must be the
 ## full name of a python module (python must be able to import it)
 ## Defaults to: thumbor.storages.file_storage
-STORAGE = 'thumbor_memcached.storage'
+STORAGE = 'wikimedia_thumbor.storage.request'
 
 ## The result storage thumbor should use to store generated images. This must be
 ## the full name of a python module (python must be able to import it)
 ## Defaults to: None
-RESULT_STORAGE = 'wikimedia_thumbor_result_storage'
+#RESULT_STORAGE = None
 
 ## The imaging engine thumbor should use to perform image operations. This must
 ## be the full name of a python module (python must be able to import it)
 ## Defaults to: thumbor.engines.pil
-ENGINE = 'wikimedia_thumbor_proxy_engine'
+ENGINE = 'wikimedia_thumbor.engine.proxy'
 
 ## The gif engine thumbor should use to perform image operations. This must be
 ## the full name of a python module (python must be able to import it)
@@ -253,7 +253,7 @@ ENGINE = 'wikimedia_thumbor_proxy_engine'
 
 ## The filename of CA certificates in PEM format
 ## Defaults to: None
-#HTTP_LOADER_CA_CERTS = None
+HTTP_LOADER_CA_CERTS = '/etc/ssl/certs/ca-certificates.crt'
 
 ## The filename for client SSL key
 ## Defaults to: None
@@ -295,7 +295,7 @@ STORAGE_EXPIRATION_SECONDS = 600
 ## Max size in Kb for images uploaded to thumbor
 ## Aliases: MAX_SIZE
 ## Defaults to: 0
-#UPLOAD_MAX_SIZE = 0
+UPLOAD_MAX_SIZE = 1048576 # 1GB
 
 ## Indicates whether thumbor should enable File uploads
 ## Aliases: ENABLE_ORIGINAL_PHOTO_UPLOAD
@@ -434,7 +434,7 @@ MEMCACHE_STORAGE_SERVERS = [
 ## List of optimizers that thumbor will use to optimize images
 ## Defaults to: []
 OPTIMIZERS = [
-    'wikimedia_thumbor_exif_optimizer',
+    'wikimedia_thumbor.optimizer.exif',
 ]
 
 
@@ -456,8 +456,8 @@ FFMPEG_PATH = '/usr/bin/ffmpeg'
 ## it)
 ## Defaults to: ['thumbor.filters.brightness', 'thumbor.filters.colorize', 'thumbor.filters.contrast', 'thumbor.filters.rgb', 'thumbor.filters.round_corner', 'thumbor.filters.quality', 'thumbor.filters.noise', 'thumbor.filters.watermark', 'thumbor.filters.equalize', 'thumbor.filters.fill', 'thumbor.filters.sharpen', 'thumbor.filters.strip_icc', 'thumbor.filters.frame', 'thumbor.filters.grayscale', 'thumbor.filters.rotate', 'thumbor.filters.format', 'thumbor.filters.max_bytes', 'thumbor.filters.convolution', 'thumbor.filters.blur', 'thumbor.filters.extract_focal', 'thumbor.filters.no_upscale', 'thumbor.filters.saturation', 'thumbor.filters.max_age', 'thumbor.filters.curve']
 FILTERS = [
-    'wikimedia_thumbor_conditional_sharpen',
-    'wikimedia_thumbor_page',
+    'wikimedia_thumbor.filter.conditional_sharpen',
+    'wikimedia_thumbor.filter.page',
     'thumbor.filters.quality'
 ]
 
@@ -558,7 +558,7 @@ SENTRY_DSN_URL = '<%= scope.function_file([@sentry_dsn_file]) %>'
 ################################## Extensions ##################################
 
 COMMUNITY_EXTENSIONS = [
-    'tc_purger',
+    'wikimedia_thumbor.handler.multi'
 ]
 
 EXIFTOOL_PATH = '/usr/bin/exiftool'
@@ -571,6 +571,8 @@ SUBPROCESS_TIMEOUT = 60
 SUBPROCESS_CGEXEC_PATH = '/usr/bin/cgexec'
 SUBPROCESS_CGROUP = 'memory:thumbor'
 
+VIPS_ENGINE_MIN_PIXELS = 0
+
 RSVG_CONVERT_PATH = '/usr/bin/rsvg-convert'
 
 FFPROBE_PATH = '/usr/bin/ffprobe'
@@ -581,14 +583,19 @@ DDJVU_PATH = '/usr/bin/ddjvu'
 
 GHOSTSCRIPT_PATH = '/usr/bin/gs'
 
+VIPS_PATH = '/usr/bin/vips'
+
 PROXY_ENGINE_ENGINES = [
-    'wikimedia_thumbor_svg_engine',
-    'wikimedia_thumbor_video_engine',
-    'wikimedia_thumbor_xcf_engine',
-    'wikimedia_thumbor_djvu_engine',
-    'wikimedia_thumbor_ghostscript_engine',
-    'wikimedia_thumbor_tiff_engine',
+    'wikimedia_thumbor.engine.svg',
+    'wikimedia_thumbor.engine.xcf',
+    'wikimedia_thumbor.engine.djvu',
+    'wikimedia_thumbor.engine.vips',
+    'wikimedia_thumbor.engine.tiff',
     'thumbor.engines.pil'
+]
+
+PROXY_LOADER_LOADERS = [
+	'wikimedia_thumbor.loader.video'
 ]
 
 ################################################################################
