@@ -40,7 +40,6 @@ class role::commons(
     mediawiki::maintenance { 'refresh globalusage table':
         command => '/usr/local/bin/foreachwiki extensions/GlobalUsage/refreshGlobalimagelinks.php --pages existing,nonexisting',
         cwd     => $::mediawiki::dir,
-        user    => 'www-data',
         require => Mediawiki::Extension['GlobalUsage'],
     }
 }

@@ -1,6 +1,9 @@
 # == Define: mediawiki::maintenance
 #
-# This resource type represents a MediaWiki maintenance script that needs to be run.
+# This resource type represents a MediaWiki maintenance script that needs to
+# be run. This resource will alwyas run the named script as the www-data user
+# and require that all settings files are provisioned and database updates
+# have been run.
 #
 # It is a wrapper around exec that ensures that the MediaWiki settings
 # files are in place before the script runs.
@@ -8,7 +11,7 @@
 # It can either be a single-wiki or all-wiki script.  The full command
 # is specified in the format exec accepts.
 #
-# See exec resource for parameter documentation.
+# See Puppet's built-in exec resource for parameter documentation.
 define mediawiki::maintenance(
     $command,
     $creates     = undef,
@@ -22,7 +25,6 @@ define mediawiki::maintenance(
     $refreshonly = undef,
     $timeout     = undef,
     $unless      = undef,
-    $user        = undef,
 ) {
 
     exec { $title:
@@ -38,7 +40,10 @@ define mediawiki::maintenance(
         refreshonly => $refreshonly,
         timeout     => $timeout,
         unless      => $unless,
-        user        => $user,
+        # Maintenance scripts always run as the www-data user
+        user        => 'www-data',
+        # Always wait for the databases to get setup
+        require     => Exec['update_all_databases'],
     }
 
     # Make sure all Puppet-defined PHP settings are in place before

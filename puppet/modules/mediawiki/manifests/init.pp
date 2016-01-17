@@ -180,14 +180,18 @@ class mediawiki(
         cwd         => $dir,
         user        => 'www-data',
         refreshonly => true,
+        require     => Exec["composer update ${dir}"],
     }
 
     # Make sure settings which will affect update_all_databases are
-    # in place before it runs.
+    # in place before db updates run.
     Mediawiki::Settings <| |> -> Exec['update_all_databases']
 
-    # Make sure all wikis are defined before it runs.
+    # Make sure all wikis are defined before db updates run.
     Mediawiki::Wiki <| |> -> Exec['update_all_databases']
+
+    # Ensure that vendor directory exists before db updates run.
+    Php::Composer::Install <| |> -> Exec['update_all_databases']
 
     php::composer::install { $dir:
         require => Git::Clone['mediawiki/core'],
