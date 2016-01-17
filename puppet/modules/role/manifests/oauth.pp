@@ -46,14 +46,13 @@ class role::oauth (
     file { "${dir}/check.sql":
         content => template('role/oauth/check.sql.erb'),
     }
-    exec { 'register oauth-hello-world':
+    mediawiki::maintenance { 'register oauth-hello-world':
         command => "/usr/local/bin/mwscript sql.php --wiki=wiki ${dir}/register.sql",
         unless  => "/usr/local/bin/mwscript sql.php --wiki=wiki ${dir}/check.sql | /bin/grep -q '1$'",
         require => [
             Mediawiki::Extension['OAuth'],
             File["${dir}/register.sql"],
             File["${dir}/check.sql"],
-            Exec['update_all_databases'],
         ]
     }
 

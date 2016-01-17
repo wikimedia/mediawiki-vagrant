@@ -78,10 +78,9 @@ class role::cirrussearch {
         values => template('elasticsearch/CirrusSearch-commons.php.erb'),
     }
 
-    exec { 'build_search_index':
+    mediawiki::maintenance { 'build_search_index':
         command => '/usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --startOver && /usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/forceSearchIndex.php',
         onlyif  => '/usr/local/bin/mwscript extensions/CirrusSearch/maintenance/cirrusNeedsToBeBuilt.php --quiet',
-        user    => 'www-data',
         require => [
             Class['::mediawiki::multiwiki'],
             Mediawiki::Extension['CirrusSearch'],

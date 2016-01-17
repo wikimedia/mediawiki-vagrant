@@ -7,10 +7,9 @@ class role::antispoof {
         needs_update => true,
     }
 
-    exec { 'populate_spoofuser':
+    mediawiki::maintenance { 'populate_spoofuser':
         command     => '/usr/local/bin/foreachwiki extensions/AntiSpoof/maintenance/batchAntiSpoof.php',
         refreshonly => true,
-        user        => 'www-data',
         require     => Mediawiki::Extension['AntiSpoof'],
         subscribe   => Exec['update_all_databases'],
     }

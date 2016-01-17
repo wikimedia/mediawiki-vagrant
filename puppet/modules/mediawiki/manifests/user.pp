@@ -55,13 +55,12 @@ define mediawiki::user(
     # capitalized.  Puppet inherits this.
     $canonical_username = inline_template('<%= @username[0].capitalize + @username[1..-1] %>')
 
-    exec { "mediawiki_user_${canonical_username}_${wiki}":
+    mediawiki::maintenance { "mediawiki_user_${canonical_username}_${wiki}":
         command => "/usr/local/bin/mwscript createAndPromote.php \
                     --wiki='${wiki}' '${canonical_username}' '${password}'",
         unless  => "/usr/local/bin/mwscript createAndPromote.php \
                     --wiki='${wiki}' '${canonical_username}' 2>&1 | \
-                    grep -Pq '^#?Account exists'",
-        user    => 'www-data',
+                    /bin/grep -Pq '^#?Account exists'",
         require => [
             MediaWiki::Wiki[$::mediawiki::wiki_name],
             Env::Var['MW_INSTALL_PATH'],
@@ -81,29 +80,27 @@ define mediawiki::user(
             WHERE user_name = '${canonical_username}'
             AND ug_group IN ('${$comma_groups_sql}');"
 
-        exec { "mediawiki_user_${canonical_username}_${wiki}_${comma_groups}":
-            command => "mwscript createAndPromote.php --wiki='${wiki}' \
+        mediawiki::maintenance { "mediawiki_user_${canonical_username}_${wiki}_${comma_groups}":
+            command => "/usr/local/bin/mwscript createAndPromote.php --wiki='${wiki}' \
                         --custom-groups '${comma_groups}' \
                         --force '${canonical_username}'",
-            user    => 'www-data',
 
             # Check that they're already in all the requested groups,
             # using counts.
-            unless  => "echo \"${sql_unless}\" | \
-                        mwscript sql.php --wikidb='${wiki}' | \
-                        grep -q '=> ${group_count}'",
+            unless  => "/bin/echo \"${sql_unless}\" | \
+                        /usr/local/bin/mwscript sql.php --wikidb='${wiki}' | \
+                        /bin/grep -q '=> ${group_count}'",
             require => [
-                Exec["mediawiki_user_${canonical_username}_${wiki}"],
+                Mediawiki::Maintenance["mediawiki_user_${canonical_username}_${wiki}"],
             ]
         }
     }
 
     if $email {
-        exec { "mediawiki_user_${canonical_username}_email":
+        mediawiki::maintenance { "mediawiki_user_${canonical_username}_email":
             command     => template('mediawiki/set_user_email.erb'),
-            user        => 'www-data',
             refreshonly => true,
-            subscribe   => Exec["mediawiki_user_${canonical_username}"],
+            subscribe   => Mediawiki::Maintenance["mediawiki_user_${canonical_username}"],
         }
     }
 }

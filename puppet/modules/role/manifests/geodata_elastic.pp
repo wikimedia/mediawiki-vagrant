@@ -13,9 +13,8 @@ class role::geodata_elastic {
         notify   => Exec['force geodata index'],
     }
 
-    exec { 'force geodata index':
+    mediawiki::maintenance { 'force geodata index':
         command     => '/usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php',
-        user        => 'vagrant',
         refreshonly => true,
     }
 }

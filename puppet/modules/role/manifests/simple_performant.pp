@@ -41,12 +41,11 @@ class role::simple_performant {
                 },
             },
         },
-        notify => Exec['rebuild_localisation_cache'],
+        notify => Mediawiki::Maintenance['rebuild_localisation_cache'],
     }
 
-    exec { 'rebuild_localisation_cache':
-        command     => 'mwscript rebuildLocalisationCache.php --force',
-        user        => 'www-data',
+    mediawiki::maintenance { 'rebuild_localisation_cache':
+        command     => '/usr/local/bin/mwscript rebuildLocalisationCache.php --force',
         refreshonly => true,
         require     => Class['::mediawiki::multiwiki'],
     }

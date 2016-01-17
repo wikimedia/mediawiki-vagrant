@@ -23,14 +23,13 @@ class role::wikidata {
         values   => template('role/wikidata/init.php.erb'),
     }
 
-    exec { 'wikidata-populate-site-tables':
-        command     => "foreachwiki extensions/WikidataBuildResources/extensions/Wikibase/lib/maintenance/populateSitesTable.php --load-from http://en${mediawiki::multiwiki::base_domain}${::port_fragment}/w/api.php",
+    mediawiki::maintenance { 'wikidata-populate-site-tables':
+        command     => "/usr/local/bin/foreachwiki extensions/WikidataBuildResources/extensions/Wikibase/lib/maintenance/populateSitesTable.php --load-from http://en${mediawiki::multiwiki::base_domain}${::port_fragment}/w/api.php",
         refreshonly => true,
-        user        => 'www-data',
         require     => [
             Class['::mediawiki::multiwiki'],
             Mediawiki::Extension['WikidataBuildResources'],
         ],
     }
-    Mediawiki::Wiki<| |> ~> Exec['wikidata-populate-site-tables']
+    Mediawiki::Wiki<| |> ~> Mediawiki::Maintenance['wikidata-populate-site-tables']
 }

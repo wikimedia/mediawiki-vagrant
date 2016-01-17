@@ -21,12 +21,9 @@ class role::ores {
         },
     }
 
-    exec { 'check ORES model versions':
+    mediawiki::maintenance { 'check ORES model versions':
         command => '/usr/local/bin/mwscript extensions/ORES/maintenance/CheckModelVersions.php --wiki=wiki',
-        unless  => 'mysql -e "select * from ores_model" wiki | /bin/grep -q "damaging"',
-        require => [
-            Mediawiki::Extension['ORES'],
-            Exec['update_all_databases'],
-        ],
+        unless  => '/usr/bin/mysql -e "select * from ores_model" wiki | /bin/grep -q "damaging"',
+        require => Mediawiki::Extension['ORES']
     }
 }
