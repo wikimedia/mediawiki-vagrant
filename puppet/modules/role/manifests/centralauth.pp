@@ -72,6 +72,7 @@ class role::centralauth(
             Mysql::Db[$shared_db],
             Mediawiki::Extension['CentralAuth']
         ],
+        before  => Exec['update_all_databases'],
     }
 
     mysql::sql { 'Create CentralAuth spoofuser table':
@@ -81,6 +82,7 @@ class role::centralauth(
             Mysql::Db[$shared_db],
             Mediawiki::Extension['CentralAuth']
         ],
+        before  => Exec['update_all_databases'],
     }
 
     mediawiki::wiki{ [ $loginwiki, $alt_testwiki ]: }
