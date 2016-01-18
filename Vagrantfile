@@ -173,6 +173,9 @@ Vagrant.configure('2') do |config|
     vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
 
+    # Prevent clock drift, see http://stackoverflow.com/a/19492466/323407
+    vb.customize ['guestproperty', 'set', :id, '/VirtualBox/GuestAdd/VBoxService/--timesync-set-threshold', 10000]
+
     # To boot the VM in graphical mode, uncomment the following line:
     # vb.gui = true
   end
