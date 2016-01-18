@@ -18,6 +18,7 @@ class role::echo(
 ) {
     include ::role::centralauth
     include ::role::eventlogging
+    include ::role::betafeatures
 
     mysql::sql { 'create echo_unread_wikis':
         sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/db_patches/echo_unread_wikis.sql;",
@@ -28,13 +29,14 @@ class role::echo(
     mediawiki::extension { 'Echo':
         needs_update => true,
         settings     => {
-            wgEchoSharedTrackingCluster => $shared_tracking_cluster,
-            wgEchoSharedTrackingDB      => $shared_tracking_db,
+            wgEchoSharedTrackingCluster   => $shared_tracking_cluster,
+            wgEchoSharedTrackingDB        => $shared_tracking_db,
             # For now, we don't use the extension cluster for
             # wgEchoCluster, until we solve update.php.
 
-            wgEchoEnableEmailBatch      => false,
-            wgAllowHTMLEmail            => true,
+            wgEchoEnableEmailBatch        => false,
+            wgAllowHTMLEmail              => true,
+            wgEchoUseCrossWikiBetaFeature => true,
         },
         require      => Mysql::Sql['create echo_unread_wikis'],
     }
