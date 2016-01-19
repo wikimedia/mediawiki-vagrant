@@ -9,11 +9,26 @@ if ( isset( $_SERVER['SERVER_ADDR'] ) ) {
 	ini_set( 'error_append_string', ' (' . $_SERVER['SERVER_ADDR'] . ')' );
 }
 
+include_once __DIR__ . '/LoadWgConf.php';
 require_once '<%= @script_dir %>/MWMultiVersion.php';
+
+if ( count( $wgLocalDatabases ) > 1 && !class_exists( 'MWMultiVersion' ) ) {
+	print "The mwscript command must be used for maintenance scripts in multiwiki setups.\n\n" .
+		"Try: mwscript " . $argv[0] . " --wiki=wiki " . implode( " ", array_slice( $argv, 1 ) ) .
+		"\n";
+	exit(1);
+}
+
 $multiVersion = MWMultiVersion::getInstance();
-if ( $multiVersion === null ) {
+// Use $_SERVER['argv'] here since $argv is modified by MWScript.php
+if ( $multiVersion === null && basename( $_SERVER['argv'][0] ) === 'MWScript.php' ) {
 	// If MWMultiVersion has not been configured at this point,
-	// setup configuration for the default wiki.
+	// the database was not found
+	print "Nonexistent database was specified.\n";
+	exit(1);
+}
+
+if ( $multiVersion === null ) {
 	$multiVersion = MWMultiVersion::initializeForWiki( '<%= scope['::mediawiki::db_name'] %>' );
 }
 
@@ -33,8 +48,6 @@ $wgExternalServers['<%= @extension_db_cluster %>'] = array(
 
 // This must be set *after* the DefaultSettings.php inclusion
 $wgDBname = $multiVersion->getDatabase();
-
-include_once __DIR__ . '/LoadWgConf.php';
 
 foreach(
 	array_merge(
