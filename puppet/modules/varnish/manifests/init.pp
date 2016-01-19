@@ -11,46 +11,47 @@
 # See https://www.varnish-cache.org/docs/3.0/reference/vcl.html#multiple-subroutines
 #
 class varnish {
-    require_package('apt-transport-https')
-
-    # set up the repo pubkey
-    file  { '/usr/local/share/varnish-cache.org-pubkey.txt':
-        source => 'puppet:///modules/varnish/varnish-cache.org-pubkey.txt',
-        owner  => 'root',
-        group  => 'root',
+    group { 'varnish':
+        ensure => present,
     }
 
-    # add the varnish repo list file
-    file { '/etc/apt/sources.list.d/varnish-cache.list':
-        source => 'puppet:///modules/varnish/varnish-cache.list',
-        owner  => 'root',
-        group  => 'root',
+    user { 'varnish':
+        ensure  => present,
+        home    => '/var/run/varnish',
+        gid     => 'varnish',
+        require => Group['varnish'],
     }
 
-    # add the key and update
-    exec { 'add_varnish_apt_key_and_update':
-        command => '/usr/bin/apt-key add /usr/local/share/varnish-cache.org-pubkey.txt && /usr/bin/apt-get update',
+    file { '/etc/varnish':
+        ensure => directory,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
+    }
+
+    # We need to build from source because the tbf vmod needs the
+    # built source, can't rely only on the headers
+    git::clone { 'Varnish-Cache':
+        branch    => '4.1',
+        directory => '/tmp/Varnish-Cache',
+        remote    => 'https://github.com/varnish/Varnish-Cache',
+    }
+
+    file { '/tmp/build-varnish.sh':
+        source => 'puppet:///modules/varnish/build-varnish.sh',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0555',
+    }
+
+    exec { 'build_varnish':
+        command => '/tmp/build-varnish.sh',
+        creates => '/usr/local/sbin/varnishd',
         require => [
-            File['/usr/local/share/varnish-cache.org-pubkey.txt'],
-            File['/etc/apt/sources.list.d/varnish-cache.list'],
+            File['/tmp/build-varnish.sh'],
+            Git::Clone['Varnish-Cache'],
         ],
-        creates => '/var/lib/apt/lists/repo.varnish-cache.org_ubuntu_dists_trusty_InRelease',
-    }
-
-    # The varnish-cache repo only contains varnish-related packages, it's safe
-    # to use a wildcard here
-    apt::pin { 'varnish':
-        package  => '*',
-        pin      => 'release o=repo.varnish-cache.org',
-        priority => 1002,
-    }
-
-    package { 'varnish':
-        ensure  => 'latest',
-        require => [
-            Package['apt-transport-https'],
-            Exec['add_varnish_apt_key_and_update'],
-        ]
+        user    => 'root',
     }
 
     $conf = '/etc/varnish/conf-d.vcl'
@@ -63,7 +64,7 @@ class varnish {
         mode    => '0644',
         owner   => 'root',
         group   => 'root',
-        require => Package['varnish'],
+        require => Exec['build_varnish'],
     }
 
     file { $conf:
@@ -71,7 +72,10 @@ class varnish {
         owner   => 'root',
         group   => 'root',
         mode    => '0644',
-        require => Package['varnish'],
+        require => [
+            Exec['build_varnish'],
+            File['/etc/varnish'],
+        ],
     }
 
     file { $confd:
@@ -79,14 +83,10 @@ class varnish {
         owner   => 'root',
         group   => 'root',
         mode    => '0755',
-        require => Package['varnish'],
-    }
-
-    service { 'varnish':
-        ensure    => running,
-        provider  => init,
-        require   => Package['varnish'],
-        subscribe => File[$conf],
+        require => [
+            Exec['build_varnish'],
+            File['/etc/varnish'],
+        ],
     }
 
     # Ensure included config order is respected by sorting default.vcl
@@ -114,27 +114,79 @@ class varnish {
         order  => 50,
     }
 
-    package { 'libvarnishapi-dev':
-        ensure  => 'latest',
-        require => [
-            Package['apt-transport-https'],
-            Exec['add_varnish_apt_key_and_update'],
-        ]
-    }
-
-    # Build and install xkey vmod
+    # Build and install tbf vmod
+    require_package('libdb-dev')
     require_package('python-docutils')
     require_package('automake')
     require_package('libtool')
 
-    git::clone { 'https://github.com/varnish/libvmod-xkey':
+    git::clone { 'libvmod-tbf':
+        branch    => 'varnish-4.1',
+        directory => '/tmp/libvmod-tbf',
+        remote    => 'git://git.gnu.org.ua/vmod-tbf.git',
+    }
+
+    file { '/tmp/build-tbf.sh':
+        source => 'puppet:///modules/varnish/build-tbf.sh',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0555',
+    }
+
+    exec { 'build_tbf':
+        command => '/tmp/build-tbf.sh',
+        creates => '/usr/local/lib/varnish/vmods/libvmod_tbf.so',
+        require => [
+            Exec['build_varnish'],
+            Package['libdb-dev'],
+            File['/tmp/build-tbf.sh'],
+            Git::Clone['libvmod-tbf'],
+        ],
+        user    => 'root',
+    }
+
+    file { '/etc/varnish/secret':
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        content => '9cd5ac29-39c9-4b8b-98a8-d042de4f92c2',
+        require => File['/etc/varnish'],
+    }
+
+    file { '/var/run/varnish':
+        ensure => directory,
+        owner  => 'varnish',
+        group  => 'varnish',
+        mode   => '0755',
+    }
+
+    file { '/usr/local/var':
+        ensure => directory,
+        owner  => 'varnish',
+        group  => 'varnish',
+        mode   => '0755',
+    }
+
+    file { '/usr/local/var/varnish':
+        ensure  => directory,
+        owner   => 'varnish',
+        group   => 'varnish',
+        mode    => '0755',
+        require => File['/usr/local/var'],
+    }
+
+    file { '/usr/local/var/varnish/mediawiki-vagrant':
+        ensure  => directory,
+        owner   => 'varnish',
+        group   => 'varnish',
+        mode    => '0755',
+        require => File['/usr/local/var/varnish'],
+    }
+
+    # Build and install xkey vmod
+    git::clone { 'libvmod-xkey':
         directory => '/tmp/libvmod-xkey',
         remote    => 'https://github.com/varnish/libvmod-xkey',
-        require   => [
-            Package['varnish'],
-            Package['libvarnishapi-dev'],
-        ],
-        before    => Exec['build_xkey'],
     }
 
     file { '/tmp/build-xkey.sh':
@@ -146,8 +198,37 @@ class varnish {
 
     exec { 'build_xkey':
         command => '/tmp/build-xkey.sh',
-        creates => '/usr/lib/varnish/vmods/libvmod_xkey.so',
-        require => File['/tmp/build-xkey.sh'],
+        creates => '/usr/local/lib/varnish/vmods/libvmod_xkey.so',
+        require => [
+            Exec['build_varnish'],
+            File['/tmp/build-xkey.sh'],
+            Git::Clone['libvmod-xkey'],
+        ],
         user    => 'root',
+    }
+
+    file { '/etc/init/varnish.conf':
+        ensure  => present,
+        content => template('varnish/upstart.erb'),
+        mode    => '0444',
+    }
+
+    service { 'varnish':
+        ensure    => running,
+        provider  => 'upstart',
+        require   => [
+            Exec[
+                'build_varnish',
+                'build_tbf',
+                'build_xkey'
+            ],
+            File[
+                '/var/run/varnish',
+                '/etc/init/varnish.conf',
+                '/etc/varnish/secret',
+                '/usr/local/var/varnish/mediawiki-vagrant'
+            ],
+        ],
+        subscribe => File[$conf],
     }
 }

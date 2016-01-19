@@ -1,5 +1,15 @@
 vcl 4.0;
 import xkey;
+import tbf;
+import std;
+
+sub vcl_init {
+    tbf.open("/var/run/varnish", "mode=600;dbname=tbf.bdb;truncate");
+}
+
+sub vcl_fini {
+    tbf.close();
+}
 
 # vcl_recv is called whenever a request is received
 # This is unfortunately a lot of copypasta from default-subs.vcl, because
@@ -97,20 +107,40 @@ sub vcl_recv {
     # Let things go to the default-subs.vcl vcl_recv
 }
 
+sub vcl_miss {
+    # 10 tokens to consume, refilled at a rate of 5/s
+    if (!tbf.rate("ip:" + client.ip, 1, 0.2s, 10)) {
+        return (synth(429, "Request rate exceeded"));
+    }
+}
+
+sub vcl_deliver {
+    # Miss
+    if (obj.hits == 0) {
+        # If the request requires more than 1s of CPU time, make it count like n extra
+        # tokens for the tbf throttling, where n is the amount of CPU seconds minus 1
+        if (!tbf.rate("ip:" + client.ip, (std.integer(resp.http.Processing-Utime, 1000) - 1000) / 1000, 0.2s, 10)) {
+            # tbf.rate() has to be inside an if statement
+        }
+    }
+
+    # Let things go to the default-subs.vcl vcl_deliver
+}
+
 sub vcl_backend_response {
+    set beresp.http.Backend-Url = bereq.url;
+
+    # Allow CORS
+    set beresp.http.Access-Control-Allow-Origin = "*";
+
     if (bereq.http.X-Url) {
         # Expose the X-Url in the response for debugging purposes
         set beresp.http.X-Url = bereq.http.X-Url;
     }
-
-    set beresp.http.X-Backend-Url = bereq.url;
 
     if (bereq.http.X-Url ~ "^/images/thumb/") {
         set beresp.http.xkey = "File:" + regsub(bereq.http.X-Url, "^/images/thumb/[^/]+/[^/]+/([^/]+)/[^/]+$", "\1");
     } else if (bereq.http.X-Url ~ "^/images/") {
         set beresp.http.xkey = "File:" + regsub(bereq.http.X-Url, "^/images/[^/]+/[^/]+/(.*)", "\1");
     }
-
-    # Allow CORS
-    set beresp.http.Access-Control-Allow-Origin = "*";
 }
