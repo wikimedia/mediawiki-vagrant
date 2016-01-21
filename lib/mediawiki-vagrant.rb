@@ -86,7 +86,7 @@ module MediaWikiVagrant
 
     action_hook(:mediawiki, :machine_action_destroy) do |hook|
       require 'mediawiki-vagrant/destroy'
-      hook.before(VagrantPlugins::ProviderVirtualBox::Action::Destroy, Destroy)
+      hook.prepend(Destroy)
     end
 
     provisioner 'mediawiki_reload' do
