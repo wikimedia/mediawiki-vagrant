@@ -32,8 +32,8 @@ https://github.com/mitchellh/vagrant-installers/issues/12 for discussion of an
 official PPA.
 Check https://www.vagrantup.com/downloads.html for current version URL.
 
-    wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.2_x86_64.deb
-    sudo dpkg -i vagrant_1.7.2_x86_64.deb
+    wget https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
+    sudo dpkg -i vagrant_1.8.1_x86_64.deb
 
 Install the Vagrant LXC provider plugin:
 
@@ -74,8 +74,8 @@ testing might be an option, otherwise you should install the package provided
 at vagrantup.com. Check https://www.vagrantup.com/downloads.html for the
 most up to date download URL.
 
-    wget https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.4_x86_64.deb
-    sudo dpkg -i vagrant_1.7.4_x86_64.deb
+    wget https://releases.hashicorp.com/vagrant/1.8.1/vagrant_1.8.1_x86_64.deb
+    sudo dpkg -i vagrant_1.8.1_x86_64.deb
 
 Install the Vagrant LXC provider plugin:
 
