@@ -8,7 +8,7 @@ class role::thumbor (
     require ::role::memcached
     require ::role::pagedtiffhandler
     require ::role::pdfhandler
-    require ::role::sentry
+    include ::role::sentry
     require ::role::swift
     require ::role::timedmediahandler
     require ::role::thumb_on_404
@@ -48,4 +48,7 @@ class role::thumbor (
             ],
         },
     }
+
+    # Ensure that Sentry is started before Thumbor
+    Service['sentry-worker'] ~> Service['thumbor']
 }
