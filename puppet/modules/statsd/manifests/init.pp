@@ -60,6 +60,7 @@ class statsd (
 
     file { "${dir}/backends/statsd-json-backend.js":
         source  => 'puppet:///modules/statsd/statsd-json-backend.js',
+        require => Git::Clone['statsd'],
     }
 
     service { 'statsd':
