@@ -24,7 +24,6 @@ class role::hadoop {
 
     # Install Hadoop client and configs.
     class { '::cdh::hadoop':
-        # lint:ignore:80chars
         cluster_name                             => 'vagrant',
         namenode_hosts                           => $namenode_hosts,
         datanode_mounts                          => $datanode_mounts,
@@ -43,7 +42,6 @@ class role::hadoop {
         # Use small heapsize for vagrant.
         hadoop_heapsize                          => 64,
         yarn_heapsize                            => 64,
-        # lint:endignore
     }
 
     # Install and run master and worker classes all on this node.

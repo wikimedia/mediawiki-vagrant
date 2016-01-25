@@ -7,7 +7,6 @@ class role::antispam {
 
     mediawiki::extension { 'AbuseFilter':
         needs_update => true,
-        # lint:ignore:80chars
         settings     => [
             '$wgGroupPermissions["sysop"]["abusefilter-modify"] = true',
             '$wgGroupPermissions["*"]["abusefilter-log-detail"] = true',
@@ -17,7 +16,6 @@ class role::antispam {
             '$wgGroupPermissions["sysop"]["abusefilter-modify-restricted"] = true',
             '$wgGroupPermissions["sysop"]["abusefilter-revert"] = true',
         ],
-        # lint:endignore
     }
 
     mediawiki::extension { 'SpamBlacklist':

@@ -56,10 +56,8 @@ define mysql::user(
         }
     } else {
         mysql::sql { "create user ${username}":
-            # lint:ignore:80chars
             sql    => "grant ${grant} to '${username}'@'${hostname}' identified by '${password}'",
             unless => "select exists(select 1 from mysql.user where user = '${username}')",
-            # lint:endignore
         }
     }
 }

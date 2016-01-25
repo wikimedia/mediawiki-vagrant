@@ -51,10 +51,8 @@ class role::raita(
     }
 
     exec { 'raita import elasticsearch data':
-        # lint:ignore:80chars
         command   => "/usr/bin/curl -X POST '${index_url}/_bulk' --data-binary @/tmp/raita-data.json",
         onlyif    => "/usr/bin/curl -sf '${index_url}/_count' | /bin/grep -q '\"count\":0'",
-        # lint:endignore
         require   => Exec['raita elasticsearch mappings'],
         subscribe => File['/tmp/raita-data.json'],
     }

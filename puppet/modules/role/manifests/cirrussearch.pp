@@ -79,10 +79,8 @@ class role::cirrussearch {
     }
 
     exec { 'build_search_index':
-        # lint:ignore:80chars
         command => '/usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --startOver && /usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/forceSearchIndex.php',
         onlyif  => '/usr/local/bin/mwscript extensions/CirrusSearch/maintenance/cirrusNeedsToBeBuilt.php --quiet',
-        # lint:endignore
         user    => 'www-data',
         require => [
             Class['::mediawiki::multiwiki'],

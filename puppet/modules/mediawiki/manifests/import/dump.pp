@@ -35,10 +35,8 @@ define mediawiki::import::dump(
     require ::mediawiki
 
     exec { "import_dump_${title}":
-        # lint:ignore:80chars
         command => "/usr/local/bin/mwscript importDump.php --wiki=${db_name} ${xml_dump}",
         unless  => "/usr/local/bin/mwscript pageExists.php --wiki=${db_name} ${dump_sentinel_page}",
-        # lint:endignore
         user    => 'www-data',
         require => Mediawiki::Wiki[$wiki],
     }

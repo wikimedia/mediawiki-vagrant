@@ -7,13 +7,11 @@ class role::svg {
         ensure  => present,
         require => Package['librsvg2-bin'],
         values  => [
-            # lint:ignore:80chars
             '$wgEnableUploads = true',
             '$wgAllowTitlesInSVG = true',
             '$wgSVGConverter     = "rsvg"',
             '$wgSVGConverters["rsvg"] = \'$path/rsvg-convert -w $width -h $height $input -o $output\'',
             '$wgFileExtensions[] = "svg"',
-            # lint:endignore
         ],
     }
 }
