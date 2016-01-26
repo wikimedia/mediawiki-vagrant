@@ -25,7 +25,7 @@ sub vcl_recv {
         req.method != "PUT" && req.method != "POST" &&
         req.method != "TRACE" && req.method != "OPTIONS" &&
         req.method != "DELETE") {
-        return(pipe); /* Non-RFC2616 or CONNECT which is weird. */
+        return (synth(405, "Method not allowed"));
     }
 
     # Pass anything other than GET and HEAD directly.
@@ -47,11 +47,6 @@ sub vcl_recv {
     # Pass any requests with the "If-None-Match" header directly.
     if (req.http.If-None-Match) {
         return(pass);
-    }
-
-    # Force lookup if the request is a no-cache request from the client.
-    if (req.http.Cache-Control ~ "no-cache") {
-        ban("req.url == " + req.url);
     }
 
     # Pass requests to potential non-plain reads on articles (eg. action=edit)

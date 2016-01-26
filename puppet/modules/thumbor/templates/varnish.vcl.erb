@@ -11,18 +11,8 @@ sub vcl_fini {
     tbf.close();
 }
 
-# vcl_recv is called whenever a request is received
-# This is unfortunately a lot of copypasta from default-subs.vcl, because
-# there is some default behaviour in there which we don't want (eg. If-None-Match)
-# and the only way to avoid it is to run this overridden vcl_recv with a smaller order
-# on the vcl
 sub vcl_recv {
     set req.http.X-Forwarded-For = client.ip;
-
-    # Save the original URL because we need to rewrite the request url for the backend
-    if (req.url ~ "^/images/") {
-        set req.http.X-Url = req.url;
-    }
 
     # Since we expose varnish on the default port (6081) we need to rewrite
     # requests that are generated using the default wiki port (8080)
@@ -38,73 +28,19 @@ sub vcl_recv {
             return (synth(405, "This IP is not allowed to send PURGE requests."));
         }
 
-        if (req.url ~ "^/images/thumb/") {
-            set req.http.xkey-purge = "File:" + regsub(req.url, "^/images/thumb/[^/]+/[^/]+/([^/]+)/[^/]+$", "\1");
-        } else if (req.url ~ "^/images/") {
-            set req.http.xkey-purge = "File:" + regsub(req.url, "^/images/[^/]+/[^/]+/(.*)", "\1");
-        } else {
-            # Not an identifiable file, regular purge
-            return (hash);
-        }
-
-        if (xkey.purge(req.http.xkey-purge) != 0) {
+        if (xkey.purge(regsub(req.url, "^/(.*)", "\1")) != 0) {
             return (synth(200, "Purged"));
         } else {
             return (synth(404, "Key not found"));
         }
     }
 
-    # Pass any requests that Varnish does not understand straight to the backend.
-    if (req.method != "GET" && req.method != "HEAD" &&
-        req.method != "PUT" && req.method != "POST" &&
-        req.method != "TRACE" && req.method != "OPTIONS" &&
-        req.method != "DELETE") {
-        return (pipe); /* Non-RFC2616 or CONNECT which is weird. */
+    # Reject any methods that aren't expected to work in the context of thumbnails
+    if (req.method != "GET" && req.method != "HEAD") {
+        return (synth(405, "Method not allowed"));
     }
 
-    # Force lookup if the request is a no-cache request from the client.
-    if (req.http.Cache-Control ~ "no-cache") {
-        ban("req.url == " + req.url);
-    }
-
-    # qlow jpg thumbs (thumbor)
-    if (req.url ~ "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/qlow-(\d+)px-.*") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/qlow-(\d+)px-.*", "\3") + "x/filters:quality(40):conditional_sharpen(0.6,0.01,false,0.85)/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/qlow-(\d+)px-.*", "\1.\2");
-        return (hash);
-    # regular jpg thumbs (thumbor)
-    } else if (req.url ~ "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/(\d+)px-.*") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/(\d+)px-.*", "\3") + "x/filters:quality(87):conditional_sharpen(0.6,0.01,false,0.85)/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(jpg|jpeg|jpe)/(\d+)px-.*", "\1.\2");
-        return (hash);
-    # png, gif, svg, xcf & tiff thumbs, no filters (thumbor)
-    } else if (req.url ~ "^/images/thumb/(.*)\.(png|apng|gif|svg|xcf|tif|tiff)/(\d+)px-.*") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(png|apng|gif|svg|xcf|tif|tiff)/(\d+)px-.*", "\3") + "x/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(png|apng|gif|svg|xcf|tif|tiff)/(\d+)px-.*", "\1.\2");
-        return (hash);
-    # pdf & djvu thumbs, with page parameter (thumbor)
-    } else if (req.url ~ "^/images/thumb/(.*)\.(pdf|djvu)/page(\d+)-(\d+)px-.*") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(pdf|djvu)/page(\d+)-(\d+)px-.*", "\4") + "x/filters:page(" + regsub(req.url, "^/images/thumb/(.*)\.(pdf|djvu)/page(\d+)-(\d+)px-.*", "\3")  + ")/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(pdf|djvu)/page(\d+)-(\d+)px-.*", "\1.\2");
-        return (hash);
-    # tiff thumbs, with lossy and page parameter (thumbor)
-    } else if (req.url ~ "^/images/thumb/(.*)\.(tif|tiff)/lossy-page(\d+)-(\d+)px-.*") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(tif|tiff)/lossy-page(\d+)-(\d+)px-.*", "\4") + "x/filters:page(" + regsub(req.url, "^/images/thumb/(.*)\.(tif|tiff)/lossy-page(\d+)-(\d+)px-.*", "\3")  + ")/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(tif|tiff)/lossy-page(\d+)-(\d+)px-.*", "\1.\2");
-        return (hash);
-    # ogv & webm thumbs, with seek parameter (thumbor)
-    } else if (req.url ~ "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px-(\d+)-.*") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px-(\d+)-.*", "\3") + "x/filters:page(" + regsub(req.url, "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px-(\d+)-.*", "\4")  + ")/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px-(\d+)-.*", "\1.\2");
-        return (hash);
-    # ogv & webm thumbs, without seek parameter (thumbor)
-    } else if (req.url ~ "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px--.*") {
-        set req.url = "/unsafe/" + regsub(req.url, "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px--.*", "\3") + "x/127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/thumb/(.*)\.(ogv|webm)/(\d+)px--.*", "\1.\2");
-        return (hash);
-    # thumbs unsupported by thumbor (mediawiki)
-    } else if (req.url ~ "^/images/thumb/.*") {
-        return (hash);
-    # originals (swift)
-    } else if (req.url ~ "^/images/(.*)") {
-        set req.url = "/v1/AUTH_testproj/wiki-local-public/" + regsub(req.url, "^/images/(.*)", "\1");
-        return (hash);
-    }
-
-    # Let things go to the default-subs.vcl vcl_recv
+    return(hash);
 }
 
 sub vcl_miss {
@@ -128,19 +64,5 @@ sub vcl_deliver {
 }
 
 sub vcl_backend_response {
-    set beresp.http.Backend-Url = bereq.url;
-
-    # Allow CORS
     set beresp.http.Access-Control-Allow-Origin = "*";
-
-    if (bereq.http.X-Url) {
-        # Expose the X-Url in the response for debugging purposes
-        set beresp.http.X-Url = bereq.http.X-Url;
-    }
-
-    if (bereq.http.X-Url ~ "^/images/thumb/") {
-        set beresp.http.xkey = "File:" + regsub(bereq.http.X-Url, "^/images/thumb/[^/]+/[^/]+/([^/]+)/[^/]+$", "\1");
-    } else if (bereq.http.X-Url ~ "^/images/") {
-        set beresp.http.xkey = "File:" + regsub(bereq.http.X-Url, "^/images/[^/]+/[^/]+/(.*)", "\1");
-    }
 }

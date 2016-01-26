@@ -558,7 +558,8 @@ SENTRY_DSN_URL = '<%= scope.function_file([@sentry_dsn_file]) %>'
 ################################## Extensions ##################################
 
 COMMUNITY_EXTENSIONS = [
-    'wikimedia_thumbor.handler.multi'
+    'wikimedia_thumbor.handler.multi',
+    'wikimedia_thumbor.handler.images'
 ]
 
 EXIFTOOL_PATH = '/usr/bin/exiftool'
@@ -584,6 +585,8 @@ DDJVU_PATH = '/usr/bin/ddjvu'
 GHOSTSCRIPT_PATH = '/usr/bin/gs'
 
 VIPS_PATH = '/usr/bin/vips'
+
+SWIFT_URI = '127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/'
 
 PROXY_ENGINE_ENGINES = [
     'wikimedia_thumbor.engine.svg',
