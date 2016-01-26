@@ -17,7 +17,7 @@ class varnish {
 
     user { 'varnish':
         ensure  => present,
-        home    => '/var/run/varnish',
+        home    => '/home/varnish',
         gid     => 'varnish',
         require => Group['varnish'],
     }
