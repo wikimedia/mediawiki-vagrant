@@ -105,9 +105,9 @@ define mediawiki::wiki(
 
     file { [$upload_dir, $cache_dir]:
         ensure => directory,
-        owner  => 'vagrant',
+        owner  => 'www-data',
         group  => 'www-data',
-        mode   => '0775',
+        mode   => '0755',
     }
 
     Exec {
