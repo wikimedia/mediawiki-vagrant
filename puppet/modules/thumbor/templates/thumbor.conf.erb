@@ -143,7 +143,7 @@ STORAGE = 'wikimedia_thumbor.storage.request'
 ## The result storage thumbor should use to store generated images. This must be
 ## the full name of a python module (python must be able to import it)
 ## Defaults to: None
-#RESULT_STORAGE = None
+RESULT_STORAGE = 'wikimedia_thumbor.result_storage.swift'
 
 ## The imaging engine thumbor should use to perform image operations. This must
 ## be the full name of a python module (python must be able to import it)
@@ -586,7 +586,13 @@ GHOSTSCRIPT_PATH = '/usr/bin/gs'
 
 VIPS_PATH = '/usr/bin/vips'
 
-SWIFT_URI = '127.0.0.1:<%= scope['::swift::port'] %>/v1/AUTH_testproj/wiki-local-public/'
+SWIFT_HOST = '127.0.0.1:<%= scope['::swift::port'] %>'
+SWIFT_API_PATH = '/v1/AUTH_<%= scope['::swift::project'] %>/'
+SWIFT_AUTH_PATH = '/auth/v1.0'
+SWIFT_ORIGINAL_CONTAINER = 'wiki-local-public'
+SWIFT_THUMBNAIL_CONTAINER = 'wiki-local-thumb'
+SWIFT_USER = '<%= scope['::swift::project'] %>:<%= scope['::swift::user'] %>'
+SWIFT_KEY = '<%= scope['::swift::key'] %>'
 
 PROXY_ENGINE_ENGINES = [
     'wikimedia_thumbor.engine.svg',
