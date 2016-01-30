@@ -262,6 +262,9 @@ role::centralauth::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 
 role::commons::upload_dir: "%{hiera('mwv::files_dir')}/commonsimages"
 
+
+role::echo::shared_tracking_cluster: "%{hiera('mediawiki::multiwiki::extension_db_cluster')}"
+role::echo::shared_tracking_db: "%{hiera('mediawiki::multiwiki::extension_cluster_shared_db_name')}"
 role::echo::echo_dir: "%{hiera('mediawiki::dir')}/extensions/Echo"
 
 role::elk::vhost_name: 'logstash.local.wmftest.net'
