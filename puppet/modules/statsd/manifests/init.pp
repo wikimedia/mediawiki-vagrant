@@ -21,7 +21,7 @@ class statsd (
     $port,
 ) {
     require ::service
-    require_package( 'nodejs-legacy' )
+    require ::npm
 
     $dir = "${::service::root_dir}/statsd"
     $logdir = $::service::log_dir
@@ -68,7 +68,6 @@ class statsd (
         enable   => true,
         provider => 'upstart',
         require  => [
-            Package['nodejs-legacy'],
             Git::Clone['statsd'],
             Npm::Install[$dir],
             File["${dir}/config.js"],

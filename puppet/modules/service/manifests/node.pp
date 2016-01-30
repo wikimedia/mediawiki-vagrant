@@ -58,6 +58,7 @@ define service::node(
 
     require ::service
 
+    require ::npm
     require ::npm::globals
 
     # we do not allow empty names
@@ -151,7 +152,6 @@ define service::node(
         provider  => 'upstart',
         require   => [
             Git::Clone[$title],
-            Package['nodejs-legacy']
         ],
         subscribe => [
             File["/etc/init/${title}.conf", "${title}_config_yaml"],

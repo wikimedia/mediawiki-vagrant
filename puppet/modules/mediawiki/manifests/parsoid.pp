@@ -44,13 +44,10 @@ class mediawiki::parsoid(
     $workers,
 ) {
     include ::mediawiki
-
-    require_package( 'nodejs' )
-    require_package( 'nodejs-legacy' )
+    require ::npm
 
     git::clone { 'mediawiki/services/parsoid/deploy':
         directory => $dir,
-        require   => Package['nodejs', 'nodejs-legacy'],
     }
 
     file { 'parsoid-localsettings.js':
@@ -61,7 +58,6 @@ class mediawiki::parsoid(
 
     file { '/etc/init/parsoid.conf':
         content => template('mediawiki/parsoid.conf.erb'),
-        require => Package['nodejs', 'nodejs-legacy'],
     }
 
     service::gitupdate { 'parsoid':

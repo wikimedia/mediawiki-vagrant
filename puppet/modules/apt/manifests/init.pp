@@ -10,6 +10,12 @@ class apt {
         schedule => hourly,
     }
 
+    exec { 'ins-apt-transport-https':
+        command     => '/usr/bin/apt-get update && /usr/bin/apt-get install -y --force-yes apt-transport-https',
+        environment => 'DEBIAN_FRONTEND=noninteractive',
+        unless      => '/usr/bin/dpkg -l apt-transport-https',
+    }
+
     file  { '/usr/local/share/wikimedia-pubkey.asc':
         source => 'puppet:///modules/apt/wikimedia-pubkey.asc',
         before => File['/etc/apt/sources.list.d/wikimedia.list'],
