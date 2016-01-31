@@ -237,7 +237,7 @@ Vagrant.configure('2') do |config|
       'x=x LANG=en_US.UTF-8 x' => 'x',
     }
 
-    if settings[:http_port] != 80
+    if settings[:http_port] != 80 && ENV['MWV_ENVIRONMENT'] != 'labs'
       puppet.facter['port_fragment'] = ":#{settings[:http_port]}"
     end
 
