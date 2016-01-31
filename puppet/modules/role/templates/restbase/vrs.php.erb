@@ -11,7 +11,7 @@ if( !isset( $wgVirtualRestConfig ) ) {
 }
 
 $wgVirtualRestConfig['modules']['restbase'] = array(
-	'url' => 'http://localhost:<%= scope.lookupvar('::restbase::port') %>',
+	'url' => 'http://127.0.0.1:<%= scope.lookupvar('::restbase::port') %>',
 	'domain' => '<%= scope.lookupvar('::restbase::domain') %>',
 	'forwardCookies' => true,
 	'parsoidCompat' => false
