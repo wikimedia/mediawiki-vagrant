@@ -282,7 +282,7 @@ role::raita::vhost_name: 'raita.local.wmftest.net'
 
 role::restbase::base_url: "//%{hiera('role::mediawiki::hostname')}%{::port_fragment}/api/rest_"
 role::restbase::domain: "%{hiera('restbase::domain')}"
-role::restbase::ve_url: "/api/rest_v1/%{hiera('restbase::domain')}/v1/page/html/"
+role::restbase::ve_url: "/api/rest_v1/page/html/"
 
 role::sal::vhost_name: "sal.local.wmftest.net%{::port_fragment}"
 role::sal::dir: "%{hiera('mwv::services_dir')}/sal"

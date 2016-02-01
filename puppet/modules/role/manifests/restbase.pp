@@ -52,7 +52,7 @@ class role::restbase (
     # Let VE load stuff directly from RB if it's active
     mediawiki::settings { 'RESTBase-VisualEditor':
         values   => {
-            wgVisualEditorFullRestbaseURL => "${base_url}v1/${domain}/",
+            wgVisualEditorFullRestbaseURL => $base_url,
             wgVisualEditorRestbaseURL     => $ve_url,
         },
         priority => $::LOAD_EARLY,

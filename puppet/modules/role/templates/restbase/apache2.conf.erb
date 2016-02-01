@@ -1,4 +1,4 @@
 # Reverse proxy requests to RESTBase
-ProxyPass /api/rest_v1/ http://127.0.0.1:<%= scope['::restbase::port'] %>/
+ProxyPass /api/rest_v1/ http://127.0.0.1:<%= scope['::restbase::port'] %>/<%= @domain %>/v1/
 
 # vim:sw=2:ts=2:sts=2:ft=apache:
