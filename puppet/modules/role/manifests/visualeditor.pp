@@ -1,7 +1,11 @@
 # == Class: role::visualeditor
-# Provisions the VisualEditor extension, backed by a local Parsoid
-# instance.
+# Provisions the VisualEditor extension, backed by a local RESTBase service
+# and Parsoid instance.
+#
+# Note: this role is not multiwiki aware and will only work on the default
+# wiki.
 class role::visualeditor {
+    require ::role::mediawiki
     include ::role::cite
     include ::role::citoid
     include ::role::parserfunctions
@@ -14,5 +18,6 @@ class role::visualeditor {
         settings      => template('role/visualeditor/conf.php.erb'),
         browser_tests => 'modules/ve-mw/tests/browser',
         priority      => $::LOAD_EARLY,
+        wiki          => $::mediawiki::wiki_db,
     }
 }
