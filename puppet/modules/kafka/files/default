@@ -1,0 +1,5 @@
+KAFKA_START=yes
+KAFKA_USER=kafka
+KAFKA_GROUP=kafka
+KAFKA_CONFIG=/etc/kafka
+KAFKA_HEAP_OPTS="-Xmx64M -Xmx64M"

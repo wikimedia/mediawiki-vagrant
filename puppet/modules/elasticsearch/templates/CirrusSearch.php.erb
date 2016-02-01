@@ -1,2 +1,34 @@
+# <?php
+
 include_once "$IP/extensions/CirrusSearch/tests/jenkins/FullyFeaturedConfig.php";
 $wgCirrusSearchExtraIndexes[ NS_FILE ] = array( 'commonswiki_file' );
+
+$wgMWLoggerDefaultSpi['args'][0]['loggers']['CirrusSearchRequestSet'] = array(
+	'handlers' => array( 'kafka' ),
+	'processors' => array(),
+	'calls' => array()
+);
+
+$wgMWLoggerDefaultSpi['args'][0]['handlers']['kafka'] = array(
+	'factory' => '\\MediaWiki\\Logger\\Monolog\\KafkaHandler::factory',
+	'args' => array(
+		array( 'localhost:9092' ),
+		array(
+			'alias' => array(),
+			'swallowExceptions' => false,
+			'logExceptions' => null,
+		)
+	),
+	'formatter' => 'avro',
+);
+
+$wgMWLoggerDefaultSpi['args'][0]['formatters']['avro'] = array(
+	'class' => '\\MediaWiki\\Logger\\Monolog\\AvroFormatter',
+	'args' => array(
+		array(
+			'CirrusSearchRequestSet' => file_get_contents(
+				"<%= scope['::service::root_dir'] %>/event-schemas/avro/mediawiki/CirrusSearchRequestSet/111448028943.avsc"
+			),
+		),
+	),
+);

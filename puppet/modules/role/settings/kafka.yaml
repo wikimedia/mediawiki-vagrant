@@ -1,0 +1,4 @@
+vagrant_ram: 128
+forward_ports:
+  2181: 2181
+  9092: 9092
