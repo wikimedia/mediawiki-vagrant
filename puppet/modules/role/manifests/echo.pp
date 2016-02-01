@@ -12,9 +12,9 @@
 # [*echo_dir*]
 #   Echo root directory
 class role::echo(
-    $shared_tracking_cluster = $::mediawiki::multiwiki::extension_db_cluster,
-    $shared_tracking_db      = $::mediawiki::multiwiki::extension_cluster_shared_db_name,
-    $echo_dir                = undef,
+    $shared_tracking_cluster,
+    $shared_tracking_db,
+    $echo_dir,
 ) {
     include ::role::centralauth
     include ::role::eventlogging
