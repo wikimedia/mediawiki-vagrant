@@ -34,10 +34,9 @@ define mediawiki::import::dump(
 ) {
     require ::mediawiki
 
-    exec { "import_dump_${title}":
+    mediawiki::maintenance { "import_dump_${title}":
         command => "/usr/local/bin/mwscript importDump.php --wiki=${db_name} ${xml_dump}",
         unless  => "/usr/local/bin/mwscript pageExists.php --wiki=${db_name} ${dump_sentinel_page}",
-        user    => 'www-data',
         require => Mediawiki::Wiki[$wiki],
     }
 

@@ -21,9 +21,8 @@ class role::simple_miser {
         notify => Exec['rebuild_file_cache'],
     }
 
-    exec { 'rebuild_file_cache':
-        command     => 'foreachwiki rebuildFileCache.php',
-        user        => 'www-data',
+    mediawiki::maintenance { 'rebuild_file_cache':
+        command     => '/usr/local/bin/foreachwiki rebuildFileCache.php',
         refreshonly => true,
     }
 }

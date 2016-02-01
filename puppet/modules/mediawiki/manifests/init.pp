@@ -176,7 +176,7 @@ class mediawiki(
     }
 
     exec { 'update_all_databases':
-        command     => 'foreachwiki update.php --quick',
+        command     => '/usr/local/bin/foreachwiki update.php --quick --doshared',
         cwd         => $dir,
         user        => 'www-data',
         refreshonly => true,
