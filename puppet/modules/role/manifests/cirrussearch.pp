@@ -7,8 +7,13 @@ class role::cirrussearch {
     include ::role::pdfhandler
     include ::role::cite
     include ::elasticsearch
+    # Utilized as part of cirrus logging infrastructure
+    include ::role::psr3
+    include ::role::kafka
     # not strictly required for cirrussearch, but used in the tests
     include ::role::svg
+    # necessary for CirrusSearch.php.erb to point to service root dir
+    require ::service
 
     # By default Vagrant sets up firefox as the global browsertest
     # runner, we want to ensure phantomjs is available for running the
@@ -66,7 +71,10 @@ class role::cirrussearch {
 
     mediawiki::extension { 'CirrusSearch':
         settings      => template('elasticsearch/CirrusSearch.php.erb'),
-        require       => Service['elasticsearch'],
+        require       => [
+            Service['elasticsearch'],
+            Git::Clone['mediawiki/event-schemas']
+        ],
         browser_tests => 'tests/browser',
     }
 
