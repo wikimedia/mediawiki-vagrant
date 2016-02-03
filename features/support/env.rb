@@ -1,3 +1,5 @@
+require 'vagrant'
+require 'mediawiki-vagrant'
 require 'rspec/mocks'
 
 require_relative 'output_helper'

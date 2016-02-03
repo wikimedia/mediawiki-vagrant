@@ -3,7 +3,7 @@ source 'https://rubygems.org'
 group :development do
   # Upstream no more updates rubygems.org and we need a more recent version
   # https://github.com/mitchellh/vagrant/issues/5546
-  gem 'vagrant', git: 'https://github.com/mitchellh/vagrant.git', tag: 'v1.7.2'
+  gem 'vagrant', git: 'https://github.com/mitchellh/vagrant.git', tag: 'v1.8.1'
 
   gem 'rubocop', '~> 0.35.1', require: false
   gem 'puppet-lint', '1.1.0'

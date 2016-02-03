@@ -1,3 +1,5 @@
+require 'timeout'
+
 module MediaWikiVagrant
   # Helper methods for simulating command I/O.
   #
@@ -5,11 +7,11 @@ module MediaWikiVagrant
   #
   module OutputHelper
     def stdout(bytes = 4096)
-      normalize_output(@stdout_r.readpartial(bytes))
+      Timeout.timeout(3) { normalize_output(@stdout_r.readpartial(bytes)) }
     end
 
     def stderr(bytes = 4096)
-      normalize_output(@stderr_r.readpartial(bytes))
+      Timeout.timeout(3) { normalize_output(@stderr_r.readpartial(bytes)) }
     end
 
     def enter(line)
