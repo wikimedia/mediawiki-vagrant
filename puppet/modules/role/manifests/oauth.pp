@@ -19,7 +19,6 @@ class role::oauth (
             '$wgMWOAuthSecureTokenTransfer = false',
             "\$wgOAuthSecretKey = '${secret_key}'",
             '$wgGroupPermissions["sysop"]["mwoauthmanageconsumer"] = true',
-            '$wgGroupPermissions["sysop"]["mwoauthviewprivate"] = true',
             '$wgGroupPermissions["user"]["mwoauthproposeconsumer"] = true',
             '$wgGroupPermissions["user"]["mwoauthupdateownconsumer"] = true',
         ]
