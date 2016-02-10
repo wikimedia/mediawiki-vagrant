@@ -26,8 +26,11 @@ $wgMWLoggerDefaultSpi['args'][0]['formatters']['avro'] = array(
 	'class' => '\\MediaWiki\\Logger\\Monolog\\AvroFormatter',
 	'args' => array(
 		array(
-			'CirrusSearchRequestSet' => file_get_contents(
-				"<%= scope['::service::root_dir'] %>/event-schemas/avro/mediawiki/CirrusSearchRequestSet/111448028943.avsc"
+			'CirrusSearchRequestSet' => array(
+				'schema' => file_get_contents(
+					"<%= scope['::service::root_dir'] %>/event-schemas/avro/mediawiki/CirrusSearchRequestSet/111448028943.avsc"
+				),
+				'revision' => 111448028943,
 			),
 		),
 	),
