@@ -58,7 +58,7 @@ STATSD_PREFIX = '<%= @statsd_prefix %>'
 
 ## Quality index used for generated JPEG images
 ## Defaults to: 80
-#QUALITY = 80
+QUALITY = 87
 
 ## Exports JPEG images with the `progressive` flag set.
 ## Defaults to: True
@@ -557,6 +557,9 @@ SENTRY_DSN_URL = '<%= scope.function_file([@sentry_dsn_file]) %>'
 
 ################################## Extensions ##################################
 
+QUALITY_LOW = 40
+DEFAULT_FILTERS_JPEG = 'conditional_sharpen(0.6,0.01,false,0.85)'
+
 COMMUNITY_EXTENSIONS = [
     'wikimedia_thumbor.handler.multi'
 ]
@@ -591,6 +594,7 @@ PROXY_ENGINE_ENGINES = [
     'wikimedia_thumbor.engine.djvu',
     'wikimedia_thumbor.engine.vips',
     'wikimedia_thumbor.engine.tiff',
+    'wikimedia_thumbor.engine.imagemagick',
     'thumbor.engines.pil'
 ]
 

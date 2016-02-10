@@ -8,10 +8,11 @@ class role::thumbor (
     require ::role::memcached
     require ::role::pagedtiffhandler
     require ::role::pdfhandler
-    include ::role::sentry
     require ::role::swift
     require ::role::timedmediahandler
-    require ::role::thumb_on_404
+    require ::role::multimedia
+    require ::role::vipsscaler
+    include ::role::sentry
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
     include ::apache::mod::headers

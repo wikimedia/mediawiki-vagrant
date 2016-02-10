@@ -10,7 +10,6 @@ class role::uploadwizard {
     include ::role::titleblacklist
 
     # API smoke test dependencies
-    require_package('imagemagick')
     require_package('python-imaging')
     require_package('python-poster')
 
@@ -18,11 +17,9 @@ class role::uploadwizard {
 
     mediawiki::extension { 'UploadWizard':
         browser_tests => true,
-        require       => Package['imagemagick'],
         settings      => {
             wgAllowCopyUploads    => true,
             wgEnableUploads       => true,
-            wgUseImageMagick      => true,
             wgUploadNavigationUrl => '/wiki/Special:UploadWizard',
             wgApiFrameOptions     => 'SAMEORIGIN',
             wgUploadWizardConfig  => {

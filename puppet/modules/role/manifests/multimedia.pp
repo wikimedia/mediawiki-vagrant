@@ -11,6 +11,9 @@
 class role::multimedia {
     include ::role::thumb_on_404
 
+    require_package('imagemagick')
+    require_package('libimage-exiftool-perl')
+
     # Increase PHP upload size from default puny 2MB
     php::ini { 'uploadsize':
         settings => {
@@ -20,12 +23,14 @@ class role::multimedia {
     }
 
     mediawiki::settings { 'multimedia':
-        values => {
-            'wgMaxImageArea'       => 75e6,
-            'wgTiffMaxMetaSize'    => 1048576,
-            'wgMaxAnimatedGifArea' => 75e6,
+        require => Package['imagemagick'],
+        values  => {
+            # These are copied over from the Commons production configuration
+            wgMaxImageArea       => 75e6,
+            wgTiffMaxMetaSize    => 1048576,
+            wgMaxAnimatedGifArea => 75e6,
+            wgSharpenParameter   => '0x0.8',
+            wgUseImageMagick     => true,
         }
     }
-
-    require_package('libimage-exiftool-perl')
 }
