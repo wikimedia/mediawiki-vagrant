@@ -142,7 +142,7 @@ class thumbor (
     varnish::backend { 'thumbor':
         host   => '127.0.0.1',
         port   => '8888',
-        onlyif => 'req.url ~ "^/images/thumb/.*\.(jpeg|jpg|jpe|png|apng|gif|svg|ogv|webm|xcf|djvu|pdf|tif|tiff)"',
+        onlyif => 'req.url ~ "^/images/thumb/.*"',
     }
 
     varnish::backend { 'swift':
