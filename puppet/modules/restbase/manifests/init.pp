@@ -46,7 +46,7 @@ class restbase (
 
     service::node { 'restbase':
         port       => $port,
-        module     => './lib/server',
+        module     => 'hyperswitch',
         git_remote => 'https://github.com/wikimedia/restbase.git',
         log_level  => $log_level,
         config     => template('restbase/config.yaml.erb'),
