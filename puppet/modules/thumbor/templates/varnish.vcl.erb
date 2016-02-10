@@ -12,6 +12,16 @@ sub vcl_fini {
 }
 
 sub vcl_recv {
+    if (req.restarts == 0) {
+        set req.backend_hint = swift;
+    } else {
+        set req.backend_hint = thumbor;
+        # Restore original URL which has been rewritten for swift
+        set req.url = req.http.X-Url;
+        # This is to avoid overwriting the xkey served by Thumbor
+        set req.http.X-Url = "";
+    }
+
     set req.http.X-Forwarded-For = client.ip;
 
     # Since we expose varnish on the default port (6081) we need to rewrite
@@ -40,6 +50,18 @@ sub vcl_recv {
         return (synth(405, "Method not allowed"));
     }
 
+    # Swift needs the URLs rewritten, it can't do that alone
+    if (req.backend_hint == swift) {
+        # Save original URL for thumbor's sake
+        set req.http.X-Url = req.url;
+
+        if (req.url ~ "^/images/thumb/") {
+            set req.url = regsub(req.url, "^/images/thumb/(.*)", "/v1/AUTH_<%= scope['::swift::project'] %>/wiki-local-thumb/\1");
+        } else {
+            set req.url = regsub(req.url, "^/images/(.*)", "/v1/AUTH_<%= scope['::swift::project'] %>/wiki-local-public/\1");
+        }
+    }
+
     return(hash);
 }
 
@@ -60,9 +82,19 @@ sub vcl_deliver {
         }
     }
 
+    # If the thumbnail is a miss in swift, request it from thumbor
+    if (resp.status == 404 && req.backend_hint == swift) {
+        return(restart);
+    }
+
     # Let things go to the default-subs.vcl vcl_deliver
 }
 
 sub vcl_backend_response {
     set beresp.http.Access-Control-Allow-Origin = "*";
+
+    # Swift can't set the xkey itself, we have to help
+    if (bereq.http.X-Url ~ "^/images/thumb/") {
+        set beresp.http.xkey = regsub(bereq.http.X-Url, "^/images/thumb/[^/]+/[^/]+/[^/]+/.*-([0-9a-zA-Z]+)[\.0-9a-zA-Z]+$", "\1");
+    }
 }

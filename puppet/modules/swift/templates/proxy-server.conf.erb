@@ -17,7 +17,7 @@ account_autocreate = true
 [filter:tempauth]
 use = egg:swift#tempauth
 user_admin_admin = admin .admin .reseller_admin
-user_testproj_testuser = testpwd .admin
+user_<%= @project %>_<%= @user %> = <%= @key %> .admin
 
 [filter:healthcheck]
 use = egg:swift#healthcheck

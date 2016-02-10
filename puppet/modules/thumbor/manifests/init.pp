@@ -79,6 +79,7 @@ class thumbor (
             'numpy',
             'opencv-engine',
             'raven',
+            'python-swiftclient',
             'git+git://github.com/gi11es/thumbor.git',
             'git+git://github.com/thumbor-community/core',
             'git+https://phabricator.wikimedia.org/diffusion/THMBREXT/thumbor-plugins.git',
@@ -139,16 +140,16 @@ class thumbor (
         ],
     }
 
+    varnish::backend { 'swift':
+        host   => '127.0.0.1',
+        port   => $::swift::port,
+        onlyif => 'req.url ~ "^/images/.*"',
+    }
+
     varnish::backend { 'thumbor':
         host   => '127.0.0.1',
         port   => '8888',
         onlyif => 'req.url ~ "^/images/thumb/.*"',
-    }
-
-    varnish::backend { 'swift':
-        host   => '127.0.0.1',
-        port   => $::swift::port,
-        onlyif => 'req.url ~ "^/images/(?!thumb/).*"',
     }
 
     varnish::config { 'thumbor':

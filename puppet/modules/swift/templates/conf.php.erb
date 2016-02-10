@@ -5,8 +5,8 @@ $wgFileBackends[] = array(
 	'fileMode'       => 0644,
 	'basePath'       => $IP . '/images/gwtoolset',
 	'swiftAuthUrl'   => '127.0.0.1:<%= scope['::swift::port'] %>/auth',
-	'swiftUser'      => 'testproj:testuser',
-	'swiftKey'       => 'testpwd',
+	'swiftUser'      => '<%= scope['::swift::project'] %>:<%= scope['::swift::user'] %>',
+	'swiftKey'       => '<%= scope['::swift::key'] %>',
 );
 
 $wgLocalFileRepo = array(

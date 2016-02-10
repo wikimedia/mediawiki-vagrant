@@ -336,6 +336,9 @@ statsd::port: '8125'
 
 swift::storage_dir: "%{hiera('mwv::files_dir')}/swift"
 swift::port: 8040
+swift::key: testpwd
+swift::project: testproj
+swift::user: testuser
 swift::cfg_file: /etc/swift/swift.conf
 swift::proxy_cfg_file: /etc/swift/proxy-server.conf
 swift::account_cfg_file: /etc/swift/account-server.conf
