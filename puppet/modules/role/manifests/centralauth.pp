@@ -16,9 +16,17 @@
 # [*db_user*]
 #   Database user used for CentralAuth database
 #
+# [*db_pass*]
+#   Database password used for CentralAuth database
+#
+# [*wiki_admin_user*]
+#   Admin user name for the wikis
+#
 class role::centralauth(
     $db_host,
     $db_user,
+    $db_pass,
+    $wiki_admin_user,
 ){
     require ::role::mediawiki
     include ::role::antispoof
@@ -31,6 +39,8 @@ class role::centralauth(
     $loginwiki = 'login'
     $alt_testwiki = 'centralauthtest'
     $selenium_user = regsubst($::browsertests::selenium_user, '_', ' ')
+
+    $canonical_admin_user = inline_template('<%= @wiki_admin_user[0].capitalize + @wiki_admin_user[1..-1] %>')
 
     mediawiki::extension { 'CentralAuth':
         needs_update  => true,
@@ -86,6 +96,28 @@ class role::centralauth(
     }
 
     mediawiki::wiki{ [ $loginwiki, $alt_testwiki ]: }
+
+    file { '/usr/local/bin/is-centralauth-migratePass0-needed':
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        content => template('role/centralauth/is-centralauth-migratePass0-needed.bash.erb'),
+    }
+
+    # Make sure CentralAuth knows about all local users
+    # To avoid running this every time, we check whether it knows
+    # about Admin users on all wikis.  If someone changes Wiki[admin_user],
+    # this will run every time.
+    mediawiki::maintenance { 'Pass 0 of CentralAuth':
+        command => '/usr/local/bin/foreachwiki extensions/CentralAuth/maintenance/migratePass0.php',
+        onlyif  => '/usr/local/bin/is-centralauth-migratePass0-needed',
+        require => [
+            File['/usr/local/bin/is-centralauth-migratePass0-needed'],
+            Mysql::Sql['Create CentralAuth tables'],
+            Mysql::Sql['Create CentralAuth spoofuser table'],
+        ]
+    }
 
     role::centralauth::migrate_user { [ 'Admin', $selenium_user ]: }
 

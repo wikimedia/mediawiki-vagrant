@@ -259,6 +259,8 @@ restbase::dbdir: /var/lib/restbase
 
 role::centralauth::db_host: "%{hiera('mysql::grant_host_name')}"
 role::centralauth::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
+role::centralauth::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
+role::centralauth::wiki_admin_user: "%{hiera('mediawiki::admin_user')}"
 
 role::commons::upload_dir: "%{hiera('mwv::files_dir')}/commonsimages"
 

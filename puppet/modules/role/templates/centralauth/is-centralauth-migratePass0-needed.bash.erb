@@ -1,0 +1,12 @@
+#!/bin/bash
+# Exits with status 0 if migratePass0.php needs to run because
+# not all wikis are in localnames.
+
+alldbs_out=$(alldbs)
+expected_count=$(echo "$alldbs_out"|wc -l)
+
+alldbs_comma=$(echo "$alldbs_out"|xargs|sed "s/ /', '/g")
+sql="SELECT COUNT(*) FROM centralauth.localnames WHERE ln_name = '<%= @canonical_admin_user %>' AND ln_wiki IN ('$alldbs_comma');"
+
+actual_count=$(echo "$sql"|mysql -u <%= @db_user %> -p<%= @db_pass %> --skip-column-names)
+[ $expected_count -ne $actual_count ]

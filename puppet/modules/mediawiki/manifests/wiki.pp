@@ -35,7 +35,9 @@
 #   Password for MySQL account (example: 'secret123').
 #
 # [*admin_user*]
-#   User name for the initial admin account (example: 'admin').
+#   User name for the initial admin account ($::mediawiki::admin_user).
+#   Changing this is not recommended, and can slow provisioning
+#   if CentralAuth is enabled.
 #
 # [*admin_pass*]
 #   Initial password for admin account (example: 'secret123').
