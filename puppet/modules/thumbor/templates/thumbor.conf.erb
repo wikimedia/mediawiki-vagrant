@@ -575,7 +575,7 @@ SUBPROCESS_TIMEOUT = 60
 SUBPROCESS_CGEXEC_PATH = '/usr/bin/cgexec'
 SUBPROCESS_CGROUP = 'memory:thumbor'
 
-VIPS_ENGINE_MIN_PIXELS = 0
+VIPS_ENGINE_MIN_PIXELS = 10000000
 
 RSVG_CONVERT_PATH = '/usr/bin/rsvg-convert'
 
@@ -597,15 +597,16 @@ SWIFT_THUMBNAIL_CONTAINER = 'wiki-local-thumb'
 SWIFT_USER = '<%= scope['::swift::project'] %>:<%= scope['::swift::user'] %>'
 SWIFT_KEY = '<%= scope['::swift::key'] %>'
 
+from collections import OrderedDict
+
 PROXY_ENGINE_ENGINES = [
-    'wikimedia_thumbor.engine.svg',
-    'wikimedia_thumbor.engine.xcf',
-    'wikimedia_thumbor.engine.djvu',
-    'wikimedia_thumbor.engine.vips',
-    'wikimedia_thumbor.engine.tiff',
-    'wikimedia_thumbor.engine.ghostscript',
-    'wikimedia_thumbor.engine.imagemagick',
-    'thumbor.engines.pil'
+    ('wikimedia_thumbor.engine.svg', ['svg']),
+    ('wikimedia_thumbor.engine.xcf', ['xcf']),
+    ('wikimedia_thumbor.engine.djvu', ['djvu']),
+    ('wikimedia_thumbor.engine.vips', ['tiff', 'png']),
+    ('wikimedia_thumbor.engine.tiff', ['tiff']),
+    ('wikimedia_thumbor.engine.ghostscript', ['pdf']),
+    ('wikimedia_thumbor.engine.imagemagick', ['jpg', 'png']),
 ]
 
 PROXY_LOADER_LOADERS = [
