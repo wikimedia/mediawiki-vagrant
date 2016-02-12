@@ -26,11 +26,12 @@ class role::multimedia {
         require => Package['imagemagick'],
         values  => {
             # These are copied over from the Commons production configuration
-            wgMaxImageArea       => 75e6,
-            wgTiffMaxMetaSize    => 1048576,
-            wgMaxAnimatedGifArea => 75e6,
-            wgSharpenParameter   => '0x0.8',
-            wgUseImageMagick     => true,
+            wgMaxImageArea               => 75e6,
+            wgTiffMaxMetaSize            => 1048576,
+            wgMaxAnimatedGifArea         => 75e6,
+            wgSharpenParameter           => '0x0.8',
+            wgUseImageMagick             => true,
+            wgUseTinyRGBForJPGThumbnails => true,
         }
     }
 }
