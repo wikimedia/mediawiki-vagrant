@@ -92,4 +92,9 @@ class role::echo(
     }
 
     role::centralauth::migrate_user { [ $user_a, $user_b ]: }
+
+    # CORS for cross-wiki notifications
+    mediawiki::settings { 'echo CORS':
+        values => template('role/echo/CORS.php.erb'),
+    }
 }

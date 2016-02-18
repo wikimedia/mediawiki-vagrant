@@ -1,0 +1,14 @@
+$wgCrossSiteAJAXdomains = array(
+	// HTTP
+	'127.0.0.1:<%= @forwarded_port %>',
+	'localhost:<%= @forwarded_port %>',
+	'*.wiki.local.wmftest.net:<%= @forwarded_port %>',
+	// HTTPS
+	'127.0.0.1:<%= @forwarded_https_port %>',
+	'localhost:<%= @forwarded_https_port %>',
+	'*.wiki.local.wmftest.net:<%= @forwarded_https_port %>',
+	// Varnish
+	'127.0.0.1:6081',
+	'localhost:6081',
+	'*.wiki.local.wmftest.net:6081'
+) + $wgCrossSiteAJAXdomains;
