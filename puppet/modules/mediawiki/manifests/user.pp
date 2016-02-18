@@ -97,10 +97,10 @@ define mediawiki::user(
     }
 
     if $email {
-        mediawiki::maintenance { "mediawiki_user_${canonical_username}_email":
+        mediawiki::maintenance { "mediawiki_user_${canonical_username}_${wiki}_email":
             command     => template('mediawiki/set_user_email.erb'),
             refreshonly => true,
-            subscribe   => Mediawiki::Maintenance["mediawiki_user_${canonical_username}"],
+            subscribe   => Mediawiki::Maintenance["mediawiki_user_${canonical_username}_${wiki}"],
         }
     }
 }
