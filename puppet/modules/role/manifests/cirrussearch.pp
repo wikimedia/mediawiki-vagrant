@@ -7,6 +7,7 @@ class role::cirrussearch {
     include ::role::pdfhandler
     include ::role::cite
     include ::elasticsearch
+    include ::eventschemas
     # Utilized as part of cirrus logging infrastructure
     include ::role::psr3
     include ::role::kafka
@@ -73,7 +74,7 @@ class role::cirrussearch {
         settings      => template('elasticsearch/CirrusSearch.php.erb'),
         require       => [
             Service['elasticsearch'],
-            Git::Clone['mediawiki/event-schemas']
+            Class['eventschemas'],
         ],
         browser_tests => 'tests/browser',
     }
