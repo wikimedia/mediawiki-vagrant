@@ -102,7 +102,7 @@ define service::gitupdate(
             ensure   => 'present',
             # Packages will be installed by the $up_cmd
             # during vagrant git-update.
-            packages => [],
+            packages => undef,
             timeout  => 600, # This can take a while
             # Most likely the $srv_dir will be in /vagrant,
             # so use $::share_owner.

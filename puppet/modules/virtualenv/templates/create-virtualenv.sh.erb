@@ -1,2 +1,5 @@
-/usr/local/bin/virtualenv . &&
-./bin/pip install '<%= @packages.join("' '") %>'
+<% if @packages -%>
+/usr/local/bin/virtualenv . && ./bin/pip install '<%= @packages.join("' '") %>'
+<% else -%>
+/usr/local/bin/virtualenv .
+<% end -%>

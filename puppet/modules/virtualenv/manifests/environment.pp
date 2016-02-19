@@ -17,7 +17,10 @@
 #   Will be created if it does not exist.
 #
 # [*packages*]
-#   An array of pip packages to install. Must not be empty.
+#   An array of pip packages to install during virtualenv creation.
+#   Default: undef
+#   NOTE: You can also install packages into this virtualenv after
+#   creation using the virtualenv::package define.
 #
 # [*owner*]
 #   User owner of the environment directory and created files.
@@ -29,7 +32,7 @@
 #   Timeout for the command creating the environment.
 #
 define virtualenv::environment (
-    $packages,
+    $packages  = undef,
     $dir       = $title,
     $ensure    = 'present',
     $owner     = 'root',
@@ -43,6 +46,11 @@ define virtualenv::environment (
             ensure => directory,
             owner  => $owner,
             group  => $group,
+        }
+
+        $command = $packages ? {
+            undef   => '/usr/local/bin/virtualenv .',
+            default => inline_template("./bin/pip install '<%= @packages.join(\"' '\") %>'")
         }
 
         exec { "virtualenv-${dir}":
