@@ -1,0 +1,48 @@
+// This file is managed by Puppet.
+
+// Fix wgServer in wgConf.  The $wgServer global will be fixed
+// in CommonSettings.php, which runs after the settings.d settings.
+//
+// It changes the wgConf wgServer to use the same port as the current request,
+// so they will be accessed on the forwarded HTTPS port (if the current request is HTTPS).
+call_user_func(function () {
+	global $wgConf, $wgServer;
+
+	$detectedServer = WebRequest::detectServer();
+
+	// Same as wgConf.php.erb, but at runtime so we use PHP.
+	// Actual //host:port the current web request used, without http/https.
+	$currentRequestServer = preg_replace( '#^[^\/]+#', '', $detectedServer );
+
+	$currentRequestHostAndPort = IP::splitHostAndPort( $currentRequestServer );
+
+	if ( $currentRequestHostAndPort === false ) {
+		// Failure to parse current request, change nothing
+		return;
+	}
+
+	foreach ( $wgConf->settings['wgServer'] as $dbname => &$wgConfWgServer ) {
+		// URL this wgConf is about
+		$protocolRelativeCanonical = $wgConfWgServer;
+
+		$canonicalHostAndPort = IP::splitHostAndPort( $protocolRelativeCanonical );
+
+		if ( $canonicalHostAndPort === false ) {
+			// Failure to parse this particular wiki, skip it;
+			continue;
+		}
+
+		$canonicalHost = $canonicalHostAndPort[0];
+
+		$currentPort = $currentRequestHostAndPort[1];
+
+		if ( $currentPort !== false ) {
+			$combined = IP::combineHostAndPort( $canonicalHost, $currentPort );
+			$wgConfWgServer = $combined;
+		} else {
+			// currentPort false just means we were accessed on default port
+			// for protocol, so do the same when pointing to other wiki.
+			$wgConfWgServer = $canonicalHost;
+		}
+	}
+} );

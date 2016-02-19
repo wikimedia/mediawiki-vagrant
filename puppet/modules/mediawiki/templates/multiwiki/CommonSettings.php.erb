@@ -64,5 +64,6 @@ foreach(
 
 if ( PHP_SAPI !== 'cli' ) {
 	# T68399: set wgServer from inbound request
-	$wgServer = WebRequest::detectServer();
+	# Strip protocol (e.g. http:) to create protocol-relative URL
+	$wgServer = preg_replace( '#^[^\/]+#', '', WebRequest::detectServer() );
 }
