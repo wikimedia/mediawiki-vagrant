@@ -4,13 +4,7 @@
 # of extensions which integrate with it: LiquidThreads and Echo.
 class role::massmessage {
     include ::role::echo
+    include ::role::liquidthreads
 
     mediawiki::extension { 'MassMessage': }
-
-    mediawiki::extension { 'LiquidThreads':
-        needs_update => true,
-        settings     => {
-            wgLqtTalkPages => false,
-        },
-    }
 }
