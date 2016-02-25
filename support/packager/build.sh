@@ -13,7 +13,6 @@ MWV=/vagrant
 CONTENTS=${MWV}/support/packager/output/contents
 BUILD_INFO=${CONTENTS}/BUILD_INFO
 APT_OPTS="-o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' -y"
-export DEBIAN_FRONTEND=noninteractive
 
 {
     set -x
@@ -30,10 +29,10 @@ export DEBIAN_FRONTEND=noninteractive
     git reset --hard origin/master
 
     # Freshen git cache
-    sudo apt-get update
-    sudo apt-get $APT_OPTS dist-upgrade
+    sudo /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get update
+    sudo /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get $APT_OPTS dist-upgrade
     # Get rid of obsolete apt packages
-    sudo apt-get $APT_OPTS autoclean
+    sudo /usr/bin/env DEBIAN_FRONTEND=noninteractive apt-get $APT_OPTS autoclean
 
     # Hack some things into the build
     mkdir -p ${CONTENTS}
