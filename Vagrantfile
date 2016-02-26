@@ -218,7 +218,8 @@ Vagrant.configure('2') do |config|
       '--detailed-exitcodes',
     ]
 
-    # For more output, uncomment the following line:
+    # Handy debugging commands for Puppet runs
+    puppet.options << '--evaltrace' if ENV.include?('PUPPET_EVAL_TRACE')
     puppet.options << '--debug' if ENV.include?('PUPPET_DEBUG')
 
     # Windows's Command Prompt has poor support for ANSI escape sequences.
