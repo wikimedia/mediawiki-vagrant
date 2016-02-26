@@ -8,13 +8,18 @@ class role::eventlogging {
     include ::apache::mod::headers
 
     # Define a 'ELDevServer' parameter for Apache <IfDefine> checks.
+    # This proxies :8080/event.gif to :8100/event.gif.
     apache::def { 'ELDevServer': }
+
+    # Set up the eventlogging-devserver.
+    # This listens for events at :8100/event.gif and writes valid events to
+    # /vagrant/logs/eventlogging.log.
+    include ::eventlogging::devserver
 
     mediawiki::extension { 'EventLogging':
         priority => $::LOAD_EARLY,
         settings => {
             wgEventLoggingBaseUri => '//localhost:8080/event.gif',
-            wgEventLoggingFile    => '/vagrant/logs/eventlogging.log',
         }
     }
 }
