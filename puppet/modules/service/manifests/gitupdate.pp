@@ -16,9 +16,9 @@
 #   ${::service::root_dir}/${title} is used. Default: undef
 #
 # [*type*]
-#   The type of the service, can be 'php' or 'nodejs'. This parameters is
-#   relevant only if a dependencies update should be scheduled as well (cf. the
-#   'update' parameter below). Default: undef
+#   The type of the service, can be 'php', 'nodejs' or 'python'.
+#   This parameter is relevant only if a dependencies update should be
+#   scheduled as well (cf. the 'update' parameter below). Default: undef
 #
 # [*pull*]
 #   Whether to perform a git pull. Default: true
@@ -50,6 +50,14 @@
 #     update => true,
 #   }
 #
+# Or if you have a Python service with pip dependencies specified in
+# setup.py, use:
+#
+#   service::gitupdate { 'mypythonservice':
+#     type   => 'python',
+#     update => true,
+#   }
+#
 # In case your service is registered in the system under a different name, and
 # needs to be restarted after the update, use:
 #
@@ -76,15 +84,31 @@ define service::gitupdate(
     $up_cmd = $type ? {
         'php'    => 'composer update --no-interaction --optimize-autoloader',
         'nodejs' => 'sudo rm -rf node_modules && npm install --no-bin-links',
+        'python' => './virtualenv/bin/pip install .',
         default  => 'invalid'
     }
     if $update and $up_cmd == 'invalid' {
-        fail("Invalid service type ${type} given, valid values are php, nodejs")
+        fail("Invalid service type ${type} given, valid values are php, nodejs, python")
     }
 
     $srv_dir = $dir ? {
         undef   => "${::service::root_dir}/${title}",
         default => $dir
+    }
+
+    # Create a virtualenv in $srv_dir
+    if $update and $type == 'python' {
+        virtualenv::environment { "${srv_dir}/virtualenv":
+            ensure   => 'present',
+            # Packages will be installed by the $up_cmd
+            # during vagrant git-update.
+            packages => [],
+            timeout  => 600, # This can take a while
+            # Most likely the $srv_dir will be in /vagrant,
+            # so use $::share_owner.
+            owner    => $::share_owner,
+            group    => $::share_group,
+        }
     }
 
     $restart_name = $service_name ? {
