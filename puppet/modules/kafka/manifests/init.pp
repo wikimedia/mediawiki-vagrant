@@ -43,9 +43,9 @@ class kafka {
         require => Package['kafka-server'],
     }
 
-    git::clone { 'mediawiki/event-schemas':
-        directory => "${::service::root_dir}/event-schemas"
+    # Install handy env vars in all shells so we don't have to specify
+    # broker and zookeeper args every time using kafka CLI.
+    file { '/etc/profile.d/kafka.sh':
+        source => 'puppet:///modules/kafka/kafka.profile.sh',
     }
-
-    service::gitupdate { 'event-schemas': }
 }
