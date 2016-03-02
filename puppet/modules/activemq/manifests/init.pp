@@ -3,7 +3,7 @@
 # Provisions Apache ActiveMQ
 #
 class activemq(
-    $version  = '5.11.2',
+    $version  = '5.11.4',
     $hostname = '127.0.0.1',
     $port     = '61613',
 ) {
