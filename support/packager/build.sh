@@ -12,7 +12,7 @@ set -euf -o pipefail
 MWV=/vagrant
 CONTENTS=${MWV}/support/packager/output/contents
 BUILD_INFO=${CONTENTS}/BUILD_INFO
-APT_OPTS="-o Dpkg::Options::='--force-confdef' -o Dpkg::Options::='--force-confold' -y"
+APT_OPTS="-o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold -y"
 
 {
     set -x
