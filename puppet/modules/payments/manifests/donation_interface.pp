@@ -24,14 +24,6 @@ class payments::donation_interface {
       # donation.api.php will rely on a test class.
       wgDonationInterfaceTestMode              => false,
 
-      # TODO: the following cruft is brought to u by a forward reference snafu.
-      # Better if DonationInterfaceFormSettings would use relative paths?
-      wgAdyenGatewayHtmlFormDir                => "${DI}/adyen_gateway/forms/html",
-      wgAmazonGatewayHtmlFormDir               => "${DI}/amazon_gateway/forms/html",
-      wgGlobalCollectGatewayHtmlFormDir        => "${DI}/globalcollect_gateway/forms/html",
-      wgPayflowProGatewayHtmlFormDir           => "${DI}/payflowpro_gateway/forms/html",
-      wgPaypalGatewayHtmlFormDir               => "${DI}/paypal_gateway/forms/html",
-
       wgAdyenGatewayAccountInfo                => {
         'test' => {
           'AccountName'  => 'test',
