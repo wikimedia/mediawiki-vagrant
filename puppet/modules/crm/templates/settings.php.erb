@@ -27,6 +27,10 @@ foreach ( $dbs as $key => $db ) {
     $conf['<%= k %>'] = '<%= v %>';
 <% end %>
 
+# TODO: Move to civicrm.settings.php and use CIVICRM_UF_BASEURL constant
+global $civicrm_setting;
+$civicrm_setting['URL Preferences']['userFrameworkResourceURL'] = '<%= scope['::crm::base_url'] %>sites/all/modules/civicrm';
+
 # FIXME: That's annoying.
 require_once __DIR__ . '/../../vendor/autoload.php';
 

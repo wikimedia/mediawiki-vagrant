@@ -31,6 +31,7 @@ class crm(
     $db_pass,
 ) {
     $repo = 'wikimedia/fundraising/crm'
+    $base_url = "http://${::crm::site_name}${::port_fragment}/"
 
     include ::php
     include ::postfix

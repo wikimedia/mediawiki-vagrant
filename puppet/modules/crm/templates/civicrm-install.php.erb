@@ -2,18 +2,18 @@
 
 $config = array(
     'site_dir' => 'default',
-    'base_url' => "http://<%= @site_name %><%= scope['::port_fragment'] %>/",
+    'base_url' => '<%= scope['::crm::base_url'] %>',
     'mysql' => array(
-        'username' => "<%= scope['::crm::db_user'] %>",
-        'password' => "<%= scope['::crm::db_pass'] %>",
+        'username' => '<%= scope['::crm::db_user'] %>',
+        'password' => '<%= scope['::crm::db_pass'] %>',
         'server' => '127.0.0.1',
-        'database' => "<%= scope['::crm::civicrm_db'] %>",
+        'database' => '<%= scope['::crm::civicrm_db'] %>',
     ),
     'drupal' => array(
-        'username' => "<%= scope['::crm::db_user'] %>",
-        'password' => "<%= scope['::crm::db_pass'] %>",
+        'username' => '<%= scope['::crm::db_user'] %>',
+        'password' => '<%= scope['::crm::db_pass'] %>',
         'server' => '127.0.0.1',
-        'database' => "<%= scope['::crm::drupal_db'] %>",
+        'database' => '<%= scope['::crm::drupal_db'] %>',
     ),
 );
 
