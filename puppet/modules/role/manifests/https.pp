@@ -23,6 +23,16 @@ class role::https {
         }
     }
 
+    # Horrible hack to tell CommonSettings.php that it is safe to use
+    # a protocol-relative URL for wgServer.
+    # See modules/mediawiki/templates/multiwiki/CommonSettings.php.erb
+    mediawiki::settings { 'Vagrant HTTPS support flag':
+        values   => {
+            'mwvSupportsHttps' => true,
+        },
+        priority => 1,
+    }
+
     # Fix wgServer in wgConf to take
     # wgAssumeProxiesUseDefaultProtocolPorts and preserving the port
     # when referencing other wikis into account.
