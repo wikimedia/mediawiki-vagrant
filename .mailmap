@@ -1,0 +1,43 @@
+# Map author and committer names and email addresses to canonical real names
+# and email addresses.
+#
+# Use `git log --format='%aN <%aE>' | sort -f | uniq` to generate AUTHORS.xt
+#
+# See https://git-scm.com/docs/git-shortlog#_mapping_authors
+
+<bd808@wikimedia.org> <bd808@bd808.com>
+<gtisza@wikimedia.org> <tgr.huwiki@gmail.com>
+<legoktm@gmail.com> <legoktm@member.fsf.org>
+<mflaschen@wikimedia.org> <matthew.flaschen@gatech.edu>
+<ori@wikimedia.org> <ori.livneh@gmail.com>
+<smalyshev@wikimedia.org> <smalyshev@gmail.com>
+Adam Basso <abaso@wikimedia.org>
+Andrew Haberlandt <crazy4sb@gmail.com>
+André Costa <lokal.profil@gmail.com>
+Arthur Richards <arichards@wikimedia.org>
+Bryan Davis <bd808@wikimedia.org> <bdavis@wikimedia.org>
+Chase Pettet <rush@wikimedia.org>
+Chris McMahon <cmcmahon@wikimedia.org>
+Chris Steipp <csteipp@wikimedia.org>
+Dan Andreescu <dandreescu@wikimedia.org>
+Dan Duvall <dduvall@wikimedia.org>
+Dan Entous <d_entous@yahoo.com>
+David Causse <dcausse@wikimedia.org>
+Erik Möller <erik@wikimedia.org>
+Gergő Tisza <gtisza@wikimedia.org>
+Grunny <mwgrunny@gmail.com>
+Jan Zerebecki <jan.wikimedia@zerebecki.de>
+Jeremy Baron <jeremy@tuxmachine.com>
+Joel Sahleen <jsahleen@wikimedia.org>
+Jon Robson <jrobson@wikimedia.org> <jdlrobson@gmail.com>
+Katie Filbert <aude.wiki@gmail.com>
+Marko Obrovac <mobrovac@wikimedia.org>
+Mhutti1 <mhutti1@gmail.com>
+Moritz Schubotz <wiki@physikerwelt.de>
+Nuria Ruiz <nuria@wikimedia.org>
+Ori Livneh <ori@wikimedia.org>
+Sage Ross <ragesoss@gmail.com>
+Sam Reed <reedy@wikimedia.org>
+Tyler Romeo <tylerromeo@gmail.com>
+Yuvi Panda <yuvipanda@gmail.com>
+Željko Filipin <zeljko.filipin@gmail.com>
