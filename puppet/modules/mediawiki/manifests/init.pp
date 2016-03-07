@@ -72,6 +72,8 @@ class mediawiki(
     include ::mediawiki::jobrunner
     include ::mediawiki::multiwiki
 
+    require_package('parallel')
+
     $managed_settings_dir = "${settings_dir}/puppet-managed"
 
     git::clone { 'mediawiki/core':

@@ -2,9 +2,9 @@
 # Update local git repositories
 # Command run in VM by `vagrant git-update`
 
-. /etc/profile.d/set_MW_INSTALL_PATH.sh
+source /etc/profile.d/set_MW_INSTALL_PATH.sh
 
-set -u
+set -o nounset
 declare -a UPDATE_ERRORS
 
 # Set default values for configuration variables
@@ -13,13 +13,40 @@ declare -a UPDATE_ERRORS
 : ${NPM_CONFIG_CACHE=<%= scope['::npm::cache_dir'] %>}
 : ${SERVICE_CONF_DIR=<%= scope['::service::conf_dir'] %>}
 
+export SHARE_OWNER SHARE_GROUP NPM_CONFIG_CACHE SERVICE_CONF_DIR
 UPDATE_ERRORS=( )
 
-function pull {
-  local PRINT_EMPTY_LINE=''
-  if [[ $# -eq 0 ]]; then
+function mwv_service_update {
+  ERR=''
+  source "$1"
+  echo -e "\e[36m==> Updating ${SERVICE_NAME} ...\e[0m"
+  if [[ -n $NEED_CHDIR && -d $SERVICE_DIR ]]; then
+    if [[ -n $DO_PULL ]]; then
+      mwv_git_pull "$SERVICE_DIR" inline
+    fi
+    cd $SERVICE_DIR
+    if [[ -n $UPDATE_CMD ]]; then
+      echo "[*] Updating dependencies for ${SERVICE_NAME} ..."
+      if ! /bin/sh -c "$UPDATE_CMD"; then
+        ERR="Could not update dependencies of ${SERVICE_NAME} !"
+        echo -e "\e[1;31m ***** ${ERR}\e[0m"
+        UPDATE_ERRORS+=("${ERR}")
+      fi
+    fi
+  fi
+  if [[ -n $DO_RESTART && -z $ERR ]]; then
+    echo "[*] Restarting service ${RESTART_NAME} ..."
+    sudo service ${RESTART_NAME} restart
+  fi
+  echo
+}
+export -f mwv_service_update
+
+function mwv_git_pull {
+  local OUTPUT_INLINE=${2:-}
+  cd "$1"
+  if [[ -z $OUTPUT_INLINE ]]; then
     echo -e "\e[36m==> Updating $(pwd) ...\e[0m"
-    PRINT_EMPTY_LINE='yes'
   else
     echo "[*] Updating repo in $(pwd) ..."
   fi
@@ -68,8 +95,26 @@ function pull {
     UPDATE_ERRORS+=("$ERR")
   fi
 
-  [[ -n $PRINT_EMPTY_LINE ]] && echo
+  [[ -z $OUTPUT_INLINE ]] && echo
 }
+export -f mwv_git_pull
+
+function mwv_composer {
+  cd "$1"
+  if git ls-files --error-unmatch composer.lock >/dev/null 2>&1; then
+      # composer.lock is git-versioned, so rely on it
+      COMPOSER_CMD=install
+      COMPOSER_ACTION=Installing
+  else
+      COMPOSER_CMD=update
+      COMPOSER_ACTION=Updating
+  fi
+
+  echo -e "\e[36m==> $COMPOSER_ACTION composer dependencies in $(pwd) ...\e[0m"
+  /usr/local/bin/composer $COMPOSER_CMD --no-interaction --optimize-autoloader
+  echo
+}
+export -f mwv_composer
 
 # Expose the needed npm env vars
 export NPM_CONFIG_CACHE
@@ -81,66 +126,29 @@ export HOME=/home/vagrant
 # of larger modules cause npm to run out of memory
 sudo rm -rf ${NPM_CONFIG_CACHE}/* /home/vagrant/.npm
 
+# Update services
 for SRVCONF in ${SERVICE_CONF_DIR}/*.conf; do
-  ERR=''
-  source $SRVCONF
-  echo -e "\e[36m==> Updating ${SERVICE_NAME} ...\e[0m"
-  if [[ -n $NEED_CHDIR && -d $SERVICE_DIR ]]; then
-    cd $SERVICE_DIR
-    [[ -n $DO_PULL ]] && pull no_title
-    if [[ -n $UPDATE_CMD ]]; then
-      echo "[*] Updating dependencies for ${SERVICE_NAME} ..."
-      if ! /bin/sh -c "$UPDATE_CMD"; then
-        ERR="Could not update dependencies of ${SERVICE_NAME} !"
-        echo -e "\e[1;31m ***** ${ERR}\e[0m"
-        UPDATE_ERRORS+=("${ERR}")
-      fi
-    fi
-  fi
-  if [[ -n $DO_RESTART && -z $ERR ]]; then
-    echo "[*] Restarting service ${RESTART_NAME} ..."
-    sudo service ${RESTART_NAME} restart
-  fi
-  echo
+    mwv_service_update $SRVCONF
 done
 
-cd $MW_INSTALL_PATH
-pull
-
-for DIR in ${MW_INSTALL_PATH}/extensions/*; do
+# Update git checkouts in parallel
+for DIR in $MW_INSTALL_PATH \
+    ${MW_INSTALL_PATH}/extensions/* \
+    ${MW_INSTALL_PATH}/skins/*; do
   if [[ -d $DIR ]] && [[ -d ${DIR}/.git ]]; then
-    pushd $DIR > /dev/null
-    pull
-    popd > /dev/null
+    echo $DIR
   fi
-done
+done |
+parallel --verbose --noswap --load "100%" --keep-order mwv_git_pull
 
-for DIR in ${MW_INSTALL_PATH}/skins/*; do
-  if [[ -d $DIR ]] && [[ -d ${DIR}/.git ]]; then
-    pushd $DIR > /dev/null
-    pull
-    popd > /dev/null
-  fi
-done
-
-for DIR in . ${MW_INSTALL_PATH}/extensions/*; do
+# Update composer dependencies in parallel
+for DIR in $MW_INSTALL_PATH \
+    ${MW_INSTALL_PATH}/extensions/*; do
   if [[ -d $DIR ]] && [[ -f ${DIR}/composer.json ]]; then
-    pushd $DIR > /dev/null
-    if git ls-files --error-unmatch composer.lock >/dev/null 2>&1; then
-      # composer.lock is git-versioned, so rely on it
-      COMPOSER_CMD=install
-      COMPOSER_ACTION=Installing
-    else
-      COMPOSER_CMD=update
-      COMPOSER_ACTION=Updating
-    fi
-
-    echo -e "\e[36m==> $COMPOSER_ACTION composer dependencies in $(pwd) ...\e[0m"
-    /usr/local/bin/composer $COMPOSER_CMD --no-interaction --optimize-autoloader
-    popd > /dev/null
-    echo
+    echo $DIR
   fi
-done
+done |
+parallel --verbose --noswap --load "100%" --keep-order mwv_composer
 
 echo -e "\e[36m==> Updating database ...\e[0m"
 /usr/local/bin/foreachwiki update.php --quick --doshared
@@ -150,3 +158,4 @@ if [[ ${#UPDATE_ERRORS[@]} -ne 0 ]]; then
   echo -e "\e[1;31m ************* Errors ***********\e[0m"
   printf -- '* %s\n' "${UPDATE_ERRORS[@]}"
 fi
+# vim:sw=2:ts=2:sts=2:et:ft=sh:
