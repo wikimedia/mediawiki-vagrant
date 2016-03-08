@@ -25,22 +25,22 @@ class role::wikitech {
 
     mediawiki::extension { 'LdapAuthentication':
         needs_update => true,
-        settings     => template('wikitech/LdapAuth.php.erb'),
+        settings     => template('role/wikitech/LdapAuth.php.erb'),
     }
 
     # General wiki settings, OSM config
     mediawiki::settings { 'WikitechLocalSettings':
-        values  => template('wikitech/Local.php.erb'),
+        values  => template('role/wikitech/Local.php.erb'),
     }
 
     # Secret OSM passwords (will need to change on the fly for
     # OpenStack integration).
     mediawiki::settings { 'WikitechPrivateSettings':
-        values  => template('wikitech/Private.php.erb'),
+        values  => template('role/wikitech/Private.php.erb'),
     }
 
     mediawiki::settings { 'WikitechDebugSettings':
-        values  => template('wikitech/Debug.php.erb'),
+        values  => template('role/wikitech/Debug.php.erb'),
     }
 
     mediawiki::extension { [
@@ -58,7 +58,7 @@ class role::wikitech {
     }
 
     mediawiki::import::dump { 'wikitech_content':
-        xml_dump           => '/vagrant/puppet/modules/wikitech/files/wikitech-initial-pages.xml',
+        xml_dump           => '/vagrant/puppet/modules/role/files/wikitech/initial-pages.xml',
         dump_sentinel_page => 'Shell_Request/Andrew',
     }
 }
