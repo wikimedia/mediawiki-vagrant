@@ -58,6 +58,9 @@ class thumbor (
     # For Ghostscript engine (PDF)
     require_package('ghostscript')
 
+    # For pycurl, a dependency of thumbor
+    require_package('libcurl4-gnutls-dev')
+
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
 
@@ -89,6 +92,7 @@ class thumbor (
             Package['python-opencv'],
             # Needs to be an explicit dependency, for the packages pointing to git repos
             Package['git'],
+            Package['libcurl4-gnutls-dev'],
         ],
         timeout  => 600, # This venv can be particularly long to download and setup
     }
