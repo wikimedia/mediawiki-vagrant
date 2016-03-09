@@ -13,11 +13,6 @@
 # default. This makes it easy to invoke HHVM from the command line,
 # because no special arguments are required.
 #
-# HHVM is in the process of standardizing on the INI file format for
-# configuration files. At the moment (Aug 2014) there are still some
-# options that can only be set using the deprecated HDF syntax. This
-# is why we have two configuration files for each SAPI.
-#
 # The exact purpose of certain options is a little mysterious. The
 # documentation is getting better, but expect to have to dig around in
 # the source code.
@@ -63,22 +58,23 @@ class hhvm (
         notify => Service['hhvm'],
     }
 
-    # T115450: Make all file resources declared here wait until after the hhvm
-    # package is installed. This should avoid race conditions where the hhvm
-    # package creates files that we are intending to overwrite.
+    # T129343: Cleanup old hhvm-fss package if installed
+    package { 'hhvm-fss':
+        ensure => 'purged',
+        before => Package['hhvm'],
+    }
+
+    # T129343: Ensure that config files are created before the HHVM package is
+    # updated/installed. This reverses prior logic applied to fix T115450 but
+    # is needed to cleanup the hhvm-fss package.
     File {
-        require => Package['hhvm'],
+        before => Package['hhvm'],
     }
 
     env::alternative { 'hhvm_as_default_php':
         alternative => 'php',
         target      => '/usr/bin/hhvm',
         priority    => 20,
-        # T114811: Don't make /usr/bin/php point to HHVM until the service has
-        # started as the upstart script ensures that a needed symlink is in
-        # place. There is still a race when the hhvm package is updated but
-        # there's not a lot we can do about that.
-        require     => Service['hhvm'],
     }
 
     file { '/etc/hhvm':
@@ -87,15 +83,6 @@ class hhvm (
 
     file { '/etc/hhvm/php.ini':
         content => php_ini($common_settings),
-
-        # @todo
-        # remove force => true once the dpkg for hhvm is updated to create
-        # its version of php.ini in /etc/hhvm/php.ini instead of in
-        # /etc/hhvm/php.ini/php.ini
-        #
-        # @see https://phabricator.wikimedia.org/T87478
-        force   => true,
-
         before  => Env::Alternative['hhvm_as_default_php'],
     }
 
@@ -167,17 +154,5 @@ class hhvm (
         content  => template('hhvm/rsyslog.conf.erb'),
         priority => 40,
         before   => Service['hhvm'],
-    }
-
-    # Clean up legacy config files
-    file { [
-      '/etc/hhvm/config.hdf',
-      '/etc/hhvm/server.ini',
-      '/etc/hhvm/fcgi',
-      '/etc/hhvm/fcgi/php.ini',
-      '/etc/hhvm/fcgi/config.hdf',
-    ]:
-        ensure => absent,
-        force  => true,
     }
 }
