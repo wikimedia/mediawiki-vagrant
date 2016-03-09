@@ -55,7 +55,6 @@ class hhvm (
     package { [
         'hhvm',
         'hhvm-dev',
-        'hhvm-fss',
         'hhvm-luasandbox',
         'hhvm-tidy',
         'hhvm-wikidiff2',

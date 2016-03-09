@@ -89,9 +89,8 @@ hhvm::common_settings:
         enable_apc: true
         table_type: concurrent
       fatal_error_message: true
-    dynamic_extension_path: /usr/lib/x86_64-linux-gnu/hhvm/extensions/current
+    dynamic_extension_path: /usr/lib/x86_64-linux-gnu/hhvm/extensions/20150212
     dynamic_extensions:
-      - fss.so
       - luasandbox.so
       - tidy.so
       - wikidiff2.so
