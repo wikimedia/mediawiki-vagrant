@@ -29,6 +29,11 @@ class varnish {
         mode   => '0755',
     }
 
+    # Dependencies to build varnish
+    require_package('libncurses-dev')
+    require_package('libpcre3-dev')
+    require_package('libedit-dev')
+
     # We need to build from source because the tbf vmod needs the
     # built source, can't rely only on the headers
     git::clone { 'Varnish-Cache':
@@ -50,6 +55,9 @@ class varnish {
         require => [
             File['/tmp/build-varnish.sh'],
             Git::Clone['Varnish-Cache'],
+            Package['libncurses-dev'],
+            Package['libpcre3-dev'],
+            Package['libedit-dev'],
         ],
         user    => 'root',
     }
