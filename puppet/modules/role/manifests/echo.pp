@@ -16,6 +16,7 @@ class role::echo(
     $shared_tracking_db,
     $echo_dir,
 ) {
+    require ::role::mediawiki
     include ::role::centralauth
     include ::role::eventlogging
     include ::role::betafeatures

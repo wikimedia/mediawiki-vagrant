@@ -3,8 +3,8 @@
 # PHP5 Apache site configuration for MediaWiki
 # This file is managed by Puppet.
 #
-ServerName php5.local.wmftest.net
-
+ServerName php5
+ServerAlias <%= @php5_site_name %>
 
 ServerAdmin http://www.mediawiki.org/wiki/Vagrant
 DocumentRoot <%= @docroot %>

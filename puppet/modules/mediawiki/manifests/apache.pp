@@ -7,6 +7,9 @@
 # [*docroot*]
 #   Document root for Apache vhost serving MediaWiki.
 #
+# [*php5_site_name*]
+#   Hostname for php5 runtime Apache vhost
+#
 class mediawiki::apache(
     $docroot,
 ) {

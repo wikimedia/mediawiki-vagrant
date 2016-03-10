@@ -21,12 +21,17 @@
 # [*enable_cachefilesd*]
 #   Enable cachefilesd service
 #
+# [*tld*]
+#   Top level domain to use when creating hostnames. Value should include
+#   leading '.' (example: '.local.wmftest.net').
+#
 class mwv (
     $files_dir,
     $etc_dir,
     $services_dir,
     $vendor_dir,
     $enable_cachefilesd,
+    $tld,
 ) {
     include ::apt
     include ::env

@@ -37,12 +37,16 @@
 # [*docroot*]
 #   Web server docroot directory.
 #
+# [*admin_site_name*]
+#   Hostname for HHVM admin vhost
+#
 class hhvm (
     $common_settings,
     $fcgi_settings,
     $logroot,
     $hhbc_dir,
     $docroot,
+    $admin_site_name,
 ) {
     include ::apache
     include ::apache::mod::proxy_fcgi

@@ -11,6 +11,8 @@ class role::sentry (
     include ::sentry
     include ::role::buggy
 
+    $hostname = $::sentry::vhost_name
+
     mediawiki::extension { 'Sentry':
         settings => [
             # OMG that's ugly. Did not find a better way to reuse
