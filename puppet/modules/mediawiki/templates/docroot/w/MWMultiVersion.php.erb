@@ -92,8 +92,15 @@ class MWMultiVersion {
 	private function setSiteInfoForWiki( $serverName ) {
 		$lang = '';
 		$matches = array();
+		$staticMappings = array(
+			'<%= @default_wiki %>' => '',
+		);
 		$baseDomain = preg_quote( '<%= @base_domain %>' );
-		if ( preg_match( "/^(\w+){$baseDomain}\$/", $serverName, $matches ) ) {
+
+		if ( isset( $staticMappings[$serverName] ) ) {
+			$lang = $staticMappings[$serverName];
+
+		} elseif ( preg_match( "/^(\w+){$baseDomain}\$/", $serverName, $matches ) ) {
 			$lang = $matches[1];
 		}
 		$this->loadDBFromSite( 'wiki', $lang );

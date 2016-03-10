@@ -216,6 +216,7 @@ mediawiki::jobrunner::enable: true
 mediawiki::jobrunner::dir: "%{hiera('mwv::services_dir')}/jobrunner"
 mediawiki::jobrunner::verbose: false
 
+mediawiki::multiwiki::default_wiki: "%{hiera('role::mediawiki::hostname')}"
 mediawiki::multiwiki::base_domain: ".wiki%{hiera('mwv::tld')}"
 mediawiki::multiwiki::script_dir: "%{hiera('mediawiki::apache::docroot')}/w"
 mediawiki::multiwiki::wiki_priority_dir: "%{hiera('mediawiki::multiwiki::settings_root')}/dbConf"
@@ -277,7 +278,7 @@ role::elk::vhost_name: "logstash%{hiera('mwv::tld')}"
 payments::branch: fundraising/REL1_25
 payments::dir: /vagrant/mediawiki-fr
 
-role::mediawiki::hostname: 127.0.0.1
+role::mediawiki::hostname: "dev%{hiera('mediawiki::multiwiki::base_domain')}"
 
 role::quips::vhost_name: "quips%{hiera('mwv::tld')}%{::port_fragment}"
 role::quips::dir: "%{hiera('mwv::services_dir')}/quips"

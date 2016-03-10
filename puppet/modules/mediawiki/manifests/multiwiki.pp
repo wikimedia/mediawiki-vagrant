@@ -10,6 +10,9 @@
 #
 # === Parameters
 #
+# [*default_wiki*]
+#   FQDN of default wiki.
+#
 # [*base_domain*]
 #   Base domain to use to construct FQDN of wikis.
 #
@@ -46,6 +49,7 @@
 # [*extension_cluster_db_pass*]
 #   Database password used for extension cluster
 class mediawiki::multiwiki(
+    $default_wiki,
     $base_domain,
     $script_dir,
     $wiki_priority_dir,
