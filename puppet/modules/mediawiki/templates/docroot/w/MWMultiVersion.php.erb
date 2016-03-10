@@ -150,6 +150,11 @@ class MWMultiVersion {
 
 	public function getMediawikiRoot() {
 		global $wgMediawikiRoot;
+		if ( !isset( $wgMediawikiRoot[$this->db] ) ) {
+			throw new InvalidArgumentException(
+				"Database {$this->db} not configured"
+			);
+		}
 		return $wgMediawikiRoot[$this->db];
 	}
 

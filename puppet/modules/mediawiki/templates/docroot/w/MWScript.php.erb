@@ -85,5 +85,11 @@ EOT
 	return $file;
 }
 
-# Run the script!
-require_once( getMWScriptWithArgs() );
+// Run the script!
+try {
+	$script = getMWScriptWithArgs();
+} catch ( InvalidArgumentException $e ) {
+	fwrite( STDERR, $e->getMessage() . "\n" );
+	exit( 1 );
+}
+require_once $script;

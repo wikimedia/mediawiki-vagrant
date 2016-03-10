@@ -63,5 +63,3 @@ $wgConf->settings=array(
 foreach ( glob( __DIR__ . '/*/wgConf.php' ) as $file) {
 	include_once $file;
 }
-
-$wgConf->extractAllGlobals( $wgDBname );
