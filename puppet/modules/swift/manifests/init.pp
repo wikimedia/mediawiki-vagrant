@@ -139,27 +139,13 @@ class swift (
         ],
     }
 
-    file { '/tmp/foo':
-        ensure  => present,
-        content => 'bar',
-        mode    => '0644',
+    swift::container { 'wiki-local-public':
+        public  => true,
+        require => Exec['swift-init'],
     }
 
-    exec { 'swift-create-public-container':
-        command => "swift -A http://127.0.0.1:${port}/auth/v1.0 -U ${project}:${user} -K ${key} upload wiki-local-public /tmp/foo",
-        user    => 'root',
-        unless  => "curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:${port}/v1/AUTH_${project}/wiki-local-public/tmp/foo | grep -Pq '200'",
-        require => [
-            Exec['swift-init'],
-            File['/tmp/foo'],
-        ],
-        notify  => Exec['swift-make-container-public'],
-    }
-
-    exec { 'swift-make-container-public':
-        command     => "swift -A http://127.0.0.1:${port}/auth/v1.0 -U ${project}:${user} -K ${key} post -r '.r:*' wiki-local-public",
-        user        => 'root',
-        require     => Exec['swift-create-public-container'],
-        refreshonly => true,
+    swift::container { 'wiki-local-thumb':
+        public  => true,
+        require => Exec['swift-init'],
     }
 }
