@@ -4,6 +4,7 @@ class role::flow {
     include ::role::antispam
     include ::role::checkuser
     include ::role::eventlogging
+    include ::role::parserfunctions
     include ::role::parsoid
     include ::role::echo
     include ::role::betafeatures
