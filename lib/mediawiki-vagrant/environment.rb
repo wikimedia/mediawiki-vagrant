@@ -234,6 +234,7 @@ module MediaWikiVagrant
       FileUtils.rm_f Dir[path('settings.d/puppet-managed/*.php')]
       FileUtils.rm_rf path('settings.d/multiwiki')
       FileUtils.rm_rf path('settings.d/wikis')
+      FileUtils.rm_rf path('settings.d/composer')
       FileUtils.rm_rf path('vagrant.d')
       FileUtils.rm_f path('mediawiki/LocalSettings.php')
     end
