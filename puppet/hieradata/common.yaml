@@ -176,6 +176,7 @@ mathoid::img: true
 mathoid::png: true
 mathoid::texvcinfo: true
 mathoid::speak_text: true
+mathoid::render_no_check: true
 
 graphoid::base_path: "%{hiera('mwv::services_dir')}/graphoid"
 graphoid::node_path: "%{hiera('graphoid::base_path')}/node_modules"

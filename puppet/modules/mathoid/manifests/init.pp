@@ -23,6 +23,9 @@
 # [*speak_text*]
 #   Whether to generate speakText representation. Default: true
 #
+# [*render_no_check*]
+#   Whether not to perform input checks on renders.
+#
 # [*log_level*]
 #   The lowest level to log (trace, debug, info, warn, error, fatal)
 #
@@ -33,14 +36,11 @@ class mathoid(
     $png,
     $speak_text,
     $texvcinfo,
+    $render_no_check,
     $log_level = undef,
 ) {
 
-    # TODO Add dependency to node-jsdom once
-    # https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=742347
-    # is fixed
-
-    require_package('openjdk-8-jre-headless')
+    require_package('librsvg2-2', 'librsvg2-dev')
 
     service::node { 'mathoid':
         port      => $port,
@@ -50,7 +50,8 @@ class mathoid(
             img       => $img,
             png       => $png,
             texvcinfo => $texvcinfo,
-            speakText => $speak_text,
+            speech_on => $speak_text,
+            no_check  => $render_no_check,
         },
     }
 
