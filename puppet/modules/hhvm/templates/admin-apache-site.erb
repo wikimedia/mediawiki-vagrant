@@ -4,7 +4,7 @@
 # This file is managed by Puppet.
 #
 ServerName hhvm-admin
-ServerAlias hhvm-admin.local.wmftest.net
+ServerAlias <%= @admin_site_name %>
 ServerAdmin http://www.mediawiki.org/wiki/Vagrant
 DocumentRoot "<%= @docroot %>"
 LogLevel error
