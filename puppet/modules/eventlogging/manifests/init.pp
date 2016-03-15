@@ -15,6 +15,10 @@ class eventlogging {
         require => Git::Clone['eventlogging'],
     }
 
+    package { 'libmysqlclient-dev':
+        ensure => present,
+    }
+
     # These packages aren't currently satisfied by eventlogging's
     # setup.py due to Trusty vs. Jessie issues.  This will
     # be remedied when WMF eventlogging production deployment is fixed.
@@ -29,7 +33,8 @@ class eventlogging {
     virtualenv::package { 'sprockets.mixins.statsd': }
     # mysqlclient pip package installs a python module called MySQLdb.
     virtualenv::package { 'mysqlclient':
-        python_module => 'MySQLdb'
+        python_module => 'MySQLdb',
+        require       => Package['libmysqlclient-dev'],
     }
 
     # Do the initial pip install into the virtualenv
