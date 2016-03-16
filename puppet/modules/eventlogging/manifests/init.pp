@@ -15,9 +15,7 @@ class eventlogging {
         require => Git::Clone['eventlogging'],
     }
 
-    package { 'libmysqlclient-dev':
-        ensure => present,
-    }
+    require_package('libmysqlclient-dev')
 
     # These packages aren't currently satisfied by eventlogging's
     # setup.py due to Trusty vs. Jessie issues.  This will
