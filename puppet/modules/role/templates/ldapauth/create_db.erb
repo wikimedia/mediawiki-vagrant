@@ -1,0 +1,45 @@
+/usr/bin/ldapadd -x -D "<%= @admin_dn %>" -w "<%= @admin_password %>" <<LIDF
+dn: <%= @base_dn %>
+objectclass: dcObject
+objectclass: organization
+objectClass: top
+dc: wmftest
+o: wmftest
+description: MediaWiki-Vagrant tree
+
+dn: <%= @admin_dn %>
+objectClass: organizationalRole
+cn: admin
+description: The superuser account
+
+dn: ou=groups,<%= @base_dn %>
+objectclass: organizationalUnit
+ou: groups
+description: Generic groups branch
+
+# Name needs to match up with acls in modules/openldap/templates/slapd.erb
+dn: cn=Administrators,ou=groups,<%= @base_dn %>
+objectClass: groupOfNames
+cn: Administrators
+description: Users with administrative privilege
+member: <%= @writer_dn %>
+
+dn: <%= @user_base_dn %>
+objectclass: organizationalUnit
+ou: People
+description: People branch
+
+dn: <%= @proxy_agent_dn %>
+objectclass: organizationalRole
+objectClass: simpleSecurityObject
+cn: proxyagent
+description: Account for reading LDAP data
+userPassword: <%= @proxy_agent_password %>
+
+dn: <%= @writer_dn %>
+objectclass: organizationalRole
+objectClass: simpleSecurityObject
+cn: writer
+description: Account for editing LDAP data
+userPassword: <%= @writer_password %>
+LIDF
