@@ -173,6 +173,7 @@ define mediawiki::extension(
         ensure   => $ensure,
         wiki     => $ext_wiki,
         header   => template('mediawiki/extension.php.erb'),
+        footer   => '}', # Close if opened in header
         values   => $settings,
         priority => $priority,
         require  => Git::Clone[$ext_repo],

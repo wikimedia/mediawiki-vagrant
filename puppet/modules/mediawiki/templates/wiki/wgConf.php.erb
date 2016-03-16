@@ -1,5 +1,6 @@
 <?php
 // This file is managed by Puppet.
+// See puppet/modules/mediawiki/templates/wiki/wgConf.php.erb
 
 $wgConf->settings['wgServer']['<%= @db_name %>'] = '<%= @server_url.gsub(/^[^\/]+/, '') %>';
 $wgConf->settings['wgCanonicalServer']['<%= @db_name %>'] = '<%= @server_url %>';
@@ -11,3 +12,21 @@ $wgConf->settings['wgFileCacheDirectory']['<%= @db_name %>'] = '<%= @cache_dir %
 $wgConf->settings['wgUploadDirectory']['<%= @db_name %>'] = '<%= @upload_dir %>';
 $wgConf->settings['wgUploadPath']['<%= @db_name %>'] = '<%= @upload_path %>';
 $wgConf->settings['wgDebugLogFile']['<%= @db_name %>'] = '<%= @debug_log_file %>';
+<%=
+	def phpize(o)
+		case o
+		when nil then
+			'NULL'
+		when Array
+			'array( ' + o.map { |x| phpize(x) }.join(', ') + ' )'
+		when Hash
+			'array( ' + o.sort.map { |k,v| k.to_pson + ' => ' + phpize(v) }.join(', ') + ' )'
+		else
+			o.include?('.') ? Float(o).to_s : Integer(o).to_s rescue o.to_pson
+		end
+	end
+
+	@wgconf.sort.map { |k,v|
+		"$wgConf->settings['#{k}']['#{@db_name}'] = #{phpize(v)};"
+	}.join("\n")
+%>

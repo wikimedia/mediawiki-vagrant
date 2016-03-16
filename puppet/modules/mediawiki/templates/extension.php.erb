@@ -1,6 +1,15 @@
-if ( class_exists( 'ExtensionRegistry' ) && file_exists( "$IP/extensions/<%= @ext_name %>/extension.json" ) ) {
-	wfLoadExtension( '<%= @ext_name %>' );
-} elseif ( file_exists( "$IP/extensions/<%= @ext_name %>/<%= @ext_entrypoint %>" ) ) {
-	include_once "$IP/extensions/<%= @ext_name %>/<%= @ext_entrypoint %>";
-}
+// This file is managed by Puppet
+// See puppet/modules/mediawiki/templates/extension.php.erb
+
+// Load extension unless explictly disabled
+if ( !isset( $wmvExtensions['<%= @ext_name %>'] ) ||
+	$wmvExtensions['<%= @ext_name %>'] === true
+) {
+	if ( class_exists( 'ExtensionRegistry' ) &&
+		file_exists( "$IP/extensions/<%= @ext_name %>/extension.json" )
+	) {
+		wfLoadExtension( '<%= @ext_name %>' );
+	} elseif ( file_exists( "$IP/extensions/<%= @ext_name %>/<%= @ext_entrypoint %>" ) ) {
+		include_once "$IP/extensions/<%= @ext_name %>/<%= @ext_entrypoint %>";
+	}
 

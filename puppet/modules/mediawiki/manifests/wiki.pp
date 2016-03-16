@@ -61,11 +61,33 @@
 #   Full base URL of host (example: 'http://mywiki.net:8080').
 #
 # [*primary_wiki*]
-#   Whether this is the primary wiki (defaults false)
+#   Whether this is the primary wiki (default: false)
 #
 # [*priority*]
 #   Position of this wiki in foreachwiki.  Uses the scale of
-#   the LOAD_ constants from site.php.  Default is $LOAD_NORMAL.
+#   the LOAD_ constants from site.php. (default: $LOAD_NORMAL)
+#
+# [*wgconf*]
+#   Hash of extra wgConf settings for this wiki. One use case for this is
+#   selectively disabling a globally installed extension for a particular
+#   wiki by setting wmvExtensions[<extension name>] = false. (default: {})
+#
+# === Examples
+#
+# Add a wiki named 'testwiki':
+#
+#     mediawiki::wiki { 'test': }
+#
+# Disable the CentralAuth extension on a wiki named 'nocawiki':
+#
+#     mediawiki::wiki { 'noca':
+#         wgconf => {
+#             'wmvExtensions' => {
+#                   'CentralAuth' => false,
+#             },
+#         },
+#     }
+#
 define mediawiki::wiki(
     $wiki_name    = $title,
     $db_host      = $::mysql::grant_host_name,
@@ -81,6 +103,7 @@ define mediawiki::wiki(
     $server_url   = "http://${title}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
     $primary_wiki = false,
     $priority     = $::LOAD_NORMAL,
+    $wgconf       = {},
 ) {
     include ::mwv
     include ::mediawiki

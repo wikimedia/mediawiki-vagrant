@@ -1,5 +1,6 @@
 <?php
 // This file is managed by Puppet.
+// See puppet/modules/mediawiki/templates/multiwiki/LoadWgConf.php.erb
 
 $wgCentralAuthAutoLoginWikis = array();
 $wgLocalDatabases = array();
@@ -49,17 +50,20 @@ $wgConf->settings=array(
 		'default' => '/wiki/$1',
 	),
 	'wgScriptPath' => array(
-		'default'=>'/w',
+		'default' => '/w',
 	),
 	'wgLogo' => array(
-		'default'=>'/mediawiki-vagrant.png',
+		'default' => '/mediawiki-vagrant.png',
 	),
 	'wgSitename' => array(
-		'default'=>'devwiki'
+		'default' => 'devwiki'
+	),
+	'wmvExtensions' => array(
+		'default' => array(),
 	),
 );
 
-// Need settings for all wikis so cross-wiki urls generate
+// Load wgConf settings for all wikis
 foreach ( glob( __DIR__ . '/*/wgConf.php' ) as $file) {
-	include_once $file;
+	require_once $file;
 }
