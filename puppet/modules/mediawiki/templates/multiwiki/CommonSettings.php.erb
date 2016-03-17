@@ -1,5 +1,6 @@
 <?php
 // This file is managed by Puppet.
+// See puppet/modules/mediawiki/templates/multiwiki/CommonSettings.php.erb
 
 if ( PHP_SAPI !== 'cli' ) {
 	header( 'Cache-control: no-cache' );
@@ -12,6 +13,13 @@ if ( isset( $_SERVER['SERVER_ADDR'] ) ) {
 // Load config so we can check for the number of available wikis below
 include_once __DIR__ . '/LoadWgConf.php';
 
+if ( defined( 'MW_PHPUNIT_TEST' ) ) {
+	// Bootstrap multiversion when running unit tests
+	// Needs to happen before MWMultiVersion + db count check
+	require_once '<%= @script_dir %>/MWMultiVersion.php';
+	MWMultiVersion::initializeForMaintenance();
+}
+
 if ( !class_exists( 'MWMultiVersion' ) && count( $wgLocalDatabases ) > 1 ) {
 	// T123143: Require mwscript for running scripts on wikifarm
 	echo "The mwscript command must be used in multiwiki setups.\n\n";
@@ -20,10 +28,11 @@ if ( !class_exists( 'MWMultiVersion' ) && count( $wgLocalDatabases ) > 1 ) {
 	exit(1);
 }
 
+// Ensure that MWMultiVersion has been loaded
 require_once '<%= @script_dir %>/MWMultiVersion.php';
 $multiVersion = MWMultiVersion::getInstance();
 if ( $multiVersion === null ) {
-		$multiVersion = MWMultiVersion::initializeForWiki( '<%= scope['::mediawiki::db_name'] %>' );
+	$multiVersion = MWMultiVersion::initializeForWiki( '<%= scope['::mediawiki::db_name'] %>' );
 }
 
 $wgHooks['wfShellWikiCmd'][] = 'MWMultiVersion::onWfShellMaintenanceCmd';

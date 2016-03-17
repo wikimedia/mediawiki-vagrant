@@ -23,6 +23,9 @@ class payments(
 ) {
   include ::payments::donation_interface
 
+  # TODO: This can be removed once we've upgraded to MediaWiki 1.27
+  require_package('phpunit')
+
   git::clone { 'mediawiki-core-fr':
     remote    => 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git',
     directory => $dir,
