@@ -27,16 +27,12 @@ class role::wikidata {
         command => '/usr/bin/git remote set-url origin https://gerrit.wikimedia.org/r/wikidata/build-resources',
         unless  => "/usr/bin/git remote -v | grep -q 'https://gerrit.wikimedia.org/r/wikidata/build-resources'",
         cwd     => "${::mediawiki::dir}/extensions/WikidataBuildResources",
-        require => Mediawiki::Extension[ 'WikidataBuildResources' ],
+        require => Mediawiki::Extension['WikidataBuildResources'],
     }
 
     mediawiki::maintenance { 'wikidata-populate-site-tables':
-        command     => "/usr/local/bin/foreachwiki extensions/WikidataBuildResources/extensions/Wikibase/lib/maintenance/populateSitesTable.php --load-from http://en${mediawiki::multiwiki::base_domain}${::port_fragment}/w/api.php",
+        command     => "/usr/local/bin/foreachwikiwithextension WikidataBuildResources extensions/WikidataBuildResources/extensions/Wikibase/lib/maintenance/populateSitesTable.php --load-from http://en${mediawiki::multiwiki::base_domain}${::port_fragment}/w/api.php",
         refreshonly => true,
-        require     => [
-            Class['::mediawiki::multiwiki'],
-            Mediawiki::Extension['WikidataBuildResources'],
-        ],
     }
 
     Mediawiki::Wiki<| |> ~> Mediawiki::Maintenance['wikidata-populate-site-tables']

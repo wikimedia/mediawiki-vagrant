@@ -1,5 +1,7 @@
 <?php
 // This file is managed by Puppet.
+// See modules/mediawiki/templates/wiki/dbConf.php.erb
+
 $wgLocalDatabases[] = '<%= @db_name %>';
 $wgCentralAuthAutoLoginWikis['<%= @wiki_name %>'] = '<%= @db_name %>';
 $wgMediawikiRoot['<%= @db_name %>'] = '<%= @src_dir %>';

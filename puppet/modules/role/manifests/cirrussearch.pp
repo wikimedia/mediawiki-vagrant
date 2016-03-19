@@ -87,13 +87,17 @@ class role::cirrussearch {
         values => template('elasticsearch/CirrusSearch-commons.php.erb'),
     }
 
+    file { '/usr/local/bin/is-cirrussearch-forceindex-needed':
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        content => template('role/cirrussearch/is-cirrussearch-forceindex-needed.erb'),
+    }
+
     mediawiki::maintenance { 'build_search_index':
-        command => '/usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --startOver && /usr/local/bin/foreachwiki extensions/CirrusSearch/maintenance/forceSearchIndex.php',
-        onlyif  => '/usr/local/bin/mwscript extensions/CirrusSearch/maintenance/cirrusNeedsToBeBuilt.php --quiet',
-        require => [
-            Class['::mediawiki::multiwiki'],
-            Mediawiki::Extension['CirrusSearch'],
-            Exec['update_all_databases'],
-        ]
+        command => template('role/cirrussearch/build_search_index.erb'),
+        onlyif  => '/usr/local/bin/is-cirrussearch-forceindex-needed',
+        require => File['/usr/local/bin/is-cirrussearch-forceindex-needed'],
     }
 }

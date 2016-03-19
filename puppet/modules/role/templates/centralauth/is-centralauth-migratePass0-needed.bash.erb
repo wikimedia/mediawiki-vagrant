@@ -2,7 +2,7 @@
 # Exits with status 0 if migratePass0.php needs to run because
 # not all wikis are in localnames.
 
-alldbs_out=$(alldbs)
+alldbs_out=$(/usr/local/bin/wikihasextension CentralAuth)
 expected_count=$(echo "$alldbs_out"|wc -l)
 
 alldbs_comma=$(echo "$alldbs_out"|xargs|sed "s/ /', '/g")

@@ -32,7 +32,7 @@ class role::echo(
     }
 
     mediawiki::maintenance { 'backfill echo_unread_wikis':
-        command     => '/usr/local/bin/foreachwiki extensions/Echo/maintenance/backfillUnreadWikis.php',
+        command     => '/usr/local/bin/foreachwikiwithextension Echo extensions/Echo/maintenance/backfillUnreadWikis.php',
         refreshonly => true,
     }
 

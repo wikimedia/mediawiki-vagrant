@@ -1,0 +1,31 @@
+#!/usr/bin/env bash
+# Find all local wikis that have a given extension enabled.
+# This can be used like a dblist to find a collection of wikis that should
+# have some maintenance script run.
+
+# Ensure that the script is run as the www-data user
+[[ $(whoami) = www-data ]] || exec sudo -u www-data -- "$0" "$@"
+
+function usage() {
+    echo "Usage: $(basename $0) <extension>" >&2
+    echo "  extension: MediaWiki extension name" >&2
+    echo >&2
+    exit
+}
+
+if [[ $# -lt 1 ]]; then
+    usage
+fi
+
+EXT=$1
+shift
+
+if [[ "$EXT" == "-h" || "$EXT" == "--help" ]]; then
+    usage
+fi
+
+for db in $(alldbs); do
+    echo "if (in_array('${EXT}',\$wmvActiveExtensions)){echo \"${db}\n\";}" |
+    /usr/local/bin/mwscript eval.php --wiki=${db} |
+    /bin/sed '/^\s*$/d'
+done

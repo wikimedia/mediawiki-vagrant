@@ -248,6 +248,22 @@ class mediawiki::multiwiki(
         content => template('mediawiki/multiwiki/foreachwiki.erb'),
     }
 
+    file { '/usr/local/bin/foreachwikiwithextension':
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        content => template('mediawiki/multiwiki/foreachwikiwithextension.erb'),
+    }
+
+    file { '/usr/local/bin/wikihasextension':
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        content => template('mediawiki/multiwiki/wikihasextension.erb'),
+    }
+
     file { '/usr/local/bin/sql':
         ensure  => link,
         target  => '/usr/bin/mysql',

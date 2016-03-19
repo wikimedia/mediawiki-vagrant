@@ -1,33 +1,41 @@
 #!/usr/bin/env bash
-# Run an mwscript command against all wikis.
+# Run an mwscript command against all wikis that have a given extension
+# enabled.
+#
+# Example:
+#   foreachwikiwithextension CentralAuth \
+#       extensions/CentralAuth/maintenance/migratePass0.php
 
 # Ensure that the script is run as the www-data user
 [[ $(whoami) = www-data ]] || exec sudo -u www-data -- "$0" "$@"
 
 function usage() {
-    echo "Usage: $(basename $0) <command>..." >&2
+    echo "Usage: $(basename $0) <extension> <command>..." >&2
+    echo "  extension: MediaWiki extension name" >&2
     echo "  command:   command and optional arguments" >&2
     echo >&2
     exit
 }
 
-if [[ $# -lt 1 ]]; then
+if [[ $# -lt 2 ]]; then
     usage
 fi
 
-CMD=$1
+EXT=$1
+CMD=$2
+shift
 shift
 
-if [[ "$CMD" == "-h" || "$CMD" == "--help" ]]; then
+if [[ "$EXT" == "-h" || "$EXT" == "--help" ]]; then
     usage
 fi
 
 FAILURES=0
-for db in $(alldbs); do
+for db in $(/usr/local/bin/wikihasextension "$EXT"); do
   echo -----------------------------------------------------------------
   echo $db
   echo -----------------------------------------------------------------
-  /usr/local/bin/mwscript "$CMD" --wiki=$db "$@" |
+  /usr/local/bin/mwscript "$CMD" --wiki="$db" "$@" |
   /bin/sed -u -e "s/^/${db}:  /"
 
   if [[ ${PIPESTATUS[0]} -ne 0 ]]; then

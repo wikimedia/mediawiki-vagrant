@@ -2,8 +2,14 @@
 // This file is managed by Puppet.
 // See puppet/modules/mediawiki/templates/multiwiki/LoadWgConf.php.erb
 
-$wgCentralAuthAutoLoginWikis = array();
+// Globals that are populated by *dbConf.php
+/** @var array $wgLocalDatabases List of all wikis in this wiki farm */
 $wgLocalDatabases = array();
+/** @var array $wgCentralAuthAutoLoginWikis Dict of wiki_name => db_name */
+$wgCentralAuthAutoLoginWikis = array();
+/** @var array $wgMediawikiRoot Dict of db_name => src_dir */
+$wgMediawikiRoot = array();
+
 foreach ( glob( '<%= @wiki_priority_dir %>/*dbConf.php' ) as $file ) {
 	// Use require rather than require_once as something in the request may have
 	// loaded the dbConf files previously.

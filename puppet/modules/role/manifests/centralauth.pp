@@ -110,7 +110,7 @@ class role::centralauth(
     # about Admin users on all wikis.  If someone changes Wiki[admin_user],
     # this will run every time.
     mediawiki::maintenance { 'Pass 0 of CentralAuth':
-        command => '/usr/local/bin/foreachwiki extensions/CentralAuth/maintenance/migratePass0.php',
+        command => '/usr/local/bin/foreachwikiwithextension CentralAuth extensions/CentralAuth/maintenance/migratePass0.php',
         onlyif  => '/usr/local/bin/is-centralauth-migratePass0-needed',
         require => [
             File['/usr/local/bin/is-centralauth-migratePass0-needed'],

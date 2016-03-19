@@ -13,3 +13,6 @@ if ( !isset( $wmvExtensions['<%= @ext_name %>'] ) ||
 		include_once "$IP/extensions/<%= @ext_name %>/<%= @ext_entrypoint %>";
 	}
 
+	// Keep track of what extensions are loaded to make `wikihasextension` work
+	// Why in the hell doesn't MediaWiki already do this for us?
+	$wmvActiveExtensions[] = '<%= @ext_name %>';
