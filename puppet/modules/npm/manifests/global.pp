@@ -9,7 +9,7 @@ define npm::global {
         command     => "/usr/bin/npm install -g ${title}",
         user        => 'root',
         group       => 'root',
-        creates     => "/usr/local/lib/node_modules/${title}",
+        creates     => "/usr/lib/node_modules/${title}",
         environment => [
             "NPM_CONFIG_CACHE=${::npm::cache_dir}",
             'NPM_CONFIG_GLOBAL=false',
