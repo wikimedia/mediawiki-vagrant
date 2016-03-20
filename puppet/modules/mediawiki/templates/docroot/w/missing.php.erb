@@ -76,13 +76,17 @@ header( 'Content-Type: text/html; charset=utf-8' );
 			<?php
 $port = $_SERVER['SERVER_PORT'];
 $path = $_SERVER['REQUEST_URI'];
-$url = htmlspecialchars( "<%= scope['::mediawiki::server_url'] %>{$path}", ENT_QUOTES );
+$portFragment = ( $port == 80 || $port == 443 ) ? '' : ":{$port}";
+$url = htmlspecialchars(
+	"//<%= @default_wiki %>{$portFragment}{$path}",
+	ENT_QUOTES
+);
 echo "<li><a href=\"{$url}\">devwiki</a></li>";
 foreach ( $GLOBALS['wgLocalDatabases'] as $db ) {
 	$wiki = substr( $db, 0, -4 );
 	if ( $wiki ) {
 		$url = htmlspecialchars(
-			"//{$wiki}<%= @base_domain %>:{$port}{$path}",
+			"//{$wiki}<%= @base_domain %>{$portFragment}{$path}",
 			ENT_QUOTES
 		);
 		echo "<li><a href=\"{$url}\">{$db}</a></li>";
