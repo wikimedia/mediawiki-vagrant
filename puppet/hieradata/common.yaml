@@ -27,6 +27,8 @@ cdh::oozie::server::heapsize: 64
 citoid::port: 1970
 citoid::log_level: info
 
+changeprop::port: 7272
+
 contenttranslation::dir: "%{hiera('mediawiki::dir')}/extensions/ContentTranslation"
 contenttranslation::cxserver::dir: "%{hiera('mwv::services_dir')}/cxserver"
 contenttranslation::parsoid_url: "http://127.0.0.1:%{::mediawiki::parsoid::port}"

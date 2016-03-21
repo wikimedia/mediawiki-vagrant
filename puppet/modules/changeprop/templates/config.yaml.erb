@@ -1,0 +1,9 @@
+spec:
+  title: The Change Propagation root
+  paths:
+    /{domain:a}/{api:sys}/queue:
+      x-modules:
+        - path: sys/kafka.js
+          options:
+            uri: 127.0.0.1:2181
+            templates: {}

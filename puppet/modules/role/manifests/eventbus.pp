@@ -9,6 +9,7 @@ class role::eventbus {
     require ::kafka
     require ::eventlogging
     require ::eventschemas
+    include ::changeprop
 
     mediawiki::extension { 'EventBus':
         priority => $::LOAD_EARLY,
