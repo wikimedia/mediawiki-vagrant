@@ -44,6 +44,12 @@ wikimedia.org: &wikimedia.org
 spec:
   title: "The RESTBase root"
   # Some more general RESTBase info
+  x-sub-request-filters:
+    - type: default
+      name: http
+      options:
+        allow:
+          - pattern: /^https?:\/\//
   paths:
     /{domain:<%= @domain %>}: *default_project
 
