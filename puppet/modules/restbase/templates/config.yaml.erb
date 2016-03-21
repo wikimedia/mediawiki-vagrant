@@ -4,19 +4,11 @@
 # in the root_spec further down.
 default_project: &default_project
   x-modules:
-    - path: projects/wmf_sqlite.yaml
+    - path: projects/wmf_default.yaml
       options: &default_options
         table:
-          hosts: [localhost]
-          keyspace: system
-          username: cassandra
-          password: cassandra
-          defaultConsistency: one # or 'localQuorum' for production
-          storage_groups:
-            - name: group.local
-              domains: /./
+          backend: sqlite
           dbname: <%= @dbdir %>/mw-vagrant.sqlite3
-          version: 1
         parsoid:
           host: http://localhost:<%= scope['::mediawiki::parsoid::port'] %>
         action:
@@ -32,7 +24,7 @@ default_project: &default_project
 
 wikimedia.org: &wikimedia.org
   x-modules:
-    - path: projects/wikimedia.org_sqlite.yaml
+    - path: projects/wikimedia.org.yaml
       options:
         <<: *default_options
         pageviews:
