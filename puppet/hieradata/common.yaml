@@ -279,6 +279,11 @@ role::elk::vhost_name: "logstash%{hiera('mwv::tld')}"
 payments::branch: fundraising/REL1_25
 payments::dir: /vagrant/mediawiki-fr
 
+role::globalblocking::db_host: "%{hiera('mysql::grant_host_name')}"
+role::globalblocking::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
+role::globalblocking::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
+role::globalblocking::db_name: globalblocking
+
 role::ldapauth::proxy_agent_password: vagrant_agent
 role::ldapauth::writer_password: vagrant_writer
 role::ldapauth::admin_password: vagrant_admin
