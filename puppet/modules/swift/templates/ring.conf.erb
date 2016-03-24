@@ -12,6 +12,8 @@ pipeline = <%= @ring_type %>-server
 
 [app:<%= @ring_type %>-server]
 use = egg:swift#<%= @ring_type %>
+# Only for object-server
+allowed_headers = content-disposition, content-encoding, x-delete-at, x-object-manifest, x-content-duration, xkey
 
 [<%= @ring_type %>-replicator]
 vm_test_mode = yes

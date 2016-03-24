@@ -61,6 +61,9 @@ class thumbor (
     # For pycurl, a dependency of thumbor
     require_package('libcurl4-gnutls-dev')
 
+    # For lxml, a dependency of thumbor-plugins
+    require_package('libxml2-dev', 'libxslt1-dev')
+
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
 
@@ -93,6 +96,8 @@ class thumbor (
             # Needs to be an explicit dependency, for the packages pointing to git repos
             Package['git'],
             Package['libcurl4-gnutls-dev'],
+            Package['libxml2-dev'],
+            Package['libxslt1-dev'],
         ],
         timeout  => 600, # This venv can be particularly long to download and setup
     }
@@ -148,12 +153,6 @@ class thumbor (
         host   => '127.0.0.1',
         port   => $::swift::port,
         onlyif => 'req.url ~ "^/images/.*"',
-    }
-
-    varnish::backend { 'thumbor':
-        host   => '127.0.0.1',
-        port   => '8888',
-        onlyif => 'req.url ~ "^/images/thumb/.*"',
     }
 
     varnish::config { 'thumbor':
