@@ -23,8 +23,10 @@ class role::eventbus {
     }
 
     $outputs = [
-        # Output to Kafka
-        'kafka:///localhost:9092?async=False',
+        # Output to Kafka.  All messages will produced to topics prefixed
+        # with a datacenter name.
+        # In mediawiki-vagrant this defaults to 'datacenter1'.
+        'kafka:///localhost:9092?async=False&topic=datacenter1.{meta[topic]}',
         # Also output to a file for handy debugging
         'file:///vagrant/logs/eventbus.log',
     ]
