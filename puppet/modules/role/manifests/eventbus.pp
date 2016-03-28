@@ -17,11 +17,6 @@ class role::eventbus {
         },
     }
 
-    $topic_config = "${::eventlogging::path}/config/eventbus-topics.yaml"
-    file { $topic_config:
-        source => 'puppet:///modules/role/eventbus/topics.yaml',
-    }
-
     $outputs = [
         # Output to Kafka.  All messages will produced to topics prefixed
         # with a datacenter name.
@@ -33,7 +28,7 @@ class role::eventbus {
     eventlogging::service { 'eventbus':
         port         => 8085,
         schemas_path => "${::eventschemas::path}/jsonschema",
-        topic_config => $topic_config,
+        topic_config => "${::eventschemas::path}/config/eventbus-topics.yaml",
         outputs      => $outputs,
     }
 }
