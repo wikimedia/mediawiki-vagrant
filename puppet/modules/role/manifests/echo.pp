@@ -24,7 +24,10 @@ class role::echo(
     mysql::sql { 'create echo_unread_wikis':
         sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/db_patches/echo_unread_wikis.sql;",
         unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='${shared_tracking_db}' AND TABLE_NAME = 'echo_unread_wikis'",
-        require => Mysql::Db[$shared_tracking_db],
+        require => [
+            Mysql::Db[$shared_tracking_db],
+            Mediawiki::Extension['Echo'],
+        ],
         notify  => Mediawiki::Maintenance['backfill echo_unread_wikis'],
     }
 
@@ -45,7 +48,6 @@ class role::echo(
             wgAllowHTMLEmail              => true,
             wgEchoUseCrossWikiBetaFeature => true,
         },
-        require      => Mysql::Sql['create echo_unread_wikis'],
     }
 
     mediawiki::wiki { 'fr': }
