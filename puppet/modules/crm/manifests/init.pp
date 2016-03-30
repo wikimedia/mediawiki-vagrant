@@ -58,6 +58,7 @@ class crm(
 
     class { 'crm::drupal':
         modules  => [
+            'adyen_audit',
             'amazon_audit',
             'astropay_audit',
             'civicrm',
