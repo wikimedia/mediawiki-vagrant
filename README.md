@@ -76,8 +76,9 @@ see the main page of your MediaWiki instance.
 To access a command shell on your virtual environment, run `vagrant ssh` from
 the root mediawiki-vagrant directory or any of its subdirectories.
 
-From there, run `hhvmsh` to interactively evaluate PHP code in a MediaWiki
+From there, run `mwrepl` to interactively evaluate PHP code in a MediaWiki
 context, or `mysql` to get an authenticated SQL shell on your wiki's database.
+If you have multiple wikis enabled, you can run e.g. `mwrepl frwiki`.
 
 The admin account on MediaWiki is `admin` / `vagrant`.
 

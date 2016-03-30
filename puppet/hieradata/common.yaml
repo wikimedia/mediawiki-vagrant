@@ -110,6 +110,10 @@ hhvm::common_settings:
       use_syslog: true
       admin_log:
         file: "%{hiera('hhvm::logroot')}/hhvm/admin.log"
+      # Auto-run continue in mwrepl/hhvmsh
+      # It doesn't look like php_ini can handle this in a prettier way
+    'macros[0][name]': startup
+    'macros[0][cmds][]': continue
     perf_pid_map: false
     debug:
       core_dump_report_directory: "%{hiera('hhvm::logroot')}/hhvm"
@@ -132,7 +136,6 @@ hhvm::common_settings:
       enable_debugger_server: true
       port: 8089
       default_sandbox_path: "%{hiera('mediawiki::dir')}"
-      startup_document: "%{hiera('mediawiki::dir')}/index.php"
     sandbox:
       sandbox_mode: true
     admin_server:
@@ -233,6 +236,9 @@ mediawiki::multiwiki::extension_db_cluster: 'extension1'
 mediawiki::multiwiki::extension_cluster_shared_db_name: 'wikishared'
 mediawiki::multiwiki::extension_cluster_db_user: 'extensionadmin'
 mediawiki::multiwiki::extension_cluster_db_pass: 'extensionpassword'
+
+mediawiki::mwrepl::default_db_name: "%{hiera('mediawiki::db_name')}"
+mediawiki::mwrepl::script_dir: "%{hiera('mediawiki::multiwiki::script_dir')}"
 
 mediawiki::parsoid::dir: "%{hiera('mwv::services_dir')}/parsoid"
 mediawiki::parsoid::port: 8000

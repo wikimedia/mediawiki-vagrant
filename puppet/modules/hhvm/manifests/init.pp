@@ -143,11 +143,6 @@ class hhvm (
         require  => File['/etc/init/hhvm.conf'],
     }
 
-    file { '/usr/local/bin/hhvmsh':
-        source => 'puppet:///modules/hhvm/hhvmsh',
-        mode   => '0555',
-    }
-
     apache::site { 'hhvm_admin':
         ensure  => present,
         content => template('hhvm/admin-apache-site.erb'),

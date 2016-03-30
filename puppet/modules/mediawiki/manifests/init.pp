@@ -71,6 +71,7 @@ class mediawiki(
     include ::mediawiki::apache
     include ::mediawiki::jobrunner
     include ::mediawiki::multiwiki
+    include ::mediawiki::mwrepl
 
     require_package('parallel')
 

@@ -1,0 +1,22 @@
+#!/bin/bash
+# Based on operations/puppet at 504a37a
+# Shell wrapper for interactive hhvm for use with multiversion mediawiki
+# This script belongs in /usr/local/bin/ and should be in PATH.
+
+usage() {
+	echo Error: $*
+	echo Usage:
+	echo -e "\t$0 <wiki>"
+	echo
+	exit 1
+}
+
+if [[ $# -gt 1 ]]; then
+	usage "Too many arguments"
+elif [[ $# -eq 0 ]]; then
+	WIKI='<%= @default_db_name %>'
+else
+	WIKI=$1
+fi
+
+sudo -u www-data hhvm -a "<%= @script_dir %>/MWScript.php" commandLine.inc "--wiki=$WIKI"
