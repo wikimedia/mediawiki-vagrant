@@ -7,7 +7,6 @@
 # See https://www.mediawiki.org/wiki/Manual:Performance_tuning
 class role::simple_performant {
     require ::role::mediawiki
-    include ::role::fss
     include ::role::thumb_on_404
     include ::role::wikidiff2
     include ::apache::mod::expires
