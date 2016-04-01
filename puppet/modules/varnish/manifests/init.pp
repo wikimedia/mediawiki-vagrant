@@ -30,6 +30,7 @@ class varnish {
     }
 
     # Dependencies to build varnish
+    require_package('pkg-config')
     require_package('libncurses-dev')
     require_package('libpcre3-dev')
     require_package('libedit-dev')
@@ -55,6 +56,7 @@ class varnish {
         require => [
             File['/tmp/build-varnish.sh'],
             Git::Clone['Varnish-Cache'],
+            Package['pkg-config'],
             Package['libncurses-dev'],
             Package['libpcre3-dev'],
             Package['libedit-dev'],
