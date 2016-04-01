@@ -17,15 +17,21 @@ export SHARE_OWNER SHARE_GROUP NPM_CONFIG_CACHE SERVICE_CONF_DIR
 UPDATE_ERRORS=( )
 
 function mwv_service_update {
-  ERR=''
+  local ERR=''
+  local PULL_RESULT=0
   source "$1"
   echo -e "\e[36m==> Updating ${SERVICE_NAME} ...\e[0m"
   if [[ -n $NEED_CHDIR && -d $SERVICE_DIR ]]; then
     if [[ -n $DO_PULL ]]; then
       mwv_git_pull "$SERVICE_DIR" inline
+      PULL_RESULT=$?
+    fi
+    if [[ ${PULL_RESULT} -eq 2 ]]; then
+      # git pull failed, bail out
+      return 1
     fi
     cd $SERVICE_DIR
-    if [[ -n $UPDATE_CMD ]]; then
+    if [[ -n "${UPDATE_CMD}" && ${PULL_RESULT} -eq 1 ]]; then
       echo "[*] Updating dependencies for ${SERVICE_NAME} ..."
       [[ -n ${DO_RESTART} ]] && sudo service ${RESTART_NAME} stop
       if ! /bin/sh -c "$UPDATE_CMD"; then
@@ -37,7 +43,7 @@ function mwv_service_update {
   fi
   if [[ -n $DO_RESTART && -z $ERR ]]; then
     echo "[*] Restarting service ${RESTART_NAME} ..."
-    sudo service ${RESTART_NAME} start
+    sudo service ${RESTART_NAME} restart
   fi
   echo
 }
@@ -45,6 +51,7 @@ export -f mwv_service_update
 
 function mwv_git_pull {
   local OUTPUT_INLINE=${2:-}
+  local RETVAL=0
   cd "$1"
   if [[ -z $OUTPUT_INLINE ]]; then
     echo -e "\e[36m==> Updating $(pwd) ...\e[0m"
@@ -62,18 +69,24 @@ function mwv_git_pull {
   fi
 
   local ERR=''
+  local PULL_CMD='git pull --rebase'
   if [[ -n $BRANCH ]]; then
     local REMOTE=$(git config branch.${BRANCH}.remote)
     if [[ -n $REMOTE ]]; then
       local URL=$(git config --get remote.${REMOTE}.url)
       if [[ $URL == ssh://* ]]; then
         # Convert remote git url from ssh:// to anonymous https://
-        local TEMPURL=$(echo $URL | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
-        git pull --rebase $TEMPURL
-      else
-        git pull --rebase
+        URL=$(echo $URL | sed -e 's!ssh://[^@]\+@!https://!g' -e 's!:29418!/r!g')
+        PULL_CMD="${PULL_CMD} ${URL}"
       fi
-
+      # fetch the updates, but don't apply them just yet
+      git fetch ${REMOTE}
+      if git diff --name-only ${REMOTE}/${BRANCH} | grep -E 'package.json|requirements.txt|composer.json' >/dev/null; then
+        # some dependencies have changed, we need to signal it
+        RETVAL=1
+      fi
+      # update the repo
+      ${PULL_CMD}
       if [[ $? -ne 0 ]]; then
         # If we didn't successfully update (possibly because we're on
         # a local branch), leave the submodules alone.
@@ -94,9 +107,11 @@ function mwv_git_pull {
   if [[ -n $ERR ]]; then
     echo -e "\e[1;31m ***** ${ERR}\e[0m"
     UPDATE_ERRORS+=("$ERR")
+    RETVAL=2
   fi
 
   [[ -z $OUTPUT_INLINE ]] && echo
+  return ${RETVAL}
 }
 export -f mwv_git_pull
 
