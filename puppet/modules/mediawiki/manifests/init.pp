@@ -131,11 +131,12 @@ class mediawiki(
         ],
     }
 
-    mediawiki::user { "admin_user_in_suppress_on_${db_name}":
+    mediawiki::user { "admin_user_in_steward_suppress_on_${db_name}":
         username => $admin_user,
         password => $admin_pass,
         wiki     => $db_name,
         groups   => [
+            'steward',
             'suppress',
         ],
         require  => MediaWiki::Wiki[$wiki_name],
