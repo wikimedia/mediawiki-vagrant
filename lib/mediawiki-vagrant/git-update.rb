@@ -6,7 +6,7 @@ module MediaWikiVagrant
 
     def execute
       if %w(-h --help).include? @argv.first
-        @env.ui.info 'Usage: vagrant git-update [-h]'
+        @env.ui.info 'Usage: vagrant git-update [-h|--help|-f|--force]'
         return 0
       end
 

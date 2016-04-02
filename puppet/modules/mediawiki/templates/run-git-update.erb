@@ -19,7 +19,9 @@ UPDATE_ERRORS=( )
 function mwv_service_update {
   local ERR=''
   local PULL_RESULT=0
-  source "$1"
+  local CONF_FILE=$1
+  local FORCE_UPDATE=${2:-}
+  source "${CONF_FILE}"
   echo -e "\e[36m==> Updating ${SERVICE_NAME} ...\e[0m"
   if [[ -n $NEED_CHDIR && -d $SERVICE_DIR ]]; then
     if [[ -n $DO_PULL ]]; then
@@ -30,6 +32,7 @@ function mwv_service_update {
       # git pull failed, bail out
       return 1
     fi
+    [[ "-f" == ${FORCE_UPDATE} || "--force" == ${FORCE_UPDATE} ]] && PULL_RESULT=1
     cd $SERVICE_DIR
     if [[ -n "${UPDATE_CMD}" && ${PULL_RESULT} -eq 1 ]]; then
       echo "[*] Updating dependencies for ${SERVICE_NAME} ..."
@@ -144,7 +147,7 @@ sudo rm -rf ${NPM_CONFIG_CACHE}/* /home/vagrant/.npm
 
 # Update services
 for SRVCONF in ${SERVICE_CONF_DIR}/*.conf; do
-    mwv_service_update $SRVCONF
+    mwv_service_update $SRVCONF "$@"
 done
 
 # Update git checkouts in parallel
