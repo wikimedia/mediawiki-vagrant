@@ -6,6 +6,8 @@
 # - Also provision an ORES server.
 #
 class role::ores {
+    include ::role::betafeatures
+
     mediawiki::extension { 'ORES':
         needs_update => true,
         settings     => {
