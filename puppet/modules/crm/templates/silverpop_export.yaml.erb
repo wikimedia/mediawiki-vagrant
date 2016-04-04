@@ -1,0 +1,34 @@
+# Deploy as /etc/fundraising/silverpop_export.yaml, or $HOME/.fundraising/silverpop_export.yaml
+# vim: ft=yaml
+
+# Directory which will stage the working files
+working_path: /tmp/
+
+# For archival purposes, how many days of old runs should we keep? 0 means forever.
+days_to_keep_files: 1
+
+# Login credentials for the silverpop transfer server
+sftp:
+    host: 123.123.123.123
+    username: foo
+    password: "lissp#"
+    host_key:
+
+    remote_root: /upload/
+
+civicrm_db:
+    db: civicrm
+
+drupal_db:
+    db: drupal
+
+geonames_db:
+    db: geonames
+
+silverpop_db:
+    host: localhost
+    user: "<%= scope['::crm::db_user'] %>"
+    passwd: "<%= scope['::crm::db_pass'] %>"
+    db: silverpop
+    debug: false
+

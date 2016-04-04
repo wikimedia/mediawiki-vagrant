@@ -78,6 +78,8 @@ crm::db_pass: "%{hiera('mysql::root_password')}"
 crm::drupal::dir: "%{hiera('crm::dir')}/drupal"
 crm::drupal::files_dir: "%{hiera('mwv::files_dir')}/org.wikimedia.civicrm-files"
 
+crm::tools::dir: "%{hiera('mwv::services_dir')}/fundraising-tools"
+
 hhvm::common_settings:
   date:
     timezone: UTC
