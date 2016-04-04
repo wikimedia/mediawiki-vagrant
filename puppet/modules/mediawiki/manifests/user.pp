@@ -98,7 +98,8 @@ define mediawiki::user(
 
     if $email {
         mediawiki::maintenance { "mediawiki_user_${canonical_username}_${wiki}_email":
-            command     => template('mediawiki/set_user_email.erb'),
+            command     => "/usr/local/bin/mwscript resetUserEmail.php --wiki='${wiki}' \
+                           '${canonical_username}' '${email}' --no-reset-password",
             refreshonly => true,
             subscribe   => Mediawiki::Maintenance["mediawiki_user_${canonical_username}_${wiki}"],
         }
