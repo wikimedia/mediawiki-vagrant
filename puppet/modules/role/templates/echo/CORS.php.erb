@@ -1,4 +1,4 @@
-$wgCrossSiteAJAXdomains = array(
+$wgCrossSiteAJAXdomains = array_merge( array(
 	// HTTP
 	'127.0.0.1:<%= @forwarded_port %>',
 	'localhost:<%= @forwarded_port %>',
@@ -11,4 +11,4 @@ $wgCrossSiteAJAXdomains = array(
 	'127.0.0.1:6081',
 	'localhost:6081',
   '*<%= scope['::mediawiki::multiwiki::base_domain'] %>:6081'
-) + $wgCrossSiteAJAXdomains;
+), $wgCrossSiteAJAXdomains );
