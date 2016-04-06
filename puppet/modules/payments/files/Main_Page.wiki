@@ -33,7 +33,7 @@ Donate links:
 ** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=en&language=en&currency_code=GBP&amount=10&country=GB}} Credit card in GB, English, GBP]
 
 * Amazon
-** [{{fullurl:Special:AmazonGateway|currency=USD&country=US&amount=1&ffname=amazon}} In US, no language specified, USD]
+** [{{fullurl:Special:AmazonGateway|currency_code=USD&country=US&amount=1&ffname=amazon}} In US, no language specified, USD]
 
 * AstroPay
 ** [{{fullurl:Special:AstropayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=en&language=en&currency_code=BRL&amount=100&country=BR&ffname=astropay}} Credit card in BR, English, BRL]
@@ -53,17 +53,17 @@ Donate links:
 
 * GlobalCollect
 ** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency_code=USD&amount=10&country=US}} Credit card in US, English, USD]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency=GBP&country=GB&amount=2.01}} Credit card in GB, English, GBP]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rcc-vmad&payment_method=cc&recurring=1&uselang=en&language=en&currency=EUR&country=US&amount=2.01}} Recurring credit card in US, English, EUR]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency=ILS&country=IL&amount=20.01}} Credit card in IL, English, ILS]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=he&language=he&currency=ILS&country=IL&amount=20.01}} Credit card in IL, Hebrew, ILS]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency_code=GBP&country=GB&amount=2.01}} Credit card in GB, English, GBP]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rcc-vmad&payment_method=cc&recurring=1&uselang=en&language=en&currency_code=EUR&country=US&amount=2.01}} Recurring credit card in US, English, EUR]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency_code=ILS&country=IL&amount=20.01}} Credit card in IL, English, ILS]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=he&language=he&currency_code=ILS&country=IL&amount=20.01}} Credit card in IL, Hebrew, ILS]
 ** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&recurring=&payment_method=obt&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=AU&returnto=Thank_You%2Fen&amountGiven=&currency_code=AUD&frequency=onetime&amount=3&uselang=en}} Online bank transfer in AU, English, AUD]
 ** [{{fullurl:Special:GlobalCollectGateway|country=CN&amount=30&currency_code=CNY&ffname=ew-alipay}} Alipay e-wallet in CN, English, CNY]
 ** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency_code=EUR&frequency=onetime&amount=3&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR]
 ** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&recurring=&payment_method=bt&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency_code=EUR&frequency=onetime&amount=3&uselang=en}} Bank Transfer in NL, English, EUR]
 
 * PayPal
-** [{{fullurl:Special:PaypalGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency=USD&uselang=en}} In US, English, USD - no amount specified]
+** [{{fullurl:Special:PaypalGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=USD&uselang=en}} In US, English, USD - no amount specified]
 
 * Worldpay
 ** [{{fullurl:Special:WorldPayGateway|country=FR&amount=3&currency_code=EUR&payment_method=cc}} Credit card in France, no language specified, EUR]
@@ -76,9 +76,9 @@ Donate links:
 
 See also [https://phabricator.wikimedia.org/T86247 T86247], this would be a good use of a Special page, to build a payments query out of adjustable parameters.
 == Errors ==
-* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=USD&country=US&amount=.01}} Donation amount too low (GlobalCollect)]
+* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency_code=USD&country=US&amount=.01}} Donation amount too low (GlobalCollect)]
 * [{{fullurl:Special:AmazonGateway|uselang=en&language=en&currency_code=USD&country=US&amount=992500&payment_method=amazon}} Donation amount too high (Amazon)]
-* [{{fullurl:Special:PayPalGateway|appeal=JimmyQuote&ffname=paypal&recurring=&uselang=en&language=en&currency=INR&country=US&amount=200.01}} Correcting currency (PayPal)]
+* [{{fullurl:Special:PayPalGateway|appeal=JimmyQuote&ffname=paypal&recurring=&uselang=en&language=en&currency_code=INR&country=US&amount=200.01}} Correcting currency (PayPal)]
 * [{{fullurl:Special:PaypalGateway|ffname=paypal&recurring=&payment_method=paypal&utm_source=fr-redir.default%7Edefault%7Edefault%7Edefault%7Econtrol.paypal&utm_medium=spontaneous&utm_campaign=spontaneous&utm_key=&referrer=&language=en&country=US&returnto=Thank_You%2Fen&amountGiven=&currency_code=EEK&frequency=onetime&amount=30000000&uselang=en}} Amount too high and currency correction (PayPal)]
 * [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency_code=USD&amount=10&country=US&payment_method=blarg}} Nonsense payment method]
 * [{{fullurl:Special:PaypalGateway|ffname=badname&recurring=&payment_method=paypal&language=en&country=NO&returnto=Thank_You%2Fen&amountGiven=&currency_code=NKD&frequency=onetime&amount=3000&uselang=en}} Bad form name (PayPal)]
@@ -86,7 +86,7 @@ See also [https://phabricator.wikimedia.org/T86247 T86247], this would be a good
 
 == Debugging ==
 * [{{fullurl:Special:GatewayFormChooser|testGetAll=1}} Dump gateway form choices]
-* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=qqx&language=qqx&currency=USD&country=US&amount=1.01}} Payment form with message labels (GlobalCollect)]
+* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=qqx&language=qqx&currency_code=USD&country=US&amount=1.01}} Payment form with message labels (GlobalCollect)]
 
 = Orphan slayer =
 
