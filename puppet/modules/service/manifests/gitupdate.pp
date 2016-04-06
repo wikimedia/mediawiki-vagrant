@@ -19,6 +19,9 @@
 #   The type of the service, can be 'php', 'nodejs' or 'python'.
 #   This parameter is relevant only if a dependencies update should be
 #   scheduled as well (cf. the 'update' parameter below). Default: undef
+#   NOTE:  python packages are installed into a virtualenv in 'editible'
+#   mode.  That is, you can edit their checked out locations and still
+#   see the effects in code run out of the virtualenv.
 #
 # [*pull*]
 #   Whether to perform a git pull. Default: true
@@ -84,7 +87,7 @@ define service::gitupdate(
     $up_cmd = $type ? {
         'php'    => 'composer update --no-interaction --optimize-autoloader',
         'nodejs' => 'sudo rm -rf node_modules && npm install --no-bin-links',
-        'python' => './virtualenv/bin/pip install .',
+        'python' => './virtualenv/bin/pip install -e .',
         default  => 'invalid'
     }
     if $update and $up_cmd == 'invalid' {
