@@ -3,6 +3,7 @@
 # for the Wikimedia Android & iOS Mobile apps
 class role::mobileapp {
     include ::role::mobilefrontend
+    include ::role::cite
 
     mediawiki::extension { 'MobileApp':
         require => Mediawiki::Extension['MobileFrontend'],
