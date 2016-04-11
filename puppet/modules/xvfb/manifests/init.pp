@@ -25,9 +25,7 @@ class xvfb(
     $display    = 99,
     $resolution = '1024x768x24',
 ) {
-    package { 'xvfb':
-        ensure => present,
-    }
+    require_package('xvfb')
 
     group { 'xvfb':
         ensure => present,
