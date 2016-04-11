@@ -166,6 +166,12 @@ class mediawiki::multiwiki(
         content => template('mediawiki/docroot/w/MWVersion.php.erb'),
     }
 
+    file { "${script_dir}/RunJobs.php":
+        ensure  => present,
+        mode    => '0644',
+        content => template('mediawiki/docroot/w/RunJobs.php.erb'),
+    }
+
     file { "${script_dir}/assets":
         ensure => link,
         target => "${::mediawiki::dir}/assets",

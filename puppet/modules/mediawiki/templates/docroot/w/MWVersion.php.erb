@@ -17,11 +17,15 @@
  * @param $file string File path (relative to MediaWiki dir)
  * @return string Absolute file path with proper MW location
  */
-function getMediaWiki( $file ) {
+function getMediaWiki( $file, $wiki = false ) {
 	global $IP;
 	require_once( __DIR__ . '/MWMultiVersion.php' );
 
-	$multiVersion = MWMultiVersion::initializeForWiki( $_SERVER['SERVER_NAME'] );
+	if ( $wiki === false ) {
+		$multiVersion = MWMultiVersion::initializeForWiki( $_SERVER['SERVER_NAME'] );
+	} else {
+		$multiVersion = MWMultiVersion::initializeFromDBName( $wiki );
+	}
 
 	# Wiki doesn't exist yet?
 	if ( $multiVersion->isMissing() ) {

@@ -28,5 +28,5 @@
         "period": 1
     },
 
-    "dispatcher": "nice -19 mwscript maintenance/runJobs.php --wiki=%(db)x --type=%(type)x --maxtime=%(maxtime)x --memory-limit=%(maxmem)x --result=json"
+    "dispatcher": "curl -XPOST 'http://localhost/w/RunJobs.php?wiki=%(db)x&type=%(type)x&maxtime=%(maxtime)x'"
 }
