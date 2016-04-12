@@ -2,8 +2,8 @@
 PREFIX=/usr/local
 export PKG_CONFIG_PATH=$PREFIX/lib/pkgconfig
 export ACLOCAL_PATH=$PREFIX/share/aclocal
-cd /tmp/libvmod-xkey
-./autogen.sh
+cd /tmp/varnish-modules
+./bootstrap
 ./configure
-make
+make check
 make install
