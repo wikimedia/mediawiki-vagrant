@@ -1,6 +1,9 @@
 # == Class: role::globalblocking
+#
 # Configures a MediaWiki instance with
 # GlobalBlocking[https://www.mediawiki.org/wiki/Extension:GlobalBlocking]
+#
+# === Parameters
 # [*db_host*]
 #   Database host used to connect to GlobalBlocking database
 #
