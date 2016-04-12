@@ -61,4 +61,11 @@ class logstash(
         ensure  => absent,
         require => Package['logstash'],
     }
+
+    exec { 'install logstash contrib plugins':
+        command => '/opt/logstash/bin/plugin install contrib',
+        unless  => '/usr/bin/test -d /opt/logstash/vendor/logstash/',
+        require => Package['logstash'],
+        notify  => Service['logstash'],
+    }
 }
