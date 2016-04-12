@@ -191,26 +191,26 @@ class varnish {
         require => File['/usr/local/var/varnish'],
     }
 
-    # Build and install xkey vmod
-    git::clone { 'libvmod-xkey':
-        directory => '/tmp/libvmod-xkey',
-        remote    => 'https://github.com/varnish/libvmod-xkey',
+    # Build and install vmods (which include xkey)
+    git::clone { 'varnish-modules':
+        directory => '/tmp/varnish-modules',
+        remote    => 'https://github.com/varnish/varnish-modules',
     }
 
-    file { '/tmp/build-xkey.sh':
-        source => 'puppet:///modules/varnish/build-xkey.sh',
+    file { '/tmp/build-varnish-modules.sh':
+        source => 'puppet:///modules/varnish/build-varnish-modules.sh',
         owner  => 'root',
         group  => 'root',
         mode   => '0555',
     }
 
-    exec { 'build_xkey':
-        command => '/tmp/build-xkey.sh',
+    exec { 'build_varnish_modules':
+        command => '/tmp/build-varnish-modules.sh',
         creates => '/usr/local/lib/varnish/vmods/libvmod_xkey.so',
         require => [
             Exec['build_varnish'],
-            File['/tmp/build-xkey.sh'],
-            Git::Clone['libvmod-xkey'],
+            File['/tmp/build-varnish-modules.sh'],
+            Git::Clone['varnish-modules'],
         ],
         user    => 'root',
     }
@@ -228,7 +228,7 @@ class varnish {
             Exec[
                 'build_varnish',
                 'build_tbf',
-                'build_xkey'
+                'build_varnish_modules'
             ],
             File[
                 '/var/run/varnish',
