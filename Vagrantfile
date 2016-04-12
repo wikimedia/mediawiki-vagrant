@@ -20,8 +20,8 @@
 # Simple configuration changes can be made by running the setup script (see
 # README.md for details).
 #
-# Please report bugs in this file on Wikimedia's Bugzilla:
-# https://bugzilla.wikimedia.org/enter_bug.cgi?product=MediaWiki-Vagrant
+# Please report bugs in this file on Wikimedia's Phabricator:
+# https://phabricator.wikimedia.org/project/profile/627/
 #
 # Patches and contributions are welcome!
 # http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
