@@ -21,6 +21,10 @@ default_project: &default_project
           cache-control: s-maxage=864000, max-age=86400
         mobileapps:
           host: http://localhost:<%= @mobileapps_port %>
+        events:
+          eventlogging_service:
+            uri: http://localhost:<%= @eventlogging_service_port %>/v1/events
+            topic: resource_change
 
 wikimedia.org: &wikimedia.org
   x-modules:
