@@ -5,8 +5,8 @@
 <%=
 	def phpize(o)
 		case o
-		when nil then
-			'NULL'
+		when nil, :undef then
+			'null'
 		when Array
 			'array( ' + o.map { |x| phpize(x) }.join(', ') + ' )'
 		when Hash
