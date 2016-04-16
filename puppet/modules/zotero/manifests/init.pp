@@ -41,7 +41,10 @@ class zotero(
         before    => Service['zotero'],
     }
 
-    file { "${base_path}/translation-server/defaults/preferences/defaults.js":
+    file { '/etc/zotero':
+        ensure => directory,
+    }
+    file { '/etc/zotero/defaults.js':
         ensure  => present,
         content => template('zotero/defaults.js.erb'),
         require => Git::Clone['mediawiki/services/zotero/translation-server'],
