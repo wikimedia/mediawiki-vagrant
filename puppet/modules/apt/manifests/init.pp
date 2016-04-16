@@ -18,7 +18,6 @@ class apt {
 
     file  { '/usr/local/share/wikimedia-pubkey.asc':
         source => 'puppet:///modules/apt/wikimedia-pubkey.asc',
-        before => File['/etc/apt/sources.list.d/wikimedia.list'],
         notify => Exec['add_wikimedia_apt_key'],
     }
 
