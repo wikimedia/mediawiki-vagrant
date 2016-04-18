@@ -6,6 +6,7 @@
 # If you disable this role, you will not be able to access content
 # that was saved when it was active.
 class role::externalstore (
+    $grant_db_host,
     $db_host,
     $db_name,
     $db_user,
@@ -17,8 +18,8 @@ class role::externalstore (
         dbname => 'external',
     }
 
-    mysql::sql { "GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}@${db_host}":
-        unless  => "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE TABLE_SCHEMA = '${db_name}' AND GRANTEE = \"'${db_user}'@'${db_host}'\" LIMIT 1",
+    mysql::sql { "GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}@${grant_db_host}":
+        unless  => "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE TABLE_SCHEMA = '${db_name}' AND GRANTEE = \"'${db_user}'@'${grant_db_host}'\" LIMIT 1",
         require => Mysql::User[$db_user],
     }
 

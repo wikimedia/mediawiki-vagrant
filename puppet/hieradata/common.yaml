@@ -291,7 +291,8 @@ role::echo::echo_dir: "%{hiera('mediawiki::dir')}/extensions/Echo"
 
 role::elk::vhost_name: "logstash%{hiera('mwv::tld')}"
 
-role::externalstore::db_host: "%{hiera('mysql::grant_host_name')}"
+role::externalstore::grant_db_host: "%{hiera('mysql::grant_host_name')}"
+role::externalstore::db_host: "%{hiera('mediawiki::multiwiki::db_host')}"
 role::externalstore::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 role::externalstore::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 role::externalstore::db_name: 'external'
