@@ -37,6 +37,7 @@ function mwv_service_update {
     if [[ -n "${UPDATE_CMD}" && ${PULL_RESULT} -eq 1 ]]; then
       echo "[*] Updating dependencies for ${SERVICE_NAME} ..."
       [[ -n ${DO_RESTART} ]] && sudo service ${RESTART_NAME} stop
+      [[ -f package.json ]] && rm -rf node_modules > /dev/null
       if ! /bin/sh -c "$UPDATE_CMD"; then
         ERR="Could not update dependencies of ${SERVICE_NAME} !"
         echo -e "\e[1;31m ***** ${ERR}\e[0m"
