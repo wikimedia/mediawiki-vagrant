@@ -17,11 +17,15 @@
 # [*log_level*]
 #   the lowest level to log (trace, debug, info, warn, error, fatal)
 #
+# [*eventlogging_service_port*]
+#   the port of the EventLogging service, default: 8085
+#
 class restbase (
     $port,
     $domain,
     $dbdir,
     $log_level = undef,
+    $eventlogging_service_port = 8085
 ) {
 
     require_package('libsqlite3-dev')
