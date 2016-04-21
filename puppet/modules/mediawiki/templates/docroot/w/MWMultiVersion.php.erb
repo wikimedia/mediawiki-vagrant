@@ -200,6 +200,7 @@ class MWMultiVersion {
 			header( 'HTTP/1.1 500 Internal server error' );
 		}
 		echo $msg;
+		debug_print_backtrace();
 		trigger_error( $msg, E_USER_ERROR );
 		exit( 1 ); // sanity
 	}
