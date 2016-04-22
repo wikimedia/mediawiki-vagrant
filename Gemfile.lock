@@ -24,7 +24,7 @@ GIT
 PATH
   remote: .
   specs:
-    mediawiki-vagrant (0.13.0)
+    mediawiki-vagrant (0.13.2)
 
 GEM
   remote: https://rubygems.org/
@@ -172,6 +172,3 @@ DEPENDENCIES
   rubocop (~> 0.35.1)
   vagrant!
   yard (~> 0.8, >= 0.8.7.6)
-
-BUNDLED WITH
-   1.10.6
