@@ -197,6 +197,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provider :lxc do |lxc|
     lxc.customize 'cgroup.memory.limit_in_bytes', "#{settings[:vagrant_ram]}M"
+    lxc.backingstore = 'none'
   end
 
   config.vm.provider :libvirt do |libvirt|
