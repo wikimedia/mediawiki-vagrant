@@ -8,7 +8,7 @@ To contribute to development or for more help, please visit the [https://www.med
 
 == Configuration ==
 
-Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to use our credentials.  Alternatively, you may make your own arrangements for a development account with the payment processor.  We are committed to eliminating this barrier by [https://phabricator.wikimedia.org/T89188 providing mock API responses], but in the meantime, here's an overview of what the missing settings look like,
+Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to use our credentials.  Alternatively, you may make your own arrangements for a development account with the payment processor.  We are committed to eliminating this barrier by [https://phabricator.wikimedia.org/T89188 providing mock API responses], but in the meantime please add a file to settings.d/wikis/paymentswiki/settings.d/ with your own account info. '''The file must start with a number less than 10 so it is included before puppet-managed/10-DonationInterface.php.''' An abbreviated example is shown below and more details are available in mediawiki-fr/extensions/DonationInterface/DonationInterface.php.
 
     <?php
     # settings.d/wikis/paymentswiki/settings.d/01-DI-real.php
