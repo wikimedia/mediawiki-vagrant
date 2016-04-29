@@ -32,7 +32,7 @@
 
 The file '00-debug.php-example' in this directory is included as an example. It
 contains settings that are useful for debugging and development work. To use
-it, simply copy '00-debug.php-example' to '00-debug.php', ommiting the
+it, simply copy '00-debug.php-example' to '00-debug.php', omitting the
 '-example' suffix.
 
 Note that the settings files in settings.d/puppet-managed are automatically
