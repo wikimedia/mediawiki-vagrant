@@ -1,9 +1,23 @@
 spec:
+  x-sub-request-filters:
+    - type: default
+      name: http
+      options:
+        allow:
+          - pattern: /^https?:\/\//
   title: The Change Propagation root
   paths:
-    /{domain:a}/{api:sys}/queue:
+    /sys/links:
+      x-modules:
+        - path: sys/backlinks.js
+          options:
+            templates:
+              mw_api:
+                  uri: 'http://localhost<%= scope['::port_fragment'] %>/w/api.php'
+    /sys/queue:
       x-modules:
         - path: sys/kafka.js
           options:
             uri: 127.0.0.1:2181
+            dc_name: datacenter1
             templates: {}
