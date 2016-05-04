@@ -55,11 +55,11 @@ $wgExternalServers['<%= @extension_db_cluster %>'] = array(
 );
 
 if ( PHP_SAPI !== 'cli' ) {
+	// T68399: set wgServer from inbound request
+	$wgServer = WebRequest::detectServer();
 	if ( isset( $mwvSupportsHttps ) && $mwvSupportsHttps ) {
-		// T68399: set wgServer from inbound request
-		// Strip protocol (e.g. http:) to create protocol-relative URL when the
-		// HTTPS role is active
-		$wgServer = preg_replace( '#^[^\/]+#', '', WebRequest::detectServer() );
+		// Create protocol-relative URL when the HTTPS role is active
+		$wgServer = preg_replace( '#^https?:#', '', $wgServer );
 	}
 }
 
