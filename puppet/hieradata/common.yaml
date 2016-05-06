@@ -159,10 +159,10 @@ hhvm::fcgi_settings:
     repo:
       central:
         path: "%{hiera('hhvm::hhbc_dir')}/fcgi.hhbc.sq3"
-    xdebug-not-done:
-      enable: 1
-      remote_connect_back: 1
-      remote_enable: 1
+  xdebug:
+    enable: 1
+    remote_connect_back: 1
+    remote_enable: 1
 
 hhvm::docroot: "%{hiera('apache::docroot')}"
 hhvm::hhbc_dir: /var/run/hhvm
