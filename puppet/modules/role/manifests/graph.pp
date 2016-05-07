@@ -4,15 +4,41 @@ class role::graph {
     include ::role::jsonconfig
 
     mediawiki::extension { 'Graph':
-        settings => [
-            '$wgEnableGraphParserTag = true',
-            '$wgGraphDataDomains = array("localhost","127.0.0.1")',
-            '$wgJsonConfigModels["Graph.JsonConfig"] = \'Graph\Content\'',
-            '$wgJsonConfigs["Graph.JsonConfig"] = array(
-               "namespace" => 484,
-               "nsName" => "Graph",
-               "isLocal" => true,
-            );',
-        ],
+        settings => {
+            wgGraphDefaultVegaVer => 2,
+            wgGraphAllowedDomains => {
+                http           => [
+                    "localhost${::port_fragment}",
+                    "127.0.0.1${::port_fragment}",
+                    "dev.wiki.local.wmftest.net${::port_fragment}",
+                    'wmflabs.org',
+                    'vega.github.io',
+                ],
+                https          => [
+                    'mediawiki.org',
+                    'wikibooks.org',
+                    'wikidata.org',
+                    'wikimedia.org',
+                    'wikimediafoundation.org',
+                    'wikinews.org',
+                    'wikipedia.org',
+                    'wikiquote.org',
+                    'wikisource.org',
+                    'wikiversity.org',
+                    'wikivoyage.org',
+                    'wiktionary.org',
+                ],
+                wikirawupload  => [
+                    'upload.wikimedia.org',
+                    'upload.beta.wmflabs.org',
+                    "localhost${::port_fragment}",
+                    "dev.wiki.local.wmftest.net${::port_fragment}",
+                ],
+                wikidatasparql => [
+                    'query.wikidata.org',
+                    'wdqs-test.wmflabs.org',
+                ],
+            },
+        },
     }
 }
