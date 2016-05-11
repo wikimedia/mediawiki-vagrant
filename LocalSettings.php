@@ -72,6 +72,11 @@ $wgObjectCaches['redis'] = array(
     'persistent' => true,
 );
 $wgMainCacheType = 'redis';
+
+// This is equivalent to redis_local in production, since MediaWiki-Vagrant only has one
+// data center.
+$wgMainStash = 'redis';
+
 // Avoid user request serialization and other slowness
 $wgSessionCacheType = 'redis';
 $wgSessionsInObjectCache = true;
