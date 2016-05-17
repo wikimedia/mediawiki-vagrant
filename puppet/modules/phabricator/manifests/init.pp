@@ -14,14 +14,12 @@ class phabricator(
     include ::mysql
     include ::php
 
-    package { [
+    require_package(
         'python-pygments',
         'python-phabricator',
         'php5-mailparse',
         'php5-ldap'
-    ]:
-        ensure => present,
-    }
+    )
 
     php::ini { 'phab_post_max_size':
         settings => [
