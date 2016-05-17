@@ -6,12 +6,14 @@
 class role::score {
     include ::role::multimedia
 
-    require_package('lilypond')
+    require_package('lilypond', 'timidity', 'freepats')
 
     mediawiki::extension { 'Score':
         needs_update => true,
         require      => [
             Package['lilypond'],
+            Package['timidity'],
+            Package['freepats'],
         ],
     }
 }
