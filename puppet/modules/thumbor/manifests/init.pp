@@ -129,24 +129,13 @@ class thumbor (
         cgrules => '@thumbor memory thumbor',
     }
 
-    file { '/etc/init/thumbor.conf':
-        ensure  => present,
-        content => template('thumbor/upstart.erb'),
-        mode    => '0444',
-    }
+    # This will generate a list of ports starting at 8889, with
+    # as many ports as there are CPUs on the machine.
+    $ports = sequence_array(8889, inline_template('<%= `nproc` %>'))
 
-    service { 'thumbor':
-        ensure    => running,
-        enable    => true,
-        provider  => 'upstart',
-        require   => [
-            Virtualenv::Environment[$deploy_dir],
-            User['thumbor'],
-        ],
-        subscribe => [
-            File["${deploy_dir}/tinyrgb.icc", $cfg_file, '/etc/init/thumbor.conf'],
-            Cgroup::Config['thumbor'],
-        ],
+    thumbor::service { $ports:
+        deploy_dir => $deploy_dir,
+        cfg_file   => $cfg_file,
     }
 
     varnish::backend { 'swift':

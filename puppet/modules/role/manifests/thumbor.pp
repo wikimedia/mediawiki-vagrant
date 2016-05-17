@@ -18,6 +18,15 @@ class role::thumbor (
     include ::apache::mod::headers
     include ::thumbor
 
+    # This will generate a list of ports starting at 8889, with
+    # as many ports as there are CPUs on the machine.
+    $ports = sequence_array(8889, inline_template('<%= `nproc` %>'))
+
+    nginx::site { 'thumbor':
+        content => template('role/thumbor/nginx.conf.erb'),
+        notify  => Service['nginx'],
+    }
+
     mediawiki::settings { 'thumbor-repo':
         values   => template('role/thumbor/local_repo.php.erb'),
         # Needs to be higher priority that swift for the local repo override
@@ -49,7 +58,4 @@ class role::thumbor (
             ],
         },
     }
-
-    # Ensure that Sentry is started before Thumbor
-    Service['sentry-worker'] ~> Service['thumbor']
 }

@@ -12,4 +12,5 @@ setgid thumbor
 
 # Wrapping this with cgexec fails silently, which is why we rely on cgrulesengd
 # to put the thumbor process into a cgroup
-exec <%= @deploy_dir %>/bin/thumbor -c <%= @cfg_file %> -a tc_core.app.App
+# To assign CPU affinity we consider that the base port is 8889 (Thumbor's default + 1)
+exec /usr/bin/taskset -c <%= Integer(@port) - 8889 %> <%= @deploy_dir %>/bin/thumbor -p <%= @port %> -c <%= @cfg_file %> -a tc_core.app.App

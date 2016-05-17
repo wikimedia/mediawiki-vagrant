@@ -526,7 +526,7 @@ RESULT_STORAGE_STORES_UNSAFE = True
 ## This configuration indicates whether thumbor should use a custom error
 ## handler.
 ## Defaults to: False
-USE_CUSTOM_ERROR_HANDLING = True
+#USE_CUSTOM_ERROR_HANDLING = False
 
 ## Error reporting module. Needs to contain a class called ErrorHandler with a
 ## handle_error(context, handler, exception) method.
@@ -550,6 +550,7 @@ ERROR_HANDLER_MODULE = 'thumbor.error_handlers.sentry'
 ## a45d3e8649239a973087e8f21f98@localhost:9000/2
 ## Defaults to:
 <% if scope.function_file_exists([@sentry_dsn_file]) -%>
+USE_CUSTOM_ERROR_HANDLING = True
 SENTRY_DSN_URL = '<%= scope.function_file([@sentry_dsn_file]) %>'
 <% end -%>
 
