@@ -5,10 +5,28 @@
 # This class provisions an Apache vhost running the Phabricator application,
 # creates the application database.
 #
+# === Parameters
+#
+# [*deploy_dir*]
+#   Directory to clone Phabricator git repo in.
+#
+# [*vhost_name*]
+#   Phabricator vhost name.
+#
+# [*remote*]
+#   Phabricator git remote.
+#
+# [*branch*]
+#   Phabricator branch to check out. If left undefined the default HEAD of the
+#   remote will be used.
+#
 class phabricator(
     $deploy_dir,
     $vhost_name,
+    $remote,
+    $branch = undef,
 ){
+    require ::arcanist
     include ::apache
     include ::apache::mod::rewrite
     include ::mysql
@@ -29,8 +47,8 @@ class phabricator(
 
     git::clone { 'phabricator':
         directory => "${deploy_dir}/phabricator",
-        remote    => 'https://secure.phabricator.com/diffusion/P/phabricator.git',
-        require   => Class['::arcanist'],
+        remote    => $remote,
+        branch    => $branch,
     }
 
     service::gitupdate { 'phd':
@@ -48,18 +66,15 @@ class phabricator(
     }
 
     phabricator::config { 'mysql.host':
-        value   => '127.0.0.1',
-        require => Class['::mysql'],
+        value => '127.0.0.1',
     }
 
     phabricator::config { 'mysql.port':
-        value   => 3306,
-        require => Phabricator::Config['mysql.host'],
+        value => 3306,
     }
 
     phabricator::config { 'mysql.pass':
-        value   => $::mysql::root_password,
-        require => Phabricator::Config['mysql.port'],
+        value => $::mysql::root_password,
     }
 
     phabricator::config { 'phabricator.base-uri':
@@ -67,8 +82,7 @@ class phabricator(
     }
 
     phabricator::config { 'pygments.enabled':
-        value   => true,
-        require => Package['python-pygments'],
+        value => true,
     }
 
     phabricator::config { 'metamta.mail-adapter':
@@ -87,10 +101,25 @@ class phabricator(
         ensure => directory,
     }
 
+    file { '/srv/phabfiles':
+        ensure => directory,
+        owner  => 'www-data',
+    }
+
+    phabricator::config { 'storage.local-disk.path':
+        value   => '/srv/phabfiles',
+        require => File['/srv/phabfiles'],
+    }
+
     # Setup databases
     exec { 'phab_setup_db':
         command => "${deploy_dir}/phabricator/bin/storage upgrade --force",
-        require => Phabricator::Config['mysql.pass'],
+        require => [
+            Class['::mysql'],
+            Phabricator::Config['mysql.host'],
+            Phabricator::Config['mysql.pass'],
+            Phabricator::Config['mysql.port'],
+        ],
         unless  => "${deploy_dir}/phabricator/bin/storage status > /dev/null",
     }
 

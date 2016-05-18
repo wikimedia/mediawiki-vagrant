@@ -285,6 +285,7 @@ mysql::grant_host_name: 'localhost'
 
 phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
 phabricator::vhost_name: "phabricator%{hiera('mwv::tld')}"
+phabricator::remote: https://secure.phabricator.com/diffusion/P/phabricator.git
 
 role::phragile::debug: true
 role::phragile::install_dir: "%{hiera('mwv::services_dir')}/phragile"
