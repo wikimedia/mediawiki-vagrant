@@ -189,11 +189,36 @@ mathoid::render_no_check: true
 
 mobilecontentservice::port: 8888
 
-graphoid::base_path: "%{hiera('mwv::services_dir')}/graphoid"
-graphoid::node_path: "%{hiera('graphoid::base_path')}/node_modules"
-graphoid::conf_path: "%{hiera('graphoid::base_path')}/graphoid.config.json"
-graphoid::log_dir: /vagrant/logs
 graphoid::port: 11042
+
+# These settings should match the puppet/modules/role/manifests/graph.pp (ideally they should be the same)
+graphoid::allowed_domains:
+  http:
+    - wmflabs.org
+    - vega.github.io
+  https:
+    - mediawiki.org
+    - wikibooks.org
+    - wikidata.org
+    - wikimedia.org
+    - wikimediafoundation.org
+    - wikinews.org
+    - wikipedia.org
+    - wikiquote.org
+    - wikisource.org
+    - wikiversity.org
+    - wikivoyage.org
+    - wiktionary.org
+  wikirawupload:
+    - upload.wikimedia.org
+    - upload.beta.wmflabs.org
+  wikidatasparql:
+    - query.wikidata.org
+    - wdqs-test.wmflabs.org
+graphoid::headers:
+  'Cache-Control': 'public, s-maxage=3600, max-age=3600'
+graphoid::error_headers:
+  'Cache-Control': 'public, s-maxage=300, max-age=300'
 
 php::sessionclean::ensure: present
 php::xhprof::profile_storage_dir: /vagrant/profiles
