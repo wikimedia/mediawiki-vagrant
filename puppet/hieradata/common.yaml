@@ -337,6 +337,10 @@ role::oauth::example_secret_key: c48030f26a76eeb800f9a8df20de4f0f
 # result of MediaWiki\Extensions\OAuth\MWOAuthUtils::hmacDBSecret(role::oauth::example_secret_key);
 role::oauth::example_consumer_secret: b7cd84d1c419c8e62c1cd106afc4bc959fcf48c8
 
+role::oauthauthentication::consumer_key: 0fde3e1e451907e9653ea612f7b30a5a
+role::oauthauthentication::consumer_secret: 143a7e53fe1e0fe7f42a2aed77b8e6fc9f38112a
+role::oauthauthentication::callback_url: "http://dev.wiki.local.wmftest.net%{::port_fragment}/wiki/Special:OAuthLogin/finish"
+
 role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
 
 role::wikimetrics::dir: "%{hiera('mwv::services_dir')}/wikimetrics"
