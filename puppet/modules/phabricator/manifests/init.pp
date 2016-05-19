@@ -10,6 +10,9 @@
 # [*deploy_dir*]
 #   Directory to clone Phabricator git repo in.
 #
+# [*log_dir*]
+#   Directory phd will write logs to.
+#
 # [*vhost_name*]
 #   Phabricator vhost name.
 #
@@ -22,6 +25,7 @@
 #
 class phabricator(
     $deploy_dir,
+    $log_dir,
     $vhost_name,
     $remote,
     $branch = undef,
@@ -97,10 +101,56 @@ class phabricator(
         value => 0,
     }
 
-    file { '/var/repo':
-        ensure => directory,
+    group { 'phd':
+        ensure => present,
+        system => true,
+    }
+    user { 'phd':
+        gid        => 'phd',
+        shell      => '/bin/false',
+        managehome => false,
+        system     => true,
+    }
+    phabricator::config { 'phd.user':
+        value   => 'phd',
+        require => User['phd'],
     }
 
+    # Repository hosting
+    file { '/var/repo':
+        ensure => directory,
+        mode   => '0755',
+        owner  => 'phd',
+        group  => 'www-data',
+    }
+
+    phabricator::config { 'repository.default-local-path':
+        value   => '/var/repo',
+        require => File['/var/repo'],
+    }
+
+    file { '/usr/local/bin/git-http-backend':
+        ensure  => 'link',
+        target  => '/usr/lib/git-core/git-http-backend',
+        require => Package['git'],
+    }
+
+    sudo::user { 'www-data as phd':
+        user       => 'www-data',
+        privileges => [
+            'ALL=(phd) SETENV: NOPASSWD: /usr/bin/git, /usr/local/bin/git-http-backend',
+        ],
+        require    => File['/usr/local/bin/git-http-backend'],
+    }
+
+    phabricator::config { 'diffusion.allow-http-auth':
+        value => true,
+    }
+    phabricator::config { 'security.require-https':
+        value => false,
+    }
+
+    # File uploads
     file { '/srv/phabfiles':
         ensure => directory,
         owner  => 'www-data',
@@ -121,6 +171,25 @@ class phabricator(
             Phabricator::Config['mysql.port'],
         ],
         unless  => "${deploy_dir}/phabricator/bin/storage status > /dev/null",
+    }
+
+    file { '/var/run/phd':
+        ensure => 'directory',
+        owner  => 'phd',
+        group  => 'phd',
+        mode   => '0775',
+    }
+    phabricator::config { 'phd.pid-directory':
+        value   => '/var/run/phd',
+        require => File['/var/run/phd'],
+    }
+    file { $log_dir:
+        ensure => 'directory',
+        mode   => '0777',
+    }
+    phabricator::config { 'phd.log-directory':
+        value   => $log_dir,
+        require => File[$log_dir],
     }
 
     $phd = "${deploy_dir}/phabricator/bin/phd"

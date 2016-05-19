@@ -1,1 +1,1 @@
-/usr/bin/ldapsearch -x -D '<%= @admin_dn %>' -w '<%= @admin_password %>' -b '<%= @base_dn %>' '(cn=writer)'
+/usr/bin/ldapsearch -x -D '<%= @admin_dn %>' -w '<%= @admin_password %>' -b '<%= @base_dn %>' '(cn=writer)' | grep -q 'cn: writer'

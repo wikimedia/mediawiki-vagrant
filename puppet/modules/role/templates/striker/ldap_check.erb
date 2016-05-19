@@ -1,0 +1,1 @@
+/usr/bin/ldapsearch -x -D '<%= scope['::role::ldapauth::admin_dn'] %>' -w '<%= scope['::role::ldapauth::admin_password'] %>' -b '<%= scope['::role::ldapauth::base_dn'] %>' '(cn=Admin)' | grep -q 'cn: Admin'

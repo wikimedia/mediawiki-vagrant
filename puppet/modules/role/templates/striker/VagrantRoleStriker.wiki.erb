@@ -1,0 +1,81 @@
+'''Striker''' is a dashboard for managing Tool Lab tools.
+
+* Striker testing interface: http://<%= @vhost_name %><%= scope['::port_fragment'] %>/
+* OAuth wiki for Striker testing (pretend its meta): <%= scope['::mediawiki::server_url'] %>/
+* LDAP wiki for Striker testing (pretend its wikitech): http://ldapauth<%= scope['::mediawiki::multiwiki::base_domain'] %><%= scope['::port_fragment'] %>/
+* Phabricator for Striker testing: <%= @phabricator_url %>
+
+==Initial manual configuration==
+The Puppet automation for <code>role::striker</code> automates the process of installing the various software components needed to develop and test Striker, but there are some additional software configuration steps that must be performed manually.
+
+===Setup Phabricator===
+* Create admin user via the [<%= @phabricator_url %> web interface]
+** The password you set here won't ever be used.
+** You will link this account with the ldapwiki and devwiki Admin accounts once the LDAP and MediaWiki providers are configured.
+
+* [<%= @phabricator_url %>/auth/config/new/PhabricatorLDAPAuthProvider/ Configure an LDAP auth provider] connected to ldapwiki's LDAP server:
+** LDAP Hostname: <kbd>127.0.0.1</kbd>
+** Base Distinguised Name: <kbd>ou=People,dc=wmftest,dc=net</kbd>
+** Search Attributes <kbd>cn</kbd>
+
+* [<%= @phabricator_url %>/auth/link/ldap:self/ Connect admin user with ldapwiki account]
+
+* [<%= @phabricator_url %>/auth/config/new/PhabricatorMediaWikiAuthProvider/ Configure a MediaWiki auth provider] connected to devwiki:
+** MediaWiki Instance Name: <kbd>devwiki</kbd>
+** MediaWiki Base URI: <kbd><nowiki><%= scope['::mediawiki::server_url'] %></nowiki>/w</kbd>
+** Follow the links and directions given in the Phabricator page
+** Use <kbd><%= @admin_email %></kbd> as the email address for the OAuth request
+** Be sure to check the ''Allow consumer to specify a callback in requests and use "callback" URL above as a required prefix.'' checkbox when registering the OAuth consumer.
+
+* [<%= @phabricator_url %>/auth/link/mediawiki:devwiki/ Connect admin user with devwiki account]
+
+* [<%= @phabricator_url %>/people/new/bot/ Create a "striker" bot account]
+** Username: <kbd>striker</kbd>
+** Real Name: <kbd>Tool Labs helper</kbd>
+** Email: <kbd>striker@local.wmftest.net</kbd>
+
+* [<%= @phabricator_url %>/settings/2/panel/apitokens/ Generate a Conduit API token for "striker"]
+** Copy the API token for use later in [[#Setup_Striker|configuring the Striker app]]
+
+* [<%= @phabricator_url %>/project/edit/form/default/ Create a "Repository-Admins" project]
+** Name: <kbd>Repository-Admins</kbd>
+** Icon: <kbd>Group</kbd>
+** Color: <kbd>Violet</kbd>
+** Initial Members: <kbd>admin, striker</kbd>
+** Editable By: <kbd>Project Members</kbd>
+** Joinable By: <kbd>Administrators</kbd>
+
+* [<%= @phabricator_url %>/applications/edit/PhabricatorDiffusionApplication/ Configure permissions for diffusion repo management]
+** Default Edit Policy: <kbd>Repository-Admins</kbd>
+** Can Create Repositories: <kbd>Repository-Admins</kbd>
+
+* [<%= @phabricator_url %>/conduit/method/project.query/ Lookup PHID of "Repository-Admins" group]
+** Names: <kbd>["Repository-Admins"]</kbd>
+** Copy the <code>"phid"</code> value for use later in [[#Setup_Striker|configuring the Striker app]]
+
+===Setup Striker===
+* [<%= scope['::mediawiki::server_url'] %>/wiki/Special:OAuthConsumerRegistration/propose Register an OAuth consumer for Striker]
+** Application Name: <kbd>Tool Labs console</kbd>
+** OAuth callback URL: <kbd><nowiki>http:</nowiki>//<%= @vhost_name %></kbd>
+** Check the ''Allow consumer to specify a callback in requests and use "callback" URL above as a required prefix.'' checkbox.
+** Contact email address: <kbd><%= @admin_email %></kbd>
+** Types of grants being requested: <kbd>Authentication only with access to real name and email address via Special:OAuth/identify, no API access.</kbd>
+** Save consumer and secret token for use later in [[#Setup_Striker|configuring the Striker app]]
+** [<%= scope['::mediawiki::server_url'] %>/wiki/Special:OAuthManageConsumers/proposed Approve consumer]
+
+* Add your local OAuth and Phabricator configuration settings to <code>puppet/hieradata/local.yaml</code>
+:<syntaxhighlight lang="yaml">
+---
+role::striker::oauth_consumer_key: <32 char consumer token>
+role::striker::oauth_consumer_secret: <40 char secret token>
+role::striker::phabricator_token: api-<28 chars>
+role::striker::phabricator_repo_admin_group: PHID-PROJ-<20 chars>
+</syntaxhighlight>
+* Run <code>vagrant provision</code> to update Striker's configuration.
+
+==LDAP test data==
+Puppet rules in <code>role::striker</code> will populate LDAP with some basic testing data:
+* A proper inetOrgPerson/posixAccount record for the "Admin" user.
+* Two tool shared accounts (<kbd>admin</kbd> and <kbd>example</kbd>) associated with the Admin user.
+
+Additional test data can be manually added to test more tools and/or users. Accounts created on ldapauth wiki will create inetOrgPerson entries, but these entries will be missing the posixAccount specific attributes.
