@@ -1,0 +1,14 @@
+Google login requires the site domain to be registered with Google,
+which cannot be done with the usual private Vagrant domains. To set
+up, follow these steps:
+* register with Google [[mw:Extension:GoogleLogin#Settings in Google Developer Console|as described in the documentation]], using <something>.vagrantshare.com
+* create <code>/vagrant/settings.d/10-GoogleLogin.php</code> in the guest machine with the following contents:
+<pre>
+<?php
+$wgGLAppId = '<client ID given by Google>';
+$wgGLSecret = '<client secret given by Google>';
+</pre>
+* If you haven't done that yet, register an [https://atlas.hashicorp.com/vagrant Atlas] account
+* On the host machine, in the Vagrant directory, run <code>vagrant login</code> and log in with your Atlas account
+* On the host machine run <code>vagrant share --name <domain prefix> --http `vagrant config --get http_port`</code>, where <domain prefix> is the first component of the domain prefix (ie. the <something> you chose before).
+
