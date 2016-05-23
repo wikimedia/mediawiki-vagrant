@@ -39,9 +39,12 @@ class phabricator(
 
     # Add our vhost
     apache::site { $vhost_name:
-        ensure  => present,
-        content => template('phabricator/apache.conf.erb'),
-        require => Class['::apache::mod::rewrite'],
+        ensure   => present,
+        # Load before MediaWiki vhost for Labs where the MediaWiki wildcard
+        # vhost is likely to conflict with our hostname.
+        priority => 40,
+        content  => template('phabricator/apache.conf.erb'),
+        require  => Class['::apache::mod::rewrite'],
     }
 
     phabricator::config { 'mysql.host':
