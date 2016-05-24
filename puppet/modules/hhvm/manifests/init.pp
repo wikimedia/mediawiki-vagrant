@@ -58,7 +58,9 @@ class hhvm (
         'hhvm-tidy',
         'hhvm-wikidiff2',
     ]:
-        ensure => latest,
+        # T136146: temporarily only ensure that the packages are installed.
+        # FIXME: remove after hhvm build is > 3.12.1+dfsg-1
+        ensure => present,
         notify => Service['hhvm'],
     }
 
