@@ -35,10 +35,8 @@ class thumbor (
     # exiftool is needed by exif-optimizer
     require_package('libimage-exiftool-perl')
 
-    # opencv engine
-    # activate it with ENGINE='opencv_engine' in thumbor.conf.erb
-    # not used here by default because of https://github.com/thumbor/opencv-engine/issues/16
-    require_package('python-opencv')
+    # For Pillow
+    require_package('libjpeg-dev')
 
     # For GIF engine
     require_package('gifsicle')
@@ -81,9 +79,7 @@ class thumbor (
     virtualenv::environment { $deploy_dir:
         ensure   => present,
         packages => [
-            'cv2',
             'numpy',
-            'opencv-engine',
             'raven',
             'python-swiftclient',
             'git+git://github.com/gi11es/thumbor.git',
@@ -92,22 +88,14 @@ class thumbor (
         ],
         require  => [
             Package['libjpeg-progs'],
-            Package['python-opencv'],
             # Needs to be an explicit dependency, for the packages pointing to git repos
             Package['git'],
             Package['libcurl4-gnutls-dev'],
             Package['libxml2-dev'],
             Package['libxslt1-dev'],
+            Package['libjpeg-dev'],
         ],
         timeout  => 600, # This venv can be particularly long to download and setup
-    }
-
-    # Hack because pip install cv2 inside a virtualenv is broken
-    file { "${deploy_dir}/lib/python2.7/site-packages/cv2.so":
-        ensure  => present,
-        # From python-opencv
-        source  => '/usr/lib/python2.7/dist-packages/cv2.so',
-        require => Virtualenv::Environment[$deploy_dir],
     }
 
     file { "${deploy_dir}/tinyrgb.icc":
