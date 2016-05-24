@@ -20,4 +20,20 @@ spec:
           options:
             uri: 127.0.0.1:2181
             dc_name: datacenter1
-            templates: {}
+            templates:
+              summary_rerender:
+                topic: resource_change
+                match:
+                  meta:
+                    uri: '/^https?:\/\/[^\/]+\/api\/rest_v1\/page\/html\/([^\/]+)$/'
+                  tags:
+                    - restbase
+                exec:
+                  method: get
+                  # Don't encode title since it should be already encoded
+                  uri: '<%= @restbase_uri %>/{{message.meta.domain}}/v1/page/summary/{{match.meta.uri[1]}}'
+                  query:
+                    redirect: false
+                  headers:
+                    cache-control: no-cache
+

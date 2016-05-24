@@ -16,6 +16,13 @@ class changeprop(
     $log_level = undef,
 ) {
 
+    $restbase_port = defined(Class['restbase']) ? {
+        true    => $::restbase::port,
+        default => 7231,
+    }
+
+    $restbase_uri = "http://localhost:${restbase_port}"
+
     service::node { 'changeprop':
         port       => $port,
         module     => 'hyperswitch',
