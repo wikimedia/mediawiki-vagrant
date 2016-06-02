@@ -52,6 +52,16 @@ class openldap(
         require => Package['slapd'],
     }
 
+    file { '/etc/ldap/schema/rfc2307bis.schema':
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        source  => 'puppet:///modules/openldap/rfc2307bis.schema',
+        require => Package['slapd'],
+        notify  => Service['slapd'],
+    }
+
     file { '/etc/ldap/slapd.conf' :
         ensure  => present,
         owner   => 'openldap',

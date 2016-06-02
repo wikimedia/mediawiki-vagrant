@@ -9,6 +9,7 @@ include /etc/ldap/schema/cosine.schema
 include /etc/ldap/schema/inetorgperson.schema
 include /etc/ldap/schema/dyngroup.schema
 include /etc/ldap/schema/ppolicy.schema
+include /etc/ldap/schema/rfc2307bis.schema
 
 pidfile  /var/run/slapd/slapd.pid
 argsfile /var/run/slapd/slapd.args
@@ -71,16 +72,20 @@ checkpoint      512 30
 
 # ACLs
 # Allow everybody to try to bind
-access to attrs=userPassword
+access to attrs=userPassword,shadowLastChange
     by group.exact="cn=Administrators,ou=groups,<%= @suffix %>" write
-    by self =xw
+    by self write
     by anonymous auth
+    by * none
 
 # Allow admin users to manage things and authed users to read
 access to dn.children="<%= @suffix %>"
     by group.exact="cn=Administrators,ou=groups,<%= @suffix %>" write
     by users read
-    by * auth
+    by * break
 
-# Allow no access by default
-access to * by * none
+# Allow read access by default
+access to *
+    by self write
+    by * read
+

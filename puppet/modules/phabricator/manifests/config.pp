@@ -32,5 +32,6 @@ define phabricator::config(
             Git::Clone['phabricator'],
             Package['jq'],
         ],
+        before  => Service['phd'],
     }
 }

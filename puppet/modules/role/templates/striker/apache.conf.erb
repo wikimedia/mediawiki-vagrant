@@ -1,0 +1,38 @@
+ServerName <%= @vhost_name %>
+DocumentRoot <%= @app_dir %>
+
+SetEnv DJANGO_SETTINGS_MODULE vagrant_settings
+SetEnv DJANGO_LOG_LEVEL DEBUG
+SetEnv DJANGO_DEBUG True
+
+WSGIDaemonProcess striker python-path=<%= @app_dir %>:<%= @venv %>/lib/python2.7/site-packages home=<%= @app_dir %> display-name=%{GROUP} threads=8
+WSGIProcessGroup striker
+WSGIScriptAlias / <%= @deploy_dir %>/striker/striker/wsgi.py process-group=striker
+
+<Directory />
+  Options FollowSymLinks
+  AllowOverride None
+  Require all denied
+</Directory>
+
+<Directory <%= @app_dir %>>
+  Options +FollowSymLinks -Indexes
+  Require all granted
+</Directory>
+
+Alias /static/ <%= @app_dir %>/staticfiles/
+
+<Directory <%= @app_dir %>/staticfiles>
+  Options -Indexes
+  Require all granted
+</Directory>
+
+# CORS header required for fonts to work
+# https://davidwalsh.name/cdn-fonts
+<FilesMatch ".+\.(eot|ttf|otf|woff)$">
+  Header set Access-Control-Allow-Origin "*"
+</FilesMatch>
+
+LogLevel info
+ErrorLog <%= @log_dir %>/striker/error.log
+CustomLog <%= @log_dir %>/striker/access.log common

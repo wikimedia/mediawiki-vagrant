@@ -1,0 +1,56 @@
+/usr/bin/ldapadd -x -D "<%= scope['::role::ldapauth::admin_dn'] %>" -w "<%= scope['::role::ldapauth::admin_password'] %>" <<LIDF
+dn: ou=servicegroups,<%= scope['::role::ldapauth::base_dn'] %>
+objectclass: organizationalUnit
+ou: servicegroups
+objectClass: top
+description: Tools
+
+dn: cn=Admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+objectClass: person
+objectClass: inetOrgPerson
+objectClass: organizationalPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+objectClass: top
+cn: Admin
+sn: Admin
+uid: admin
+mail: ldapadmin@local.wmftest.net
+userPassword: vagrant
+uidNumber: 1001
+gidNumber: 1001
+homeDirectory: /home/admin
+loginShell: /bin/bash
+
+dn: cn=wmf,ou=groups,<%= scope['::role::ldapauth::base_dn'] %>
+objectClass: groupOfNames
+objectClass: posixGroup
+objectClass: top
+cn: wmf
+gidNumber: 5001
+member: cn=Admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+
+dn: cn=project-tools,ou=groups,<%= scope['::role::ldapauth::base_dn'] %>
+objectClass: groupOfNames
+objectClass: posixGroup
+objectClass: top
+cn: project-tools
+gidNumber: 5002
+member: cn=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+
+dn: cn=tools.admin,ou=servicegroups,<%= scope['::role::ldapauth::base_dn'] %>
+objectClass: groupOfNames
+objectClass: posixGroup
+objectClass: top
+cn: tools.admin
+gidNumber: 50001
+member: cn=Admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+
+dn: cn=tools.example,ou=servicegroups,<%= scope['::role::ldapauth::base_dn'] %>
+objectClass: groupOfNames
+objectClass: posixGroup
+objectClass: top
+cn: tools.example
+gidNumber: 50002
+member: cn=Admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+LIDF
