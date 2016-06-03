@@ -17,6 +17,7 @@ $wgMWLoggerDefaultSpi['args'][0]['handlers']['kafka'] = array(
 			'alias' => array(),
 			'swallowExceptions' => false,
 			'logExceptions' => null,
+			'requireAck' => 1,
 		)
 	),
 	'formatter' => 'avro',
