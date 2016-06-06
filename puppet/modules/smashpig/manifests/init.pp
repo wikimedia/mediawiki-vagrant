@@ -20,8 +20,8 @@ class smashpig(
         update => true,
     }
 
-    file { "${dir}/config.php":
-        content => template('smashpig/config.php.erb'),
+    file { '/etc/fundraising/SmashPig.yaml':
+        content => template('smashpig/SmashPig.yaml.erb'),
         require => [
             Git::Clone['wikimedia/fundraising/SmashPig'],
         ],
@@ -41,7 +41,7 @@ class smashpig(
         ensure  => present,
         content => template('smashpig/apache-site.erb'),
         require => [
-            File["${dir}/config.php"],
+            File['/etc/fundraising/SmashPig.yaml'],
             File["${dir}/PublicHttp/.htaccess"],
             Class['::apache::mod::rewrite'],
         ],
