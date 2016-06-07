@@ -1,5 +1,17 @@
 //<?php
-$wgAuth = new LdapAuthenticationPlugin();
+if ( class_exists( MediaWiki\Auth\AuthManager::class ) && empty( $wgDisableAuthManager ) ) {
+	$wgAuthManagerAutoConfig['primaryauth'] += [
+		LdapPrimaryAuthenticationProvider::class => [
+			'class' => LdapPrimaryAuthenticationProvider::class,
+			'args' => [ [
+				'authoritative' => true, // don't allow local non-LDAP accounts
+			] ],
+			'sort' => 50, // must be smaller than local pw provider
+		],
+	];
+} else {
+	$wgAuth = new LdapAuthenticationPlugin();
+}
 
 $wgLDAPDomainNames = array( 'ldap' );
 $wgLDAPServerNames = array( 'ldap' => '127.0.0.1' );
