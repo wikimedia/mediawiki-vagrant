@@ -1,0 +1,15 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+description "Kafka Broker"
+
+start on mediawiki-ready
+respawn
+
+setuid kafka
+setgid kafka
+
+env KAFKA_HEAP_OPTS="-Xmx164m -Xmx164m"
+
+exec /usr/bin/kafka-server-start /etc/kafka/server.properties
