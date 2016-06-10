@@ -16,11 +16,15 @@ class role::confirmedit {
     $key      = 'FOO'
 
     mediawiki::extension { 'ConfirmEdit':
-        notify => Exec['generate_captchas'],
+        settings => [
+          # Skip captcha for users with confirmed emails
+          '$wgGroupPermissions["emailconfirmed"]["skipcaptcha"] = true;',
+          '$ceAllowConfirmedEmail = true;',
+        ],
     }
 
     mediawiki::settings { 'ConfirmEdit FancyCaptcha':
-        header   => 'require_once "$IP/extensions/ConfirmEdit/FancyCaptcha.php";',
+        header   => 'wfLoadExtension( "ConfirmEdit/FancyCaptcha" ); $wmvActiveExtensions[] = "FancyCaptcha";',
         values   => {
             wgCaptchaClass           => 'FancyCaptcha',
             wgCaptchaDirectory       => '$IP/images/temp/captcha',
@@ -29,6 +33,7 @@ class role::confirmedit {
         },
         priority => 11,
         require  => MediaWiki::Extension['ConfirmEdit'],
+        notify   => Exec['generate_captchas'],
     }
 
     file { [ "${::mediawiki::dir}/images/temp", $output ]:

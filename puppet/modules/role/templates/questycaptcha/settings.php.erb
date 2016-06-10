@@ -1,0 +1,48 @@
+// Load QuestyCaptcha plugin
+wfLoadExtension( 'ConfirmEdit/QuestyCaptcha' );
+$wmvActiveExtensions[] = 'QuestyCaptcha';
+
+// Set QuestyCaptcha as the active captcha
+$wgCaptchaClass = 'QuestyCaptcha';
+
+$wgCaptchaQuestions = array();
+$wgCaptchaQuestions[] = array(
+	'question' => 'What month is it at Greenwich Mean Time (GMT) right now? (https://tools.wmflabs.org/gmt/)',
+	'answer' => gmdate( 'F' ),
+);
+$wgCaptchaQuestions[] = array(
+	'question' => 'What day of the week is it at Greenwich Mean Time (GMT) right now? (https://tools.wmflabs.org/gmt/)',
+	'answer' => gmdate( 'l' ),
+);
+$wgCaptchaQuestions[] = array(
+	'question' => 'What week of the year is it at Greenwich Mean Time (GMT) right now? (https://tools.wmflabs.org/gmt/)',
+	'answer' => gmdate( 'W' ),
+);
+$wgCaptchaQuestions[] = array(
+	'question' => 'What day of the year is it at Greenwich Mean Time (GMT) right now? (https://tools.wmflabs.org/gmt/)',
+	'answer' => gmdate( 'z' ),
+);
+$wgCaptchaQuestions[] = array(
+	'question' => 'What hour in 24-hour format is it at Greenwich Mean Time (GMT) right now? (https://tools.wmflabs.org/gmt/)',
+	'answer' => gmdate( 'G' ),
+);
+
+$qcg = array(
+	'n' => array(
+		'zero', 'one', 'two', 'three', 'four',
+		'five', 'six', 'seven', 'eight', 'nine',
+	),
+	'min' => array( mt_rand( 0, 9 ), mt_rand( 0, 9 ) ),
+	'max' => array( mt_rand( 0, 9 ), mt_rand( 0, 9 ) ),
+);
+$qcg['min'][] = min( $qcg['min'][0], $qcg['min'][1] );
+$qcg['max'][] = max( $qcg['max'][0], $qcg['max'][1] );
+
+$wgCaptchaQuestions[] = array(
+	'question' => "Which is smaller, {$qcg['n'][$qcg['min'][0]]} or {$qcg['n'][$qcg['min'][1]]}?",
+	'answer' => $qcg['n'][$qcg['min'][2]],
+);
+$wgCaptchaQuestions[] = array(
+	'question' => "Which is larger, {$qcg['n'][$qcg['max'][0]]} or {$qcg['n'][$qcg['max'][1]]}?",
+	'answer' => $qcg['n'][$qcg['max'][2]],
+);
