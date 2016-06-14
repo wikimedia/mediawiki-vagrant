@@ -20,9 +20,7 @@ class payments::donation_interface {
       wgDonationInterfaceEnableReferrerFilter  => true,
       wgDonationInterfaceEnableSourceFilter    => true,
 
-      # FIXME: Causes failure to run GlobalCollect, because
-      # donation.api.php will rely on a test class.
-      wgDonationInterfaceTestMode              => false,
+      wgDonationInterfaceTest                  => true,
 
       wgAdyenGatewayAccountInfo                => {
         'test' => {
