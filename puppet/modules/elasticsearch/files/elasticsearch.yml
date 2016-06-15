@@ -1,3 +1,0 @@
-# This file managed by puppet
-## Use short-text langdetect profile
-profile: "/langdetect/short-text/"

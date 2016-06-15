@@ -23,45 +23,30 @@ class role::cirrussearch {
 
     # Elasticsearch plugins
     ## Analysis
-    elasticsearch::plugin { 'icu':
-        name    => 'elasticsearch-analysis-icu',
-        version => '2.7.0',
+    elasticsearch::plugin { 'analysis-icu':
+        core => true,
     }
-    elasticsearch::plugin { 'kuromoji':
-        name    => 'elasticsearch-analysis-kuromoji',
-        version => '2.7.0',
+    elasticsearch::plugin { 'analysis-kuromoji':
+        core => true,
     }
-    elasticsearch::plugin { 'stempel':
-        name    => 'elasticsearch-analysis-stempel',
-        version => '2.7.0',
+    elasticsearch::plugin { 'analysis-stempel':
+        core => true,
     }
-    elasticsearch::plugin { 'smartcn':
-        name    => 'elasticsearch-analysis-smartcn',
-        version => '2.7.0',
+    elasticsearch::plugin { 'analysis-smartcn':
+        core => true,
     }
-    elasticsearch::plugin { 'hebrew':
+    elasticsearch::plugin { 'elasticsearch-analysis-hebrew':
         # Less stable then icu plugin
-        ensure => 'absent',
-        name   => 'elasticsearch-analysis-hebrew',
+        ensure => absent,
     }
     ## Highlighter
-    elasticsearch::plugin { 'highlighter':
-        group   => 'org.wikimedia.search.highlighter',
-        name    => 'experimental-highlighter-elasticsearch-plugin',
-        version => '1.7.0',
+    elasticsearch::plugin { 'experimental-highlighter-elasticsearch-plugin':
+        group  => 'org.wikimedia.search.highlighter',
+        esname => 'experimental-highlighter',
     }
     ## Trigram accelerated regular expressions, "safer" query, and friends
     elasticsearch::plugin { 'extra':
-        group   => 'org.wikimedia.search',
-        name    => 'extra',
-        version => '1.7.1',
-    }
-    ## Language detection plugin ( built from https://github.com/jprante/elasticsearch-langdetect )
-    elasticsearch::plugin { 'langdetect':
-        group   => 'org.xbib.elasticsearch.plugin',
-        name    => 'elasticsearch-langdetect',
-        version => '1.7.0.0',
-        url     => 'https://archiva.wikimedia.org/repository/releases/org/xbib/elasticsearch/plugin/elasticsearch-langdetect/1.7.0.0/elasticsearch-langdetect-1.7.0.0.zip'
+        group => 'org.wikimedia.search',
     }
 
     mediawiki::wiki { 'cirrustest': }
