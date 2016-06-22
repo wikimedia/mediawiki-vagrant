@@ -1,0 +1,42 @@
+---
+
+- name: Add ppa:brightbox/ruby-ng
+  apt_repository: repo=ppa:brightbox/ruby-ng
+
+- name: Remove Ruby
+  apt: name={{item}} state=absent
+  with_items:
+    - ruby1.9.1
+    - ruby1.8
+    - ruby2.0
+
+- name: Install APT packages
+  apt: name={{item}}
+    state=latest
+    update_cache=yes
+    force=yes
+  with_items:
+    - ruby2.2
+    - ruby2.2-dev
+    - rubygems
+    - rubygems1.8
+    - xorg
+    - xfce4
+    - lightdm
+    - lightdm-gtk-greeter
+
+  # https://groups.google.com/forum/#!topic/ansible-project/3FXbOmOdJs8
+- name: Install Ruby Bundler
+  command: gem install bundler
+
+- name: Install Gems
+  command: bundle install
+    chdir=/vagrant/mediawiki/tests/browser
+
+- name: Download Firefox 45
+  get_url: url=https://sourceforge.net/projects/ubuntuzilla/files/mozilla/apt/pool/main/f/firefox-mozilla-build/firefox-mozilla-build_45.0.2-0ubuntu1_amd64.deb
+    dest=/vagrant/firefox-mozilla-build_45.0.2-0ubuntu1_amd64.deb
+    mode=0440
+
+- name: Install Firefox 45
+  command: dpkg -i /vagrant/firefox-mozilla-build_45.0.2-0ubuntu1_amd64.deb

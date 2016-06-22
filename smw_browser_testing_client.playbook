@@ -1,0 +1,7 @@
+---
+
+- hosts: all
+  sudo: True
+  gather_facts: False
+  roles:
+    - smw-browser-testing-client

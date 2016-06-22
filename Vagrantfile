@@ -271,6 +271,11 @@ Vagrant.configure('2') do |config|
       puppet.facter['host_ip'] = network.to_range.take(2).last.to_s
     end
   end
+
+  config.vm.provision "ansible_local" do |ansible|
+    ansible.playbook = "smw_browser_testing_client.playbook"
+  end
+
 end
 
 
