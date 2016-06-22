@@ -274,6 +274,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision "shell" do |s|
     # http://stackoverflow.com/questions/35299304/automatically-installing-and-running-ansible-local-via-vagrant
+    # https://github.com/mitchellh/vagrant/commit/9dbdb9397a92d4fc489e9afcb022621df7f60d11
     s.inline = '[[ ! -f $1 ]] || grep -F -q "$2" $1 || sed -i "/__main__/a \\    $2" $1'
     s.args = ['/usr/bin/ansible-galaxy', "if sys.argv == ['/usr/bin/ansible-galaxy', '--help']: sys.argv.insert(1, 'info')"]
   end
@@ -283,8 +284,6 @@ Vagrant.configure('2') do |config|
   end
 
 end
-
-
 
 # Migrate {apt,composer}-cache to cache/{apt,composer}
 ['apt', 'composer'].each do |type|
