@@ -31,7 +31,9 @@ See `support/README-libvirt.md` `support/README-lxc.md` or
      vagrant --version
 
    in a directory without a Vagrantfile (e.g. in your home directory).
- * Hardware virtualization extensions must be enabled in your host computer
+ * You must have a 64-bit processor (although your host OS can be 32-bit).
+
+   Hardware virtualization extensions must be enabled in your host computer
    BIOS. The BIOS setting is usually in the "Chipset", "Processor", "CPU", or
    "Security Settings" menu and may be labeled as "VT-x", "Intel
    Virtualization Technology", "Virtualization Extensions", "Vanderpool"

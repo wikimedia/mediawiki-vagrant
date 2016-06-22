@@ -9,6 +9,11 @@ USB drive.
 Installation instructions
 -------------------------
 
+You must have a 64-bit processor (though your host OS can be 32-bit),
+with hardware virtualization support enabled.  Many recent machines will have
+this feature available, but you may need to turn it on.
+See https://phabricator.wikimedia.org/diffusion/MWVA/browse/master/README.md for details.
+
 NOTE: You can replace ~/Vagrant with your choice of directory, but
 mediawiki must be directly underneath.
 
@@ -90,7 +95,7 @@ http://127.0.0.1:8080/ .
 Other resources
 ---------------
 
-For further information, see ~/Vagrant/README,
+For further information, see ~/Vagrant/README.md,
 https://www.mediawiki.org/wiki/Gerrit/Tutorial and
 https://www.mediawiki.org/wiki/MediaWiki-Vagrant .  You should follow
 the steps above, rather than the installation instructions from the
