@@ -35,8 +35,8 @@
 
 - name: Download Firefox 45
   get_url: url=https://sourceforge.net/projects/ubuntuzilla/files/mozilla/apt/pool/main/f/firefox-mozilla-build/firefox-mozilla-build_45.0.2-0ubuntu1_amd64.deb
-    dest=/vagrant/firefox-mozilla-build_45.0.2-0ubuntu1_amd64.deb
+    dest=/tmp/firefox-mozilla-build_45.0.2-0ubuntu1_amd64.deb
     mode=0440
 
 - name: Install Firefox 45
-  command: dpkg -i /vagrant/firefox-mozilla-build_45.0.2-0ubuntu1_amd64.deb
+  command: dpkg -i /tmp/firefox-mozilla-build_45.0.2-0ubuntu1_amd64.deb
