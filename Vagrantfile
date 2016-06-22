@@ -272,6 +272,12 @@ Vagrant.configure('2') do |config|
     end
   end
 
+  config.vm.provision "shell" do |s|
+    # http://stackoverflow.com/questions/35299304/automatically-installing-and-running-ansible-local-via-vagrant
+    s.inline = '[[ ! -f $1 ]] || grep -F -q "$2" $1 || sed -i "/__main__/a \\    $2" $1'
+    s.args = ['/usr/bin/ansible-galaxy', "if sys.argv == ['/usr/bin/ansible-galaxy', '--help']: sys.argv.insert(1, 'info')"]
+  end
+
   config.vm.provision "ansible_local" do |ansible|
     ansible.playbook = "smw_browser_testing_client.playbook"
   end
