@@ -1,12 +1,15 @@
 $wgFileBackends[] = array(
-	'name'           => 'swift-backend',
-	'class'          => 'SwiftFileBackend',
-	'lockManager'    => 'nullLockManager',
-	'fileMode'       => 0644,
-	'basePath'       => $IP . '/images/gwtoolset',
-	'swiftAuthUrl'   => '127.0.0.1:<%= scope['::swift::port'] %>/auth',
-	'swiftUser'      => '<%= scope['::swift::project'] %>:<%= scope['::swift::user'] %>',
-	'swiftKey'       => '<%= scope['::swift::key'] %>',
+	'name'               => 'swift-backend',
+	'class'              => 'SwiftFileBackend',
+	'lockManager'        => 'nullLockManager',
+	'swiftAuthUrl'       => '127.0.0.1:<%= scope['::swift::port'] %>/auth',
+	'swiftUser'          => '<%= scope['::swift::project'] %>:<%= scope['::swift::user'] %>',
+	'swiftKey'           => '<%= scope['::swift::key'] %>',
+	'wikiId'             => 'wiki-en',
+	'shardViaHashLevels' => array(
+		'local-public' => array( 'levels' => 2, 'base' => 16, 'repeat' => 1 ),
+		'local-thumb'  => array( 'levels' => 2, 'base' => 16, 'repeat' => 1 ),
+	),
 );
 
 $wgLocalFileRepo = array(
@@ -22,4 +25,5 @@ $wgLocalFileRepo = array(
 	'transformVia404'   => !$wgGenerateThumbnailOnParse,
 	'deletedDir'        => $wgDeletedDirectory,
 	'deletedHashLevels' => $wgHashedUploadDirectory ? 3 : 0,
+	'wikiId'            => 'wiki-en',
 );

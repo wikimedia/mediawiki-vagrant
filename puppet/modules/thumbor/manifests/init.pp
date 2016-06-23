@@ -124,6 +124,7 @@ class thumbor (
     thumbor::service { $ports:
         deploy_dir => $deploy_dir,
         cfg_file   => $cfg_file,
+        notify     => Exec['create-swift-thumbnail-containers'],
     }
 
     varnish::backend { 'swift':
@@ -135,5 +136,21 @@ class thumbor (
     varnish::config { 'thumbor':
         content => template('thumbor/varnish.vcl.erb'),
         order   => 49, # Needs to be before default for vcl_recv override
+    }
+
+    $port = $::swift::port
+    $project = $::swift::project
+    $user = $::swift::user
+    $key = $::swift::key
+
+    # Since thumbor doesn't have the ability to create swift containers, we have to
+    # create the sharded thumbnail containers ahead of time.
+    exec { 'create-swift-thumbnail-containers':
+        command     => '/usr/local/bin/mwscript extensions/WikimediaMaintenance/filebackend/setZoneAccess.php --wiki wiki --backend swift-backend',
+        unless      => "swift -A http://127.0.0.1:${port}/auth/v1.0 -U ${project}:${user} -K ${key} list wiki-en-local-public.00 2>&1 | grep -Pqv 'not found'",
+        refreshonly => true,
+        require     => [
+            Exec['swift-init'],
+        ]
     }
 }

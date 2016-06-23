@@ -23,9 +23,6 @@ $wgLocalFileRepo = array(
                 'tif' => 'http://127.0.0.1:6081' . $wgUploadPath . '/thumb',
             ),
         ),
-        'public' => array(
-            'container' => '<%= scope['::swift::public_container'] %>',
-        ),
     ),
     'hashLevels'        => $wgHashedUploadDirectory ? 2 : 0,
     'thumbScriptUrl'    => $wgThumbnailScriptPath,
@@ -33,4 +30,5 @@ $wgLocalFileRepo = array(
     'deletedDir'        => $wgDeletedDirectory,
     'deletedHashLevels' => $wgHashedUploadDirectory ? 3 : 0,
     'supportsSha1URLs'  => true,
+    'wikiId'            => 'wiki-en',
 );
