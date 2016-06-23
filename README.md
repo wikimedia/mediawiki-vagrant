@@ -43,6 +43,10 @@ See `support/README-libvirt.md` `support/README-lxc.md` or
 
     sudo apt-get install nfs-kernel-server portmap
 
+   You can optionally configure sudo not to prompt you for the password when
+   doing operations related to this NFS service.  See
+   https://www.vagrantup.com/docs/synced-folders/nfs.html#root-privilege-requirement
+
 Next, you'll need a copy of the mediawiki-vagrant project files.
 
  * zip: https://git.wikimedia.org/zip/?r=mediawiki/vagrant.git&h=HEAD&format=zip
