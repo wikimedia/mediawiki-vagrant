@@ -1,7 +1,9 @@
 ServerName <%= @vhost_name %>
 DocumentRoot <%= @app_dir %>
 
+# Enable wsgi automatic reload magic
 SetEnv DJANGO_DEBUG True
+
 WSGIDaemonProcess striker python-path=<%= @app_dir %>:<%= @venv %>/lib/python2.7/site-packages home=<%= @app_dir %> display-name=%{GROUP} threads=8
 WSGIProcessGroup striker
 WSGIScriptAlias / <%= @deploy_dir %>/striker/striker/wsgi.py process-group=striker
@@ -18,6 +20,8 @@ WSGIScriptAlias / <%= @deploy_dir %>/striker/striker/wsgi.py process-group=strik
 </Directory>
 
 Alias /static/ <%= @app_dir %>/staticfiles/
+Alias /favicon.ico <%= @app_dir %>/staticfiles/img/favicon.ico
+Alias /robots.txt <%= @app_dir %>/staticfiles/robots.txt
 
 <Directory <%= @app_dir %>/staticfiles>
   Options -Indexes
