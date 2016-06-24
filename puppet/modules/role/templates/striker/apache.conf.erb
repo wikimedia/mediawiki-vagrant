@@ -1,10 +1,7 @@
 ServerName <%= @vhost_name %>
 DocumentRoot <%= @app_dir %>
 
-SetEnv DJANGO_SETTINGS_MODULE vagrant_settings
-SetEnv DJANGO_LOG_LEVEL DEBUG
 SetEnv DJANGO_DEBUG True
-
 WSGIDaemonProcess striker python-path=<%= @app_dir %>:<%= @venv %>/lib/python2.7/site-packages home=<%= @app_dir %> display-name=%{GROUP} threads=8
 WSGIProcessGroup striker
 WSGIScriptAlias / <%= @deploy_dir %>/striker/striker/wsgi.py process-group=striker

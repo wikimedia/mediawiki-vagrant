@@ -1,0 +1,47 @@
+# Managed by Puppet.
+# See puppet/modules/role/templates/striker/striker.ini.erb
+
+[secrets]
+# Not so secret secret key
+SECRET_KEY = &tse*xh73ad^#d+v%%rb18wp2ab%sj5xv1t7&zyj%bma=^h@g_
+
+[debug]
+DEBUG = true
+
+[ldap]
+SERVER_URI = ldap://127.0.0.1:389
+BIND_USER = <%= scope['::role::ldapauth::writer_dn'] %>
+BIND_PASSWORD = <%= scope['::role::ldapauth::writer_password'] %>
+TLS = false
+
+BASE_DN = <%= scope['::role::ldapauth::base_dn'] %>
+USER_DN_TEMPLATE = cn=%(user)s,<%= scope['::role::ldapauth::user_base_dn'] %>
+STAFF_GROUP_DN = cn=wmf,ou=groups,<%= scope['::role::ldapauth::base_dn'] %>
+SUPERUSER_GROUP_DN = cn=tools.admin,ou=servicegroups,<%= scope['::role::ldapauth::base_dn'] %>
+
+TOOLS_MAINTAINER_BASE_DN = ou=people,<%= scope['::role::ldapauth::base_dn'] %>
+TOOLS_TOOL_BASE_DN = ou=servicegroups,<%= scope['::role::ldapauth::base_dn'] %>
+
+[oauth]
+MWURL = <%= scope['::mediawiki::server_url'] %>/w/index.php
+CONSUMER_KEY = <%= @oauth_consumer_key %>
+CONSUMER_SECRET = <%= @oauth_consumer_secret %>
+
+[phabricator]
+SERVER_URL = <%= @phabricator_url %>
+USER = <%= @phabricator_user %>
+TOKEN = <%= @phabricator_token %>
+REPO_ADMIN_GROUP = <%= @phabricator_repo_admin_group %>
+
+[db]
+ENGINE = django.db.backends.mysql
+NAME = <%= @db_name %>
+USER = <%= @db_user %>
+PASSWORD = <%= @db_pass %>
+HOST = 127.0.0.1
+PORT = 3306
+
+[logging]
+HANDLERS = file
+LEVEL = DEBUG
+FILE_FILENAME = <%= @log_dir %>/striker/django.log

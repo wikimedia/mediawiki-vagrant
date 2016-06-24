@@ -101,8 +101,18 @@ class role::striker(
     }
 
     # Configure striker
-    file { "${app_dir}/vagrant_settings.py":
-        content => template('role/striker/vagrant_settings.py.erb'),
+    file { '/etc/striker':
+        ensure => 'directory',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0555',
+    }
+    file { '/etc/striker/striker.ini':
+        ensure  => 'present',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0555',
+        content => template('role/striker/striker.ini.erb'),
         require => [
             Git::Clone['striker'],
             Class['::phabricator'],
@@ -122,25 +132,23 @@ class role::striker(
     }
 
     exec { 'striker manage.py migrate':
-        cwd         => $app_dir,
-        command     => "${venv}/bin/python manage.py migrate",
-        environment => 'DJANGO_SETTINGS_MODULE=vagrant_settings',
-        require     => [
+        cwd     => $app_dir,
+        command => "${venv}/bin/python manage.py migrate",
+        require => [
             Mysql::User[$db_user],
-            File["${app_dir}/vagrant_settings.py"],
+            File['/etc/striker/striker.ini'],
         ],
-        onlyif      => "${venv}/bin/python manage.py showmigrations --plan | /bin/grep -q '\\[ \\]'",
+        onlyif  => "${venv}/bin/python manage.py showmigrations --plan | /bin/grep -q '\\[ \\]'",
     }
 
     exec { 'striker manage.py collectstatic':
-        cwd         => $app_dir,
-        command     => "${venv}/bin/python manage.py collectstatic --noinput",
-        environment => 'DJANGO_SETTINGS_MODULE=vagrant_settings',
-        require     => [
+        cwd     => $app_dir,
+        command => "${venv}/bin/python manage.py collectstatic --noinput",
+        require => [
             Mysql::User[$db_user],
-            File["${app_dir}/vagrant_settings.py"],
+            File['/etc/striker/striker.ini'],
         ],
-        unless      => "${venv}/bin/python manage.py collectstatic --noinput --dry-run| grep -q '^0 static'",
+        unless  => "${venv}/bin/python manage.py collectstatic --noinput --dry-run| grep -q '^0 static'",
     }
 
     apache::site { $vhost_name:
