@@ -40,6 +40,7 @@ contenttranslation::view_template: "//$1%{hiera('mediawiki::multiwiki::base_doma
 contenttranslation::action_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/index.php?title=$2"
 contenttranslation::api_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/api.php"
 contenttranslation::cx_template: "//127.0.0.1:%{::contenttranslation::cxserver::port}/v1"
+contenttranslation::database_host: "%{hiera('mysql::grant_host_name')}"
 contenttranslation::database: 'contenttranslation'
 contenttranslation::database_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 contenttranslation::database_password: "%{hiera('mysql::root_password')}"

@@ -87,7 +87,7 @@ class contenttranslation(
     $action_template,
     $api_template,
     $cx_template,
-    $database_host = $::mysql::grant_host_name,
+    $database_host,
     $database,
     $database_user,
     $database_password,
