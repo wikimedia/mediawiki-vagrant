@@ -150,7 +150,7 @@ module MediaWikiVagrant
     #
     def roles_available
       manifests = Dir[module_path('role/manifests/*.pp')]
-      manifests.map! { |file| File.read(file).match(/^class\s*role::(\w+)/) { |m| m[1] } }
+      manifests.map! { |file| File.read(file, encoding: 'utf-8').match(/^class\s*role::(\w+)/) { |m| m[1] } }
       manifests.compact.sort.uniq - ['generic', 'mediawiki', 'labs_initial_content']
     end
 
