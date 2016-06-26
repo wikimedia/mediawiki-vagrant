@@ -24,6 +24,7 @@ class misc {
 
     # Install generally useful packages
     package { [
+        'ansible',
         'ack-grep',
         'curl',
         'htop',
