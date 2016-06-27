@@ -38,6 +38,9 @@ class role::graph {
                     'query.wikidata.org',
                     'wdqs-test.wmflabs.org',
                 ],
+                geoshape       => [
+                    'maps.wikimedia.org',
+                ],
             },
         },
     }
