@@ -41,11 +41,13 @@ PASSWORD = <%= @db_pass %>
 HOST = 127.0.0.1
 PORT = 3306
 
-<% if @xff_trusted_hosts %>
+<% if @use_xff -%>
 [xff]
 USE_XFF_HEADER = true
+<% if @xff_trusted_hosts -%>
 TRUSTED_PROXY_LIST = <%= @xff_trusted_hosts.join(' ') %>
-<% end %>
+<% end -%>
+<% end -%>
 
 [logging]
 HANDLERS = file

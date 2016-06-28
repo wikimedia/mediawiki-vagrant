@@ -370,6 +370,7 @@ role::striker::phabricator_url: "http://%{hiera('phabricator::vhost_name')}%{::p
 role::striker::phabricator_user: striker
 role::striker::phabricator_token: "!Set in local.yaml after creating bot!"
 role::striker::phabricator_repo_admin_group: "!Set in local.yaml after creating group!"
+role::striker::use_xff: false
 
 role::oauth::dir: "%{hiera('mwv::services_dir')}/oauth-hello-world"
 role::oauth::secret_key: 292ed299345a01c1c0520b60f628c01ea817a0b3372b89dbb7637a2f678d018a

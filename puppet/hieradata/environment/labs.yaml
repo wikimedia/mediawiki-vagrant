@@ -5,4 +5,4 @@ mwv::tld: '-%{::vmhost}.wmflabs.org'
 role::mediawiki::hostname: "%{::vmhost}.wmflabs.org"
 mediawiki::multiwiki::base_domain: "-%{::vmhost}.wmflabs.org"
 
-role::striker::xff_trusted_hosts: ['10.68.21.68']
+role::striker::use_xff: true

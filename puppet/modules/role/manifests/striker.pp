@@ -43,6 +43,9 @@
 # [*phabricator_repo_admin_group*]
 #   PHID of git repository administrators group
 #
+# [*use_xff*]
+#   Use X-Forwared-For provided IP address for rate limiting
+#
 # [*xff_trusted_hosts*]
 #   Upstream proxies to trust for X-Forwared-For data
 #
@@ -59,6 +62,7 @@ class role::striker(
     $phabricator_user,
     $phabricator_token,
     $phabricator_repo_admin_group,
+    $use_xff,
     $xff_trusted_hosts             = undef,
 ){
     require ::role::mediawiki
