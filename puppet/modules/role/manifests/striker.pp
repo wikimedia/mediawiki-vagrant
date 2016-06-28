@@ -43,6 +43,9 @@
 # [*phabricator_repo_admin_group*]
 #   PHID of git repository administrators group
 #
+# [*xff_trusted_hosts*]
+#   Upstream proxies to trust for X-Forwared-For data
+#
 class role::striker(
     $deploy_dir,
     $log_dir,
@@ -56,11 +59,13 @@ class role::striker(
     $phabricator_user,
     $phabricator_token,
     $phabricator_repo_admin_group,
+    $xff_trusted_hosts             = undef,
 ){
     require ::role::mediawiki
     include ::role::oauth
     include ::role::ldapauth
     include ::apache::mod::wsgi
+    include ::memcached
 
     file { "${log_dir}/striker":
         ensure => 'directory',

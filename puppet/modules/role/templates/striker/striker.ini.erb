@@ -41,6 +41,12 @@ PASSWORD = <%= @db_pass %>
 HOST = 127.0.0.1
 PORT = 3306
 
+<% if @xff_trusted_hosts %>
+[xff]
+USE_XFF_HEADER = true
+TRUSTED_PROXY_LIST = <%= @xff_trusted_hosts.join(' ') %>
+<% end %>
+
 [logging]
 HANDLERS = file
 LEVEL = DEBUG
