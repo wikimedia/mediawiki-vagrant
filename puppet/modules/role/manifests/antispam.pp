@@ -2,21 +2,9 @@
 # Installs and sets up AntiSpoof, AbuseFilter, SpamBlacklist, and the
 # TitleBlacklist extensions
 class role::antispam {
+    include ::role::abusefilter
     include ::role::antispoof
     include ::role::titleblacklist
-
-    mediawiki::extension { 'AbuseFilter':
-        needs_update => true,
-        settings     => [
-            '$wgGroupPermissions["sysop"]["abusefilter-modify"] = true',
-            '$wgGroupPermissions["*"]["abusefilter-log-detail"] = true',
-            '$wgGroupPermissions["*"]["abusefilter-view"] = true',
-            '$wgGroupPermissions["*"]["abusefilter-log"] = true',
-            '$wgGroupPermissions["sysop"]["abusefilter-private"] = true',
-            '$wgGroupPermissions["sysop"]["abusefilter-modify-restricted"] = true',
-            '$wgGroupPermissions["sysop"]["abusefilter-revert"] = true',
-        ],
-    }
 
     mediawiki::extension { 'SpamBlacklist':
         settings => {
