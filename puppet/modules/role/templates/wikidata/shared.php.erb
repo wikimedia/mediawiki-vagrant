@@ -4,10 +4,10 @@ if ( $wmgUseWikibaseRepo ) {
 	$wgNamespaceAliases['Item_talk'] = NS_TALK;
 
 	// Tell Wikibase which namespace to use for which kind of entity
-	$wgWBRepoSettings['entityNamespaces']['wikibase-item'] = NS_MAIN;
+	$wgWBRepoSettings['entityNamespaces']['item'] = NS_MAIN;
 	define( 'WB_NS_PROPERTY', 122 );
 	define( 'WB_NS_PROPERTY_TALK', 123 );
-	$wgWBRepoSettings['entityNamespaces']['wikibase-property'] = WB_NS_PROPERTY;
+	$wgWBRepoSettings['entityNamespaces']['property'] = WB_NS_PROPERTY;
 
 	// Register extra namespaces.
 	$wgWBNamespaces[WB_NS_PROPERTY] = 'Property';
