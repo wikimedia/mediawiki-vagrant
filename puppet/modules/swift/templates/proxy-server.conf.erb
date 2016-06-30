@@ -32,7 +32,6 @@ use = egg:swift#memcache
 account = AUTH_<%= scope['::swift::project'] %>
 # the name of the scaler cluster.
 thumbhost = 127.0.0.1:8080
-thumborhost = 127.0.0.1:8888
 # upload doesn't like our User-agent (Python-urllib/2.6), otherwise we could call it using urllib2.urlopen()
 user_agent = Mozilla/5.0
 # this list is the containers that should be sharded
@@ -44,3 +43,7 @@ shard_container_list = wiki-en-local-public,wiki-en-local-thumb
 backend_url_format = sitelang
 
 paste.filter_factory = wmf.rewrite:filter_factory
+
+# thumbor integration
+thumborhost = 127.0.0.1:8888
+thumbor_wiki_list = wiki-en

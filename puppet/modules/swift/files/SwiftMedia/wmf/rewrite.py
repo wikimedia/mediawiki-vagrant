@@ -35,7 +35,8 @@ class _WMFRewriteContext(WSGIContext):
 
         self.account = conf['account'].strip()
         self.thumbhost = conf['thumbhost'].strip()
-        self.thumborhost = conf['thumborhost'].strip()
+        self.thumborhost = conf['thumborhost'].strip() if 'thumborhost' in conf else None
+        self.thumbor_wiki_list = [item.strip() for item in conf['thumbor_wiki_list'].split(',')] if 'thumbor_wiki_list' in conf else None
         self.user_agent = conf['user_agent'].strip()
         self.bind_port = conf['bind_port'].strip()
         self.shard_container_list = [item.strip() for item in conf['shard_container_list'].split(',')]
@@ -83,11 +84,12 @@ class _WMFRewriteContext(WSGIContext):
             encodedurl = urlparse.urlunsplit(urlobj)
 
             # Thumbor never needs URL mangling and it needs a different host
-            thumbor_reqorig = reqorig
-            thumbor_reqorig.host = self.thumborhost
-            thumbor_urlobj = list(urlparse.urlsplit(thumbor_reqorig.url))
-            thumbor_urlobj[2] = urllib2.quote(thumbor_urlobj[2], '%/')
-            thumbor_encodedurl = urlparse.urlunsplit(thumbor_urlobj)
+            if self.thumborhost:
+                thumbor_reqorig = reqorig
+                thumbor_reqorig.host = self.thumborhost
+                thumbor_urlobj = list(urlparse.urlsplit(thumbor_reqorig.url))
+                thumbor_urlobj[2] = urllib2.quote(thumbor_urlobj[2], '%/')
+                thumbor_encodedurl = urlparse.urlunsplit(thumbor_urlobj)
 
             # if sitelang, we're supposed to mangle the URL so that
             # http://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Little_kitten_.jpg/330px-Little_kitten_.jpg
@@ -131,8 +133,11 @@ class _WMFRewriteContext(WSGIContext):
             # ok, call the encoded url
             upcopy = opener.open(encodedurl)
             self.logger.debug("Mediawiki: %d %s" % (upcopy.getcode(), encodedurl))
-            # call Thumbor blindly, don't look at the result
-            eventlet.spawn_n(thumbor_opener.open, thumbor_encodedurl)
+
+            if self.thumborhost:
+                if not self.thumbor_wiki_list or '-'.join((proj, lang)) in self.thumbor_wiki_list:
+                    # call Thumbor blindly, don't look at the result
+                    eventlet.spawn_n(thumbor_opener.open, thumbor_encodedurl)
         except urllib2.HTTPError, error:
             # copy the urllib2 HTTPError into a webob HTTPError class as-is
 
