@@ -200,7 +200,8 @@ class swift (
     }
 
     swift::service { 'swift-proxy-server':
-        cfg_file => $proxy_cfg_file,
-        require  => File['/usr/local/lib/python2.7/dist-packages/wmf/'],
+        cfg_file  => $proxy_cfg_file,
+        require   => File['/usr/local/lib/python2.7/dist-packages/wmf/'],
+        subscribe => File['/usr/local/lib/python2.7/dist-packages/wmf/'],
     }
 }

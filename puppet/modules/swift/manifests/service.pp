@@ -27,6 +27,6 @@ define swift::service(
         enable    => true,
         provider  => 'upstart',
         subscribe => File[$cfg_file],
-        require   => File["/etc/init/${title}.conf"],
+        require   => File[$cfg_file, "/etc/init/${title}.conf"],
     }
 }

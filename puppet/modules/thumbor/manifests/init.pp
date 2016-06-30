@@ -145,9 +145,9 @@ class thumbor (
     # Since thumbor doesn't have the ability to create swift containers, we have to
     # create the sharded thumbnail containers ahead of time.
     exec { 'create-swift-thumbnail-containers':
-        command => '/usr/local/bin/mwscript extensions/WikimediaMaintenance/filebackend/setZoneAccess.php --wiki wiki --backend swift-backend',
-        unless  => "swift -A http://127.0.0.1:${port}/auth/v1.0 -U ${project}:${user} -K ${key} stat wiki-en-local-public.00 | grep -q wiki-en-local-public.00",
-        require => [
+        command   => '/usr/local/bin/mwscript extensions/WikimediaMaintenance/filebackend/setZoneAccess.php --wiki wiki --backend swift-backend',
+        unless    => "swift -A http://127.0.0.1:${port}/auth/v1.0 -U ${project}:${user} -K ${key} stat wiki-en-local-public.00 | grep -q wiki-en-local-public.00",
+        require   => [
             Service[
                 'swift-account-server',
                 'swift-account-auditor',
@@ -166,5 +166,6 @@ class thumbor (
             ],
             Mediawiki::Settings['swift'],
         ],
+        subscribe => Mediawiki::Settings['swift'],
     }
 }
