@@ -31,6 +31,10 @@
 # [*timeout*]
 #   Timeout for the command creating the environment.
 #
+# [*python*]
+#   System python interpreter to use to create the new environment.
+#   Default 'python' (i.e. Python2.7).
+#
 define virtualenv::environment (
     $packages  = undef,
     $dir       = $title,
@@ -38,6 +42,7 @@ define virtualenv::environment (
     $owner     = 'root',
     $group     = 'root',
     $timeout   = 300,
+    $python    = 'python',
 ) {
     require ::virtualenv
 
@@ -46,11 +51,6 @@ define virtualenv::environment (
             ensure => directory,
             owner  => $owner,
             group  => $group,
-        }
-
-        $command = $packages ? {
-            undef   => '/usr/local/bin/virtualenv .',
-            default => inline_template("./bin/pip install '<%= @packages.join(\"' '\") %>'")
         }
 
         exec { "virtualenv-${dir}":

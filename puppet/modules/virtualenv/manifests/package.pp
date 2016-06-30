@@ -14,9 +14,9 @@
 #   Pip package to install.  Default: $title
 #
 # [*python_module*]
-#    Python module name.  This usually should match $package. If it doesn't,
-#    specifiy this.  This will be used to determine if the package is already
-#    installed in the virtualenv.  Default: $title
+#    Installed Python module name. This usually should match $package. If it
+#    doesn't, specify this. This will be used to determine if the package is
+#    already installed in the virtualenv.  Default: $title
 #
 define virtualenv::package (
     $path,

@@ -1,5 +1,6 @@
-<% if @packages -%>
-/usr/local/bin/virtualenv . && ./bin/pip install '<%= @packages.join("' '") %>'
-<% else -%>
-/usr/local/bin/virtualenv .
-<% end -%>
+/usr/local/bin/virtualenv --python=<%= @python %> . &&
+<%- if @packages -%>
+./bin/pip install '<%= @packages.join("' '") %>'
+<%- else -%>
+/bin/true
+<%- end -%>
