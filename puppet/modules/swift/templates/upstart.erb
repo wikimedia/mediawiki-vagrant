@@ -1,0 +1,10 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+description "<%= @title %>"
+
+start on mediawiki-ready
+respawn
+
+exec /usr/bin/<%= @title %> <%= @cfg_file %>

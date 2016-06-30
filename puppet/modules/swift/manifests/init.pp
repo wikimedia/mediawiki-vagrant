@@ -92,7 +92,6 @@ class swift (
         group   => 'www-data',
         content => template('swift/swift.conf.erb'),
         mode    => '0644',
-        notify  => Exec['swift-restart'],
     }
 
     file { $proxy_cfg_file:
@@ -100,7 +99,6 @@ class swift (
         group   => 'www-data',
         content => template('swift/proxy-server.conf.erb'),
         mode    => '0644',
-        notify  => Exec['swift-restart'],
     }
 
     file { '/usr/local/lib/python2.7/dist-packages/wmf/':
@@ -110,7 +108,6 @@ class swift (
         source  => 'puppet:///modules/swift/SwiftMedia/wmf/',
         recurse => 'remote',
         require => Package['python-webob'],
-        notify  => Exec['swift-restart'],
     }
 
     swift::ring { $account_cfg_file:
@@ -137,25 +134,73 @@ class swift (
         require     => Package['swift-container'],
     }
 
-    exec { 'swift-init':
-        command => 'swift-init start all',
-        user    => 'root',
-        unless  => "swift -A http://127.0.0.1:${port}/auth/v1.0 -U ${project}:${user} -K ${key} stat -v | grep -Pq 'Auth Token'",
-        require => [
-            File[$storage_dir],
-            File["${storage_dir}/1"],
-            File[$cfg_file],
-            File[$proxy_cfg_file],
-            File['/usr/local/lib/python2.7/dist-packages/wmf/'],
-            Ring[$account_cfg_file],
-            Ring[$object_cfg_file],
-            Ring[$container_cfg_file],
-        ],
+    swift::service { 'swift-account-server':
+        cfg_file => $account_cfg_file,
+        require  => Ring[$account_cfg_file],
     }
 
-    exec { 'swift-restart':
-        command     => 'swift-init restart all',
-        user        => 'root',
-        refreshonly => true,
+    swift::service { 'swift-account-auditor':
+        cfg_file => $account_cfg_file,
+        require  => Ring[$account_cfg_file],
+    }
+
+    swift::service { 'swift-account-reaper':
+        cfg_file => $account_cfg_file,
+        require  => Ring[$account_cfg_file],
+    }
+
+    swift::service { 'swift-account-replicator':
+        cfg_file => $account_cfg_file,
+        require  => Ring[$account_cfg_file],
+    }
+
+    swift::service { 'swift-container-server':
+        cfg_file => $container_cfg_file,
+        require  => Ring[$container_cfg_file],
+    }
+
+    swift::service { 'swift-container-auditor':
+        cfg_file => $container_cfg_file,
+        require  => Ring[$container_cfg_file],
+    }
+
+    swift::service { 'swift-container-replicator':
+        cfg_file => $container_cfg_file,
+        require  => Ring[$container_cfg_file],
+    }
+
+    swift::service { 'swift-container-sync':
+        cfg_file => $container_cfg_file,
+        require  => Ring[$container_cfg_file],
+    }
+
+    swift::service { 'swift-container-updater':
+        cfg_file => $container_cfg_file,
+        require  => Ring[$container_cfg_file],
+    }
+
+    swift::service { 'swift-object-server':
+        cfg_file => $object_cfg_file,
+        require  => Ring[$object_cfg_file],
+    }
+
+    swift::service { 'swift-object-auditor':
+        cfg_file => $object_cfg_file,
+        require  => Ring[$object_cfg_file],
+    }
+
+    swift::service { 'swift-object-replicator':
+        cfg_file => $object_cfg_file,
+        require  => Ring[$object_cfg_file],
+    }
+
+    swift::service { 'swift-object-updater':
+        cfg_file => $object_cfg_file,
+        require  => Ring[$object_cfg_file],
+    }
+
+    swift::service { 'swift-proxy-server':
+        cfg_file => $proxy_cfg_file,
+        require  => File['/usr/local/lib/python2.7/dist-packages/wmf/'],
     }
 }
