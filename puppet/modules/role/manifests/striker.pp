@@ -68,7 +68,7 @@ class role::striker(
     require ::role::mediawiki
     include ::role::oauth
     include ::role::ldapauth
-    include ::apache::mod::wsgi
+    include ::apache::mod::wsgi_py3
     include ::memcached
 
     file { "${log_dir}/striker":
@@ -90,18 +90,22 @@ class role::striker(
     }
 
     # Add packages needed for virtualenv built python modules
+    $python = 'python3.4'
     require_package(
         'libffi-dev',
         'libldap2-dev',
         'libmysqlclient-dev',
         'libsasl2-dev',
         'libssl-dev',
+        $python,
+        "${python}-dev",
     )
 
     $venv = "${app_dir}/.venv"
     virtualenv::environment { $venv:
-        owner => $::share_owner,
-        group => $::share_group,
+        owner  => $::share_owner,
+        group  => $::share_group,
+        python => $python,
     }
     virtualenv::package { 'striker':
         path          => $venv,
@@ -165,7 +169,7 @@ class role::striker(
         # Load before MediaWiki wildcard vhost for Labs.
         priority => 40,
         content  => template('role/striker/apache.conf.erb'),
-        require  => Class['apache::mod::wsgi'],
+        require  => Class['apache::mod::wsgi_py3'],
         notify   => Service['apache2'],
     }
 
