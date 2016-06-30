@@ -1,0 +1,8 @@
+// Disallow account creation from the wiki
+// Use `mwscript createAndPromote.php` instead
+$wgGroupPermissions['*']['createaccount'] = false;
+$wgGroupPermissions['sysop']['createaccount'] = false;
+
+// Block anons from editing
+$wgGroupPermissions['*']['edit'] = false;
+$wgShowIPinHeader = false;
