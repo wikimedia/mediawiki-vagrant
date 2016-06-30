@@ -35,10 +35,9 @@ sub vcl_recv {
         }
     }
 
-    # Some oddity coming from mediawiki's swift code prefixing containers with the wiki
-    # name, which we end up having to compensate for here
+    # Swift expects /lang/project/foo
     if (req.url ~ "^/images/") {
-        set req.url = "/wiki" + req.url;
+        set req.url = "/wiki/en/" + regsub(req.url, "^/images/(.*)", "\1");
     }
 
     # Reject any methods that aren't expected to work in the context of thumbnails

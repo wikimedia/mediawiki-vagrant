@@ -427,8 +427,6 @@ swift::proxy_cfg_file: /etc/swift/proxy-server.conf
 swift::account_cfg_file: /etc/swift/account-server.conf
 swift::object_cfg_file: /etc/swift/object-server.conf
 swift::container_cfg_file: /etc/swift/container-server.conf
-swift::thumbnail_container: images-local-thumb
-swift::public_container: images-local-public
 
 trafficserver::deploy_dir: "%{hiera('mwv::services_dir')}/trafficserver"
 trafficserver::version: 6.0.0

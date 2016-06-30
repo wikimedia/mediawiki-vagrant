@@ -4,7 +4,8 @@
 
 [DEFAULT]
 bind_port = <%= @port %>
-log_facility = LOG_LOCAL1
+log_facility = LOG_LOCAL0
+log_level = DEBUG
 
 [pipeline:main]
 pipeline = rewrite healthcheck cache tempauth proxy-server
@@ -34,7 +35,7 @@ thumbhost = 127.0.0.1:8888
 # upload doesn't like our User-agent (Python-urllib/2.6), otherwise we could call it using urllib2.urlopen()
 user_agent = Mozilla/5.0
 # this list is the containers that should be sharded
-shard_container_list = ''
+shard_container_list = wiki-en-local-public,wiki-en-local-thumb
 # backend_url_format controls whether we pass the URL through to the thumbhost unmolested
 # or mangle it to be consumed by mediawiki.  ms5 takes URLs unmolested, mediawiki wants them
 # transformed to something more palatable (specifically, turning http://upload/proj/lang/ into http://lang.proj/
