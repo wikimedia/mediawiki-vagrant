@@ -17,30 +17,31 @@ foreach ( glob( '<%= @wiki_priority_dir %>/*dbConf.php' ) as $file ) {
 }
 
 $wgConf->wikis = $wgLocalDatabases;
-$wgConf->suffixes = $wgLocalDatabases;
+$wgConf->suffixes = [];
 
 /**
  * siteParamsCallback
  */
 function efGetSiteParams( $conf, $wiki ) {
-	$site = null;
-	$lang = null;
-	foreach( $conf->suffixes as $suffix ) {
-		if ( substr( $wiki, -strlen( $suffix ) ) == $suffix ) {
-			$site = $suffix;
-			$lang = substr( $wiki, 0, -strlen( $suffix ) );
-			break;
+	foreach( $conf->wikis as $knownWiki ) {
+		if ( $wiki === $knownWiki ) {
+			return array(
+				'suffix' => $wiki,
+				'lang' => '',
+				'params' => array(
+					'lang' => '',
+					'site' => $wiki,
+					'wiki' => $wiki,
+				),
+				'tags' => array(),
+			);
 		}
 	}
 	return array(
-		'suffix' => $site,
-		'lang' => $lang,
-		'params' => array(
-			'lang' => $lang,
-			'site' => $site,
-			'wiki' => $wiki,
-		),
+		'suffix' => null,
+		'lang' => null,
 		'tags' => array(),
+		'params' => array(),
 	);
 }
 $wgConf->siteParamsCallback = 'efGetSiteParams';
