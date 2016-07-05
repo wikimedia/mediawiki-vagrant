@@ -15,7 +15,7 @@ BIND_PASSWORD = <%= scope['::role::ldapauth::writer_password'] %>
 TLS = false
 
 BASE_DN = <%= scope['::role::ldapauth::base_dn'] %>
-USER_DN_TEMPLATE = cn=%(user)s,<%= scope['::role::ldapauth::user_base_dn'] %>
+USER_SEARCH_BASE = <%= scope['::role::ldapauth::user_base_dn'] %>
 STAFF_GROUP_DN = cn=wmf,ou=groups,<%= scope['::role::ldapauth::base_dn'] %>
 SUPERUSER_GROUP_DN = cn=tools.admin,ou=servicegroups,<%= scope['::role::ldapauth::base_dn'] %>
 

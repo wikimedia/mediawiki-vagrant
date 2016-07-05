@@ -5,7 +5,7 @@ ou: servicegroups
 objectClass: top
 description: Tools
 
-dn: cn=Admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+dn: uid=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
 objectClass: person
 objectClass: inetOrgPerson
 objectClass: organizationalPerson
@@ -27,30 +27,30 @@ objectClass: groupOfNames
 objectClass: posixGroup
 objectClass: top
 cn: wmf
-gidNumber: 5001
-member: cn=Admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+gidNumber: 5000
+member: uid=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
 
 dn: cn=project-tools,ou=groups,<%= scope['::role::ldapauth::base_dn'] %>
 objectClass: groupOfNames
 objectClass: posixGroup
 objectClass: top
 cn: project-tools
-gidNumber: 5002
-member: cn=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+gidNumber: 5001
+member: uid=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
 
 dn: cn=tools.admin,ou=servicegroups,<%= scope['::role::ldapauth::base_dn'] %>
 objectClass: groupOfNames
 objectClass: posixGroup
 objectClass: top
 cn: tools.admin
-gidNumber: 50001
-member: cn=Admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+gidNumber: 5002
+member: uid=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
 
 dn: cn=tools.example,ou=servicegroups,<%= scope['::role::ldapauth::base_dn'] %>
 objectClass: groupOfNames
 objectClass: posixGroup
 objectClass: top
 cn: tools.example
-gidNumber: 50002
-member: cn=Admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+gidNumber: 5003
+member: uid=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
 LIDF
