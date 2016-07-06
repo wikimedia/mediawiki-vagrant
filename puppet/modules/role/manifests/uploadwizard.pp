@@ -4,6 +4,7 @@
 # a JavaScript-driven wizard interface for uploading multiple files.
 class role::uploadwizard {
     include ::wikitools
+    include ::role::campaigns
     include ::role::eventlogging
     include ::role::multimedia
     include ::role::codeeditor
@@ -12,8 +13,6 @@ class role::uploadwizard {
     # API smoke test dependencies
     require_package('python-imaging')
     require_package('python-poster')
-
-    mediawiki::extension { 'Campaigns': }
 
     mediawiki::extension { 'UploadWizard':
         browser_tests => true,
