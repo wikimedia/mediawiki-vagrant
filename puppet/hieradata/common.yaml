@@ -387,6 +387,8 @@ role::oauthauthentication::callback_url: "http://dev.wiki.local.wmftest.net%{::p
 
 role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
 
+role::wikidata::main_page: "Wiki:Main Page"
+
 role::wikimetrics::dir: "%{hiera('mwv::services_dir')}/wikimetrics"
 
 scholarships::vhost_name: "scholarships%{hiera('mwv::tld')}"

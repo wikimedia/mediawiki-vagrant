@@ -3,12 +3,34 @@
 # wikis clients to it. It uses the live composer managed wikidata modules from
 # gerrit.
 #
-class role::wikidata {
+# [*main_page*]
+#   Title of main page
+class role::wikidata(
+    $main_page
+) {
     require ::role::mediawiki
     include ::role::sitematrix
 
     mediawiki::wiki { 'wikidata': }
     ensure_resource('mediawiki::wiki', 'en')
+
+    # TODO: Going to http://wikidata.wiki.local.wmftest.net:8080/
+    # will work, but if you explicitly visit Main_Page in the main
+    # namespace (created by the installer), it will still throw an
+    # error.  Could add an option to installer to choose main page
+    # title, or have Puppet delete the old main page using
+    # deleteBatch.php.  The deletion option requires I19f2d1685.
+    mediawiki::import::text { $main_page:
+        content => 'Welcome to Wikidata',
+        wiki    => 'wikidata',
+        db_name => 'wikidatawiki',
+    }
+
+    mediawiki::import::text { 'MediaWiki:Mainpage':
+        content => $main_page,
+        wiki    => 'wikidata',
+        db_name => 'wikidatawiki',
+    }
 
     mediawiki::extension { 'WikidataBuildResources':
         remote       => 'https://gerrit.wikimedia.org/r/wikidata/build-resources',
