@@ -58,7 +58,7 @@ define mediawiki::import::text(
     }
 
     mediawiki::maintenance { "add page ${wiki}/${page_title}":
-        command     => "/usr/local/bin/mwscript edit.php --wiki=${db_name} --summary='Vagrant import' --no-rc '${page_title}' < ${path}",
+        command     => "/usr/local/bin/mwscript edit.php --wiki=${db_name} --summary='Vagrant import' --no-rc '${page_title}' < '${path}'",
         refreshonly => true,
         require     => [
             Mediawiki::Wiki[$wiki],
