@@ -28,5 +28,5 @@
         "period": 1
     },
 
-    "dispatcher": "curl -XPOST -s -a 'http:\/\/127.0.0.1/w/RunJobs.php?wiki=%(db)u&type=%(type)u&maxtime=%(maxtime)u&maxmem=%(maxmem)u'"
+    "dispatcher": "curl -XPOST --silent --header 'Host: vagrant' 'http:\/\/127.0.0.1/w/RunJobs.php?wiki=%(db)u&type=%(type)u&maxtime=%(maxtime)u&maxmem=%(maxmem)u'"
 }
