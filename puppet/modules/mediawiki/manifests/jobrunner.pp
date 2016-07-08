@@ -14,10 +14,14 @@
 # [*verbose*]
 #   Enable verbose logging.
 #
+# [*groups*]
+#   Runner group configuration
+#
 class mediawiki::jobrunner(
     $enable,
     $dir,
     $verbose,
+    $groups,
 ) {
     require ::mediawiki
 

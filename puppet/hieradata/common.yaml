@@ -253,6 +253,10 @@ mediawiki::apache::php5_site_name: "php5%{hiera('mwv::tld')}"
 mediawiki::jobrunner::enable: true
 mediawiki::jobrunner::dir: "%{hiera('mwv::services_dir')}/jobrunner"
 mediawiki::jobrunner::verbose: false
+mediawiki::jobrunner::groups:
+  basic:
+    include: [ "*" ]
+    runners: 1
 
 mediawiki::multiwiki::default_wiki: "%{hiera('role::mediawiki::hostname')}"
 mediawiki::multiwiki::base_domain: ".wiki%{hiera('mwv::tld')}"
