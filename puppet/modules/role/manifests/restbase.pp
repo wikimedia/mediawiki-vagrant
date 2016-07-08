@@ -28,12 +28,11 @@ class role::restbase (
 
     # Set up the update extension
     mediawiki::extension { 'RestBaseUpdateJobs':
-        entrypoint => 'RestbaseUpdate.php',
-        settings   => {
+        settings => {
             wgRestbaseServer => "http://127.0.0.1:${::restbase::port}",
             wgRestbaseDomain => $::restbase::domain,
         },
-        wiki       => $::mediawiki::wiki_db,
+        wiki     => $::mediawiki::wiki_db,
     }
 
     # Register the PHP Virtual REST Service connector
