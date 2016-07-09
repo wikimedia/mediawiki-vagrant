@@ -31,8 +31,9 @@ class role::confirmedit {
     }
 
     file { [ "${::mediawiki::dir}/images/temp", $output ]:
-        ensure => directory,
-        before => Exec['generate_captchas'],
+        ensure   => directory,
+        before   => Exec['generate_captchas'],
+        requires => Git::Clone['mediawiki/core'],
     }
 
     exec { 'generate_captchas':
