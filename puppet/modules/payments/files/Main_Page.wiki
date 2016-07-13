@@ -10,6 +10,10 @@ To contribute to development or for more help, please visit the [https://www.med
 
 Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to use our credentials.  Alternatively, you may make your own arrangements for a development account with the payment processor.  We are committed to eliminating this barrier by [https://phabricator.wikimedia.org/T89188 providing mock API responses], but in the meantime please add a file to settings.d/wikis/paymentswiki/settings.d/ with your own account info. '''The file must start with a number less than 10 so it is included before puppet-managed/10-DonationInterface.php.''' An abbreviated example is shown below and more details are available in mediawiki-fr/extensions/DonationInterface/DonationInterface.php.
 
+The default configuration will log to /var/log/syslog, which is only visible to the root user, so use: sudo tail -f /var/log/syslog
+
+Also note that you'll need to use the WMF's "full" VPN tunnel, see https://office.wikimedia.org/wiki/VPN_Setup#Full_Tunnel
+
     <?php
     # settings.d/wikis/paymentswiki/settings.d/01-DI-test-accounts.php
     
