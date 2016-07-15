@@ -16,6 +16,7 @@ class eventlogging {
     }
 
     require_package('libmysqlclient-dev')
+    require_package('librdkafka-dev')
 
     # Do the initial pip install into the virtualenv
     exec { 'eventlogging_virtualenv_pip_install':
@@ -24,7 +25,8 @@ class eventlogging {
         creates => "${path}/virtualenv/local/lib/python2.7/site-packages/eventlogging.egg-link",
         require => [
             Service::Gitupdate['eventlogging'],
-            Package['libmysqlclient-dev']
+            Package['libmysqlclient-dev'],
+            Package['librdkafka-dev']
         ],
     }
 }
