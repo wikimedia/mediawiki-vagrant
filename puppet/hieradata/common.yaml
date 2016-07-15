@@ -33,7 +33,7 @@ changeprop::port: 7272
 
 contenttranslation::dir: "%{hiera('mediawiki::dir')}/extensions/ContentTranslation"
 contenttranslation::cxserver::dir: "%{hiera('mwv::services_dir')}/cxserver"
-contenttranslation::parsoid_url: "http://127.0.0.1:%{::mediawiki::parsoid::port}"
+contenttranslation::parsoid_url: "http://127.0.0.1:%{::parsoid::port}"
 contenttranslation::parsoid_timeout: 100000
 contenttranslation::parsoid_prefix: 'enwiki'
 contenttranslation::view_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/wiki/$2"
@@ -60,7 +60,7 @@ contenttranslation::cxserver::port: 8090
 contenttranslation::cxserver::proxy: 'null'
 contenttranslation::cxserver::log: /vagrant/logs
 contenttranslation::cxserver::allow_cors: '*'
-contenttranslation::cxserver::parsoid: "http://127.0.0.1:%{::mediawiki::parsoid::port}"
+contenttranslation::cxserver::parsoid: "http://127.0.0.1:%{::parsoid::port}"
 contenttranslation::cxserver::apertium: 'http://apertium.wmflabs.org'
 contenttranslation::cxserver::yandex: 'https://translate.yandex.net'
 contenttranslation::cxserver::yandex_key: 'null'
@@ -232,7 +232,7 @@ iegreview::deploy_dir: "%{hiera('mwv::services_dir')}/iegreview"
 iegreview::cache_dir: /var/cache/iegreview
 iegreview::log_file: /vagrant/logs/iegreview.log
 iegreview::smtp_server: 127.0.0.1
-iegreview::parsoid_url: "http://127.0.0.1:%{::mediawiki::parsoid::port}/localhost/"
+iegreview::parsoid_url: "http://127.0.0.1:%{::parsoid::port}/localhost/"
 
 mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki
@@ -274,14 +274,12 @@ mediawiki::multiwiki::extension_cluster_db_pass: 'extensionpassword'
 mediawiki::mwrepl::default_db_name: "%{hiera('mediawiki::db_name')}"
 mediawiki::mwrepl::script_dir: "%{hiera('mediawiki::multiwiki::script_dir')}"
 
-mediawiki::parsoid::dir: "%{hiera('mwv::services_dir')}/parsoid"
-mediawiki::parsoid::port: 8000
-mediawiki::parsoid::domain: "%{hiera('role::mediawiki::hostname')}"
-mediawiki::parsoid::uri: "http://localhost%{::port_fragment}/w/api.php"
-mediawiki::parsoid::use_php_preprocessor: true
-mediawiki::parsoid::use_selser: true
-mediawiki::parsoid::allow_cors: '*'
-mediawiki::parsoid::workers: 2
+parsoid::port: 8000
+parsoid::domain: "%{hiera('role::mediawiki::hostname')}"
+parsoid::uri: "http://localhost%{::port_fragment}/w/api.php"
+parsoid::use_php_preprocessor: true
+parsoid::use_selser: true
+parsoid::allow_cors: '*'
 
 mysql::host: '127.0.0.1'
 mysql::default_db_name: wiki

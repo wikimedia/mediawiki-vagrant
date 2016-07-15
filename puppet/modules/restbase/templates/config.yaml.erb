@@ -10,7 +10,7 @@ default_project: &default_project
           backend: sqlite
           dbname: <%= @dbdir %>/mw-vagrant.sqlite3
         parsoid:
-          host: http://localhost:<%= scope['::mediawiki::parsoid::port'] %>
+          host: http://localhost:<%= scope['::parsoid::port'] %>
         action:
           apiUriTemplate: "{{'http://localhost<%= scope['::port_fragment'] %>/w/api.php'}}"
         graphoid:
