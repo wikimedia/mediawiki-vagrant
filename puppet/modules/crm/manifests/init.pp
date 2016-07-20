@@ -38,6 +38,7 @@ class crm(
     include ::crm::apache
     include ::crm::civicrm
     include ::crm::tools
+    include ::activemq
 
     git::clone { $repo:
         directory => $dir,

@@ -2,8 +2,6 @@
 # Configure the DonationInterface extension
 #
 class payments::donation_interface {
-  # FIXME: Use relative paths to load forms.
-  $DI = "${::payments::dir}/extensions/DonationInterface"
 
   mediawiki::extension { 'payments:DonationInterface':
     settings     => {

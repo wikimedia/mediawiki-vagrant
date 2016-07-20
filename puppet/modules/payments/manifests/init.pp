@@ -22,6 +22,7 @@ class payments(
     $dir,
 ) {
   include ::payments::donation_interface
+  include ::crm
 
   git::clone { 'mediawiki-core-fr':
     remote    => 'https://gerrit.wikimedia.org/r/p/mediawiki/core.git',
@@ -39,6 +40,12 @@ class payments(
 
   mediawiki::extension { 'payments:ContributionTracking':
     needs_update => true,
+    settings     => {
+      'wgContributionTrackingDBserver'   => '',
+      'wgContributionTrackingDBname'     => $::crm::drupal_db,
+      'wgContributionTrackingDBuser'     => $::crm::db_user,
+      'wgContributionTrackingDBpassword' => $::crm::db_pass,
+    },
   }
 
   mediawiki::extension { [
