@@ -9,8 +9,8 @@ class payments::donation_interface {
     settings     => {
       wgGlobalCollectGatewayEnabled            => true,
       wgAdyenGatewayEnabled                    => true,
-      wgAstropayGatewayEnabled                 => true,
-      wgWorldpayGatewayEnabled                 => true,
+      wgAmazonGatewayEnabled                   => true,
+      wgAstroPayGatewayEnabled                 => true,
       wgPaypalGatewayEnabled                   => true,
       wgDonationInterfaceEnableFormChooser     => true,
       wgDonationInterfaceEnableQueue           => true,
@@ -57,7 +57,7 @@ class payments::donation_interface {
           'expiry'    => 3600,
           'order_key' => 'date',
         },
-        'limbo'                  => {
+        'pending-new'            => {
           'type'      => 'PHPQueue\Backend\Predis',
           'servers'   => 'tcp://localhost',
           'expiry'    => 3600,

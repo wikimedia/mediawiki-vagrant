@@ -329,7 +329,7 @@ role::externalstore::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 role::externalstore::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 role::externalstore::db_name: 'external'
 
-payments::branch: fundraising/REL1_25
+payments::branch: fundraising/REL1_27
 payments::dir: /vagrant/mediawiki-fr
 
 role::globalblocking::db_host: "%{hiera('mysql::grant_host_name')}"
