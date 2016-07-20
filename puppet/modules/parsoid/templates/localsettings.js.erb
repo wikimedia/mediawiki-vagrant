@@ -26,13 +26,13 @@ exports.setup = function( parsoidConfig ) {
         name: 'parsoid',
         streams: [
           {
-            stream: process.stdout,
-            level: 'debug'
+            path: '<%= @log_file %>',
+            level: '<%= @loglev %>'
           },
           {
             type: 'raw',
             stream: require('gelf-stream').forBunyan('127.0.0.1', 12201),
-            level: 'debug'
+            level: '<%= @loglev %>'
           }
         ]
       }

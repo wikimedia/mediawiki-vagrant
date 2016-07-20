@@ -1,7 +1,7 @@
 # == Class: role::parsoid
 # Configures Parsoid, a wikitext parsing service
 class role::parsoid {
-    include ::mediawiki::parsoid
+    include ::parsoid
 
     # register the PHP Virtual REST Service connector
     mediawiki::settings { 'parsoid-vrs':

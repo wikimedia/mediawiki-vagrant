@@ -21,6 +21,13 @@
 #   The service's start-up module. Services based on service-template-node
 #   do not need to change this. Default: ./app.js
 #
+# [*entrypoint*]
+#   If the service's starter module exports a specific function that should be
+#   used on start-up, set this parameter to the function's name. Default: ''
+#
+# [*script*]
+#   The script used for starting the service. Default: server.js
+#
 # [*git_remote*]
 #   The git clone URL. Needs to be set only if the service is to be cloned
 #   from a source different than Gerrit. Default: undef
@@ -52,6 +59,8 @@ define service::node(
     $port,
     $config     = {},
     $module     = './app.js',
+    $entrypoint = '',
+    $script     = 'server.js',
     $git_remote = undef,
     $log_level  = undef,
 ) {
