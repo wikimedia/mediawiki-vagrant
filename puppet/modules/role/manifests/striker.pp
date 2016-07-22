@@ -78,9 +78,8 @@ class role::striker(
 
     # Setup Striker
     $app_dir = "${deploy_dir}/striker"
-    git::clone { 'striker':
+    git::clone { 'labs/striker':
         directory => $app_dir,
-        remote    => 'https://github.com/bd808/striker.git',
     }
 
     service::gitupdate { 'striker':
@@ -127,7 +126,7 @@ class role::striker(
         mode    => '0555',
         content => template('role/striker/striker.ini.erb'),
         require => [
-            Git::Clone['striker'],
+            Git::Clone['labs/striker'],
             Class['::phabricator'],
             Class['::role::ldapauth'],
         ],
