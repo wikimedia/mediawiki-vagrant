@@ -1,3 +1,11 @@
+default:
+    data-store:
+        pending-db:
+            inst-args:
+                - mysql:host=127.0.0.1;dbname=smashpig
+                - root
+                - "<%= scope.lookupvar('mysql::root_password') %>"
+
 adyen:
     payment-provider:
         adyen:
