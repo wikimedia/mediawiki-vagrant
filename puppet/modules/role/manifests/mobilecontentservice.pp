@@ -3,5 +3,6 @@
 #
 class role::mobilecontentservice {
     include ::role::restbase
+    include ::role::mobilefrontend
     include ::mobilecontentservice
 }
