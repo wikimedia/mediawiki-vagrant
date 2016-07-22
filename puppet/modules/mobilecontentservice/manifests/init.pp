@@ -21,9 +21,6 @@ class mobilecontentservice(
     service::node { 'mobileapps':
         port      => $port,
         log_level => $log_level,
-        config    => {
-            restbase_uri => "localhost:${::restbase::port}",
-        },
     }
 
 }

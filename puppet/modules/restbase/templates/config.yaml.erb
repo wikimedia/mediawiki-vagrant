@@ -26,7 +26,7 @@ default_project: &default_project
             uri: http://localhost:<%= @eventlogging_service_port %>/v1/events
             topic: resource_change
 
-wikimedia.org: &wikimedia.org
+wikimedia.org: &wikimedia
   x-modules:
     - path: projects/wikimedia.org.yaml
       options:
@@ -50,7 +50,7 @@ spec:
     /{domain:<%= @domain %>}: *default_project
 
     # global domain
-    /{domain:wikimedia.org}: *wikimedia.org
+    /{domain:wikimedia.org}: *wikimedia
 
 salt: secret
 default_page_size: 100

@@ -5,21 +5,19 @@
 # configuration hash.
 #
 
+def config_to_hash(conf)
+  return YAML.load(conf) unless conf.is_a?(Hash)
+  conf
+end
+
 module Puppet::Parser::Functions
   newfunction(:merge_config, type: :rvalue, arity: 2) do |args|
-    main_conf, service_conf = *args.map do |conf|
-      case conf
-      when Hash
-        conf.empty? ? '' : function_ordered_yaml([conf])
-      when String
-        conf
-        else
-        ''
-      end
+    main_conf, service_conf = *args.map { |arg| config_to_hash(arg) }
+    begin
+      main_conf['services'][0]['conf'].update service_conf
+    rescue
+      fail('Badly formatted configuration.')
     end
-    main_conf += service_conf.split("\n").map do |line|
-      line.empty? ? '' : '      ' + line
-    end.join("\n")
-    main_conf
+    function_ordered_yaml([main_conf])
   end
 end

@@ -1,9 +1,0 @@
-restbase_req:
-  uri: http://localhost:<%= scope.lookupvar('restbase::port') %>/{domain}/v1/page/html/{title}
-  headers:
-    user-agent: WMF Mobile Content Service MW-Vagrant
-mwapi_req:
-  method: post
-  uri: http://{domain}/w/api.php
-  headers:
-    user-agent: WMF Mobile Content Service MW-Vagrant
