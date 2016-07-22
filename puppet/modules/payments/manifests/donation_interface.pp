@@ -56,10 +56,10 @@ class payments::donation_interface {
           'order_key' => 'date',
         },
         'pending-new'            => {
-          'type'      => 'PHPQueue\Backend\Predis',
-          'servers'   => 'tcp://localhost',
-          'expiry'    => 3600,
-          'order_key' => 'date',
+          'queue'   => 'pending',
+          'type'    => 'PHPQueue\Backend\Predis',
+          'servers' => 'tcp://localhost',
+          'expiry'  => 3600,
         },
       },
 
