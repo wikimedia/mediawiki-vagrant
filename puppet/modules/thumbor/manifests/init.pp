@@ -41,9 +41,6 @@ class thumbor (
     # For GIF engine
     require_package('gifsicle')
 
-    # For SVG engine
-    require_package('librsvg2-bin')
-
     # For Video engine
     require_package('ffmpeg')
 
@@ -51,13 +48,27 @@ class thumbor (
     require_package('xcftools')
 
     # For DjVu engine
-    require_package('djvulibre-bin')
+    require_package('libdjvulibre-dev')
+    require_package('cython')
 
     # For Ghostscript engine (PDF)
     require_package('ghostscript')
 
     # For pycurl, a dependency of thumbor
     require_package('libcurl4-gnutls-dev')
+
+    # For VIPS engine
+    apt::ppa { 'mwhiteley/vips': }
+    package { 'gir1.2-vips-8.0':
+        require => Apt::Ppa['mwhiteley/vips'],
+    }
+
+    # For Mediawiki's IM/RSVG SVG support
+    require_package('librsvg2-bin')
+
+    # For Mediawiki's DJVU support
+    require_package('djvulibre-bin')
+    require_package('netpbm')
 
     # For lxml, a dependency of thumbor-plugins
     require_package('libxml2-dev', 'libxslt1-dev')
@@ -79,7 +90,7 @@ class thumbor (
     virtualenv::environment { $deploy_dir:
         ensure   => present,
         packages => [
-            'numpy',
+            'pgi',
             'raven',
             'python-swiftclient',
             'git+git://github.com/gi11es/thumbor.git',
@@ -87,13 +98,18 @@ class thumbor (
             'git+https://phabricator.wikimedia.org/diffusion/THMBREXT/thumbor-plugins.git',
         ],
         require  => [
-            Package['libjpeg-progs'],
-            # Needs to be an explicit dependency, for the packages pointing to git repos
-            Package['git'],
-            Package['libcurl4-gnutls-dev'],
-            Package['libxml2-dev'],
-            Package['libxslt1-dev'],
-            Package['libjpeg-dev'],
+            Package[
+                'libjpeg-progs',
+                # Needs to be an explicit dependency, for the packages pointing to git repos
+                'git',
+                'libcurl4-gnutls-dev',
+                'libxml2-dev',
+                'libxslt1-dev',
+                'libjpeg-dev',
+                'libdjvulibre-dev',
+                'cython',
+                'gir1.2-vips-8.0'
+            ],
         ],
         timeout  => 600, # This venv can be particularly long to download and setup
     }

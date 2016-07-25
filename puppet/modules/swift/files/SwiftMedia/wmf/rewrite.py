@@ -130,14 +130,16 @@ class _WMFRewriteContext(WSGIContext):
                 else:
                     self.logger.warn("no sitelang match on encodedurl: %s" % encodedurl)
 
-            # ok, call the encoded url
-            upcopy = opener.open(encodedurl)
-            self.logger.debug("Mediawiki: %d %s" % (upcopy.getcode(), encodedurl))
-
+            # call thumbor first, otherwise if Mediawiki image scalers return an error,
+            # thumbor doesn't get a change to try to generate that thumbnail
             if self.thumborhost:
                 if not self.thumbor_wiki_list or '-'.join((proj, lang)) in self.thumbor_wiki_list:
                     # call Thumbor blindly, don't look at the result
                     eventlet.spawn_n(thumbor_opener.open, thumbor_encodedurl)
+
+            # ok, call the encoded url
+            upcopy = opener.open(encodedurl)
+            self.logger.debug("Mediawiki: %d %s" % (upcopy.getcode(), encodedurl))
         except urllib2.HTTPError, error:
             # copy the urllib2 HTTPError into a webob HTTPError class as-is
 
