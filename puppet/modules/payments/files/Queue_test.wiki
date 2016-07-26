@@ -1,0 +1,137 @@
+
+First steps for all
+
+    CentralNotice banner or donatewiki (later)
+
+    submit donation form, which adds messages to pending and pending-new queue
+
+    Works for Amazon as long as the ReturnURL is https://payments.wiki.local.wmftest.net:4430/w/index.php?title=Special:AmazonGateway and you are in test mode. Need to use test accounts from Amazon payments console
+
+    Mirroring to pending-new queue requires https://gerrit.wikimedia.org/r/#/c/299797/3 , just merged
+
+    AstroPay: need VPN, and need to use credit card 'GNB', only enabled for BR when $wgAstroPayGatewayTest = true 
+
+    Name: ASTROPAY TESTING
+
+    Cpf: 00003456789
+
+    Email: testing@astropaycard.com
+
+    Consume pending-new to db
+
+    /vagrant/srv/SmashPig$ php Maintenance/ConsumePendingQueue.php
+
+    consume antifraud queue messages
+
+    drush --user=1 -v -r /vagrant/srv/org.wikimedia.civicrm/drupal fqc
+
+
+Adyen
+- To test Redis job queue, make data-store/jobs config look like data-store/pending-new, with queue name changed to 'jobs', and replace StompJobRunner.php below with QueueJobRunner.php
+
+    Create fake IPN messages matching pending queue messages
+
+    /vagrant/srv/SmashPig$ php Maintenance/CreateIpnMessagesFromPendingDb.php adyen
+
+    Simulate auth IPN listener hits
+
+    /vagrant/srv/SmashPig$ Tests/SoapInjector/soapinject.py payments-listener.local.wmftest.net '/smashpig_http_handler.php?p=adyen/listener' auth_success.10.1.xml
+
+    run JobRunner to perform mock capture requests and send more antifraud queue messages
+
+    You can set your SmashPig.yaml to use a mock API endpoint to avoid hitting even the adyen test system, see PaymentProviders/Adyen/Tests/config_test_success.yaml
+
+    /vagrant/srv/SmashPig$ php Maintenance/StompJobRunner.php --config-node adyen
+
+    consume antifraud queue messages
+
+    drush --user=1 -v -r /vagrant/srv/org.wikimedia.civicrm/drupal fqc
+
+    Simulate capture IPN listener hits
+
+    /vagrant/srv/SmashPig/Tests$ ./soapinject.py payments-listener.local.wmftest.net '/smashpig_http_handler.php?p=adyen/listener' ../../adyen-12345-captures.xml
+
+    run JobRunner to combine pending messages and send to completed queue
+
+    /vagrant/srv/SmashPig$ php Maintenance/StompJobRunner.php --config-node adyen
+
+
+Amazon
+
+    Create fake IPN messages matching pending queue messages
+
+    template in PaymentProviders/Amazon/Tests/Data/IPN/CaptureCompleted.json
+
+    need a tool/script
+
+    Simulate capture completed IPN listener hit - listener will add completed queue message with indication to look in pending queue for missing details
+
+    /vagrant/srv/SmashPig/PaymentProviders/Amazon/Tests$ ./inject.py payments-listener.local.wmftest.net '/smashpig_http_handler.php?p=amazon/listener' Data/IPN/CaptureCompleted.json
+
+    Need to create a MockIpnHandler
+
+
+AstroPay
+
+    Create fake IPN messages matching pending queue messages
+
+    php Maintenance/CreateIpnMessagesFromPendingDb.php --config-node astropay astropay
+
+    Simulate successful payment IPN listener hit - listener will add completed queue message with indication to look in pending queue for missing details
+
+    /vagrant/srv/SmashPig$ curl -d @success.37956.2.curl http://payments-listener.local.wmftest.net/smashpig_http_handler.php?p=astropay/listener
+
+
+Ingenico
+
+PayPal
+
+    Either mock the PP form, or immediately redirect back.  Probably something in-between, where we show diagnostics about the request and then a button to return successfully or cancel.
+
+
+Last steps for all:
+
+    Run donations queue consumer
+
+    drush --user=1 -v -r /vagrant/srv/org.wikimedia.civicrm/drupal qc
+
+    Run TY mail sender (is vagrant configured to fake email safely?)
+
+    drush eval --user=1 -v -r /vagrant/srv/org.wikimedia.civicrm/drupal 'drush_thank_you();'
+
+
+
+== Server roles ==
+
+
+    paymentswiki
+
+    Configured to hit sandbox APIs with real, sandbox credentials.
+
+    Developers can edit the wiki.
+
+    Redis master and slave
+
+    Replicated from production on demand.
+
+    ActiveMQ too, sadly.
+
+    CiviCRM
+
+    Jenkins / cronjobs - maybe tech can have write access to cron here?
+
+    queue consumers
+
+    auditors
+
+    Payment Notification Listeners
+
+    SmashPig (+ legacy PayPal)
+
+    Database master and slave
+
+    Replicated from production on demand.  Replicas of: paymentswiki, civicrm (+ drupal, fredge, pending), metawiki (public)
+
+    Later: CentralNotice and DonateWiki
+
+    Replicated from production on demand.

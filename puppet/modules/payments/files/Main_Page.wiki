@@ -26,6 +26,20 @@ Also note that you'll need to use the WMF's "full" VPN tunnel, see https://offic
         )
     );
     
+    $wgAmazonGatewayAccountInfo = array(
+        'default' => array(
+            'SellerID' => 'ADLKSJLKJDA',
+            'ClientID' => 'amzn1.application-oa2-client.87abd987dab7af8779564468765af5975775b98',
+            'ClientSecret' => 'face69876a98769876f987687b69876d9876e98769a7696d',
+            'MWSAccessKey' => 'LKJDALDKJASJOASWEJ8D',
+            'MWSSecretKey' => 'khjh&ADokaudhadad5rad/8audADKda6875864ad',
+            'Region' => 'us',
+            'WidgetScriptURL' => 'https://static-na.payments-amazon.com/OffAmazonPayments/us/sandbox/js/Widgets.js',
+            // Return URL must be exactly this, and you need to enable vagrant role https
+            'ReturnURL' => 'https://payments.wiki.local.wmftest.net:4430/w/index.php?title=Special:AmazonGateway',
+        )
+    );
+    
     $wgAstropayGatewayAccountInfo = array(
         'test' => array(
             'Create' => array( // For creating invoices
@@ -129,18 +143,7 @@ See also [https://phabricator.wikimedia.org/T86247 T86247], this would be a good
     
     mwscript extensions/DonationInterface/globalcollect_gateway/scripts/orphans.php --wiki paymentswiki
 
-= ActiveMQ =
+= IPN and Queue testing =
 
-You currently have to set up the port forwarding manually, I donno what's wrong with that.
+See instructions at [https://www.mediawiki.org/wiki/Fundraising_tech/Queue_testing].
 
-    vagrant forward-port 8161 8161
-    vagrant reload
-
-= SmashPig =
-
-Test the SmashPig listener using something like the following:
-
-    cd srv/SmashPig/PaymentProviders/Amazon/Tests
-    python ./inject.py \
-        http://payments-listener.local.wmftest.net:8080/smashpig/amazon/listener \
-        Data/IPN/SubscriptionSuccessful.json

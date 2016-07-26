@@ -6,5 +6,6 @@
 class role::payments {
   require ::role::mediawiki
   require ::role::memcached
+  require ::role::https
   include ::payments
 }

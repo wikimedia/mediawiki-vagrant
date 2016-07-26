@@ -63,6 +63,11 @@ class payments::donation_interface {
         },
       },
 
+      wgDonationInterfaceQueueMirrors          => {
+        'globalcollect-cc-limbo' => 'pending-new',
+        'pending'                => 'pending-new',
+      },
+
       wgDonationInterfaceOrphanCron            => {
         'enable'                       => true,
         'max_per_execute'              => '',
