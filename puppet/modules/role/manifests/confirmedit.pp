@@ -28,6 +28,7 @@ class role::confirmedit {
             wgCaptchaSecret          => $key,
         },
         priority => 11,
+        require  => MediaWiki::Extension['ConfirmEdit'],
     }
 
     file { [ "${::mediawiki::dir}/images/temp", $output ]:
