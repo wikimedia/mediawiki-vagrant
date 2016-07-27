@@ -57,12 +57,6 @@ class thumbor (
     # For pycurl, a dependency of thumbor
     require_package('libcurl4-gnutls-dev')
 
-    # For VIPS engine
-    apt::ppa { 'mwhiteley/vips': }
-    package { 'gir1.2-vips-8.0':
-        require => Apt::Ppa['mwhiteley/vips'],
-    }
-
     # For Mediawiki's IM/RSVG SVG support
     require_package('librsvg2-bin')
 
@@ -107,8 +101,7 @@ class thumbor (
                 'libxslt1-dev',
                 'libjpeg-dev',
                 'libdjvulibre-dev',
-                'cython',
-                'gir1.2-vips-8.0'
+                'cython'
             ],
         ],
         timeout  => 600, # This venv can be particularly long to download and setup
