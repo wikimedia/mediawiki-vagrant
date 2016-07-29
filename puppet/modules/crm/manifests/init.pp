@@ -63,6 +63,7 @@ class crm(
             'adyen_audit',
             'amazon_audit',
             'astropay_audit',
+            'banner_history',
             'civicrm',
             'contribution_audit',
             'contribution_tracking',

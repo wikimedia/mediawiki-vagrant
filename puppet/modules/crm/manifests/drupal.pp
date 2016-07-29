@@ -104,18 +104,17 @@ class crm::drupal(
     }
 
     exec { 'enable_drupal_modules':
-        command     => inline_template('<%= scope["::crm::drush::wrapper"] %> pm-enable <%= @modules.join(" ") %>'),
-        refreshonly => true,
-        subscribe   => Exec['drupal_db_install'],
-        require     => [
+        command   => inline_template('<%= scope["::crm::drush::wrapper"] %> pm-enable <%= @modules.join(" ") %>'),
+        subscribe => Exec['drupal_db_install'],
+        require   => [
             Exec['civicrm_setup'],
             File['drupal_settings_php'],
         ],
     }
 
     exec { 'update_exchange_rates':
-        command   => inline_template('<%= scope["::crm::drush::wrapper"] %> exchange-rates-update'),
-        unless    => "/usr/bin/mysql -u '${::crm::db_user}' -p'${::crm::db_pass}' '${::crm::drupal_db}' -B -N -e 'select 1 from exchange_rates') | grep -q 1",
-        subscribe => Exec['enable_drupal_modules'],
+        command => inline_template('<%= scope["::crm::drush::wrapper"] %> exchange-rates-update'),
+        unless  => "/usr/bin/mysql -u '${::crm::db_user}' -p'${::crm::db_pass}' '${::crm::drupal_db}' -B -N -e 'select 1 from exchange_rates') | grep -q 1",
+        require => Exec['enable_drupal_modules'],
     }
 }
