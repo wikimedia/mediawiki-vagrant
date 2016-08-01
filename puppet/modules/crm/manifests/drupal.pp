@@ -69,13 +69,10 @@ class crm::drupal(
     file { [ $audit_base,
             "${audit_base}/amazon",
             "${audit_base}/astropay",
-            "${audit_base}/worldpay",
             "${audit_base}/amazon/incoming",
             "${audit_base}/amazon/completed",
             "${audit_base}/astropay/incoming",
             "${audit_base}/astropay/completed",
-            "${audit_base}/worldpay/incoming",
-            "${audit_base}/worldpay/completed",
         ]:
         ensure  => directory,
         group   => 'www-data',

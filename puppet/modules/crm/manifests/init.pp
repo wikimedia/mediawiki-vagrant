@@ -97,7 +97,6 @@ class crm(
             'wmf_unsubscribe',
             'wmf_unsubscribe_qc',
             'wmf_zendesk_reports',
-            'worldpay_audit',
         ],
         settings => {
             'environment_indicator_enabled'                        => 1,
@@ -118,7 +117,7 @@ class crm(
             'fredge_payments_init_queue'                           => '/queue/payments-init',
             'queue2civicrm_batch'                                  => 5,
             'queue2civicrm_batch_time'                             => 90,
-            'queue2civicrm_gateways_to_monitor'                    => 'adyen,amazon,astropay,globalcollect,paypal,worldpay',
+            'queue2civicrm_gateways_to_monitor'                    => 'adyen,amazon,astropay,globalcollect,paypal',
             'queue2civicrm_gmetric_dmax'                           => 360,
             'queue2civicrm_gmetric_tmax'                           => 60,
             'queue2civicrm_subscription'                           => '/queue/donations',
@@ -135,10 +134,6 @@ class crm(
             'thank_you_days'                                       => 14,
             'thank_you_batch'                                      => 100,
             'unsubscribe_queue'                                    => '/queue/unsubscribe',
-            'worldpay_audit_log_search_past_days'                  => 7,
-            'worldpay_audit_recon_completed_dir'                   => '/var/spool/audit/worldpay/completed',
-            'worldpay_audit_recon_files_dir'                       => '/var/spool/audit/worldpay/incoming/',
-            'worldpay_audit_working_log_dir'                       => '/tmp/worldpay_audit/',
         },
         require  => Php::Composer::Install['crm-composer'],
     }
