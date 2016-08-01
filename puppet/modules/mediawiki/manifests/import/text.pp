@@ -49,7 +49,10 @@ define mediawiki::import::text(
         fail('"source" and "content" are mutually exclusive')
     }
 
-    $path = "${::mediawiki::page_dir}/wiki/${db_name}/${page_title}"
+    # Convert / to | in on disk path to make subpages possible. | is title
+    # safe so there shouldn't be any way to end up with a collision.
+    $safe_title = regsubst($page_title, '/', '|', 'G')
+    $path = "${::mediawiki::page_dir}/wiki/${db_name}/${safe_title}"
 
     file { $path:
         source  => $source,

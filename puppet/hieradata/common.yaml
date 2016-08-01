@@ -291,6 +291,22 @@ phabricator::log_dir: "/vagrant/logs/phd"
 phabricator::vhost_name: "phabricator%{hiera('mwv::tld')}"
 phabricator::remote: https://secure.phabricator.com/diffusion/P/phabricator.git
 
+role::iabot::deploy_dir: "%{hiera('mwv::services_dir')}"
+role::iabot::remote: https://github.com/cyberpower678/Cyberbot_II
+role::iabot::branch: test
+role::iabot::user: VagrantInternetArchiveBot
+role::iabot::password: iabot-vagrant
+role::iabot::consumer_key: 42ce640cbe03e9c7e775f5f6c1fc1d8a
+role::iabot::consumer_secret: 31afa803e1339e0273fa71352a69eeef87723217
+role::iabot::srv_secret_key: 49f796dbb5c7fe79d540752f167659e0
+role::iabot::access_token: d031340ccade6e3cd24964b7b35c6644
+role::iabot::access_secret: 628a771b7076c72ce63bb6b6a9349d94c5330ecf
+role::iabot::srv_access_secret: 3c40e3b0d2b7d640ebddf57c27ec128f
+
+role::oauthauthentication::consumer_key: 0fde3e1e451907e9653ea612f7b30a5a
+role::oauthauthentication::consumer_secret: 143a7e53fe1e0fe7f42a2aed77b8e6fc9f38112a
+role::oauthauthentication::callback_url: "http://dev.wiki.local.wmftest.net%{::port_fragment}/wiki/Special:OAuthLogin/finish"
+
 role::phragile::debug: true
 role::phragile::install_dir: "%{hiera('mwv::services_dir')}/phragile"
 role::phragile::vhost_name: "phragile%{hiera('mwv::tld')}"
