@@ -1,34 +1,39 @@
--- registers the "Hello World" consumer
-REPLACE INTO /*_*/oauth_registered_consumer(
-	oarc_consumer_key,
-	oarc_name,
-	oarc_user_id,
-	oarc_version,
-	oarc_callback_url,
-	oarc_description,
-	oarc_email,
-	oarc_email_authenticated,
-	oarc_wiki,
-	oarc_grants,
-	oarc_registration,
-	oarc_secret_key,
-	oarc_restrictions,
-	oarc_stage,
-	oarc_stage_timestamp
-) VALUES (
-	'<%= @example_consumer_key %>', -- oarc_consumer_key
-	'Hello World', -- oarc_name
-	1, -- oarc_user_id (1=Admin)
-	1.0, -- oarc_version
-	'<%= scope['::mediawiki::server_url'] %>/oauth-hello-world/', -- oarc_callback_url
-	'OAuth test for MW-Vagrant', -- oarc_description
-	'nobody@example.com', -- oarc_email
-	'20000101000000', -- oarc_email_authenticated
-	'*', -- oarc_wiki
-	'["useoauth","editpage","createeditmovepage"]', -- oarc_grants
-	'20000101000000', -- oarc_registration
-	'<%= @example_secret_key %>', -- oarc_secret_key
-	'{"IPAddresses":["0.0.0.0/0","::/0"]}', -- oarc_restrictions
-	1, -- oarc_stage
-	'20000101000000' -- oarc_stage_timestamp
-);
+USE <%= scope.lookupvar('::mediawiki::db_name') %>;
+REPLACE INTO oauth_registered_consumer(
+  oarc_consumer_key,
+  oarc_name,
+  oarc_user_id,
+  oarc_version,
+  oarc_callback_url,
+  oarc_callback_is_prefix,
+  oarc_description,
+  oarc_email,
+  oarc_email_authenticated,
+  oarc_owner_only,
+  oarc_wiki,
+  oarc_grants,
+  oarc_registration,
+  oarc_secret_key,
+  oarc_restrictions,
+  oarc_stage,
+  oarc_stage_timestamp)
+SELECT -- use select to get from username to user id & email
+  '<%= @consumer_key %>', -- oarc_consumer_key
+  '<%= @title %>', -- oarc_name
+  user.user_id, -- oarc_user_id
+  1.0, -- oarc_version
+  '<%= @callback_url %>', -- oarc_callback_url
+  <%= @is_prefix ? 1 : 0 %>, -- oarc_callback_is_prefix
+  '<%= @description %>', -- oarc_description
+  user.user_email, -- oarc_email
+  '20000101000000', -- oarc_email_authenticated
+  <%= @owner_only ? 1 : 0 %>, -- oarc_owner_only
+  '<%= @wiki %>', -- oarc_wiki
+  '<%= @grants_json %>', -- oarc_grants
+  '20000101000000', -- oarc_registration
+  '<%= @secret_key %>', -- oarc_secret_key
+  '<%= @restrictions_json %>', -- oarc_restrictions
+  1, -- oarc_stage
+  '20000101000000' -- oarc_stage_timestamp
+FROM user
+WHERE user.user_name = '<%= @user %>';
