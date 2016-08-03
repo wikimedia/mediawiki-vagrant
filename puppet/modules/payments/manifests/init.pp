@@ -49,9 +49,14 @@ class payments(
   }
 
   mediawiki::extension { [
-    'payments:FundraisingEmailUnsubscribe',
     'payments:ParserFunctions',
   ]: }
+
+  mediawiki::extension { 'payments:FundraisingEmailUnsubscribe':
+    settings => {
+      'wgStompServer' => 'tcp://localhost:61613',
+    },
+  }
 
   mediawiki::import::text { 'payments:Main_Page':
       # N.b. - Creepy abnormal multiwiki syntax
