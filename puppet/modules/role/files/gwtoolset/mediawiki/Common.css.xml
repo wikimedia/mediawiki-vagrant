@@ -1,9 +1,9 @@
-<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.9/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.9/ http://www.mediawiki.org/xml/export-0.9.xsd" version="0.9" xml:lang="en">
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.10/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.10/ http://www.mediawiki.org/xml/export-0.10.xsd" version="0.10" xml:lang="en">
   <siteinfo>
     <sitename>Wikimedia Commons</sitename>
     <dbname>commonswiki</dbname>
-    <base>http://commons.wikimedia.org/wiki/Main_Page</base>
-    <generator>MediaWiki 1.24wmf19</generator>
+    <base>https://commons.wikimedia.org/wiki/Main_Page</base>
+    <generator>MediaWiki 1.28.0-wmf.13</generator>
     <case>first-letter</case>
     <namespaces>
       <namespace key="-2" case="first-letter">Media</namespace>
@@ -40,6 +40,11 @@
       <namespace key="829" case="first-letter">Module talk</namespace>
       <namespace key="1198" case="first-letter">Translations</namespace>
       <namespace key="1199" case="first-letter">Translations talk</namespace>
+      <namespace key="2300" case="first-letter">Gadget</namespace>
+      <namespace key="2301" case="first-letter">Gadget talk</namespace>
+      <namespace key="2302" case="case-sensitive">Gadget definition</namespace>
+      <namespace key="2303" case="case-sensitive">Gadget definition talk</namespace>
+      <namespace key="2600" case="first-letter">Topic</namespace>
     </namespaces>
   </siteinfo>
   <page>
@@ -47,24 +52,20 @@
     <ns>8</ns>
     <id>550207</id>
     <revision>
-      <id>131589310</id>
-      <parentid>123828731</parentid>
-      <timestamp>2014-08-14T19:07:59Z</timestamp>
+      <id>203059159</id>
+      <parentid>203059085</parentid>
+      <timestamp>2016-08-03T22:13:56Z</timestamp>
       <contributor>
-        <username>Steinsplitter</username>
-        <id>2055977</id>
+        <username>Krinkle</username>
+        <id>607047</id>
       </contributor>
-      <comment>light gray color for GWToolset namespace. feel free to revert if you diagree.</comment>
-      <text xml:space="preserve" bytes="27028">/*
+      <model>css</model>
+      <format>text/css</format>
+      <text xml:space="preserve" bytes="26220">/*
 
 Common CSS for all skins
 
 */
-
-/* Persian specific customization */
-html[lang=fa] body, [lang=fa] {
-  font-family: Tahoma, 'Iranian Sans', 'DejaVu Sans', sans-serif;
-}
 
 /* Larger conditions-area in AbuseFilter for some */
 #wpFilterRules {
@@ -97,14 +98,14 @@ html[lang=fa] body, [lang=fa] {
  padding-left: 20px !important;
  background-image: url('//upload.wikimedia.org/wikipedia/commons/1/10/MediaWiki_Vector_skin_action_arrow.png');
  background-repeat: no-repeat;
- background-position: center left;
+ background-position: left center;
 }
 .mw-collapsible-toggle-collapsed.mw-collapsible-arrowtoggle,
 .mw-collapsible-toggle-collapsed .mw-collapsible-arrowtoggle {
  padding-left: 20px !important;
  background-image: url('//upload.wikimedia.org/wikipedia/commons/4/41/MediaWiki_Vector_skin_right_arrow.png');
  background-repeat: no-repeat;
- background-position: center left;
+ background-position: left center;
 }
 
 /* deprecated - use &quot;messagebox standard-talk&quot; */
@@ -137,10 +138,9 @@ table.metadata {
 }
 
 /* Make sure that &quot;external references&quot; from templates like [[Template:Ref]]
- do not get URL expansion, not even when printed. The anchor itself has
- class &quot;external autonumber&quot; and the url expansion is inserted when printing
- (see [http://commons.wikimedia.org/skins-1.5/common/commonPrint.css]) using the
- &quot;:after&quot; pseudo-element.
+ do not get URL expansion, not even when printed. The anchor itself has class &quot;external autonumber&quot; and
+ the url expansion is inserted when printing using the &quot;:after&quot; psueo-element.
+ See https://commons.wikimedia.org/static/current/resources/src/mediawiki.legacy/commonPrint.css
 */
 .plainlinksneverexpand a {
  background: none !important;
@@ -254,16 +254,6 @@ table.metadata {
  padding-bottom: 8px;
 }
 
-/* Show a border for warning messages on Special:Upload */
-#wpDestFile-warning {
- padding-bottom: 0;
-}
-#wpDestFile-warning ul {
- margin-left: 0;
- border: 1px solid #f00;
- padding: 1.5em;
-}
-
 /* Styling for Abuse Filter tags */
 .mw-tag-markers {
  font-style:italic;
@@ -308,9 +298,34 @@ div.RTL * ol {
  background: transparent;
 }
 
+/* Main pages */
+
+
+/* Hide title and &quot;Nominate for deletion&quot; button when viewing the main page (but not when editing it or viewing the talk page).
+ * The &quot;mw-mainpage&quot; class is for all localised main pages in [[MediaWiki:MainPages.js]].
+ */
+
+/* Optimise for &quot;Main Page&quot; because the scripts don't apply until after page load so it flashes briefly.
+ * Support IE6: &quot;.page&quot; must go after &quot;.action&quot; as IE6 only supports one class per element and uses the last one. If reversed, the rule will hide headings on all pages.
+ */
+.action-view.page-Main_Page #firstHeading,
+.mw-mainpage #firstHeading,
+.mw-mainpage #t-ajaxquickdelete,
+.mw-mainpage #localNotice,
+.mw-mainpage #siteSub,
+.mw-mainpage #catlinks {
+ display: none;
+}
+
+#mainpage-potd a img {
+ width: 100%!important;
+ -ms-interpolation-mode: bicubic;
+ height: auto!important;
+ max-width: 600px!important;
+}
 
 /* wikitable is now in core. Untill prettytable is fully replaced, define it here */
-/* See also: http://bits.wikimedia.org/skins-1.5/common/shared.css */
+/* See also: https://commons.wikimedia.org/static/current/resources/src/mediawiki.legacy/shared.css */
 /* prettytable class for skinning normal tables */
 table.prettytable {
  margin: 1em 1em 1em 0;
@@ -349,23 +364,6 @@ table.prettytable {
  margin-top: 7px;
 }
 
-/* Support for Template:IPA, Template:Unicode and Template:Polytonic.
- The inherit declaration resets the font for all browsers except MSIE6.
- The empty comment must remain.
-*/
-.IPA {
- font-family: Chrysanthi Unicode, Doulos SIL, Gentium, GentiumAlt, Code2000, TITUS Cyberbit Basic, DejaVu Sans, Bitstream Vera Sans, Bitstream Cyberbit, Arial Unicode MS, Lucida Sans Unicode, Hiragino Kaku Gothic Pro, Matrix Unicode;
- font-family /**/:inherit;
-}
-.Unicode {
- font-family: TITUS Cyberbit Basic, Code2000, Doulos SIL, Chrysanthi Unicode, Bitstream Cyberbit, Bitstream CyberBase, Bitstream Vera, Thryomanes, Gentium, GentiumAlt, Visual Geez Unicode, Lucida Grande, Arial Unicode MS, Microsoft Sans Serif, Lucida Sans Unicode;
- font-family /**/:inherit;
-}
-.polytonic {
- font-family: Athena, Gentium, Palatino Linotype, Arial Unicode MS, Lucida Sans Unicode, Lucida Grande, Code2000;
- font-family /**/:inherit;
-}
-
 .utoc .tocnumber {
  display: none;
 }
@@ -387,14 +385,9 @@ table.prettytable {
 /**
  * Style for horizontal lists (separator following item).
  * @source mediawiki.org/wiki/Snippets/Horizontal_lists
- * @revision 4 (2013-11-17)
+ * @revision 6 (2014-05-09)
  * @author [[User:Edokter]]
  */
-.skin-monobook .hlist dl,
-.skin-modern .hlist dl,
-.skin-vector .hlist dl {
-    line-height: 1.5em;
-}
 .hlist dl,
 .hlist ol,
 .hlist ul {
@@ -409,18 +402,26 @@ table.prettytable {
     display: inline;
 }
 /* Display nested lists inline */
+.hlist.inline,
+.hlist.inline dl,
+.hlist.inline ol,
+.hlist.inline ul,
 .hlist dl dl, .hlist dl ol, .hlist dl ul,
 .hlist ol dl, .hlist ol ol, .hlist ol ul,
 .hlist ul dl, .hlist ul ol, .hlist ul ul {
     display: inline;
 }
+/* Hide empty list items */
+.hlist .mw-empty-li {
+    display: none;
+}
 /* Generate interpuncts */
 .hlist dt:after {
-    content: &quot;:&quot;;
+    content: &quot;: &quot;;
 }
 .hlist dd:after,
 .hlist li:after {
-    content: &quot; ·&quot;;
+    content: &quot; · &quot;;
     font-weight: bold;
 }
 .hlist dd:last-child:after,
@@ -438,37 +439,39 @@ table.prettytable {
 .hlist dd dd:first-child:before, .hlist dd dt:first-child:before, .hlist dd li:first-child:before,
 .hlist dt dd:first-child:before, .hlist dt dt:first-child:before, .hlist dt li:first-child:before,
 .hlist li dd:first-child:before, .hlist li dt:first-child:before, .hlist li li:first-child:before {
-    content: &quot;(&quot;;
+    content: &quot; (&quot;;
     font-weight: normal;
 }
 .hlist dd dd:last-child:after, .hlist dd dt:last-child:after, .hlist dd li:last-child:after,
 .hlist dt dd:last-child:after, .hlist dt dt:last-child:after, .hlist dt li:last-child:after,
 .hlist li dd:last-child:after, .hlist li dt:last-child:after, .hlist li li:last-child:after {
-    content: &quot;)&quot;;
+    content: &quot;) &quot;;
     font-weight: normal;
 }
 /* For IE8 */
 .hlist dd dd.hlist-last-child:after, .hlist dd dt.hlist-last-child:after, .hlist dd li.hlist-last-child:after,
 .hlist dt dd.hlist-last-child:after, .hlist dt dt.hlist-last-child:after, .hlist dt li.hlist-last-child:after,
 .hlist li dd.hlist-last-child:after, .hlist li dt.hlist-last-child:after, .hlist li li.hlist-last-child:after {
-    content: &quot;)&quot;;
+    content: &quot;) &quot;;
     font-weight: normal;
 }
 /* Put ordinals in front of ordered list items */
 .hlist ol {
-    counter-reset: list-item;
+    counter-reset: listitem;
 }
 .hlist ol &gt; li {
-    counter-increment: list-item;
+    counter-increment: listitem;
 }
 .hlist ol &gt; li:before {
-    content: counter(list-item) &quot; &quot;;
+    content: &quot; &quot; counter(listitem) &quot; &quot;;
+    white-space: nowrap;
 }
 .hlist dd ol &gt; li:first-child:before,
 .hlist dt ol &gt; li:first-child:before,
 .hlist li ol &gt; li:first-child:before {
-    content: &quot;(&quot; counter(list-item) &quot; &quot;;
+    content: &quot; (&quot; counter(listitem) &quot; &quot;;
 }
+/* END of HLISTs */
 
 /* Unbulleted lists */
 .plainlist ul {
@@ -649,18 +652,7 @@ div.show-on-commons { display: block !important; }
 /* Hide deletion-instructions headers inside closed deletion requests (redundant) */
 .delh .massdeletionrequest-header { display: none; }
 
-/* Fix so &lt;syntaxhighlight&gt; tags and .css and .js pages get normal text size.
-   [[Bugzilla:26204]] */
-div.mw-geshi div,
-div.mw-geshi div pre,
-span.mw-geshi,
-pre.source-css,
-pre.source-lua,
-pre.source-javascript {
-  font-family: monospace, &quot;Courier New&quot; !important;
-}
-
-/* Note that image has annotations at Commons; visible only on other projects. See http://commons.wikimedia.org/w/index.php?title=Template_talk:ImageNote&amp;oldid=55319045 */
+/* Note that image has annotations at Commons; visible only on other projects. See https://commons.wikimedia.org/w/index.php?title=Template_talk:ImageNote&amp;oldid=55319045 */
 .annotationboxforwikipedia {
 	display: none;
 }
@@ -707,13 +699,13 @@ td.mbox-imageright {             /* The right image cell */
 }
 td.mbox-empty-cell {         /* An empty narrow cell */
     border: none;
-    padding: 0px;
+    padding: 0;
     width: 1px;
 }
 
 /* Article message box styles */
 table.ambox {
-    margin: 0px 10%;   /* 10% = Will not overlap with other elements */
+    margin: 0 10%;   /* 10% = Will not overlap with other elements */
     border: 1px solid #aaa;
     border-left: 10px solid #1e90ff;    /* Default &quot;notice&quot; blue */
     background: #fbfbfb;
@@ -922,7 +914,7 @@ table.fmbox-editnotice {
 div.mw-warning-with-logexcerpt,
 div.mw-lag-warn-high,
 div.mw-cascadeprotectedwarning,
-div#mw-protect-cascadeon {
+#mw-protect-cascadeon {
     clear: both;
     margin: 0.2em 0;
     border: 1px solid #bb7070;
@@ -967,17 +959,10 @@ body.mediawiki table.mbox-small-left {   /* For the &quot;small=left&quot; optio
     padding-left:0;
 }
 
-#mainpage-potd a img {
- width: 100%!important;
- -ms-interpolation-mode: bicubic;
- height: auto!important;
- max-width: 600px!important;
-}
-
 /* Babel */
 /* @noflip */
 table.mw-babel-wrapper {
-    margin:0em;
+    margin:0;
     margin-bottom:0.5em;
     margin-left: 1em;
     background-color: transparent;
@@ -1090,6 +1075,7 @@ span.citation:target {
  background: #ccf;
  /* @noflip */
  text-align: right;
+ /* @noflip */
  padding-right: 0.4em;
  width: 15%;
  font-weight: bold;
@@ -1111,16 +1097,15 @@ bdi, .signature-talk {
   unicode-bidi: isolate;
 }
 
-/* Do not show page title, subline text or content sub at [[Commons:The Commoner]] */
-.page-Commons_The_Commoner #firstHeading, .page-Commons_The_Commoner #siteSub, .page-Commons_The_Commoner #contentSub { display: none !important; }
-
-
 /* NS GWToolset (light grey) */
 .ns-490 #content { background-color: #f4f4f4; }
-.ns-490 div.thumb { border-color: #f4f4f4; }</text>
-      <sha1>09gv4ncy7po2knlplq2bl05ca8cu94o</sha1>
-      <model>css</model>
-      <format>text/css</format>
+.ns-490 div.thumb { border-color: #f4f4f4; }
+
+/* Turn off some irrelevant MediaWiki help page links */
+.mw-special-Upload #mw-indicator-mw-helplink {
+  display:none;
+}</text>
+      <sha1>hf68f37xepussqcl2gdj4h0k3tjsm2q</sha1>
     </revision>
   </page>
 </mediawiki>
