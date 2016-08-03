@@ -4,7 +4,7 @@
 # engine, much like Solr, but with a more user-friendly inteface.
 #
 class elasticsearch {
-    $version = '2.3.3'
+    $version = '2.3.4'
 
     package { 'elasticsearch':
         ensure => $version
