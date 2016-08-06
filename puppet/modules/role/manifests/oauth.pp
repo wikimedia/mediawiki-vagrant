@@ -21,6 +21,7 @@ class role::oauth (
             '$wgGroupPermissions["sysop"]["mwoauthmanageconsumer"] = true',
             '$wgGroupPermissions["user"]["mwoauthproposeconsumer"] = true',
             '$wgGroupPermissions["user"]["mwoauthupdateownconsumer"] = true',
+            '$wgOAuthGroupsToNotify = [ "sysop" ]',
         ]
     }
 
