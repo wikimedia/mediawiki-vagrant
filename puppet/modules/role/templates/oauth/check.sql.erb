@@ -1,4 +1,10 @@
-SELECT count(*) FROM oauth_registered_consumer
-WHERE oarc_consumer_key = '<%= @example_consumer_key %>'
-  AND oarc_callback_url = '<%= scope['::mediawiki::server_url'] %>/oauth-hello-world/'
-  AND oarc_secret_key = '<%= @example_secret_key %>';
+USE <%= scope.lookupvar('::mediawiki::db_name') %>;
+SELECT count(*)
+FROM oauth_registered_consumer
+WHERE oarc_consumer_key = '<%= @consumer_key %>'
+  AND oarc_callback_url = '<%= @callback_url %>'
+  AND oarc_secret_key = '<%= @secret_key %>'
+  AND oarc_grants = '<%= @grants_json %>'
+  AND oarc_restrictions = '<%= @restrictions_json %>'
+  AND oarc_callback_is_prefix = <%= @is_prefix ? 1 : 0 %>
+  AND oarc_owner_only = <%= @owner_only ? 1 : 0 %>;

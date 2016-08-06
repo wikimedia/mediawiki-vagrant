@@ -1,0 +1,20 @@
+USE <%= scope.lookupvar('::mediawiki::db_name') %>;
+REPLACE INTO oauth_accepted_consumer(
+  oaac_wiki,
+  oaac_user_id,
+  oaac_consumer_id,
+  oaac_access_token,
+  oaac_access_secret,
+  oaac_grants,
+  oaac_accepted)
+SELECT
+  '<%= @wiki %>', -- oaac_wiki
+  u.user_id, -- oaac_user_id
+  o.oarc_id, -- oaac_consumer_id
+  '<%= @access_token %>', -- oaac_access_token
+  '<%= @access_secret %>', -- oaac_access_secret
+  '<%= @grants_json %>', -- oaac_grants
+  '20000101000000' -- oaac_accepted
+FROM oauth_registered_consumer o INNER JOIN user u
+  ON o.oarc_user_id = u.user_id
+WHERE o.oarc_consumer_key = '<%= @consumer_key %>';

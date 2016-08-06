@@ -40,20 +40,12 @@ class role::oauth (
         content => template('role/oauth/apache.conf.erb'),
     }
 
-    file { "${dir}/register.sql":
-        content => template('role/oauth/register.sql.erb'),
-    }
-    file { "${dir}/check.sql":
-        content => template('role/oauth/check.sql.erb'),
-    }
-    mediawiki::maintenance { 'register oauth-hello-world':
-        command => "/usr/local/bin/mwscript sql.php --wiki=wiki ${dir}/register.sql",
-        unless  => "/usr/local/bin/mwscript sql.php --wiki=wiki ${dir}/check.sql | /bin/grep -q '1$'",
-        require => [
-            Mediawiki::Extension['OAuth'],
-            File["${dir}/register.sql"],
-            File["${dir}/check.sql"],
-        ]
+    role::oauth::consumer { 'Hello World':
+        description  => 'OAuth test for MW-Vagrant',
+        consumer_key => $example_consumer_key,
+        secret_key   => $example_secret_key,
+        callback_url => "${::mediawiki::server_url}/oauth-hello-world/",
+        grants       => ['useoauth', 'editpage', 'createeditmovepage'],
     }
 
     mediawiki::import::text{ 'VagrantRoleOAuth':
