@@ -12,7 +12,7 @@ class role::ores {
         needs_update => true,
         settings     => {
             # Use the staging server until production supports 'damaging'
-            wgOresBaseUrl => 'https://ores.wmflabs.org/',
+            wgOresBaseUrl => 'https://ores.wikimedia.org/',
 
             # Point at some fake data with flat probability distribution.
             wgOresWikiId  => 'testwiki',
