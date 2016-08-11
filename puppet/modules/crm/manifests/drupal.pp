@@ -10,22 +10,19 @@
 # [*files_dir*]
 #   Directory used for Drupal file store.
 #
-# [*modules*]
-#   Array of all modules that should be enabled
-#
 # [*settings*]
 #   Map from drupal variable names to default values.
 #
 class crm::drupal(
     $dir,
     $files_dir,
-    $modules,
     $settings = {},
 ) {
     include ::crm
 
     $install_script = "${dir}/sites/default/drupal-install.sh"
     $settings_path = "${dir}/sites/default/settings.php"
+    $module_list = "${dir}/sites/default/enabled_modules"
 
     $databases = [
         $::crm::drupal_db,
@@ -101,7 +98,7 @@ class crm::drupal(
     }
 
     exec { 'enable_drupal_modules':
-        command   => inline_template('<%= scope["::crm::drush::wrapper"] %> pm-enable <%= @modules.join(" ") %>'),
+        command   => inline_template('<%= scope["::crm::drush::wrapper"] %> pm-enable `cat <%= @module_list %>` '),
         subscribe => Exec['drupal_db_install'],
         require   => [
             Exec['civicrm_setup'],
