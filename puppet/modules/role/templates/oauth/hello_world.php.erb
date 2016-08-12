@@ -218,7 +218,7 @@ function doAuthorizationRedirect() {
 	$token = json_decode( $data );
 	if ( is_object( $token ) && isset( $token->error ) ) {
 		header( "HTTP/1.1 $errorCode Internal Server Error" );
-		echo 'Error retrieving token: ' . htmlspecialchars( $token->error );
+		echo 'Error retrieving token: ' . htmlspecialchars( $token->error )  . '<br>' . htmlspecialchars( $token->message );
 		exit(0);
 	}
 	if ( !is_object( $token ) || !isset( $token->key ) || !isset( $token->secret ) ) {
@@ -285,7 +285,7 @@ function fetchAccessToken() {
 	$token = json_decode( $data );
 	if ( is_object( $token ) && isset( $token->error ) ) {
 		header( "HTTP/1.1 $errorCode Internal Server Error" );
-		echo 'Error retrieving token: ' . htmlspecialchars( $token->error );
+		echo 'Error retrieving token: ' . htmlspecialchars( $token->error ) . '<br>' . htmlspecialchars( $token->message );
 		exit(0);
 	}
 	if ( !is_object( $token ) || !isset( $token->key ) || !isset( $token->secret ) ) {
