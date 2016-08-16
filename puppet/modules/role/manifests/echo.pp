@@ -17,9 +17,11 @@ class role::echo(
     $echo_dir,
 ) {
     require ::role::mediawiki
+
+    include ::role::betafeatures
     include ::role::centralauth
     include ::role::eventlogging
-    include ::role::betafeatures
+    include ::role::svg
 
     mysql::sql { 'create echo_unread_wikis':
         sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/db_patches/echo_unread_wikis.sql;",
