@@ -32,6 +32,7 @@ class role::multimedia {
             wgSharpenParameter           => '0x0.8',
             wgUseImageMagick             => true,
             wgUseTinyRGBForJPGThumbnails => true,
+            wgUploadThumbnailRenderMap   => [ 320, 640, 800, 1024, 1280, 1920, 2560, 2880 ],
         }
     }
 }
