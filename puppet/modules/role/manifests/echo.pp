@@ -41,16 +41,19 @@ class role::echo(
     mediawiki::extension { 'Echo':
         needs_update => true,
         settings     => {
-            wgEchoCrossWikiNotifications                              => true,
-            wgEchoSharedTrackingCluster                               => $shared_tracking_cluster,
-            wgEchoSharedTrackingDB                                    => $shared_tracking_db,
+            wgEchoCrossWikiNotifications                                       => true,
+            wgEchoSharedTrackingCluster                                        => $shared_tracking_cluster,
+            wgEchoSharedTrackingDB                                             => $shared_tracking_db,
             # For now, we don't use the extension cluster for
             # wgEchoCluster, until we solve update.php.
 
-            wgEchoEnableEmailBatch                                    => false,
-            wgAllowHTMLEmail                                          => true,
-            wgEchoUseCrossWikiBetaFeature                             => false,
-            'wgDefaultUserOptions[\'echo-cross-wiki-notifications\']' => true,
+            wgEchoEnableEmailBatch                                             => false,
+            wgAllowHTMLEmail                                                   => true,
+            wgEchoUseCrossWikiBetaFeature                                      => false,
+            'wgDefaultUserOptions[\'echo-cross-wiki-notifications\']'          => true,
+            'wgEchoConfig[\'eventlogging\'][\'Echo\'][\'enabled\']'            => true,
+            'wgEchoConfig[\'eventlogging\'][\'EchoMail\'][\'enabled\']'        => true,
+            'wgEchoConfig[\'eventlogging\'][\'EchoInteraction\'][\'enabled\']' => true,
         },
     }
 
