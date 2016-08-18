@@ -11,6 +11,10 @@
 # [*dbname*]
 #   Database name. Defaults to resource title. Example: 'wikidb'.
 #
+# [*options*]
+#   Additional options to pass to the create command.
+#   Example 'CHARACTER SET utf8mb4 COLLATE utf8mb4_bin'. Default ''.
+#
 # === Examples
 #
 # Creates a 'centralauth' database:
@@ -20,8 +24,9 @@
 #  }
 #
 define mysql::db(
-    $ensure = present,
-    $dbname = $title,
+    $ensure  = present,
+    $dbname  = $title,
+    $options = '',
 ) {
     if $ensure == 'absent' {
         $command = 'drop'
@@ -31,7 +36,7 @@ define mysql::db(
         $unless  = 'exists'
     }
 
-    mysql::sql { "${command} database ${dbname}":
+    mysql::sql { "${command} database ${dbname} ${options}":
         unless => "select ${unless}(select * from information_schema.schemata where schema_name = '${dbname}')",
     }
 }

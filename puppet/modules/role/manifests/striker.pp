@@ -70,6 +70,7 @@ class role::striker(
     include ::role::ldapauth
     include ::apache::mod::wsgi_py3
     include ::memcached
+    require ::mysql::large_prefix
 
     file { "${log_dir}/striker":
         ensure => 'directory',
@@ -134,7 +135,8 @@ class role::striker(
     }
 
     mysql::db { $db_name:
-        ensure => present,
+        ensure  => present,
+        options => 'CHARACTER SET utf8mb4 COLLATE utf8mb4_bin',
     }
     mysql::user { $db_user:
         ensure   => present,
