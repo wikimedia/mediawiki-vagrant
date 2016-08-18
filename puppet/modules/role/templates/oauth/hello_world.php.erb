@@ -132,7 +132,7 @@ switch ( isset( $_GET['action'] ) ? $_GET['action'] : '' ) {
  * @param string $url URL string
  * @param array $params Extra parameters for the Authorization header or post
  * 	data (if application/x-www-form-urlencoded).
- *Â @return string Signature
+ * @return string Signature
  */
 function sign_request( $method, $url, $params = array() ) {
 	global $gConsumerSecret, $gTokenSecret;
@@ -574,7 +574,7 @@ function doTestSpecial() {
 <p>OAuth is a method for your application to act on behalf of a user on a website, without having to know the user's username and password. First your application is regisetered with the website, then you send the user to a special page on the website where they give your application permission, and then you provide special HTTP headers when accessing the website.</p>
 
 <h2>Creating your consumer</h2>
-<p>To be able to use OAuth in your application, you first need to register it as a consumer. To do this, you visit Special:OAuthConsumerRegistration on the OAuth central wiki. For WMF wikis, this is currently <a href="https://www.mediawiki.org/wiki/Special:OAuthConsumerRegistration/propose">mediawiki.org</a>, but will likely change to Meta once OAuth is fully deployed.</p>
+<p>To be able to use OAuth in your application, you first need to register it as a consumer. To do this, you visit Special:OAuthConsumerRegistration on the OAuth central wiki. For WMF wikis, this is currently <a href="https://meta.wikimedia.org/wiki/Special:OAuthConsumerRegistration/propose">meta.wikimedia.org</a>.</p>
 <p>On this page, you will fill out information required by your application. Most of the fields are straightforward. Of the rest:</p>
 <ul>
  <li>OAuth "callback" URL: After the user authorizes the application, their browser will be sent to this URL. It will be given two parameters, <code>oauth_verifier</code> and <code>oauth_token</code>, which your application will need in order to complete the authorization process.</li>
