@@ -59,7 +59,7 @@ class crm(
     package { 'ganglia-monitor': }
 
     class { 'crm::drupal':
-        settings => {
+        drupal_settings => {
             'environment_indicator_enabled'                        => 1,
             'environment_indicator_text'                           => 'DEVELOPMENT',
             'environment_indicator_position'                       => 'left',
@@ -96,6 +96,6 @@ class crm(
             'thank_you_batch'                                      => 100,
             'unsubscribe_queue'                                    => '/queue/unsubscribe',
         },
-        require  => Php::Composer::Install['crm-composer'],
+        require         => Php::Composer::Install['crm-composer'],
     }
 }

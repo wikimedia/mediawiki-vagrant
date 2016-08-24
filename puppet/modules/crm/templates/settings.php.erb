@@ -23,7 +23,7 @@ foreach ( $dbs as $key => $db ) {
 }
 
 # default settings for drupal variable_get
-<% @settings.each do |k, v| %>
+<% @drupal_settings.each do |k, v| %>
     $conf['<%= k %>'] = '<%= v %>';
 <% end %>
 
@@ -33,6 +33,8 @@ $civicrm_setting['URL Preferences']['userFrameworkResourceURL'] = '<%= scope['::
 
 # FIXME: That's annoying.
 require_once __DIR__ . '/../../vendor/autoload.php';
+
+require_once __DIR__ . '/DonationInterface.settings.php';
 
 # Include local overrides.
 if ( file_exists( __DIR__ . '/settings.local.php' ) ) {

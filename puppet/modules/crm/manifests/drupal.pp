@@ -10,13 +10,13 @@
 # [*files_dir*]
 #   Directory used for Drupal file store.
 #
-# [*settings*]
+# [*drupal_settings*]
 #   Map from drupal variable names to default values.
 #
 class crm::drupal(
     $dir,
     $files_dir,
-    $settings = {},
+    $drupal_settings = {},
 ) {
     include ::crm
 
@@ -93,6 +93,13 @@ class crm::drupal(
     file { 'drupal_settings_php':
         path    => $settings_path,
         content => template('crm/settings.php.erb'),
+        mode    => '0644',
+        require => Git::Clone[$::crm::repo],
+    }
+
+    file { 'drupal_donationinterface_settings_php':
+        path    => "${dir}/sites/default/DonationInterface.settings.php",
+        content => template('crm/DonationInterface.settings.php.erb'),
         mode    => '0644',
         require => Git::Clone[$::crm::repo],
     }
