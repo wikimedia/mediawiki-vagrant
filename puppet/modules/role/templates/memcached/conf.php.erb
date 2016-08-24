@@ -10,6 +10,7 @@ $wgMemCachedServers = array( '127.0.0.1:<%= scope['::memcached::port'] %>' );
 
 $wgObjectCaches['memcached-pecl'] = array(
 	'class' => 'MemcachedPeclBagOStuff',
+	'use_binary_protocol' => true,
 	'serializer' => 'php',
 	'persistent' => false,
 	'servers' => $wgMemCachedServers,
