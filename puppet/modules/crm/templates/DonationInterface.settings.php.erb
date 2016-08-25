@@ -18,13 +18,17 @@ global
 	$wgDonationInterfacePriceFloor,
 	$wgDonationInterfacePriceCeiling,
 	$wgDonationInterfaceRetryLoopCount,
+	$wgDonationInterfaceEnableCustomFilters,
 	$wgDonationInterfaceEnableMinfraud,
 	$wgDonationInterfaceEnableReferrerFilter,
 	$wgDonationInterfaceEnableSourceFilter,
 	$wgDonationInterfaceEnableFunctionsFilter,
 	$wgDonationInterfaceEnableIPVelocityFilter,
 	$wgDonationInterfaceEnableSessionVelocityFilter,
-	$wgGlobalCollectGatewayCustomFiltersFunctions;
+	$wgGlobalCollectGatewayCustomFiltersFunctions,
+	$wgDonationInterfaceCustomFiltersActionRanges,
+	$wgGlobalCollectGatewayCvvMap,
+	$wgGlobalCollectGatewayAvsMap;
 
 $wgDonationInterfaceDefaultQueueServer = array(
         'type' => 'PHPQueue\Backend\Stomp',
@@ -75,7 +79,8 @@ $wgDonationInterfacePriceCeiling = 10000;
 $wgDonationInterfaceRetryLoopCount = 3;
 
 // Fraud configuration
-$wgDonationInterfaceEnableMinfraud = true;
+$wgDonationInterfaceEnableCustomFilters = true;
+$wgDonationInterfaceEnableMinfraud = false;
 $wgDonationInterfaceEnableReferrerFilter = true;
 $wgDonationInterfaceEnableSourceFilter = true;
 $wgDonationInterfaceEnableFunctionsFilter = true;
@@ -89,4 +94,57 @@ $wgGlobalCollectGatewayCustomFiltersFunctions = array(
   'getScoreCountryMap' => 5,
   'getScoreUtmCampaignMap' => 7,
   'getScoreEmailDomainMap' => 11,
+);
+
+$wgDonationInterfaceCustomFiltersActionRanges = array(
+	"process" => array(
+		0,
+		100,
+	),
+	"review" => array(
+		-1,
+		-1,
+	),
+	"challenge" => array(
+		-1,
+		-1,
+	),
+	"reject" => array(
+		-1,
+		-1,
+	),
+);
+
+$wgGlobalCollectGatewayCvvMap = array(
+	"M" => true,
+	"N" => false,
+	"P" => true,
+	"S" => false,
+	"U" => true,
+	"Y" => false,
+	"0" => true,
+	"" => false,
+);
+
+$wgGlobalCollectGatewayAvsMap = array(
+	"A" => 50,
+	"B" => 50,
+	"C" => 50,
+	"D" => 0,
+	"E" => 100,
+	"F" => 0,
+	"G" => 50,
+	"I" => 50,
+	"M" => 0,
+	"N" => 100,
+	"P" => 50,
+	"R" => 100,
+	"S" => 50,
+	"U" => 50,
+	"W" => 50,
+	"X" => 0,
+	"Y" => 0,
+	"Z" => 50,
+	"0" => 25,
+	"" => 100,
 );
