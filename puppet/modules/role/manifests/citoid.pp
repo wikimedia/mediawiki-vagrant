@@ -7,7 +7,7 @@ class role::citoid {
 
     mediawiki::extension { 'Citoid':
         settings => {
-            wgCitoidServiceUrl => "//\$wgServerName:${::citoid::port}/api"
+            wgCitoidServiceUrl => "//{\$wgServer}:${::citoid::port}/api"
         }
     }
 }
