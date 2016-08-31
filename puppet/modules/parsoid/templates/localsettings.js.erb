@@ -14,27 +14,4 @@ exports.setup = function( parsoidConfig ) {
     <%- if @allow_cors -%>
     parsoidConfig.allowCORS = '<%= @allow_cors %>';
     <%- end %>
-
-    // Direct logs to logstash via bunyan and gelf-stream.
-    // To enable Logstash on MediaWiki-Vagrant:
-    //   vagrant roles enable elk; vagrant provision
-    //
-    // See `vagrant roles info elk` for more information.
-    parsoidConfig.loggerBackend = {
-      name: ':Logger.bunyan/BunyanLogger',
-      options: {
-        name: 'parsoid',
-        streams: [
-          {
-            path: '<%= @log_file %>',
-            level: '<%= @loglev %>'
-          },
-          {
-            type: 'raw',
-            stream: require('gelf-stream').forBunyan('127.0.0.1', 12201),
-            level: '<%= @loglev %>'
-          }
-        ]
-      }
-    };
 };
