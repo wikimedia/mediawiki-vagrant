@@ -67,6 +67,8 @@ class thumbor (
     # For lxml, a dependency of thumbor-plugins
     require_package('libxml2-dev', 'libxslt1-dev')
 
+    require_package('firejail')
+
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
 
@@ -79,6 +81,14 @@ class thumbor (
         home    => '/var/run/thumbor',
         gid     => 'thumbor',
         require => Group['thumbor'],
+    }
+
+    file { '/etc/firejail/thumbor.profile':
+        ensure => present,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0444',
+        source => 'puppet:///modules/thumbor/thumbor.profile',
     }
 
     virtualenv::environment { $deploy_dir:
@@ -101,8 +111,10 @@ class thumbor (
                 'libxslt1-dev',
                 'libjpeg-dev',
                 'libdjvulibre-dev',
-                'cython'
+                'cython',
+                'firejail'
             ],
+            File['/etc/firejail/thumbor.profile'],
         ],
         timeout  => 600, # This venv can be particularly long to download and setup
     }
