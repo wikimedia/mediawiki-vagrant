@@ -171,7 +171,7 @@ ENGINE = 'wikimedia_thumbor.engine.proxy'
 
 ## Indicates if the /unsafe URL should be available
 ## Defaults to: True
-#ALLOW_UNSAFE_URL = True
+ALLOW_UNSAFE_URL = False
 
 ## Indicates if encrypted (old style) URLs should be allowed
 ## Defaults to: True
@@ -483,7 +483,7 @@ FILTERS = [
 
 ## Indicates whether unsafe requests should also be stored in the Result Storage
 ## Defaults to: False
-RESULT_STORAGE_STORES_UNSAFE = True
+#RESULT_STORAGE_STORES_UNSAFE = False
 
 ################################################################################
 
@@ -604,6 +604,7 @@ SWIFT_SHARDED_CONTAINERS = [
 	'wiki-en-local-thumb'
 ]
 SWIFT_PATH_PREFIX = 'thumbor/'
+SWIFT_CONNECTION_TIMEOUT = 5
 
 PROXY_ENGINE_ENGINES = [
     ('wikimedia_thumbor.engine.svg', ['svg']),
