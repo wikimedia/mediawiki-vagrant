@@ -5,18 +5,19 @@ class payments::donation_interface {
 
   mediawiki::extension { 'payments:DonationInterface':
     settings     => {
-      wgGlobalCollectGatewayEnabled            => true,
-      wgAdyenGatewayEnabled                    => true,
-      wgAmazonGatewayEnabled                   => true,
-      wgAstroPayGatewayEnabled                 => true,
-      wgPaypalGatewayEnabled                   => true,
-      wgDonationInterfaceEnableFormChooser     => true,
-      wgDonationInterfaceEnableQueue           => true,
-      wgDonationInterfaceEnableSystemStatus    => true,
-      wgDonationInterfaceEnableFunctionsFilter => true,
-      wgDonationInterfaceEnableMinfraud        => false,
-      wgDonationInterfaceEnableReferrerFilter  => true,
-      wgDonationInterfaceEnableSourceFilter    => true,
+      wgGlobalCollectGatewayEnabled             => true,
+      wgAdyenGatewayEnabled                     => true,
+      wgAmazonGatewayEnabled                    => true,
+      wgAstroPayGatewayEnabled                  => true,
+      wgPaypalGatewayEnabled                    => true,
+      wgDonationInterfaceEnableFormChooser      => true,
+      wgDonationInterfaceEnableBannerHistoryLog => true,
+      wgDonationInterfaceEnableQueue            => true,
+      wgDonationInterfaceEnableSystemStatus     => true,
+      wgDonationInterfaceEnableFunctionsFilter  => true,
+      wgDonationInterfaceEnableMinfraud         => false,
+      wgDonationInterfaceEnableReferrerFilter   => true,
+      wgDonationInterfaceEnableSourceFilter     => true,
 
       wgDonationInterfaceTest                  => true,
 
@@ -55,8 +56,28 @@ class payments::donation_interface {
           'expiry'    => 3600,
           'order_key' => 'date',
         },
-        'pending-new'            => {
-          'queue'   => 'pending',
+        'pending'                => {
+          'type'    => 'PHPQueue\Backend\Predis',
+          'servers' => 'tcp://localhost',
+          'expiry'  => 3600,
+        },
+        'complete-new'           => {
+          'queue'   => 'donations',
+          'type'    => 'PHPQueue\Backend\Predis',
+          'servers' => 'tcp://localhost',
+          'expiry'  => 3600,
+        },
+        'banner-history'     => {
+          'type'    => 'PHPQueue\Backend\Predis',
+          'servers' => 'tcp://localhost',
+          'expiry'  => 3600,
+        },
+        'payments-antifraud' => {
+          'type'    => 'PHPQueue\Backend\Predis',
+          'servers' => 'tcp://localhost',
+          'expiry'  => 3600,
+        },
+        'payments-init'      => {
           'type'    => 'PHPQueue\Backend\Predis',
           'servers' => 'tcp://localhost',
           'expiry'  => 3600,
@@ -64,8 +85,8 @@ class payments::donation_interface {
       },
 
       wgDonationInterfaceQueueMirrors          => {
-        'globalcollect-cc-limbo' => 'pending-new',
-        'pending'                => 'pending-new',
+        'globalcollect-cc-limbo' => 'pending',
+        'complete'               => 'complete-new',
       },
 
       wgDonationInterfaceOrphanCron            => {

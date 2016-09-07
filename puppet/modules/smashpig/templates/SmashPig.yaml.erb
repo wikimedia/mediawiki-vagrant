@@ -1,10 +1,56 @@
 default:
     data-store:
-        pending-db:
-            inst-args:
+        # FIXME some way to reuse this between config files
+        redis: &REDIS
+            servers:
+                scheme: tcp
+                host: 127.0.0.1
+                port: 6379
+
+        mysql: &MYSQL
+            class: PDO
+            constructor-parameters:
                 - mysql:host=127.0.0.1;dbname=smashpig
                 - root
                 - "<%= scope.lookupvar('mysql::root_password') %>"
+
+        pending-db:
+            <<: *MYSQL
+
+        damaged-db:
+            <<: *MYSQL
+
+        banner-history:
+            class: PHPQueue\Backend\Predis
+            constructor-parameters:
+                -
+                    <<: *REDIS
+                    queue: 'banner-history'
+
+        recurring:
+            constructor-parameters:
+                -
+                    - recurring-stomp
+                    - recurring-new
+
+        refund:
+            constructor-parameters:
+                -
+                    - refund-stomp
+                    - refund-new
+
+        verified:
+            constructor-parameters:
+                -
+                    - verified-stomp
+                    - donations
+
+        payments-init:
+            class: PHPQueue\Backend\Predis
+            constructor-parameters:
+                -
+                    <<: *REDIS
+                    queue: payments-init
 
 adyen:
     payment-provider:
