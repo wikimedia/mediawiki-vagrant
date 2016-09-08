@@ -50,11 +50,18 @@ class smashpig(
     mysql::db { 'smashpig': }
 
     exec { 'smashpig_schema':
-        command => "/usr/bin/mysql -uroot -p${mysql::root_password} smashpig -qfsA < ${dir}/Schema/001_CreatePendingTable.sql",
-        unless  => "/usr/bin/mysql -uroot -p${mysql::root_password} smashpig -qfsANe \"select 1 from smashpig.pending\" | /usr/bin/tail -1 | /bin/grep -q 1",
+        command => "cat ${dir}/Schema/mysql/*.sql | /usr/bin/mysql -uroot -p${mysql::root_password} smashpig -qfsA",
         require => [
             Git::Clone['wikimedia/fundraising/SmashPig'],
             Mysql::Db['smashpig'],
         ],
     }
+
+    file { '/etc/cron.d/SmashPig':
+        content => template('smashpig/SmashPig.cron.d.erb'),
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0644'
+    }
+
 }
