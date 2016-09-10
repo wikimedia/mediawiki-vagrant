@@ -22,18 +22,10 @@ class role::restbase (
 ) {
     require ::role::mediawiki
     include ::role::parsoid
+    include ::role::eventbus
     include ::restbase
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
-
-    # Set up the update extension
-    mediawiki::extension { 'RestBaseUpdateJobs':
-        settings => {
-            wgRestbaseServer => "http://127.0.0.1:${::restbase::port}",
-            wgRestbaseDomain => $::restbase::domain,
-        },
-        wiki     => $::mediawiki::wiki_db,
-    }
 
     # Register the PHP Virtual REST Service connector
     mediawiki::settings { 'RESTBase-VRS':
