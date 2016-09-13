@@ -566,7 +566,7 @@ SENTRY_DSN_URL = '<%= scope.function_file([@sentry_dsn_file]) %>'
 
 CHROMA_SUBSAMPLING = '4:2:0'
 QUALITY_LOW = 40
-DEFAULT_FILTERS_JPEG = 'conditional_sharpen(0.6,0.01,false,0.85)'
+DEFAULT_FILTERS_JPEG = 'conditional_sharpen(0.0,0.8,1.0,0.0,0.85)'
 
 COMMUNITY_EXTENSIONS = [
     'wikimedia_thumbor.handler.multi',
@@ -574,7 +574,6 @@ COMMUNITY_EXTENSIONS = [
 ]
 
 EXIFTOOL_PATH = '/usr/bin/exiftool'
-EXIFTOOL_STAY_OPEN = True
 EXIF_FIELDS_TO_KEEP = [ 'Artist', 'Copyright', 'Description' ]
 EXIF_TINYRGB_PATH = '/srv/thumbor/tinyrgb.icc'
 EXIF_TINYRGB_ICC_REPLACE = 'sRGB IEC61966-2.1'
