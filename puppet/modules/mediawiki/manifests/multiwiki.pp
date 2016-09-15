@@ -172,9 +172,9 @@ class mediawiki::multiwiki(
         content => template('mediawiki/docroot/w/RunJobs.php.erb'),
     }
 
-    file { "${script_dir}/assets":
+    file { "${script_dir}/docs":
         ensure => link,
-        target => "${::mediawiki::dir}/assets",
+        target => "${::mediawiki::dir}/docs",
     }
 
     file { "${script_dir}/extensions":
