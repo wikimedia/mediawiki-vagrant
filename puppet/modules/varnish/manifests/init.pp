@@ -38,9 +38,9 @@ class varnish {
     # We need to build from source because the tbf vmod needs the
     # built source, can't rely only on the headers
     git::clone { 'Varnish-Cache':
-        branch    => '4.1',
+        branch    => 'varnish-4.1.3',
         directory => '/tmp/Varnish-Cache',
-        remote    => 'https://github.com/varnish/Varnish-Cache',
+        remote    => 'https://github.com/varnishcache/varnish-cache',
     }
 
     file { '/tmp/build-varnish.sh':
@@ -195,6 +195,7 @@ class varnish {
 
     # Build and install vmods (which include xkey)
     git::clone { 'varnish-modules':
+        branch    => 'varnish-modules-0.9.1',
         directory => '/tmp/varnish-modules',
         remote    => 'https://github.com/varnish/varnish-modules',
     }
