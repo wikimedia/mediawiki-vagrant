@@ -1,13 +1,14 @@
 # == Class: role::zero
 # Configures Zero for local use
 class role::zero {
-    include ::role::zend
-    include ::role::mobilefrontend
-    include ::role::jsonconfig
-    include ::role::thumb_on_404
-    include ::role::scribunto
     include ::role::graph
+    include ::role::jsonconfig
+    include ::role::langwikis
+    include ::role::mobilefrontend
     include ::role::parserfunctions
+    include ::role::scribunto
+    include ::role::thumb_on_404
+    include ::role::zend
 
     mediawiki::extension { 'ZeroBanner':
         priority => $::LOAD_LATER, # Must be after JsonConfig & MobileFrontEnd
@@ -25,8 +26,4 @@ class role::zero {
             '$wgRawHtml = true',
         ],
     }
-
-    mediawiki::wiki { 'es': }
-    mediawiki::wiki { 'ru': }
-    mediawiki::wiki { 'zh': }
 }

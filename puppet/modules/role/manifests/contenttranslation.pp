@@ -29,6 +29,9 @@
 #     category_keyword: 'Categoría'
 #     high_mt_category: 'MT'
 #
+# Note: The language wikis (keys) must also exist in the
+# role::langwikis::langwiki_list hiera configuration.
+#
 class role::contenttranslation {
   include ::role::betafeatures
   include ::role::eventlogging

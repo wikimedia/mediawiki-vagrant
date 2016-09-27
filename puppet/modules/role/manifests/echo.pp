@@ -17,11 +17,11 @@ class role::echo(
     $echo_dir,
 ) {
     require ::role::mediawiki
-
     include ::role::betafeatures
     include ::role::centralauth
     include ::role::eventlogging
     include ::role::svg
+    include ::role::langwikis
 
     mysql::sql { 'create echo_unread_wikis':
         sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/db_patches/echo_unread_wikis.sql;",
@@ -55,48 +55,6 @@ class role::echo(
             'wgEchoConfig[\'eventlogging\'][\'EchoMail\'][\'enabled\']'        => true,
             'wgEchoConfig[\'eventlogging\'][\'EchoInteraction\'][\'enabled\']' => true,
         },
-    }
-
-    mediawiki::wiki { 'fr': }
-
-    mediawiki::settings { 'fr settings':
-        wiki   => 'fr',
-        values => {
-            'wgLanguageCode' => 'fr',
-            'wgSitename'     => 'Wikipédia',
-        }
-    }
-
-    mediawiki::wiki { 'he': }
-
-    mediawiki::settings { 'hewiki settings':
-        wiki   => 'he',
-        values => {
-            'wgLanguageCode' => 'he',
-            'wgSitename'     => 'ויקיפדיה',
-        }
-    }
-
-    # Due to MWV idiosyncracies, this is db_name frwiktionarywiki
-    mediawiki::wiki { 'frwiktionary': }
-
-    mediawiki::settings { 'frwiktionary settings':
-        wiki   => 'frwiktionary',
-        values => {
-            'wgLanguageCode' => 'fr',
-            'wgSitename'     => 'Wiktionnaire',
-        }
-    }
-
-    # Due to MWV idiosyncracies, this is db_name zhwikivoyagewiki
-    mediawiki::wiki { 'zhwikivoyage': }
-
-    mediawiki::settings { 'zhwikivoyage settings':
-        wiki   => 'zhwikivoyage',
-        values => {
-            'wgLanguageCode' => 'zh',
-            'wgSitename'     => '维基导游',
-        }
     }
 
     mediawiki::extension { 'Thanks':

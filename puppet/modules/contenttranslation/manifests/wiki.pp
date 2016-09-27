@@ -19,16 +19,17 @@
 #     category_keyword: 'Categoría'
 #     high_mt_category: 'MT'
 #
+# Note: The language wikis (keys) must also exist in the
+# role::langwikis::langwiki_list hiera configuration.
+#
 define contenttranslation::wiki(
     $category_keyword,
     $high_mt_category,
 ) {
-    ensure_resource('mediawiki::wiki', $title)
 
     mediawiki::settings { "contenttranslation_${title}":
         wiki   => $title,
         values => {
-            'wgLanguageCode'                     => $title,
             'wgContentTranslationHighMTCategory' => "${category_keyword}:${high_mt_category}"
         },
     }

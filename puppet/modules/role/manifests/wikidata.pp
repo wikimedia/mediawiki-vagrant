@@ -10,9 +10,9 @@ class role::wikidata(
 ) {
     require ::role::mediawiki
     include ::role::sitematrix
+    include ::role::langwikis
 
     mediawiki::wiki { 'wikidata': }
-    ensure_resource('mediawiki::wiki', 'en')
 
     # TODO: Going to http://wikidata.wiki.local.wmftest.net:8080/
     # will work, but if you explicitly visit Main_Page in the main

@@ -100,6 +100,7 @@ class contenttranslation(
 ) {
     include ::mediawiki
     include ::mysql
+    include ::role::langwikis
 
     create_resources(contenttranslation::wiki, $wikis)
 

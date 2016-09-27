@@ -356,6 +356,34 @@ role::ldapauth::proxy_agent_password: vagrant_agent
 role::ldapauth::writer_password: vagrant_writer
 role::ldapauth::admin_password: vagrant_admin
 
+role::langwikis::langwiki_list:
+    en:
+        language: en
+        sitename: Wikipedia
+    es:
+        language: es
+        sitename: Wikipedia
+    fr:
+        language: fr
+        sitename: Wikipédia
+    frwiktionary:
+        # Due to MWV idiosyncracies, this is db_name frwiktionarywiki
+        language: fr
+        sitename: Wiktionnaire
+    he:
+        language: he
+        sitename: ויקיפדיה
+    ru:
+        language: ru
+        sitename: Википедия
+    zh:
+        language: zh
+        sitename: 维基百科
+    zhwikivoyage:
+        # Due to MWV idiosyncracies, this is db_name zhwikivoyagewiki
+        language: zh
+        sitename: 维基导游
+
 role::mediawiki::hostname: "dev%{hiera('mediawiki::multiwiki::base_domain')}"
 
 role::quips::vhost_name: "quips%{hiera('mwv::tld')}%{::port_fragment}"
