@@ -62,6 +62,16 @@ class openldap(
         notify  => Service['slapd'],
     }
 
+    file { '/etc/ldap/schema/openssh-ldap.schema':
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        source  => 'puppet:///modules/openldap/openssh-ldap.schema',
+        require => Package['slapd'],
+        notify  => Service['slapd'],
+    }
+
     file { '/etc/ldap/slapd.conf' :
         ensure  => present,
         owner   => 'openldap',
