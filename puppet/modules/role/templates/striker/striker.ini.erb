@@ -53,3 +53,6 @@ TRUSTED_PROXY_LIST = <%= @xff_trusted_hosts.join(' ') %>
 HANDLERS = file
 LEVEL = DEBUG
 FILE_FILENAME = <%= @log_dir %>/striker/django.log
+
+[wikitech]
+SERVER_URL = <%= @wikitech_url %>

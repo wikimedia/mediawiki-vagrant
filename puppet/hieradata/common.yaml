@@ -389,6 +389,7 @@ role::striker::phabricator_url: "http://%{hiera('phabricator::vhost_name')}%{::p
 role::striker::phabricator_user: striker
 role::striker::phabricator_token: "!Set in local.yaml after creating bot!"
 role::striker::phabricator_repo_admin_group: "!Set in local.yaml after creating group!"
+role::striker::wikitech_url: "http://ldapauth%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
 role::striker::use_xff: false
 
 role::oauth::dir: "%{hiera('mwv::services_dir')}/oauth-hello-world"

@@ -43,6 +43,9 @@
 # [*phabricator_repo_admin_group*]
 #   PHID of git repository administrators group
 #
+# [*wikitech_url*]
+#   URL to Wikitech instance.
+#
 # [*use_xff*]
 #   Use X-Forwared-For provided IP address for rate limiting
 #
@@ -62,6 +65,7 @@ class role::striker(
     $phabricator_user,
     $phabricator_token,
     $phabricator_repo_admin_group,
+    $wikitech_url,
     $use_xff,
     $xff_trusted_hosts             = undef,
 ){
