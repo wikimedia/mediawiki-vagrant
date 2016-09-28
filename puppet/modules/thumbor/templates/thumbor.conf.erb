@@ -620,8 +620,14 @@ PROXY_LOADER_LOADERS = [
 	'wikimedia_thumbor.loader.https'
 ]
 
+HTTP_LOADER_MAX_BODY_SIZE = 1024 * 1024 * 1024  # 1GB
 
-HTTP_LOADER_MAX_BODY_SIZE = 1024 * 1024 * 1024
-HTTP_LOADER_TEMP_FILE_TIMEOUT = 70
+# 2 minutes, for situations where an engine failed to clean up after itself
+HTTP_LOADER_TEMP_FILE_TIMEOUT = 120
+
+MANHOLE_DEBUGGING = True
+
+# Overrides the community core class in order to install manhole
+APP_CLASS = 'wikimedia_thumbor.app.App'
 
 ################################################################################

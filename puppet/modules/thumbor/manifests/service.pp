@@ -39,9 +39,10 @@ define thumbor::service (
         require   => [
             Virtualenv::Environment[$deploy_dir],
             User['thumbor'],
+            File['/etc/firejail/thumbor.profile'],
         ],
         subscribe => [
-            File["${deploy_dir}/tinyrgb.icc", $cfg_file, "/etc/init/thumbor-${port}.conf"],
+            File["${deploy_dir}/tinyrgb.icc", $cfg_file, "/etc/init/thumbor-${port}.conf", '/etc/firejail/thumbor.profile'],
             Cgroup::Config['thumbor'],
         ],
     }

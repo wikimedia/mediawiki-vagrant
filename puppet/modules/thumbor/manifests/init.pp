@@ -101,20 +101,17 @@ class thumbor (
             'git+git://github.com/thumbor-community/core',
             'git+https://phabricator.wikimedia.org/diffusion/THMBREXT/thumbor-plugins.git',
         ],
-        require  => [
-            Package[
-                'libjpeg-progs',
-                # Needs to be an explicit dependency, for the packages pointing to git repos
-                'git',
-                'libcurl4-gnutls-dev',
-                'libxml2-dev',
-                'libxslt1-dev',
-                'libjpeg-dev',
-                'libdjvulibre-dev',
-                'cython',
-                'firejail'
-            ],
-            File['/etc/firejail/thumbor.profile'],
+        require  => Package[
+            'libjpeg-progs',
+            # Needs to be an explicit dependency, for the packages pointing to git repos
+            'git',
+            'libcurl4-gnutls-dev',
+            'libxml2-dev',
+            'libxslt1-dev',
+            'libjpeg-dev',
+            'libdjvulibre-dev',
+            'cython',
+            'firejail'
         ],
         timeout  => 600, # This venv can be particularly long to download and setup
     }
