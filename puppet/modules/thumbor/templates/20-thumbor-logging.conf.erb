@@ -1,0 +1,84 @@
+from wikimedia_thumbor.logging.filter.context import ContextFilter
+from wikimedia_thumbor.logging.filter.http404 import Http404Filter
+
+
+THUMBOR_LOG_CONFIG = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {
+            'format': '%(asctime)s %(port)s %(name)s:%(levelname)s %(message)s'
+        }
+    },
+    'filters': {
+        'context': {
+            '()': ContextFilter,
+            'flag': 'log'
+        },
+        '404only': {
+            '()': Http404Filter,
+            'flag': 'only'
+        },
+        '404exclude': {
+            '()': Http404Filter,
+            'flag': 'exclude'
+        },
+        'silentcontext': {
+            '()': ContextFilter
+        }
+    },
+    'handlers': {
+        'error': {
+            'level': 'ERROR',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'default',
+            'filename': '<%= @log_dir %>/thumbor.error.log',
+            'interval': 1,
+            'when': 'D',
+            'backupCount': 4,
+            'encoding': 'utf8',
+            'delay': False,
+            'filters': ['context', '404exclude']
+        },
+        'rootdebug': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'default',
+            'filters': ['silentcontext']
+        },
+        'debug': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'default',
+            'filename': '<%= @log_dir %>/thumbor.debug.log',
+            'interval': 1,
+            'when': 'D',
+            'backupCount': 4,
+            'encoding': 'utf8',
+            'delay': False,
+            'filters': ['context', '404exclude']
+        },
+        'http404': {
+            'level': 'WARNING',
+            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'formatter': 'default',
+            'filename': '<%= @log_dir %>/thumbor.404.log',
+            'interval': 1,
+            'when': 'D',
+            'backupCount': 4,
+            'encoding': 'utf8',
+            'delay': False,
+            'filters': ['context', '404only']
+        }
+    },
+    'loggers': {
+        '': {
+            'level': 'DEBUG',
+            'handlers': ['rootdebug']
+        },
+        'thumbor': {
+            'level': 'DEBUG',
+            'handlers': ['debug', 'error', 'http404']
+        }
+
+    }
+}

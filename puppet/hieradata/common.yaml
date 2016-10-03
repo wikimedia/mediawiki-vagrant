@@ -455,7 +455,8 @@ trafficserver::version: 6.0.0
 trafficserver::port: 6090
 
 thumbor::deploy_dir: "%{hiera('mwv::vendor_dir')}/thumbor"
-thumbor::cfg_file: /etc/thumbor.conf
+thumbor::cfg_dir: /etc/thumbor.d
+thumbor::log_dir: /vagrant/logs/thumbor
 thumbor::statsd_port: "%{hiera('statsd::port')}"
 thumbor::sentry_dsn_file: "%{hiera('sentry::dsn_file')}"
 
