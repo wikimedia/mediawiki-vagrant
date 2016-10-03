@@ -24,23 +24,18 @@ THUMBOR_LOG_CONFIG = {
             'flag': 'exclude'
         },
         'silentcontext': {
-            '()': ContextFilter
+            '()': ContextFilter,
         }
     },
     'handlers': {
-        'error': {
+        'errorstream': {
             'level': 'ERROR',
-            'class': 'logging.handlers.TimedRotatingFileHandler',
+            'class': 'logging.StreamHandler',
             'formatter': 'default',
-            'filename': '<%= @log_dir %>/thumbor.error.log',
-            'interval': 1,
-            'when': 'D',
-            'backupCount': 4,
-            'encoding': 'utf8',
-            'delay': False,
             'filters': ['context', '404exclude']
         },
-        'rootdebug': {
+        'debugstream': {
+            'level': 'DEBUG',
             'class': 'logging.StreamHandler',
             'formatter': 'default',
             'filters': ['silentcontext']
@@ -73,12 +68,7 @@ THUMBOR_LOG_CONFIG = {
     'loggers': {
         '': {
             'level': 'DEBUG',
-            'handlers': ['rootdebug']
-        },
-        'thumbor': {
-            'level': 'DEBUG',
-            'handlers': ['debug', 'error', 'http404']
+            'handlers': ['debug', 'debugstream', 'errorstream', 'http404']
         }
-
     }
 }

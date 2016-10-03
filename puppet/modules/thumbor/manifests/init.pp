@@ -126,11 +126,11 @@ class thumbor (
     }
 
     file { $cfg_dir:
-        ensure  => directory,
+        ensure => directory,
     }
 
     file { $log_dir:
-        ensure  => directory,
+        ensure => directory,
     }
 
     file { "${cfg_dir}/10-thumbor.conf":
@@ -146,22 +146,22 @@ class thumbor (
     }
 
     file { "${cfg_dir}/20-thumbor-logging.conf":
-        ensure    => present,
-        group     => 'thumbor',
-        content   => template('thumbor/20-thumbor-logging.conf.erb'),
-        mode      => '0640',
-        require   => [
+        ensure  => present,
+        group   => 'thumbor',
+        content => template('thumbor/20-thumbor-logging.conf.erb'),
+        mode    => '0640',
+        require => [
             File[$cfg_dir, $log_dir],
             Group['thumbor'],
         ],
     }
 
     file { "${cfg_dir}/20-thumbor-wikimedia.conf":
-        ensure    => present,
-        group     => 'thumbor',
-        content   => template('thumbor/20-thumbor-wikimedia.conf.erb'),
-        mode      => '0640',
-        require   => [
+        ensure  => present,
+        group   => 'thumbor',
+        content => template('thumbor/20-thumbor-wikimedia.conf.erb'),
+        mode    => '0640',
+        require => [
             File[$cfg_dir],
             Group['thumbor'],
         ],
