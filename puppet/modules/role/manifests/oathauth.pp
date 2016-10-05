@@ -6,6 +6,7 @@
 class role::oathauth {
     mediawiki::extension { 'OATHAuth':
         needs_update => true,
+        settings     => template('role/oathauth/conf.php.erb'),
     }
 }
 
