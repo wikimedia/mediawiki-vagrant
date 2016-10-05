@@ -72,6 +72,7 @@ class role::striker(
     require ::role::mediawiki
     include ::role::oauth
     include ::role::ldapauth
+    include ::role::titleblacklist
     include ::apache::mod::wsgi_py3
     include ::memcached
     require ::mysql::large_prefix
@@ -233,5 +234,11 @@ class role::striker(
     # Add some documentation for developers
     mediawiki::import::text { 'VagrantRoleStriker':
         content => template('role/striker/VagrantRoleStriker.wiki.erb'),
+    }
+
+    mediawiki::import::text { 'MediaWiki:Titleblacklist':
+        source  => 'puppet:///modules/role/striker/MediaWiki:Titleblacklist.wiki',
+        db_name => 'ldapauthwiki',
+        wiki    => 'ldapauth',
     }
 }
