@@ -17,9 +17,12 @@ class role::ores {
             # Point at some fake data with flat probability distribution.
             wgOresWikiId  => 'testwiki',
 
-            # This parameter is supposed to be an array, but we're working
-            # around T121378 and a limitation in the testwiki pseudomodels.
-            wgOresModels  => 'damaging',
+            wgOresModels  => {
+                damaging  => true,
+                goodfaith => false,
+                reverted  => false,
+                wp10      => false,
+            },
         },
     }
 
