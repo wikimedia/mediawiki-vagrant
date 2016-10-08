@@ -70,8 +70,9 @@ class role::striker(
     $xff_trusted_hosts             = undef,
 ){
     require ::role::mediawiki
-    include ::role::oauth
     include ::role::ldapauth
+    include ::role::oathauth
+    include ::role::oauth
     include ::role::titleblacklist
     include ::apache::mod::wsgi_py3
     include ::memcached
