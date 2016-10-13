@@ -2,9 +2,9 @@
 ### THIS FILE IS MANAGED BY PUPPET
 #####################################################################
 
-description "<%= @title %>"
+description "swift-<%= @title %>"
 
 start on mediawiki-ready
 respawn
 
-exec /usr/bin/<%= @title %> <%= @cfg_file %>
+exec /usr/bin/swift-<%= @title %> <%= @cfg_file %>

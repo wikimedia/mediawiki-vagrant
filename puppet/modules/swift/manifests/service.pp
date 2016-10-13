@@ -16,17 +16,22 @@
 define swift::service(
     $cfg_file,
 ) {
-    file { "/etc/init/${title}.conf":
+    file { "/etc/init/swift-${title}.conf":
         ensure  => present,
         content => template('swift/upstart.erb'),
         mode    => '0444',
     }
 
-    service { $title:
+    service { "swift-${title}":
         ensure    => running,
         enable    => true,
         provider  => 'upstart',
         subscribe => File[$cfg_file],
-        require   => File[$cfg_file, "/etc/init/${title}.conf"],
+        require   => File[$cfg_file, "/etc/init/swift-${title}.conf"],
+    }
+
+    rsyslog::conf { "rsyslog-swift-${title}":
+        content  => template('swift/rsyslog.conf.erb'),
+        priority => 40,
     }
 }

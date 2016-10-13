@@ -134,72 +134,72 @@ class swift (
         require     => Package['swift-container'],
     }
 
-    swift::service { 'swift-account-server':
+    swift::service { 'account-server':
         cfg_file => $account_cfg_file,
         require  => Ring[$account_cfg_file],
     }
 
-    swift::service { 'swift-account-auditor':
+    swift::service { 'account-auditor':
         cfg_file => $account_cfg_file,
         require  => Ring[$account_cfg_file],
     }
 
-    swift::service { 'swift-account-reaper':
+    swift::service { 'account-reaper':
         cfg_file => $account_cfg_file,
         require  => Ring[$account_cfg_file],
     }
 
-    swift::service { 'swift-account-replicator':
+    swift::service { 'account-replicator':
         cfg_file => $account_cfg_file,
         require  => Ring[$account_cfg_file],
     }
 
-    swift::service { 'swift-container-server':
+    swift::service { 'container-server':
         cfg_file => $container_cfg_file,
         require  => Ring[$container_cfg_file],
     }
 
-    swift::service { 'swift-container-auditor':
+    swift::service { 'container-auditor':
         cfg_file => $container_cfg_file,
         require  => Ring[$container_cfg_file],
     }
 
-    swift::service { 'swift-container-replicator':
+    swift::service { 'container-replicator':
         cfg_file => $container_cfg_file,
         require  => Ring[$container_cfg_file],
     }
 
-    swift::service { 'swift-container-sync':
+    swift::service { 'container-sync':
         cfg_file => $container_cfg_file,
         require  => Ring[$container_cfg_file],
     }
 
-    swift::service { 'swift-container-updater':
+    swift::service { 'container-updater':
         cfg_file => $container_cfg_file,
         require  => Ring[$container_cfg_file],
     }
 
-    swift::service { 'swift-object-server':
+    swift::service { 'object-server':
         cfg_file => $object_cfg_file,
         require  => Ring[$object_cfg_file],
     }
 
-    swift::service { 'swift-object-auditor':
+    swift::service { 'object-auditor':
         cfg_file => $object_cfg_file,
         require  => Ring[$object_cfg_file],
     }
 
-    swift::service { 'swift-object-replicator':
+    swift::service { 'object-replicator':
         cfg_file => $object_cfg_file,
         require  => Ring[$object_cfg_file],
     }
 
-    swift::service { 'swift-object-updater':
+    swift::service { 'object-updater':
         cfg_file => $object_cfg_file,
         require  => Ring[$object_cfg_file],
     }
 
-    swift::service { 'swift-proxy-server':
+    swift::service { 'proxy-server':
         cfg_file  => $proxy_cfg_file,
         require   => File['/usr/local/lib/python2.7/dist-packages/wmf/'],
         subscribe => File['/usr/local/lib/python2.7/dist-packages/wmf/'],
