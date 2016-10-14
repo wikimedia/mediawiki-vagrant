@@ -4,4 +4,6 @@
 # Ensure that the script is run as the www-data user
 [[ $(whoami) = www-data ]] || exec sudo --preserve-env -u www-data -n -- "$0" "$@"
 
-exec php5 <%= @script_dir %>/MWScript.php "$@"
+[ "$PHP" = "" ] && PHP=php5
+
+exec $PHP <%= @script_dir %>/MWScript.php "$@"
