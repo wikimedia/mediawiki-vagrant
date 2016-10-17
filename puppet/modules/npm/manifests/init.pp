@@ -40,7 +40,14 @@ class npm (
         owner   => 'root',
         group   => 'root',
         require => Exec['ins-apt-transport-https'],
-        notify  => Exec['apt-get update'],
+        before  => Apt::Pin['nodejs'],
+    }
+
+    # pin it higher than the Wikimedia repo
+    apt::pin { 'nodejs':
+        package  => 'nodejs',
+        pin      => 'release o=Node Source',
+        priority => 1010,
     }
 
     # install the npm and nodejs-legacy packages manually
@@ -56,7 +63,7 @@ class npm (
     package { 'nodejs':
         ensure  => latest,
         require => [
-            File['/etc/apt/sources.list.d/nodesource.list'],
+            Apt::Pin['nodejs'],
             Exec['apt-get update']
         ],
     }
