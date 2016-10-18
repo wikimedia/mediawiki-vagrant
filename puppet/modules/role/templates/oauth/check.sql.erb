@@ -1,4 +1,4 @@
-USE <%= scope.lookupvar('::mediawiki::db_name') %>;
+USE <%= @db_name %>;
 SELECT count(*)
 FROM oauth_registered_consumer
 WHERE oarc_consumer_key = '<%= @consumer_key %>'

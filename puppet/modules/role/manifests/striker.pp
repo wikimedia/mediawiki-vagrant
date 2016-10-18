@@ -46,6 +46,24 @@
 # [*wikitech_url*]
 #   URL to Wikitech instance.
 #
+# [*wikitech_consumer_key*]
+#   OAuth consumer key
+#
+# [*wikitech_consumer_secret*]
+#   OAuth consumer secret for Wikitech StrikerBot account
+#
+# [*wikitech_srv_secret_key*]
+#   OAuth server-side secret key for Wikitech StrikerBot account
+#
+# [*wikitech_access_token*]
+#   OAuth access token for Wikitech StrikerBot account
+#
+# [*wikitech_access_secret*]
+#   OAuth access secret for Wikitech StrikerBot account
+#
+# [*wikitech_srv_access_secret*]
+#   OAuth server-side access secret for Wikitech StrikerBot account
+#
 # [*use_xff*]
 #   Use X-Forwared-For provided IP address for rate limiting
 #
@@ -66,6 +84,12 @@ class role::striker(
     $phabricator_token,
     $phabricator_repo_admin_group,
     $wikitech_url,
+    $wikitech_consumer_key,
+    $wikitech_consumer_secret,
+    $wikitech_srv_secret_key,
+    $wikitech_access_token,
+    $wikitech_access_secret,
+    $wikitech_srv_access_secret,
     $use_xff,
     $xff_trusted_hosts             = undef,
 ){
@@ -230,6 +254,45 @@ class role::striker(
         command => template('role/striker/ldap_data.erb'),
         unless  => template('role/striker/ldap_check.erb'),
         require => Class['::role::ldapauth'],
+    }
+
+    # Setup ldapauthwiki
+    mediawiki::settings { 'ldapauth:oath-group':
+        values => [
+            '$wgGroupPermissions["oathauth"]["oathauth-api-all"] = true;',
+        ]
+    }
+    mediawiki::user { 'StrikerBot':
+        wiki     => 'ldapauthwiki',
+        password => 'striker-vagrant',
+        groups   => [
+            'bot',
+            'oathauth',
+        ],
+    }
+    role::oauth::consumer { 'StrikerBot':
+        user          => 'StrikerBot',
+        description   => 'StrikerBot',
+        owner_only    => true,
+        consumer_key  => $wikitech_consumer_key,
+        secret_key    => $wikitech_srv_secret_key,
+        access_token  => $wikitech_access_token,
+        access_secret => $wikitech_srv_access_secret,
+        callback_url  => '/wiki/Special:OAuth/verified',
+        grants        => [
+            'useoauth',
+            'highvolume',
+            'editpage',
+            'editprotected',
+            'createeditmovepage',
+            'rollback',
+            'blockusers',
+            'protect',
+            'sendemail',
+            'privateinfo',
+            'oath',
+        ],
+        db_name       => 'ldapauthwiki',
     }
 
     # Add some documentation for developers

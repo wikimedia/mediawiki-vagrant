@@ -1,4 +1,4 @@
-USE <%= scope.lookupvar('::mediawiki::db_name') %>;
+USE <%= @db_name %>;
 SELECT count(*)
 FROM oauth_accepted_consumer
 WHERE oaac_access_token = '<%= @access_token %>'

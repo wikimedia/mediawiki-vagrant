@@ -418,6 +418,12 @@ role::striker::phabricator_user: striker
 role::striker::phabricator_token: "!Set in local.yaml after creating bot!"
 role::striker::phabricator_repo_admin_group: "!Set in local.yaml after creating group!"
 role::striker::wikitech_url: "http://ldapauth%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
+role::striker::wikitech_consumer_key: 621c0e27ecb5316720a859f7d34b6728
+role::striker::wikitech_consumer_secret: dd44dbcca3cd0dfe2a504fe201f8c999e7ad3f56
+role::striker::wikitech_srv_secret_key: 8a15fc34bb0779c4c103c48b69b0325f
+role::striker::wikitech_access_token: 41e42e26966db11c7f9ba131e335c996
+role::striker::wikitech_access_secret: 02a8a95723f373e9a4cee68b1d5313c397190892
+role::striker::wikitech_srv_access_secret: 478fc0fc9d5059b2ae343252ca48ef90
 role::striker::use_xff: false
 
 role::oauth::dir: "%{hiera('mwv::services_dir')}/oauth-hello-world"

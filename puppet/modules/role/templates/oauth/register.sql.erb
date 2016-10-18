@@ -1,4 +1,4 @@
-USE <%= scope.lookupvar('::mediawiki::db_name') %>;
+USE <%= @db_name %>;
 REPLACE INTO oauth_registered_consumer(
   oarc_consumer_key,
   oarc_name,

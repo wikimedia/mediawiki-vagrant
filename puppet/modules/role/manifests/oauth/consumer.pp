@@ -40,6 +40,7 @@ define role::oauth::consumer (
     $owner_only    = false,
     $access_token  = undef,
     $access_secret = undef,
+    $db_name       = $::mediawiki::db_name,
 ) {
     include ::role::oauth
 
