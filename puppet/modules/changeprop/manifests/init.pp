@@ -16,6 +16,8 @@ class changeprop(
     $log_level = undef,
 ) {
 
+    require_package('libsasl2-dev')
+
     $restbase_port = defined(Class['restbase']) ? {
         true    => $::restbase::port,
         default => 7231,
