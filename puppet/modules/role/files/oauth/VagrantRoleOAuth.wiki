@@ -3,6 +3,7 @@ Documentation for OAuth: [[mw:Help:OAuth]], [[mw:Extension:OAuth]]
 Special pages:
 * list consumers: [[Special:OAuthListConsumers]]
 * manage own consumers: [[Special:OAuthConsumerRegistration]]
+* manage all consumers: [[Special:OAuthManageConsumers]]
 * manage own grants: [[Special:OAuthManageMyGrants]]
 * consumer management log: [[Special:Log/mwoauthconsumer]]
 
