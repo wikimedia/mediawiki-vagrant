@@ -1,0 +1,3 @@
+The [[mw:Extension:PageViewInfo|PageViewInfo]] extension provides pageview data via
+* action=info ([{{fullurl:Main Page|action=info}} example])
+
