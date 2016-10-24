@@ -1,3 +1,6 @@
 The [[mw:Extension:PageViewInfo|PageViewInfo]] extension provides pageview data via
 * action=info ([{{fullurl:Main Page|action=info}} example])
+* API prop=pageviews ([{{fullurl:Special:ApiSandbox|#action=query&format=json&prop=pageviews&list=&titles=Main+Page}} example])
+* API meta=siteviews ([{{fullurl:Special:ApiSandbox|#action=query&format=json&meta=siteviews}} example])
+* API list=mostviewed ([{{fullurl:Special:ApiSandbox|#action=query&format=json&list=mostviewed&pvimlimit=50}} example], [{{fullurl:Special:ApiSandbox|#action=query&format=json&generator=mostviewed&gpvimlimit=10}} generator example])
 
