@@ -20,6 +20,13 @@ default:
         damaged-db:
             <<: *MYSQL
 
+        fredge-db:
+            class: PDO
+            constructor-parameters:
+                - mysql:host=127.0.0.1;dbname=fredge
+                - root
+                - "<%= scope.lookupvar('mysql::root_password') %>"
+
         banner-history:
             class: PHPQueue\Backend\Predis
             constructor-parameters:
