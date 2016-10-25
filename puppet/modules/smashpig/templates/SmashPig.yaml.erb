@@ -34,24 +34,6 @@ default:
                     <<: *REDIS
                     queue: 'banner-history'
 
-        recurring:
-            constructor-parameters:
-                -
-                    - recurring-stomp
-                    - recurring-new
-
-        refund:
-            constructor-parameters:
-                -
-                    - refund-stomp
-                    - refund-new
-
-        verified:
-            constructor-parameters:
-                -
-                    - verified-stomp
-                    - donations
-
         payments-init:
             class: PHPQueue\Backend\Predis
             constructor-parameters:

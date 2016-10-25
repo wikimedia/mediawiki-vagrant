@@ -3,4 +3,6 @@
 # Requeue delayed messages that are due for reprocessing
 2-52/10 * * * *	www-data	php <%= scope.lookupvar('smashpig::dir') %>/Maintenance/RequeueDelayedMessages.php
 # Run jobs to process Adyen IPN messages
-4-59/5 * * * *	www-data	php <%= scope.lookupvar('smashpig::dir') %>/Maintenance/StompJobRunner.php --config-node adyen
+4-59/5 * * * *	www-data	php <%= scope.lookupvar('smashpig::dir') %>/Maintenance/QueueJobRunner.php --config-node adyen --queue jobs-adyen
+# Run jobs to process PayPal IPN messages
+3-58/5 * * * *	www-data	php <%= scope.lookupvar('smashpig::dir') %>/Maintenance/QueueJobRunner.php --config-node paypal --queue jobs-paypal

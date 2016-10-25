@@ -31,9 +31,12 @@ global
 	$wgGlobalCollectGatewayAvsMap;
 
 $wgDonationInterfaceDefaultQueueServer = array(
-        'type' => 'PHPQueue\Backend\Stomp',
-        'persistent' => 1,
-        'uri' => 'tcp://<%= scope['::activemq::hostname'] %>:<%= scope['::activemq::port'] %>',
+        'type' => 'PHPQueue\Backend\Predis',
+        'servers' => array(
+                'scheme' => 'tcp',
+                'host' => 'localhost',
+                'port' => 6379,
+        ),
 );
 
 $wgDonationInterfaceQueues = array(

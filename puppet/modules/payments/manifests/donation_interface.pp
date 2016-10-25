@@ -44,49 +44,14 @@ class payments::donation_interface {
       wgDonationInterfaceUseSyslog              => true,
 
       wgDonationInterfaceDefaultQueueServer     => {
-        'type'       => 'PHPQueue\Backend\Stomp',
-        'uri'        => 'tcp://localhost:61613',
-        'persistent' => 1
+        'type'    => 'PHPQueue\Backend\Predis',
+        'servers' => 'tcp://localhost',
       },
 
       wgDonationInterfaceQueues                 => {
-        'globalcollect-cc-limbo' => {
-          'type'      => 'PHPQueue\Backend\Predis',
-          'servers'   => 'tcp://localhost',
-          'expiry'    => 3600,
-          'order_key' => 'date',
+        'complete' => {
+          'queue' => 'donations',
         },
-        'pending'                => {
-          'type'    => 'PHPQueue\Backend\Predis',
-          'servers' => 'tcp://localhost',
-          'expiry'  => 3600,
-        },
-        'complete-new'           => {
-          'queue'   => 'donations',
-          'type'    => 'PHPQueue\Backend\Predis',
-          'servers' => 'tcp://localhost',
-          'expiry'  => 3600,
-        },
-        'banner-history'         => {
-          'type'    => 'PHPQueue\Backend\Predis',
-          'servers' => 'tcp://localhost',
-          'expiry'  => 3600,
-        },
-        'payments-antifraud'     => {
-          'type'    => 'PHPQueue\Backend\Predis',
-          'servers' => 'tcp://localhost',
-          'expiry'  => 3600,
-        },
-        'payments-init'          => {
-          'type'    => 'PHPQueue\Backend\Predis',
-          'servers' => 'tcp://localhost',
-          'expiry'  => 3600,
-        },
-      },
-
-      wgDonationInterfaceQueueMirrors           => {
-        'globalcollect-cc-limbo' => 'pending',
-        'complete'               => 'complete-new',
       },
 
       wgDonationInterfaceOrphanCron             => {
