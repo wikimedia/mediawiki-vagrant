@@ -5,6 +5,8 @@
 # Consortium to provide locale data in the XML format for use in computer
 # applications.
 class role::cldr {
+    require_package('unzip')
+
     mediawiki::extension { 'cldr':
         priority => $::LOAD_LATER,
     }
