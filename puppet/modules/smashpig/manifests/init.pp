@@ -59,9 +59,9 @@ class smashpig(
 
     file { '/etc/cron.d/SmashPig':
         content => template('smashpig/SmashPig.cron.d.erb'),
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0644'
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644'
     }
 
 }

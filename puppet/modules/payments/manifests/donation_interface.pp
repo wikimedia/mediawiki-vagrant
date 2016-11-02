@@ -19,9 +19,9 @@ class payments::donation_interface {
       wgDonationInterfaceEnableReferrerFilter   => true,
       wgDonationInterfaceEnableSourceFilter     => true,
 
-      wgDonationInterfaceTest                  => true,
+      wgDonationInterfaceTest                   => true,
 
-      wgAdyenGatewayAccountInfo                => {
+      wgAdyenGatewayAccountInfo                 => {
         'test' => {
           'AccountName'  => 'test',
           'SkinCode'     => 'test',
@@ -29,27 +29,27 @@ class payments::donation_interface {
           'PublicKey'    => 'test',
         },
       },
-      wgDonationInterfaceAdyenPublicKey        => '10001|9C916360EC9BD4530A9BCF8367069EDD88E48E0569310B8653452723372B1635035E3DE63D1EF882D17918E0E6EA73D8248815C2D95E8D2EAE6F65A0D8359E903AB84024A3230F6A05797C9116FA0264FCD00E5ED3A2BC0FA897E74DAA4496337318507659EF5D03974D92204C9464C197B1E11FA7814442751EA069EFC2E470A9E82A8E621D899A02C4173B4019F74F16A59B22336421639BAC1513644EEE47298CCBAA681C1E8F0B00B0BC18638BA7FEA22FC394972ACE4BD7038E866CF3FFBF20FB860669137083EE73DD53DE5934ADC6378B9',
+      wgDonationInterfaceAdyenPublicKey         => '10001|9C916360EC9BD4530A9BCF8367069EDD88E48E0569310B8653452723372B1635035E3DE63D1EF882D17918E0E6EA73D8248815C2D95E8D2EAE6F65A0D8359E903AB84024A3230F6A05797C9116FA0264FCD00E5ED3A2BC0FA897E74DAA4496337318507659EF5D03974D92204C9464C197B1E11FA7814442751EA069EFC2E470A9E82A8E621D899A02C4173B4019F74F16A59B22336421639BAC1513644EEE47298CCBAA681C1E8F0B00B0BC18638BA7FEA22FC394972ACE4BD7038E866CF3FFBF20FB860669137083EE73DD53DE5934ADC6378B9',
 
-      wgGlobalCollectGatewayAccountInfo        => {
+      wgGlobalCollectGatewayAccountInfo         => {
         'test' => {
           'MerchantID' => 'test'
         }
       },
 
-      wgPaypalGatewayURL                       => 'https://www.sandbox.paypal.com/cgi-bin/webscr',
+      wgPaypalGatewayURL                        => 'https://www.sandbox.paypal.com/cgi-bin/webscr',
 
-      wgDonationInterfaceMemcacheHost          => 'localhost',
+      wgDonationInterfaceMemcacheHost           => 'localhost',
 
-      wgDonationInterfaceUseSyslog             => true,
+      wgDonationInterfaceUseSyslog              => true,
 
-      wgDonationInterfaceDefaultQueueServer    => {
+      wgDonationInterfaceDefaultQueueServer     => {
         'type'       => 'PHPQueue\Backend\Stomp',
         'uri'        => 'tcp://localhost:61613',
         'persistent' => 1
       },
 
-      wgDonationInterfaceQueues                => {
+      wgDonationInterfaceQueues                 => {
         'globalcollect-cc-limbo' => {
           'type'      => 'PHPQueue\Backend\Predis',
           'servers'   => 'tcp://localhost',
@@ -67,29 +67,29 @@ class payments::donation_interface {
           'servers' => 'tcp://localhost',
           'expiry'  => 3600,
         },
-        'banner-history'     => {
+        'banner-history'         => {
           'type'    => 'PHPQueue\Backend\Predis',
           'servers' => 'tcp://localhost',
           'expiry'  => 3600,
         },
-        'payments-antifraud' => {
+        'payments-antifraud'     => {
           'type'    => 'PHPQueue\Backend\Predis',
           'servers' => 'tcp://localhost',
           'expiry'  => 3600,
         },
-        'payments-init'      => {
+        'payments-init'          => {
           'type'    => 'PHPQueue\Backend\Predis',
           'servers' => 'tcp://localhost',
           'expiry'  => 3600,
         },
       },
 
-      wgDonationInterfaceQueueMirrors          => {
+      wgDonationInterfaceQueueMirrors           => {
         'globalcollect-cc-limbo' => 'pending',
         'complete'               => 'complete-new',
       },
 
-      wgDonationInterfaceOrphanCron            => {
+      wgDonationInterfaceOrphanCron             => {
         'enable'                       => true,
         'max_per_execute'              => '',
         'override_command_line_params' => true,
