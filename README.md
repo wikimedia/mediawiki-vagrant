@@ -49,8 +49,8 @@ See `support/README-libvirt.md` `support/README-lxc.md` or
 
 Next, you'll need a copy of the mediawiki-vagrant project files.
 
- * zip: https://git.wikimedia.org/zip/?r=mediawiki/vagrant.git&h=HEAD&format=zip
- * tar.gz: https://git.wikimedia.org/zip/?r=mediawiki/vagrant.git&h=HEAD&format=gz
+ * zip: https://github.com/wikimedia/mediawiki-vagrant/archive/master.zip
+ * tar.gz: https://github.com/wikimedia/mediawiki-vagrant/archive/master.tar.gz
  * Git: `git clone https://gerrit.wikimedia.org/r/mediawiki/vagrant`
 
 If you've downloaded the zip file or tarball, you will need to extract it to a
