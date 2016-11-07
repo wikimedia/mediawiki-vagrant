@@ -27,31 +27,11 @@
 # http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
 #
 
-# T151928: Vagrant 1.9.0 unable to install local mediawiki-vagrant plugin
-Vagrant.require_version '< 1.9.0'
+# The .vagrantplugins loading mechanism we use was added in v1.7.0
+Vagrant.require_version '>= 1.7.0'
 
-
-# Ensure we're using the latest version of the plugin
-require_relative 'lib/mediawiki-vagrant/version'
-require 'fileutils'
 require 'ipaddr'
 require 'socket'
-
-# NOTE Use RubyGems over the Vagrant plugin manager as it's more reliable
-gemspec = Gem::Specification.find { |s| s.name == 'mediawiki-vagrant' }
-setup = Vagrant::Util::Platform.windows? ? 'setup.bat' : 'setup.sh'
-
-if gemspec.nil?
-  raise "The mediawiki-vagrant plugin hasn't been installed yet. Please run `#{setup}`."
-else
-  installed = gemspec.version
-    latest = Gem::Version.new(MediaWikiVagrant::VERSION)
-    requirement = Gem::Requirement.new("~> #{latest.segments.first(2).join('.')}")
-
-    raise "Your mediawiki-vagrant plugin isn't up-to-date. Please re-run `#{setup}`." unless requirement.satisfied_by?(installed)
-end
-
-require 'mediawiki-vagrant/settings/definitions'
 
 mwv = MediaWikiVagrant::Environment.new(File.expand_path('..', __FILE__))
 settings = mwv.load_settings

@@ -1,0 +1,4 @@
+# vim:ft=ruby:
+$: << File.join(File.expand_path('..', __FILE__), 'lib')
+require 'mediawiki-vagrant'
+require 'mediawiki-vagrant/settings/definitions'
