@@ -13,6 +13,7 @@ class role::cirrussearch {
     include ::role::kafka
     # not strictly required for cirrussearch, but used in the tests
     include ::role::svg
+    include ::role::sitematrix
     # necessary for CirrusSearch.php.erb to point to service root dir
     require ::service
 
