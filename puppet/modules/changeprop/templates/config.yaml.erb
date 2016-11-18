@@ -146,7 +146,7 @@ spec:
                 topic: mediawiki.page-undelete
                 exec:
                   method: get
-                  uri: '<%= @restbase_uri %>/{{message.meta.domain}}/v1/page/html/{message.page_title}'
+                  uri: '<%= @restbase_uri %>/{{message.meta.domain}}/v1/page/title/{message.page_title}'
                   headers:
                     cache-control: no-cache
                   query:
