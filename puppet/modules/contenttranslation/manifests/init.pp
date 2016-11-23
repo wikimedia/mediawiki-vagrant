@@ -41,9 +41,6 @@
 #   Whether of not to make ContentTranslation only accessible as a beta
 #   feature.
 #
-# [*experimental*]
-#   Whether or not to enable experimental ContentTranslation features.
-#
 # [*intarget*]
 #   Whether or not to translate article on the target language wiki.
 #
@@ -84,7 +81,6 @@ class contenttranslation(
     $database_password,
     $eventlogging,
     $betafeature,
-    $experimental,
     $intarget,
     $namespace,
     $suggestions,
@@ -106,7 +102,6 @@ class contenttranslation(
             'wgContentTranslationEventLogging'            => $eventlogging,
             'wgContentTranslationTranslateInTarget'       => $intarget,
             'wgContentTranslationAsBetaFeature'           => $betafeature,
-            'wgContentTranslationeExperimentalFeatures'   => $experimental,
             'wgContentTranslationTargetNamespace'         => $namespace,
             'wgContentTranslationEnableSuggestions'       => $suggestions,
         }
