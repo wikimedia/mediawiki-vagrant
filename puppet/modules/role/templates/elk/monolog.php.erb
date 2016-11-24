@@ -19,7 +19,7 @@ $wgMWLoggerDefaultSpi['args'][0]['handlers']['what'] = [
 	],
 ];
 $wgMWLoggerDefaultSpi['args'][0]['formatters']['logstash'] = [
-	'class' => '\\Monolog\\Formatter\\LogstashFormatter',
+	'class' => '\\MediaWiki\\Logger\\Monolog\\LogstashFormatter',
 	'args'  => [ 'mediawiki', php_uname( 'n' ), null, '', 1 ],
 ];
 
