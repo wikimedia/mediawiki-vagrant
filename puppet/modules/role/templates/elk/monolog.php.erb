@@ -3,14 +3,23 @@
 $wgDebugTimestamps = false;
 $wgDBerrorLog = true;
 
-$wgMWLoggerDefaultSpi['args'][0]['loggers']['@default']['handlers'][] = 'syslog';
-$wgMWLoggerDefaultSpi['args'][0]['handlers']['syslog'] = array(
+$wgMWLoggerDefaultSpi['args'][0]['loggers']['@default']['handlers'][] = 'what';
+$wgMWLoggerDefaultSpi['args'][0]['handlers']['syslog'] = [
 	'class' => '\\MediaWiki\\Logger\\Monolog\\SyslogHandler',
-	'args' => array( 'mediawiki', '127.0.0.1', 10514 ),
+	'args' => [ 'mediawiki', '127.0.0.1', 10514 ],
 	'formatter' => 'logstash',
-);
-$wgMWLoggerDefaultSpi['args'][0]['formatters']['logstash'] = array(
+];
+$wgMWLoggerDefaultSpi['args'][0]['handlers']['what'] = [
+	'class' => '\\Monolog\\Handler\\WhatFailureGroupHandler',
+	'args' => [
+		function () {
+			$provider = \MediaWiki\Logger\LoggerFactory::getProvider();
+			return array_map( [ $provider, 'getHandler' ], [ 'syslog' ] );
+		}
+	],
+];
+$wgMWLoggerDefaultSpi['args'][0]['formatters']['logstash'] = [
 	'class' => '\\Monolog\\Formatter\\LogstashFormatter',
-	'args'  => array( 'mediawiki', php_uname( 'n' ), null, '', 1 ),
-);
+	'args'  => [ 'mediawiki', php_uname( 'n' ), null, '', 1 ],
+];
 
