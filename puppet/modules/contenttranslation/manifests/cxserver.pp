@@ -60,7 +60,9 @@ class contenttranslation::cxserver(
     require ::service
 
     service::node { 'cxserver':
-        port      => $port,
-        config    => template('contenttranslation/cxserver.config.yaml.erb'),
+        port   => $port,
+        script => 'src/server.js',
+        module => 'src/app.js',
+        config => template('contenttranslation/cxserver.config.yaml.erb'),
     }
 }
