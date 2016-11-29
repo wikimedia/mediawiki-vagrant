@@ -1,15 +1,6 @@
 vcl 4.0;
 import xkey;
-import tbf;
 import std;
-
-sub vcl_init {
-    tbf.open("/var/run/varnish", "mode=600;dbname=tbf.bdb;truncate");
-}
-
-sub vcl_fini {
-    tbf.close();
-}
 
 sub vcl_recv {
     set req.http.X-Forwarded-For = client.ip;
@@ -37,7 +28,7 @@ sub vcl_recv {
 
     # Swift expects /lang/project/foo
     if (req.url ~ "^/images/") {
-        set req.url = "/wiki/en/" + regsub(req.url, "^/images/(.*)", "\1");
+        set req.url = "/wiki/dev/" + regsub(req.url, "^/images/(.*)", "\1");
     }
 
     # Reject any methods that aren't expected to work in the context of thumbnails
@@ -46,26 +37,6 @@ sub vcl_recv {
     }
 
     return(hash);
-}
-
-sub vcl_miss {
-    # 10 tokens to consume, refilled at a rate of 5/s
-    if (!tbf.rate("ip:" + client.ip, 1, 0.2s, 10)) {
-        return (synth(429, "Request rate exceeded"));
-    }
-}
-
-sub vcl_deliver {
-    # Miss
-    if (obj.hits == 0) {
-        # If the request requires more than 1s of CPU time, make it count like n extra
-        # tokens for the tbf throttling, where n is the amount of CPU seconds minus 1
-        if (!tbf.rate("ip:" + client.ip, (std.integer(resp.http.Processing-Utime, 1000) - 1000) / 1000, 0.2s, 10)) {
-            # tbf.rate() has to be inside an if statement
-        }
-    }
-
-    # Let things go to the default-subs.vcl vcl_deliver
 }
 
 sub vcl_backend_response {
