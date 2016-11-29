@@ -101,6 +101,7 @@ class thumbor (
             'pgi',
             'raven',
             'python-swiftclient',
+            'pympler',
             'git+git://github.com/gi11es/thumbor.git',
             'git+git://github.com/thumbor-community/core',
             'git+https://phabricator.wikimedia.org/diffusion/THMBREXT/thumbor-plugins.git',
