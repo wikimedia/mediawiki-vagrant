@@ -27,6 +27,10 @@
 # http://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker
 #
 
+# T151928: Vagrant 1.9.0 unable to install local mediawiki-vagrant plugin
+Vagrant.require_version "< 1.9.0"
+
+
 # Ensure we're using the latest version of the plugin
 require_relative 'lib/mediawiki-vagrant/version'
 require 'fileutils'
