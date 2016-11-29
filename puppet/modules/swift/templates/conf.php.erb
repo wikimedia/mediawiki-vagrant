@@ -5,7 +5,7 @@ $wgFileBackends[] = array(
 	'swiftAuthUrl'       => '127.0.0.1:<%= scope['::swift::port'] %>/auth',
 	'swiftUser'          => '<%= scope['::swift::project'] %>:<%= scope['::swift::user'] %>',
 	'swiftKey'           => '<%= scope['::swift::key'] %>',
-	'wikiId'             => 'wiki-en',
+	'wikiId'             => 'wiki-dev',
 	'shardViaHashLevels' => array(
 		'local-public' => array( 'levels' => 2, 'base' => 16, 'repeat' => 1 ),
 		'local-thumb'  => array( 'levels' => 2, 'base' => 16, 'repeat' => 1 ),

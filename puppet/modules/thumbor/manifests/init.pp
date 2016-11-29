@@ -205,7 +205,7 @@ class thumbor (
     # create the sharded thumbnail containers ahead of time.
     exec { 'create-swift-thumbnail-containers':
         command   => '/usr/local/bin/mwscript extensions/WikimediaMaintenance/filebackend/setZoneAccess.php --wiki wiki --backend swift-backend',
-        unless    => "swift -A http://127.0.0.1:${port}/auth/v1.0 -U ${project}:${user} -K ${key} stat wiki-en-local-public.00 | grep -q wiki-en-local-public.00",
+        unless    => "swift -A http://127.0.0.1:${port}/auth/v1.0 -U ${project}:${user} -K ${key} stat wiki-dev-local-public.00 | grep -q wiki-dev-local-public.00",
         require   => [
             Service[
                 'swift-account-server',
