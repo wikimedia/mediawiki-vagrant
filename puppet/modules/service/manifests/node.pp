@@ -95,6 +95,11 @@ define service::node(
         undef   => $::service::log_level,
         default => $log_level
     }
+    # ensure the RB port is defined for the config
+    $restbase_port = $::restbase::port ? {
+        undef   => 7231,
+        default => $::restbase::port
+    }
 
     # the repo
     git::clone { $title:

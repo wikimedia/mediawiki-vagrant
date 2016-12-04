@@ -55,7 +55,7 @@ services:
       # the template used for contacting RESTBase
       restbase_req:
         method: '{{request.method}}'
-        uri: http://localhost:<%= scope.lookupvar('restbase::port') %>/{{domain}}/v1/{+path}
+        uri: http://localhost:<%= @restbase_port %>/{{domain}}/v1/{+path}
         query: '{{ default(request.query, {}) }}'
         headers: '{{request.headers}}'
         body: '{{request.body}}'
