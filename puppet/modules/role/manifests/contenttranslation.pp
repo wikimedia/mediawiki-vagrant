@@ -38,6 +38,7 @@ class role::contenttranslation {
   include ::role::cldr
   include ::role::uls
   include ::role::parsoid
+  include ::role::echo
   include ::contenttranslation::cxserver
   include ::contenttranslation
 }
