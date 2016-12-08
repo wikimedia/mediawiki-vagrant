@@ -47,7 +47,6 @@
         "geoip" : {
           "type": "object",
           "dynamic": true,
-          "path": "full",
           "properties": { "location": { "type": "geo_point" } }
         },
         "host": { "type": "string", "index": "not_analyzed" },
@@ -59,8 +58,7 @@
         "sequence_id": { "type": "long" },
         "tags": {
           "type": "string",
-          "index": "not_analyzed",
-          "index_name": "tag"
+          "index": "not_analyzed"
         },
         "type": { "type": "string", "index": "not_analyzed" },
         "udp_sender": { "type": "string", "index": "not_analyzed" }
