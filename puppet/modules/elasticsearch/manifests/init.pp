@@ -4,10 +4,8 @@
 # engine, much like Solr, but with a more user-friendly inteface.
 #
 class elasticsearch {
-    $version = '2.3.5'
-
     package { 'elasticsearch':
-        ensure => $version
+        ensure => $::elasticsearch_version
     }
 
     require_package('openjdk-7-jre-headless')
