@@ -81,4 +81,8 @@ class role::elk (
         source   => 'puppet:///modules/role/elk/rsyslog.conf',
         priority => 30,
     }
+
+    mediawiki::import::text { 'VagrantRoleElk':
+        content => template('role/elk/VagrantRoleElk.wiki.erb'),
+    }
 }
