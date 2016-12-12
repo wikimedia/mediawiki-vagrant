@@ -49,13 +49,13 @@ define elasticsearch::plugin(
 
     # FIXME: this might not work well if elastic version is set to 'latest'
     $version = $ensure ? {
-        present => $elasticsearch::version,
-        absent  => $elasticsearch::version,
-        undef   => $elasticsearch::version,
+        present => $::elasticsearch_version,
+        absent  => $::elasticsearch_version,
+        undef   => $::elasticsearch_version,
         default => $ensure
     }
 
-    $_esversion = $elasticsearch::version
+    $_esversion = $::elasticsearch_version
 
     $plugin_dir = "${es_dir}/plugins/${dirname}"
     # Core plugins are part of elastic realease process thus no version nor
