@@ -26,6 +26,10 @@ default_project: &default_project
           eventlogging_service:
             uri: http://localhost:<%= @eventlogging_service_port %>/v1/events
             topic: resource_change
+        related:
+          cache_control: s-maxage=86400, max-age=86400
+        citoid:
+          host: http://localhost:<%= @citoid_port %>
 
 wikimedia.org: &wikimedia
   x-modules:

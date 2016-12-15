@@ -45,6 +45,11 @@ class restbase (
         default => 8888,
     }
 
+    $citoid_port = defined(Class['citoid']) ? {
+        true    => $::citoid::port,
+        default => 1970,
+    }
+
     file { $dbdir:
         ensure => directory,
         owner  => 'www-data',
