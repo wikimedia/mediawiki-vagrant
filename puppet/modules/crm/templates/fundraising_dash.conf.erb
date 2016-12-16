@@ -1,0 +1,9 @@
+description "fundraising-dash nodejs service"
+
+start on web
+respawn
+
+setuid www-data
+setgid www-data
+
+exec nodejs <%= @fundraising_dash_dir %>/server.js -d -c <%= @fundraising_dash_dir %>/settings.js

@@ -37,6 +37,7 @@ class crm(
     include ::postfix
     include ::crm::apache
     include ::crm::civicrm
+    include ::crm::dash
     include ::crm::tools
 
     git::clone { $repo:
