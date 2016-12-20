@@ -236,6 +236,7 @@ mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
 mediawiki::admin_user: Admin
 mediawiki::admin_pass: vagrant
 mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fragment}"
+mediawiki::branch: master
 
 mediawiki::apache::docroot: "%{hiera('apache::docroot')}"
 mediawiki::apache::php5_site_name: "php5%{hiera('mwv::tld')}"

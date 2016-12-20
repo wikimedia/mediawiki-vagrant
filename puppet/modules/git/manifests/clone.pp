@@ -67,7 +67,7 @@ define git::clone(
 
     $arg_branch = $branch ? {
         undef   => '',
-        default => "--branch '${branch}'"
+        default => "--branch '${branch}' --single-branch"
     }
     $arg_recurse = $recurse_submodules ? {
         true    => '--recurse-submodules',

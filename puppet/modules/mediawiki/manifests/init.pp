@@ -39,7 +39,7 @@
 #   pages is stored (example: '/srv/pages').
 #
 # [*branch*]
-#   Version to check out
+#   Branch to check out (example: 'master').
 #
 # [*git_depth*]
 #  Git cloning depth - undef for normal, a number for a shallow clone with
