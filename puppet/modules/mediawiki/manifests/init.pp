@@ -41,6 +41,10 @@
 # [*branch*]
 #   Version to check out
 #
+# [*git_depth*]
+#  Git cloning depth - undef for normal, a number for a shallow clone with
+#  that many revisions.
+#
 # [*server_url*]
 #   Full base URL of host (example: 'http://mywiki.net:8080').
 #
@@ -56,6 +60,7 @@ class mediawiki(
     $page_dir,
     $composer_fragment_dir,
     $branch     = undef,
+    $git_depth  = undef,
     $server_url = undef,
 ) {
     Exec {
@@ -80,6 +85,7 @@ class mediawiki(
     git::clone { 'mediawiki/core':
         directory => $dir,
         branch    => $branch,
+        depth     => $git_depth,
     }
 
     mediawiki::skin { 'Vector': }
