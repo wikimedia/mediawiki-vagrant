@@ -15,12 +15,14 @@ class arcanist(
 
     git::clone { 'libphutil':
         directory => "${deploy_dir}/libphutil",
-        remote    => 'https://secure.phabricator.com/diffusion/PHU/libphutil.git',
+        branch    => 'wmf/stable',
+        remote    => 'https://phabricator.wikimedia.org/diffusion/PHUTIL/libphutil.git',
     }
 
     git::clone { 'arcanist':
         directory => "${deploy_dir}/arcanist",
-        remote    => 'https://secure.phabricator.com/diffusion/ARC/arcanist.git',
+        branch    => 'wmf/stable',
+        remote    => 'https://phabricator.wikimedia.org/diffusion/ARC/arcanist.git',
     }
 
     env::profile_script { 'add arcanist bin to path':
