@@ -28,12 +28,15 @@ class git(
 ) {
     include ::git::gerrit
 
+    apt::ppa { 'git-core/ppa': }
+
     package { 'git':
         ensure  => latest,
+        require => Apt::Ppa['git-core/ppa'],
     }
 
     package { 'git-review':
-        ensure   => '1.24',
+        ensure   => '1.25',
         provider => 'pip',
     }
 }
