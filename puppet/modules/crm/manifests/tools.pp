@@ -44,7 +44,7 @@ class crm::tools(
     }
 
     exec { 'frtools_python_requirements':
-        command => "pip install -r ${dir}/silverpop_export/requirements.txt",
+        command => "pip install -r ${dir}/requirements.txt",
         require => [
             Git::Clone['wikimedia/fundraising/tools'],
             Package['libmysqlclient-dev'],
