@@ -7,18 +7,18 @@ class crm::dash (
     require ::npm
 
     # FIXME this should be in hieradata
-    $fundraising_dash_dir = "/vagrant/srv/fundraising-dash"
+    $fundraising_dash_dir = '/vagrant/srv/fundraising-dash'
 
     git::clone { 'wikimedia/fundraising/dash':
         directory => $fundraising_dash_dir
     }
 
-    npm::install { "dash_npm_install":
+    npm::install { 'dash_npm_install':
         directory => $fundraising_dash_dir,
         require   => Git::Clone['wikimedia/fundraising/dash']
     }
 
-    exec { "dash_bower_install":
+    exec { 'dash_bower_install':
         command     => "${fundraising_dash_dir}/node_modules/bower/bin/bower install",
         cwd         => $fundraising_dash_dir,
         require     => Npm::Install['dash_npm_install'],
@@ -41,15 +41,15 @@ class crm::dash (
         ],
     }
 
-    file { "/etc/init/fundraising_dash.conf":
+    file { '/etc/init/fundraising_dash.conf':
         content => template('crm/fundraising_dash.conf.erb'),
     }
 
     service { 'fundraising_dash':
-        enable    => true,
-        provider  => 'upstart',
-        ensure    => running,
-        require   => Exec['dash_schema'],
+        ensure   => running,
+        enable   => true,
+        provider => 'upstart',
+        require  => Exec['dash_schema'],
     }
 
 }
