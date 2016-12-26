@@ -5,12 +5,9 @@
 # command-line tools, like 'ack' and 'curl'.
 #
 class misc {
-    file { '/etc/profile.d':
-        ensure  => directory,
-        recurse => true,
-        purge   => true,
-        force   => true,
-        source  => 'puppet:///modules/misc/etc_profile.d',
+    file { '/etc/profile.d/mediawiki-vagrant.sh':
+        ensure => present,
+        source => 'puppet:///modules/misc/etc_profile.d/mediawiki-vagrant.sh',
     }
 
     motd::script { 'mediawiki_vagrant':
@@ -27,9 +24,9 @@ class misc {
         'ack-grep',
         'curl',
         'htop',
-        'httpie',
         'jq',
         'nano', # for legoktm and other vi haters
+        'vim',
     ]:
         ensure => present,
     }

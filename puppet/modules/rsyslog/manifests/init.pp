@@ -23,9 +23,7 @@ class rsyslog {
     }
 
     service { 'rsyslog':
-        ensure   => running,
-        enable   => true,
-        provider => 'upstart',
-        require  => Package['rsyslog'],
+        ensure  => running,
+        require => Package['rsyslog'],
     }
 }

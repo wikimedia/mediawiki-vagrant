@@ -5,12 +5,17 @@
 class cgroup {
     require_package('cgroup-bin')
 
-    file { '/etc/init/cgrulesengd.conf':
+    file { '/lib/systemd/system/cgrulesengd.service':
         ensure => present,
-        source => 'puppet:///modules/cgroup/cgrulesengd.conf',
+        source => 'puppet:///modules/cgroup/cgrulesengd.systemd',
         owner  => 'root',
         group  => 'root',
         mode   => '0644',
+    }
+    exec { 'systemd reload for cgrulesengd':
+      refreshonly => true,
+      command     => '/bin/systemctl daemon-reload',
+      subscribe   => File['/lib/systemd/system/cgrulesengd.service'],
     }
 
     # The reason we need the daemon is that upstart won't work with cgexec.
@@ -21,8 +26,11 @@ class cgroup {
     service { 'cgrulesengd':
         ensure    => running,
         enable    => true,
-        provider  => 'upstart',
-        require   => Package['cgroup-bin'],
+        provider  => 'systemd',
+        require   => [
+            Package['cgroup-bin'],
+            Exec['systemd reload for cgrulesengd'],
+        ],
         subscribe => File['/etc/init/cgrulesengd.conf']
     }
 

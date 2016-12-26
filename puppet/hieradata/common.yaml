@@ -157,7 +157,7 @@ hhvm::fcgi_settings:
     remote_enable: 1
 
 hhvm::docroot: "%{hiera('apache::docroot')}"
-hhvm::hhbc_dir: /var/run/hhvm
+hhvm::hhbc_dir: /var/cache/hhvm
 hhvm::logroot: /vagrant/logs
 hhvm::admin_site_name: "hhvm-admin%{hiera('mwv::tld')}"
 

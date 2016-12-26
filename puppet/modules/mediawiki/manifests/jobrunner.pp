@@ -51,24 +51,30 @@ class mediawiki::jobrunner(
         ],
     }
 
-    file { '/etc/init/jobrunner.conf':
-        content => template('mediawiki/jobrunner.conf.erb'),
+    file { '/lib/systemd/system/jobrunner.service':
+        content => template('mediawiki/jobrunner.systemd.erb'),
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
         notify  => Service['jobrunner'],
     }
+    exec { 'systemd reload for jobrunner':
+      refreshonly => true,
+      command     => '/bin/systemctl daemon-reload',
+      subscribe   => File['/lib/systemd/system/jobrunner.service'],
+    }
 
-    file { '/etc/init/jobchron.conf':
-        content => template('mediawiki/jobchron.conf.erb'),
+    file { '/lib/systemd/system/jobchron.service':
+        content => template('mediawiki/jobchron.systemd.erb'),
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
         notify  => Service['jobchron'],
     }
-
-    file { '/etc/jobrunner.ini':
-        ensure => absent,
+    exec { 'systemd reload for jobchron':
+      refreshonly => true,
+      command     => '/bin/systemctl daemon-reload',
+      subscribe   => File['/lib/systemd/system/jobchron.service'],
     }
 
     file { '/etc/jobrunner.json':
@@ -110,14 +116,20 @@ class mediawiki::jobrunner(
     service { 'jobrunner':
         ensure   => $ensure,
         enable   => $enable,
-        provider => 'upstart',
-        require  => Mediawiki::Wiki[$::mediawiki::wiki_name],
+        provider => 'systemd',
+        require  => [
+            Mediawiki::Wiki[$::mediawiki::wiki_name],
+            Exec['systemd reload for jobrunner'],
+        ],
     }
 
     service { 'jobchron':
         ensure   => $ensure,
         enable   => $enable,
-        provider => 'upstart',
-        require  => Mediawiki::Wiki[$::mediawiki::wiki_name],
+        provider => 'systemd',
+        require  => [
+            Mediawiki::Wiki[$::mediawiki::wiki_name],
+            Exec['systemd reload for jobchron'],
+        ],
     }
 }

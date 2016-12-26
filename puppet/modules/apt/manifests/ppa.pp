@@ -22,6 +22,9 @@ define apt::ppa(
     $ensure = present,
     $ppa    = $title,
 ) {
+    # Provides add-apt-repository
+    require_package('software-properties-common')
+
     $safename = regsubst($name, '\W', '-', 'G')
     $listfile = "/etc/apt/sources.list.d/${safename}-${::lsbdistcodename}.list"
 
@@ -29,7 +32,9 @@ define apt::ppa(
         $command = "/usr/bin/add-apt-repository --yes --remove ppa:${ppa} && /usr/bin/apt-get update"
         $onlyif  = "/usr/bin/test -e ${listfile}"
     } else {
-        $command = "/usr/bin/add-apt-repository --yes ppa:${ppa} && /usr/bin/apt-get update"
+        # PPA's are for Ubuntu, not Debian but may work if we hack the distro
+        # name to be a modern Ubuntu LTS instead of jessie.
+        $command = "/usr/bin/add-apt-repository --yes ppa:${ppa} && /bin/sed -i 's/${::lsbdistcodename}/xenial/g' ${listfile} && /usr/bin/apt-get update"
         $onlyif  = "/usr/bin/test ! -e ${listfile}"
     }
 

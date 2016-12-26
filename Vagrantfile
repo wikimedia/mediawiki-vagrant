@@ -45,19 +45,16 @@ Vagrant.configure('2') do |config|
 
   # Default VirtualBox provider
   config.vm.provider :virtualbox do |_vb, override|
-    override.vm.box = 'trusty-cloud'
-    override.vm.box_url = 'https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box'
-    override.vm.box_download_insecure = true
-
+    override.vm.box = 'debian/contrib-jessie64'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
   # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
-  config.vm.provider :vmware_fusion do |_vw, override|
-    override.vm.box = 'puppetlabs/ubuntu-14.04-64-puppet'
-    override.vm.box_version = '1.0.1'
-    override.vm.network :private_network, ip: settings[:static_ip]
-  end
+  # config.vm.provider :vmware_fusion do |_vw, override|
+  #   override.vm.box = 'puppetlabs/ubuntu-14.04-64-puppet'
+  #   override.vm.box_version = '1.0.1'
+  #   override.vm.network :private_network, ip: settings[:static_ip]
+  # end
 
   # Microsoft Hyper-V provider. Enable with `--provider=hyperv`
   # Not quite in 'just works' shape yet.
@@ -68,18 +65,18 @@ Vagrant.configure('2') do |config|
   # Note you must configure networking manually in Hyper-V Manager!
   # NAT and port redirection are not automatically set up for you.
   #
-  config.vm.provider :hyperv do |_hyperv, override|
-    # Our default box doesn't have Hyper-V support...
-    override.vm.box = 'cirex/ubuntu-14.04'
+  # config.vm.provider :hyperv do |_hyperv, override|
+  #   # Our default box doesn't have Hyper-V support...
+  #   override.vm.box = 'cirex/ubuntu-14.04'
 
-    override.vm.network :private_network, ip: settings[:static_ip]
-  end
+  #   override.vm.network :private_network, ip: settings[:static_ip]
+  # end
 
   # LXC provider. Enable wtih `--provider=lxc`
   # Requires vagrant-lxc plugin and Vagrant 1.7+
-  config.vm.provider :lxc do |_lxc, override|
-    override.vm.box = 'Wikimedia/trusty64-puppet-lxc'
-  end
+  # config.vm.provider :lxc do |_lxc, override|
+  #   override.vm.box = 'Wikimedia/trusty64-puppet-lxc'
+  # end
 
   # Parallels provider. Enable with `--provider=parallels`
   #
@@ -91,21 +88,21 @@ Vagrant.configure('2') do |config|
   #
   # Note that port forwarding works via localhost but not via external interfaces
   # of the host machine by default...
-  config.vm.provider :parallels do |_parallels, override|
-    override.vm.box = 'parallels/ubuntu-14.04'
+  # config.vm.provider :parallels do |_parallels, override|
+  #   override.vm.box = 'parallels/ubuntu-14.04'
 
-    # Pin to a 3.x version, current as of this config writing.
-    override.puppet_install.puppet_version = '3.7.4'
+  #   # Pin to a 3.x version, current as of this config writing.
+  #   override.puppet_install.puppet_version = '3.7.4'
 
-    override.vm.network :private_network, ip: settings[:static_ip]
-  end
+  #   override.vm.network :private_network, ip: settings[:static_ip]
+  # end
 
   # libvirt (KVM/QEMU) provider.  Enable with `--provider=libvirt`.
-  config.vm.provider :libvirt do |_libvirt, override|
-    override.vm.box = 'trusty-cloud'
+  # config.vm.provider :libvirt do |_libvirt, override|
+  #   override.vm.box = 'trusty-cloud'
 
-    override.vm.network :private_network, ip: settings[:static_ip]
-  end
+  #   override.vm.network :private_network, ip: settings[:static_ip]
+  # end
 
   config.vm.network :forwarded_port,
     guest: 80, host: settings[:http_port], host_ip: settings[:host_ip],
@@ -192,10 +189,14 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.provision :lsb_check do |lsb|
-    lsb.version = '14.04'
+    lsb.vendor = 'Debian'
+    lsb.version = '8.6'
   end
 
   config.vm.provision :mediawiki_reload if mwv.reload?
+
+  # Ensure that the VM has Puppet installed
+  config.vm.provision :shell, path: 'support/puppet-bootstrap.sh'
 
   config.vm.provision :puppet do |puppet|
     # Use empty module path to avoid an extra mount.
@@ -254,25 +255,6 @@ Vagrant.configure('2') do |config|
     if settings[:static_ip]
       network = IPAddr.new("#{settings[:static_ip]}/24")
       puppet.facter['host_ip'] = network.to_range.take(2).last.to_s
-    end
-  end
-end
-
-
-
-# Migrate {apt,composer}-cache to cache/{apt,composer}
-['apt', 'composer'].each do |type|
-  src = mwv.path("#{type}-cache")
-  next unless src.directory?
-
-  dst = mwv.path('cache', type)
-
-  src.each_child do |src_file|
-    next if src_file.directory? || src_file.basename.fnmatch?('.*')
-
-    begin
-      src_file.rename(dst.join(src_file.basename))
-    rescue
     end
   end
 end
