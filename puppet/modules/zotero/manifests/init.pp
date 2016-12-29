@@ -58,12 +58,12 @@ class zotero(
         group  => $::share_group,
     }
 
-    file { '/etc/init/zotero.conf':
+    file { '/lib/systemd/system/zotero.service':
         ensure  => present,
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
-        content => template('zotero/upstart.conf.erb'),
+        content => template('zotero/systemd.service.erb'),
         notify  => Service['zotero'],
     }
 
@@ -84,7 +84,8 @@ class zotero(
         enable     => true,
         hasstatus  => true,
         hasrestart => true,
-        provider   => 'upstart',
-        subscribe  => File['/etc/init/zotero.conf'],
+        provider   => 'systemd',
+        require    => File['/lib/systemd/system/zotero.service'],
+        subscribe  => File['/lib/systemd/system/zotero.service'],
     }
 }
