@@ -22,6 +22,7 @@ class statsd (
 ) {
     require ::service
     require ::npm
+    require ::mediawiki::ready_service
 
     $dir = "${::service::root_dir}/statsd"
     $logdir = $::service::log_dir
@@ -41,14 +42,20 @@ class statsd (
         content => template('statsd/config.js.erb'),
         mode    => '0644',
         require => Git::Clone['statsd'],
+        notify  => Service['statsd'],
     }
 
-    file { '/etc/init/statsd.conf':
-        content => template('statsd/upstart.conf.erb'),
+    file { '/lib/systemd/system/statsd.service':
+        content => template('statsd/systemd.erb'),
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
         notify  => Service['statsd'],
+    }
+    exec { 'systemd reload for statsd':
+        refreshonly => true,
+        command     => '/bin/systemctl daemon-reload',
+        subscribe   => File['/lib/systemd/system/statsd.service'],
     }
 
     file { '/etc/logrotate.d/statsd':
@@ -66,11 +73,7 @@ class statsd (
     service { 'statsd':
         ensure   => running,
         enable   => true,
-        provider => 'upstart',
-        require  => [
-            Git::Clone['statsd'],
-            Npm::Install[$dir],
-            File["${dir}/config.js"],
-        ],
+        provider => 'systemd',
+        require  => Npm::Install[$dir],
     }
 }
