@@ -39,15 +39,24 @@ class xvfb(
         system => true,
     }
 
-    file { '/etc/init/xvfb.conf':
-        content => template('xvfb/xvfb.conf.erb'),
-        require => [ Package['xvfb'], User['xvfb'] ],
+    file { '/lib/systemd/system/xvfb.service':
+        content => template('xvfb/xvfb.systemd.erb'),
+        require => [
+            Package['xvfb'],
+            User['xvfb'],
+        ],
+        notify  => Service['xvfb'],
+    }
+    exec { 'systemd reload for xvfb':
+        refreshonly => true,
+        command     => '/bin/systemctl daemon-reload',
+        subscribe   => File['/lib/systemd/system/xvfb.service'],
+        notify      => Service['xvfb'],
     }
 
     service { 'xvfb':
         ensure   => running,
         enable   => true,
-        provider => 'upstart',
-        require  => File['/etc/init/xvfb.conf'],
+        provider => 'systemd',
     }
 }
