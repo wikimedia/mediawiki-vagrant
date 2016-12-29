@@ -143,9 +143,9 @@ define service::node(
         mode    => '0444',
     }
 
-    # the upstart config
-    file { "/etc/init/${title}.conf":
-        content => template('service/node/upstart.conf.erb'),
+    # the systemd config
+    file { "/lib/systemd/system/${title}.service":
+        content => template('service/node/systemd.service.erb'),
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
@@ -163,12 +163,13 @@ define service::node(
     service { $title:
         ensure    => running,
         enable    => true,
-        provider  => 'upstart',
+        provider  => 'systemd',
         require   => [
             Git::Clone[$title],
+            File["/lib/systemd/system/${title}.service"],
         ],
         subscribe => [
-            File["/etc/init/${title}.conf", "${title}_config_yaml"],
+            File["${title}_config_yaml"],
             Npm::Install[$dir]
         ]
     }
