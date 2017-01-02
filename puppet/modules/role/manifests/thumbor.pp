@@ -8,6 +8,7 @@ class role::thumbor (
     require ::role::memcached
     require ::role::pagedtiffhandler
     require ::role::pdfhandler
+    require ::role::poolcounter
     require ::role::swift
     require ::role::timedmediahandler
     require ::role::multimedia
