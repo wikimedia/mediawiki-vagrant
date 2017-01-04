@@ -11,6 +11,7 @@ require 'bundler/setup'
 require 'cucumber'
 require 'cucumber/rake/task'
 require 'puppet-lint/tasks/puppet-lint'
+require 'puppet-strings/tasks/generate'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 require 'yard'
@@ -29,7 +30,6 @@ end
 Cucumber::Rake::Task.new(:cucumber)
 RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new(:rubocop)
-YARD::Rake::YardocTask.new(:yard)
 
 task default: [:test]
 
@@ -37,4 +37,15 @@ desc 'Run all build/tests commands (CI entry point)'
 task test: [:spec, :rubocop, :cucumber, :lint, :doc]
 
 desc 'Generate all documentations'
-task doc: [:yard]
+task :doc do
+  # rubocop defines a :Parser constant which later confused Puppet 3.7 PSON
+  # module which attempts to remove the undefined constant PSON:Parser because
+  # :Parser is set -- hashar
+  Object.send(:remove_const, :Parser) if defined? Parser
+  Rake::Task['strings:generate'].invoke(
+    '**/*.pp **/*.rb',  # patterns
+    'false', # debug
+    'false', # backtrace
+    'rdoc',  # markup format
+  )
+end
