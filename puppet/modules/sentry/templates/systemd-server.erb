@@ -1,0 +1,21 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+[Unit]
+Description=Sentry error log tracker (web interface)
+Requires=mediawiki-ready.service
+After=mediawiki-ready.service
+
+[Service]
+Environment="SENTRY_CONF=<%= @cfg_file %>"
+User=www-data
+Group=www-data
+SyslogIdentifier=sentry-server
+WorkingDirectory=<%= @deploy_dir %>
+ExecStart=<%= @deploy_dir %>/bin/sentry start
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

@@ -154,22 +154,28 @@ class sentry (
         ],
     }
 
-    file { '/etc/init/sentry-server.conf':
+    file { '/lib/systemd/system/sentry-server.service':
         ensure  => present,
-        content => template('sentry/upstart-server.erb'),
+        content => template('sentry/systemd-server.erb'),
         mode    => '0444',
     }
 
-    file { '/etc/init/sentry-worker.conf':
+    file { '/lib/systemd/system/sentry-worker.service':
         ensure  => present,
-        content => template('sentry/upstart-worker.erb'),
+        content => template('sentry/systemd-worker.erb'),
         mode    => '0444',
+    }
+
+    exec { 'systemd reload for sentry':
+        refreshonly => true,
+        command     => '/bin/systemctl daemon-reload',
+        subscribe   => File['/lib/systemd/system/sentry-server.service', '/lib/systemd/system/sentry-worker.service'],
     }
 
     service { 'sentry-server':
         ensure    => running,
         enable    => true,
-        provider  => 'upstart',
+        provider  => 'systemd',
         require   => [
             Virtualenv::Environment[$deploy_dir],
             Mysql::User[$db_user],
@@ -183,7 +189,7 @@ class sentry (
     service { 'sentry-worker':
         ensure    => running,
         enable    => true,
-        provider  => 'upstart',
+        provider  => 'systemd',
         require   => [
             Virtualenv::Environment[$deploy_dir],
             Mysql::User[$db_user],
