@@ -94,6 +94,10 @@ class _WMFRewriteContext(WSGIContext):
             if reqorig.headers.get(header_to_pass) is not None:
                 opener.addheaders.append((header_to_pass, reqorig.headers.get(header_to_pass)))
 
+        thumbor_opener.addheaders = opener.addheaders
+
+        self.logger.debug("Addheaders: %r" % thumbor_opener.addheaders)
+
         # At least in theory, we shouldn't be handing out links to originals
         # that we don't have (or in the case of thumbs, can't generate).
         # However, someone may have a formerly valid link to a file, so we
