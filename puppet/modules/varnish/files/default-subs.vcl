@@ -106,6 +106,11 @@ sub vcl_deliver {
     } else {
         set resp.http.X-Cache = "miss (0)";
     }
+
+    # Enforce Age: 0 for ResourceLoader
+    if (req.url ~ "^/w/load\.php" ) {
+        set resp.http.Age = 0;
+    }
 }
 
 # Called after a document has been successfully retrieved from the backend.
