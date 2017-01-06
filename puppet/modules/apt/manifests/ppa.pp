@@ -22,6 +22,9 @@ define apt::ppa(
     $ensure = present,
     $ppa    = $title,
 ) {
+    # Provides add-apt-repository
+    require_package('software-properties-common')
+
     $safename = regsubst($name, '\W', '-', 'G')
     $listfile = "/etc/apt/sources.list.d/${safename}-${::lsbdistcodename}.list"
 
