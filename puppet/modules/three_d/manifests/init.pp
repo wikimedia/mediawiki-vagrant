@@ -1,14 +1,14 @@
-# == Class: 3d
+# == Class: three_d
 #
 # This Puppet class installs and configures the binaries needed by the 3d extensions.
 #
 # === Parameters
 #
-# [*3d2png_dir*]
+# [*three_d_2png_dir*]
 #   Path where 3d2png should be installed (example: '/var/3d2png').
 #
-class 3d (
-    $3d2png_dir,
+class three_d (
+    $three_d_2png_dir,
 ) {
     require_package('pkg-config')
     require_package('libcairo2-dev')
@@ -17,13 +17,13 @@ class 3d (
     require_package('libglu1-mesa-dev')
     require_package('libglew-dev')
 
-    file { $3d2png_dir:
+    file { $three_d_2png_dir:
         ensure => directory,
         owner  => 'vagrant',
     }
 
     git::clone { '3d2png':
-        directory => $3d2png_dir,
+        directory => $three_d_2png_dir,
         remote    => 'https://phabricator.wikimedia.org/diffusion/TDTP/3d2png.git',
         owner     => 'vagrant',
     }
@@ -31,9 +31,9 @@ class 3d (
     # the gl module needs prebuild installed for the --no-bin-links option
     exec { '3d2png_prebuild':
         command => '/usr/bin/npm install prebuild',
-        cwd     => $3d2png_dir,
+        cwd     => $three_d_2png_dir,
         user    => 'vagrant',
-        creates => "${3d2png_dir}/node_modules/prebuild",
+        creates => "${three_d_2png_dir}/node_modules/prebuild",
         require => [
             Git::Clone['3d2png'],
         ],
@@ -42,7 +42,7 @@ class 3d (
     # cannot use npm::install because by that point node_modules already exists
     exec { '3d2png_npm_install':
         command     => '/usr/bin/npm install --no-bin-links',
-        cwd         => $3d2png_dir,
+        cwd         => $three_d_2png_dir,
         user        => 'vagrant',
         environment => [
             "NPM_CONFIG_CACHE=${::npm::cache_dir}",
@@ -50,7 +50,7 @@ class 3d (
             'LINK=g++',
             'HOME=/home/vagrant',
         ],
-        creates     => "${3d2png_dir}/node_modules/yargs",
+        creates     => "${three_d_2png_dir}/node_modules/yargs",
         require     => [
             Exec['3d2png_prebuild'],
         ],
