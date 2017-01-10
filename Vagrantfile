@@ -50,11 +50,10 @@ Vagrant.configure('2') do |config|
   end
 
   # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
-  # config.vm.provider :vmware_fusion do |_vw, override|
-  #   override.vm.box = 'puppetlabs/ubuntu-14.04-64-puppet'
-  #   override.vm.box_version = '1.0.1'
-  #   override.vm.network :private_network, ip: settings[:static_ip]
-  # end
+  config.vm.provider :vmware_fusion do |_vw, override|
+    override.vm.box = 'dhoppe/debian-8.6.0-amd64-nocm'
+    override.vm.network :private_network, ip: settings[:static_ip]
+  end
 
   # Microsoft Hyper-V provider. Enable with `--provider=hyperv`
   # Not quite in 'just works' shape yet.
