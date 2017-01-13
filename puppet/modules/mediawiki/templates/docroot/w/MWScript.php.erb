@@ -75,8 +75,8 @@ EOT
 		);
 	}
 
-	require_once( '<%= @script_dir %>/MWVersion.php' );
-	$file = getMediaWikiCli( $relFile );
+	require_once( '<%= @script_dir %>/MWMultiVersion.php' );
+	$file = MWMultiVersion::getMediaWikiCli( $relFile );
 	if ( !file_exists( $file ) ) {
 		fwrite( STDERR, "The MediaWiki script file \"{$file}\" does not exist.\n" );
 		exit( 1 );
