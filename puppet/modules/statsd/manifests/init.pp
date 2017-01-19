@@ -45,19 +45,6 @@ class statsd (
         notify  => Service['statsd'],
     }
 
-    file { '/lib/systemd/system/statsd.service':
-        content => template('statsd/systemd.erb'),
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
-        notify  => Service['statsd'],
-    }
-    exec { 'systemd reload for statsd':
-        refreshonly => true,
-        command     => '/bin/systemctl daemon-reload',
-        subscribe   => File['/lib/systemd/system/statsd.service'],
-    }
-
     file { '/etc/logrotate.d/statsd':
         content => template('statsd/logrotate.erb'),
         owner   => 'root',
@@ -70,10 +57,8 @@ class statsd (
         require => Git::Clone['statsd'],
     }
 
-    service { 'statsd':
-        ensure   => running,
-        enable   => true,
-        provider => 'systemd',
-        require  => Npm::Install[$dir],
+    systemd::service { 'statsd':
+        ensure  => 'present',
+        require => Npm::Install[$dir],
     }
 }

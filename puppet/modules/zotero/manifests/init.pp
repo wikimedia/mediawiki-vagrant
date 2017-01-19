@@ -58,15 +58,6 @@ class zotero(
         group  => $::share_group,
     }
 
-    file { '/lib/systemd/system/zotero.service':
-        ensure  => present,
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
-        content => template('zotero/systemd.service.erb'),
-        notify  => Service['zotero'],
-    }
-
     service::gitupdate { 'zotero_translation_server':
         dir          => "${base_path}/translation-server",
         restart      => true,
@@ -79,13 +70,7 @@ class zotero(
         service_name => 'zotero',
     }
 
-    service { 'zotero':
-        ensure     => running,
-        enable     => true,
-        hasstatus  => true,
-        hasrestart => true,
-        provider   => 'systemd',
-        require    => File['/lib/systemd/system/zotero.service'],
-        subscribe  => File['/lib/systemd/system/zotero.service'],
+    systemd::service { 'zotero':
+        ensure     => 'present',
     }
 }

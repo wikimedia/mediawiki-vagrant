@@ -26,8 +26,8 @@ class mediawiki::jobrunner(
     require ::mediawiki
 
     $ensure = $enable ? {
-        false   => 'stopped',
-        default => 'running',
+        false   => 'absent',
+        default => 'present',
     }
 
     $restart = $enable ? {
@@ -49,32 +49,6 @@ class mediawiki::jobrunner(
             Service['jobrunner'],
             Service['jobchron'],
         ],
-    }
-
-    file { '/lib/systemd/system/jobrunner.service':
-        content => template('mediawiki/jobrunner.systemd.erb'),
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
-        notify  => Service['jobrunner'],
-    }
-    exec { 'systemd reload for jobrunner':
-      refreshonly => true,
-      command     => '/bin/systemctl daemon-reload',
-      subscribe   => File['/lib/systemd/system/jobrunner.service'],
-    }
-
-    file { '/lib/systemd/system/jobchron.service':
-        content => template('mediawiki/jobchron.systemd.erb'),
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
-        notify  => Service['jobchron'],
-    }
-    exec { 'systemd reload for jobchron':
-      refreshonly => true,
-      command     => '/bin/systemctl daemon-reload',
-      subscribe   => File['/lib/systemd/system/jobchron.service'],
     }
 
     file { '/etc/jobrunner.json':
@@ -113,23 +87,13 @@ class mediawiki::jobrunner(
         restart => $restart,
     }
 
-    service { 'jobrunner':
-        ensure   => $ensure,
-        enable   => $enable,
-        provider => 'systemd',
-        require  => [
-            Mediawiki::Wiki[$::mediawiki::wiki_name],
-            Exec['systemd reload for jobrunner'],
-        ],
+    systemd::service { 'jobrunner':
+        ensure  => $ensure,
+        require => Mediawiki::Wiki[$::mediawiki::wiki_name],
     }
 
-    service { 'jobchron':
-        ensure   => $ensure,
-        enable   => $enable,
-        provider => 'systemd',
-        require  => [
-            Mediawiki::Wiki[$::mediawiki::wiki_name],
-            Exec['systemd reload for jobchron'],
-        ],
+    systemd::service { 'jobchron':
+        ensure  => $ensure,
+        require => Mediawiki::Wiki[$::mediawiki::wiki_name],
     }
 }

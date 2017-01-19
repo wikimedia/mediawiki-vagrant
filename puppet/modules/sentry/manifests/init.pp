@@ -154,49 +154,31 @@ class sentry (
         ],
     }
 
-    file { '/lib/systemd/system/sentry-server.service':
-        ensure  => present,
-        content => template('sentry/systemd-server.erb'),
-        mode    => '0444',
+    systemd::service { 'sentry-server':
+        ensure         => 'present',
+        service_params => {
+            require   => [
+                Virtualenv::Environment[$deploy_dir],
+                Mysql::User[$db_user],
+            ],
+            subscribe => [
+                File[$cfg_file],
+                Exec['create sentry project'],
+            ],
+        },
     }
 
-    file { '/lib/systemd/system/sentry-worker.service':
-        ensure  => present,
-        content => template('sentry/systemd-worker.erb'),
-        mode    => '0444',
-    }
-
-    exec { 'systemd reload for sentry':
-        refreshonly => true,
-        command     => '/bin/systemctl daemon-reload',
-        subscribe   => File['/lib/systemd/system/sentry-server.service', '/lib/systemd/system/sentry-worker.service'],
-    }
-
-    service { 'sentry-server':
-        ensure    => running,
-        enable    => true,
-        provider  => 'systemd',
-        require   => [
-            Virtualenv::Environment[$deploy_dir],
-            Mysql::User[$db_user],
-        ],
-        subscribe => [
-            File[$cfg_file],
-            Exec['create sentry project'],
-        ],
-    }
-
-    service { 'sentry-worker':
-        ensure    => running,
-        enable    => true,
-        provider  => 'systemd',
-        require   => [
-            Virtualenv::Environment[$deploy_dir],
-            Mysql::User[$db_user],
-        ],
-        subscribe => [
-            File[$cfg_file],
-            Exec['create sentry project'],
-        ],
+    systemd::service { 'sentry-worker':
+        ensure         => 'present',
+        service_params => {
+            require   => [
+                Virtualenv::Environment[$deploy_dir],
+                Mysql::User[$db_user],
+            ],
+            subscribe => [
+                File[$cfg_file],
+                Exec['create sentry project'],
+            ],
+        },
     }
 }
