@@ -55,7 +55,7 @@ Vagrant.configure('2') do |config|
   # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
   config.vm.provider :vmware_fusion do |_vw, override|
     override.vm.box = 'puppetlabs/ubuntu-14.04-64-puppet'
-    override.vm.box_version = '1.0.1'
+
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
