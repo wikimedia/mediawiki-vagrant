@@ -39,6 +39,7 @@ define apt::ppa(
     }
 
     exec { $command:
-        onlyif => $onlyif,
+        onlyif  => $onlyif,
+        require => Package['software-properties-common'],
     }
 }
