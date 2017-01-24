@@ -321,6 +321,7 @@ role::centralauth::wiki_admin_user: "%{hiera('mediawiki::admin_user')}"
 
 role::commons::upload_dir: "%{hiera('mwv::files_dir')}/commonsimages"
 
+role::commons_datasets::commons_url: "http://commons%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/api.php"
 
 role::echo::shared_tracking_cluster: "%{hiera('mediawiki::multiwiki::extension_db_cluster')}"
 role::echo::shared_tracking_db: "%{hiera('mediawiki::multiwiki::extension_cluster_shared_db_name')}"
