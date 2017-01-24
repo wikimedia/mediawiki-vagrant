@@ -113,7 +113,7 @@ Vagrant.configure('2') do |config|
   # end
 
   config.vm.network :forwarded_port,
-    guest: 80, host: settings[:http_port], host_ip: settings[:host_ip],
+    guest: settings[:http_port], host: settings[:http_port], host_ip: settings[:host_ip],
     id: 'http'
 
   config.vm.network :forwarded_port,

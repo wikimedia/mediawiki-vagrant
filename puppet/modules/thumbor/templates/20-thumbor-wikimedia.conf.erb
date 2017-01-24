@@ -9,7 +9,7 @@ COMMUNITY_EXTENSIONS = [
 
 EXIFTOOL_PATH = '/usr/bin/exiftool'
 EXIF_FIELDS_TO_KEEP = [ 'Artist', 'Copyright', 'Description' ]
-EXIF_TINYRGB_PATH = '/srv/thumbor/tinyrgb.icc'
+EXIF_TINYRGB_PATH = '/etc/tinyrgb.icc'
 EXIF_TINYRGB_ICC_REPLACE = 'sRGB IEC61966-2.1'
 
 SUBPROCESS_USE_TIMEOUT = True
@@ -53,10 +53,12 @@ PROXY_ENGINE_ENGINES = [
 
 PROXY_LOADER_LOADERS = [
     'wikimedia_thumbor.loader.video',
-    'wikimedia_thumbor.loader.https'
+    'wikimedia_thumbor.loader.swift'
 ]
 
 HTTP_LOADER_MAX_BODY_SIZE = 1024 * 1024 * 1024  # 1GB
+
+LOADER_EXCERPT_LENGTH = 4096
 
 # 2 minutes, for situations where an engine failed to clean up after itself
 HTTP_LOADER_TEMP_FILE_TIMEOUT = 120

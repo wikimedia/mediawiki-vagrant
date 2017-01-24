@@ -29,47 +29,35 @@ class thumbor (
     $statsd_port,
     $sentry_dsn_file,
 ) {
-    require ::virtualenv
-    # Needed by the venv, which clones a few git repos
-    require ::git
+    apt::pin { 'gifsicle-jessie-backports':
+        package  => 'gifsicle',
+        pin      => 'release n=jessie-backports',
+        priority => 1000,
+    }
 
-    # jpegtran
-    require_package('libjpeg-progs')
+    apt::pin { 'python-tornado-jessie-backports':
+        package  => 'python-tornado',
+        pin      => 'release n=jessie-backports',
+        priority => 1000,
+    }
 
-    # exiftool is needed by exif-optimizer
-    require_package('libimage-exiftool-perl')
+    apt::pin { 'python-pil-jessie-backports':
+        package  => 'python-pil',
+        pin      => 'release n=jessie-backports',
+        priority => 1000,
+    }
 
-    # For Pillow
-    require_package('libjpeg-dev')
+    package { 'raven':
+        provider => 'pip',
+    }
 
-    # For GIF engine
-    require_package('gifsicle')
+    package { 'python-thumbor-wikimedia':
+        notify => Exec['stop-and-disable-default-thumbor-service']
+    }
 
-    # For Video engine
-    require_package('ffmpeg')
-
-    # For XCF engine
-    require_package('xcftools')
-
-    # For DjVu engine
-    require_package('libdjvulibre-dev')
-    require_package('cython')
-
-    # For Ghostscript engine (PDF)
-    require_package('ghostscript')
-
-    # For pycurl, a dependency of thumbor
-    require_package('libcurl4-gnutls-dev')
-
-    # For Mediawiki's IM/RSVG SVG support
-    require_package('librsvg2-bin')
-
-    # For Mediawiki's DJVU support
-    require_package('djvulibre-bin')
-    require_package('netpbm')
-
-    # For lxml, a dependency of thumbor-plugins
-    require_package('libxml2-dev', 'libxslt1-dev')
+    exec { 'stop-and-disable-default-thumbor-service':
+        command => '/bin/systemctl stop thumbor'
+    }
 
     require_package('firejail')
 
@@ -88,42 +76,18 @@ class thumbor (
     }
 
     file { '/etc/firejail/thumbor.profile':
-        ensure => present,
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0444',
-        source => 'puppet:///modules/thumbor/thumbor.profile',
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        source  => 'puppet:///modules/thumbor/thumbor.profile',
+        require => Package['firejail'],
     }
 
-    virtualenv::environment { $deploy_dir:
-        ensure   => present,
-        packages => [
-            'pgi',
-            'raven',
-            'python-swiftclient',
-            'pympler',
-            'git+git://github.com/gi11es/thumbor.git',
-            'git+git://github.com/thumbor-community/core',
-            'git+https://phabricator.wikimedia.org/diffusion/THMBREXT/thumbor-plugins.git',
-        ],
-        require  => Package[
-            'libjpeg-progs',
-            # Needs to be an explicit dependency, for the packages pointing to git repos
-            'git',
-            'libcurl4-gnutls-dev',
-            'libxml2-dev',
-            'libxslt1-dev',
-            'libjpeg-dev',
-            'libdjvulibre-dev',
-            'cython',
-            'firejail'
-        ],
-        timeout  => 600, # This venv can be particularly long to download and setup
-    }
-
-    file { "${deploy_dir}/tinyrgb.icc":
-        ensure => present,
-        source => 'puppet:///modules/thumbor/tinyrgb.icc',
+    file { '/etc/tinyrgb.icc':
+        ensure  => present,
+        source  => 'puppet:///modules/thumbor/tinyrgb.icc',
+        require => Package['python-thumbor-wikimedia'],
     }
 
     file { $cfg_dir:
@@ -166,11 +130,6 @@ class thumbor (
             File[$cfg_dir],
             Group['thumbor'],
         ],
-    }
-
-    cgroup::config { 'thumbor':
-        limits  => "perm { task { uid = thumbor; gid = thumbor; } admin { uid = thumbor; gid = thumbor; } } memory { memory.limit_in_bytes = \"1048576000\"; }", # 1GB
-        cgrules => '@thumbor memory thumbor',
     }
 
     # This will generate a list of ports starting at 8889, with
