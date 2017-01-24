@@ -2,6 +2,7 @@
 #
 class kafka {
     require ::service
+    require ::mediawiki::ready_service
 
     require_package('openjdk-7-jdk')
     require_package('zookeeper-server')
@@ -37,12 +38,6 @@ class kafka {
         source => 'puppet:///modules/kafka/kafka.profile.sh',
     }
 
-    file { '/etc/init/kafka.conf':
-        ensure => 'present',
-        source => 'puppet:///modules/kafka/upstart',
-        mode   => '0444',
-    }
-
     file { '/etc/kafka/server.properties':
         ensure => 'present',
         source => 'puppet:///modules/kafka/server.properties',
@@ -57,7 +52,7 @@ class kafka {
     }
 
     exec { 'zookeeper-server-init':
-        command => '/usr/bin/service zookeeper-server init',
+        command => '/etc/init.d/zookeeper-server init',
         unless  => '/usr/bin/test -d /var/lib/zookeeper/version-2',
         require => Package['zookeeper-server']
     }
@@ -68,16 +63,14 @@ class kafka {
         require => Exec['zookeeper-server-init'],
     }
 
-    service { 'kafka':
-        ensure    => 'running',
-        enable    => true,
-        require   => [
-            User['kafka'],
-            Service['zookeeper-server'],
-        ],
-        subscribe => [
-            File['/etc/init/kafka.conf'],
-            File['/etc/kafka/server.properties'],
-        ],
+    systemd::service { 'kafka':
+        ensure         => 'present',
+        service_params => {
+            require   => [
+                User['kafka'],
+                Service['zookeeper-server'],
+            ],
+            subscribe => File['/etc/kafka/server.properties'],
+        },
     }
 }
