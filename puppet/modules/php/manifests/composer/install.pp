@@ -45,6 +45,7 @@ define php::composer::install(
           "COMPOSER_HOME=${::php::composer::home}",
           "COMPOSER_CACHE_DIR=${::php::composer::cache_dir}",
           'COMPOSER_NO_INTERACTION=1',
+          'COMPOSER_PROCESS_TIMEOUT=600',
         ],
         user        => 'vagrant',
         onlyif      => "/usr/bin/test -f ${directory}/composer.json",
