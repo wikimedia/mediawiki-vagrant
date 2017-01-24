@@ -39,24 +39,11 @@ class xvfb(
         system => true,
     }
 
-    file { '/lib/systemd/system/xvfb.service':
-        content => template('xvfb/xvfb.systemd.erb'),
+    systemd::service { 'xvfb':
+        ensure  => 'present',
         require => [
             Package['xvfb'],
             User['xvfb'],
         ],
-        notify  => Service['xvfb'],
-    }
-    exec { 'systemd reload for xvfb':
-        refreshonly => true,
-        command     => '/bin/systemctl daemon-reload',
-        subscribe   => File['/lib/systemd/system/xvfb.service'],
-        notify      => Service['xvfb'],
-    }
-
-    service { 'xvfb':
-        ensure   => running,
-        enable   => true,
-        provider => 'systemd',
     }
 }

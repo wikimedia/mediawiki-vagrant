@@ -26,27 +26,8 @@ class mediawiki::ready_service {
         content => template('mediawiki/wait-for-mediawiki.sh.erb'),
     }
 
-    file { '/lib/systemd/system/mediawiki-ready.service':
+    systemd::service { 'mediawiki-ready':
         ensure  => 'present',
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
-        content => template('mediawiki/mediawiki-ready.systemd.erb'),
-        require => File['/usr/local/bin/wait-for-mediawiki.sh'],
-    }
-
-    exec { 'systemd reload for mediawiki-ready':
-      refreshonly => true,
-      command     => '/bin/systemctl daemon-reload',
-      subscribe   => File['/lib/systemd/system/mediawiki-ready.service'],
-    }
-
-    service { 'mediawiki-ready':
-        enable  => true,
-        require => [
-            File['/lib/systemd/system/mediawiki-ready.service'],
-            Exec['systemd reload for mediawiki-ready'],
-            MediaWiki::Wiki[$::mediawiki::wiki_name],
-        ],
+        require => MediaWiki::Wiki[$::mediawiki::wiki_name],
     }
 }
