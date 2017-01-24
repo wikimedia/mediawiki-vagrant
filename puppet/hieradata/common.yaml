@@ -485,6 +485,3 @@ thumbor::statsd_port: "%{hiera('statsd::port')}"
 thumbor::sentry_dsn_file: "%{hiera('sentry::dsn_file')}"
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
-
-zotero::base_path: "%{hiera('mwv::services_dir')}/zotero"
-zotero::log_file: /vagrant/logs/zotero.log
