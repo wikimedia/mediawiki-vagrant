@@ -474,10 +474,6 @@ swift::account_cfg_file: /etc/swift/account-server.conf
 swift::object_cfg_file: /etc/swift/object-server.conf
 swift::container_cfg_file: /etc/swift/container-server.conf
 
-trafficserver::deploy_dir: "%{hiera('mwv::services_dir')}/trafficserver"
-trafficserver::version: 6.0.0
-trafficserver::port: 6090
-
 thumbor::deploy_dir: "%{hiera('mwv::vendor_dir')}/thumbor"
 thumbor::cfg_dir: /etc/thumbor.d
 thumbor::log_dir: /vagrant/logs/thumbor
