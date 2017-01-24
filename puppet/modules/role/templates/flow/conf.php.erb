@@ -17,10 +17,6 @@ $wgNamespaceContentModels[ NS_FLOW_TEST_TALK ] = 'flow-board';
 
 $wgFlowEnableOptInBetaFeature = true;
 
-$wgFlowParsoidURL = 'http://localhost:<%= scope['parsoid::port'] %>';
-$wgFlowParsoidPrefix = 'localhost';
-$wgFlowParsoidTimeout = 100;
-
 $wgGroupPermissions['autoconfirmed']['flow-edit-post'] = true;
 $wgGroupPermissions['sysop']['flow-create-board'] = true;
 
