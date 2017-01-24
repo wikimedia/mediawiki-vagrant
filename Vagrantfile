@@ -189,7 +189,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :lsb_check do |lsb|
     lsb.vendor = 'Debian'
-    lsb.version = '8.6'
+    lsb.version = '^8'
   end
 
   config.vm.provision :mediawiki_reload if mwv.reload?

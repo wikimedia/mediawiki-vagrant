@@ -10,7 +10,7 @@ module MediaWikiVagrant
           REQUIRED_VERSION=#{config.version}
           VENDOR=$(lsb_release -is)
           VERSION=$(lsb_release -rs)
-          if ! [[ $VENDOR == $REQUIRED_VENDOR && $VERSION == $REQUIRED_VERSION ]]; then
+          if ! [[ $VENDOR == $REQUIRED_VENDOR && $VERSION =~ $REQUIRED_VERSION ]]; then
             echo "MediaWiki-Vagrant requires a $REQUIRED_VENDOR $REQUIRED_VERSION guest OS"
             echo 'Your guest OS reports:'
             lsb_release -irc | sed 's/^/    /'
