@@ -1,0 +1,12 @@
+[Unit]
+Description=<%= @title %> service
+Requires=mediawiki-ready.service
+After=mediawiki-ready.service
+
+[Service]
+SyslogIdentifier=<%= @title %>
+ExecStart=/usr/bin/<%= @title %> <%= @cfg_file %>
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

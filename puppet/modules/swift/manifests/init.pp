@@ -49,6 +49,30 @@ class swift (
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
 
+    apt::pin { 'python-swift-jessie-backports':
+        package  => 'python-swift*',
+        pin      => 'release n=jessie-backports',
+        priority => 1000,
+    }
+
+    apt::pin { 'python-eventlet-jessie-backports':
+        package  => 'python-eventlet',
+        pin      => 'release n=jessie-backports',
+        priority => 1000,
+    }
+
+    apt::pin { 'python-webob-jessie-backports':
+        package  => 'python-webob',
+        pin      => 'release n=jessie-backports',
+        priority => 1000,
+    }
+
+    apt::pin { 'swift-jessie-backports':
+        package  => 'swift*',
+        pin      => 'release n=jessie-backports',
+        priority => 1000,
+    }
+
     require_package('swift')
     require_package('swift-account')
     require_package('swift-container')

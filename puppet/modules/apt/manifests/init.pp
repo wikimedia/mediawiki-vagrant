@@ -32,6 +32,11 @@ class apt {
         before  => Exec['apt-get update'],
     }
 
+    file { '/etc/apt/sources.list.d/backports.list':
+        content => template('apt/backports.list.erb'),
+        before  => Exec['apt-get update'],
+    }
+
     # T125760 - mw-vagrant only apt repo
     file { '/etc/apt/sources.list.d/mwv-apt.list':
         content => template('apt/mwv-apt.list.erb'),
