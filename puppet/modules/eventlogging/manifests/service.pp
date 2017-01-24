@@ -47,17 +47,11 @@ define eventlogging::service(
         content => template('eventlogging/service.erb'),
     }
 
-    file { "/etc/init/${service_name}.conf":
-        content => template('eventlogging/service.upstart.erb'),
-    }
-
-    service { $service_name:
-        ensure    => 'running',
-        enable    => true,
-        provider  => 'upstart',
-        subscribe => [
-            File[$config_file],
-            File["/etc/init/${service_name}.conf"],
-        ],
+    systemd::service { $service_name:
+        ensure         => 'present',
+        template_name  => 'eventlogging-service',
+        service_params => {
+            subscribe => File[$config_file],
+        },
     }
 }
