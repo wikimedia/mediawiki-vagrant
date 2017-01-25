@@ -2,7 +2,7 @@
 Description=EventLogging Dev Server
 Requires=network.target
 
-[service]
+[Service]
 User=www-data
 Group=www-data
 ExecStart=<%= @eventlogging_path %>/virtualenv/bin/eventlogging-devserver --append-to <%= @output_file %>
