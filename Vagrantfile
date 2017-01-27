@@ -33,6 +33,15 @@ Vagrant.require_version '>= 1.7.0'
 require 'ipaddr'
 require 'socket'
 
+# T156380: Check to see if the legacy gem version of the plugin is installed
+if Vagrant.has_plugin?('mediawiki-vagrant')
+    raise <<-EOS
+
+    The deprecated mediawiki-vagrant plugin is installed.
+    Please remove it by running `vagrant plugin uninstall mediawiki-vagrant`.
+    EOS
+end
+
 mwv = MediaWikiVagrant::Environment.new(File.expand_path('..', __FILE__))
 settings = mwv.load_settings
 
