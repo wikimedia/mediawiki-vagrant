@@ -218,16 +218,9 @@ class varnish {
         user    => 'root',
     }
 
-    file { '/etc/init/varnish.conf':
-        ensure  => present,
-        content => template('varnish/upstart.erb'),
-        mode    => '0444',
-    }
-
-    service { 'varnish':
-        ensure    => running,
-        provider  => 'upstart',
-        require   => [
+    systemd::service { 'varnish':
+        ensure         => 'present',
+        require        => [
             Exec[
                 'build_varnish',
                 'build_tbf',
@@ -235,11 +228,12 @@ class varnish {
             ],
             File[
                 '/var/run/varnish',
-                '/etc/init/varnish.conf',
                 '/etc/varnish/secret',
                 '/usr/local/var/varnish/mediawiki-vagrant'
             ],
         ],
-        subscribe => File[$conf],
+        service_params => {
+            subscribe => File[$conf],
+        },
     }
 }
