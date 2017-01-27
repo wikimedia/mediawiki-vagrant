@@ -16,18 +16,13 @@
 define swift::service(
     $cfg_file,
 ) {
-    file { "/etc/init/swift-${title}.conf":
-        ensure  => present,
-        content => template('swift/upstart.erb'),
-        mode    => '0444',
-    }
-
-    service { "swift-${title}":
-        ensure    => running,
-        enable    => true,
-        provider  => 'upstart',
-        subscribe => File[$cfg_file],
-        require   => File[$cfg_file, "/etc/init/swift-${title}.conf"],
+    systemd::service { "swift-${title}":
+        ensure         => 'present',
+        require        => File[$cfg_file],
+        service_params => {
+            subscribe => File[$cfg_file],
+        },
+        template_name  => 'swift',
     }
 
     rsyslog::conf { "rsyslog-swift-${title}":
