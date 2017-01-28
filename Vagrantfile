@@ -38,7 +38,10 @@ if Vagrant.has_plugin?('mediawiki-vagrant')
   raise <<-EOS
 
   The deprecated mediawiki-vagrant plugin is installed.
+
   Please remove it by running `vagrant plugin uninstall mediawiki-vagrant`.
+
+  See https://phabricator.wikimedia.org/T156380 for details.
   EOS
 end
 
