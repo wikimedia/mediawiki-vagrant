@@ -78,8 +78,13 @@ class swift (
     require_package('swift-container')
     require_package('swift-object')
     require_package('swift-proxy')
-    require_package('python-swiftclient')
     require_package('python-webob')
+
+    exec { 'ins-apt-python-swiftclient':
+        command     => '/usr/bin/apt-get update && /usr/bin/apt-get install -y --force-yes python-swiftclient',
+        environment => 'DEBIAN_FRONTEND=noninteractive',
+        unless      => '/usr/bin/dpkg -l python-swiftclient',
+    }
 
     user { 'swift':
         ensure     => present,
