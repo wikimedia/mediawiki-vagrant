@@ -89,19 +89,13 @@ Vagrant.configure('2') do |config|
   # Requires plugins:
   #   * Parallels provider - http://parallels.github.io/vagrant-parallels/
   #     $ vagrant plugin install vagrant-parallels
-  #   * Puppet installer - https://github.com/petems/vagrant-puppet-install
-  #     $ vagrant plugin install vagrant-puppet-install
   #
-  # Note that port forwarding works via localhost but not via external interfaces
-  # of the host machine by default...
-  # config.vm.provider :parallels do |_parallels, override|
-  #   override.vm.box = 'parallels/ubuntu-14.04'
-
-  #   # Pin to a 3.x version, current as of this config writing.
-  #   override.puppet_install.puppet_version = '3.7.4'
-
-  #   override.vm.network :private_network, ip: settings[:static_ip]
-  # end
+  # Note that port forwarding works via localhost but not via external
+  # interfaces of the host machine by default...
+  config.vm.provider :parallels do |_parallels, override|
+    override.vm.box = 'boxcutter/debian8'
+    override.vm.network :private_network, ip: settings[:static_ip]
+  end
 
   # libvirt (KVM/QEMU) provider.  Enable with `--provider=libvirt`.
   # config.vm.provider :libvirt do |_libvirt, override|
