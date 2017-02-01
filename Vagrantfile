@@ -73,12 +73,10 @@ Vagrant.configure('2') do |config|
   # Note you must configure networking manually in Hyper-V Manager!
   # NAT and port redirection are not automatically set up for you.
   #
-  # config.vm.provider :hyperv do |_hyperv, override|
-  #   # Our default box doesn't have Hyper-V support...
-  #   override.vm.box = 'cirex/ubuntu-14.04'
-
-  #   override.vm.network :private_network, ip: settings[:static_ip]
-  # end
+  config.vm.provider :hyperv do |_hyperv, override|
+    override.vm.box = 'ira/leap'
+    override.vm.network :private_network, ip: settings[:static_ip]
+   end
 
   # LXC provider. Enable wtih `--provider=lxc`
   # Requires vagrant-lxc plugin and Vagrant 1.7+
