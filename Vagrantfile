@@ -82,9 +82,9 @@ Vagrant.configure('2') do |config|
 
   # LXC provider. Enable wtih `--provider=lxc`
   # Requires vagrant-lxc plugin and Vagrant 1.7+
-  # config.vm.provider :lxc do |_lxc, override|
-  #   override.vm.box = 'Wikimedia/trusty64-puppet-lxc'
-  # end
+  config.vm.provider :lxc do |_lxc, override|
+    override.vm.box = 'LEAP/jessie'
+  end
 
   # Parallels provider. Enable with `--provider=parallels`
   #
