@@ -16,6 +16,7 @@ class three_d (
     require_package('libxi-dev')
     require_package('libglu1-mesa-dev')
     require_package('libglew-dev')
+    require_package('libgif-dev')
 
     file { $three_d_2png_dir:
         ensure => directory,
