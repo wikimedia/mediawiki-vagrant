@@ -6,7 +6,12 @@ group :development do
   gem 'vagrant', git: 'https://github.com/mitchellh/vagrant.git', tag: 'v1.8.1'
 
   gem 'rubocop', '~> 0.35.1', require: false
+  gem 'puppet', '~> 3.7.0'
   gem 'puppet-lint', '1.1.0'
+  gem 'puppetlabs_spec_helper', '< 2.0.0', require: false
+  # Puppet 3.7 fails on ruby 2.2+
+  # https://tickets.puppetlabs.com/browse/PUP-3796
+  gem 'safe_yaml', '~> 1.0.4'
   gem 'rake', '~> 10.4.2'
 end
 
