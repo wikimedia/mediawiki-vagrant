@@ -11,6 +11,7 @@ require 'bundler/setup'
 require 'cucumber'
 require 'cucumber/rake/task'
 require 'puppet-lint/tasks/puppet-lint'
+require 'puppet-syntax/tasks/puppet-syntax'
 require 'puppet-strings/tasks/generate'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
@@ -34,7 +35,7 @@ RuboCop::RakeTask.new(:rubocop)
 task default: [:test]
 
 desc 'Run all build/tests commands (CI entry point)'
-task test: [:spec, :rubocop, :cucumber, :lint, :doc]
+task test: [:syntax, :spec, :rubocop, :cucumber, :lint, :doc]
 
 desc 'Generate all documentations'
 task :doc do

@@ -8,6 +8,7 @@ group :development do
   gem 'rubocop', '~> 0.35.1', require: false
   gem 'puppet-lint', '1.1.0'
   gem 'puppet', '~> 3.7.0'
+  gem 'puppetlabs_spec_helper', '< 2.0.0', require: false
   gem 'puppet-strings', '~> 1.0.0'
   # Puppet 3.7 fails on ruby 2.2+
   # https://tickets.puppetlabs.com/browse/PUP-3796
