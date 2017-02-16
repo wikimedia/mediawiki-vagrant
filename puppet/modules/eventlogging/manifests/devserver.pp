@@ -8,7 +8,7 @@ class eventlogging::devserver(
     # Local variable for ease of use in service.upstart.erb template.
     $eventlogging_path = $::eventlogging::path
 
-    service { 'eventlogging-devserver':
+    systemd::service { 'eventlogging-devserver':
         ensure    => 'present',
     }
 }
