@@ -76,7 +76,7 @@ Vagrant.configure('2') do |config|
   config.vm.provider :hyperv do |_hyperv, override|
     override.vm.box = 'ira/leap'
     override.vm.network :private_network, ip: settings[:static_ip]
-   end
+  end
 
   # LXC provider. Enable wtih `--provider=lxc`
   # Requires vagrant-lxc plugin and Vagrant 1.7+
