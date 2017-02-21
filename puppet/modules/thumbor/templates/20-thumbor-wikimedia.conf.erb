@@ -39,7 +39,9 @@ SWIFT_SHARDED_CONTAINERS = [
 ]
 SWIFT_PATH_PREFIX = 'thumbor/'
 SWIFT_CONNECTION_TIMEOUT = 5
-SWIFT_RETRIES = 0
+
+# Needs to be at least 1 due to bug in python-swiftclient < 3.1.0 https://bugs.launchpad.net/gnocchi/+bug/1589926
+SWIFT_RETRIES = 1
 
 PROXY_ENGINE_ENGINES = [
     ('wikimedia_thumbor.engine.svg', ['svg']),

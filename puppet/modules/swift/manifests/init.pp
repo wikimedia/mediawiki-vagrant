@@ -81,7 +81,7 @@ class swift (
     require_package('python-webob')
 
     exec { 'ins-apt-python-swiftclient':
-        command     => '/usr/bin/apt-get update && /usr/bin/apt-get install -y --force-yes python-swiftclient',
+        command     => '/usr/bin/apt-get update && /usr/bin/apt-get install -y --force-yes -t jessie-backports "python-swiftclient"',
         environment => 'DEBIAN_FRONTEND=noninteractive',
         unless      => '/usr/bin/dpkg -l python-swiftclient',
     }
