@@ -301,7 +301,7 @@ class role::striker(
     }
 
     mediawiki::import::text { 'MediaWiki:Titleblacklist':
-        source  => 'puppet:///modules/role/striker/MediaWiki:Titleblacklist.wiki',
+        source  => 'puppet:///modules/role/striker/MediaWiki_Titleblacklist.wiki',
         db_name => 'ldapauthwiki',
         wiki    => 'ldapauth',
     }
