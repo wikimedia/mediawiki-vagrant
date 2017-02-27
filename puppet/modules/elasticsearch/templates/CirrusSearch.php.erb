@@ -3,6 +3,8 @@
 include_once "$IP/extensions/CirrusSearch/tests/jenkins/FullyFeaturedConfig.php";
 $wgCirrusSearchExtraIndexes[ NS_FILE ] = array( 'commonswiki_file' );
 
+$wgCirrusSearchDevelOptions['allow_nuke'] = true;
+
 $wgMWLoggerDefaultSpi['args'][0]['loggers']['CirrusSearchRequestSet'] = array(
 	'handlers' => array( 'kafka' ),
 	'processors' => array(),
