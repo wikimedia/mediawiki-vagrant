@@ -277,6 +277,10 @@ mysql::default_db_name: wiki
 mysql::root_password: vagrant
 mysql::grant_host_name: 'localhost'
 
+ores::deploy_dir: "%{hiera('mwv::services_dir')}/ores"
+ores::vhost_name: "ores%{hiera('mwv::tld')}"
+ores::port: 18880
+
 phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
 phabricator::log_dir: "/vagrant/logs/phd"
 phabricator::vhost_name: "phabricator%{hiera('mwv::tld')}"
@@ -485,5 +489,12 @@ thumbor::cfg_dir: /etc/thumbor.d
 thumbor::log_dir: /srv/thumbor
 thumbor::tmp_dir: /tmp/thumbor
 thumbor::statsd_port: "%{hiera('statsd::port')}"
+
+wikilabels::deploy_dir: "%{hiera('mwv::services_dir')}/wikilabels"
+wikilabels::db_name: 'wikilabels'
+wikilabels::db_user: 'wikilabels'
+wikilabels::db_pass: 'vagrant'
+wikilabels::vhost_name: "wikilabels%{hiera('mwv::tld')}"
+wikilabels::port: 18881
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"

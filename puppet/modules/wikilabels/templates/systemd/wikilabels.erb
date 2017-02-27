@@ -1,0 +1,20 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+[Unit]
+Description=Wikilabels edit labeling service
+Requires=mediawiki-ready.service
+After=mediawiki-ready.service
+
+[Service]
+User=www-data
+Group=www-data
+SyslogIdentifier=wikilabels
+WorkingDirectory=<%= @repo_dir %>
+ExecStart=<%= @deploy_dir %>/bin/wikilabels dev_server --port=<%= @port %>
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

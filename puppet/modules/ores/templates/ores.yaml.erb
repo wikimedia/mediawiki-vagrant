@@ -1,0 +1,17 @@
+SERVER_NAME: <%= @vhost_name %>:<%= @port %>
+
+
+scoring_systems:
+  defaults:
+    scoring_contexts:
+      - wiki
+
+scoring_contexts:
+  wiki:
+    extractor: testwiki_offline
+    scorer_models:
+      damaging: testwiki_revid
+    precache:
+      damaging:
+        "on": ['edit']
+

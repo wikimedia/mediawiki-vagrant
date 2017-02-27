@@ -1,0 +1,20 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+[Unit]
+Description=ORES revision scoring service (web worker)
+Requires=mediawiki-ready.service
+After=mediawiki-ready.service
+
+[Service]
+User=www-data
+Group=www-data
+SyslogIdentifier=ores-wsgi
+WorkingDirectory=<%= @repo_dir %>
+ExecStart=<%= @deploy_dir %>/bin/ores applications.wsgi --port=<%= @port %> --processes=1
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
+

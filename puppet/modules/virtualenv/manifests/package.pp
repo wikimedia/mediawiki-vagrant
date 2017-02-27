@@ -9,6 +9,7 @@
 # == Parameters
 # [*path*]
 #   Path to already previously initialized virtualenv.
+#   The package will be available under $path/src/$python_module.
 #
 # [*package*]
 #   Pip package to install.  Default: $title
@@ -18,16 +19,39 @@
 #    doesn't, specify this. This will be used to determine if the package is
 #    already installed in the virtualenv.  Default: $title
 #
+# [*editable*]
+#    Intall package in editable mode (pip -e), ie. does a git clone into the
+#    main venv folder instead of installing a subset of the files only into
+#    ./lib. You probably need to use the 'package' parameter if you use this.
+#    Default: false
+#
 define virtualenv::package (
     $path,
-    $package        = $title,
-    $python_module  = $title,
+    $package       = $title,
+    $python_module = $title,
+    $editable      = false,
 ) {
     Virtualenv::Environment[$path] -> Virtualenv::Package[$title]
 
-    exec { "pip_install_${package}_in_${path}":
-        command => "${path}/bin/pip install ${package}",
-        cwd     => $path,
-        unless  => "${path}/bin/python -c 'import ${python_module}'",
+    if ( $editable ) {
+        # pip -e does not install dependencies, so install as normal
+        # package first, then replace with editable version
+        exec { "pip_install_${python_module}_dependencies_in_${path}":
+            command => "${path}/bin/pip install ${package}",
+            cwd     => $path,
+            unless  => "${path}/bin/python -c 'import ${python_module}'",
+        }
+        exec { "pip_install_${python_module}_editable_in_${path}":
+            command   => "${path}/bin/pip install -e ${package}",
+            cwd       => $path,
+            creates   => "${path}/src/${python_module}",
+            subscribe => Exec["pip_install_${python_module}_dependencies_in_${path}"],
+        }
+    } else {
+        exec { "pip_install_${python_module}_in_${path}":
+            command => "${path}/bin/pip install ${package}",
+            cwd     => $path,
+            unless  => "${path}/bin/python -c 'import ${python_module}'",
+        }
     }
 }

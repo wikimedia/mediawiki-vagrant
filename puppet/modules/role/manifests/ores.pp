@@ -1,9 +1,7 @@
 # == Class: role::ores
 #
 # Install the MediaWiki ORES extension and configure in test data mode.
-#
-# TODO:
-# - Also provision an ORES server.
+# (To install the ORES service, use the ores_service role instead.)
 #
 class role::ores {
     include ::role::betafeatures

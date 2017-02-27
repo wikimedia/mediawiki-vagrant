@@ -1,0 +1,10 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+ServerName <%= @vhost_name %>
+
+ProxyPass / http://localhost:<%= @port %>/
+ProxyPassReverse / http://localhost:<%= @port %>/
+ProxyPreserveHost On
+RequestHeader set X-Forwarded-Proto "https" env=HTTPS
