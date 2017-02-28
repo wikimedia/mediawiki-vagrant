@@ -42,10 +42,10 @@ define elasticsearch::plugin(
     # Core plugins are part of elastic realease process thus no additional
     # information should be provided. External plugins (such as those released
     # by wikimedia) provide the group and artifact ids. the mwv-elasticsearch-plugin
-    # script will add the appropriate version.
+    # script will convert this into a url to request from maven central
     $plugin_identifier = $core ? {
         true  => '',
-        false => "${group}/${title}"
+        false => "${group} ${title}"
     }
 
     case $ensure {
@@ -62,7 +62,7 @@ define elasticsearch::plugin(
         }
         absent: {
             exec { "uninstall_es_plugin_${title}":
-                command => "/usr/local/bin/mwv-elasticsearch-plugin remove ${esname}",
+                command => "/usr/local/bin/mwv-elasticsearch-plugin uninstall ${esname}",
                 onlyif  => "/usr/bin/test -d /usr/share/elasticsearch/plugins/${esname}",
                 require => [
                     Package['elasticsearch'],

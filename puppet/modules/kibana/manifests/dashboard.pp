@@ -16,5 +16,6 @@ define kibana::dashboard(
     exec { "save dashboard ${title}":
         command => template('kibana/save-dashboard.erb'),
         unless  => template('kibana/check-dashboard.erb'),
+        require => Service['elasticsearch'],
     }
 }

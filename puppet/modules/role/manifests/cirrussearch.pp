@@ -31,19 +31,16 @@ class role::cirrussearch {
     # Not enabled on production wikis
     elasticsearch::plugin { 'analysis-kuromoji':
         ensure => absent,
-        core   => true,
     }
 
     # Not enabled on production wikis
     elasticsearch::plugin { 'analysis-stempel':
         ensure => absent,
-        core   => true,
     }
 
     # Not enabled on production wikis
     elasticsearch::plugin { 'analysis-smartcn':
         ensure => absent,
-        core   => true,
     }
     elasticsearch::plugin { 'elasticsearch-analysis-hebrew':
         # Less stable then icu plugin

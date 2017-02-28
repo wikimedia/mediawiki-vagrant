@@ -13,10 +13,10 @@ PLUGIN_NAME="$2"
 if [ -z "$3" ]; then
   INSTALL_ARGS="$PLUGIN_NAME"
 else
-  # In elasticsearch 2 this is group/title, which elasticsearch will use
-  # to magic up some urls. in elasticsearch 5 we will have to provide our
-  # own urls
-  INSTALL_ARGS="$3/$ES_VERSION"
+  # Magic up a url to maven central that will download the appropriate version of the plugin
+  PLUGIN_GROUP="$3"
+  PLUGIN_ARTIFACT="$4"
+  INSTALL_ARGS="https://repo1.maven.org/maven2/${PLUGIN_GROUP//.//}/${PLUGIN_ARTIFACT}/${ES_VERSION}/${PLUGIN_ARTIFACT}-${ES_VERSION}.zip"
 fi
 
 PLUGIN_DIR="/usr/share/elasticsearch/plugins/${PLUGIN_NAME}"
@@ -45,26 +45,28 @@ case "$ACTION" in
     else
       if [ "$PLUGIN_INSTALLED" = "yes" ]; then
         echo "Pruning old version ($PLUGIN_VERSION) of $PLUGIN_NAME"
-        /usr/share/elasticsearch/bin/plugin remove "$PLUGIN_NAME"
+        /usr/share/elasticsearch/bin/elasticsearch-plugin remove "$PLUGIN_NAME"
       fi
 
       # We need to delete all old plugins before trying to install a new
-      # one, "bin/plugin install" will simply fail if an unsupported one
+      # one, "bin/elasticsearch-plugin install" will simply fail if an unsupported one
       # is found in the plugins directory.
       find /usr/share/elasticsearch/plugins -mindepth 1 -maxdepth 1 -type d \
         '!' '(' -exec test -e '{}/plugin-descriptor.properties' ';' -a \
-                -exec egrep -q "(^elasticsearch.version=${ES_VERSION}|^site=true)" \
+                -exec egrep -q "^elasticsearch.version=${ES_VERSION}" \
                                '{}/plugin-descriptor.properties' ';' \
             ')' \
-        -exec sh -c '/usr/share/elasticsearch/bin/plugin remove `basename {}`' ';'
+        -exec sh -c '/usr/share/elasticsearch/bin/elasticsearch-plugin remove `basename {}`' ';'
 
-      /usr/share/elasticsearch/bin/plugin install "$INSTALL_ARGS"
+      echo "Installing elasticsearch plugin: $INSTALL_ARGS"
+      /usr/share/elasticsearch/bin/elasticsearch-plugin install "$INSTALL_ARGS"
     fi
     ;;
 
   uninstall)
     if [ "$PLUGIN_INSTALLED" = "yes" ]; then
-      /usr/share/elasticsearch/bin/plugin remove "$PLUGIN_NAME"
+      echo "Removing version $PLUGIN_VERSION of $PLUGIN_NAME"
+      /usr/share/elasticsearch/bin/elasticsearch-plugin remove "$PLUGIN_NAME"
     else
       echo "$PLUGIN_NAME not installed, doing nothing"
     fi
