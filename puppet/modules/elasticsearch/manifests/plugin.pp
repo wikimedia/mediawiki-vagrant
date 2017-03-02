@@ -7,12 +7,11 @@
 # [*title*]
 #   Name of the plugin (artifact).  Examples:
 # experimental-highlighter-elasticsearch-plugin
-# elasticsearch-analysis-icu
+# analysis-icu
 #
 # [*group*]
 #   Group of the plugin.  Examples:
 # org.wikimedia.search.highlighter
-# elasticsearch
 #
 # [*esname*]
 #   Name of the plugin seen by elasticsearch
@@ -27,9 +26,9 @@
 #   elasticsearch::plugin { 'analysis-icu':
 #       core => true,
 #   }
-# Or a specific version of the highlighter plugin:
+#
+# Or the highlighter plugin:
 #   elasticsearch::plugin { 'experimental-highlighter-elasticsearch-plugin':
-#       ensure => '2.3.3.1',
 #       group  => 'org.wikimedia.search.highlighter',
 #       esname => 'experimental-highlighter',
 #   }
@@ -37,78 +36,38 @@
 define elasticsearch::plugin(
     $ensure = present,
     $group  = undef,
-    $esname = undef,
-    $url    = undef,
+    $esname = $title,
     $core   = false,
 ) {
-    $es_dir = '/usr/share/elasticsearch'
-    $dirname = $esname ? {
-        undef   => regsubst($title, '^elasticsearch-', ''),
-        default => $esname
-    }
-
-    # FIXME: this might not work well if elastic version is set to 'latest'
-    $version = $ensure ? {
-        present => $::elasticsearch_version,
-        absent  => $::elasticsearch_version,
-        undef   => $::elasticsearch_version,
-        default => $ensure
-    }
-
-    $_esversion = $::elasticsearch_version
-
-    $plugin_dir = "${es_dir}/plugins/${dirname}"
-    # Core plugins are part of elastic realease process thus no version nor
-    # group should be provided.
+    # Core plugins are part of elastic realease process thus no additional
+    # information should be provided. External plugins (such as those released
+    # by wikimedia) provide the group and artifact ids. the mwv-elasticsearch-plugin
+    # script will add the appropriate version.
     $plugin_identifier = $core ? {
-        true  => $title,
-        false => "${group}/${title}/${version}"
+        true  => '',
+        false => "${group}/${title}"
     }
 
-    $url_param = $url ? {
-        undef   => '',
-        default => "--url ${url}"
-    }
     case $ensure {
         present: {
-            exec { "prune_es_plugin_${title}":
-                command => "${es_dir}/bin/plugin remove ${dirname}",
-                unless  => "egrep -s ^version=${version} ${plugin_dir}/plugin-descriptor.properties",
-                require => Package['elasticsearch'],
-                notify  => Service['elasticsearch'],
-            }
-            # We need to delete all old plugins before trying to install a new
-            # one, "bin/plugin install" will simply fail if an unsupported one is found
-            # in the plugins directory
-            exec { "cleanup_old_plugins_${title}":
-                command => "find ${es_dir}/plugins -mindepth 1 -maxdepth 1 -type d '!' \
-                           '(' -exec test -e '{}/plugin-descriptor.properties' ';' -a \
-                           -exec egrep -q \"(^elasticsearch.version=${_esversion}|^site=true)\" \
-                           {}/plugin-descriptor.properties \\; ')' \
-                           -exec sh -c '${es_dir}/bin/plugin remove `basename {}`' ';'",
-                onlyif  => "find ${es_dir}/plugins -mindepth 1 -maxdepth 1 -type d '!' \
-                           '(' -exec test -e '{}/plugin-descriptor.properties' ';' -a \
-                           -exec egrep -q \"(^elasticsearch.version=${_esversion}|^site=true)\" \
-                           {}/plugin-descriptor.properties \\; ')' -print | grep .",
-                require => Package['elasticsearch'],
-                notify  => Service['elasticsearch'],
-            }
             exec { "install_es_plugin_${title}":
-                command => "${es_dir}/bin/plugin install ${plugin_identifier} ${url_param}",
-                unless  => "egrep -s ^version=${version} ${plugin_dir}/plugin-descriptor.properties",
+                command => "/usr/local/bin/mwv-elasticsearch-plugin install ${esname} ${plugin_identifier}",
+                unless  => "/usr/local/bin/mwv-elasticsearch-plugin check ${esname}",
                 require => [
                     Package['elasticsearch'],
-                    Exec["prune_es_plugin_${title}"],
-                    Exec["cleanup_old_plugins_${title}"],
+                    File['/usr/local/bin/mwv-elasticsearch-plugin']
                 ],
                 notify  => Service['elasticsearch'],
             }
         }
         absent: {
             exec { "uninstall_es_plugin_${title}":
-                command => "${es_dir}/bin/plugin remove ${title}",
-                onlyif  => "/usr/bin/test -d ${plugin_dir}",
-                require => Package['elasticsearch'],
+                command => "/usr/local/bin/mwv-elasticsearch-plugin remove ${esname}",
+                onlyif  => "/usr/bin/test -d /usr/share/elasticsearch/plugins/${esname}",
+                require => [
+                    Package['elasticsearch'],
+                    File['/usr/local/bin/mwv-elasticsearch-plugin'],
+                ],
                 notify  => Service['elasticsearch'],
             }
         }

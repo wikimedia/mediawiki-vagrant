@@ -5,10 +5,17 @@
 #
 class elasticsearch {
     package { 'elasticsearch':
-        ensure => $::elasticsearch_version
+        ensure => latest,
     }
 
     require_package('openjdk-7-jre-headless')
+
+    file { '/usr/local/bin/mwv-elasticsearch-plugin':
+        source => 'puppet:///modules/elasticsearch/mwv-elasticsearch-plugin',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0555',
+    }
 
     file { '/var/run/elasticsearch/':
         # Temporary and poor work around for
