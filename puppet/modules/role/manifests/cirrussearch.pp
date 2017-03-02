@@ -17,11 +17,6 @@ class role::cirrussearch {
     # necessary for CirrusSearch.php.erb to point to service root dir
     require ::service
 
-    # By default Vagrant sets up firefox as the global browsertest
-    # runner, we want to ensure phantomjs is available for running the
-    # cirrussearch tests in a headless and parallelized manner.
-    require_package('phantomjs')
-
     # Elasticsearch plugins
     ## Analysis
     elasticsearch::plugin { 'analysis-icu':
