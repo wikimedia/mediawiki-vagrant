@@ -1,6 +1,15 @@
 #!/usr/bin/env bash
 # Command run in VM for `vagrant import-dump`
+
+FILE="/vagrant/$1"
+
 . /etc/profile.d/set_MW_INSTALL_PATH.sh
 cd "$MW_INSTALL_PATH"
-/usr/local/bin/mwscript importDump.php -- "/vagrant/$1"
+
+if [[ ! -f "/vagrant/$1" ]]; then
+  echo "\"$FILE\" does not exist" 1>&2
+  exit 1
+fi
+
+/usr/local/bin/mwscript importDump.php --uploads -- "$FILE"
 /usr/local/bin/mwscript rebuildrecentchanges.php

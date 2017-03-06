@@ -74,6 +74,11 @@ module MediaWikiVagrant
       ImportDump
     end
 
+    command 'export-dump' do
+      require 'mediawiki-vagrant/export_dump'
+      ExportDump
+    end
+
     command 'hiera' do
       require 'mediawiki-vagrant/hiera'
       Hiera

@@ -185,6 +185,11 @@ class mediawiki(
         mode   => '0755',
     }
 
+    file { '/usr/local/bin/export-mediawiki-dump':
+        source => 'puppet:///modules/mediawiki/export-mediawiki-dump',
+        mode   => '0755',
+    }
+
     exec { 'update_all_databases':
         command     => '/usr/local/bin/foreachwiki update.php --quick --doshared',
         cwd         => $dir,

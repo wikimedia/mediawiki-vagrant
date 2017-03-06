@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Command run in VM for `vagrant import-dump`
+. /etc/profile.d/set_MW_INSTALL_PATH.sh
+cd "$MW_INSTALL_PATH"
+/usr/local/bin/mwscript dumpBackup.php --full --include-files --output=gzip:/vagrant/tmp/vagrant-dump.xml.gz
+/usr/local/bin/mwscript dumpBackup.php --logs --output=gzip:/vagrant/tmp/vagrant-dump-logs.xml.gz
+
