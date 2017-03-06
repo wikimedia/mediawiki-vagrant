@@ -5,9 +5,11 @@ class kafka {
     require ::mediawiki::ready_service
 
     require_package('openjdk-7-jdk')
-    require_package('zookeeper-server')
+    require_package('zookeeperd')
     require_package('confluent-kafka-2.11.7')
     require_package('kafkacat')
+
+    $logdir = '/var/log/kafka'
 
     group { 'kafka':
         ensure  => 'present',
@@ -39,28 +41,31 @@ class kafka {
     }
 
     file { '/etc/kafka/server.properties':
-        ensure => 'present',
-        source => 'puppet:///modules/kafka/server.properties',
-        mode   => '0444',
+        ensure  => 'present',
+        source  => 'puppet:///modules/kafka/server.properties',
+        mode    => '0444',
+        require => Package['confluent-kafka-2.11.7'],
     }
 
-    file { ['/var/log/kafka', '/var/lib/kafka']:
-        ensure => 'directory',
-        owner  => 'kafka',
-        group  => 'kafka',
-        mode   => '0755',
+    file { '/etc/kafka/log4j.properties':
+      ensure  => 'present',
+      content => template('kafka/log4j.properties.erb'),
+      mode    => '0444',
+      require => Package['confluent-kafka-2.11.7'],
     }
 
-    exec { 'zookeeper-server-init':
-        command => '/etc/init.d/zookeeper-server init',
-        unless  => '/usr/bin/test -d /var/lib/zookeeper/version-2',
-        require => Package['zookeeper-server']
+    file { [$logdir, '/var/lib/kafka']:
+        ensure  => 'directory',
+        owner   => 'kafka',
+        group   => 'kafka',
+        mode    => '0755',
+        require => Package['confluent-kafka-2.11.7'],
     }
 
-    service { 'zookeeper-server':
+    service { 'zookeeper':
         ensure  => 'running',
         enable  => true,
-        require => Exec['zookeeper-server-init'],
+        require => Package['zookeeperd']
     }
 
     systemd::service { 'kafka':
@@ -68,9 +73,13 @@ class kafka {
         service_params => {
             require   => [
                 User['kafka'],
-                Service['zookeeper-server'],
+                Service['zookeeper'],
+                Package['confluent-kafka-2.11.7'],
             ],
-            subscribe => File['/etc/kafka/server.properties'],
+            subscribe => [
+                File['/etc/kafka/server.properties'],
+                File['/etc/kafka/log4j.properties'],
+            ]
         },
     }
 }
