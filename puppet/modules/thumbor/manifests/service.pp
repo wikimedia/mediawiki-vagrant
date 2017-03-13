@@ -26,26 +26,23 @@ define thumbor::service (
 ) {
     $port = $name
 
-    file { "/etc/init/thumbor-${port}.conf":
-        ensure  => present,
-        content => template('thumbor/upstart.erb'),
-        mode    => '0444',
-    }
-
-    service { "thumbor-${port}":
-        ensure    => running,
-        enable    => true,
-        provider  => 'upstart',
-        require   => [
-            Virtualenv::Environment[$deploy_dir],
+    systemd::service { "thumbor-${port}":
+        ensure         => 'present',
+        require        => [
+            Package['python-thumbor-wikimedia'],
             User['thumbor'],
             File['/etc/firejail/thumbor.profile'],
         ],
-        subscribe => [
-            File["${deploy_dir}/tinyrgb.icc", "/etc/init/thumbor-${port}.conf", '/etc/firejail/thumbor.profile'],
-            $cfg_files,
-            Cgroup::Config['thumbor'],
-        ],
+        service_params => {
+            subscribe => [
+                File[
+                    '/etc/tinyrgb.icc',
+                    '/etc/firejail/thumbor.profile'
+                ],
+                $cfg_files,
+            ],
+        },
+        template_name  => 'thumbor',
     }
 
     # Ensure that Sentry is started before Thumbor

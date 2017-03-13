@@ -1,0 +1,11 @@
+[Unit]
+Description=EventLogging Produce HTTP Service
+Requires=network.target
+
+[Service]
+User=www-data
+Group=www-data
+ExecStart=<%= @eventlogging_path %>/virtualenv/bin/eventlogging-service @<%= @config_file %>
+
+[Install]
+WantedBy=multi-user.target

@@ -19,10 +19,8 @@ class citoid (
         port      => $port,
         log_level => $log_level,
         config    => {
-            userAgent       => undef,
-            zoteroInterface => '127.0.0.1',
-            zoteroPort      => '1969',
-            zoteroUseProxy  => false,
+            userAgent => undef,
+            zotero    => false,
         },
     }
 }

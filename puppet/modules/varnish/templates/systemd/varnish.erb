@@ -1,0 +1,14 @@
+[Unit]
+Description=varnish service
+Requires=mediawiki-ready.service
+After=mediawiki-ready.service
+
+[Service]
+User=varnish
+Group=varnish
+SyslogIdentifier=varnish
+ExecStart=/usr/local/sbin/varnishd -a :6081 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,256m -F
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

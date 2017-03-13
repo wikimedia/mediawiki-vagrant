@@ -26,8 +26,8 @@ class mediawiki::jobrunner(
     require ::mediawiki
 
     $ensure = $enable ? {
-        false   => 'stopped',
-        default => 'running',
+        false   => 'absent',
+        default => 'present',
     }
 
     $restart = $enable ? {
@@ -49,26 +49,6 @@ class mediawiki::jobrunner(
             Service['jobrunner'],
             Service['jobchron'],
         ],
-    }
-
-    file { '/etc/init/jobrunner.conf':
-        content => template('mediawiki/jobrunner.conf.erb'),
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
-        notify  => Service['jobrunner'],
-    }
-
-    file { '/etc/init/jobchron.conf':
-        content => template('mediawiki/jobchron.conf.erb'),
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
-        notify  => Service['jobchron'],
-    }
-
-    file { '/etc/jobrunner.ini':
-        ensure => absent,
     }
 
     file { '/etc/jobrunner.json':
@@ -107,17 +87,13 @@ class mediawiki::jobrunner(
         restart => $restart,
     }
 
-    service { 'jobrunner':
-        ensure   => $ensure,
-        enable   => $enable,
-        provider => 'upstart',
-        require  => Mediawiki::Wiki[$::mediawiki::wiki_name],
+    systemd::service { 'jobrunner':
+        ensure  => $ensure,
+        require => Mediawiki::Wiki[$::mediawiki::wiki_name],
     }
 
-    service { 'jobchron':
-        ensure   => $ensure,
-        enable   => $enable,
-        provider => 'upstart',
-        require  => Mediawiki::Wiki[$::mediawiki::wiki_name],
+    systemd::service { 'jobchron':
+        ensure  => $ensure,
+        require => Mediawiki::Wiki[$::mediawiki::wiki_name],
     }
 }

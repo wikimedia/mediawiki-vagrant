@@ -28,7 +28,8 @@ rainbow_pipe <<'EOM'
 EOM
 echo
 printf " * MediaWiki is located at \033[33;1m/vagrant/mediawiki\033[0m.\n"
-printf " * To interactively evaluate PHP and MediaWiki code, run '\033[33mmwrepl\033[0m' or '\033[33mmwrepl somewikidbname\033[0m'.\n"
+printf " * To interactively evaluate PHP and MediaWiki code, run:\n"
+printf "   '\033[33mmwrepl\033[0m' or '\033[33mmwrepl somewikidbname\033[0m'.\n"
 printf " * For a database shell, run '\033[33mmysql\033[0m'.\n"
 printf " * To execute MediaWiki maintenance scripts, run '\033[33mmwscript ...\033[0m'.\n"
 printf " * For help, visit \033[34;4mhttps://www.mediawiki.org\033[0m or \033[33m#mediawiki\033[0m on chat.freenode.net.\n\n"

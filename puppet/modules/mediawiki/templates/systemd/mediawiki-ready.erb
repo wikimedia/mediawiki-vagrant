@@ -1,0 +1,11 @@
+[Unit]
+Description="MediaWiki ready event emitter"
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/bin/wait-for-mediawiki.sh
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

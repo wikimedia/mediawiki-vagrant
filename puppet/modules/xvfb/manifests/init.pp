@@ -39,15 +39,11 @@ class xvfb(
         system => true,
     }
 
-    file { '/etc/init/xvfb.conf':
-        content => template('xvfb/xvfb.conf.erb'),
-        require => [ Package['xvfb'], User['xvfb'] ],
-    }
-
-    service { 'xvfb':
-        ensure   => running,
-        enable   => true,
-        provider => 'upstart',
-        require  => File['/etc/init/xvfb.conf'],
+    systemd::service { 'xvfb':
+        ensure  => 'present',
+        require => [
+            Package['xvfb'],
+            User['xvfb'],
+        ],
     }
 }

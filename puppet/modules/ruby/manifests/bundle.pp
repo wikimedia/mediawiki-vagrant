@@ -13,9 +13,6 @@
 # [*missing_ok*]
 #   Don't fail on account of a missing Gemfile.
 #
-# [*ruby*]
-#   Version of Ruby. Default: $ruby::default_version
-#
 # [*user*]
 #   The user to run bundler commands as. Default: 'vagrant'.
 #
@@ -29,12 +26,11 @@ define ruby::bundle(
     $directory  = $title,
     $gemfile    = undef,
     $missing_ok = false,
-    $ruby       = $ruby::default_version,
     $user       = 'vagrant',
 ) {
     include ::ruby
 
-    $bundle = "ruby${ruby} -- ${ruby::gem_bin_dir}/bundle"
+    $bundle = "ruby -- ${ruby::gem_bin_dir}/bundle"
     $bundle_gemfile = $gemfile ? {
         undef   => "${directory}/Gemfile",
         default => $gemfile,
@@ -60,7 +56,6 @@ define ruby::bundle(
         timeout     => 60 * 20,
         require     => [
             File["${directory}/.bundle/config"],
-            Ruby::Ruby[$ruby],
         ],
     }
 }
