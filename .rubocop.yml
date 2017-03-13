@@ -9,7 +9,6 @@ AllCops:
     - 'mediawiki-*/**/*'
     - 'puppet/modules/activemq/**/*'
     - 'puppet/modules/cdh/**/*'
-    - 'puppet/modules/mariadb/**/*'
     - 'puppet/modules/nginx/**/*'
     - 'puppet/modules/stdlib/**/*'
     - 'puppet/modules/wikimetrics/**/*'
