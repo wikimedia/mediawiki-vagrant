@@ -1,4 +1,5 @@
 require 'mediawiki-vagrant/settings'
+require 'vagrant/util'
 
 module MediaWikiVagrant
   Settings.define do
@@ -43,8 +44,10 @@ module MediaWikiVagrant
 
     setting :nfs_shares,
       description: 'Use synced folders backed by NFS',
-      help: "Enter 'yes' or 'no'. NFS is faster, but unsupported on Windows and with some encrypted filesystems on Linux",
-      default: defined?(Vagrant::Util::Platform) ? !Vagrant::Util::Platform.windows? : true,
+      help: "Enter 'yes' or 'no'. NFS is faster, but has some " +
+        'incompatibities and restrictions. ' +
+        'https://phabricator.wikimedia.org/T139859',
+      default: %w(bsd freebsd linux solaris).include?(Vagrant::Util::Platform.platform),
       coercion: ->(_setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
 
     setting :nfs_force_v3,
