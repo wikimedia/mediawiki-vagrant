@@ -11,8 +11,6 @@
 # - $idle_flush_time: Maxmimum seconds to wait between sends. Default 1.
 # - $index: Index to write events to. Default 'logstash-%{+YYYY.MM.dd}'.
 # - $port: Elasticsearch server port. Default 9200.
-# - $replication: Type of elasticsearch replication to use ('async', 'sync').
-#       Default 'sync'.
 # - $require_tag: Tag to require on events. Default undef.
 # - $manage_indices: Whether cron jobs should be installed to manage
 #       Elasticsearch indices. Default false.
@@ -23,7 +21,6 @@
 #
 #   class { 'logstash::output::elasticsearch':
 #       host           => '127.0.0.1',
-#       replication    => 'async',
 #       require_tag    => 'es',
 #       manage_indices => 'true',
 #   }
@@ -35,7 +32,6 @@ class logstash::output::elasticsearch(
     $idle_flush_time     = 1,
     $index               = 'logstash-%{+YYYY.MM.dd}',
     $port                = 9200,
-    $replication         = 'sync',
     $require_tag         = undef,
     $manage_indices      = false,
     $priority            = undef,

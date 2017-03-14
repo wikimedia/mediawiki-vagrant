@@ -1,3 +1,0 @@
-/usr/bin/curl -XPUT -s \
-  'http://127.0.0.1:9200/kibana-int/dashboard/<%= @safe_title %>' \
-  --data-binary '<%= @dashboard.to_pson %>'

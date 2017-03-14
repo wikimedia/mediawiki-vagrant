@@ -39,19 +39,15 @@ class elasticsearch {
         ]
     }
 
+    exec { 'wait-for-elasticsearch':
+        require => Service['elasticsearch'],
+        command => '/usr/bin/wget --tries 20 --retry-connrefused http://localhost:9200/',
+    }
+
     file { '/etc/default/elasticsearch':
         source  => 'puppet:///modules/elasticsearch/defaults',
         require => Package['elasticsearch'],
         notify  => Service['elasticsearch'],
-    }
-
-    file { '/etc/elasticsearch/elasticsearch.yml':
-        source  => 'puppet:///modules/elasticsearch/elasticsearch.yml',
-        require => Package['elasticsearch'],
-        notify  => Service['elasticsearch'],
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
     }
 
     file { '/etc/elasticsearch/jvm.options':

@@ -164,10 +164,9 @@ hhvm::admin_site_name: "hhvm-admin%{hiera('mwv::tld')}"
 kibana::deploy_dir: "%{hiera('mwv::vendor_dir')}/kibana"
 kibana::default_route: /dashboard/elasticsearch/default
 
-logstash::heap_memory_mb: 64
-logstash::filter_workers: 1
+logstash::heap_memory_mb: 192
+logstash::pipeline_workers: 1
 logstash::output::elasticsearch::host: 127.0.0.1
-logstash::output::elasticsearch::replication: async
 logstash::output::elasticsearch::manage_indices: true
 logstash::output::elasticsearch::priority: 90
 

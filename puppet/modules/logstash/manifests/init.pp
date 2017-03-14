@@ -6,31 +6,35 @@
 #
 # == Parameters:
 # - $heap_memory_mb: amount of memory to allocate to logstash in megabytes.
-# - $filter_workers: number of worker threads to run to process filters
+# - $pipeline_workers: number of worker threads to run to use for
+#                      filter/output processing
 #
 # == Sample usage:
 #
 #   class { 'logstash':
 #       heap_memory_mb => 128,
-#       filter_workers => 3,
+#       pipeline_workers => 3,
 #   }
 #
 class logstash(
     $heap_memory_mb,
-    $filter_workers,
+    $pipeline_workers,
 ) {
-    require_package('openjdk-7-jre-headless')
+    require_package('openjdk-8-jre-headless')
 
     package { 'logstash':
-        ensure  => present,
-        require => Package['openjdk-7-jre-headless'],
+        ensure  => latest,
+        require => Package['openjdk-8-jre-headless'],
     }
 
-    file { '/etc/default/logstash':
-        content => template('logstash/default.erb'),
-        require => Package['logstash'],
-        notify  => Service['logstash'],
+    # JRuby waits for enough entropy from /dev/random when starting up. Especially
+    # within VM's very little entropy may be available. haveged adds an entropy source
+    # to fix this problem.
+    package { 'haveged':
+        ensure => present,
+        before => Service['logstash']
     }
+    Package['haveged'] -> Logstash::Plugin <| |>
 
     file { '/etc/logstash/conf.d':
         ensure  => directory,
@@ -41,31 +45,39 @@ class logstash(
         require => Package['logstash'],
     }
 
-    service { 'logstash':
-        ensure     => running,
-        provider   => 'debian',
-        enable     => true,
-        hasstatus  => true,
-        hasrestart => true,
-        require    => Package['logstash'],
+    file { '/etc/logstash/logstash.yml':
+        ensure  => file,
+        content => ordered_yaml({
+            'path.data'        => '/var/lib/logstash',
+            'path.config'      => '/etc/logstash/conf.d',
+            'path.logs'        => '/var/log/logstash',
+            'pipeline.workers' => $pipeline_workers,
+        }),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        require => Package['logstash'],
+        before  => Service['logstash'],
+        notify  => Service['logstash'],
     }
 
-    # Upstream package provides both sysv and upstart startup scripts. Remove
-    # the upstart versions so that Puppet and `service logstash ...` don't
-    # fight over which to use.
-    file { '/etc/init/logstash.conf':
-        ensure  => absent,
-        require => Package['logstash'],
-    }
-    file { '/etc/init/logstash-web.conf':
-        ensure  => absent,
-        require => Package['logstash'],
-    }
-
-    exec { 'install logstash contrib plugins':
-        command => '/opt/logstash/bin/plugin install contrib',
-        unless  => '/usr/bin/test -d /opt/logstash/vendor/logstash/',
+    file { '/etc/logstash/jvm.options':
+        ensure  => file,
+        content => template('logstash/jvm.options.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
         require => Package['logstash'],
         notify  => Service['logstash'],
+    }
+
+    service { 'logstash':
+        ensure   => running,
+        provider => 'systemd',
+        enable   => true,
+        require  => [
+            Package['logstash'],
+            File['/etc/logstash/jvm.options']
+        ]
     }
 }

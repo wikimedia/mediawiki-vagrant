@@ -1,3 +1,4 @@
 vagrant_ram: 512
 forward_ports:
   9200: 9200
+  5601: 5601

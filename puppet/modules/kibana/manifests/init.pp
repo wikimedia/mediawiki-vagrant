@@ -18,25 +18,42 @@ class kibana (
     $deploy_dir,
     $default_route,
 ) {
-    git::clone { 'operations/software/kibana':
-        ensure    => 'latest',
-        directory => $deploy_dir,
-        owner     => 'root',
-        group     => 'root',
+    package { 'kibana':
+        ensure => latest,
     }
 
-    file { '/etc/kibana':
-        ensure => directory,
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0755',
-    }
-
-    file { '/etc/kibana/config.js':
-        ensure  => present,
-        content => template('kibana/config.js'),
+    file { '/etc/kibana/kibana.yml':
+        ensure  => file,
         owner   => 'root',
         group   => 'root',
-        mode    => '0644',
+        mode    => '0444',
+        content => ordered_yaml({
+            'kibana.defaultAppId' => 'dashboard/default',
+            'logging.quiet'       => true,
+            'server.host'         => '0.0.0.0',
+        }),
+        require => Package['kibana']
+    }
+
+    service { 'kibana':
+        ensure  => running,
+        enable  => true,
+        require => [
+            Package['kibana'],
+            File['/etc/kibana/kibana.yml'],
+        ],
+    }
+
+    exec { 'create-kibana-index':
+        command => 'curl -XPUT localhost:9200/.kibana --data-binary @/vagrant/puppet/modules/kibana/files/kibana-mapping.json',
+        unless  => 'curl -sf -XHEAD localhost:9200/.kibana',
+        require => Exec['wait-for-elasticsearch'],
+    }
+
+    exec { 'preload-kibana-dashboard':
+        command     => 'curl -sf -XPOST localhost:9200/.kibana/_bulk --data-binary @/vagrant/puppet/modules/kibana/files/kibana-dump.json > /dev/null',
+        refreshonly => true,
+        subscribe   => Exec['create-kibana-index'],
+        require     => Exec['wait-for-elasticsearch'],
     }
 }

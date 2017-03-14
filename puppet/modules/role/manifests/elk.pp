@@ -35,14 +35,28 @@ class role::elk (
         priority => 40,
     }
 
+    logstash::plugin { 'logstash-filter-prune':
+        ensure => present
+    }
     logstash::conf { 'filter_gelf':
         source   => 'puppet:///modules/role/elk/filter-gelf.conf',
         priority => 50,
+        require  => Logstash::Plugin['logstash-filter-prune'],
     }
 
+    logstash::plugin { 'logstash-filter-multiline':
+        ensure => present
+    }
+    logstash::plugin { 'logstash-filter-anonymize':
+        ensure => present
+    }
     logstash::conf { 'filter_syslog':
         source   => 'puppet:///modules/role/elk/filter-syslog.conf',
         priority => 50,
+        require  => [
+            Logstash::Plugin['logstash-filter-multiline'],
+            Logstash::Plugin['logstash-filter-anonymize'],
+        ]
     }
 
     exec { 'Create logstash index template':
@@ -55,20 +69,6 @@ class role::elk (
     ## Configure Kibana
     apache::site { $vhost_name:
         content => template('role/elk/apache.conf.erb'),
-    }
-
-    exec { 'Create kibana index':
-        command => template('role/elk/create-kibana-index.erb'),
-        unless  => template('role/elk/check-kibana-index.erb'),
-        require => Service['elasticsearch'],
-    }
-    kibana::dashboard { 'default':
-        content => template('role/elk/dashboard-default.erb'),
-        require => Exec['Create kibana index'],
-    }
-    kibana::dashboard { 'mediawiki':
-        content => template('role/elk/dashboard-mediawiki.erb'),
-        require => Exec['Create kibana index'],
     }
 
     ## Configure MediaWiki
