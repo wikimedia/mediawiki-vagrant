@@ -43,6 +43,7 @@ class elasticsearch {
             package  => 'elasticsearch',
             pin      => 'release o=elastic',
             priority => 1010,
+            before   => Package['elasticsearch'],
         }
 
     }
@@ -52,7 +53,6 @@ class elasticsearch {
     package { 'elasticsearch':
         ensure  => latest,
         require => [
-            Apt::Pin['elasticsearch'],
             Exec['apt-get update'],
         ],
     }
