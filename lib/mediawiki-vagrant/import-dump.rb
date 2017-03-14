@@ -5,7 +5,7 @@ module MediaWikiVagrant
     end
 
     def execute
-      if ['-h', '--help'].include? @argv.first
+      if ['-h', '--help'].include? @argv.first || @argv.empty?
         @env.ui.info 'Usage: vagrant import-dump dumpfile.xml [-h]'
         return 0
       end
