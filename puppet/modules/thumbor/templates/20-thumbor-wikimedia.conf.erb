@@ -28,6 +28,8 @@ XCF2PNG_PATH = '/usr/bin/xcf2png'
 
 GHOSTSCRIPT_PATH = '/usr/bin/gs'
 
+CONVERT_PATH = '/usr/bin/convert'
+
 SWIFT_HOST = 'http://127.0.0.1:<%= scope['::swift::port'] %>'
 SWIFT_API_PATH = '/v1/AUTH_<%= scope['::swift::project'] %>/'
 SWIFT_AUTH_PATH = '/auth/v1.0'
@@ -100,3 +102,10 @@ POOLCOUNTER_CONFIG_EXPENSIVE = {
     'timeout': 8,
     'extensions': ['xcf', 'djvu', 'pdf', 'tiff']
 }
+
+# Thumbnails that fail for a given xkey more than 4 times per hour aren't
+# worth re-attempting that often
+FAILURE_THROTTLING_MEMCACHE = ['127.0.0.1:<%= scope['::memcached::port'] %>']
+FAILURE_THROTTLING_MAX = 4
+FAILURE_THROTTLING_DURATION = 3600
+FAILURE_THROTTLING_PREFIX = 'thumbor-failure-'
