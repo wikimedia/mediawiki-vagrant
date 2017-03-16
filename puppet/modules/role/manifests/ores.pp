@@ -19,7 +19,7 @@ class role::ores {
 
             wgOresModels  => {
                 damaging  => true,
-                goodfaith => false,
+                goodfaith => true,
                 reverted  => false,
                 wp10      => false,
             },
