@@ -154,6 +154,15 @@ Vagrant.configure('2') do |config|
       group: 'www-data'
   end
 
+  # T69976: We used to install the vbguest plugin to ensure that VirtualBox
+  # guest extensions matched on the host and VM. This turns out to be
+  # semi-useful for an initial VM creation, but causes big problems once our
+  # custom Puppet code has messed with default location of the apt cache
+  # directories. The common fix given when asked on irc or Phabricator is to
+  # disable the plugin, so lets cut out the middleman and just do that
+  # preemptively in our Vagrantfile.
+  config.vbguest.auto_update = false if Vagrant.has_plugin?('vagrant-vbguest')
+
   config.vm.provider :virtualbox do |vb|
     # See http://www.virtualbox.org/manual/ch08.html for additional options.
     vb.customize ['modifyvm', :id, '--memory', settings[:vagrant_ram]]
