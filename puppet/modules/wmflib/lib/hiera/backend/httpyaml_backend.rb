@@ -1,9 +1,9 @@
-require "hiera/mwcache"
+require "hiera/httpcache"
 class Hiera
   module Backend
-    class Mwyaml_backend
-      def initialize(cache=nil)
-        @cache = cache || Mwcache.new
+    class Httpyaml_backend
+      def initialize
+        @cache = Httpcache.new
       end
 
       def lookup(key, scope, order_override, resolution_type)
@@ -12,21 +12,11 @@ class Hiera
 
         Backend.datasources(scope, order_override) do |source|
           # Small hack: We don't want to search any datasource but the
-          # labs/%{::labsproject} hierarchy here; so we plainly exit
+          # httpyaml/%{::labsproject} hierarchy here; so we plainly exit
           # in any other case.
-          next unless source.start_with?('labs/') && source.length > 'labs/'.length
+          next unless source.start_with?('httpyaml/') && source.length > 'httpyaml/'.length
 
-          # For hieradata/, the hierarchy is defined as
-          # "labs/%{::labsproject}/host/%{::hostname}" and
-          # "labs/%{::labsproject}/common".  We map the former
-          # verbatim to "Hiera:$labsproject/host/$hostname", while the
-          # latter gets simplified to "Hiera:$labsproject".  In both
-          # cases, we capitalize $labsproject.
-          source = source['labs/'.length..-1].chomp('/common').capitalize
-
-          data = @cache.read(source, Hash, {}) do |content|
-            YAML.load(content)
-          end
+          data = @cache.read(source)
 
           next if data.nil? || data.empty?
           next unless data.include?(key)
@@ -40,14 +30,14 @@ class Hiera
           when :hash
             raise Exception, "Hiera type mismatch: expected Hash and got #{new_answer.class}" unless new_answer.kind_of? Hash
             answer ||= {}
-            answer = Backend.merge_answer(new_answer,answer)
+            answer = Backend.merge_answer(new_answer, answer)
           else
             answer = new_answer
             break
           end
         end
 
-        return answer
+        answer
       end
     end
   end

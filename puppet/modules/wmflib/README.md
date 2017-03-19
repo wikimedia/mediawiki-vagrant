@@ -15,6 +15,18 @@ Apply a format string to each element of an array.
     $packages = apply_format('texlive-lang-%s', $languages)
 
 
+## conflicts
+
+`conflicts( string|resource $resource )`
+
+Throw an error if a resource is declared.
+
+### Examples
+
+    conflicts('::redis::legacy')
+    conflicts(Class['::redis-server'])
+
+
 ## ensure_directory
 
 `ensure_directory( string|bool $ensure )`
@@ -66,6 +78,33 @@ Otherwise, the return value is the unmodified $ensure parameter.
     }
 
 
+## ensure_mounted
+
+`ensure_mounted( string|bool $ensure )`
+
+Takes a generic `ensure` parameter value and convert it to an
+appropriate value for use with a mount declaration.
+
+If `$ensure` is `true` or `present`, the return value is `mounted`.
+Otherwise, the return value is the unmodified `$ensure` parameter.
+
+### Examples
+
+    # Sample class which mounts or unmounts '/var/lib/nginx'
+    # based on the class's generic $ensure parameter:
+    class nginx ( $ensure = present ) {
+        package { 'nginx-full':
+            ensure => $ensure,
+        }
+        mount { '/var/lib/nginx':
+            ensure  => ensure_mounted($ensure),
+            device  => 'tmpfs',
+            fstype  => 'tmpfs',
+            options => 'defaults,noatime,uid=0,gid=0,mode=755,size=1g',
+        }
+    }
+
+
 ## ensure_service
 
 `ensure_service( string|bool $ensure )`
@@ -89,6 +128,52 @@ Otherwise, the return value is 'stopped'.
             require => Package['redis-server'],
         }
     }
+
+
+## hash_deselect_re
+
+`hash_deselect_re( string $regex, hash $input )`
+
+Does exactly the opposite of hash_select_re below: keys matching
+the regex are *excluded* from the new hash.
+
+
+## hash_select_re
+
+`hash_select_re( string $regex, hash $input )`
+
+This creates a new hash from the input hash, but only copies the
+keys which match the regex.  In other words, it does the
+equivalent of this in Ruby pseudo-code:
+
+  return input.select { |k, _v| regex.match(k) }
+
+### Example
+
+   hash_select_re('^a', {"abc" => 1, "def" => 2, "asdf" => 3})
+
+will produce:
+
+   {"abc" => 1, "asdf" => 3}
+
+
+## ini
+
+`ini( hash $ini_settings [, hash $... ] )`
+
+Serialize a hash into the .ini-style format expected by Python's
+ConfigParser. Takes one or more hashes as arguments. If the argument
+list contains more than one hash, they are merged together. In case of
+duplicate keys, hashes to the right win.
+
+### Example
+
+    ini({'server' => {'port' => 80}})
+
+will produce:
+
+    [server]
+    port = 80
 
 
 ## ordered_json
@@ -127,6 +212,30 @@ Emit a hash as YAML with keys (both shallow and deep) in sorted order.
     file { '/etc/kibana/config.yaml':
         content => ordered_yaml($options),
     }
+
+
+## os_version
+
+`os_version( string $version_predicate )`
+
+Performs semantic OS version comparison.
+
+Takes one or more string arguments, each containing one or more predicate
+expressions. Each expression consts of a distribution name, followed by a
+comparison operator, followed by a release name or number. Multiple clauses
+are OR'd together. The arguments are case-insensitive.
+
+The host's OS version will be compared to to the comparison target
+using the specified operator, returning a boolean. If no operator is
+present, the equality operator is assumed.
+
+### Examples
+
+    # True if Ubuntu Trusty or newer or Debian Jessie or newer
+    os_version('ubuntu >= trusty || debian >= Jessie')
+
+    # True if exactly Debian Jessie
+    os_version('debian jessie')
 
 
 ## php_ini
@@ -177,23 +286,23 @@ Abort catalog compilation if it is not.
     requires_realm('labs')
 
 
-## requires_ubuntu
+## requires_os
 
-`requires_ubuntu( string $version_predicate )`
+`requires_os( string $version_predicate )`
 
-Validate that the host Ubuntu version satisfies a version
+Validate that the host OS version satisfies a version
 check. Abort catalog compilation if not.
 
-See the documentation for ubuntu_version() for supported
+See the documentation for os_version() for supported
 predicate syntax.
 
 ### Examples
 
-    # Fail unless version is Trusty
-    requires_ubuntu('trusty')
+    # Fail unless version is Trusty or Jessie
+    requires_os('ubuntu trusty || debian jessie')
 
     # Fail unless Trusty or newer
-    requires_ubuntu('> trusty')
+    requires_os('ubuntu >= trusty')
 
 
 
@@ -225,21 +334,18 @@ Output:
 
 ## ssl_ciphersuite
 
-`ssl_ciphersuite( string $servercode, string $encryption_type, int $hsts_days )`
+`ssl_ciphersuite( string $servercode, string $encryption_type, boolean $hsts )`
 
 Outputs the ssl configuration directives for use with either Nginx
 or Apache using our selection of ciphers and SSL options.
 
 Takes three arguments:
 
-- The servercode, or which browser-version combination to
-  support. At the moment only 'apache-2.2', 'apache-2.4' and 'nginx'
-  are supported.
+- The server to configure for: 'apache' or 'nginx'
 - The compatibility mode,indicating the degree of compatibility we
   want to retain with older browsers (basically, IE6, IE7 and
   Android prior to 3.0)
-- An optional argument, that if non-nil will set HSTS to max-age of
-  N days
+- hsts - optional boolean, true emits our standard public HSTS
 
 Whenever called, this function will output a list of strings that
 can be safely used in your configuration file as the ssl
@@ -247,7 +353,7 @@ configuration part.
 
 ### Examples
 
-    ssl_ciphersuite('apache-2.4', 'compat')
+    ssl_ciphersuite('apache', 'compat', true)
     ssl_ciphersuite('nginx', 'strong')
 
 
@@ -274,50 +380,22 @@ Convert a unit of time expressed as a string to seconds.
     to_seconds('2 days')  # 172800
 
 
-## ubuntu_version
+## validate_array_re
+`validate_array_re( array $items, string $re )`
 
-`ubuntu_version( string $version_predicate )`
-
-Performs semantic Ubuntu version comparison.
-
-Takes a single string argument containing a comparison operator
-followed by an optional space, followed by a comparison target,
-provided as Ubuntu version number or release name.
-
-The host's Ubuntu version will be compared to to the comparison target
-using the specified operator, returning a boolean. If no operator is
-present, the equality operator is assumed.
-
-Release names are case-insensitive. The comparison operator and
-comparison target can be provided as two separate arguments, if you
-prefer.
+Throw an error if any member of $items does not match the regular
+expression $re.
 
 ### Examples
 
-    # True if Precise or newer
-    ubuntu_version('>= precise')
-    ubuntu_version('>= 12.04.4')
+    # OK -- each array item is a four-digit number.
+    validate_array_re([8123, 8124, 8125], '^\d{4}$')
 
-    # True if older than Utopic
-    ubuntu_version('< utopic')
-
-    # True if newer than Precise
-    ubuntu_version('> precise')
-
-    # True if Trusty or older
-    ubuntu_version('<= trusty')
-
-    # True if exactly Trusty
-    ubuntu_version('trusty')
-    ubuntu_version('== trusty')
-
-    # True if anything but Trusty
-    ubuntu_version('!trusty')
-    ubuntu_version('!= trusty')
+    # Fail -- last array item is not a four-digit number.
+    validate_array_re([8123, 8124, 812], '^\d{4}$')
 
 
 ## validate_ensure
-
 `validate_ensure( string $ensure )`
 
 Throw an error if the $ensure argument is not 'present' or 'absent'.
