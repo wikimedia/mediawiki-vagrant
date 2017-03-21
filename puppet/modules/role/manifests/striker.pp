@@ -175,11 +175,27 @@ class role::striker(
         require  => Mysql::Db[$db_name],
     }
 
+    # Hack needed because manage.py has trouble creating tables with large
+    # column indices.
+    # TODO: figure out how to fix the django migrations
+    exec { 'striker initial tables':
+      cwd         => '/vagrant/puppet/modules/role/files/striker',
+      command     => "/usr/bin/mysql -u${db_user} -p${db_pass} ${db_name} < 20160916-01-initial.sql",
+      refreshonly => true,
+      before      => Exec['striker manage.py migrate'],
+      require     => [
+          Mysql::User[$db_user],
+          Class[Mysql::Large_prefix],
+      ],
+      subscribe   => Mysql::Db[$db_name],
+    }
+
     exec { 'striker manage.py migrate':
         cwd     => $app_dir,
         command => "${venv}/bin/python manage.py migrate",
         require => [
             Mysql::User[$db_user],
+            Class[Mysql::Large_prefix],
             File['/etc/striker/striker.ini'],
         ],
         onlyif  => "${venv}/bin/python manage.py showmigrations --plan | /bin/grep -q '\\[ \\]'",
