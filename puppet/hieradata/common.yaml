@@ -344,6 +344,9 @@ role::globalblocking::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 role::globalblocking::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 role::globalblocking::db_name: globalblocking
 
+role::keystone::admin_password: vagrant
+role::keystone::db_password: vagrant
+
 role::ldapauth::proxy_agent_password: vagrant_agent
 role::ldapauth::writer_password: vagrant_writer
 role::ldapauth::admin_password: vagrant_admin

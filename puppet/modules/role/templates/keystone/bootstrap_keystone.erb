@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# Bootstrap the keystone install
+
+set -ex
+
+. /etc/keystone/admin-openrc
+
+/usr/bin/keystone-manage db_sync
+
+/usr/bin/keystone-manage --debug bootstrap \
+    --bootstrap-username admin \
+    --bootstrap-password "<%= @admin_password %>" \
+    --bootstrap-project-name admin \
+    --bootstrap-role-name admin \
+    --bootstrap-service-name keystone \
+    --bootstrap-region-id "RegionOne" \
+    --bootstrap-admin-url "http://127.0.0.1:35357/v3/" \
+    --bootstrap-public-url "http://127.0.0.1:5000/v3/"
+
+/usr/bin/openstack project create --or-show \
+    --domain default \
+    --description "Service Project" \
+    service
+
+/usr/bin/openstack role create --or-show service
+
+/usr/bin/openstack role create --or-show _member_
+/usr/bin/openstack role create --or-show admin
+/usr/bin/openstack role create --or-show observer
+/usr/bin/openstack role create --or-show projectadmin
+/usr/bin/openstack role create --or-show user
+
+/usr/bin/openstack project create --or-show tools

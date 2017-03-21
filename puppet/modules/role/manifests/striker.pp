@@ -93,14 +93,15 @@ class role::striker(
     $use_xff,
     $xff_trusted_hosts             = undef,
 ){
-    require ::role::mediawiki
+    include ::role::mediawiki
+    include ::role::keystone
     include ::role::ldapauth
     include ::role::oathauth
     include ::role::oauth
     include ::role::titleblacklist
     include ::apache::mod::wsgi_py3
     include ::memcached
-    require ::mysql::large_prefix
+    include ::mysql::large_prefix
 
     file { "${log_dir}/striker":
         ensure => 'directory',
@@ -270,6 +271,13 @@ class role::striker(
         command => template('role/striker/ldap_data.erb'),
         unless  => template('role/striker/ldap_check.erb'),
         require => Class['::role::ldapauth'],
+        before  => Exec['bootstrap_keystone'],
+    }
+
+    exec { 'Add tools admin to openstack':
+        command => '/usr/local/bin/use-openstack role add --user admin --project tools admin',
+        user    => 'keystone',
+        require => Exec['bootstrap_keystone'],
     }
 
     # Setup ldapauthwiki
