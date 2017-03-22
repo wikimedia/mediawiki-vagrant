@@ -6,6 +6,7 @@ Adam Roses Wight <awight@wikimedia.org>
 Alex Monk <amonk@wikimedia.org>
 Amir E. Aharoni <amir.aharoni@mail.huji.ac.il>
 Amir Sarabadani <ladsgroup@gmail.com>
+Andre Klapper <a9016009@gmx.de>
 Andrew Bogott <abogott@wikimedia.org>
 Andrew Garrett <agarrett@wikimedia.org>
 Andrew Haberlandt <crazy4sb@gmail.com>
@@ -48,9 +49,12 @@ Jackson Isaac <jacksonisaac2008@gmail.com>
 James D. Forrester <jforrester@wikimedia.org>
 Jan Zerebecki <jan.wikimedia@zerebecki.de>
 Jeremy Baron <jeremy@tuxmachine.com>
+Jeroen De Dauw <jeroendedauw@gmail.com>
 Joel Sahleen <jsahleen@wikimedia.org>
 Jon Robson <jrobson@wikimedia.org>
 Juliusz Gonera <jgonera@wikimedia.org>
+juniorsys <juniorsys_wikimedia@outlook.com>
+Kartik Mistry <kartik.mistry@gmail.com>
 Katie Filbert <aude.wiki@gmail.com>
 Krzysztof Zbudniewek <krzysztof.zbudniewek@gmail.com>
 Kunal Mehta <legoktm@gmail.com>
@@ -79,6 +83,7 @@ Pavel Astakhov <pastakhov@yandex.ru>
 Peter Hedenskog <phedenskog@wikimedia.org>
 Petr Pchelko <ppchelko@wikimedia.org>
 Rainer Rillke <rillke@wikipedia.de>
+Roan Kattouw <roan.kattouw@gmail.com>
 Rob Moen <rmoen@wikimedia.org>
 S Page <spage@wikimedia.org>
 Sage Ross <ragesoss@gmail.com>
@@ -89,6 +94,7 @@ Stephane Bisson <sbisson@wikimedia.org>
 Thibaut Horel <thibaut.horel@gmail.com>
 Tim Landscheidt <tim@tim-landscheidt.de>
 Timo Tijhof <krinklemail@gmail.com>
+Tobias Gritschacher <tobias.gritschacher@wikimedia.de>
 Tom Arrow <bomarrow1@gmail.com>
 Tyler Cipriani <tcipriani@wikimedia.org>
 Tyler Romeo <tylerromeo@gmail.com>
