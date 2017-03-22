@@ -231,6 +231,7 @@ Vagrant.configure('2') do |config|
       '--logdest', 'console',
       '--write-catalog-summary',
       '--detailed-exitcodes',
+      '--ordering manifest',
     ]
 
     # Handy debugging commands for Puppet runs
