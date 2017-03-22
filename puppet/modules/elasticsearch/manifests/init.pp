@@ -4,57 +4,13 @@
 # engine, much like Solr, but with a more user-friendly inteface.
 #
 class elasticsearch {
-    if $::lsbdistcodename == 'jessie' {
-        # Elasticsearch 5.x is currently in the experiemental repository
-        file { '/etc/apt/sources.list.d/wikimedia-experimental.list':
-            ensure  => present,
-            content => template('elasticsearch/wikimedia-experimental.list.erb'),
-            before  => Exec['apt-get update'],
-            # Does this work to force apt-get update beyond the scheduled daily run?
-            notify  => Exec['apt-get update'],
-        }
-    } else {
-        # For openjdk-8
-        apt::ppa { 'openjdk-r/ppa': }
-
-        # elasticsearch 5.x packages. One potential downside here is this will auto-upgrade
-        # to new releases of elasticsearch before we release custom plugins. Switching to
-        # .deb packaging for plugins should fix that, as it wont upgrade if the version
-        # constraints aren't met.
-        file { '/usr/local/share/elasticsearch-pubkey.asc':
-            source => 'puppet:///modules/elasticsearch/elasticsearch-pubkey.asc',
-            owner  => 'root',
-            group  => 'root',
-            before => File['/etc/apt/sources.list.d/elasticsearch.list'],
-            notify => Exec['add_elasticsearch_apt_key'],
-        }
-        exec { 'add_elasticsearch_apt_key':
-            command     => '/usr/bin/apt-key add /usr/local/share/elasticsearch-pubkey.asc',
-            before      => File['/etc/apt/sources.list.d/elasticsearch.list'],
-            refreshonly => true,
-        }
-        file { '/etc/apt/sources.list.d/elasticsearch.list':
-            content => 'deb https://artifacts.elastic.co/packages/5.x/apt stable main',
-            before  => Exec['apt-get update'],
-            notify  => Exec['apt-get update'],
-        }
-        # The 5.x package from elasticsearch needs to be pinned higher than default wikimedia
-        apt::pin { 'elasticsearch':
-            package  => 'elasticsearch',
-            pin      => 'release o=elastic',
-            priority => 1010,
-            before   => Package['elasticsearch'],
-        }
-
-    }
+    # Elasticsearch 5.x is currently in the experiemental repository
+    require apt::wikimedia_experimental
 
     require_package('openjdk-8-jre-headless')
 
     package { 'elasticsearch':
         ensure  => latest,
-        require => [
-            Exec['apt-get update'],
-        ],
     }
 
     # This is needed when upgrading from 2.x to 5.x, the directory

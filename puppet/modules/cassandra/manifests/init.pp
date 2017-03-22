@@ -16,30 +16,7 @@ class cassandra(
     $max_heap,
     $new_size
 ) {
-
-    # set up the repo pubkey
-    file  { '/usr/local/share/datastax-pubkey.asc':
-        source => 'puppet:///modules/cassandra/datastax-pubkey.asc',
-        owner  => 'root',
-        group  => 'root',
-        before => File['/etc/apt/sources.list.d/datastax.sources.list'],
-        notify => Exec['add_datastax_apt_key'],
-    }
-
-    # add the key
-    exec { 'add_datastax_apt_key':
-        command     => '/usr/bin/apt-key add /usr/local/share/datastax-pubkey.asc',
-        before      => File['/etc/apt/sources.list.d/datastax.sources.list'],
-        refreshonly => true,
-    }
-
-    # add the cassandra repo list file
-    file { '/etc/apt/sources.list.d/datastax.sources.list':
-        source => 'puppet:///modules/cassandra/datastax.sources.list',
-        owner  => 'root',
-        group  => 'root',
-        notify => Exec['apt-get update'],
-    }
+    require ::cassandra::datastax
 
     # copy over cassandra-env.sh with modified JVM memory settings
     file { '/etc/cassandra/cassandra-env.sh':
@@ -80,9 +57,6 @@ class cassandra(
 
     package { 'cassandra':
         ensure  => latest,
-        require => [
-            Package['openjdk-7-jre-headless'],
-        ],
     }
 
     # ensure the service is running

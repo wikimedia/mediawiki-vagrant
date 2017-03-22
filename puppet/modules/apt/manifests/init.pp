@@ -8,42 +8,54 @@ class apt {
     exec { 'apt-get update':
         command  => '/usr/bin/apt-get update',
         schedule => daily,
+        timeout  => 240,
+        returns  => [ 0, 100 ],
     }
 
+    # Directory used to store keys added with apt::repository
+    file { '/var/lib/apt/keys':
+        ensure  => directory,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0700',
+        recurse => true,
+        purge   => true,
+    }
+
+    # Make sure we can fetch apt over HTTPS
     exec { 'ins-apt-transport-https':
         command     => '/usr/bin/apt-get update && /usr/bin/apt-get install -y --force-yes apt-transport-https',
         environment => 'DEBIAN_FRONTEND=noninteractive',
         unless      => '/usr/bin/dpkg -l apt-transport-https',
     }
+    # Trigger before we add any repos that are using HTTPS
+    Exec['ins-apt-transport-https'] -> Apt::Repository <| |>
 
-    file  { '/usr/local/share/wikimedia-pubkey.asc':
-        source => 'puppet:///modules/apt/wikimedia-pubkey.asc',
-        notify => Exec['add_wikimedia_apt_key'],
+    apt::repository { 'wikimedia':
+        uri         => 'https://apt.wikimedia.org/wikimedia',
+        dist        => "${::lsbdistcodename}-wikimedia",
+        components  => 'main backports thirdparty',
+        keyfile     => 'puppet:///modules/apt/wikimedia-pubkey.asc',
+        comment_old => true,
     }
 
-    exec { 'add_wikimedia_apt_key':
-        command     => '/usr/bin/apt-key add /usr/local/share/wikimedia-pubkey.asc',
-        before      => File['/etc/apt/sources.list.d/wikimedia.list'],
-        refreshonly => true,
-    }
-
-    file { '/etc/apt/sources.list.d/wikimedia.list':
-        content => template('apt/wikimedia.list.erb'),
-        before  => Exec['apt-get update'],
-    }
-
-    file { '/etc/apt/sources.list.d/backports.list':
-        content => template('apt/backports.list.erb'),
-        before  => Exec['apt-get update'],
+    apt::repository { 'debian-backports':
+        uri         => 'https://mirrors.wikimedia.org/debian/',
+        dist        => "${::lsbdistcodename}-backports",
+        components  => 'main contrib non-free',
+        comment_old => true,
     }
 
     # T125760 - mw-vagrant only apt repo
-    file { '/etc/apt/sources.list.d/mwv-apt.list':
-        content => template('apt/mwv-apt.list.erb'),
-        before  => Exec['apt-get update'],
+    apt::repository { 'mwv-apt':
+        uri        => 'https://mwv-apt.wmflabs.org/repo',
+        dist       => "${::lsbdistcodename}-mwv-apt",
+        components => 'main',
+        trusted    => true,
+        source     => false,
     }
 
-    # prefer Wikimedia APT repository packages in all cases
+    # Prefer Wikimedia APT repository packages in all cases
     apt::pin { 'wikimedia':
         package  => '*',
         pin      => 'release o=Wikimedia',
@@ -55,6 +67,8 @@ class apt {
             content => "Dir::Cache::archives \"${::shared_apt_cache}\";\n",
         }
     }
+
+    # apt-get should not install recommended packages
     file { '/etc/apt/apt.conf.d/01no-recommended':
         source => 'puppet:///modules/apt/01no-recommended',
         owner  => 'root',

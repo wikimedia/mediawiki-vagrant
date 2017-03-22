@@ -12,45 +12,21 @@ class npm (
     $cache_dir   = '/tmp/cache/npm',
 ) {
 
-    include ::apt
-
-    # set up the nodesource repo pubkey
-    file { '/usr/local/share/nodesource-pubkey.asc':
-        source => 'puppet:///modules/npm/nodesource-pubkey.asc',
-        owner  => 'root',
-        group  => 'root',
-        before => File['/etc/apt/sources.list.d/nodesource.list'],
-        notify => Exec['add_nodesource_apt_key'],
+    apt::repository { 'nodesource':
+        uri        => 'https://deb.nodesource.com/node_6.x',
+        dist       => $::lsbdistcodename,
+        components => 'main',
+        keyfile    => 'puppet:///modules/npm/nodesource-pubkey.asc',
     }
 
-    # add the key
-    exec { 'add_nodesource_apt_key':
-        command     => '/usr/bin/apt-key add /usr/local/share/nodesource-pubkey.asc',
-        before      => File['/etc/apt/sources.list.d/nodesource.list'],
-        refreshonly => true,
-        require     => [
-            Exec['ins-apt-transport-https'],
-            Exec['ins-npm-nodejs-legacy'],
-        ],
-    }
-
-    # add the nodesource repo list file
-    file { '/etc/apt/sources.list.d/nodesource.list':
-        source  => 'puppet:///modules/npm/nodesource.sources.list',
-        owner   => 'root',
-        group   => 'root',
-        require => Exec['ins-apt-transport-https'],
-        before  => Apt::Pin['nodejs'],
-    }
-
-    # pin it higher than the Wikimedia repo
+    # Pin it higher than the Wikimedia repo
     apt::pin { 'nodejs':
         package  => 'nodejs',
         pin      => 'release o=Node Source',
         priority => 1010,
     }
 
-    # install the npm and nodejs-legacy packages manually
+    # Install the npm and nodejs-legacy packages manually
     # before the nodesource repo has been added so as not to
     # conflict for package versions
     exec { 'ins-npm-nodejs-legacy':
@@ -58,13 +34,17 @@ class npm (
         environment => 'DEBIAN_FRONTEND=noninteractive',
         unless      => '/usr/bin/dpkg -l npm && /usr/bin/dpkg -l nodejs-legacy',
         user        => 'root',
+        before      => [
+            Apt::Repository['nodesource'],
+            Apt::Pin['nodejs'],
+        ],
     }
 
     package { 'nodejs':
         ensure  => latest,
         require => [
+            Apt::Repository['nodesource'],
             Apt::Pin['nodejs'],
-            Exec['apt-get update']
         ],
     }
 
