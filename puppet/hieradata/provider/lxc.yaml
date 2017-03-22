@@ -1,3 +1,3 @@
 ---
 # Disable cachefilesd usage
-mwv::enable_cachefilesd: false
+mwv::cachefilesd::enable: false

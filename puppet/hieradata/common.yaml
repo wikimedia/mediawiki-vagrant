@@ -8,8 +8,8 @@ mwv::files_dir: /srv
 mwv::etc_dir: /etc/mw-vagrant
 mwv::services_dir: /vagrant/srv
 mwv::vendor_dir: /srv
-mwv::enable_cachefilesd: true
 mwv::tld: '.local.wmftest.net'
+mwv::cachefilesd::enable: true
 
 three_d::three_d_2png_dir: /var/3d2png
 
