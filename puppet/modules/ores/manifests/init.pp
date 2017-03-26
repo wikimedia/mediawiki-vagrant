@@ -69,9 +69,10 @@ class ores (
         ensure         => present,
         service_params => {
             require   => [
-                VirtualEnv::Package['wikilabels'],
+                VirtualEnv::Package['ores'],
+                Class['mediawiki::ready_service'],
                 Exec['pip_install_revscoring_dependencies_hack'],
-                Apache::Site['wikilabels'],
+                Apache::Site['ores'],
             ],
             subscribe => [
                 File[$cfg_file],
@@ -83,6 +84,7 @@ class ores (
         service_params => {
             require   => [
                 VirtualEnv::Package['ores'],
+                Class['mediawiki::ready_service'],
                 Exec['pip_install_revscoring_dependencies_hack'],
                 Apache::Site['ores'],
             ],

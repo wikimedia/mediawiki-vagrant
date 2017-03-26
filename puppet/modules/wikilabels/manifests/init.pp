@@ -104,6 +104,7 @@ class wikilabels (
         service_params => {
             require   => [
                 VirtualEnv::Package['wikilabels'],
+                Class['mediawiki::ready_service'],
                 Exec['initialize wikilabels database'],
                 Apache::Site['wikilabels'],
             ],
