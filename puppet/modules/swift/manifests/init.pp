@@ -73,12 +73,15 @@ class swift (
         priority => 1000,
     }
 
-    require_package('swift')
-    require_package('swift-account')
-    require_package('swift-container')
-    require_package('swift-object')
-    require_package('swift-proxy')
-    require_package('python-webob')
+    package { ['swift', 'swift-account', 'swift-container', 'swift-object', 'swift-proxy', 'python-webob']:
+        ensure  => 'present',
+        require => [
+            Apt::Pin['python-swift-jessie-backports'],
+            Apt::Pin['python-eventlet-jessie-backports'],
+            Apt::Pin['swift-jessie-backports'],
+            Apt::Pin['python-webob-jessie-backports'],
+        ],
+    }
 
     exec { 'ins-apt-python-swiftclient':
         command     => '/usr/bin/apt-get update && /usr/bin/apt-get install -y --force-yes -t jessie-backports "python-swiftclient"',

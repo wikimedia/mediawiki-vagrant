@@ -52,27 +52,25 @@ class thumbor (
     }
 
     package { 'python-thumbor-wikimedia':
-        notify => Exec['stop-and-disable-default-thumbor-service']
+        ensure  => 'present',
+        notify  => Exec['stop-and-disable-default-thumbor-service'],
+        require => [
+            Apt::Pin['gifsicle-jessie-backports'],
+            Apt::Pin['python-tornado-jessie-backports'],
+            Apt::Pin['python-pil-jessie-backports'],
+        ]
     }
 
     exec { 'stop-and-disable-default-thumbor-service':
         command => '/bin/systemctl stop thumbor'
     }
 
-    require_package('firejail')
+    package { 'firejail':
+        ensure => 'present',
+    }
 
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
-
-    group { 'thumbor':
-        ensure => present,
-    }
-
-    user { 'thumbor':
-        ensure  => present,
-        gid     => 'thumbor',
-        require => Group['thumbor'],
-    }
 
     file { '/etc/firejail/thumbor.profile':
         ensure  => present,
@@ -109,7 +107,7 @@ class thumbor (
         subscribe => File[$sentry_dsn_file],
         require   => [
             File[$cfg_dir],
-            Group['thumbor'],
+            Package['python-thumbor-wikimedia'],
         ],
     }
 
@@ -120,7 +118,7 @@ class thumbor (
         mode    => '0640',
         require => [
             File[$cfg_dir, $log_dir],
-            Group['thumbor'],
+            Package['python-thumbor-wikimedia'],
         ],
     }
 
@@ -131,7 +129,7 @@ class thumbor (
         mode    => '0640',
         require => [
             File[$cfg_dir],
-            Group['thumbor'],
+            Package['python-thumbor-wikimedia'],
         ],
     }
 

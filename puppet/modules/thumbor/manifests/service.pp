@@ -30,7 +30,6 @@ define thumbor::service (
         ensure         => 'present',
         require        => [
             Package['python-thumbor-wikimedia'],
-            User['thumbor'],
             File['/etc/firejail/thumbor.profile'],
         ],
         service_params => {
