@@ -1,12 +1,14 @@
 from wikimedia_thumbor.logging.filter.context import ContextFilter
 from wikimedia_thumbor.logging.filter.http404 import Http404Filter
+from wikimedia_thumbor.logging.formatter import ThumborFormatter
 
 
 THUMBOR_LOG_CONFIG = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'default': {
+        'thumbor': {
+            '()': ThumborFormatter,
             'format': '%(asctime)s %(port)s %(name)s:%(levelname)s %(message)s'
         }
     },
@@ -31,19 +33,19 @@ THUMBOR_LOG_CONFIG = {
         'errorstream': {
             'level': 'ERROR',
             'class': 'logging.StreamHandler',
-            'formatter': 'default',
+            'formatter': 'thumbor',
             'filters': ['context', '404exclude']
         },
         'debugstream': {
             'level': 'DEBUG',
             'class': 'logging.StreamHandler',
-            'formatter': 'default',
+            'formatter': 'thumbor',
             'filters': ['silentcontext']
         },
         'debug': {
             'level': 'DEBUG',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'formatter': 'default',
+            'formatter': 'thumbor',
             'filename': '<%= @log_dir %>/thumbor.debug.log',
             'interval': 1,
             'when': 'D',
@@ -55,7 +57,7 @@ THUMBOR_LOG_CONFIG = {
         'http404': {
             'level': 'WARNING',
             'class': 'logging.handlers.TimedRotatingFileHandler',
-            'formatter': 'default',
+            'formatter': 'thumbor',
             'filename': '<%= @log_dir %>/thumbor.404.log',
             'interval': 1,
             'when': 'D',
