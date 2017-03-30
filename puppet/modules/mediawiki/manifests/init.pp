@@ -166,6 +166,14 @@ class mediawiki(
         source => 'puppet:///modules/mediawiki/mediawiki-vagrant.png',
     }
 
+    file { "${mediawiki::apache::docroot}/mediawiki-vagrant-1.5x.png":
+        source => 'puppet:///modules/mediawiki/mediawiki-vagrant-1.5x.png',
+    }
+
+    file { "${mediawiki::apache::docroot}/mediawiki-vagrant-2x.png":
+        source => 'puppet:///modules/mediawiki/mediawiki-vagrant-2x.png',
+    }
+
     file { '/usr/local/bin/run-mediawiki-tests':
         source => 'puppet:///modules/mediawiki/run-mediawiki-tests',
         mode   => '0755',
