@@ -1,6 +1,10 @@
 # <?php
 
 include_once "$IP/extensions/CirrusSearch/tests/jenkins/FullyFeaturedConfig.php";
+
+// Remove when upgrade to elastic 5.3+
+$wgCirrusSearchElasticQuirks['query_string_max_determinized_states'] = true;
+
 $wgCirrusSearchExtraIndexes[ NS_FILE ] = array( 'commonswiki_file' );
 
 $wgCirrusSearchDevelOptions['allow_nuke'] = true;
