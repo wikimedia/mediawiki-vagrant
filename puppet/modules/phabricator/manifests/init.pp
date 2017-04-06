@@ -111,9 +111,22 @@ class phabricator(
         managehome => false,
         system     => true,
     }
+    file { '/home/phd':
+        ensure  => 'directory',
+        owner   => 'phd',
+        group   => 'phd',
+        mode    => '0755',
+        require => [
+            User['phd'],
+            Group['phd'],
+        ],
+    }
     phabricator::config { 'phd.user':
         value   => 'phd',
-        require => User['phd'],
+        require => [
+            User['phd'],
+            File['/home/phd'],
+        ],
     }
 
     # Repository hosting
