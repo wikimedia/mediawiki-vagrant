@@ -90,7 +90,7 @@ Vagrant.configure('2') do |config|
   # LXC provider. Enable wtih `--provider=lxc`
   # Requires vagrant-lxc plugin and Vagrant 1.7+
   config.vm.provider :lxc do |_lxc, override|
-    override.vm.box = 'Wikimedia/trusty64-puppet-lxc'
+    override.vm.box = 'fgrehm/trusty64-lxc'
   end
 
   # Parallels provider. Enable with `--provider=parallels`
@@ -211,6 +211,9 @@ Vagrant.configure('2') do |config|
   end
 
   config.vm.provision :mediawiki_reload if mwv.reload?
+
+  # Ensure that the VM has Puppet installed
+  config.vm.provision :shell, path: 'support/puppet-bootstrap.sh'
 
   config.vm.provision :puppet do |puppet|
     # Use empty module path to avoid an extra mount.
