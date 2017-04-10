@@ -14,7 +14,10 @@ class crm::tools(
 
     $audit_base = '/var/spool/audit'
 
-    require_package('libmysqlclient-dev')
+    require_package(
+        'libmysqlclient-dev',
+        'libyaml-dev'
+    )
 
     git::clone { 'wikimedia/fundraising/tools':
         directory => $dir,
@@ -48,6 +51,7 @@ class crm::tools(
         require => [
             Git::Clone['wikimedia/fundraising/tools'],
             Package['libmysqlclient-dev'],
+            Package['libyaml-dev'],
         ],
     }
 }
