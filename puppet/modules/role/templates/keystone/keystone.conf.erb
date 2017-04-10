@@ -63,3 +63,11 @@ group_allow_delete = False
 
 [auth]
 methods = external,password,token
+
+[wmfhooks]
+admin_user = admin
+admin_pass = <%= @admin_password %>
+auth_url = http://127.0.0.1:5000/v3
+ldap_group_base_dn = ou=groups,<%= scope['::role::ldapauth::base_dn'] %>
+ldap_user_base_dn = ou=people,<%= scope['::role::ldapauth::base_dn'] %>
+ldap_project_base_dn = ou=projects,<%= scope['::role::ldapauth::base_dn'] %>
