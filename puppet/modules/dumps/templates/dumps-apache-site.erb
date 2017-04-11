@@ -1,0 +1,10 @@
+# This file is managed by Puppet, do not edit!
+
+DocumentRoot "<%= @webroot_dir %>"
+
+ServerName <%= @site_name %>
+
+<Directory <%= @webroot_dir %>>
+    Require all granted
+    AllowOverride all
+</Directory>

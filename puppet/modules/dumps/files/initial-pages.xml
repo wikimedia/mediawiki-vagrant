@@ -1,0 +1,380 @@
+<mediawiki xmlns="http://www.mediawiki.org/xml/export-0.8/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mediawiki.org/xml/export-0.8/ http://www.mediawiki.org/xml/export-0.8.xsd" version="0.8" xml:lang="en">
+  <siteinfo>
+    <sitename>dumps-test</sitename>
+    <base>http:///http:///wiki/Main_Page</base>
+    <generator>MediaWiki 1.32</generator>
+    <case>first-letter</case>
+    <namespaces>
+      <namespace key="-2" case="first-letter">Media</namespace>
+      <namespace key="-1" case="first-letter">Special</namespace>
+      <namespace key="0" case="first-letter" />
+      <namespace key="1" case="first-letter">Talk</namespace>
+      <namespace key="2" case="first-letter">User</namespace>
+      <namespace key="3" case="first-letter">User talk</namespace>
+      <namespace key="4" case="first-letter">Labsconsole-test</namespace>
+      <namespace key="5" case="first-letter">Labsconsole-test talk</namespace>
+      <namespace key="6" case="first-letter">File</namespace>
+      <namespace key="7" case="first-letter">File talk</namespace>
+      <namespace key="8" case="first-letter">MediaWiki</namespace>
+      <namespace key="9" case="first-letter">MediaWiki talk</namespace>
+      <namespace key="10" case="first-letter">Template</namespace>
+      <namespace key="11" case="first-letter">Template talk</namespace>
+      <namespace key="12" case="first-letter">Help</namespace>
+      <namespace key="13" case="first-letter">Help talk</namespace>
+      <namespace key="14" case="first-letter">Category</namespace>
+      <namespace key="15" case="first-letter">Category talk</namespace>
+    </namespaces>
+  </siteinfo>
+  <page>
+    <title>Main Page</title>
+    <ns>0</ns>
+    <id>1</id>
+    <revision>
+      <id>65</id>
+      <parentid>54</parentid>
+      <timestamp>2013-02-07T15:11:14Z</timestamp>
+      <contributor>
+        <username>Ryan Lane</username>
+        <id>8</id>
+      </contributor>
+      <text xml:space="preserve" bytes="2479">&lt;div class=&quot;row&quot; style=&quot;text-align:center&quot;&gt;
+[[File:Labslogo thumb text.png]]&lt;br/&gt;
+A place where magic happen
+&lt;/div&gt;
+&lt;div class=&quot;row&quot;&gt;
+&lt;div class=&quot;span5 offset1&quot;&gt;
+== About ==
+This is Wikimedia Labs. It is meant to make it easier for developers and system administrators to try out improvements to Wikimedia infrastructure, including MediaWiki, and to do analytics and bot work.
+
+[[Help:Terminology|Labs Account Holders]] are governed by the [https://www.mediawiki.org/wiki/Wikimedia_Labs/Terms_of_use Labs terms of service]. The [https://www.mediawiki.org/wiki/Wikimedia_Labs/Agreement_to_disclosure_of_personally_identifiable_information agreement to disclosure of personally identifiable information] covers [[Help:Terminology|Labs End-Users]].
+&lt;/div&gt;
+&lt;div class=&quot;span5 offset1&quot;&gt;
+== Statistics ==
+{{Infobox2
+| label1='''Number of {{#ask: [[Resource Type::project]]|?=|?Member|?Description|limit=0|mainlabel=-|searchlabel=projects}}:'''
+| data1={{#ask: [[Resource Type::project]]|format=count}}
+| label2='''Number of {{#ask:[[Resource Type::instance]]|?Instance Name|?Instance Type|?Project|?Image Id|?FQDN|?Launch Time|?Puppet Class|?Modification date|?Instance Host|?Number of CPUs|?RAM Size|?Amount of Storage|limit=0|searchlabel=instances}}:'''
+| data2={{#ask: [[Resource Type::instance]]|limit=5000|format=count}}
+| label3='''Amount of RAM in use (in MBs):'''
+| data3={{#ask: [[Resource Type::instance]]|limit=5000|?RAM Size|format=sum}}
+| label4='''Amount of allocated storage (in GBs):'''
+| data4={{#ask: [[Resource Type::instance]]|limit=5000|?Amount of Storage|format=sum}}
+| label5='''Number of virtual CPUs in use:'''
+| data5={{#ask: [[Resource Type::instance]]|limit=5000|?Number of CPUs|format=sum}}
+| label6='''Number of users:'''
+| data6={{NUMBEROFUSERS}}
+}}
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div class=&quot;row&quot;&gt;
+&lt;div class=&quot;span9 offset1&quot;&gt;
+
+== Help ==
+For a complete list of help pages see [[Help:Contents|the Table of Contents]].
+
+=== General ===
+
+* [[Help:Getting_Started|Getting started]]
+* [[Help:Move your bot to Labs|How to move your bot from Toolserver to Labs]]
+* [[Help:Terminology|Terminology used in Labs]]
+* [[Help:Access|Access and privileges]]
+* [[Git|Git and Gerrit]]
+* [https://lists.wikimedia.org/mailman/listinfo/labs-l labs-l discussion list]
+
+=== Managing instances ===
+
+* [[Help:Instances|Instances help]]
+* [[Help:Security Groups|Security groups]]
+* [http://ganglia.wmflabs.org ganglia.wmflabs.org Ganglia graphs of projects and instances]
+&lt;/div&gt;
+&lt;/div&gt;
+__NOTOC__</text>
+      <sha1>6yoemah0k676armh9w2x7u28h3qksxw</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>MediaWiki:Sidebar</title>
+    <ns>8</ns>
+    <id>2</id>
+    <revision>
+      <id>87</id>
+      <parentid>81</parentid>
+      <timestamp>2013-03-08T00:17:09Z</timestamp>
+      <contributor>
+        <username>Ryan Lane</username>
+        <id>8</id>
+      </contributor>
+      <text xml:space="preserve" bytes="732">* navigation
+** mainpage|mainpage-description
+** recentchanges-url|recentchanges
+** Server Admin Log|Server Admin Log
+** https://wikitech-test.wmflabs.org/wiki/Special:Ask/-5B-5BResource-20Type::instance-5D-5D/-3FInstance-20Name/-3FInstance-20Type/-3FProject/-3FImage-20Id/-3FFQDN/-3FLaunch-20Time/-3FPuppet-20Class/-3FModification-20date/-3FInstance-20Host/-3FNumber-20of-20CPUs/-3FRAM-20Size/-3FAmount-20of-20Storage/searchlabel%3Dinstances/offset%3D0|List Instances
+** https://wikitech-test.wmflabs.org/wiki/Special:Ask/-5B-5BResource-20Type::project-5D-5D/-3F/-3FMember/-3FDescription/mainlabel%3D-2D/searchlabel%3Dprojects/offset%3D0|List Projects
+* GROUP-SIDEBAR
+* Help
+** Help:Contents|Contents
+* SEARCH
+* TOOLBOX
+* LANGUAGES</text>
+      <sha1>begd4ji6m0w2vlmcehkartdx63g9xlh</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>MediaWiki:Ask</title>
+    <ns>8</ns>
+    <id>3</id>
+    <revision>
+      <id>6</id>
+      <timestamp>2013-01-04T20:32:16Z</timestamp>
+      <contributor>
+        <username>Andrew</username>
+        <id>1</id>
+      </contributor>
+      <comment>Created page with &quot;Semantic search&quot;</comment>
+      <text xml:space="preserve" bytes="15">Semantic search</text>
+      <sha1>h5gy8ldj730k6ssos9zcntsvs7p7enr</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>MediaWiki:Sidebar/Group:sysadmin</title>
+    <ns>8</ns>
+    <id>4</id>
+    <revision>
+      <id>7</id>
+      <timestamp>2013-01-04T20:34:27Z</timestamp>
+      <contributor>
+        <username>Andrew</username>
+        <id>1</id>
+      </contributor>
+      <comment>Created page with &quot;* Labs Sysadmins ** Special:NovaInstance|Manage Instances ** Special:NovaSudoer|Manage Sudo Policies ** Special:NovaPuppetGroup|Manage Puppet Groups&quot;</comment>
+      <text xml:space="preserve" bytes="148">* Labs Sysadmins
+** Special:NovaInstance|Manage Instances
+** Special:NovaSudoer|Manage Sudo Policies
+** Special:NovaPuppetGroup|Manage Puppet Groups</text>
+      <sha1>ttc1wam05eu69zly81jxdtrqytqvc6m</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>MediaWiki:Sidebar/Group:cloudadmin</title>
+    <ns>8</ns>
+    <id>5</id>
+    <revision>
+      <id>8</id>
+      <timestamp>2013-01-04T20:35:05Z</timestamp>
+      <contributor>
+        <username>Andrew</username>
+        <id>1</id>
+      </contributor>
+      <comment>Created page with &quot;* Labs Cloudadmins ** Special:NovaDomain|Manage DNS Domains ** Special:UserRights|Manage User Rights ** https://labsconsole.wikimedia.org/wiki/Special:Ask/-5B-5BCategory:Shell...&quot;</comment>
+      <text xml:space="preserve" bytes="459">* Labs Cloudadmins
+** Special:NovaDomain|Manage DNS Domains
+** Special:UserRights|Manage User Rights
+** https://labsconsole.wikimedia.org/wiki/Special:Ask/-5B-5BCategory:Shell-20Access-20Requests-5D-5D-5B-5BIs-20Completed::false-5D-5D/-3FShell-20Justification/-3FModification-20date/format%3Dbroadtable/sort%3DModification-20date/order%3Dasc/headers%3Dshow/searchlabel%3DOutstanding-20Requests/default%3D(no-20outstanding-20requests)/offset%3D0|Shell Requests</text>
+      <sha1>lbuirypt9ty1cvi675kz8xwn8svvg7m</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>MediaWiki:Sidebar/Group:netadmin</title>
+    <ns>8</ns>
+    <id>6</id>
+    <revision>
+      <id>9</id>
+      <timestamp>2013-01-04T20:36:32Z</timestamp>
+      <contributor>
+        <username>Andrew</username>
+        <id>1</id>
+      </contributor>
+      <comment>Created page with &quot;* Labs Netadmins ** Special:NovaAddress|Manage Addresses ** Special:NovaSecurityGroup|Manage Security Groups&quot;</comment>
+      <text xml:space="preserve" bytes="108">* Labs Netadmins
+** Special:NovaAddress|Manage Addresses
+** Special:NovaSecurityGroup|Manage Security Groups</text>
+      <sha1>4ud4d5jc32qil4bg1zpq9ej418znsm2</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>MediaWiki:Sidebar/Group:user</title>
+    <ns>8</ns>
+    <id>7</id>
+    <revision>
+      <id>56</id>
+      <parentid>10</parentid>
+      <timestamp>2013-01-31T10:42:42Z</timestamp>
+      <contributor>
+        <username>Ryan Lane</username>
+        <id>8</id>
+      </contributor>
+      <text xml:space="preserve" bytes="91">* Labs Users
+** Special:NovaKey|Manage Your SSH Keys
+** Special:OATH|Manage Two-Factor Auth</text>
+      <sha1>5lauozq1hs84gevkq2fxi9tho3n6ub5</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Template:Shell Access Request</title>
+    <ns>10</ns>
+    <id>11</id>
+    <revision>
+      <id>15</id>
+      <timestamp>2013-01-04T21:51:08Z</timestamp>
+      <contributor>
+        <username>Andrew</username>
+        <id>1</id>
+      </contributor>
+      <comment>Created page with &quot;&lt;noinclude&gt; This is the &quot;Shell Access Request&quot; template. It should be called in the following format: &lt;pre&gt; {{Shell Access Request |User Name= |Justification= |Completed= |Com...&quot;</comment>
+      <text xml:space="preserve" bytes="668">&lt;noinclude&gt;
+This is the &quot;Shell Access Request&quot; template.
+It should be called in the following format:
+&lt;pre&gt;
+{{Shell Access Request
+|User Name=
+|Justification=
+|Completed=
+|Comments=
+}}
+&lt;/pre&gt;
+The Comments parameter is optional, and should only be used by admins processing the request.
+
+Edit the page to see the template text.
+&lt;/noinclude&gt;&lt;includeonly&gt;
+; User Name:
+: {{{User Name|}}}
+; Justification for shell access:
+: [[Shell Justification::{{{Justification|}}}]]
+; Has this request been completed by an admin?:
+: [[Is Completed::{{{Completed|}}}]]
+{{#if:{{{Comments|}}} |;Additional comments:
+: {{{Comments|}}}|}}
+
+[[Category:Shell Access Requests]]
+&lt;/includeonly&gt;</text>
+      <sha1>qtc48nbtgfkxntdtgcpvrzesm002vt0</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>File:Labslogo thumb.png</title>
+    <ns>6</ns>
+    <id>31</id>
+    <revision>
+      <id>59</id>
+      <parentid>51</parentid>
+      <timestamp>2013-02-06T23:52:06Z</timestamp>
+      <contributor>
+        <username>Ryan Lane</username>
+        <id>8</id>
+      </contributor>
+      <comment>Ryan Lane uploaded a new version of &amp;quot;[[File:Labslogo thumb.png]]&amp;quot;</comment>
+      <text xml:space="preserve" bytes="32">[[File:Labslogo thumb.png|35px]]</text>
+      <sha1>5qoylu2pevqsirur0iy6h6chi4ldfbf</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>MediaWiki:Common.css</title>
+    <ns>8</ns>
+    <id>32</id>
+    <revision>
+      <id>46</id>
+      <timestamp>2013-01-31T09:32:41Z</timestamp>
+      <contributor>
+        <username>Ryan Lane</username>
+        <id>8</id>
+      </contributor>
+      <comment>Created page with &quot;/* CSS placed here will be applied to all skins */ body.page-Main_Page h1 {     display: none !important; }&quot;</comment>
+      <text xml:space="preserve" bytes="107">/* CSS placed here will be applied to all skins */
+body.page-Main_Page h1 {
+    display: none !important;
+}</text>
+      <sha1>1ajmk2u13ovv83ul6wnpxcdmeb7ae2m</sha1>
+      <model>css</model>
+      <format>text/css</format>
+    </revision>
+  </page>
+  <page>
+    <title>File:Labslogo thumb text.png</title>
+    <ns>6</ns>
+    <id>33</id>
+    <revision>
+      <id>52</id>
+      <timestamp>2013-01-31T10:24:01Z</timestamp>
+      <contributor>
+        <username>Ryan Lane</username>
+        <id>8</id>
+      </contributor>
+      <text xml:space="preserve" bytes="0" />
+      <sha1>phoiac9h4m842xq45sp7s6u21eteeq1</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>MediaWiki:Sitenotice</title>
+    <ns>8</ns>
+    <id>37</id>
+    <revision>
+      <id>77</id>
+      <parentid>75</parentid>
+      <timestamp>2013-02-11T23:50:46Z</timestamp>
+      <contributor>
+        <username>Ryan Lane</username>
+        <id>8</id>
+      </contributor>
+      <text xml:space="preserve" bytes="479">&lt;div class=&quot;row&quot;&gt;&lt;div class=&quot;span10 offset1&quot;&gt;Warning: This is a labs instance and is not the production labsconsole. Please do not use real credentials here. This wiki has been loaded with subsets of production LDAP information, and as such has user accounts used in production, but they can not be used for authentication. You should create a new account here prefixed with: &quot;TEST&quot;; for instance: &quot;TEST Ryan Lane&quot; for username and &quot;testlaner&quot; for shell account name.&lt;/div&gt;&lt;/div&gt;</text>
+      <sha1>ksauw41ex57srqgefnzruuuydkyffl7</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>User:TEST Chad</title>
+    <ns>2</ns>
+    <id>39</id>
+    <revision>
+      <id>64</id>
+      <timestamp>2013-02-07T15:10:54Z</timestamp>
+      <contributor>
+        <username>TEST Chad</username>
+        <id>13</id>
+      </contributor>
+      <comment>Created page with &quot;Chad's super awesome user page!&quot;</comment>
+      <text xml:space="preserve" bytes="31">Chad's super awesome user page!</text>
+      <sha1>px35omikes7hlnz9gb36a09bu468aa2</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+  <page>
+    <title>Shell Request/Testme1234</title>
+    <ns>0</ns>
+    <id>394</id>
+    <revision>
+      <id>441</id>
+      <timestamp>2013-03-27T21:12:37Z</timestamp>
+      <contributor>
+        <username>Labslogbot</username>
+        <id>0</id>
+      </contributor>
+      <comment>auto request</comment>
+      <text xml:space="preserve" bytes="113">{{Shell Access Request |Justification=(auto request on account creation) |Completed=false |User Name=Testme1234}}</text>
+      <sha1>hobel5zzaobs38srauew6ivfixl486r</sha1>
+      <model>wikitext</model>
+      <format>text/x-wiki</format>
+    </revision>
+  </page>
+</mediawiki>

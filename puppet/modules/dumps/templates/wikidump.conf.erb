@@ -1,0 +1,79 @@
+# This file is managed by Puppet, do not edit!
+
+[wiki]
+dblist=<%= @conf_dir %>/all.dblist
+privatelist=<%= @conf_dir %>/private.dblist
+closedlist=<%= @conf_dir %>/closed.dblist
+skipdblist=<%= @conf_dir %>/skip.dblist
+flowlist=<%= @conf_dir %>/flow.dblist
+dir=<%= @mediawiki_dir %>
+# FIXME: Vagrant doesn't have this.
+#adminsettings=private/PrivateSettings.php
+tablejobs=<%= @conf_dir %>/tablejobs.yaml
+
+[output]
+public=<%= @output_dir %>/public
+private=<%= @output_dir %>/private
+temp=<%= @output_dir %>/temp
+templatedir=<%= @conf_dir %>/templs
+index=backup-index.html
+webroot=http://<%= @site_name %>
+fileperms=0644
+
+[reporting]
+# set this to 'nomail' to disable email notification on dump failure
+mailfrom=root@localhost
+smtpserver=smtp.myisp.com
+adminmail=nomail
+staleage=3600
+skipprivatetables=1
+
+[database]
+user=<%= @db_user %>
+# Note we can *not* have quotes around this.
+password=<%= @db_pass %>
+max_allowed_packet=32M
+
+[tools]
+php=/usr/bin/php
+mysql=/usr/bin/mysql
+mysqldump=/usr/bin/mysqldump
+gzip=/bin/gzip
+bzip2=/bin/bzip2
+sevenzip=/usr/bin/7za
+checkforbz2footer=<%= @mwbzutils_source_dir %>/checkforbz2footer
+writeuptopageid=<%= @mwbzutils_source_dir %>/writeuptopageid
+recompressxml=<%= @mwbzutils_source_dir %>/recompressxml
+
+[cleanup]
+keep=3
+
+[chunks]
+chunksEnabled=1
+pagesPerChunkHistory=2,5,5,5,5
+pagesPerChunkAbstract=10,10
+#recombineHistory=
+#checkpointTime=
+#revsPerJob=
+#retryWait=
+#maxRetries=
+#revsMargin=
+
+[otherformats]
+multistream=1
+
+[misc]
+sevenzipprefetch=1
+
+[stubs]
+orderrevs=0
+minpages=1
+maxrevs=100000
+
+# TODO:
+#[bigwikis]
+
+[wiki]
+dir=<%= @mediawiki_dir %>
+
+# TODO: second wiki

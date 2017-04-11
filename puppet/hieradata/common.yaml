@@ -84,6 +84,9 @@ crm::tools::silverpop_db_pass: silverpop_pass
 crm::drush::dir: "%{hiera('mwv::services_dir')}/drush"
 crm::dash::dir: "%{hiera('mwv::services_dir')}/fundraising-dash"
 
+dumps::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
+dumps::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
+
 electron::port: 8098
 electron::vhost_name: "electron%{hiera('mwv::tld')}"
 electron::secret: secret
