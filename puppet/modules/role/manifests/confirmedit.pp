@@ -19,7 +19,7 @@ class role::confirmedit {
         settings => [
           # Skip captcha for users with confirmed emails
           '$wgGroupPermissions["emailconfirmed"]["skipcaptcha"] = true;',
-          '$ceAllowConfirmedEmail = true;',
+          '$wgAllowConfirmedEmail = true;',
         ],
     }
 
