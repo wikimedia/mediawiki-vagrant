@@ -94,8 +94,8 @@ class role::keystone (
     file { '/var/log/keystone':
         ensure  => directory,
         owner   => 'keystone',
-        group   => 'www-data',
-        mode    => '0775',
+        group   => 'root',
+        mode    => '0755',
         require => Package['keystone'],
     }
     file { '/etc/keystone':
