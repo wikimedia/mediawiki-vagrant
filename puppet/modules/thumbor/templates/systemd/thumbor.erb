@@ -1,0 +1,16 @@
+[Unit]
+Description=Thumbor service
+Requires=mediawiki-ready.service
+After=mediawiki-ready.service
+
+[Service]
+User=thumbor
+Group=thumbor
+SyslogIdentifier=thumbor
+MemoryMax=1G
+# To assign CPU affinity we consider that the base port is 8889 (Thumbor's default + 1)
+ExecStart=/usr/bin/taskset -c <%= Integer(@port) - 8889 %> /usr/bin/firejail --profile=/etc/firejail/thumbor.profile --env=TMPDIR=<%= @tmp_dir %>/thumbor@<%= @port %> --env=MAGICK_TEMPORARY_PATH=<%= @tmp_dir %>/thumbor@<%= @port %> --env=MAGICK_DISK_LIMIT=900MB --env=MAGICK_MEMORY_LIMIT=900MB -- /usr/bin/thumbor -p <%= @port %> -c <%= @cfg_dir %>
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

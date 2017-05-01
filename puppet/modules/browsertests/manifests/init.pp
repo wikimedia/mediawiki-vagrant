@@ -14,8 +14,8 @@
 # === Parameters
 #
 # [*default_browser*]
-#   Default browser used in browser tests. Possible values are 'firefox' or
-#   'phantomjs' (experimental). Default: 'firefox'.
+#   Default browser used in browser tests. Possible values are 'firefox-esr' or
+#   'phantomjs' (experimental). Default: 'firefox-esr'.
 #
 # [*selenium_user*]
 #   MediaWiki account name used when executing browser tests.
@@ -39,7 +39,7 @@
 #    }
 #
 class browsertests(
-    $default_browser   = 'firefox',
+    $default_browser   = 'firefox-esr',
     $selenium_user     = 'Selenium_user',
     $selenium_password = 'vagrant',
     $mediawiki_url     = 'http://127.0.0.1/wiki/',
@@ -89,7 +89,5 @@ class browsertests(
         value => $selenium_password,
     }
 
-    package { $default_browser:
-        ensure => present,
-    }
+    require_package($default_browser)
 }

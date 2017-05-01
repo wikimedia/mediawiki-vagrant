@@ -22,6 +22,7 @@ class statsd (
 ) {
     require ::service
     require ::npm
+    require ::mediawiki::ready_service
 
     $dir = "${::service::root_dir}/statsd"
     $logdir = $::service::log_dir
@@ -41,13 +42,6 @@ class statsd (
         content => template('statsd/config.js.erb'),
         mode    => '0644',
         require => Git::Clone['statsd'],
-    }
-
-    file { '/etc/init/statsd.conf':
-        content => template('statsd/upstart.conf.erb'),
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
         notify  => Service['statsd'],
     }
 
@@ -63,14 +57,8 @@ class statsd (
         require => Git::Clone['statsd'],
     }
 
-    service { 'statsd':
-        ensure   => running,
-        enable   => true,
-        provider => 'upstart',
-        require  => [
-            Git::Clone['statsd'],
-            Npm::Install[$dir],
-            File["${dir}/config.js"],
-        ],
+    systemd::service { 'statsd':
+        ensure  => 'present',
+        require => Npm::Install[$dir],
     }
 }

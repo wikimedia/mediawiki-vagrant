@@ -112,10 +112,12 @@ Donate links:
 
 * PayPal (Legacy integration)
 ** [{{fullurl:Special:PaypalLegacyGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=USD&uselang=en}} In US, English, USD - no amount specified]
+** [{{fullurl:Special:PaypalLegacyGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=AMD&amount=1000&uselang=en}} In US, English, AMD - currency conversion required.]
 
 * PayPal Express Checkout
 ** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=USD&uselang=en}} In US, English, USD - no amount specified]
 ** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=1&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=USD&uselang=en}} Recurring, in US, English, USD - no amount specified]
+** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=AMD&amount=1000&uselang=en}} In US, English, AMD - currency conversion required.]
 
 * Gateway form chooser
 ** [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency_code=USD&amount=10&country=US&payment_method=cc}} Credit card in US, English, USD]

@@ -15,6 +15,7 @@ class role::timedmediahandler {
             wgFFmpegLocation            => '/usr/bin/ffmpeg'
         },
         needs_update => true,
+        composer     => true,
         require      => [
             Package['ffmpeg', 'ffmpeg2theora'],
             Mediawiki::Extension['MwEmbedSupport']

@@ -7,7 +7,7 @@
 #
 #
 # This backend allows some more flexibility over the vanilla yaml
-# backend, as path expansion in the lookup and even dynamic lookups.
+# backend, as path expansion in the lookup.
 #
 # == Private path
 #
@@ -21,7 +21,6 @@
 # :expand_path be expanded when looking the file up on disk. This
 # allows both to have a more granular set of files, but also to avoid
 # unnecessary cache evictions for cached data.
-#
 # === Example
 #
 # Say your hiera.yaml has defined
@@ -41,33 +40,30 @@
 #
 # Unless very small, all files should be split up like this.
 #
-# == Dynamic lookup
+# == Regexp matching
 #
-# Sometimes we want to search for data based on variables... that are
-# hosted within hiera! Dynamic lookup allows to define hierachies that
-# will determine the full path based on results from hiera
-# itself. Tricky? Let's see with an example
+# As multiple hosts may correspond to the same rules/configs in a
+# large cluster, we allow to define a self-contained "regex.yaml" file
+# in your datadir, where each different class of servers may be
+# represented by a label and a corresponding regexp.
 #
 # === Example
+# Say you have a lookup for "cluster", and you have
+#"regex/%{hostname}" in your hierarchy; also, let's say that your
+# scope contains hostname = "web1001.local". So if your regex.yaml
+# file contains:
 #
-# Say you have in your hiera config
-# :nuyaml:
-#   :dynamic_lookup:
-#      - role
-# :hierarchy:
-#   - "host/%{fqdn}"
-#   - role
+# databases:
+#   __regex: !ruby/regex '/db.*\.local/'
+#   cluster: db
 #
-# What will happen will be that any key we search (say $cluster) will
-# be first searched in the specific file for that host
-# (host/hostname.yaml), if not found, it will be searched as follows:
-# - if host/hostname.yaml contains a value for role, say
-#   'refrigerator', then lookup will continue in the
-#  'role/refrigerator.yaml' file
-# - else it will looked up in the 'role/default.yaml'
+# webservices:
+#   __regex: !ruby/regex '/^web.*\.local$/'
+#   cluster: www
 #
-# Note that for added fun you may declare one part of the hierarchy to
-# be both dynamically looked up and expanded. It works!
+# This will make it so that "cluster" will assume the value "www"
+# given the regex matches the "webservices" stanza
+#
 class Hiera
   module Backend
     class Nuyaml_backend
@@ -76,12 +72,17 @@ class Hiera
         require 'yaml'
         @cache = cache || Filecache.new
         config = Config[:nuyaml]
-        @dynlookup = config[:dynlookup] || []
         @expand_path = config[:expand_path] || []
       end
 
       def get_path(key, scope, source)
         config_section = :nuyaml
+        # Special case: regex
+        if m = /^regex\//.match(source)
+          Hiera.debug("Regex match going on - using regex.yaml")
+          return Backend.datafile(config_section, scope, 'regex', "yaml")
+        end
+
         # Special case: 'private' repository.
         # We use a different datadir in this case.
         # Example: private/common will search in the common source
@@ -91,23 +92,52 @@ class Hiera
           source = m[1]
         end
 
+        # Special case: 'secret' repository. This is practically labs only
+        # We use a different datadir in this case.
+        # Example: private/common will search in the common source
+        # within the private datadir
+        if m = /secret\/(.*)/.match(source)
+            config_section = :secret
+            source = m[1]
+        end
+
         Hiera.debug("The source is: #{source}")
         # If the source is in the expand_path list, perform path
         # expansion. This is thought to allow large codebases to live
         # with fairly small yaml files as opposed to a very large one.
         # Example:
-        # $apache::mpm::worker => 'worker' in common/apache/mpm.yaml
-        if @expand_path.include? source
+        # $apache::mpm::worker will be in common/apache/mpm.yaml
+        paths = @expand_path.map{ |x| Backend.parse_string(x, scope) }
+        if paths.include? source
           namespaces = key.gsub(/^::/,'').split('::')
-          newkey = namespaces.pop
+          namespaces.pop
 
           unless namespaces.empty?
             source += "/".concat(namespaces.join('/'))
-            key = newkey
           end
         end
 
-        return key, Backend.datafile(config_section, scope, source, "yaml")
+        return Backend.datafile(config_section, scope, source, "yaml")
+      end
+
+      def plain_lookup(key, data, scope)
+          return nil unless data.include?(key)
+          return Backend.parse_answer(data[key], scope)
+      end
+
+      def regex_lookup(key, matchon, data, scope)
+        data.each do |label, datahash|
+          r = datahash["__regex"]
+          Hiera.debug("Scanning label #{label} for matches to '#{r}' in '#{matchon}' ")
+          next unless r.match(matchon)
+          Hiera.debug("Label #{label} matches; searching within it")
+          next unless datahash.include?(key)
+          return Backend.parse_answer(datahash[key], scope)
+        end
+        return nil
+      rescue => detail
+        Hiera.debug(detail)
+        return nil
       end
 
       def lookup(key, scope, order_override, resolution_type)
@@ -116,23 +146,11 @@ class Hiera
         Hiera.debug("Looking up #{key}")
 
         Backend.datasources(scope, order_override) do |source|
-          # Yes this is kind of hacky. We look it up again on hiera,
-          # and build a source based on the lookup.
-          if @dynlookup.include? source
-            Hiera.debug("Dynamic lookup for source #{source}")
-            if key == source
-              next
-            end
-            dynsource = lookup(source, scope, order_override, :priority)
-            dynsource ||= 'default'
-            source += "/#{dynsource}"
-          end
-
           Hiera.debug("Loading info from #{source} for #{key}")
 
-          lookup_key, yamlfile = get_path(key, scope, source)
+          yamlfile = get_path(key, scope, source)
 
-          Hiera.debug("Searching for #{lookup_key} in #{yamlfile}")
+          Hiera.debug("Searching for #{key} in #{yamlfile}")
 
           next if yamlfile.nil?
 
@@ -144,14 +162,21 @@ class Hiera
             YAML.load(content)
           end
 
-          next if data.empty?
-          next unless data.include?(lookup_key)
+          next if data.nil?
 
+          if m = /regex\/(.*)$/.match(source)
+            matchto = m[1]
+            new_answer = regex_lookup(key, matchto, data, scope)
+          else
+            new_answer = plain_lookup(key, data, scope)
+          end
+
+          next if new_answer.nil?
           # Extra logging that we found the key. This can be outputted
           # multiple times if the resolution type is array or hash but that
           # should be expected as the logging will then tell the user ALL the
           # places where the key is found.
-          Hiera.debug("Found #{lookup_key} in #{source}")
+          Hiera.debug("Found #{key} in #{source}")
 
           # for array resolution we just append to the array whatever
           # we find, we then goes onto the next file and keep adding to
@@ -160,10 +185,9 @@ class Hiera
           # for priority searches we break after the first found data
           # item
 
-          new_answer = Backend.parse_answer(data[lookup_key], scope)
           case resolution_type
           when :array
-            raise Exception, "Hiera type mismatch: expected Array and got #{new_answer.class}" unless new_answer.kind_of? Array or new_answer.kind_of? String
+            raise Exception, "Hiera type mismatch: expected Array and got #{new_answer.class}" unless new_answer.kind_of?(Array) || new_answer.kind_of?(String)
             answer ||= []
             answer << new_answer
           when :hash

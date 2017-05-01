@@ -15,8 +15,7 @@
 define browsertests::bundle(
     $directory = $title,
 ) {
-    include browsertests
-    include ruby::default
+    include ::browsertests
 
     ruby::bundle { $title:
         directory  => $directory,

@@ -1,4 +1,7 @@
 class Hiera
+  class MediawikiPageNotFoundError < Exception
+  end
+
   class Mwcache < Filecache
     def initialize
       super
@@ -9,14 +12,32 @@ class Hiera
       @httphost = config[:host] || 'https://wikitech.wikimedia.org'
       @endpoint = config[:endpoint] || '/w/api.php'
       @http = HTTPClient.new(:agent_name => 'HieraMwCache/0.1')
+
+      # Use the operating system's certificate store, not ruby-httpclient's cacert.p7s which doesn't
+      # even have the root used to sign Let's Encrypt CAs (DST Root CA X3)
+      @http.ssl_config.clear_cert_store
+      @http.ssl_config.set_default_paths
+
       @stat_ttl = config[:cache_ttl] || 60
       if defined? @http.ssl_config.ssl_version
-        @http.ssl_config.ssl_version = 'TLSv1_2'
+        @http.ssl_config.ssl_version = 'TLSv1'
       else
         # Note: this seem to work in later versions of the library,
         # but has no effect. How cute, I <3 ruby.
         @http.ssl_config.options = OpenSSL::SSL::OP_NO_SSLv3
       end
+    end
+
+    def read(path, expected_type, default=nil, &block)
+      read_file(path, expected_type, &block)
+    rescue Hiera::MediawikiPageNotFoundError => detail
+      # Any errors other than this will cause hiera to raise an error and puppet to fail.
+      Hiera.debug("Page #{detail} is non-existent, setting defaults #{default}")
+      @cache[path][:data] = default
+    rescue => detail
+      # When failing to read data, we raise an exception, see https://phabricator.wikimedia.org/T78408
+      error = "Reading data from #{path} failed: #{detail.class}: #{detail}"
+      raise error
     end
 
     def read_file(path, expected_type = Object, &block)
@@ -25,8 +46,8 @@ class Hiera
         data = resp["*"]
         @cache[path][:data] = block_given? ? yield(data) : data
 
-        if !@cache[path][:data].is_a?(expected_type)
-          raise TypeError, "Data retrieved from #{path} is #{data.class} not #{expected_type}"
+        if !@cache[path][:data].nil? && !@cache[path][:data].is_a?(expected_type)
+          raise TypeError, "Data retrieved from #{path} is #{@cache[path][:data].class}, not #{expected_type} or nil"
         end
       end
 
@@ -50,8 +71,9 @@ class Hiera
         @cache[path][:meta] = meta
         return true
       end
-    rescue => detail
-      error = "Retrieving metadata from #{path} failed: #{detail}"
+    rescue Hiera::MediawikiPageNotFoundError => detail
+      # Any errors other than this will cause hiera to raise an error and puppet to fail.
+      error = "Page #{detail} is non-existent"
       Hiera.warn(error)
       # Fill  this up with very safe defaults - we cache non-existence
       # for cache_ttl as well.
@@ -85,12 +107,12 @@ class Hiera
         raise IOError, "Could not correctly fetch revision for #{path}, HTTP status code #{res.status_code}"
       end
       # We shamelessly throw exceptions here, and catch them upper in the chain
-      # specifically in stale? and Filecache.read
+      # specifically in Hiera::Mwcache.stale? and Hiera::Mwcache.read
       body = JSON.parse(res.body)
       pages = body["query"]["pages"]
       # Quoting Yuvi: "MediaWiki API doesn't give a fuck about HTTP status codes"
       if pages.keys.include? "-1"
-        raise IndexError, "The mediawiki page was non-existent"
+        raise Hiera::MediawikiPageNotFoundError, "Hiera:#{path}"
       end
       #yes, it's that convoluted.
       key = pages.keys[0]

@@ -51,30 +51,16 @@ class hhvm (
     include ::apache
     include ::apache::mod::proxy_fcgi
 
-    package { [
-        'hhvm',
-        'hhvm-dev',
-        'hhvm-luasandbox',
-        'hhvm-tidy',
-        'hhvm-wikidiff2',
-    ]:
-        # T136146: temporarily only ensure that the packages are installed.
-        # FIXME: remove after hhvm build is > 3.12.1+dfsg-1
-        ensure => present,
-        notify => Service['hhvm'],
+    $ext_pkgs = [ 'hhvm-luasandbox', 'hhvm-tidy', 'hhvm-wikidiff2' ]
+    package { [ 'hhvm', 'hhvm-dev' ]:
+        ensure => latest,
+    }
+    package { $ext_pkgs:
+        ensure => latest,
     }
 
-    # T129343: Cleanup old hhvm-fss package if installed
-    package { 'hhvm-fss':
-        ensure => 'purged',
-        before => Package['hhvm'],
-    }
-
-    # T129343: Ensure that config files are created before the HHVM package is
-    # updated/installed. This reverses prior logic applied to fix T115450 but
-    # is needed to cleanup the hhvm-fss package.
     File {
-        before => Package['hhvm'],
+        require => Package['hhvm'],
     }
 
     env::alternative { 'hhvm_as_default_php':
@@ -85,16 +71,26 @@ class hhvm (
 
     file { '/etc/hhvm':
         ensure => directory,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0555',
     }
 
     file { '/etc/hhvm/php.ini':
+        ensure  => file,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
         content => php_ini($common_settings),
         before  => Env::Alternative['hhvm_as_default_php'],
     }
 
-    file { '/etc/hhvm/fcgi.ini':
+    file { '/etc/hhvm/server.ini':
+        ensure  => file,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
         content => php_ini($common_settings, $fcgi_settings),
-        notify  => Service['hhvm'],
     }
 
     file { '/etc/default/hhvm':
@@ -103,16 +99,14 @@ class hhvm (
         group   => 'root',
         mode    => '0444',
         content => template('hhvm/hhvm.default.erb'),
-        notify  => Service['hhvm'],
     }
 
-    file { '/etc/init/hhvm.conf':
-        ensure => file,
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0444',
-        source => 'puppet:///modules/hhvm/hhvm.conf',
-        notify => Service['hhvm'],
+    # Log directory may be on a host share that doesn't let us set user:group
+    # ownership, so just make a world writable directory. This is a dev
+    # environment after all and not a high security multi-tenant system.
+    file { "${logroot}/hhvm":
+        ensure => directory,
+        mode   => '0777',
     }
 
     file { $hhbc_dir:
@@ -135,14 +129,6 @@ class hhvm (
         owner  => 'www-data',
         group  => 'www-data',
         mode   => '0644',
-        before => Service['hhvm'],
-    }
-
-    service { 'hhvm':
-        ensure   => running,
-        enable   => true,
-        provider => upstart,
-        require  => File['/etc/init/hhvm.conf'],
     }
 
     apache::site { 'hhvm_admin':
@@ -154,6 +140,5 @@ class hhvm (
     rsyslog::conf { 'hhvm':
         content  => template('hhvm/rsyslog.conf.erb'),
         priority => 40,
-        before   => Service['hhvm'],
     }
 }

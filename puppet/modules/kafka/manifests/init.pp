@@ -2,11 +2,14 @@
 #
 class kafka {
     require ::service
+    require ::mediawiki::ready_service
 
     require_package('openjdk-7-jdk')
-    require_package('zookeeper-server')
+    require_package('zookeeperd')
     require_package('confluent-kafka-2.11.7')
     require_package('kafkacat')
+
+    $logdir = '/var/log/kafka'
 
     group { 'kafka':
         ensure  => 'present',
@@ -37,47 +40,46 @@ class kafka {
         source => 'puppet:///modules/kafka/kafka.profile.sh',
     }
 
-    file { '/etc/init/kafka.conf':
-        ensure => 'present',
-        source => 'puppet:///modules/kafka/upstart',
-        mode   => '0444',
-    }
-
     file { '/etc/kafka/server.properties':
-        ensure => 'present',
-        source => 'puppet:///modules/kafka/server.properties',
-        mode   => '0444',
+        ensure  => 'present',
+        source  => 'puppet:///modules/kafka/server.properties',
+        mode    => '0444',
+        require => Package['confluent-kafka-2.11.7'],
     }
 
-    file { ['/var/log/kafka', '/var/lib/kafka']:
-        ensure => 'directory',
-        owner  => 'kafka',
-        group  => 'kafka',
-        mode   => '0755',
+    file { '/etc/kafka/log4j.properties':
+      ensure  => 'present',
+      content => template('kafka/log4j.properties.erb'),
+      mode    => '0444',
+      require => Package['confluent-kafka-2.11.7'],
     }
 
-    exec { 'zookeeper-server-init':
-        command => '/usr/bin/service zookeeper-server init',
-        unless  => '/usr/bin/test -d /var/lib/zookeeper/version-2',
-        require => Package['zookeeper-server']
+    file { [$logdir, '/var/lib/kafka']:
+        ensure  => 'directory',
+        owner   => 'kafka',
+        group   => 'kafka',
+        mode    => '0755',
+        require => Package['confluent-kafka-2.11.7'],
     }
 
-    service { 'zookeeper-server':
+    service { 'zookeeper':
         ensure  => 'running',
         enable  => true,
-        require => Exec['zookeeper-server-init'],
+        require => Package['zookeeperd']
     }
 
-    service { 'kafka':
-        ensure    => 'running',
-        enable    => true,
-        require   => [
-            User['kafka'],
-            Service['zookeeper-server'],
-        ],
-        subscribe => [
-            File['/etc/init/kafka.conf'],
-            File['/etc/kafka/server.properties'],
-        ],
+    systemd::service { 'kafka':
+        ensure         => 'present',
+        service_params => {
+            require   => [
+                User['kafka'],
+                Service['zookeeper'],
+                Package['confluent-kafka-2.11.7'],
+            ],
+            subscribe => [
+                File['/etc/kafka/server.properties'],
+                File['/etc/kafka/log4j.properties'],
+            ]
+        },
     }
 }

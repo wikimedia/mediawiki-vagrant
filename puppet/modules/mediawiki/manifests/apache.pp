@@ -19,6 +19,7 @@ class mediawiki::apache(
     include ::apache
     include ::apache::mod::alias
     include ::apache::mod::rewrite
+    include ::apache::mod::proxy
     include ::apache::mod::proxy_fcgi
     include ::apache::mod::headers
 

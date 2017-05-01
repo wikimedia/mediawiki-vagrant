@@ -8,7 +8,6 @@
 #   Root directory for general file storage
 #
 # [*etc_dir*]
-#
 #   /etc/ directory to use for storing MW-Vagrant-specific configuration files
 #   which need not to be shared with the host (example: '/etc/mw-vagrant').
 #
@@ -17,9 +16,6 @@
 #
 # [*vendor_dir*]
 #   Root directory for provisioning 3rd party services (eg Redis storage)
-#
-# [*enable_cachefilesd*]
-#   Enable cachefilesd service
 #
 # [*tld*]
 #   Top level domain to use when creating hostnames. Value should include
@@ -30,12 +26,13 @@ class mwv (
     $etc_dir,
     $services_dir,
     $vendor_dir,
-    $enable_cachefilesd,
     $tld,
 ) {
     include ::apt
     include ::env
     include ::git
+    include ::mwv::packages
+    include ::mwv::cachefilesd
 
     file { $etc_dir:
         ensure => directory,
@@ -68,37 +65,4 @@ class mwv (
         } -> File <| |>
     }
 
-    package { 'python-pip': } -> Package <| provider == pip |>
-
-    # Install common development tools
-    package { [ 'build-essential', 'python-dev', 'ruby-dev' ]: }
-
-    # Remove chef if it is installed in the base image
-    # Bug: 67693
-    package { [ 'chef', 'chef-zero' ]:
-      ensure => absent,
-    }
-
-    if $enable_cachefilesd {
-        # Support the `nfs_cache` setting with cachefilesd
-        package { 'cachefilesd':
-            ensure => present,
-        }
-
-        file { '/etc/default/cachefilesd':
-            content => "RUN=yes\nSTARTTIME=5\n",
-            require => Package['cachefilesd'],
-        }
-
-        service { 'cachefilesd':
-            ensure    => running,
-            require   => Package['cachefilesd'],
-            subscribe => File['/etc/default/cachefilesd'],
-        }
-    } else {
-        # Cleanup cachefilesd if param has been toggled
-        package { 'cachefilesd':
-            ensure => absent,
-        }
-    }
 }
