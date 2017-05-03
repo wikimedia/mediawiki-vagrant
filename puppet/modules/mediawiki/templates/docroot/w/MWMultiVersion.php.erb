@@ -183,12 +183,14 @@ class MWMultiVersion {
 	* @return boolean
 	*/
 	public static function onWfShellMaintenanceCmd( &$script, array &$params, array &$options ) {
-	   global $IP;
-	   if ( strpos( $script, "{$IP}/" ) === 0 ) {
-		   $script = substr( $script, strlen( "{$IP}/" ) );
-		   $options['wrapper'] = __DIR__ . '/MWScript.php';
-	   }
-	   return true;
+		global $IP;
+		if ( strpos( $script, "{$IP}/" ) === 0 ) {
+			$script = substr( $script, strlen( "{$IP}/" ) );
+			$wiki = wfWikiId();
+			array_unshift( $params, "--wiki=$wiki" );
+			$options['wrapper'] = __DIR__ . '/MWScript.php';
+		}
+		return true;
 	}
 
 	/**
