@@ -4,7 +4,7 @@
 # project dependencies via Bundler.
 #
 class ruby {
-    $gem_bin_dir = '/usr/local/bin'
+    $gem_bin_dir = '/usr/bin'
 
     require_package('ruby', 'ruby-dev', 'bundler')
 
