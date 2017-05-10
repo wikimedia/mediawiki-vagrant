@@ -36,6 +36,9 @@
 #   After the clone is created, initialize all submodules within, using their
 #   default settings. Default true.
 #
+# [*options*]
+#   Extra options to pass to git. Mainly intended for config options, i.e.
+#   '-c foo=bar'.
 # === Examples
 #
 #  Clone VisualEditor to MediaWiki extension path:
@@ -53,6 +56,7 @@ define git::clone(
     $ensure             = 'present',
     $depth              = $::git::default_depth,
     $recurse_submodules = true,
+    $options            = '',
 ) {
     require ::git
 
@@ -79,7 +83,7 @@ define git::clone(
     }
 
     exec { "git_clone_${title}":
-        command => "/usr/bin/git clone ${arg_recurse} ${arg_depth} ${arg_branch} ${repository} ${directory}",
+        command => "/usr/bin/git ${options} clone ${arg_recurse} ${arg_depth} ${arg_branch} ${repository} ${directory}",
         cwd     => '/',
         creates => "${directory}/.git",
         user    => $owner,
