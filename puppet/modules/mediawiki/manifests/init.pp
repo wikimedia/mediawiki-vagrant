@@ -88,6 +88,7 @@ class mediawiki(
         directory => $dir,
         branch    => $branch,
         depth     => $git_depth,
+        options   => '-c http.postBuffer=1048576000', # T152801
     }
 
     mediawiki::skin { 'Vector': }
