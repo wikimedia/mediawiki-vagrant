@@ -4,7 +4,7 @@ class mwv::packages {
     package { 'python-pip': } -> Package <| provider == pip |>
 
     # Install common development tools
-    require_package('build-essential', 'python-dev', 'ruby-dev')
+    require_package('build-essential', 'gdb', 'python-dev', 'ruby-dev')
 
     # Remove chef if it is installed in the base image
     # Bug: 67693
