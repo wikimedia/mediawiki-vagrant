@@ -3,8 +3,17 @@
 class mwv::packages {
     package { 'python-pip': } -> Package <| provider == pip |>
 
-    # Install common development tools
-    require_package('build-essential', 'gdb', 'python-dev', 'ruby-dev')
+    # Install common packages
+    require_package(
+        'anacron',
+        'build-essential',
+        'gdb',
+        'python-dev',
+        'ruby-dev',
+    )
+
+    # Cron resources need a cron provider installed
+    Package['anacron'] -> Cron <| |>
 
     # Remove chef if it is installed in the base image
     # Bug: 67693
