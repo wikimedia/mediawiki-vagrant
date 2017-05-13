@@ -7,6 +7,7 @@ class mwv::packages {
     require_package(
         'anacron',
         'build-essential',
+        'cron',
         'gdb',
         'python-dev',
         'ruby-dev',
