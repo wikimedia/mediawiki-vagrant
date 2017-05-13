@@ -24,10 +24,9 @@ location where you copied the files from the drive.
    install it from the directory for your OS.
 
 2. If you don't have a Gerrit username yet, signup at
-   https://wikitech.wikimedia.org/wiki/Special:UserLogin/signup .  The
-   "Instance shell account name" you give (not your Wiki username) is
-   your username in Gerrit, replace GERRIT_USER in the instructions
-   below with it.
+   <https://toolsadmin.wikimedia.org/register/>.
+   The UNIX shell username you give (not your Wiki username) is your username
+   in Gerrit, replace GERRIT_USER in the instructions below with it.
 
 3. From the directory for your OS, install VirtualBox.
 
@@ -35,33 +34,28 @@ location where you copied the files from the drive.
    use files from Linux/DEB/ for Debian or Ubuntu and Linux/RPM/ for Red
    Hat, Centos, Fedora, etc.
 
-5. Install the virtual machine (an Ubuntu 14.04 "Trusty" Linux
-   distribution) that Vagrant uses as a base:
+5. Install the virtual machine (a Debian 8 "Jessie" Linux distribution) that
+   Vagrant uses as a base:
 
     $ cd /USB_DRIVE_PATH
-    $ vagrant box add trusty-cloud trusty-server-cloudimg-amd64-vagrant-disk1.box
+    $ vagrant box add debian/contrib-jessie64 virtualbox.box
 
-6. Install the "vagrant-vbguest" Vagrant plugin:
-
-    $ cd /USB_DRIVE_PATH/Plugins
-    $ vagrant plugin install vagrant-vbguest-0.10.0.gem
-
-7. Clone MediaWiki-Vagrant from the provided git bundle file:
+6. Clone MediaWiki-Vagrant from the provided git bundle file:
 
     $ cd /USB_DRIVE_PATH
     $ git clone -b master mediawiki_vagrant.bundle ~/Vagrant
 
-8. Copy pre-populated caches:
+7. Copy pre-populated caches:
 
     $ cp -Rf cache/* ~/Vagrant/cache
 
-9. Clone MediaWiki core from the provided git bundle file:
+8. Clone MediaWiki core from the provided git bundle file:
 
     $ git clone -b master mediawiki_core.bundle ~/Vagrant/mediawiki
 
-9a. You're done with the USB drive, you can unmount/safely remove it.
+8a. You're done with the USB drive, you can unmount/safely remove it.
 
-10. You've got fairly recent code off the USB drive, but development
+9. You've got fairly recent code off the USB drive, but development
     continues. Configure git repositories to sync with Gerrit over
     the network:
 
@@ -71,7 +65,7 @@ location where you copied the files from the drive.
     $ cd ~/Vagrant/mediawiki
     $ git remote set-url origin ssh://GERRIT_USER@gerrit.wikimedia.org:29418/mediawiki/core.git
 
-11. Update MediaWiki-Vagrant and MediaWiki core git repositories to
+10. Update MediaWiki-Vagrant and MediaWiki core git repositories to
     latest versions:
 
    $ cd ~/Vagrant
@@ -82,7 +76,7 @@ location where you copied the files from the drive.
    $ cd ~/Vagrant/mediawiki
    $ git pull
 
-12. Start your MediaWiki-Vagrant virtual machine for the first time:
+11. Start your MediaWiki-Vagrant virtual machine for the first time:
 
     $ cd ~/Vagrant
     $ ./setup.sh

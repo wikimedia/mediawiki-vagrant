@@ -110,11 +110,6 @@ def common
   download_file($contents_dir, $url_config['GPLv2'])
   download_file($contents_dir, $url_config['Vagrant License'])
 
-  plugins_dir = $contents_dir + 'Plugins'
-  $url_config['Vagrant']['Plugins'].each do |_plugin, url|
-    download_file(plugins_dir, url)
-  end
-
   template = $packager_dir + 'template'
   puts 'Copying template files...'
   cp(template + 'README.txt', $contents_dir)
