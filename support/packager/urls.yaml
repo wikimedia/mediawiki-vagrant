@@ -8,7 +8,7 @@ GPLv2:
 
 Vagrant License:
   url: https://raw.githubusercontent.com/mitchellh/vagrant/master/LICENSE
-  sha256: 22408bd278fbab6a518f29e3332a417fd30840ae6ed424217a6fb89ba893d3bf
+  sha256: 744ee0da778d31bda9391e50776285ca223b3a3d27130ed3978d1f29382f15bc
   filename: Vagrant_MIT.txt
 
 # https://www.virtualbox.org/wiki/Downloads
