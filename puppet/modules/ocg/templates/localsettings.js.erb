@@ -1,0 +1,19 @@
+module.exports = function(config) {
+  // URL to the Parsoid instance
+  config.backend.bundler.parsoid_api = "http://localhost:<%= @parsoid_port %>";
+  // Use the Parsoid "v3" API
+  // The "domainname" should match the "domain" in the setMwApi
+  // call in Parsoid's localsettings.js and the "domain" in mediawiki's
+  // $wgVirtualRestConfig in LocalSettings.php
+  config.backend.bundler.additionalArgs = [ '--domainname=localhost', '--api-version=parsoid3' ];
+
+
+  config.logging = {
+    streams: [{
+      stream: process.stdout
+    }, {
+      //level: 'debug',
+      path: '<%= @log_dir %>/mw-ocg-service.log'
+    }]
+  }
+}

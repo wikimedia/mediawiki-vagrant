@@ -32,6 +32,10 @@ default_project: &default_project
           host: http://localhost:<%= @citoid_port %>
         transform:
           cx_host: http://localhost:<%= @cxserver_port %>
+        pdf:
+          cache_control: s-maxage=600, max-age=600
+          uri: http://localhost:<%= @pdf_service_port %>/
+          secret: <%= @pdf_service_secret %>
 
 wikimedia.org: &wikimedia
   x-modules:
