@@ -343,6 +343,9 @@ role::globalblocking::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 role::globalblocking::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 role::globalblocking::db_name: globalblocking
 
+role::horizon::vhost_name: "horizon%{hiera('mwv::tld')}"
+role::horizon::log_dir: /vagrant/logs
+
 role::keystone::admin_password: vagrant
 role::keystone::db_password: vagrant
 
