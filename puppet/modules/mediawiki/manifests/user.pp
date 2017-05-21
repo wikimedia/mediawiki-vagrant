@@ -70,15 +70,17 @@ define mediawiki::user(
     if ! empty($groups) {
         $comma_groups = join($groups, ',')
 
-        $comma_groups_sql = join($groups, "', '")
+        $comma_groups_php = join($groups, "', '")
 
-        $group_count = size($groups)
-        $sql_unless = "
-            SELECT COUNT(*)
-            FROM user_groups
-            JOIN user ON ug_user = user_id
-            WHERE user_name = '${canonical_username}'
-            AND ug_group IN ('${$comma_groups_sql}');"
+        # eval.php requires each command to be a single line
+        # double-escape $ against puppet + shell
+        $eval_unless = "
+            \\\$u = User::newFromName( '${username}' );
+            \\\$u->load( User::READ_LATEST );
+            \\\$expected_groups = array_intersect( [ '${comma_groups_php}' ], User::GetAllGroups() );
+            \\\$actual_groups = \\\$u->getGroups();
+            echo array_diff( \\\$expected_groups, \\\$actual_groups ) ? 'Bad' : 'Good';
+        "
 
         mediawiki::maintenance { "mediawiki_user_${canonical_username}_${wiki}_${comma_groups}":
             command => "/usr/local/bin/mwscript createAndPromote.php --wiki='${wiki}' \
@@ -87,9 +89,9 @@ define mediawiki::user(
 
             # Check that they're already in all the requested groups,
             # using counts.
-            unless  => "/bin/echo \"${sql_unless}\" | \
-                        /usr/local/bin/mwscript sql.php --wikidb='${wiki}' | \
-                        /bin/grep -q '=> ${group_count}'",
+            unless  => "/bin/echo \"${eval_unless}\" | \
+                        /usr/local/bin/mwscript eval.php --wiki='${wiki}' | \
+                        /bin/grep -q '^Good$'",
             require => [
                 Mediawiki::Maintenance["mediawiki_user_${canonical_username}_${wiki}"],
             ]
