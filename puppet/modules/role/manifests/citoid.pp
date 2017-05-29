@@ -11,4 +11,8 @@ class role::citoid(
             wgCitoidServiceUrl => $url,
         }
     }
+
+    mediawiki::import::text { 'VagrantRoleCitoid':
+        content => template('role/citoid/VagrantRoleCitoid.wiki.erb'),
+    }
 }
