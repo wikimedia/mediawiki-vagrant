@@ -31,7 +31,7 @@ GHOSTSCRIPT_PATH = '/usr/bin/gs'
 CONVERT_PATH = '/usr/bin/convert'
 
 SWIFT_HOST = 'http://127.0.0.1:<%= scope['::swift::port'] %>'
-SWIFT_API_PATH = '/v1/AUTH_<%= scope['::swift::project'] %>/'
+SWIFT_API_PATH = '/v1/AUTH_<%= scope['::swift::project'] %>'
 SWIFT_AUTH_PATH = '/auth/v1.0'
 SWIFT_USER = '<%= scope['::swift::project'] %>:<%= scope['::swift::user'] %>'
 SWIFT_KEY = '<%= scope['::swift::key'] %>'
