@@ -4,9 +4,6 @@
 # engine, much like Solr, but with a more user-friendly inteface.
 #
 class elasticsearch {
-    # Elasticsearch 5.x is currently in the experiemental repository
-    require apt::wikimedia_experimental
-
     require_package('openjdk-8-jre-headless')
 
     package { 'elasticsearch':
