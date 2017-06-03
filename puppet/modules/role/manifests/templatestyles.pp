@@ -7,6 +7,8 @@
 class role::templatestyles {
     require ::role::mediawiki
 
-    mediawiki::extension { 'TemplateStyles': }
+    mediawiki::extension { 'TemplateStyles':
+        composer => true,
+    }
 }
 
