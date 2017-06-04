@@ -1,7 +1,27 @@
-#!/bin/sh
+#!/bin/bash
 # Sleep until the default MediaWiki instance has been configured
 
-exec >/dev/null 2>&1
-while [ ! -r "<%= scope['mediawiki::dir'] %>/LocalSettings.php" ] || ! ( /usr/local/bin/mwscript sql.php --wiki=wiki </dev/null ); do
+# test whether MediaWiki is configured and running
+test_mediawiki_status() {
+    if [[ ! -r "<%= scope['mediawiki::dir'] %>/LocalSettings.php" ]]; then
+        echo '/vagrant/mediawiki/LocalSettings.php not found/readable' 1>&2
+        return 1
+    elif ! ( /usr/local/bin/mwscript sql.php --wiki=wiki </dev/null ); then
+        # error already output by sql.php
+        return 1
+    fi
+    return 0
+}
+
+for i in $(seq 60 -1 0); do # give up after a minute
+    if [[ $i -eq 0 ]]; then
+        test_mediawiki_status >/dev/null
+    else
+        test_mediawiki_status >/dev/null 2>&1
+    fi
+    if [[ $? -eq 0 || $i -eq 0 ]]; then
+       break
+    fi
     sleep 1
 done
+
