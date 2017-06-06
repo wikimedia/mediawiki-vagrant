@@ -49,37 +49,28 @@ class swift (
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
 
-    apt::pin { 'python-swift-jessie-backports':
-        package  => 'python-swift*',
-        pin      => 'release n=jessie-backports',
-        priority => 1000,
-    }
+    $packages = [
+        'python-cryptography',
+        'python-dnspython',
+        'python-eventlet',
+        'python-pkg-resources',
+        'python-pyasn1',
+        'python-setuptools',
+        'python-swift*',
+        'python-webob',
+        'swift*'
+    ]
 
-    apt::pin { 'python-eventlet-jessie-backports':
-        package  => 'python-eventlet',
-        pin      => 'release n=jessie-backports',
-        priority => 1000,
-    }
-
-    apt::pin { 'python-webob-jessie-backports':
-        package  => 'python-webob',
-        pin      => 'release n=jessie-backports',
-        priority => 1000,
-    }
-
-    apt::pin { 'swift-jessie-backports':
-        package  => 'swift*',
-        pin      => 'release n=jessie-backports',
-        priority => 1000,
+    apt::pin { 'swift-python-backports':
+        package  => join(sort($packages), ' '),
+        pin      => 'release a=jessie-backports',
+        priority => '1000',
     }
 
     package { ['swift', 'swift-account', 'swift-container', 'swift-object', 'swift-proxy', 'python-webob']:
         ensure  => 'present',
         require => [
-            Apt::Pin['python-swift-jessie-backports'],
-            Apt::Pin['python-eventlet-jessie-backports'],
-            Apt::Pin['swift-jessie-backports'],
-            Apt::Pin['python-webob-jessie-backports'],
+            Apt::Pin['swift-python-backports'],
         ],
     }
 

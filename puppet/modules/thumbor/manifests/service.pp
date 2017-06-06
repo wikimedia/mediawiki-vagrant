@@ -53,7 +53,4 @@ define thumbor::service (
         creates => "${tmp_dir}/thumbor@${port}",
         before  => Service["thumbor-${port}"],
     }
-
-    # Ensure that Sentry is started before Thumbor
-    Service['sentry-worker'] ~> Service["thumbor-${port}"]
 }

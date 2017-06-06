@@ -14,7 +14,6 @@ class role::thumbor (
     require ::role::multimedia
     require ::role::vipsscaler
     require ::role::wikimediamaintenance
-    include ::role::sentry
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
     include ::apache::mod::headers

@@ -19,32 +19,23 @@
 # [*statsd_port*]
 #   Port the statsd instance runs on.
 #
-# [*sentry_dsn_file*]
-#   Path to file containing the sentry dsn file.
-#
 class thumbor (
     $cfg_dir,
     $log_dir,
     $tmp_dir,
     $statsd_port,
-    $sentry_dsn_file,
 ) {
-    apt::pin { 'gifsicle-jessie-backports':
-        package  => 'gifsicle',
-        pin      => 'release n=jessie-backports',
-        priority => 1000,
-    }
 
-    apt::pin { 'python-tornado-jessie-backports':
-        package  => 'python-tornado',
-        pin      => 'release n=jessie-backports',
-        priority => 1000,
-    }
+    $packages = [
+        'gifsicle',
+        'python-tornado',
+        'python-pil',
+    ]
 
-    apt::pin { 'python-pil-jessie-backports':
-        package  => 'python-pil',
-        pin      => 'release n=jessie-backports',
-        priority => 1000,
+    apt::pin { 'thumbor-python-backports':
+        package  => join(sort($packages), ' '),
+        pin      => 'release a=jessie-backports',
+        priority => '1000',
     }
 
     package { 'raven':
@@ -55,9 +46,7 @@ class thumbor (
         ensure  => 'present',
         notify  => Exec['stop-and-disable-default-thumbor-service'],
         require => [
-            Apt::Pin['gifsicle-jessie-backports'],
-            Apt::Pin['python-tornado-jessie-backports'],
-            Apt::Pin['python-pil-jessie-backports'],
+            Apt::Pin['thumbor-python-backports'],
         ]
     }
 
@@ -92,7 +81,10 @@ class thumbor (
     }
 
     file { $log_dir:
-        ensure => directory,
+        ensure  => directory,
+        group   => 'thumbor',
+        mode    => '0775',
+        require => Package['python-thumbor-wikimedia'],
     }
 
     file { $tmp_dir:
@@ -100,12 +92,11 @@ class thumbor (
     }
 
     file { "${cfg_dir}/10-thumbor.conf":
-        ensure    => present,
-        group     => 'thumbor',
-        content   => template('thumbor/10-thumbor.conf.erb'),
-        mode      => '0640',
-        subscribe => File[$sentry_dsn_file],
-        require   => [
+        ensure  => present,
+        group   => 'thumbor',
+        content => template('thumbor/10-thumbor.conf.erb'),
+        mode    => '0640',
+        require => [
             File[$cfg_dir],
             Package['python-thumbor-wikimedia'],
         ],

@@ -479,9 +479,8 @@ swift::object_cfg_file: /etc/swift/object-server.conf
 swift::container_cfg_file: /etc/swift/container-server.conf
 
 thumbor::cfg_dir: /etc/thumbor.d
-thumbor::log_dir: /vagrant/logs/thumbor
+thumbor::log_dir: /srv/thumbor
 thumbor::tmp_dir: /tmp/thumbor
 thumbor::statsd_port: "%{hiera('statsd::port')}"
-thumbor::sentry_dsn_file: "%{hiera('sentry::dsn_file')}"
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
