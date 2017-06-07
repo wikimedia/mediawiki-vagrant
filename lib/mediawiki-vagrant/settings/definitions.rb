@@ -47,7 +47,7 @@ module MediaWikiVagrant
       help: "Enter 'yes' or 'no'. NFS is faster, but has some " +
         'incompatibities and restrictions. ' +
         'https://phabricator.wikimedia.org/T139859',
-      default: %w(bsd freebsd linux solaris).include?(Vagrant::Util::Platform.platform),
+      default: %w(bsd freebsd linux linux-gnu solaris).include?(Vagrant::Util::Platform.platform),
       coercion: ->(_setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
 
     setting :nfs_force_v3,
