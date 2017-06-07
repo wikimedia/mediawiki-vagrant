@@ -16,6 +16,8 @@ APT_OPTS="-o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold 
 
 {
     set -x
+    export COMPOSER_CACHE_DIR="${MWV}/cache/composer"
+    export SHELL=/bin/bash
 
     # Get latest MediaWiki-Vagrant
     cd ${MWV}
@@ -23,7 +25,6 @@ APT_OPTS="-o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold 
     git reset --hard origin/master
 
     # Get latest MediaWiki-core
-    export COMPOSER_CACHE_DIR="${MWV}/cache/composer"
     /usr/local/bin/run-git-update
     cd ${MWV}/mediawiki
     git reset --hard origin/master
