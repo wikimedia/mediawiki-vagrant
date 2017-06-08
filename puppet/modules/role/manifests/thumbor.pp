@@ -59,6 +59,7 @@ class role::thumbor (
                 'pdf',
                 'tiff',
                 'tif',
+                'webp',
             ],
         },
     }
