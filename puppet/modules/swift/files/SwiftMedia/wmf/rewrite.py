@@ -7,7 +7,6 @@
 import webob
 import webob.exc
 import re
-import eventlet
 from eventlet.green import urllib2
 import time
 import urlparse
@@ -50,7 +49,6 @@ class _WMFRewriteContext(WSGIContext):
         host and returns it. Note also that the thumb host might write it out
         to Swift so it won't 404 next time.
         """
-        original_request_url = reqorig.url
         # go to the thumb media store for unknown files
         reqorig.host = self.thumbhost
         # upload doesn't like our User-agent, otherwise we could call it
