@@ -44,27 +44,6 @@ class _WMFRewriteContext(WSGIContext):
         # converted  and only the path sent back (eg en.wikipedia/thumb).
         self.backend_url_format = conf['backend_url_format'].strip()  # asis, sitelang
 
-    def collectHttpStatusCodes(self, url, thumbor_thread, mediawiki_code):
-        self.logger.debug("Mediawiki: %d %s" % (mediawiki_code, url))
-
-        if thumbor_thread is None:
-            return
-
-        try:
-            # Waits for Thumbor if it took longer than Mediawiki to process the image
-            # Otherwise returns/throws exceptions immediately
-            thumbor_result = thumbor_thread.wait()
-            code = thumbor_result.getcode()
-        except urllib2.HTTPError, error:
-            code = error.code
-        except urllib2.URLError, error:
-            code = 503
-
-        self.logger.debug("Thumbor: %d %s" % (code, url))
-
-        if code != mediawiki_code:
-            self.logger.warn("HTTP status code mismatch. Mediawiki: %d Thumbor: %d URL: %s" % (mediawiki_code, code, url))
-
     def handle404(self, reqorig, url, container, obj):
         """
         Return a webob.Response which fetches the thumbnail from the thumb
@@ -156,18 +135,14 @@ class _WMFRewriteContext(WSGIContext):
                 else:
                     self.logger.warn("no sitelang match on encodedurl: %s" % encodedurl)
 
-            thumbor_thread = None
-
-            # call thumbor first, otherwise if Mediawiki image scalers return an error,
-            # thumbor doesn't get a change to try to generate that thumbnail
             if self.thumborhost:
                 if not self.thumbor_wiki_list or '-'.join((proj, lang)) in self.thumbor_wiki_list:
-                    # call Thumbor but don't wait for the result
-                    thumbor_thread = eventlet.spawn(thumbor_opener.open, thumbor_encodedurl)
+                    upcopy = thumbor_opener.open(thumbor_encodedurl)
+                else:
+                    upcopy = opener.open(encodedurl)
+            else:
+                upcopy = opener.open(encodedurl)
 
-            # ok, call the encoded url
-            upcopy = opener.open(encodedurl)
-            self.collectHttpStatusCodes(original_request_url, thumbor_thread, upcopy.getcode())
         except urllib2.HTTPError, error:
             # copy the urllib2 HTTPError into a webob HTTPError class as-is
 
@@ -184,13 +159,11 @@ class _WMFRewriteContext(WSGIContext):
                         headers=error.hdrs.items())
 
             resp = CopiedHTTPError()
-            self.collectHttpStatusCodes(original_request_url, thumbor_thread, resp.code)
             return resp
         except urllib2.URLError, error:
             msg = 'There was a problem while contacting the image scaler: %s' % \
                   error.reason
             resp = webob.exc.HTTPServiceUnavailable(msg)
-            self.collectHttpStatusCodes(original_request_url, thumbor_thread, resp.code)
             return resp
 
         # get the Content-Type.
