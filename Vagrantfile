@@ -63,7 +63,7 @@ Vagrant.configure('2') do |config|
 
   # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
   config.vm.provider :vmware_fusion do |_vw, override|
-    override.vm.box = 'dhoppe/debian-8.7.1-amd64-nocm'
+    override.vm.box = 'dhoppe/debian-8.8.0-amd64-nocm'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
