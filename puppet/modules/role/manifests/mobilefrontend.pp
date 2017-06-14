@@ -11,6 +11,7 @@ class role::mobilefrontend {
     include ::role::eventlogging
     include ::role::pageimages
     include ::role::textextracts
+    include ::role::minerva
 
     mediawiki::extension { 'MobileFrontend':
         settings      => {
