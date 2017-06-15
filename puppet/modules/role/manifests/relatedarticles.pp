@@ -12,9 +12,6 @@ class role::relatedarticles {
             wgRelatedArticlesShowInSidebar   => false,
             wgRelatedArticlesShowInFooter    => true,
             wgRelatedArticlesUseCirrusSearch => true,
-        },
-        require  => MediaWiki::Extension['Cards'],
+        }
     }
-
-    mediawiki::extension { 'Cards': }
 }
