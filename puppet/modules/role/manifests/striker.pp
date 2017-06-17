@@ -98,6 +98,7 @@ class role::striker(
     include ::role::ldapauth
     include ::role::oathauth
     include ::role::oauth
+    include ::role::syntaxhighlight
     include ::role::titleblacklist
     include ::apache::mod::wsgi_py3
     include ::memcached
