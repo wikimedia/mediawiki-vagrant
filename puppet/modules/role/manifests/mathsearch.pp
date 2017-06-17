@@ -5,7 +5,7 @@
 # MathML formulae, using a technique derived from automated theorem
 # proving: term indexing.
 class role::mathsearch {
-    include ::role::geshi
+    include ::role::syntaxhighlight
     include ::role::math
 
     mediawiki::extension { 'MathSearch':

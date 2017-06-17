@@ -3,7 +3,7 @@
 # in MediaWiki.
 class role::scribunto {
     include ::role::codeeditor
-    include ::role::geshi
+    include ::role::syntaxhighlight
 
     require_package('php-luasandbox')
 

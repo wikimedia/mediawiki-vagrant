@@ -4,10 +4,6 @@
 #
 # [1] https://www.mediawiki.org/wiki/Extension:GWToolset
 class role::gwtoolset {
-    # required by scribunto
-    require ::role::codeeditor
-    require ::role::geshi
-
     # required by gwtoolset
     require ::role::multimedia
 

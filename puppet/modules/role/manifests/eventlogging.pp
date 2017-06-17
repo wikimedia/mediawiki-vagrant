@@ -2,7 +2,7 @@
 # This role sets up the EventLogging extension for MediaWiki such that
 # events are validated against production schemas but logged locally.
 class role::eventlogging {
-    include ::role::geshi
+    include ::role::syntaxhighlight
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
     include ::apache::mod::headers

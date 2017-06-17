@@ -1,7 +1,7 @@
 # == Class: role::geshi
 # Configures SyntaxHighlight_GeSHi, an extension for syntax-highlighting
+#
+# *deprecated* Use ::role::syntaxhighlight
 class role::geshi {
-    mediawiki::extension { 'SyntaxHighlight_GeSHi':
-        composer => true,
-    }
+    include ::role::syntaxhighlight
 }
