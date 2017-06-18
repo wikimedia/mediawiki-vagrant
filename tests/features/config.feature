@@ -77,6 +77,7 @@ Feature: Command line configuration
       | http_port     | 8888    |
       | https_port    | 4433    |
       | host_ip       | 0.0.0.0 |
+      | smb_shares    | yes     |
       | nfs_shares    | no      |
       | nfs_force_v3  | no      |
       | nfs_cache     | yes     |
@@ -91,6 +92,7 @@ Feature: Command line configuration
       | http_port     | 8888    |
       | https_port    | 4433    |
       | host_ip       | 0.0.0.0 |
+      | smb_shares    | yes     |
       | nfs_shares    | no      |
       | nfs_force_v3  | no      |
       | nfs_cache     | yes     |

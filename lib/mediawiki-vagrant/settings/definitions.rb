@@ -56,6 +56,12 @@ module MediaWikiVagrant
       help: "Set to '0.0.0.0' to bind to all ips and allow external access",
       default: '127.0.0.1'
 
+    setting :smb_shares,
+      description: 'Use synced folders backed by SMB (Windows shared folders)',
+      help: "Enter 'yes' or 'no'. This is recommended on Windows if you have local admin rights.",
+      default: false,
+      coercion: ->(_setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
+
     setting :nfs_shares,
       description: 'Use synced folders backed by NFS',
       help: "Enter 'yes' or 'no'. NFS is faster, but has some " +

@@ -142,6 +142,13 @@ Vagrant.configure('2') do |config|
     root_share_options[:group] = 'www-data'
   end
 
+  if settings[:smb_shares]
+    root_share_options[:type] = :smb
+    # mfsymlinks will allow the linux VM to make symlinks on the samba share
+    # see https://wiki.samba.org/index.php/UNIX_Extensions#Minshall.2BFrench_symlinks for details
+    root_share_options[:mount_options] = ['mfsymlinks', 'dir_mode=0755', 'file_mode=0755']
+  end
+
   config.vm.synced_folder '.', '/vagrant', root_share_options
 
   unless settings[:nfs_shares]
