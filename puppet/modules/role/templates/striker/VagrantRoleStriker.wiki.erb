@@ -23,7 +23,7 @@ For some setup steps, a JavaScript snippet is included. Run this snippet in the 
 *:<syntaxhighlight lang="javascript">
 Q = function(s){return document.querySelector('[name="' + s + '"]')};
 Q("ldap:host").value = "127.0.0.1";
-Q("ldap:search-attribute").value = "ou=People,dc=wmftest,dc=net";
+Q("ldap:dn").value = "ou=People,dc=wmftest,dc=net";
 Q("ldap:search-attribute").value = "cn";
 Q("ldap:always-search").checked = true;
 </syntaxhighlight>
@@ -52,7 +52,7 @@ Q("oauth1:mediawiki:uri").value = "<%= scope['::mediawiki::server_url'] %>/w";
 Q = function(s){return document.querySelector('[name="' + s + '"]')};
 Q("username").value = "striker";
 Q("realname").value = "Striker Bot";
-Q("email").value = "admin@local.wmftest.net";
+Q("email").value = "striker@local.wmftest.net";
 </syntaxhighlight>
 
 * [<%= @phabricator_url %>/settings/user/Striker/page/apitokens/  Generate a Conduit API token for "striker"]
