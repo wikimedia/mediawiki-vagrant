@@ -14,6 +14,13 @@ For some setup steps, a JavaScript snippet is included. Run this snippet in the 
 * Create admin user via the [<%= @phabricator_url %> web interface]
 ** The password you set here won't ever be used.
 ** You will link this account with the ldapwiki and devwiki Admin accounts once the LDAP and MediaWiki providers are configured.
+*:<syntaxhighlight lang="javascript">
+Q = function(s){return document.querySelector('[name="' + s + '"]')};
+Q('username').value = "admin";
+Q("realName").value = "Administrator";
+Q("password").value = Q("confirm").value = "Vagrant1";
+Q("email").value = "admin@local.wmftest.net"
+</syntaxhighlight>
 
 * [<%= @phabricator_url %>/auth/config/new/PhabricatorLDAPAuthProvider/ Configure an LDAP auth provider] connected to ldapwiki's LDAP server:
 ** LDAP Hostname: <kbd>127.0.0.1</kbd>
@@ -41,6 +48,15 @@ Q("oauth1:mediawiki:uri").value = "<%= scope['::mediawiki::server_url'] %>/w";
 ** Follow the links and directions given in the Phabricator page
 *** Be sure to check the ''Allow consumer to specify a callback in requests and use "callback" URL above as a required prefix.'' checkbox when registering the OAuth consumer.
 *** Use <kbd><%= @admin_email %></kbd> as the email address for the OAuth request
+**:<syntaxhighlight lang="javascript>
+Q = function(s){return document.querySelector('[name="' + s + '"]')};
+Q("wpname").value = "Phabricator";
+Q("wpdescription").value = "Phabricator login";
+Q("wpcallbackUrl").value = "<%= @phabricator_url %>";
+Q("wpcallbackIsPrefix").checked = true;
+Q("wpemail").value = "admin@local.wmftest.net";
+Q("wpagreement").checked = true;
+</syntaxhighlight>
 
 * [<%= @phabricator_url %>/auth/link/mediawiki:devwiki/ Connect Phabricator admin user with devwiki Admin account]
 
