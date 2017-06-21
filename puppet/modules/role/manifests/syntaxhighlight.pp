@@ -1,6 +1,8 @@
 # == Class: role::syntaxhighlight
 # Configures SyntaxHighlight extension
 class role::syntaxhighlight {
+    require ::role::mediawiki
+
     $extension = 'SyntaxHighlight_GeSHi'
     mediawiki::extension { $extension:
         composer => true,
