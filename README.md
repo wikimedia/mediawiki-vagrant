@@ -121,12 +121,14 @@ For information about settings, see settings.d/README.
 
 ## Testing
 
-You will need bundler < 1.8 (`gem install bundler -v '<1.8'`). Then:
+Install dependencies:
 
-    bundler install
-    rake
+    (sudo) gem install bundler
+    bundle install
 
-Will run all the linter, test and doc generation commands.
+Run linter, test and doc generation commands:
+
+    bundle exec rake
 
 ## Troubleshoot
 
