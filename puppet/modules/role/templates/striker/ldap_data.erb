@@ -5,6 +5,17 @@ ou: servicegroups
 objectClass: top
 description: Tools
 
+dn: ou=people,ou=servicegroups,<%= scope['::role::ldapauth::base_dn'] %>
+objectClass: organizationalUnit
+objectClass: top
+ou: people
+
+dn: ou=projects,<%= scope['::role::ldapauth::base_dn'] %>
+objectClass: organizationalUnit
+objectClass: top
+description: OU for openstack projects and global groups
+ou: projects
+
 dn: uid=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
 objectClass: person
 objectClass: inetOrgPerson
@@ -38,6 +49,18 @@ objectClass: top
 cn: project-tools
 gidNumber: 5001
 member: uid=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+
+dn: cn=tools,ou=projects,<%= scope['::role::ldapauth::base_dn'] %>
+objectClass: extensibleObject
+objectClass: groupOfNames
+objectClass: top
+cn: tools
+member: uid=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
+
+dn: ou=sudoers,cn=tools,ou=projects,<%= scope['::role::ldapauth::user_base_dn'] %>
+objectClass: organizationalUnit
+objectClass: top
+ou: sudoers
 
 dn: cn=tools.admin,ou=servicegroups,<%= scope['::role::ldapauth::base_dn'] %>
 objectClass: groupOfNames

@@ -103,7 +103,7 @@ Q("policy.join").value = "admin";
 ===Setup Striker===
 * [<%= scope['::mediawiki::server_url'] %>/wiki/Special:OAuthConsumerRegistration/propose Register an OAuth consumer for Striker]
 ** Application Name: <kbd>Tool Labs console</kbd>
-** OAuth callback URL: <kbd><nowiki>http:</nowiki>//<%= @vhost_name %></kbd>
+** OAuth callback URL: <kbd><nowiki>http:</nowiki>//<%= @vhost_name %><%= scope['::port_fragment'] %></kbd>
 ** Check the ''Allow consumer to specify a callback in requests and use "callback" URL above as a required prefix.'' checkbox.
 ** Contact email address: <kbd><%= @admin_email %></kbd>
 ** Types of grants being requested: <kbd>Authentication only with access to real name and email address via Special:OAuth/identify, no API access.</kbd>
@@ -113,7 +113,7 @@ Q("policy.join").value = "admin";
 Q = function(s){return document.querySelector('[name="' + s + '"]')};
 Q("wpname").value = "Striker";
 Q("wpdescription").value = "Striker login";
-Q("wpcallbackUrl").value = "http://<%= @vhost_name %>";
+Q("wpcallbackUrl").value = "http://<%= @vhost_name %><%= scope['::port_fragment'] %>";
 Q("wpcallbackIsPrefix").checked = true;
 Q("wpemail").value = "<%= @admin_email %>";
 Q("wpgranttype").value = "authonlyprivate";
