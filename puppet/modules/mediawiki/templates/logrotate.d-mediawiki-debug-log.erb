@@ -2,6 +2,7 @@
 # This file is managed by Puppet
 
 <%= @debug_log_file %> {
+    su vagrant vagrant
     daily
     missingok
     rotate 7

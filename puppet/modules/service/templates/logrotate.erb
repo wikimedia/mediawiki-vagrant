@@ -1,6 +1,7 @@
 # logrotate(8) config for <%= @title %>
 
 <%= @log_file %> {
+    su vagrant vagrant
     daily
     copytruncate
     missingok

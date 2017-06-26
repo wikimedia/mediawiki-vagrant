@@ -1,6 +1,7 @@
 # logrotate(8) config for statsd
 
 "<%= @logdir %>/statsd.log" {
+    su vagrant vagrant
     daily
     copytruncate
     missingok

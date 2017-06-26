@@ -3,6 +3,7 @@
 # This file is managed by Puppet
 
 /vagrant/logs/mediawiki-exception.log /vagrant/logs/mediawiki-runJobs.log /vagrant/logs/mediawiki-JobQueueRedis.log {
+    su vagrant vagrant
     daily
     missingok
     rotate 7
