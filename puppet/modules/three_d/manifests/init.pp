@@ -26,7 +26,7 @@ class three_d (
 
     git::clone { '3d2png':
         directory => $three_d_2png_dir,
-        remote    => 'https://phabricator.wikimedia.org/diffusion/TDTP/3d2png.git',
+        remote    => 'https://gerrit.wikimedia.org/r/p/3d2png',
         owner     => 'vagrant',
     }
 
