@@ -42,9 +42,10 @@ class ores (
     #FIXME this should happen as part of normal dependency management but for some reason it doesn't
     # pylru probably needs to be fixed in the revscoring pakcage, redis in ores
     exec { 'pip_install_revscoring_dependencies_hack':
-        command => "curl https://raw.githubusercontent.com/wiki-ai/revscoring/master/requirements.txt | ${deploy_dir}/bin/pip install pylru redis -r /dev/stdin",
-        cwd     => $deploy_dir,
-        require => Virtualenv::Package['ores'],
+        command     => "curl https://raw.githubusercontent.com/wiki-ai/revscoring/master/requirements.txt | ${deploy_dir}/bin/pip install pylru redis -r /dev/stdin",
+        cwd         => $deploy_dir,
+        subscribe   => Virtualenv::Package['ores'],
+        refreshonly => true,
     }
     $repo_dir = "${deploy_dir}/src/ores"
 
