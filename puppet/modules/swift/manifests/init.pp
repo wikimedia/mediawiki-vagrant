@@ -51,6 +51,7 @@ class swift (
 
     $packages = [
         'python-cryptography',
+        'python-openssl',
         'python-dnspython',
         'python-eventlet',
         'python-pkg-resources',
