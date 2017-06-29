@@ -12,6 +12,11 @@ sub vcl_recv {
         set req.url = regsub(req.url, "(.*):8080/(.*)", "\1:6081/\2");
     }
 
+    # Swift expects /lang/project/foo
+    if (req.url ~ "^/images/") {
+        set req.url = "/wiki/dev/" + regsub(req.url, "^/images/(.*)", "\1");
+    }
+
     # This uses the ACL action called "purge". Basically if a request to
     # PURGE the cache comes from anywhere other than localhost, ignore it.
     if (req.method == "PURGE") {
@@ -19,16 +24,7 @@ sub vcl_recv {
             return (synth(405, "This IP is not allowed to send PURGE requests."));
         }
 
-        if (xkey.purge(regsub(req.url, "^/(.*)", "\1")) != 0) {
-            return (synth(200, "Purged"));
-        } else {
-            return (synth(404, "Key not found"));
-        }
-    }
-
-    # Swift expects /lang/project/foo
-    if (req.url ~ "^/images/") {
-        set req.url = "/wiki/dev/" + regsub(req.url, "^/images/(.*)", "\1");
+        return(hash);
     }
 
     # Reject any methods that aren't expected to work in the context of thumbnails
