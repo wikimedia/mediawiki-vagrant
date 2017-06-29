@@ -133,13 +133,7 @@ class _WMFRewriteContext(WSGIContext):
                 else:
                     self.logger.warn("no sitelang match on encodedurl: %s" % encodedurl)
 
-            if self.thumborhost:
-                if not self.thumbor_wiki_list or '-'.join((proj, lang)) in self.thumbor_wiki_list:
-                    upcopy = thumbor_opener.open(thumbor_encodedurl)
-                else:
-                    upcopy = opener.open(encodedurl)
-            else:
-                upcopy = opener.open(encodedurl)
+            upcopy = thumbor_opener.open(thumbor_encodedurl)
 
         except urllib2.HTTPError, error:
             # copy the urllib2 HTTPError into a webob HTTPError class as-is
