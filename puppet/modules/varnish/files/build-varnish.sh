@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /tmp/Varnish-Cache
+cd /srv/varnish-build/Varnish-Cache
 ./autogen.sh
 ./configure
 make

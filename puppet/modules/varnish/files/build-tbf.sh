@@ -1,6 +1,6 @@
 #!/bin/bash
-cd /tmp/libvmod-tbf
+cd /srv/varnish-build/libvmod-tbf
 ./bootstrap
-./configure VARNISHSRC=/tmp/Varnish-Cache VMODDIR=/usr/local/lib/varnish/vmods
+./configure VARNISHSRC=/srv/varnish-build/Varnish-Cache VMODDIR=/usr/local/lib/varnish/vmods
 make
 make install

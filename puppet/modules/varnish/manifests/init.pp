@@ -29,6 +29,13 @@ class varnish {
         mode   => '0755',
     }
 
+    file { '/srv/varnish-build':
+        ensure => directory,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
+    }
+
     # Dependencies to build varnish
     require_package('pkg-config')
     require_package('libncurses-dev')
@@ -39,11 +46,11 @@ class varnish {
     # built source, can't rely only on the headers
     git::clone { 'Varnish-Cache':
         branch    => 'varnish-4.1.3',
-        directory => '/tmp/Varnish-Cache',
+        directory => '/srv/varnish-build/Varnish-Cache',
         remote    => 'https://github.com/varnishcache/varnish-cache',
     }
 
-    file { '/tmp/build-varnish.sh':
+    file { '/srv/varnish-build/build-varnish.sh':
         source => 'puppet:///modules/varnish/build-varnish.sh',
         owner  => 'root',
         group  => 'root',
@@ -51,10 +58,10 @@ class varnish {
     }
 
     exec { 'build_varnish':
-        command => '/tmp/build-varnish.sh',
+        command => '/srv/varnish-build/build-varnish.sh',
         creates => '/usr/local/sbin/varnishd',
         require => [
-            File['/tmp/build-varnish.sh'],
+            File['/srv/varnish-build/build-varnish.sh'],
             Git::Clone['Varnish-Cache'],
             Package['pkg-config'],
             Package['libncurses-dev'],
@@ -132,11 +139,11 @@ class varnish {
 
     git::clone { 'libvmod-tbf':
         branch    => 'varnish-4.1',
-        directory => '/tmp/libvmod-tbf',
+        directory => '/srv/varnish-build/libvmod-tbf',
         remote    => 'git://git.gnu.org.ua/vmod-tbf.git',
     }
 
-    file { '/tmp/build-tbf.sh':
+    file { '/srv/varnish-build/build-tbf.sh':
         source => 'puppet:///modules/varnish/build-tbf.sh',
         owner  => 'root',
         group  => 'root',
@@ -144,12 +151,12 @@ class varnish {
     }
 
     exec { 'build_tbf':
-        command => '/tmp/build-tbf.sh',
+        command => '/srv/varnish-build/build-tbf.sh',
         creates => '/usr/local/lib/varnish/vmods/libvmod_tbf.so',
         require => [
             Exec['build_varnish'],
             Package['libdb-dev'],
-            File['/tmp/build-tbf.sh'],
+            File['/srv/varnish-build/build-tbf.sh'],
             Git::Clone['libvmod-tbf'],
         ],
         user    => 'root',
@@ -196,11 +203,11 @@ class varnish {
     # Build and install vmods (which include xkey)
     git::clone { 'varnish-modules':
         branch    => 'varnish-modules-0.9.1',
-        directory => '/tmp/varnish-modules',
+        directory => '/srv/varnish-build/varnish-modules',
         remote    => 'https://github.com/varnish/varnish-modules',
     }
 
-    file { '/tmp/build-varnish-modules.sh':
+    file { '/srv/varnish-build/build-varnish-modules.sh':
         source => 'puppet:///modules/varnish/build-varnish-modules.sh',
         owner  => 'root',
         group  => 'root',
@@ -208,11 +215,11 @@ class varnish {
     }
 
     exec { 'build_varnish_modules':
-        command => '/tmp/build-varnish-modules.sh',
+        command => '/srv/varnish-build/build-varnish-modules.sh',
         creates => '/usr/local/lib/varnish/vmods/libvmod_xkey.so',
         require => [
             Exec['build_varnish'],
-            File['/tmp/build-varnish-modules.sh'],
+            File['/srv/varnish-build/build-varnish-modules.sh'],
             Git::Clone['varnish-modules'],
         ],
         user    => 'root',
