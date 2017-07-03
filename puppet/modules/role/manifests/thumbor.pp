@@ -36,15 +36,16 @@ class role::thumbor (
 
     mediawiki::settings { 'thumbor':
         values => {
-            'wgTiffUseTiffinfo'     => false,
-            'wgIgnoreImageErrors'   => true,
-            'wgDjvuRenderer'        => '/usr/bin/ddjvu',
-            'wgDjvuDump'            => '/usr/bin/djvudump',
-            'wgDjvuToXML'           => '/usr/bin/djvutoxml',
-            'wgDjvuTxt'             => '/usr/bin/djvutxt',
-            'wgDjvuPostProcessor'   => '/usr/bin/ppmtojpeg',
-            'wgDjvuOutputExtension' => 'jpg',
-            'wgFileExtensions'      => [
+            'wgUploadThumbnailRenderMethod' => 'http',
+            'wgTiffUseTiffinfo'             => false,
+            'wgIgnoreImageErrors'           => true,
+            'wgDjvuRenderer'                => '/usr/bin/ddjvu',
+            'wgDjvuDump'                    => '/usr/bin/djvudump',
+            'wgDjvuToXML'                   => '/usr/bin/djvutoxml',
+            'wgDjvuTxt'                     => '/usr/bin/djvutxt',
+            'wgDjvuPostProcessor'           => '/usr/bin/ppmtojpeg',
+            'wgDjvuOutputExtension'         => 'jpg',
+            'wgFileExtensions'              => [
                 'apng',
                 'png',
                 'gif',
