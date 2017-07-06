@@ -19,7 +19,7 @@ class role::eventlogging {
     mediawiki::extension { 'EventLogging':
         priority => $::LOAD_EARLY,
         settings => {
-            wgEventLoggingBaseUri => '//localhost:8080/event.gif',
+            wgEventLoggingBaseUri => '/event.gif',
         }
     }
 }

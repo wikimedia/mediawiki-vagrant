@@ -70,10 +70,7 @@
 #
 #   mediawiki::extension { 'EventLogging':
 #     settings => {
-#       wgEventLoggingBaseUri        => "http://localhost:8181/event.gif",
-#       wgEventLoggingDBname         => "testwiki",
-#       wgEventLoggingFile           => 'udp://127.0.0.1:1234/EventLogging',
-#       wgEventLoggingSchemaIndexUri => 'http://meta.wikimedia.org/w/index.php',
+#       wgEventLoggingBaseUri => '/event.gif',
 #     },
 #   }
 #
