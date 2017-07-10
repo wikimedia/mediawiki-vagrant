@@ -131,6 +131,24 @@ class varnish {
         order  => 50,
     }
 
+    $errorpage = {
+        title => 'Mediawiki Error',
+        pagetitle => 'Error',
+        logo_link => '/',
+        logo_src => '/mediawiki-vagrant.png',
+        logo_srcset => '/mediawiki-vagrant-2x.png 2x',
+        logo_alt => 'Mediawiki',
+        content  => '<p>Our servers are currently under maintenance or experiencing a technical problem. Please <a href="" title="Reload this page" onclick="window.location.reload(false); return false">try again</a> in a few&nbsp;minutes.</p><p>See the error message at the bottom of this page for more&nbsp;information.</p>',
+        # Placeholder "%error%" substituted at runtime in errorpage.inc.vcl
+        footer   => '<p>If you report this error to the Mediawiki System Administrators, please include the details below.</p><p class="text-muted"><code>%error%</code></p>',
+    }
+    $errorpage_html = template('mediawiki/errorpage.html.erb')
+
+    varnish::config { 'errorpage':
+        content => template('varnish/errorpage.inc.vcl.erb'),
+        order   => 10,
+    }
+
     # Build and install tbf vmod
     require_package('libdb-dev')
     require_package('python-docutils')

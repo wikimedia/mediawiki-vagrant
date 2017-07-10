@@ -111,6 +111,10 @@ sub vcl_deliver {
     if (req.url ~ "^/w/load\.php" ) {
         set resp.http.Age = 0;
     }
+
+    if (resp.status == 429) {
+        return(synth(429, "Too Many Requests"));
+    }
 }
 
 # Called after a document has been successfully retrieved from the backend.
@@ -121,8 +125,22 @@ sub vcl_backend_response {
         set beresp.ttl = 48h;
     }
 
-    if (!beresp.ttl > 0s || beresp.http.Set-Cookie || (bereq.http.Authorization && !beresp.http.Cache-Control ~ "public") || beresp.status == 504) {
+    if (!beresp.ttl > 0s || beresp.http.Set-Cookie || (bereq.http.Authorization && !beresp.http.Cache-Control ~ "public") || beresp.status >= 400) {
         set beresp.uncacheable = true;
         set beresp.ttl = 120s;
     }
+}
+
+sub vcl_backend_error {
+    call backend_error_errorpage;
+    return (deliver);
+}
+
+sub vcl_synth {
+    if (req.method != "PURGE") {
+        if (resp.status >= 400) {
+            call synth_errorpage;
+        }
+    }
+    return (deliver);
 }
