@@ -113,7 +113,7 @@ class thumbor (
         ],
     }
 
-    file { "${cfg_dir}/20-thumbor-wikimedia.conf":
+    file { "${cfg_dir}/60-thumbor-wikimedia.conf":
         ensure  => present,
         group   => 'thumbor',
         content => template('thumbor/20-thumbor-wikimedia.conf.erb'),
@@ -133,7 +133,7 @@ class thumbor (
         cfg_files => File[
             "${cfg_dir}/10-thumbor.conf",
             "${cfg_dir}/20-thumbor-logging.conf",
-            "${cfg_dir}/20-thumbor-wikimedia.conf"
+            "${cfg_dir}/60-thumbor-wikimedia.conf"
         ],
     }
 
