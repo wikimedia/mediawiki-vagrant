@@ -35,6 +35,39 @@ sub vcl_recv {
     return(hash);
 }
 
+sub vcl_deliver {
+    if (obj.hits > 0) {
+        set resp.http.X-Cache = "hit (" + obj.hits + ")";
+    } else {
+        set resp.http.X-Cache = "miss (0)";
+    }
+
+    # Enforce Age: 0 for ResourceLoader
+    if (req.url ~ "^/w/load\.php" ) {
+        set resp.http.Age = 0;
+    }
+
+    if (resp.status == 400) {
+        return(synth(400, "Bad Request"));
+    }
+
+    if (resp.status == 404) {
+        return(synth(404, "Not Found"));
+    }
+
+    if (resp.status == 429) {
+        return(synth(429, "Too Many Requests"));
+    }
+
+    if (resp.status == 500) {
+        return(synth(500, "Internal Server Error"));
+    }
+
+    if (resp.status == 502) {
+        return(synth(502, "Bad Gateway"));
+    }
+}
+
 sub vcl_backend_response {
     set beresp.http.Access-Control-Allow-Origin = "*";
 }
