@@ -111,10 +111,6 @@ sub vcl_deliver {
     if (req.url ~ "^/w/load\.php" ) {
         set resp.http.Age = 0;
     }
-
-    if (resp.status == 429) {
-        return(synth(429, "Too Many Requests"));
-    }
 }
 
 # Called after a document has been successfully retrieved from the backend.
