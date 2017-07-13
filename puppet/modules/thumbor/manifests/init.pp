@@ -58,6 +58,10 @@ class thumbor (
         ensure => 'present',
     }
 
+    package { 'python-logstash':
+        ensure => 'present',
+    }
+
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
 

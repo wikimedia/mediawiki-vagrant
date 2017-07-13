@@ -30,6 +30,10 @@ class role::elk (
         port => 12201,
     }
 
+    logstash::input::json { 'json':
+        port => 12202,
+    }
+
     logstash::conf { 'filter_strip_ansi_color':
         source   => 'puppet:///modules/role/elk/filter-strip-ansi-color.conf',
         priority => 40,
@@ -42,6 +46,11 @@ class role::elk (
         source   => 'puppet:///modules/role/elk/filter-gelf.conf',
         priority => 50,
         require  => Logstash::Plugin['logstash-filter-prune'],
+    }
+
+    logstash::conf { 'filter_thumbor':
+        source   => 'puppet:///modules/role/elk/filter-thumbor.conf',
+        priority => 50,
     }
 
     logstash::plugin { 'logstash-filter-multiline':
