@@ -65,12 +65,23 @@ THUMBOR_LOG_CONFIG = {
             'encoding': 'utf8',
             'delay': False,
             'filters': ['context', '404only']
+        },
+        'logstash': {
+            'level': 'DEBUG',
+            'class': 'logstash.LogstashHandler',
+            'host': 'localhost',
+            'port': 12202,
+            'version': 1,
+            'message_type': 'thumbor',
+            'fqdn': False,
+            'tags': ['thumbor'],
+            'filters': ['context', '404exclude']
         }
     },
     'loggers': {
         '': {
             'level': 'DEBUG',
-            'handlers': ['debug', 'debugstream', 'errorstream', 'http404']
+            'handlers': ['debug', 'debugstream', 'errorstream', 'http404', 'logstash']
         }
     }
 }
