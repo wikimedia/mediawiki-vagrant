@@ -26,20 +26,6 @@ class npm (
         priority => 1010,
     }
 
-    # Install the npm and nodejs-legacy packages manually
-    # before the nodesource repo has been added so as not to
-    # conflict for package versions
-    exec { 'ins-npm-nodejs-legacy':
-        command     => '/usr/bin/apt-get update && /usr/bin/apt-get install -y --force-yes npm nodejs-legacy',
-        environment => 'DEBIAN_FRONTEND=noninteractive',
-        unless      => '/usr/bin/dpkg -l npm && /usr/bin/dpkg -l nodejs-legacy',
-        user        => 'root',
-        before      => [
-            Apt::Repository['nodesource'],
-            Apt::Pin['nodejs'],
-        ],
-    }
-
     package { 'nodejs':
         ensure  => latest,
         require => [
@@ -53,6 +39,17 @@ class npm (
         unless  => "/usr/bin/test -d ${cache_dir}",
         user    => 'root',
         group   => 'root',
+    }
+
+    # Node 6 brings in npm 3 that doesn't work in shared folders due to a bug.
+    # See: https://github.com/npm/npm/issues/9953
+    # Although the ticket is closed, the issue is still present, so downgrade to npm 2
+    exec { 'downgrade_npm':
+      command => '/usr/bin/npm install -g npm@latest-2',
+      user    => 'root',
+      require => [
+          Package['nodejs'],
+      ],
     }
 
     env::var { 'NPM_CONFIG_CACHE':
