@@ -111,6 +111,21 @@ sub vcl_deliver {
     if (req.url ~ "^/w/load\.php" ) {
         set resp.http.Age = 0;
     }
+
+    # Provide custom error html if error response has no body
+    if (resp.http.Content-Length == "0" && resp.status >= 400) {
+        # Varnish doesn't define status codes from RFC6585
+        if (resp.status == 428) {
+            return(synth(resp.status, "Precondition Required"));
+        } elseif (resp.status == 429) {
+            return(synth(resp.status, "Too Many Requests"));
+        } elseif (resp.status == 431) {
+            return(synth(resp.status, "Request Header Fields Too Large"));
+        } elseif (resp.status == 511) {
+            return(synth(resp.status, "Network Authentication Required"));
+        }
+        return(synth(resp.status));
+    }
 }
 
 # Called after a document has been successfully retrieved from the backend.
