@@ -12,6 +12,7 @@
 #
 class mediawiki::apache(
     $docroot,
+    $php5_site_name,
 ) {
     include ::mediawiki
     include ::mediawiki::multiwiki
