@@ -30,6 +30,8 @@ default_project: &default_project
           cache_control: s-maxage=86400, max-age=86400
         citoid:
           host: http://localhost:<%= @citoid_port %>
+        transform:
+          cx_host: http://localhost:<%= @cxserver_port %>
 
 wikimedia.org: &wikimedia
   x-modules:

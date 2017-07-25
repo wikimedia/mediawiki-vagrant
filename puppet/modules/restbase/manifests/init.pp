@@ -50,6 +50,11 @@ class restbase (
         default => 1970,
     }
 
+    $cxserver_port = defined(Class['contenttranslation']) ? {
+        true    => $::contenttranslation::cxserver::port,
+        default => 8090,
+    }
+
     file { $dbdir:
         ensure => directory,
         owner  => 'www-data',
