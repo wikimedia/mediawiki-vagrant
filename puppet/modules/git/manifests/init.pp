@@ -28,11 +28,19 @@ class git(
 ) {
     include ::git::gerrit
 
-    apt::ppa { 'git-core/ppa': }
+    $packages = [
+        'git',
+        'git-man',
+    ]
+    apt::pin { 'git':
+        package  => join(sort($packages), ' '),
+        pin      => 'release a=jessie-backports',
+        priority => '1001',
+    }
 
-    package { 'git':
-        ensure  => latest,
-        require => Apt::Ppa['git-core/ppa'],
+    package { $packages:
+        ensure  => 'present',
+        require => Apt::Pin['git'],
     }
 
     package { 'git-review':
