@@ -79,6 +79,7 @@ class mediawiki(
     include ::mediawiki::multiwiki
     include ::mediawiki::mwrepl
     include ::mediawiki::ready_service
+    include ::mediawiki::psysh
 
     require_package('parallel')
 
