@@ -17,5 +17,9 @@ class mediawiki::psysh {
         owner  => 'www-data',
         group  => 'www-data',
     }
+
+    env::profile_script { 'phpsh to psysh':
+        content => 'alias phpsh="mwscript shell.php --wiki=wiki"',
+    }
 }
 

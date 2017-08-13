@@ -2,8 +2,6 @@
 # This role will configure your MediaWiki instance to run using
 # Zend PHP.
 class role::zend {
-    include ::mediawiki::phpsh
-
     # Define a 'ZEND' parameter for Apache <IfDefine> checks.
     apache::def { 'ZEND': }
 
