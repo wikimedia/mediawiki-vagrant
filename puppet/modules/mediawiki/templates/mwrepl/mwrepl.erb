@@ -1,22 +1,91 @@
 #!/bin/bash
-# Based on operations/puppet at 504a37a
-# Shell wrapper for interactive hhvm for use with multiversion mediawiki
+# Shell wrapper for interactive PHP for use with multiversion mediawiki
 # This script belongs in /usr/local/bin/ and should be in PATH.
 
+OPTIONS=he:w:p
+LONGOPTIONS=help,engine:,wiki:,eval,plain
+
+WIKI='<%= @default_db_name %>'
+ENGINE=hhvm
+ENGINE_FLAGS=
+SCRIPT=shell.php
+
 usage() {
-	echo Error: $*
 	echo Usage:
-	echo -e "\t$0 <wiki>"
+	echo -e "\t$0 [options]"
+    echo -e "Options:"
+    echo -e "\t-h|--help:     Show this message"
+    echo -e "\t-e|--engine:   Which PHP engine to use ('zend' or 'hhvm')"
+    echo -e "\t-w|--wiki:     ID of the wiki to run on"
+    echo -e "\t--eval:        Use eval.php instead of shell.php"
+    echo -e "\t-p|--plain:    use native interactive prompt instead of PsySH"
 	echo
 	exit 1
 }
 
+PARSED=$(getopt --options=$OPTIONS --longoptions=$LONGOPTIONS --name="$0" -- "$@")
+if [[ $? -ne 0 ]]; then
+    # unknown arguments; getopt already displayed an error message
+    echo "Run '$0 --help' for information on valid parameters"
+    exit 2
+fi
+eval set -- "$PARSED"
+
+while true; do
+    case "$1" in
+        -h|--help)
+            shift
+            usage
+            ;;
+        -e|--engine)
+            case "$2" in
+                zend|php)
+                    # "php" is not documented but let's be liberal with what we accept
+                    ENGINE=php5
+                    ;;
+                hhvm)
+                    ENGINE=hhvm
+                    ;;
+                *)
+                    echo "Valid parameters for --engine are 'zend' and 'hhvm'"
+                    exit 2
+                    ;;
+            esac
+            shift 2
+            ;;
+        -w|--wiki)
+            WIKI="$2"
+            shift 2
+            ;;
+        --eval)
+            SCRIPT=eval.php
+            shift
+            ;;
+        -p|--plain)
+            SCRIPT=commandLine.inc
+            ENGINE_FLAGS="--interactive"
+            shift
+            ;;
+        --)
+            shift
+            break
+            ;;
+        *)
+            echo "Programming error"
+            exit 3
+            ;;
+    esac
+done
+
 if [[ $# -gt 1 ]]; then
-	usage "Too many arguments"
-elif [[ $# -eq 0 ]]; then
-	WIKI='<%= @default_db_name %>'
-else
-	WIKI=$1
+    echo "Too many arguments"
+    echo "Run '$0 --help' for information on valid parameters"
+    exit 2
+fi
+if [[ $# -eq 1 ]]; then
+    # old method of specifying the wiki
+    WIKI="$1"
 fi
 
-sudo -u www-data hhvm -a "<%= @script_dir %>/MWScript.php" commandLine.inc "--wiki=$WIKI"
+sudo --preserve-env --user www-data $ENGINE $ENGINE_FLAGS "<%= @script_dir %>/MWScript.php" "$SCRIPT" "--wiki=$WIKI"
+
