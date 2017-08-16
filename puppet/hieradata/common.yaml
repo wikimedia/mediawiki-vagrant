@@ -11,7 +11,7 @@ mwv::vendor_dir: /srv
 mwv::tld: '.local.wmftest.net'
 mwv::cachefilesd::enable: true
 
-three_d::three_d_2png_dir: /var/3d2png
+three_d::three_d_2png_dir: /srv/3d2png
 
 apache::docroot: /var/www
 arcanist::deploy_dir: "%{hiera('mwv::services_dir')}"
