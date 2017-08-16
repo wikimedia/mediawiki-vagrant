@@ -10,6 +10,7 @@ class role::thumbor (
     require ::role::pdfhandler
     require ::role::poolcounter
     require ::role::swift
+    require ::role::three_d
     require ::role::timedmediahandler
     require ::role::multimedia
     require ::role::vipsscaler
@@ -58,6 +59,7 @@ class role::thumbor (
                 'webm',
                 'djvu',
                 'pdf',
+                'stl',
                 'tiff',
                 'tif',
                 'webp',

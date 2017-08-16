@@ -30,6 +30,10 @@ GHOSTSCRIPT_PATH = '/usr/bin/gs'
 
 CONVERT_PATH = '/usr/bin/convert'
 
+THREED2PNG_PATH = '<%= scope['::three_d::three_d_2png_dir'] %>/3d2png.js'
+
+XVFB_RUN_PATH = '/usr/bin/xvfb-run'
+
 SWIFT_HOST = 'http://127.0.0.1:<%= scope['::swift::port'] %>'
 SWIFT_API_PATH = '/v1/AUTH_<%= scope['::swift::project'] %>'
 SWIFT_AUTH_PATH = '/auth/v1.0'
@@ -48,6 +52,7 @@ SWIFT_RETRIES = 1
 PROXY_ENGINE_ENGINES = [
     ('wikimedia_thumbor.engine.svg', ['svg']),
     ('wikimedia_thumbor.engine.gif', ['gif']),
+    ('wikimedia_thumbor.engine.stl', ['stl']),
     ('wikimedia_thumbor.engine.xcf', ['xcf']),
     ('wikimedia_thumbor.engine.djvu', ['djvu']),
     ('wikimedia_thumbor.engine.vips', ['tiff', 'png']),
