@@ -277,6 +277,8 @@ mysql::default_db_name: wiki
 mysql::root_password: vagrant
 mysql::grant_host_name: 'localhost'
 
+nginx::variant: extras
+
 ores::deploy_dir: "%{hiera('mwv::services_dir')}/ores"
 ores::vhost_name: "ores%{hiera('mwv::tld')}"
 ores::port: 18880
