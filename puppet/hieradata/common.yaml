@@ -384,6 +384,8 @@ role::ldapauth::admin_password: vagrant_admin
 
 role::mediawiki::hostname: "dev%{hiera('mediawiki::multiwiki::base_domain')}"
 
+role::mobilecontentservice::vhost_name: "mcs%{hiera('mwv::tld')}"
+
 role::quips::vhost_name: "quips%{hiera('mwv::tld')}%{::port_fragment}"
 role::quips::dir: "%{hiera('mwv::services_dir')}/quips"
 role::quips::env:
@@ -395,6 +397,7 @@ role::raita::vhost_name: "raita%{hiera('mwv::tld')}"
 
 role::restbase::base_url: "//%{hiera('role::mediawiki::hostname')}%{::port_fragment}/api/rest_"
 role::restbase::domain: "%{hiera('restbase::domain')}"
+role::restbase::public_url: "%{hiera('mediawiki::server_url')}/api/rest_v1/"
 role::restbase::ve_url: "/api/rest_v1/page/html/"
 
 role::sal::vhost_name: "sal%{hiera('mwv::tld')}%{::port_fragment}"

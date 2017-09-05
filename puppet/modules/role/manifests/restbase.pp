@@ -12,12 +12,17 @@
 # [*domain*]
 #   RESTBase domain to serve
 #
+# [*public_url*]
+#   URL that should be used to link to the Swagger documentation page.
+#
 # [*ve_url*]
-#   Url that VisualEditor should use to load a page via RESTBase
+#   URL that VisualEditor should use to load a page via RESTBase
 #   (example: '/api/rest_v1/my.wiki.domain/v1/page/html/')
+#
 class role::restbase (
     $base_url,
     $domain,
+    $public_url,
     $ve_url,
 ) {
     require ::role::mediawiki
@@ -48,6 +53,10 @@ class role::restbase (
         },
         priority => $::LOAD_EARLY,
         wiki     => $::mediawiki::wiki_db,
+    }
+
+    mediawiki::import::text { 'VagrantRoleRestbase':
+        content => template('role/restbase/VagrantRoleRestbase.wiki.erb'),
     }
 }
 
