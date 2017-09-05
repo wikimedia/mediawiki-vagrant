@@ -50,9 +50,19 @@ class restbase (
         default => 1970,
     }
 
+
     $cxserver_port = defined(Class['contenttranslation']) ? {
         true    => $::contenttranslation::cxserver::port,
         default => 8090,
+    }
+
+    $pdf_service_port = defined(Class['electron']) ? {
+        true    => $::electron::port,
+        default => 8098,
+    }
+    $pdf_service_secret = defined(Class['electron']) ? {
+        true    => $::electron::secret,
+        default => 'secret',
     }
 
     file { $dbdir:

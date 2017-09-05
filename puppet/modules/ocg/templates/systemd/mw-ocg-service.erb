@@ -1,0 +1,25 @@
+#####################################################################
+## THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+# Systemd unit for mw-ocg-service
+[Unit]
+Description="OCG service"
+After=network.target
+
+[Service]
+# up ulimit -n a bit
+LimitNOFILE=10000
+User=www-data
+Group=www-data
+Environment="NODE_PATH=<%= @dir %>/node_modules"
+Restart=always
+RestartSec=2s
+# wait 60 seconds for a graceful restart before killing the master
+TimeoutStopSec=60
+WorkingDirectory=<%= @dir %>
+ExecStart=/usr/bin/nodejs ./mw-ocg-service.js -c localsettings.js
+
+[Install]
+WantedBy=multi-user.target
+
