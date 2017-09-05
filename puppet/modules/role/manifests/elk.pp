@@ -48,11 +48,6 @@ class role::elk (
         require  => Logstash::Plugin['logstash-filter-prune'],
     }
 
-    logstash::conf { 'filter_thumbor':
-        source   => 'puppet:///modules/role/elk/filter-thumbor.conf',
-        priority => 50,
-    }
-
     logstash::plugin { 'logstash-filter-multiline':
         ensure => present
     }
