@@ -170,6 +170,11 @@ Vagrant.configure('2') do |config|
     vb.customize ['modifyvm', :id, '--ostype', 'Ubuntu_64']
     vb.customize ['modifyvm', :id, '--ioapic', 'on']  # Bug 51473
 
+    # The most recent versions of VirtualBox (5.1.x) seem to start the NAT
+    # interface as disconnected (preventing startup), so we need to turn it
+    # on explicitly. https://github.com/mitchellh/vagrant/issues/7648
+    vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
+
     # Speed up dns resolution in some cases
     vb.customize ['modifyvm', :id, '--natdnshostresolver1', 'on']
     vb.customize ['modifyvm', :id, '--natdnsproxy1', 'on']
