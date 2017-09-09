@@ -1,11 +1,4 @@
 set_error_handler( function( $errno, $errstr, $errfile, $errline, $errcontext ) {
-	$err = "Error: $errstr";
-	if ( $errfile ) {
-		$err .= " in $errfile";
-		if ( $errline ) {
-			$err .= ", line $errline";
-		}
-	}
-	$err .= ".\n";
-	die( $err );
+	throw new ErrorException( $errstr, $errno, E_ERROR, $errfile, $errline );
 }, E_WARNING | E_NOTICE | E_USER_WARNING | E_USER_NOTICE );
+
