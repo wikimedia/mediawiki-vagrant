@@ -29,6 +29,7 @@ class phabricator(
     $vhost_name,
     $remote,
     $branch = undef,
+    $protocol = 'http',
 ){
     require ::arcanist
     include ::apache
@@ -82,7 +83,7 @@ class phabricator(
     }
 
     phabricator::config { 'phabricator.base-uri':
-        value => "http://${vhost_name}${::port_fragment}/",
+        value => "${protocol}://${vhost_name}${::port_fragment}/",
     }
 
     phabricator::config { 'pygments.enabled':
