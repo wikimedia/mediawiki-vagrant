@@ -7,6 +7,7 @@ class role::cirrussearch {
     include ::role::pdfhandler
     include ::role::cite
     include ::elasticsearch
+    include ::apt::wikimedia_experimental
     include ::eventschemas
     # Utilized as part of cirrus logging infrastructure
     include ::role::psr3
@@ -17,38 +18,10 @@ class role::cirrussearch {
     # necessary for CirrusSearch.php.erb to point to service root dir
     require ::service
 
-    # Elasticsearch plugins
-    ## Analysis
-    elasticsearch::plugin { 'analysis-icu':
-        core => true,
-    }
-
-    # Not enabled on production wikis
-    elasticsearch::plugin { 'analysis-kuromoji':
-        ensure => absent,
-    }
-
-    # Not enabled on production wikis
-    elasticsearch::plugin { 'analysis-stempel':
-        ensure => absent,
-    }
-
-    # Not enabled on production wikis
-    elasticsearch::plugin { 'analysis-smartcn':
-        ensure => absent,
-    }
-    elasticsearch::plugin { 'elasticsearch-analysis-hebrew':
-        # Less stable then icu plugin
-        ensure => absent,
-    }
-    ## Highlighter
-    elasticsearch::plugin { 'experimental-highlighter-elasticsearch-plugin':
-        group  => 'org.wikimedia.search.highlighter',
-        esname => 'experimental-highlighter',
-    }
-    ## Trigram accelerated regular expressions, "safer" query, and friends
-    elasticsearch::plugin { 'extra':
-        group => 'org.wikimedia.search',
+    # Elasticsearch plugins (for search)
+    package { 'wmf-elasticsearch-search-plugins':
+        ensure => latest,
+        before => Service['elasticsearch'],
     }
 
     mediawiki::wiki { 'cirrustest': }

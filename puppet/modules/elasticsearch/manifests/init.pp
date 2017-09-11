@@ -20,13 +20,6 @@ class elasticsearch {
         require => Package['elasticsearch'],
     }
 
-    file { '/usr/local/bin/mwv-elasticsearch-plugin':
-        source => 'puppet:///modules/elasticsearch/mwv-elasticsearch-plugin',
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0555',
-    }
-
     service { 'elasticsearch':
         ensure  => running,
         enable  => true,
