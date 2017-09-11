@@ -1,0 +1,8 @@
+# PgUp/PgDown for history search
+"\e[5~": history-search-backward
+"\e[6~": history-search-forward
+
+# Ctrl + left/right arrow for word navigation
+"\e[1;5C": forward-word
+"\e[1;5D": backward-word
+

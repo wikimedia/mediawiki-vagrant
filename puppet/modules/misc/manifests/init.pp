@@ -1,8 +1,12 @@
 # == Class: misc
 #
-# Provides various small enhancements to user experience: a color
-# prompt, a helpful MOTD banner, bash aliases, and some commonly-used
-# command-line tools, like 'ack' and 'curl'.
+# Provides various small enhancements to user experience:
+# - a color prompt
+# - a helpful MOTD banner
+# - bash aliases
+# - commonly used configuration settings for various tools
+#   (e.g. syntax highlighting on by default in vim)
+# - some commonly-used command-line tools like 'ack', 'curl' and 'jq'
 #
 class misc {
     file { '/etc/profile.d/mediawiki-vagrant.sh':
@@ -34,6 +38,15 @@ class misc {
     file { '/etc/ackrc':
         require => Package['ack-grep'],
         source  => 'puppet:///modules/misc/ackrc',
+    }
+
+    file { '/etc/vim/vimrc.local':
+        source => 'puppet:///modules/misc/vimrc',
+    }
+
+    file { '/home/vagrant/.inputrc':
+        source  => 'puppet:///modules/misc/inputrc',
+        replace => false,
     }
 
     # fix for 'stdin: not a tty'
