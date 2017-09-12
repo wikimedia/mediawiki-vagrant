@@ -75,13 +75,7 @@ class electron(
         ],
     }
 
-    # set up nice URL
-    apache::site { 'electron':
-        ensure  => present,
-        content => template('electron/apache-site.erb'),
-        require => [
-          Class['::apache::mod::proxy'],
-          Class['::apache::mod::proxy_http'],
-        ],
+    apache::reverse_proxy { 'electron':
+        port => $port,
     }
 }

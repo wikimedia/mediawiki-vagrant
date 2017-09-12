@@ -82,14 +82,8 @@ class wikilabels (
         ],
     }
 
-    apache::site { 'wikilabels':
-        ensure  => present,
-        content => template('wikilabels/apache-site-wikilabels.erb'),
-        require => [
-          Class['::apache::mod::proxy'],
-          Class['::apache::mod::proxy_http'],
-          Class['::apache::mod::headers'],
-        ],
+    apache::reverse_proxy { 'wikilabels':
+        port => $port,
     }
 
     $cfg_file = "${repo_dir}/config/999-vagrant.yaml"

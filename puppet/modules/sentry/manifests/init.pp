@@ -102,14 +102,8 @@ class sentry (
         require  => Mysql::Db[$db_name],
     }
 
-    apache::site { 'sentry':
-        ensure  => present,
-        content => template('sentry/apache-site.erb'),
-        require => [
-          Class['::apache::mod::proxy'],
-          Class['::apache::mod::proxy_http'],
-          Class['::apache::mod::headers'],
-        ],
+    apache::reverse_proxy { 'sentry':
+        port => 9002,
     }
 
     file { $cfg_file:

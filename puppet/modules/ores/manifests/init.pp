@@ -49,14 +49,8 @@ class ores (
     }
     $repo_dir = "${deploy_dir}/src/ores"
 
-    apache::site { 'ores':
-        ensure  => present,
-        content => template('ores/apache-site-ores.erb'),
-        require => [
-          Class['::apache::mod::proxy'],
-          Class['::apache::mod::proxy_http'],
-          Class['::apache::mod::headers'],
-        ],
+    apache::reverse_proxy { 'ores':
+        port => $port,
     }
 
     $cfg_file = "${repo_dir}/config/999-vagrant.yaml"
