@@ -4,15 +4,6 @@ classes:
   - '::role::mediawiki'
   - '::puppet::agent'
 
-mwv::files_dir: /srv
-mwv::etc_dir: /etc/mw-vagrant
-mwv::services_dir: /vagrant/srv
-mwv::vendor_dir: /srv
-mwv::tld: '.local.wmftest.net'
-mwv::cachefilesd::enable: true
-
-three_d::three_d_2png_dir: /srv/3d2png
-
 apache::docroot: /var/www
 arcanist::deploy_dir: "%{hiera('mwv::services_dir')}"
 
@@ -28,7 +19,6 @@ cdh::oozie::server::heapsize: 64
 
 citoid::port: '1970'
 citoid::log_level: info
-role::citoid::url: "//%{hiera('role::mediawiki::hostname')}:%{hiera('citoid::port')}/api"
 
 changeprop::port: 7272
 
@@ -46,7 +36,6 @@ contenttranslation::betafeature: false
 contenttranslation::intarget: false
 contenttranslation::namespace: 'Main'
 contenttranslation::suggestions: true
-
 contenttranslation::wikis:
   en:
     category_keyword: 'Category'
@@ -149,7 +138,6 @@ hhvm::common_settings:
     hack:
       lang:
         iconv_ignore_correct: true
-
 hhvm::fcgi_settings:
   max_execution_time: 180
   hhvm:
@@ -161,7 +149,6 @@ hhvm::fcgi_settings:
     enable: 1
     remote_connect_back: 1
     remote_enable: 1
-
 hhvm::docroot: "%{hiera('apache::docroot')}"
 hhvm::hhbc_dir: /var/cache/hhvm
 hhvm::logroot: /vagrant/logs
@@ -176,18 +163,11 @@ logstash::output::elasticsearch::host: 127.0.0.1
 logstash::output::elasticsearch::manage_indices: true
 logstash::output::elasticsearch::priority: 90
 
-mathoid::port: 10042
-mathoid::svg: true
-mathoid::img: true
-mathoid::png: true
-mathoid::texvcinfo: true
-mathoid::speak_text: true
-mathoid::render_no_check: true
-
-mobilecontentservice::port: 8888
-
 graphoid::port: 11042
-
+graphoid::headers:
+  'Cache-Control': 'public, s-maxage=3600, max-age=3600'
+graphoid::error_headers:
+  'Cache-Control': 'public, s-maxage=300, max-age=300'
 # These settings should match the puppet/modules/role/manifests/graph.pp (ideally they should be the same)
 graphoid::allowed_domains:
   http:
@@ -212,13 +192,6 @@ graphoid::allowed_domains:
   wikidatasparql:
     - query.wikidata.org
     - wdqs-test.wmflabs.org
-graphoid::headers:
-  'Cache-Control': 'public, s-maxage=3600, max-age=3600'
-graphoid::error_headers:
-  'Cache-Control': 'public, s-maxage=300, max-age=300'
-
-php::sessionclean::ensure: present
-php::xhprof::profile_storage_dir: /vagrant/profiles
 
 iegreview::vhost_name: "iegreview%{hiera('mwv::tld')}"
 iegreview::db_name: iegreview
@@ -229,6 +202,14 @@ iegreview::cache_dir: /var/cache/iegreview
 iegreview::log_file: /vagrant/logs/iegreview.log
 iegreview::smtp_server: 127.0.0.1
 iegreview::parsoid_url: "http://127.0.0.1:%{::parsoid::port}/localhost/"
+
+mathoid::port: 10042
+mathoid::svg: true
+mathoid::img: true
+mathoid::png: true
+mathoid::texvcinfo: true
+mathoid::speak_text: true
+mathoid::render_no_check: true
 
 mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki
@@ -245,7 +226,6 @@ mediawiki::branch: master
 
 mediawiki::apache::docroot: "%{hiera('apache::docroot')}"
 mediawiki::apache::php5_site_name: "php5%{hiera('mwv::tld')}"
-
 
 mediawiki::jobrunner::enable: true
 mediawiki::jobrunner::dir: "%{hiera('mwv::services_dir')}/jobrunner"
@@ -271,17 +251,19 @@ mediawiki::multiwiki::extension_cluster_db_pass: 'extensionpassword'
 mediawiki::mwrepl::default_db_name: "%{hiera('mediawiki::db_name')}"
 mediawiki::mwrepl::script_dir: "%{hiera('mediawiki::multiwiki::script_dir')}"
 
-parsoid::port: 8000
-parsoid::domain: "%{hiera('role::mediawiki::hostname')}"
-parsoid::uri: "http://localhost%{::port_fragment}/w/api.php"
-parsoid::use_php_preprocessor: true
-parsoid::use_selser: true
-parsoid::allow_cors: '*'
-
 mysql::host: '127.0.0.1'
 mysql::default_db_name: wiki
 mysql::root_password: vagrant
 mysql::grant_host_name: 'localhost'
+
+mobilecontentservice::port: 8888
+
+mwv::files_dir: /srv
+mwv::etc_dir: /etc/mw-vagrant
+mwv::services_dir: /vagrant/srv
+mwv::vendor_dir: /srv
+mwv::tld: '.local.wmftest.net'
+mwv::cachefilesd::enable: true
 
 nginx::variant: extras
 
@@ -291,30 +273,24 @@ ores::deploy_dir: "%{hiera('mwv::services_dir')}/ores"
 ores::vhost_name: "ores%{hiera('mwv::tld')}"
 ores::port: 18880
 
+parsoid::port: 8000
+parsoid::domain: "%{hiera('role::mediawiki::hostname')}"
+parsoid::uri: "http://localhost%{::port_fragment}/w/api.php"
+parsoid::use_php_preprocessor: true
+parsoid::use_selser: true
+parsoid::allow_cors: '*'
+
+payments::branch: fundraising/REL1_27
+payments::dir: /vagrant/mediawiki-fr
+
 phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
 phabricator::log_dir: "/vagrant/logs/phd"
 phabricator::vhost_name: "phabricator%{hiera('mwv::tld')}"
 phabricator::remote: https://secure.phabricator.com/diffusion/P/phabricator.git
 
-role::iabot::deploy_dir: "%{hiera('mwv::services_dir')}"
-role::iabot::remote: https://github.com/cyberpower678/Cyberbot_II
-role::iabot::branch: test
-role::iabot::user: VagrantInternetArchiveBot
-role::iabot::password: iabot-vagrant
-role::iabot::consumer_key: 42ce640cbe03e9c7e775f5f6c1fc1d8a
-role::iabot::consumer_secret: 31afa803e1339e0273fa71352a69eeef87723217
-role::iabot::srv_secret_key: 49f796dbb5c7fe79d540752f167659e0
-role::iabot::access_token: d031340ccade6e3cd24964b7b35c6644
-role::iabot::access_secret: 628a771b7076c72ce63bb6b6a9349d94c5330ecf
-role::iabot::srv_access_secret: 3c40e3b0d2b7d640ebddf57c27ec128f
+php::sessionclean::ensure: present
 
-role::oauthauthentication::consumer_key: 0fde3e1e451907e9653ea612f7b30a5a
-role::oauthauthentication::consumer_secret: 143a7e53fe1e0fe7f42a2aed77b8e6fc9f38112a
-role::oauthauthentication::callback_url: "http://dev.wiki.local.wmftest.net%{::port_fragment}/wiki/Special:OAuthLogin/finish"
-
-role::phragile::debug: true
-role::phragile::install_dir: "%{hiera('mwv::services_dir')}/phragile"
-role::phragile::vhost_name: "phragile%{hiera('mwv::tld')}"
+php::xhprof::profile_storage_dir: /vagrant/profiles
 
 # We are masterless and have no need to run an agent.
 puppet::agent::ensure: stopped
@@ -333,6 +309,8 @@ role::centralauth::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 role::centralauth::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 role::centralauth::wiki_admin_user: "%{hiera('mediawiki::admin_user')}"
 
+role::citoid::url: "//%{hiera('role::mediawiki::hostname')}:%{hiera('citoid::port')}/api"
+
 role::commons::upload_dir: "%{hiera('mwv::files_dir')}/commonsimages"
 
 role::commons_datasets::commons_url: "http://commons%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/api.php"
@@ -349,9 +327,6 @@ role::externalstore::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 role::externalstore::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 role::externalstore::db_name: 'external'
 
-payments::branch: fundraising/REL1_27
-payments::dir: /vagrant/mediawiki-fr
-
 role::globalblocking::db_host: "%{hiera('mysql::grant_host_name')}"
 role::globalblocking::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 role::globalblocking::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
@@ -360,12 +335,20 @@ role::globalblocking::db_name: globalblocking
 role::horizon::vhost_name: "horizon%{hiera('mwv::tld')}"
 role::horizon::log_dir: /vagrant/logs
 
+role::iabot::deploy_dir: "%{hiera('mwv::services_dir')}"
+role::iabot::remote: https://github.com/cyberpower678/Cyberbot_II
+role::iabot::branch: test
+role::iabot::user: VagrantInternetArchiveBot
+role::iabot::password: iabot-vagrant
+role::iabot::consumer_key: 42ce640cbe03e9c7e775f5f6c1fc1d8a
+role::iabot::consumer_secret: 31afa803e1339e0273fa71352a69eeef87723217
+role::iabot::srv_secret_key: 49f796dbb5c7fe79d540752f167659e0
+role::iabot::access_token: d031340ccade6e3cd24964b7b35c6644
+role::iabot::access_secret: 628a771b7076c72ce63bb6b6a9349d94c5330ecf
+role::iabot::srv_access_secret: 3c40e3b0d2b7d640ebddf57c27ec128f
+
 role::keystone::admin_password: vagrant
 role::keystone::db_password: vagrant
-
-role::ldapauth::proxy_agent_password: vagrant_agent
-role::ldapauth::writer_password: vagrant_writer
-role::ldapauth::admin_password: vagrant_admin
 
 role::langwikis::langwiki_list:
     en:
@@ -394,6 +377,10 @@ role::langwikis::langwiki_list:
         # Due to MWV idiosyncracies, this is db_name zhwikivoyagewiki
         language: zh
         sitename: 维基导游
+
+role::ldapauth::proxy_agent_password: vagrant_agent
+role::ldapauth::writer_password: vagrant_writer
+role::ldapauth::admin_password: vagrant_admin
 
 role::mediawiki::hostname: "dev%{hiera('mediawiki::multiwiki::base_domain')}"
 
@@ -448,6 +435,10 @@ role::oauthauthentication::consumer_key: 0fde3e1e451907e9653ea612f7b30a5a
 role::oauthauthentication::consumer_secret: 143a7e53fe1e0fe7f42a2aed77b8e6fc9f38112a
 role::oauthauthentication::callback_url: "http://dev.wiki.local.wmftest.net%{::port_fragment}/wiki/Special:OAuthLogin/finish"
 
+role::phragile::debug: true
+role::phragile::install_dir: "%{hiera('mwv::services_dir')}/phragile"
+role::phragile::vhost_name: "phragile%{hiera('mwv::tld')}"
+
 role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
 
 role::wikidata::main_page: "Wiki:Main Page"
@@ -494,6 +485,8 @@ swift::proxy_cfg_file: /etc/swift/proxy-server.conf
 swift::account_cfg_file: /etc/swift/account-server.conf
 swift::object_cfg_file: /etc/swift/object-server.conf
 swift::container_cfg_file: /etc/swift/container-server.conf
+
+three_d::three_d_2png_dir: /srv/3d2png
 
 thumbor::cfg_dir: /etc/thumbor.d
 thumbor::log_dir: /srv/thumbor
