@@ -34,7 +34,7 @@ contenttranslation::database_password: "%{hiera('mysql::root_password')}"
 contenttranslation::eventlogging: false
 contenttranslation::betafeature: false
 contenttranslation::intarget: false
-contenttranslation::namespace: 'Main'
+contenttranslation::namespace: 0
 contenttranslation::suggestions: true
 contenttranslation::wikis:
   en:
