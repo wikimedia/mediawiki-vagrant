@@ -115,3 +115,6 @@ FAILURE_THROTTLING_MEMCACHE = ['127.0.0.1:<%= scope['::memcached::port'] %>']
 FAILURE_THROTTLING_MAX = 10
 FAILURE_THROTTLING_DURATION = 3600
 FAILURE_THROTTLING_PREFIX = 'thumbor-failure-'
+
+# We don't want to render giant animated GIFs (>100MP) as animations, only as the first image
+MAX_ANIMATED_GIF_AREA = 100000000
