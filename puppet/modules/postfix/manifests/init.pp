@@ -9,8 +9,9 @@ class postfix {
     # to handle this unless we switch to using an exec block and actually
     # checking the currently installed version against some minimum.
     package { 'openssl':
-        ensure => 'latest',
-        before => Package['postfix'],
+        ensure          => 'latest',
+        before          => Package['postfix'],
+        install_options => [ '--force-yes' ],
     }
 
     package { 'postfix': }
