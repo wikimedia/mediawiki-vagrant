@@ -278,6 +278,15 @@ module MediaWikiVagrant
       end
     end
 
+    # name of MWV root directory, sanitized to be usable in a domain name
+    #
+    # @return [String]
+    #
+    def boxname
+      @path.basename.to_s.downcase
+        .gsub(/[^a-z0-9-]+/, '-')[0..62].gsub(/^-|-/, '')
+    end
+
     private
 
     def module_path(*subpaths)

@@ -49,7 +49,7 @@ mwv = MediaWikiVagrant::Environment.new(File.expand_path('..', __FILE__))
 settings = mwv.load_settings
 
 Vagrant.configure('2') do |config|
-  config.vm.hostname = 'mediawiki-vagrant.dev'
+  config.vm.hostname = mwv.boxname + '.mediawiki-vagrant.dev'
   config.package.name = 'mediawiki.box'
 
   config.ssh.forward_agent = settings[:forward_agent]
