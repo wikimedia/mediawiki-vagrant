@@ -116,7 +116,7 @@ class varnish {
 
     varnish::backend { 'default':
         host  => '127.0.0.1',
-        port  => '8080',
+        port  => $::forwarded_port,
         order => 20,
     }
 
@@ -127,8 +127,8 @@ class varnish {
     }
 
     varnish::config { 'default-subs':
-        source => 'puppet:///modules/varnish/default-subs.vcl',
-        order  => 50,
+        content => template('varnish/default-subs.vcl.erb'),
+        order   => 50,
     }
 
     $errorpage = {
