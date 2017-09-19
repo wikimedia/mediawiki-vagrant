@@ -30,6 +30,7 @@ Dan Entous <d_entous@yahoo.com>
 Darian Anthony Patrick <dpatrick@wikimedia.org>
 David Causse <dcausse@wikimedia.org>
 Diederik van Liere <dvanliere@wikimedia.org>
+Dmitry Brant <dbrant@wikimedia.org>
 Douglas Gardner <douglas@chippy.ch>
 Dylan Grafmyre <dylang@ava.ai>
 Ebrahim Byagowi <ebrahim@gnu.org>
@@ -60,12 +61,15 @@ Krzysztof Zbudniewek <krzysztof.zbudniewek@gmail.com>
 Kunal Mehta <legoktm@gmail.com>
 Lucie Kaffee <lucie.kaffee@wikimedia.de>
 Luke Faraone <luke@faraone.cc>
+Mainframe98 <k.s.werf@hotmail.com>
 Marcel Ruiz Forns <mforns@wikimedia.org>
 Mark A. Hershberger <mah@everybody.org>
 Mark Holmquist <mtraceur@member.fsf.org>
 Marko Obrovac <mobrovac@wikimedia.org>
 Matthew Flaschen <mflaschen@wikimedia.org>
+Matthias Mullie <git@mullie.eu>
 Max Semenik <maxsem.wiki@gmail.com>
+Merlijn van Deen <valhallasw@arctus.nl>
 Mhutti1 <mhutti1@gmail.com>
 Michael Holloway <mholloway@wikimedia.org>
 Moriel Schottlender <moriel@gmail.com>
@@ -82,12 +86,14 @@ Patrick Reilly <preilly@php.net>
 Pavel Astakhov <pastakhov@yandex.ru>
 Peter Hedenskog <phedenskog@wikimedia.org>
 Petr Pchelko <ppchelko@wikimedia.org>
+Prateek Saxena <prtksxna@gmail.com>
 Rainer Rillke <rillke@wikipedia.de>
 Roan Kattouw <roan.kattouw@gmail.com>
 Rob Moen <rmoen@wikimedia.org>
 S Page <spage@wikimedia.org>
 Sage Ross <ragesoss@gmail.com>
 Sam Reed <reedy@wikimedia.org>
+Sam Smith <me@samsmith.io>
 Sergey Leschina <mail@putnik.ws>
 Stanislav Malyshev <smalyshev@wikimedia.org>
 Stephane Bisson <sbisson@wikimedia.org>
