@@ -9,6 +9,9 @@ default_project: &default_project
         table:
           backend: sqlite
           dbname: <%= @dbdir %>/mw-vagrant.sqlite3
+        table_ng:
+          backend: sqlite
+          dbname: <%= @dbdir %>/mw-vagrant-ng.sqlite3
         parsoid:
           host: http://localhost:<%= scope['::parsoid::port'] %>
         action:
