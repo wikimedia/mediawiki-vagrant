@@ -5,5 +5,9 @@ class role::wikimediaevents {
     include ::role::eventlogging
     include ::role::xanalytics
 
-    mediawiki::extension { 'WikimediaEvents': }
+    mediawiki::extension { 'WikimediaEvents':
+        settings => {
+            'wgWMEStatsdBaseUri' => '/beacon/statsv',
+        }
+    }
 }
