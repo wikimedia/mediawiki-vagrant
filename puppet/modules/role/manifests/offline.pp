@@ -9,6 +9,11 @@ class role::offline {
     require ::ocg
     require ::electron
 
+    mediawiki::settings { 'Electron-VRS':
+        values   => template('role/offline/electron-vrs.php.erb'),
+        priority => $::LOAD_FIRST,
+    }
+
     mediawiki::extension { 'Collection':
         settings => template('role/offline/Collection.php.erb'),
     }
@@ -18,7 +23,7 @@ class role::offline {
         },
     }
 
-    $hostname = $::electron::vhost_name
+    $electron_hostname = $::electron::vhost_name
     mediawiki::import::text { 'VagrantRoleOffline':
         content => template('role/offline/VagrantRoleOffline.wiki.erb'),
     }

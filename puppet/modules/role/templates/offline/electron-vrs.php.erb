@@ -1,0 +1,19 @@
+
+if( !isset( $wgVirtualRestConfig ) ) {
+	$wgVirtualRestConfig = array(
+		'modules' => array(),
+		'global' => array(
+			'timeout' => 360,
+			'forwardCookies' => false,
+			'HTTPProxy' => null
+		)
+	);
+}
+
+$wgVirtualRestConfig['modules']['electron'] = array(
+	'url' => 'http://127.0.0.1:<%= scope.lookupvar('::electron::port') %>',
+	'options' => array(
+        'accessKey' => '<%= scope.lookupvar('::electron::secret') %>',
+    ),
+);
+
