@@ -170,7 +170,7 @@ class _WMFRewriteContext(WSGIContext):
 
         resp = webob.Response(app_iter=upcopy, content_type=c_t)
         # add in the headers if we've got them
-        for header in ['Content-Length', 'Content-Disposition', 'Last-Modified', 'Accept-Ranges', 'XKey', 'Engine', 'Server', 'Processing-Time', 'Processing-Utime']:
+        for header in ['Content-Length', 'Content-Disposition', 'Last-Modified', 'Accept-Ranges', 'XKey', 'Engine', 'Server', 'Processing-Time', 'Processing-Utime', 'Request-Date']:
             if(uinfo.getheader(header)):
                 resp.headers.add(header, uinfo.getheader(header))
 
