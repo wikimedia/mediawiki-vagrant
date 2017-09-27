@@ -67,7 +67,10 @@ class scholarships(
     mysql::sql { 'Load scholarships schema':
         sql     => "USE ${db_name}; SOURCE ${deploy_dir}/data/db/schema.mysql;",
         unless  => template('scholarships/load_schema_unless.sql.erb'),
-        require => Git::Clone['wikimedia/wikimania-scholarships'],
+        require => [
+            Git::Clone['wikimedia/wikimania-scholarships'],
+            Mysql::Db[$db_name],
+        ],
     }
 
     mysql::sql { 'create_scholarships_admin_user':
