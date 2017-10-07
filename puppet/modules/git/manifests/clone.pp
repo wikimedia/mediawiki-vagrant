@@ -16,6 +16,10 @@
 #   Remote URL for the repository. If unspecified, the resource title
 #   will be interpolated into $git::urlformat.
 #
+# [*temp_remote*]
+#   Remote used for the checkout only (after that the remote URL will
+#   be set to $remote). This is used as a workaround for T152801.
+#
 # [*owner*]
 #   User that should own the checked out repository. Git commands will run as
 #   this user so the user must have the ability to create the target
@@ -51,6 +55,7 @@ define git::clone(
     $directory,
     $branch             = undef,
     $remote             = undef,
+    $temp_remote        = undef,
     $owner              = $::share_owner,
     $group              = $::share_group,
     $ensure             = 'present',
@@ -68,6 +73,7 @@ define git::clone(
         undef   => sprintf($git::urlformat, $title),
         default => $remote,
     }
+    $temp_repository = pick($temp_remote, $repository)
 
     $arg_branch = $branch ? {
         undef   => '',
@@ -83,13 +89,23 @@ define git::clone(
     }
 
     exec { "git_clone_${title}":
-        command => "/usr/bin/git ${options} clone ${arg_recurse} ${arg_depth} ${arg_branch} ${repository} ${directory}",
+        command => "/usr/bin/git ${options} clone ${arg_recurse} ${arg_depth} ${arg_branch} ${temp_repository} ${directory}",
         cwd     => '/',
         creates => "${directory}/.git",
         user    => $owner,
         group   => $group,
         require => Package['git'],
         timeout => 0,
+    }
+    if ($temp_repository != $repository) {
+        exec { "reset ${title} remote":
+            command     => "/usr/bin/git remote set-url origin ${repository}",
+            cwd         => $directory,
+            user        => $owner,
+            group       => $group,
+            subscribe   => Exec["git_clone_${title}"],
+            refreshonly => true,
+        }
     }
 
     if (!defined(File[$directory])) {
