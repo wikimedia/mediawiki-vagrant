@@ -62,7 +62,6 @@ Style/GuardClause:
   Exclude:
     - 'lib/mediawiki-vagrant/environment.rb'
     - 'lib/mediawiki-vagrant/roles/list.rb'
-    - 'lib/mediawiki-vagrant/setup.rb'
 
 # Offense count: 1
 # Configuration parameters: Methods.

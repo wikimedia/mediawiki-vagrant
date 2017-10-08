@@ -1,7 +1,5 @@
 @echo off
 
-rem Finds the Ruby embedded with Vagrant and executes setup.rb
-
 where /q vagrant.exe
 
 if errorlevel 1 (
@@ -12,6 +10,8 @@ if errorlevel 1 (
     exit /b 1
 )
 
-for /f "tokens=*" %%F in ('where vagrant.exe') do set vagrant=%%F
+vagrant config --required
 
-"%vagrant%\..\..\embedded\bin\ruby.exe" "%~dp0\support\setup.rb" "%0" %*
+echo.
+echo "You're all set! Simply run `vagrant up` to boot your new environment."
+echo "(Or try `vagrant config --list` to see what else you can tweak.)"
