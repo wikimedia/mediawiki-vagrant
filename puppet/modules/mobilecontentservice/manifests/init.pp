@@ -16,11 +16,15 @@ class mobilecontentservice(
     $log_level = undef,
 ) {
 
-    require ::restbase
+    include ::restbase
 
     service::node { 'mobileapps':
         port      => $port,
         log_level => $log_level,
+    }
+
+    apache::reverse_proxy { 'mcs':
+        port => $port,
     }
 
 }
