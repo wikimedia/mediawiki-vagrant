@@ -87,7 +87,7 @@ class mediawiki(
 
     git::clone { 'mediawiki/core':
         # T152801 - avoid using gerrit for the initial cloning
-        temp_remote => 'https://github.com/wikimedia/mediawiki.git',
+        temp_remote => 'https://phabricator.wikimedia.org/source/mediawiki.git',
         directory   => $dir,
         branch      => $branch,
         depth       => $git_depth,
