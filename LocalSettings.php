@@ -128,3 +128,6 @@ $wgPasswordPolicy['policies']['bureaucrat']['MinimalPasswordLength'] = 7;
 MediaWiki\Logger\LoggerFactory::registerProvider(
 	ObjectFactory::getObjectFromSpec( $wgMWLoggerDefaultSpi )
 );
+
+// Don't gloss over errors in class name letter-case.
+$wgAutoloadAttemptLowercase = false;
