@@ -275,7 +275,7 @@ ores::port: 18880
 
 parsoid::port: 8000
 parsoid::domain: "%{hiera('role::mediawiki::hostname')}"
-parsoid::uri: "http://localhost%{::port_fragment}/w/api.php"
+parsoid::uri: "http://localhost:%{::forwarded_port}/w/api.php"
 parsoid::use_php_preprocessor: true
 parsoid::use_selser: true
 parsoid::allow_cors: '*'

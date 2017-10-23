@@ -15,7 +15,7 @@ default_project: &default_project
         parsoid:
           host: http://localhost:<%= scope['::parsoid::port'] %>
         action:
-          apiUriTemplate: "{{'http://localhost<%= scope['::port_fragment'] %>/w/api.php'}}"
+          apiUriTemplate: "{{'http://localhost:<%= scope['::forwarded_port'] %>/w/api.php'}}"
           baseUriTemplate: "{{'http://{domain}:7231/{domain}/v1'}}"
         graphoid:
           host: http://localhost:<%= @graphoid_port %>
