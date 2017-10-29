@@ -14,7 +14,7 @@ class postfix {
         install_options => [ '--force-yes' ],
     }
 
-    package { 'postfix': }
+    package { ['postfix', 'postfix-pcre']: }
 
     file { '/etc/postfix':
         ensure  => directory,
@@ -33,6 +33,13 @@ class postfix {
 
     file { '/etc/postfix/virtual':
         content => template('postfix/virtual.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+    }
+
+    file { '/etc/postfix/aliases':
+        content => '',
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
