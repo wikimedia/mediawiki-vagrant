@@ -5,6 +5,7 @@ class role::antispoof {
 
     mediawiki::extension { 'AntiSpoof':
         needs_update => true,
+        composer     => true,
     }
 
     mediawiki::maintenance { 'populate_spoofuser':
