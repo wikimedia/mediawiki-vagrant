@@ -96,7 +96,7 @@ Vagrant.configure('2') do |config|
   # Note that port forwarding works via localhost but not via external
   # interfaces of the host machine by default...
   config.vm.provider :parallels do |_parallels, override|
-    override.vm.box = 'boxcutter/debian8'
+    override.vm.box = 'bento/debian-8.9'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
