@@ -1,4 +1,4 @@
-This help page was generated from [http://git.wikimedia.org/blob/mediawiki%2Fvagrant.git/HEAD/puppet%2Fmodules%2Fpayments%2Ffiles%2FMain_Page.wiki a file], please submit improvements back to that code repo.
+This help page was generated from [https://phabricator.wikimedia.org/source/mediawiki-vagrant/browse/master/puppet/modules/payments/files/Main_Page.wiki a file], please submit improvements back to that code repo.
 
 __NOTOC__
 
@@ -16,7 +16,7 @@ Also note that you'll need to use the WMF's "full" VPN tunnel, see https://offic
 
     <?php
     # settings.d/wikis/paymentswiki/settings.d/20-DI-test-accounts.php
-    
+
     $wgAdyenGatewayURL = 'https://test.adyen.com';
     $wgAdyenGatewayAccountInfo = array(
         'test' => array(
@@ -25,7 +25,7 @@ Also note that you'll need to use the WMF's "full" VPN tunnel, see https://offic
             'SkinCode' => '1234567',
         )
     );
-    
+
     $wgAmazonGatewayAccountInfo = array(
         'default' => array(
             'SellerID' => 'ADLKSJLKJDA',
@@ -39,7 +39,7 @@ Also note that you'll need to use the WMF's "full" VPN tunnel, see https://offic
             'ReturnURL' => 'https://payments.wiki.local.wmftest.net:4430/w/index.php?title=Special:AmazonGateway',
         )
     );
-    
+
     $wgAstropayGatewayAccountInfo = array(
         'test' => array(
             'Create' => array( // For creating invoices
@@ -54,13 +54,13 @@ Also note that you'll need to use the WMF's "full" VPN tunnel, see https://offic
         )
     );
     $wgAstropayGatewayURL = 'https://sandbox.astropaycard.com/';
-    
+
     $wgGlobalCollectGatewayAccountInfo = array(
         'default' => array(
             'MerchantID' => '1234',
         ),
     );
-    
+
     $wgPaypalGatewayAccountInfo = array(
         'default' => array(
             'AccountEmail' => 'magoo@localhost.net',
@@ -142,10 +142,9 @@ See also [https://phabricator.wikimedia.org/T86247 T86247], this would be a good
 = Orphan slayer =
 
     vagrant ssh
-    
+
     mwscript extensions/DonationInterface/globalcollect_gateway/scripts/orphans.php --wiki paymentswiki
 
 = IPN and Queue testing =
 
 See instructions at [https://www.mediawiki.org/wiki/Fundraising_tech/Queue_testing].
-
