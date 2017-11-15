@@ -17,28 +17,22 @@ class role::ores_service {
                 reverted  => false,
                 wp10      => false,
             },
-            # the mock scorer used by the local service cannot
-            # provide recall stats so dynamic threshold configuration
-            # would cause score fetches to silently fail. Use a
-            # constant dummy configuration instead.
+            # Use calculated thresholds.
             wgOresFiltersThresholds => {
                 damaging => {
-                    likelygood    => {
+                    likelygood => {
                         min => 0,
-                        max => 0.3,
+                        max => 'recall_at_precision(min_precision=0.99)',
                     },
-                    maybebad      => {
-                        min => 0.2,
+                    maybebad   => {
+                        min => 'recall_at_precision(min_precision=0.15)',
                         max => 1,
                     },
-                    likelybad     => {
-                        min => 0.5,
+                    likelybad  => {
+                        min => 'recall_at_precision(min_precision=0.45)',
                         max => 1,
                     },
-                    verylikelybad => {
-                        min => 0.8,
-                        max => 1,
-                    },
+                    # verylikelybad uses default
                 },
             },
         },
