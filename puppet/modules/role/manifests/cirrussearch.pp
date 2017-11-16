@@ -7,7 +7,6 @@ class role::cirrussearch {
     include ::role::pdfhandler
     include ::role::cite
     include ::elasticsearch
-    include ::apt::wikimedia_experimental
     include ::eventschemas
     # Utilized as part of cirrus logging infrastructure
     include ::role::psr3
@@ -16,7 +15,14 @@ class role::cirrussearch {
     include ::role::svg
     include ::role::sitematrix
     # necessary for CirrusSearch.php.erb to point to service root dir
-    require ::service
+    include ::service
+
+    apt::repository { 'wikimedia-elastic':
+        uri        => 'http://apt.wikimedia.org/wikimedia',
+        dist       => "${::lsbdistcodename}-wikimedia",
+        components => 'component/elastic55 thirdparty/elastic55',
+        #before     => Class['::elasticsearch'],
+    }
 
     # Elasticsearch plugins (for search)
     package { 'wmf-elasticsearch-search-plugins':
