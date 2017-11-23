@@ -26,7 +26,10 @@ class mediawiki::psysh {
         command => 'curl -sO "http://psysh.org/manual/en/php_manual.sqlite"',
         cwd     => '/usr/local/share/psysh',
         creates => '/usr/local/share/psysh/php_manual.sqlite',
-        require => File['/usr/local/share/psysh/'],
+        require => [
+            File['/usr/local/share/psysh/'],
+            Package['curl'],
+        ],
     }
 
     env::profile_script { 'phpsh to psysh':
