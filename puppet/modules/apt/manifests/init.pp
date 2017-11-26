@@ -34,7 +34,7 @@ class apt {
     apt::repository { 'wikimedia':
         uri         => 'https://apt.wikimedia.org/wikimedia',
         dist        => "${::lsbdistcodename}-wikimedia",
-        components  => 'main backports thirdparty',
+        components  => 'main',
         keyfile     => 'puppet:///modules/apt/wikimedia-pubkey.asc',
         comment_old => true,
     }
