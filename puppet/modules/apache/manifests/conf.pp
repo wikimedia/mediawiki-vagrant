@@ -45,7 +45,7 @@ define apache::conf(
 ) {
     include ::apache
 
-    if $priority !~ /^\d?\d$/ {
+    if $priority !~ Integer[0, 99] {
         fail('"priority" must be between 0 - 99')
     }
     if $ensure !~ /^(present|absent)$/ {
