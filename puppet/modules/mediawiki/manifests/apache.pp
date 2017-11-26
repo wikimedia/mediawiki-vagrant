@@ -7,12 +7,12 @@
 # [*docroot*]
 #   Document root for Apache vhost serving MediaWiki.
 #
-# [*php5_site_name*]
-#   Hostname for php5 runtime Apache vhost
+# [*php7_site_name*]
+#   Hostname for php7 runtime Apache vhost
 #
 class mediawiki::apache(
     $docroot,
-    $php5_site_name,
+    $php7_site_name,
 ) {
     include ::mediawiki
     include ::mediawiki::multiwiki
@@ -38,9 +38,9 @@ class mediawiki::apache(
         ],
     }
 
-    apache::site { "php5-${mediawiki::wiki_name}":
+    apache::site { "php7-${mediawiki::wiki_name}":
         ensure  => present,
-        content => template('mediawiki/mediawiki-php5-site.erb'),
+        content => template('mediawiki/mediawiki-php7-site.erb'),
         require => [
             Class['::apache::mod::alias'],
             Class['::apache::mod::rewrite'],

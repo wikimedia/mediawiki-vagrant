@@ -7,7 +7,7 @@
 # Commentz-Walter style algorithm for multiple search terms, or a Boyer-Moore
 # algorithm for single search terms.
 #
-# Only needed for php5-based wikis
+# Only needed for php-based wikis
 class role::fss {
-    require_package('php5-fss')
+    require_package('php-fss')
 }

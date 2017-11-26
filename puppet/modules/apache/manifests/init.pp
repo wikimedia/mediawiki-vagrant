@@ -14,7 +14,7 @@ class apache (
         ensure  => present,
     }
 
-    include apache::mod::php5
+    include apache::mod::php
     include apache::mod::access_compat
 
     file { '/etc/apache2/ports.conf':
