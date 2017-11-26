@@ -32,12 +32,6 @@ class thumbor (
         'python-pil',
     ]
 
-    apt::pin { 'thumbor-python-backports':
-        package  => join(sort($packages), ' '),
-        pin      => 'release a=jessie-backports',
-        priority => '1000',
-    }
-
     package { 'raven':
         provider => 'pip',
     }
@@ -45,9 +39,6 @@ class thumbor (
     package { 'python-thumbor-wikimedia':
         ensure  => 'present',
         notify  => Exec['stop-and-disable-default-thumbor-service'],
-        require => [
-            Apt::Pin['thumbor-python-backports'],
-        ]
     }
 
     exec { 'stop-and-disable-default-thumbor-service':
