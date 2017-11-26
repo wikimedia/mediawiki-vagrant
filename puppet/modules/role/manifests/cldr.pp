@@ -8,6 +8,6 @@ class role::cldr {
     require_package('unzip')
 
     mediawiki::extension { 'cldr':
-        priority => $::LOAD_LATER,
+        priority => $::load_later,
     }
 }

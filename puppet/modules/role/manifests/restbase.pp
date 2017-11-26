@@ -35,7 +35,7 @@ class role::restbase (
     # Register the PHP Virtual REST Service connector
     mediawiki::settings { 'RESTBase-VRS':
         values   => template('role/restbase/vrs.php.erb'),
-        priority => $::LOAD_FIRST,
+        priority => $::load_first,
         wiki     => $::mediawiki::wiki_db,
     }
 
@@ -51,7 +51,7 @@ class role::restbase (
             wgVisualEditorFullRestbaseURL => $base_url,
             wgVisualEditorRestbaseURL     => $ve_url,
         },
-        priority => $::LOAD_EARLY,
+        priority => $::load_early,
         wiki     => $::mediawiki::wiki_db,
     }
 

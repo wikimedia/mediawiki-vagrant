@@ -17,7 +17,7 @@ class role::eventlogging {
     include ::eventlogging::devserver
 
     mediawiki::extension { 'EventLogging':
-        priority => $::LOAD_EARLY,
+        priority => $::load_early,
         settings => {
             wgEventLoggingBaseUri => '/event.gif',
         }

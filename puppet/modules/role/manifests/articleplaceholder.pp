@@ -14,7 +14,7 @@ class role::articleplaceholder {
         values   => {
             "wgWBRepoSettings['allowEntityImport']" => true,
         },
-        priority => $::LOAD_LATER,
+        priority => $::load_later,
     }
 
     mediawiki::import::dump { 'ImportImageProperty':

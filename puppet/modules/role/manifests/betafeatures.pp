@@ -3,6 +3,6 @@
 class role::betafeatures {
     mediawiki::extension { 'BetaFeatures':
         needs_update => true,
-        priority     => $::LOAD_EARLY,
+        priority     => $::load_early,
     }
 }
