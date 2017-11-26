@@ -226,6 +226,9 @@ Vagrant.configure('2') do |config|
     puppet.manifests_path = [:guest, '/vagrant/puppet/manifests']
     puppet.manifest_file = 'site.pp'
 
+    puppet.environment_path = [:guest, '/vagrant/puppet/environments']
+    puppet.environment = 'vagrant'
+
     puppet.options = [
       '--modulepath', '/vagrant/puppet/modules',
       '--hiera_config', '/vagrant/puppet/hiera.yaml',
