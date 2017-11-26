@@ -51,7 +51,7 @@ class apt {
         uri        => 'https://mwv-apt.wmflabs.org/repo',
         dist       => "${::lsbdistcodename}-mwv-apt",
         components => 'main',
-        trusted    => true,
+        can_trust  => true,
         source     => false,
     }
 
