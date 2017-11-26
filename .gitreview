@@ -2,5 +2,5 @@
 host=gerrit.wikimedia.org
 port=29418
 project=mediawiki/vagrant.git
-defaultbranch=master
+defaultbranch=stretch-migration
 defaultrebase=0
