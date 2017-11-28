@@ -18,6 +18,6 @@ class role::visualeditor {
         settings      => template('role/visualeditor/conf.php.erb'),
         browser_tests => 'modules/ve-mw/tests/browser',
         priority      => $::load_early,
-        wiki          => $::mediawiki::wiki_db,
+        wiki          => $::mediawiki::wiki_name,
     }
 }

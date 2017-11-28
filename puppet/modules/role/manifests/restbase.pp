@@ -36,7 +36,7 @@ class role::restbase (
     mediawiki::settings { 'RESTBase-VRS':
         values   => template('role/restbase/vrs.php.erb'),
         priority => $::load_first,
-        wiki     => $::mediawiki::wiki_db,
+        wiki     => $::mediawiki::wiki_name,
     }
 
     # Reverse proxy /api/rest_v1/ to RESTBase server
@@ -52,7 +52,7 @@ class role::restbase (
             wgVisualEditorRestbaseURL     => $ve_url,
         },
         priority => $::load_early,
-        wiki     => $::mediawiki::wiki_db,
+        wiki     => $::mediawiki::wiki_name,
     }
 
     mediawiki::import::text { 'VagrantRoleRestbase':
