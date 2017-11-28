@@ -1,0 +1,13 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+description "Varnish"
+
+start on mediawiki-ready
+respawn
+
+setuid varnish
+setgid varnish
+
+exec /usr/local/sbin/varnishd -a :6081 -T localhost:6082 -f /etc/varnish/default.vcl -S /etc/varnish/secret -s malloc,256m -F

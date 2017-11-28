@@ -32,14 +32,11 @@ define apt::ppa(
         $command = "/usr/bin/add-apt-repository --yes --remove ppa:${ppa} && /usr/bin/apt-get update"
         $onlyif  = "/usr/bin/test -e ${listfile}"
     } else {
-        # PPA's are for Ubuntu, not Debian but may work if we hack the distro
-        # name to be a modern Ubuntu LTS instead of jessie.
-        $command = "/usr/bin/add-apt-repository --yes ppa:${ppa} && /bin/sed -i 's/${::lsbdistcodename}/xenial/g' ${listfile} && /usr/bin/apt-get update"
+        $command = "/usr/bin/add-apt-repository --yes ppa:${ppa} && /usr/bin/apt-get update"
         $onlyif  = "/usr/bin/test ! -e ${listfile}"
     }
 
     exec { $command:
-        onlyif  => $onlyif,
-        require => Package['software-properties-common'],
+        onlyif => $onlyif,
     }
 }

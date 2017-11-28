@@ -7,8 +7,8 @@
 # [*name*]
 #   Service port.
 #
-# [*tmp_dir*]
-#   Path where Thumbor temproary files are kept (example: '/var/thumbor/tmp').
+# [*deploy_dir*]
+#   Path where Thumbor is installed (example: '/var/thumbor').
 #
 # [*cfg_file*]
 #   Thumbor configuration files.
@@ -16,43 +16,36 @@
 # === Examples
 #
 #   thumbor::service { '8888':
-#       tmp_dir => '/var/thumbor-tmp',
+#       deploy_dir => '/var/thumbor',
 #       cfg_files   => File['/etc/thumbor.d/10-thumbor.conf', '/etc/thumbor.d/20-thumbor-logging.conf'],
 #   }
 #
 define thumbor::service (
-    $tmp_dir,
+    $deploy_dir,
     $cfg_files
 ) {
     $port = $name
 
-    systemd::service { "thumbor-${port}":
-        ensure         => 'present',
-        require        => [
-            Package['python-thumbor-wikimedia'],
+    file { "/etc/init/thumbor-${port}.conf":
+        ensure  => present,
+        content => template('thumbor/upstart.erb'),
+        mode    => '0444',
+    }
+
+    service { "thumbor-${port}":
+        ensure    => running,
+        enable    => true,
+        provider  => 'upstart',
+        require   => [
+            Virtualenv::Environment[$deploy_dir],
             User['thumbor'],
             File['/etc/firejail/thumbor.profile'],
         ],
-        service_params => {
-            subscribe => [
-                File[
-                    '/etc/tinyrgb.icc',
-                    '/etc/firejail/thumbor.profile'
-                ],
-                $cfg_files,
-            ],
-        },
-        template_name  => 'thumbor',
-    }
-
-    file { "/usr/lib/tmpfiles.d/thumbor@${port}.conf":
-        content => template('thumbor/thumbor.tmpfiles.d.erb'),
-    }
-
-    exec { "create-tmp-folder-${port}":
-        command => "/bin/systemd-tmpfiles --create --prefix=${tmp_dir}",
-        creates => "${tmp_dir}/thumbor@${port}",
-        before  => Service["thumbor-${port}"],
+        subscribe => [
+            File["${deploy_dir}/tinyrgb.icc", "/etc/init/thumbor-${port}.conf", '/etc/firejail/thumbor.profile'],
+            $cfg_files,
+            Cgroup::Config['thumbor'],
+        ],
     }
 
     # Ensure that Sentry is started before Thumbor

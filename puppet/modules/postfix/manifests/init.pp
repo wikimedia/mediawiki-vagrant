@@ -3,16 +3,6 @@
 # Postfix MTA service
 #
 class postfix {
-
-    # T160660: Upgrade openssl before installing postfix.
-    # Note: ensure => latest here is gross but there really isn't another way
-    # to handle this unless we switch to using an exec block and actually
-    # checking the currently installed version against some minimum.
-    package { 'openssl':
-        ensure => 'latest',
-        before => Package['postfix'],
-    }
-
     package { 'postfix': }
 
     file { '/etc/postfix':

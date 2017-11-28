@@ -1,7 +1,0 @@
-#!/bin/sh
-# Sleep until the default MediaWiki instance has been configured
-
-exec >/dev/null 2>&1
-while [ ! -r "<%= scope['mediawiki::dir'] %>/LocalSettings.php" ] || ! ( /usr/local/bin/mwscript sql.php --wiki=wiki </dev/null ); do
-    sleep 1
-done

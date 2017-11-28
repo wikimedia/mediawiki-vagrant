@@ -1,8 +1,6 @@
 define( 'WB_NS_PROPERTY', 122 );
 define( 'WB_NS_PROPERTY_TALK', 123 );
 
-require_once "<%= scope['::mediawiki::multiwiki::script_dir'] %>/dblist.php";
-
 // Tell Wikibase which namespace to use for which kind of entity.
 // WikibaseClient wikis also need to know how this is configured on
 // WikibaseRepo wikis that it accesses, thus these are shared settings.
@@ -22,14 +20,6 @@ if ( $wmgUseWikibaseRepo ) {
 
 	$wgWBRepoSettings['entityNamespaces'] = $wgWBEntityNamespaces;
 	$wgExtraNamespaces = $wgWBNamespaces + $wgExtraNamespaces;
-
-	$wgWBRepoSettings['localClientDatabases'] = [];
-	foreach ( $wgLocalDatabases as $db ) {
-		if ( $db !== 'wikidatawiki' ) {
-			$wgWBRepoSettings['localClientDatabases'][] = $db;
-		}
-	}
-
 } else {
 	$wgWBClientSettings['siteGlobalID'] = 'enwiki';
 

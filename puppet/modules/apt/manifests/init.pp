@@ -32,15 +32,28 @@ class apt {
         before  => Exec['apt-get update'],
     }
 
-    file { '/etc/apt/sources.list.d/backports.list':
-        content => template('apt/backports.list.erb'),
-        before  => Exec['apt-get update'],
-    }
-
     # T125760 - mw-vagrant only apt repo
     file { '/etc/apt/sources.list.d/mwv-apt.list':
         content => template('apt/mwv-apt.list.erb'),
         before  => Exec['apt-get update'],
+    }
+
+    file { '/etc/apt/multiverse.list.puppet':
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        content => template('apt/multiverse.list.erb'),
+        before  => Exec['apt-get update'],
+        notify  => Exec['multiverse.list'],
+    }
+    # Puppet's File resource doesn't have an unless or onlyif condition, so we
+    # will use an exec to copy the file conditionally instead.
+    exec { 'multiverse.list':
+        command     => 'cp multiverse.list.puppet sources.list.d/multiverse.list',
+        cwd         => '/etc/apt',
+        unless      => '/bin/grep -q multiverse sources.list',
+        before      => Exec['apt-get update'],
+        refreshonly => true,
     }
 
     # prefer Wikimedia APT repository packages in all cases
@@ -53,6 +66,16 @@ class apt {
     if $::shared_apt_cache {
         file { '/etc/apt/apt.conf.d/20shared-cache':
             content => "Dir::Cache::archives \"${::shared_apt_cache}\";\n",
+        }
+
+        # bug 67976: don't clean up legacy cache locations until apt has been
+        # reconfigured with new location.
+        file { ['/vagrant/apt-cache', '/vagrant/composer-cache']:
+            ensure  => absent,
+            recurse => true,
+            purge   => true,
+            force   => true,
+            require => File['/etc/apt/apt.conf.d/20shared-cache'],
         }
     }
     file { '/etc/apt/apt.conf.d/01no-recommended':

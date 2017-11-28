@@ -5,16 +5,25 @@
 class cgroup {
     require_package('cgroup-bin')
 
+    file { '/etc/init/cgrulesengd.conf':
+        ensure => present,
+        source => 'puppet:///modules/cgroup/cgrulesengd.conf',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0644',
+    }
+
     # The reason we need the daemon is that upstart won't work with cgexec.
     # As a result, if we want to put a service started via upstart into a
     # cgroup, we need cgrulesengd to be running and set the service's process
     # to a cgroup by system user/group
-    systemd::service { 'cgrulesengd':
-        ensure         => 'present',
-        require        => Package['cgroup-bin'],
-        service_params => {
-            subscribe => File['/etc/init/cgrulesengd.conf'],
-        },
+
+    service { 'cgrulesengd':
+        ensure    => running,
+        enable    => true,
+        provider  => 'upstart',
+        require   => Package['cgroup-bin'],
+        subscribe => File['/etc/init/cgrulesengd.conf']
     }
 
     exec { 'cgconfigparser':

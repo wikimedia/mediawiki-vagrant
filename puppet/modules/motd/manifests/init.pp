@@ -12,7 +12,7 @@ class motd {
     }
 
     exec { 'update_motd':
-        command     => '/bin/run-parts --lsbsysinit /etc/update-motd.d > /etc/motd',
+        command     => '/bin/run-parts --lsbsysinit /etc/update-motd.d > /run/motd',
         refreshonly => true,
     }
 }

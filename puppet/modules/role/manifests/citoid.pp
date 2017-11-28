@@ -4,6 +4,7 @@
 class role::citoid(
     $url,
 ) {
+    include ::role::zotero
     include ::citoid
 
     mediawiki::extension { 'Citoid':

@@ -18,8 +18,6 @@ account_autocreate = true
 use = egg:swift#tempauth
 user_admin_admin = admin .admin .reseller_admin
 user_<%= @project %>_<%= @user %> = <%= @key %> .admin
-# Force a very low token life to surface reauth issues (default is 24 hours)
-token_life = 60
 
 [filter:healthcheck]
 use = egg:swift#healthcheck

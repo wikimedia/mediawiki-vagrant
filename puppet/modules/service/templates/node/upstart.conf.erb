@@ -1,0 +1,19 @@
+# This file is managed by Puppet
+# Upstart init script for <%= @title %>
+
+description "<%= @title %> service"
+
+start on mediawiki-ready
+stop on runlevel [016]
+
+setuid "www-data"
+setgid "www-data"
+
+env <%= @title.gsub(/[^a-zA-Z0-9_]/, '_').upcase %>_PORT="<%= @port %>"
+env NODE_PATH="<%= @dir %>/node_modules"
+
+chdir "<%= @dir %>"
+exec /usr/bin/nodejs <%= @script %> -c <%= @dir %>/config.vagrant.yaml
+
+respawn
+

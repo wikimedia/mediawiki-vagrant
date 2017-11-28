@@ -40,7 +40,7 @@ define swift::ring(
     }
 
     exec { "${ring_type}/create_ring":
-        command     => "swift-ring-builder ${ring_type}.builder create 18 1 1",
+        command     => "swift-ring-builder ${ring_type}.builder create 18 3 1",
         user        => 'swift',
         cwd         => '/etc/swift',
         notify      => Exec["${ring_type}/add_ring"],

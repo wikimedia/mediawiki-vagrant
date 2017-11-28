@@ -36,7 +36,7 @@ class git(
     }
 
     package { 'git-review':
-        ensure   => '1.25.0',
+        ensure   => '1.25',
         provider => 'pip',
     }
 }

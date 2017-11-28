@@ -70,7 +70,6 @@ class mediawiki(
     include ::mwv
     require ::php
     require ::hhvm
-    include ::hhvm::fcgi
 
     require ::service
 
@@ -78,7 +77,6 @@ class mediawiki(
     include ::mediawiki::jobrunner
     include ::mediawiki::multiwiki
     include ::mediawiki::mwrepl
-    include ::mediawiki::ready_service
 
     require_package('parallel')
 
@@ -91,6 +89,12 @@ class mediawiki(
     }
 
     mediawiki::skin { 'Vector': }
+
+    file { 'mediawiki_upstart_bridge':
+        path    => '/etc/init/mediawiki-bridge.conf',
+        content => template('mediawiki/mediawiki-bridge.conf.erb'),
+        require => Git::Clone['mediawiki/core'],
+    }
 
     file { $settings_dir:
         ensure => directory,

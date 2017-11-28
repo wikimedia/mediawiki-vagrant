@@ -1,0 +1,35 @@
+# vim: set ft=upstart:
+
+# This file is managed by Puppet
+# Upstart init script for Zotero
+
+description "Zotero HTTP service (dependency of Citoid)"
+
+start on mediawiki-ready
+stop on runlevel [016]
+
+# up ulimit -n a bit
+limit nofile 10000 10000
+
+setuid "www-data"
+setgid "www-data"
+
+respawn
+respawn limit 5 10
+
+# wait 60 seconds for a graceful restart before killing the master
+kill timeout 60
+
+env LD_LIBRARY_PATH=/usr/lib/xulrunner-24.0/
+
+# The xulrunner-dev package installs a non-executable
+# /usr/lib/xulrunner-devel-24.0/sdk/bin/xpcshell
+# Work around that by invoking ld-linux-x86-64.so.2 first.
+exec /lib64/ld-linux-x86-64.so.2                                  \
+  /usr/lib/xulrunner-devel-24.0/sdk/bin/xpcshell                  \
+  -g /usr/lib/xulrunner-24.0/                                     \
+  -a <%= @base_path %>/translation-server                         \
+  -mn                                                             \
+  -v 180                                                          \
+  <%= @base_path %>/translation-server/translation-server/init.js \
+  >> <%= @log_file %> 2>&1

@@ -1,0 +1,16 @@
+# xvfb - X virtual framebuffer
+#
+# Xvfb or X virtual framebuffer is an X11 server that performs all
+# graphical operations in memory, not showing any screen output.
+#
+description "X virtual framebuffer"
+
+start on (local-filesystems and net-device-up IFACE!=lo)
+
+setuid xvfb
+setgid xvfb
+
+respawn
+respawn limit 10 5
+
+exec Xvfb :<%= @display %> -screen 0 <%= @resolution %> -ac

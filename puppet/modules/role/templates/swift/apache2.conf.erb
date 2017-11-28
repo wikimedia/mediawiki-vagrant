@@ -1,4 +1,4 @@
 LoadModule proxy_module modules/mod_proxy.so
 LoadModule proxy_http_module modules/mod_proxy_http.so
 LogLevel trace8
-ProxyPassMatch "^/images/(.*)$" "http://127.0.0.1:<%= scope['::swift::port'] %>/wiki/dev/$1"
+ProxyPassMatch "^/images/(.*)$" "http://127.0.0.1:<%= scope['::swift::port'] %>/wiki/en/$1"

@@ -154,31 +154,43 @@ class sentry (
         ],
     }
 
-    systemd::service { 'sentry-server':
-        ensure         => 'present',
-        service_params => {
-            require   => [
-                Virtualenv::Environment[$deploy_dir],
-                Mysql::User[$db_user],
-            ],
-            subscribe => [
-                File[$cfg_file],
-                Exec['create sentry project'],
-            ],
-        },
+    file { '/etc/init/sentry-server.conf':
+        ensure  => present,
+        content => template('sentry/upstart-server.erb'),
+        mode    => '0444',
     }
 
-    systemd::service { 'sentry-worker':
-        ensure         => 'present',
-        service_params => {
-            require   => [
-                Virtualenv::Environment[$deploy_dir],
-                Mysql::User[$db_user],
-            ],
-            subscribe => [
-                File[$cfg_file],
-                Exec['create sentry project'],
-            ],
-        },
+    file { '/etc/init/sentry-worker.conf':
+        ensure  => present,
+        content => template('sentry/upstart-worker.erb'),
+        mode    => '0444',
+    }
+
+    service { 'sentry-server':
+        ensure    => running,
+        enable    => true,
+        provider  => 'upstart',
+        require   => [
+            Virtualenv::Environment[$deploy_dir],
+            Mysql::User[$db_user],
+        ],
+        subscribe => [
+            File[$cfg_file],
+            Exec['create sentry project'],
+        ],
+    }
+
+    service { 'sentry-worker':
+        ensure    => running,
+        enable    => true,
+        provider  => 'upstart',
+        require   => [
+            Virtualenv::Environment[$deploy_dir],
+            Mysql::User[$db_user],
+        ],
+        subscribe => [
+            File[$cfg_file],
+            Exec['create sentry project'],
+        ],
     }
 }

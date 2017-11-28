@@ -8,8 +8,8 @@ mwv::files_dir: /srv
 mwv::etc_dir: /etc/mw-vagrant
 mwv::services_dir: /vagrant/srv
 mwv::vendor_dir: /srv
+mwv::enable_cachefilesd: true
 mwv::tld: '.local.wmftest.net'
-mwv::cachefilesd::enable: true
 
 three_d::three_d_2png_dir: /var/3d2png
 
@@ -157,7 +157,7 @@ hhvm::fcgi_settings:
     remote_enable: 1
 
 hhvm::docroot: "%{hiera('apache::docroot')}"
-hhvm::hhbc_dir: /var/cache/hhvm
+hhvm::hhbc_dir: /var/run/hhvm
 hhvm::logroot: /vagrant/logs
 hhvm::admin_site_name: "hhvm-admin%{hiera('mwv::tld')}"
 
@@ -344,9 +344,6 @@ role::globalblocking::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 role::globalblocking::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 role::globalblocking::db_name: globalblocking
 
-role::keystone::admin_password: vagrant
-role::keystone::db_password: vagrant
-
 role::ldapauth::proxy_agent_password: vagrant_agent
 role::ldapauth::writer_password: vagrant_writer
 role::ldapauth::admin_password: vagrant_admin
@@ -479,10 +476,17 @@ swift::account_cfg_file: /etc/swift/account-server.conf
 swift::object_cfg_file: /etc/swift/object-server.conf
 swift::container_cfg_file: /etc/swift/container-server.conf
 
+trafficserver::deploy_dir: "%{hiera('mwv::services_dir')}/trafficserver"
+trafficserver::version: 6.0.0
+trafficserver::port: 6090
+
+thumbor::deploy_dir: "%{hiera('mwv::vendor_dir')}/thumbor"
 thumbor::cfg_dir: /etc/thumbor.d
 thumbor::log_dir: /vagrant/logs/thumbor
-thumbor::tmp_dir: /tmp/thumbor
 thumbor::statsd_port: "%{hiera('statsd::port')}"
 thumbor::sentry_dsn_file: "%{hiera('sentry::dsn_file')}"
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
+
+zotero::base_path: "%{hiera('mwv::services_dir')}/zotero"
+zotero::log_file: /vagrant/logs/zotero.log

@@ -1,0 +1,17 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+description "Sentry error log tracker (worker)"
+
+start on mediawiki-ready
+respawn
+
+env SENTRY_CONF="<%= @cfg_file %>"
+export SENTRY_CONF
+
+setuid www-data
+setgid www-data
+
+exec <%= @deploy_dir %>/bin/sentry celery worker -B
+
