@@ -12,7 +12,7 @@ User=www-data
 Group=www-data
 SyslogIdentifier=ores-celery
 WorkingDirectory=<%= @ores_root %>
-ExecStart=<%= @venv_dir %>/bin/ores applications.celery
+ExecStart=<%= @venv_dir %>/bin/ores applications.celery --logging-config <%= @logging_config %>
 Restart=always
 
 [Install]

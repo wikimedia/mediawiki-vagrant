@@ -1,0 +1,43 @@
+version: 1
+
+root:
+  handlers: [file]
+
+loggers:
+
+  revscoring:
+    level: DEBUG
+  ores:
+    level: DEBUG
+  ores.metrics_collectors.logger:
+    level: DEBUG
+  celery:
+    level: DEBUG
+  requests:
+    level: INFO
+  revscoring.dependencies.dependent:
+    level: INFO
+  stopit:
+    level: ERROR
+
+handlers:
+  stdout:
+    class: logging.StreamHandler
+    formatter: basic_human
+    stream: ext://sys.stdout
+  file:
+    class: logging.FileHandler
+    formatter: basic_human
+    filename: /vagrant/logs/ores.log
+  syslog:
+    class: logging.handlers.SysLogHandler
+    formatter: basic_human
+    address: /dev/log
+
+formatters:
+  basic_human:
+    format: "%(asctime)s %(levelname)s %(name)s: %(message)s"
+
+  # Extra verbosity for untangling threads:
+  threaded:
+    format: "s%(asctime)s %(levelname)s %(name)s [P%(process)d T%(thread)d]: %(message)s"

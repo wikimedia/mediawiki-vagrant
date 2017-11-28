@@ -89,6 +89,13 @@ class ores (
         require => Git::Clone['ores'],
     }
 
+    $logging_config = "${ores_root}/logging_config.yaml"
+    file { $logging_config:
+        ensure  => present,
+        content => template('ores/logging.yaml.erb'),
+        require => Virtualenv::Package['ores'],
+    }
+
     systemd::service { 'ores-wsgi':
         ensure         => present,
         service_params => {
@@ -99,6 +106,7 @@ class ores (
             ],
             subscribe => [
                 File[$cfg_file],
+                File[$logging_config],
             ],
         },
     }
@@ -112,6 +120,7 @@ class ores (
             ],
             subscribe => [
                 File[$cfg_file],
+                File[$logging_config],
             ],
         },
     }
