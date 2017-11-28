@@ -187,7 +187,7 @@ class role::striker(
       before      => Exec['striker manage.py migrate'],
       require     => [
           Mysql::User[$db_user],
-          Class[Mysql::Large_prefix],
+          Class['mysql::large_prefix'],
       ],
       subscribe   => Mysql::Db[$db_name],
     }
@@ -197,7 +197,7 @@ class role::striker(
         command => "${venv}/bin/python manage.py migrate",
         require => [
             Mysql::User[$db_user],
-            Class[Mysql::Large_prefix],
+            Class['mysql::large_prefix'],
             File['/etc/striker/striker.ini'],
         ],
         onlyif  => "${venv}/bin/python manage.py showmigrations --plan | /bin/grep -q '\\[ \\]'",

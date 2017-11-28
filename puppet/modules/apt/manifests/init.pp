@@ -76,5 +76,5 @@ class apt {
         mode   => '0444',
     }
 
-    Class['Apt'] -> Package <| |>
+    Class['apt'] -> Package <| |>
 }
