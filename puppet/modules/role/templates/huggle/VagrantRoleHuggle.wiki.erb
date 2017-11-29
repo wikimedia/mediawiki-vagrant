@@ -1,0 +1,18 @@
+'''Huggle''' is an anti-vandalism tool for use on MediaWiki based projects.
+
+== Getting started ==
+
+  $ vagrant ssh
+  $ cd /vagrant/srv/huggle/huggle
+  $ ./configure --qt4 --extension --no-audio
+  $ cd /vagrant/srv/huggle/huggle/huggle_release
+  $ make
+  $ cd /vagrant/srv/huggle/huggle/tests/test
+  $ cmake .
+  $ make
+  $ ./tst_testmain
+
+== See also ==
+* [https://en.wikipedia.org/wiki/Wikipedia:Huggle Wikipedia:Huggle]
+* [https://github.com/huggle/huggle3-qt-lx Huggle on GitHub]
+* [https://github.com/huggle/huggle3-qt-lx/wiki/Developer-guide Developer guide]
