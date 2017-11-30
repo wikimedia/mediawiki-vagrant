@@ -16,6 +16,7 @@ class role::cirrussearch {
     include ::role::sitematrix
     # necessary for CirrusSearch.php.erb to point to service root dir
     include ::service
+    include ::role::langwikis
 
     apt::repository { 'wikimedia-elastic':
         uri        => 'http://apt.wikimedia.org/wikimedia',
