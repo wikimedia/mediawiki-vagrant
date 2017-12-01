@@ -1,8 +1,3 @@
-if ( $wgDBname === 'wikidatawiki' ) {
-	$wmgUseWikibaseRepo = true;
-	$wmgUseWikibaseClient = true;
-	$wmgUseWikibasePropertySuggester = true;
-} else {
-	$wmgUseWikibaseRepo = false;
-	$wmgUseWikibaseClient = true;
-}
+$wgEnableWikibaseRepo = ( $wgDBname === 'wikidatawiki' );
+$wgEnableWikibaseClient = true;
+$wmgUseWikibasePropertySuggester = ( $wgDBname === 'wikidatawiki' );
