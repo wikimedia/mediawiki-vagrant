@@ -76,7 +76,7 @@ define service::node(
     }
 
     # sanity check since a default port cannot be assigned
-    unless $port and $port =~ /^\d+$/ {
+    unless $port and $port =~ Integer {
         fail('Service port must be specified and must be a number!')
     }
 
