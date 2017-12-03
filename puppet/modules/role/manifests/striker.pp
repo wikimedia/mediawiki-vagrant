@@ -126,7 +126,7 @@ class role::striker(
     require_package(
         'libffi-dev',
         'libldap2-dev',
-        'libmysqlclient-dev',
+        'default-libmysqlclient-dev',
         'libsasl2-dev',
         'libssl-dev',
         $python,
