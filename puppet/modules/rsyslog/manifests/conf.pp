@@ -34,7 +34,7 @@ define rsyslog::conf(
 ) {
     include ::rsyslog
 
-    if $priority !~ /^\d?\d$/ {
+    if $priority !~ Integer[0, 99] {
         fail("'priority' must be an integer between 0 - 99 (got: ${priority}).")
     }
 

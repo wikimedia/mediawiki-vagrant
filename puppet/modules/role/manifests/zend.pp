@@ -7,7 +7,7 @@ class role::zend {
 
     env::alternative { 'zend_as_default_php':
         alternative => 'php',
-        target      => '/usr/bin/php5',
+        target      => '/usr/bin/php7.0',
         priority    => 25,
     }
 }

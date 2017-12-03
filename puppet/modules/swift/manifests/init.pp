@@ -62,23 +62,8 @@ class swift (
         'swift*'
     ]
 
-    apt::pin { 'swift-python-backports':
-        package  => join(sort($packages), ' '),
-        pin      => 'release a=jessie-backports',
-        priority => '1000',
-    }
-
-    package { ['swift', 'swift-account', 'swift-container', 'swift-object', 'swift-proxy', 'python-webob']:
+    package { ['swift', 'swift-account', 'swift-container', 'swift-object', 'swift-proxy', 'python-webob', 'python-swiftclient']:
         ensure  => 'present',
-        require => [
-            Apt::Pin['swift-python-backports'],
-        ],
-    }
-
-    exec { 'ins-apt-python-swiftclient':
-        command     => '/usr/bin/apt-get update && /usr/bin/apt-get install -y --force-yes -t jessie-backports "python-swiftclient"',
-        environment => 'DEBIAN_FRONTEND=noninteractive',
-        unless      => '/usr/bin/dpkg -l python-swiftclient',
     }
 
     user { 'swift':

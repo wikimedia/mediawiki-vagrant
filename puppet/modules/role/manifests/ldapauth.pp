@@ -17,8 +17,8 @@ class role::ldapauth(
     $writer_password,
     $admin_password,
 ) {
-    # Needed for php5 maintenance scripts and if the VM is using role::zend
-    require_package('php5-ldap')
+    # Needed for php maintenance scripts and if the VM is using role::zend
+    require_package('php-ldap')
 
     # This is a lazy short cut so we don't have to pass a bazillion options to
     # create the initial LDIF data.

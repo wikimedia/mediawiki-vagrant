@@ -8,7 +8,7 @@ EnvironmentFile=/etc/default/jobrunner
 User=www-data
 Group=www-data
 SyslogIdentifier=jobchron
-ExecStart=/usr/bin/php5 <%= @dir %>/redisJobChronService --config-file=/etc/jobrunner.json ${DAEMON_OPTS}
+ExecStart=/usr/bin/php7.0 <%= @dir %>/redisJobChronService --config-file=/etc/jobrunner.json ${DAEMON_OPTS}
 Restart=always
 
 [Install]

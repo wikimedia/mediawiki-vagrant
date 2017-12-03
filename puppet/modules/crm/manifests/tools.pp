@@ -15,7 +15,7 @@ class crm::tools(
     $audit_base = '/var/spool/audit'
 
     require_package(
-        'libmysqlclient-dev',
+        'default-libmysqlclient-dev',
         'libyaml-dev'
     )
 
@@ -50,7 +50,7 @@ class crm::tools(
         command => "pip install -r ${dir}/requirements.txt",
         require => [
             Git::Clone['wikimedia/fundraising/tools'],
-            Package['libmysqlclient-dev'],
+            Package['default-libmysqlclient-dev'],
             Package['libyaml-dev'],
         ],
     }

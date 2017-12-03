@@ -19,8 +19,8 @@ class php::composer (
 
     exec { 'download_composer':
         command => "curl https://getcomposer.org/composer.phar -o ${bin}",
-        unless  => "php5 -r 'try { Phar::loadPhar(\"${bin}\"); exit(0); } catch(Exception \$e) { exit(1); }'",
-        require => Package['curl', 'php5-cli'],
+        unless  => "php7.0 -r 'try { Phar::loadPhar(\"${bin}\"); exit(0); } catch(Exception \$e) { exit(1); }'",
+        require => Package['curl', 'php-cli'],
     }
 
     file { '/usr/local/bin/composer':
@@ -40,7 +40,7 @@ class php::composer (
         ],
         require     => [
             File['/usr/local/bin/composer'],
-            Package['php5'],
+            Package['php'],
         ],
         schedule    => 'weekly',
     }

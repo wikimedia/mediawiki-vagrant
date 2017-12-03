@@ -14,7 +14,7 @@ class role::commons(
 
     mediawiki::wiki { 'commons':
         upload_dir => $upload_dir,
-        priority   => $::LOAD_EARLY,
+        priority   => $::load_early,
     }
     role::thumb_on_404::multiwiki { 'commons': }
 

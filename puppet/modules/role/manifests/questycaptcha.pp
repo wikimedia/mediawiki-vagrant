@@ -8,7 +8,7 @@ class role::questycaptcha {
 
     mediawiki::settings { 'QuestyCaptcha':
         values   => template('role/questycaptcha/settings.php.erb'),
-        priority => $::LOAD_LATER,
+        priority => $::load_later,
     }
 
     mediawiki::import::text { 'VagrantRoleQuestyCaptcha':

@@ -1,1 +1,1 @@
-/bin/bash -O globstar -c 'for f in /etc/php5/**/conf.d/*.ini; do (test -r $f || unlink $f;); done' || /bin/true
+/bin/bash -O globstar -c 'for f in /etc/php/7.0/**/conf.d/*.ini; do (test -r $f || unlink $f;); done' || /bin/true
