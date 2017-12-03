@@ -2,7 +2,7 @@
 # Installs and runs all hadoop services.
 #
 class role::hadoop {
-    require_package('openjdk-7-jdk')
+    require_package('openjdk-8-jdk')
 
     $namenode_hosts           = [$::fqdn]
 

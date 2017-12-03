@@ -53,7 +53,7 @@ class cassandra(
     }
 
     # we use openjdk as the java distrib
-    require_package('openjdk-7-jre-headless')
+    require_package('openjdk-8-jre-headless')
 
     package { 'cassandra':
         ensure  => latest,
