@@ -11,7 +11,7 @@ class role::offline {
 
     mediawiki::settings { 'Electron-VRS':
         values   => template('role/offline/electron-vrs.php.erb'),
-        priority => $::load_first,
+        priority => $::LOAD_FIRST,
     }
 
     mediawiki::extension { 'Collection':

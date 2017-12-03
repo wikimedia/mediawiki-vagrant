@@ -17,7 +17,7 @@ class role::visualeditor {
     mediawiki::extension { 'VisualEditor':
         settings      => template('role/visualeditor/conf.php.erb'),
         browser_tests => 'modules/ve-mw/tests/browser',
-        priority      => $::load_early,
-        wiki          => $::mediawiki::wiki_name,
+        priority      => $::LOAD_EARLY,
+        wiki          => $::mediawiki::wiki_db,
     }
 }

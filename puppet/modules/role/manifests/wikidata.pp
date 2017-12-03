@@ -41,7 +41,7 @@ class role::wikidata(
     }
 
     mediawiki::settings { 'WikiData-Init':
-        priority => $::load_early,
+        priority => $::LOAD_EARLY,
         values   => template('role/wikidata/init.php.erb'),
     }
 

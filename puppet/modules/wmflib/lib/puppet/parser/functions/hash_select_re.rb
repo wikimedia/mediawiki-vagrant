@@ -18,10 +18,8 @@ do not match the provided regex.
     EOS
   ) do |arguments|
 
-    unless arguments.size == 2
-      raise(Puppet::ParseError, "hash_select_re(): Wrong number of arguments " +
-        "given (#{arguments.size} for 2)")
-    end
+    raise(Puppet::ParseError, "hash_select_re(): Wrong number of arguments " +
+      "given (#{arguments.size} for 2)") if arguments.size != 2
 
     pattern = Regexp.new(arguments[0])
     in_hash = arguments[1]

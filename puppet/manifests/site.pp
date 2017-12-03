@@ -17,11 +17,11 @@ stage { 'first': } -> Stage['main'] -> stage { 'last': }
 # Human-readable constants which may be used in lieu of literal numbers
 # for specifying loading priority of resource types which support this
 # notion (like mediawiki::extension, mediawiki::settings, and mediawiki::wiki).
-$load_first  = 0
-$load_early  = 5
-$load_normal = 10
-$load_later  = 15
-$load_last   = 20
+$LOAD_FIRST  = 0
+$LOAD_EARLY  = 5
+$LOAD_NORMAL = 10
+$LOAD_LATER  = 15
+$LOAD_LAST   = 20
 
 # Declares a default search path for executables, allowing the path to
 # be omitted from individual resources. Also configures Puppet to log

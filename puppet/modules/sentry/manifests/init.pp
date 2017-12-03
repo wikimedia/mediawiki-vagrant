@@ -69,7 +69,7 @@ class sentry (
     require ::virtualenv
 
     # http://stackoverflow.com/questions/5178292/pip-install-mysql-python-fails-with-environmenterror-mysql-config-not-found
-    require_package('default-libmysqlclient-dev')
+    require_package('libmysqlclient-dev')
     # needed for building the python package lxml
     require_package('libxml2-dev', 'libxslt1-dev')
     # needed for building the python package cffi (?)
@@ -87,7 +87,7 @@ class sentry (
             'sentry[mysql]==7.7.0',
             'raven',
         ],
-        require  => Package['default-libmysqlclient-dev'],
+        require  => Package['libmysqlclient-dev'],
         timeout  => 600, # This can take a while
     }
 

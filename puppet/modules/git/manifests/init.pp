@@ -32,9 +32,15 @@ class git(
         'git',
         'git-man',
     ]
+    apt::pin { 'git':
+        package  => join(sort($packages), ' '),
+        pin      => 'release a=jessie-backports',
+        priority => '1001',
+    }
 
     package { $packages:
         ensure  => 'present',
+        require => Apt::Pin['git'],
     }
 
     package { 'git-review':

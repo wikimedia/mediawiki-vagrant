@@ -35,8 +35,8 @@ class role::restbase (
     # Register the PHP Virtual REST Service connector
     mediawiki::settings { 'RESTBase-VRS':
         values   => template('role/restbase/vrs.php.erb'),
-        priority => $::load_first,
-        wiki     => $::mediawiki::wiki_name,
+        priority => $::LOAD_FIRST,
+        wiki     => $::mediawiki::wiki_db,
     }
 
     # Reverse proxy /api/rest_v1/ to RESTBase server
@@ -51,8 +51,8 @@ class role::restbase (
             wgVisualEditorFullRestbaseURL => $base_url,
             wgVisualEditorRestbaseURL     => $ve_url,
         },
-        priority => $::load_early,
-        wiki     => $::mediawiki::wiki_name,
+        priority => $::LOAD_EARLY,
+        wiki     => $::mediawiki::wiki_db,
     }
 
     mediawiki::import::text { 'VagrantRoleRestbase':

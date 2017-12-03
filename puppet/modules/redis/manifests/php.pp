@@ -7,7 +7,7 @@ class redis::php {
     include redis
     include apache
 
-    package { 'php-redis':
+    package { 'php5-redis':
         ensure  => present,
         require => Service['redis-server'],
         notify  => Service['apache2'],

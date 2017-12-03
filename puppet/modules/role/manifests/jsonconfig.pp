@@ -6,6 +6,6 @@ class role::jsonconfig {
 
     mediawiki::extension { 'JsonConfig':
         # Ensure that extensions that use JsonConfig will load later.
-        priority => $::load_early,
+        priority => $::LOAD_EARLY,
     }
 }

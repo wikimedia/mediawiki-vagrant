@@ -12,7 +12,7 @@ class role::eventbus {
     include ::changeprop
 
     mediawiki::extension { 'EventBus':
-        priority => $::load_early,
+        priority => $::LOAD_EARLY,
         settings => {
             wgEventServiceUrl => 'http://localhost:8085/v1/events',
         },

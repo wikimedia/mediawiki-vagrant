@@ -26,7 +26,7 @@
 # [*keyfile*]
 #   GPG key used to sign packages in this repo. Default undef.
 #
-# [*can_trust*]
+# [*trusted*]
 #   Should this repo be trusted for installing unsinged packages?
 #   Default false.
 #
@@ -42,11 +42,11 @@ define apt::repository (
     $components,
     $source      = true,
     $keyfile     = undef,
-    $can_trust   = false,
+    $trusted     = false,
     $comment_old = false,
     $ensure      = 'present',
 ) {
-    $trust = $can_trust ? {
+    $trust = $trusted ? {
         true    => '[trusted=yes] ',
         default => '',
     }

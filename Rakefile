@@ -26,11 +26,9 @@ PuppetLint::RakeTask.new(:lint) do |config|
     "#{Regexp.last_match(1)}/**/*.pp"
   }
   config.ignore_paths += ['tmp/**/*.pp']
-  config.log_format = '%{path}:%{line} %{KIND}: %{message}'
+  config.log_format = '%{path}:%{linenumber} %{KIND}: %{message}'
 end
-Cucumber::Rake::Task.new(:cucumber) do |t|
-  t.fork = false
-end
+Cucumber::Rake::Task.new(:cucumber)
 RSpec::Core::RakeTask.new(:spec)
 RuboCop::RakeTask.new(:rubocop)
 

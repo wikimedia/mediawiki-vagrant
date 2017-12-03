@@ -69,22 +69,21 @@
 require 'yaml'
 class Hiera
   module Backend
-    # This naming is required by puppet.
     class Role_backend
-      def initialize(cache = nil)
+      def initialize(cache=nil)
         @cache = cache || Filecache.new
       end
 
-      def get_path(_key, role, source, scope)
+      def get_path(key, role, source, scope)
         config_section = :role
 
         # Special case: 'private' repository.
         # We use a different datadir in this case.
         # Example: private/common will search in the role/common source
         # within the private datadir
-        if %r{private/(.*)} =~ source
+        if m = /private\/(.*)/.match(source)
           config_section = :private
-          source = Regexp.last_match(1)
+          source = m[1]
         end
 
         # Variables for role::foo::bar will be searched in:
@@ -95,7 +94,7 @@ class Hiera
         src = "role/#{source}/#{path}"
 
         # Use the datadir for the 'role' section of the config
-        Backend.datafile(config_section, scope, src, "yaml")
+        return Backend.datafile(config_section, scope, src, "yaml")
       end
 
       def merge_answer(new_answer, answer, resolution_type)
@@ -107,13 +106,12 @@ class Hiera
         when :hash
           raise Exception, "Hiera type mismatch: expected Hash and got #{new_answer.class}" unless new_answer.kind_of? Hash
           answer ||= {}
-          answer = Backend.merge_answer(new_answer, answer)
+          answer = Backend.merge_answer(new_answer,answer)
         else
           answer = new_answer
           return true, answer
         end
-
-        [false, answer]
+        return false, answer
       end
 
       def lookup(key, scope, order_override, resolution_type)
@@ -132,7 +130,7 @@ class Hiera
           Hiera.debug("Looking in hierarchy for role #{role}")
           answer = nil
           Backend.datasources(scope, order_override, hierarchy) do |source|
-            yamlfile = get_path(key, role, source, scope)
+            yamlfile = get_path(key,role,source, scope)
             next if yamlfile.nil?
             Hiera.debug("Searching in file #{yamlfile} for #{key}")
             next unless File.exist?(yamlfile)

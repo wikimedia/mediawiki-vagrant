@@ -3,7 +3,6 @@
 /.gem
 /.idea
 /.rbenv-version
-/.ruby-version
 /.settings.yaml
 /.yardoc/
 /*.gem

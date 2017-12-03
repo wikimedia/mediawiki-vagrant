@@ -1,7 +1,6 @@
 require "hiera/httpcache"
 class Hiera
   module Backend
-    # This naming is required by puppet.
     class Httpyaml_backend
       def initialize
         @cache = Httpcache.new

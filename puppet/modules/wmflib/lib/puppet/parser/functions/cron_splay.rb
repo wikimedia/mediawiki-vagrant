@@ -39,10 +39,8 @@ within each DC uniquely.
     EOS
   ) do |arguments|
 
-    unless arguments.size == 3
-      raise(Puppet::ParseError, "cron_splay(): Wrong number of arguments " +
-        "given (#{arguments.size} for 3)")
-    end
+    raise(Puppet::ParseError, "cron_splay(): Wrong number of arguments " +
+      "given (#{arguments.size} for 3)") if arguments.size != 3
 
     hosts = arguments[0]
     period = arguments[1]

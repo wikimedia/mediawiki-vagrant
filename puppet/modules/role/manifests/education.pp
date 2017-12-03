@@ -7,6 +7,6 @@ class role::education {
 
     mediawiki::extension { 'EducationProgram':
         needs_update => true,
-        priority     => $::load_last,  # load *after* CLDR
+        priority     => $::LOAD_LAST,  # load *after* CLDR
     }
 }

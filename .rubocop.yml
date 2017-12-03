@@ -30,7 +30,7 @@ Style/Alias:
 
 # Ignoring for now as many instances of strictly aligned parameters look
 # strange
-Layout/AlignParameters:
+Style/AlignParameters:
   Enabled: false
 
 Style/NumericLiterals:

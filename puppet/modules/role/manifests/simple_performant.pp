@@ -13,9 +13,9 @@ class role::simple_performant {
 
     require_package('unzip')
 
-    $day         = 24 * 60 * 60
-    $cache_accel = 3
-    $cache_db    = 1
+    $DAY         = 24 * 60 * 60
+    $CACHE_ACCEL = 3
+    $CACHE_DB    = 1
 
     php::ini { 'simple_performant':
         settings => { realpath_cache_size => '512K' },
@@ -24,19 +24,19 @@ class role::simple_performant {
     mediawiki::settings { 'simple_performant':
         values => {
             wgCacheDirectory        => '/var/cache/mediawiki',
-            wgMainCacheType         => $cache_accel,
-            wgParserCacheType       => $cache_db,
+            wgMainCacheType         => $CACHE_ACCEL,
+            wgParserCacheType       => $CACHE_DB,
             wgJobRunRate            => 0,
             wgEnableSidebarCache    => true,
-            wgParserCacheExpireTime => 30 * $day,
+            wgParserCacheExpireTime => 30 * $DAY,
             wgResourceLoaderMaxage  => {
                 'unversioned' => {
-                    'server' => $day,
-                    'client' => $day,
+                    'server' => $DAY,
+                    'client' => $DAY,
                 },
                 'versioned'   => {
-                    'server' => 30 * $day,
-                    'client' => 30 * $day,
+                    'server' => 30 * $DAY,
+                    'client' => 30 * $DAY,
                 },
             },
         },

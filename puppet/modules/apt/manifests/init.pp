@@ -34,7 +34,7 @@ class apt {
     apt::repository { 'wikimedia':
         uri         => 'https://apt.wikimedia.org/wikimedia',
         dist        => "${::lsbdistcodename}-wikimedia",
-        components  => 'main',
+        components  => 'main backports thirdparty',
         keyfile     => 'puppet:///modules/apt/wikimedia-pubkey.asc',
         comment_old => true,
     }
@@ -51,7 +51,7 @@ class apt {
         uri        => 'https://mwv-apt.wmflabs.org/repo',
         dist       => "${::lsbdistcodename}-mwv-apt",
         components => 'main',
-        can_trust  => true,
+        trusted    => true,
         source     => false,
     }
 
@@ -76,5 +76,5 @@ class apt {
         mode   => '0444',
     }
 
-    Class['apt'] -> Package <| |>
+    Class['Apt'] -> Package <| |>
 }

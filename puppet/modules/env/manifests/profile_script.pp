@@ -36,7 +36,7 @@ define env::profile_script(
 ) {
     include ::env
 
-    if $priority !~ Integer[0, 99] {
+    if $priority !~ /^\d?\d$/ {
         fail('"priority" must be between 0 - 99')
     }
     if $ensure !~ /^(present|absent)$/ {

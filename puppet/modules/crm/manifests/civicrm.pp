@@ -10,7 +10,7 @@ class crm::civicrm {
     }
 
     exec { 'civicrm_setup':
-        command => "/usr/bin/php ${install_script}",
+        command => "/usr/bin/php5 ${install_script}",
         unless  => "/usr/bin/mysql -u ${::crm::db_user} -p${::crm::db_pass} ${::crm::civicrm_db} -B -N -e 'select 1 from civicrm_domain' | grep -q 1",
         require => [
             File[

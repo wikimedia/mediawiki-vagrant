@@ -33,7 +33,7 @@ Style/DoubleNegation:
 
 # Offense count: 7
 # Configuration parameters: Exclude.
-Naming/FileName:
+Style/FileName:
   Exclude:
     - 'lib/labs-vagrant.rb'
     - 'lib/mediawiki-vagrant.rb'
@@ -72,46 +72,9 @@ Style/SingleLineBlockParams:
 # Offense count: 5
 # Cop supports --auto-correct.
 # Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
-Style/TrailingCommaInArguments:
+Style/TrailingComma:
   Exclude:
     - 'Vagrantfile'
     - 'lib/mediawiki-vagrant/config.rb'
     - 'lib/mediawiki-vagrant/hiera.rb'
     - 'lib/mediawiki-vagrant/roles/change.rb'
-
-# Checks turned off when updating to rubocop 0.51
-Style/SymbolArray:
-  Enabled: false
-
-Style/TrailingCommaInLiteral:
-  Enabled: false
-
-Naming/HeredocDelimiterNaming:
-  Enabled: false
-
-Style/NumericPredicate:
-  Enabled: false
-
-Performance/HashEachMethods:
-  Enabled: false
-
-Style/PercentLiteralDelimiters:
-  Enabled: false
-
-Naming/HeredocDelimiterCase:
-  Enabled: false
-
-Lint/RescueWithoutErrorClass:
-  Enabled: false
-
-Layout/EmptyLines:
-  Enabled: false
-
-Layout/EmptyLinesAroundMethodBody:
-  Enabled: false
-
-Layout/EmptyLinesAroundClassBody:
-  Enabled: false
-
-Style/ClassAndModuleChildren:
-  Enabled: false

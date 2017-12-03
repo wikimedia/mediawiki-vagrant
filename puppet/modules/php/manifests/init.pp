@@ -6,35 +6,35 @@
 #
 class php {
     include ::apache
-    include ::apache::mod::php
+    include ::apache::mod::php5
 
     include ::php::remote_debug
     include ::php::composer
     include ::php::xhprof
 
     package { [
-        'php',
-        'php-apcu',
         'php-auth-sasl',
-        'php-cli',
-        'php-curl',
-        'php-dev',
-        'php-gd',
-        'php-intl',
-        'php-json',
         'php-mail',
         'php-mail-mime',
-        'php-mcrypt',
-        'php-mysql',
         'php-net-smtp',
-        'php-readline',
-        'php-sqlite3',
+        'php5',
+        'php5-apcu',
+        'php5-cli',
+        'php5-curl',
+        'php5-dev',
+        'php5-gd',
+        'php5-intl',
+        'php5-json',
+        'php5-mcrypt',
+        'php5-mysql',
+        'php5-readline',
+        'php5-sqlite',
     ]:
         ensure  => present,
-        require => Class['::apache::mod::php'],
+        require => Class['::apache::mod::php5'],
     }
 
-    file { '/etc/php/7.0/mods-available':
+    file { '/etc/php5/mods-available':
         ensure  => directory,
         owner   => 'root',
         group   => 'root',
@@ -43,7 +43,7 @@ class php {
         purge   => true,
         ignore  => '[^_]*',  # puppet-managed files start w/an underscore
         notify  => Exec['prune_php_ini_files'],
-        require => Package['php'],
+        require => Package['php5'],
     }
 
     exec { 'prune_php_ini_files':
@@ -71,13 +71,17 @@ class php {
         settings => {
             'opcache.validate_timestamps' => 'on',
         },
-        require  => Package['php-apcu']
+        require  => Package['php5-apcu']
     }
 
     php::ini { 'opcache_revalidate_freq':
         settings => {
             'opcache.revalidate_freq' => 0,
         },
-        require  => Package['php-apcu'],
+        require  => Package['php5-apcu'],
+    }
+
+    class { '::php::sessionclean':
+        require => Package['php5'],
     }
 }

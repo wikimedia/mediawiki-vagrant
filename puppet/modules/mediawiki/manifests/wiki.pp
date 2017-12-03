@@ -65,7 +65,7 @@
 #
 # [*priority*]
 #   Position of this wiki in foreachwiki.  Uses the scale of
-#   the $::load_* constants from site.php. (default: $::load_normal)
+#   the LOAD_ constants from site.php. (default: $LOAD_NORMAL)
 #
 # [*wgconf*]
 #   Hash of extra wgConf settings for this wiki. One use case for this is
@@ -102,7 +102,7 @@ define mediawiki::wiki(
     $upload_path  = "/${title}images",
     $server_url   = "http://${title}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
     $primary_wiki = false,
-    $priority     = $::load_normal,
+    $priority     = $::LOAD_NORMAL,
     $wgconf       = {},
 ) {
     include ::mwv

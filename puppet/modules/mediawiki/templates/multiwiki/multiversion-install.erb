@@ -17,4 +17,4 @@ if [[ -e $IP/LocalSettings.php ]]; then
   trap "mv $IP/LocalSettings.tmp $IP/LocalSettings.php" EXIT INT TERM
 fi
 
-php $IP/maintenance/install.php "$@"
+php5 $IP/maintenance/install.php "$@"

@@ -13,7 +13,7 @@ class role::poolcounter {
     }
 
     mediawiki::extension { 'PoolCounter':
-        priority => $::load_early,
+        priority => $::LOAD_EARLY,
         settings => [
             '$wgPoolCountClientConf["servers"][] = "127.0.0.1";',
             '$wgPoolCountClientConf["timeout"] = 0.5;',

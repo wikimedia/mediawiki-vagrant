@@ -1,14 +1,14 @@
-# == Function: ipresolve(string $name_to_resolve, string $type = '4', string $nameserver = nil)
+# == Function: ipresolve( string $name_to_resolve, bool $ipv6 = false)
 #
-# Copyright (c) 2015-2017 Wikimedia Foundation Inc.
+# Copyright (c) 2015 Wikimedia Foundation Inc.
 #
-# Performs a name resolution (for A, AAAA and PTR records only) and returns a
-# string.
+# Performs a name resolution (for A AND AAAA records only) and returns
+# an hash of arrays.
 #
-# Takes one name to resolve, and returns a string of the A, AAAA or PTR record
-# found. The resolution is actually only done when the ttl has expired. A
-# particular nameserver can also be specified so only that is used, rather than
-# the system default.
+# Takes one or more names to resolve, and returns an array of all the
+# A or AAAA records found. The resolution is actually only done when
+# the ttl has expired. A particular nameserver can also be specified
+# so only that is used, rather than the system default.
 #
 require 'resolv'
 
@@ -19,12 +19,12 @@ class DNSCacheEntry
     @ttl = Time.now.to_i + ttl
   end
 
-  def valid?(time)
-    @ttl > time
+  def is_valid?(time)
+    return @ttl > time
   end
 
   def value
-    @value.to_s
+    return @value.to_s
   end
 end
 
@@ -41,28 +41,27 @@ class BasicTTLCache
     @cache.delete(key) if @cache.key?(key)
   end
 
-  def valid?(key)
+  def is_valid?(key)
     # If the key exists, and its ttl has not expired, return true.
     # Return false (and maybe clean up the stale entry) otherwise.
     return false unless @cache.key?(key)
     t = Time.now.to_i
-    return true if @cache[key].valid?t
-
-    false
+    return true if @cache[key].is_valid?t
+    return false
   end
 
   def read(key)
-    if valid?key
+    if is_valid?key
       return @cache[key].value
     end
-    nil
+    return nil
   end
 
   def read_stale(key)
     if @cache.key?(key)
       return @cache[key].value
     end
-    nil
+    return nil
   end
 end
 
@@ -75,13 +74,13 @@ class DNSCached
 
   def get_resource(name, type, nameserver)
     if nameserver.nil?
-      dns = Resolv::DNS.open
+      dns = Resolv::DNS.open()
     else
       dns = Resolv::DNS.open(:nameserver => [nameserver])
     end
     cache_key = "#{name}_#{type}_#{nameserver}"
     res = @cache.read(cache_key)
-    if res.nil?
+    if (res.nil?)
       begin
         res = dns.getresource(name, type)
         # Ruby < 1.9 returns nil as the ttl...
@@ -110,6 +109,7 @@ class DNSCached
     end
   end
 end
+
 
 module Puppet::Parser::Functions
   dns = DNSCached.new

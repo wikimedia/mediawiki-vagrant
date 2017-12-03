@@ -94,8 +94,15 @@ class role::horizon (
       'python-xstatic-term.js',
     ]
 
+    apt::pin { 'horizon':
+        package  => join(sort($packages), ' '),
+        pin      => 'release a=jessie-backports',
+        priority => '1001',
+    }
+
     package { $packages:
         ensure  => 'present',
+        require => Apt::Pin['horizon'],
     }
 
     file { "${log_dir}/horizon":

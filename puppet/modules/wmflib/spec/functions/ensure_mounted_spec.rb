@@ -32,4 +32,5 @@ describe "the ensure_mounted function" do
   it "should return 'false' for param 'false'" do
     expect(scope.function_ensure_mounted([false])).to eq(false)
   end
+
 end

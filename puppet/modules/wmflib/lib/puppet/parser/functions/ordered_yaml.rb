@@ -10,7 +10,7 @@
 #     content => ordered_yaml($options),
 #   }
 #
-require 'yaml'
+require 'puppet/util/zaml.rb'
 
 def sort_keys_recursive(value)
   # Prepare a value for YAML serialization by sorting its keys (if it is
@@ -44,6 +44,6 @@ end
 
 module Puppet::Parser::Functions
   newfunction(:ordered_yaml, :type => :rvalue, :arity => 1) do |args|
-    dedent_string(YAML.dump(sort_keys_recursive(args.first)).gsub(/^---.*?\n/, '')) << "\n"
+    dedent_string(ZAML.dump(sort_keys_recursive(args.first)).gsub(/^---.*?\n/, '')) << "\n"
   end
 end

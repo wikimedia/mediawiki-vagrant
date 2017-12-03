@@ -9,6 +9,6 @@ class role::thumb_on_404 {
     role::thumb_on_404::multiwiki { $::mediawiki::wiki_name:
         images_url => '/images',
         images_dir => "${::mwv::files_dir}/images",
-        wiki       => $::mediawiki::wiki_name,
+        wiki       => $::mediawiki::wiki_db,
     }
 }

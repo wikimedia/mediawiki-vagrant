@@ -113,7 +113,7 @@ define mediawiki::settings(
 
     if $wiki_name == $::mediawiki::wiki_name {
         $db_name = $::mediawiki::db_name
-    } elsif $wiki_name =~ String and $wiki_name =~ /wiki$/ {
+    } elsif $wiki_name =~ /wiki$/ {
         $db_name = $wiki_name
     } else {
         $db_name = "${wiki_name}wiki"

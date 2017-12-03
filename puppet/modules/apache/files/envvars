@@ -15,9 +15,9 @@ for envfile in /etc/apache2/env-enabled/*; do
   . "$envfile"
 done
 
-for ini in /etc/php/7.0/conf.d/*.ini; do
+for ini in /etc/php5/conf.d/*.ini; do
   [ -r "$ini" ] || break
-  mv "$ini" /etc/php/7.0/mods-available
-  /usr/sbin/phpenmod -s ALL "$(basename $ini .ini)"
+  mv "$ini" /etc/php5/mods-available
+  /usr/sbin/php5enmod -s ALL "$(basename $ini .ini)"
 done
-rm -rf /etc/php/7.0/conf.d
+rm -rf /etc/php5/conf.d

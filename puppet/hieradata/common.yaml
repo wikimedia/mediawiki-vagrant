@@ -225,7 +225,7 @@ mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fra
 mediawiki::branch: master
 
 mediawiki::apache::docroot: "%{hiera('apache::docroot')}"
-mediawiki::apache::php7_site_name: "php7%{hiera('mwv::tld')}"
+mediawiki::apache::php5_site_name: "php5%{hiera('mwv::tld')}"
 
 mediawiki::jobrunner::enable: true
 mediawiki::jobrunner::dir: "%{hiera('mwv::services_dir')}/jobrunner"
@@ -287,6 +287,8 @@ phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
 phabricator::log_dir: "/vagrant/logs/phd"
 phabricator::vhost_name: "phabricator%{hiera('mwv::tld')}"
 phabricator::remote: https://secure.phabricator.com/diffusion/P/phabricator.git
+
+php::sessionclean::ensure: present
 
 php::xhprof::profile_storage_dir: /vagrant/profiles
 

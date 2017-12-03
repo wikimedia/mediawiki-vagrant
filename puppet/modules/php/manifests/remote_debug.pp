@@ -21,7 +21,7 @@
 # See https://www.mediawiki.org/wiki/MediaWiki-Vagrant/Advanced_usage#MediaWiki_debugging_using_Xdebug_and_an_IDE_in_your_host
 # for more information.
 class php::remote_debug {
-    package { 'php-xdebug': }
+    package { 'php5-xdebug': }
 
     php::ini { 'remote_debug':
         settings => {
@@ -29,6 +29,6 @@ class php::remote_debug {
             'xdebug.remote_enable'       => 1,
             'xdebug.max_nesting_level'   => 200,
         },
-        require  => Package['php-xdebug'],
+        require  => Package['php5-xdebug'],
     }
 }
