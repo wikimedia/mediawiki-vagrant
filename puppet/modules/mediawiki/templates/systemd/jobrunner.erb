@@ -1,14 +1,14 @@
 [Unit]
 Description="Mediawiki job queue runner loop"
 Requires=mediawiki-ready.service
-After=mediawiki-ready.service hhvm.service
+After=mediawiki-ready.service
 
 [Service]
 EnvironmentFile=/etc/default/jobrunner
 User=www-data
 Group=www-data
 SyslogIdentifier=jobrunner
-ExecStart=/usr/bin/php7.0 <%= scope['::mediawiki::jobrunner::dir'] %>/redisJobRunnerService --config-file=/etc/jobrunner.json ${DAEMON_OPTS}
+ExecStart=/usr/bin/php <%= scope['::mediawiki::jobrunner::dir'] %>/redisJobRunnerService --config-file=/etc/jobrunner.json ${DAEMON_OPTS}
 Restart=always
 
 [Install]

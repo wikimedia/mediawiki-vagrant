@@ -69,8 +69,6 @@ class mediawiki(
 
     include ::mwv
     require ::php
-    require ::hhvm
-    include ::hhvm::fcgi
 
     require ::service
 

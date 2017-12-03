@@ -63,12 +63,6 @@ class hhvm (
         require => Package['hhvm'],
     }
 
-    env::alternative { 'hhvm_as_default_php':
-        alternative => 'php',
-        target      => '/usr/bin/hhvm',
-        priority    => 20,
-    }
-
     file { '/etc/hhvm':
         ensure => directory,
         owner  => 'root',
@@ -82,7 +76,6 @@ class hhvm (
         group   => 'root',
         mode    => '0444',
         content => php_ini($common_settings),
-        before  => Env::Alternative['hhvm_as_default_php'],
     }
 
     file { '/etc/hhvm/server.ini':
@@ -121,7 +114,6 @@ class hhvm (
         owner  => 'www-data',
         group  => 'www-data',
         mode   => '0666',
-        before => Env::Alternative['hhvm_as_default_php'],
     }
 
     file { $fcgi_settings['hhvm']['repo']['central']['path']:

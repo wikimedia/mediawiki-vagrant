@@ -21,10 +21,4 @@ class mediawiki::mwrepl(
         group   => 'root',
         mode    => '0555',
     }
-
-    # Backwards compatibility
-    file { '/usr/local/bin/hhvmsh':
-        ensure => 'link',
-        target => '/usr/local/bin/mwrepl',
-    }
 }

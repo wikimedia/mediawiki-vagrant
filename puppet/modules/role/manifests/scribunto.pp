@@ -18,7 +18,7 @@ class role::scribunto {
         require  => [
             Mediawiki::Extension['CodeEditor'],
             Mediawiki::Extension['SyntaxHighlight_GeSHi'],
-            Package['php-luasandbox', 'hhvm-luasandbox'],
+            Package['php-luasandbox'],
         ],
     }
 }
