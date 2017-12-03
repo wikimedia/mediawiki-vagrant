@@ -7,7 +7,6 @@ sed -i -e "s/^mesg n/tty -s \&\& mesg n/" ~/.profile >/dev/null 2>&1
 
 # handy aliases
 alias ..="cd .."
-alias ack=ack-grep
 
 # enable color for the shell prompt (PS1)
 export force_color_prompt="yes"
