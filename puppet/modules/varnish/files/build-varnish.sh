@@ -4,3 +4,4 @@ cd /srv/varnish-build/Varnish-Cache
 ./configure
 make
 make install
+ldconfig /usr/local/lib
