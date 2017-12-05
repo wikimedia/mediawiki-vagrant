@@ -6,6 +6,8 @@
 # === Parameters
 # [*vhost_name*]
 #   vhost_name of Kibana web interface. Default 'logstash.local.wmftest.net'.
+#   Kibana runs on the default 5601 port.
+#   To access it, the default is thus to browse to http://logstash.local.wmftest.net:5601/
 #
 class role::elk (
     $vhost_name,
@@ -17,9 +19,6 @@ class role::elk (
     include ::logstash
     include ::logstash::output::elasticsearch
     include ::kibana
-    include ::apache::mod::headers
-    include ::apache::mod::proxy
-    include ::apache::mod::proxy_http
 
     ## Configure Logstash
     logstash::input::syslog { 'syslog':
@@ -68,11 +67,6 @@ class role::elk (
         unless  => template('role/elk/check-logstash-template.erb'),
         require => Service['elasticsearch'],
         before  => Class['::logstash::output::elasticsearch'],
-    }
-
-    ## Configure Kibana
-    apache::site { $vhost_name:
-        content => template('role/elk/apache.conf.erb'),
     }
 
     ## Configure MediaWiki
