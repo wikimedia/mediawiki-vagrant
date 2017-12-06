@@ -1,0 +1,14 @@
+[Unit]
+Description=fundraising dash service
+#Requires=mediawiki-ready.service
+#After=mediawiki-ready.service
+
+[Service]
+User=www-data
+Group=www-data
+SyslogIdentifier=fundraising_dash
+ExecStart=/usr/bin/nodejs <%= @fundraising_dash_dir %>/server.js -d -c <%= @fundraising_dash_dir %>/settings.js
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

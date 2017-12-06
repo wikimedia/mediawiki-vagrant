@@ -45,11 +45,9 @@ class crm::dash (
         content => template('crm/fundraising_dash.conf.erb'),
     }
 
-    service { 'fundraising_dash':
-        ensure   => running,
-        enable   => true,
-        provider => 'upstart',
-        require  => Exec['dash_schema'],
+    systemd::service { 'fundraising_dash':
+      ensure  => present,
+      require => Exec['dash_schema'],
     }
 
 }

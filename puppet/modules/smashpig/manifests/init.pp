@@ -20,10 +20,15 @@ class smashpig(
         update => true,
     }
 
+    file { ['/etc/smashpig', '/etc/smashpig/adyen', '/etc/smashpig/paypal']:
+        ensure => directory
+    }
+
     file { '/etc/smashpig/main.yaml':
         content => template('smashpig/smashpig/main.yaml.erb'),
         require => [
             Git::Clone['wikimedia/fundraising/SmashPig'],
+            File['/etc/smashpig'],
         ],
     }
 
@@ -31,6 +36,7 @@ class smashpig(
         content => template('smashpig/smashpig/adyen/main.yaml.erb'),
         require => [
             Git::Clone['wikimedia/fundraising/SmashPig'],
+            File['/etc/smashpig/adyen'],
         ],
     }
 
@@ -38,6 +44,7 @@ class smashpig(
         content => template('smashpig/smashpig/paypal/main.yaml.erb'),
         require => [
             Git::Clone['wikimedia/fundraising/SmashPig'],
+            File['/etc/smashpig/paypal'],
         ],
     }
 

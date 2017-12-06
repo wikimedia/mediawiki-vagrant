@@ -16,7 +16,8 @@ class crm::tools(
 
     require_package(
         'libmysqlclient-dev',
-        'libyaml-dev'
+        'libyaml-dev',
+        'libffi-dev'
     )
 
     git::clone { 'wikimedia/fundraising/tools':
@@ -47,11 +48,12 @@ class crm::tools(
     }
 
     exec { 'frtools_python_requirements':
-        command => "pip install -r ${dir}/requirements.txt",
+        command => "pip install --upgrade setuptools; pip install -r ${dir}/requirements.txt",
         require => [
             Git::Clone['wikimedia/fundraising/tools'],
             Package['libmysqlclient-dev'],
             Package['libyaml-dev'],
+            Package['libffi-dev'],
         ],
     }
 }
