@@ -5,7 +5,7 @@ group :development do
   # https://github.com/mitchellh/vagrant/issues/5546
   gem 'vagrant', git: 'https://github.com/mitchellh/vagrant.git', tag: 'v1.8.1'
 
-  gem 'rubocop', '~> 0.35.1', require: false
+  gem 'rubocop', '~> 0.51.0', require: false
   gem 'puppet', '~> 3.7.0'
   gem 'puppet-lint', '1.1.0'
   gem 'puppetlabs_spec_helper', '< 2.0.0', require: false
