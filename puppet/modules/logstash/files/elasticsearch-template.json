@@ -24,13 +24,16 @@
       "dynamic_templates" : [
         {
           "string_fields" : {
+            "match" : "*",
             "match_mapping_type" : "string",
             "mapping" : {
               "type" : "text",
+              "index" : true,
               "omit_norms" : true,
               "fields" : {
                 "raw" : {
                   "type" : "keyword",
+                  "index" : true,
                   "doc_values": true
                 }
               }
@@ -41,11 +44,13 @@
           "boolean_to_string" : {
             "match_mapping_type" : "boolean",
             "mapping" : {
-              "type" : "keyword",
-              "omit_norms" : true,
-              "fields" : {
-                "raw" : {
-                  "type" : "keyword",
+              "type" : "text",
+              "index" : true,
+              "omit_norms": true,
+              "fields": {
+                "raw": {
+                  "index": true,
+                  "type": "keyword",
                   "doc_values": true
                 }
               }
@@ -56,11 +61,13 @@
           "double_to_string" : {
             "match_mapping_type" : "double",
             "mapping" : {
-              "type" : "keyword",
-              "omit_norms" : true,
-              "fields" : {
-                "raw" : {
-                  "type" : "keyword",
+              "type" : "text",
+              "index" : true,
+              "omit_norms": true,
+              "fields": {
+                "raw": {
+                  "index": true,
+                  "type": "keyword",
                   "doc_values": true
                 }
               }
@@ -71,11 +78,13 @@
           "long_to_string" : {
             "match_mapping_type" : "long",
             "mapping" : {
-              "type" : "keyword",
-              "omit_norms" : true,
-              "fields" : {
-                "raw" : {
-                  "type" : "keyword",
+              "type" : "text",
+              "index" : true,
+              "omit_norms": true,
+              "fields": {
+                "raw": {
+                  "index": true,
+                  "type": "keyword",
                   "doc_values": true
                 }
               }
@@ -86,10 +95,12 @@
       "properties" : {
         "@timestamp" : {
           "type" : "date",
+          "index" : true,
           "doc_values": true
         },
         "@version" : {
           "type" : "keyword",
+          "index" : true,
           "doc_values": true
         },
         "geoip"  : {
@@ -104,26 +115,28 @@
         },
         "host" : {
           "type" : "keyword",
+          "index" : true,
           "doc_values": true
         },
         "level" : {
           "type" : "keyword",
+          "index" : true,
           "doc_values": true
         },
         "message" : {
           "type" : "text",
+          "index" : true,
           "omit_norms" : true
         },
         "normalized_message" : {
           "type": "text",
+          "index" : true,
+          "omit_norms" : true,
           "fields": {
             "raw": {
               "type": "keyword",
+              "index": true,
               "doc_values": true
-            },
-            "normalized_message": {
-              "type" : "text",
-              "omit_norms" : true
             }
           }
         },
@@ -133,14 +146,29 @@
         },
         "tags" : {
           "type" : "keyword",
+          "index" : true,
           "doc_values": true
         },
         "type" : {
           "type" : "keyword",
+          "index" : true,
           "doc_values": true
         },
         "udp_sender" : {
           "type" : "keyword",
+          "index" : true,
+          "doc_values": true
+        },
+        "request_time" : {
+          "type" : "float",
+          "doc_values": true
+        },
+        "upstream_time" : {
+          "type" : "float",
+          "doc_values": true
+        },
+        "response_size" : {
+          "type" : "long",
           "doc_values": true
         }
       }
