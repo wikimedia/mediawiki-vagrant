@@ -4,7 +4,7 @@ class kafka {
     require ::service
     require ::mediawiki::ready_service
 
-    require_package('openjdk-7-jdk')
+    require_package('openjdk-8-jdk')
     require_package('zookeeperd')
     require_package('confluent-kafka-2.11.7')
     require_package('kafkacat')
