@@ -11,8 +11,8 @@ After=mediawiki-ready.service
 User=www-data
 Group=www-data
 SyslogIdentifier=ores-celery
-WorkingDirectory=<%= @repo_dir %>
-ExecStart=<%= @deploy_dir %>/bin/ores applications.celery
+WorkingDirectory=<%= @ores_root %>
+ExecStart=<%= @venv_dir %>/bin/ores applications.celery
 Restart=always
 
 [Install]

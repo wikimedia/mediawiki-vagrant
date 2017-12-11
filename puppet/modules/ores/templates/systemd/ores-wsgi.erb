@@ -11,8 +11,8 @@ After=mediawiki-ready.service
 User=www-data
 Group=www-data
 SyslogIdentifier=ores-wsgi
-WorkingDirectory=<%= @repo_dir %>
-ExecStart=<%= @deploy_dir %>/bin/ores applications.wsgi --port=<%= @port %> --processes=1
+WorkingDirectory=<%= @ores_root %>
+ExecStart=<%= @venv_dir %>/bin/ores applications.wsgi --port=<%= @port %> --processes=1
 Restart=always
 
 [Install]
