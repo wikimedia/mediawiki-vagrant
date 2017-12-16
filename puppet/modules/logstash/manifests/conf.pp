@@ -26,7 +26,7 @@ define logstash::conf(
     $source   = undef,
     $priority = 10,
 ) {
-    if $priority !~ /^\d?\d$/ {
+    if $priority !~ Integer[0, 99] {
         fail('"priority" must be between 0 - 99')
     }
     $safe_name   = regsubst($title, '[\W_]', '-', 'G')
