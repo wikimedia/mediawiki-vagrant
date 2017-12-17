@@ -1,7 +1,11 @@
 # == Class: mwv::packages
 #
 class mwv::packages {
-    package { 'python-pip': } -> Package <| provider == pip |>
+    package { [
+      'python-pip',
+      'python-setuptools',
+      'python-wheel',
+    ]: } -> Package <| provider == pip |>
 
     # Install common packages
     require_package(
