@@ -11,6 +11,8 @@
 # See https://www.varnish-cache.org/docs/3.0/reference/vcl.html#multiple-subroutines
 #
 class varnish {
+    require ::role::elk
+
     group { 'varnish':
         ensure => present,
     }
@@ -41,6 +43,7 @@ class varnish {
     require_package('libncurses-dev')
     require_package('libpcre3-dev')
     require_package('libedit-dev')
+    require_package('python-logstash')
 
     # We need to build from source because the tbf vmod needs the
     # built source, can't rely only on the headers
@@ -241,6 +244,21 @@ class varnish {
             Git::Clone['varnish-modules'],
         ],
         user    => 'root',
+    }
+
+    file { '/usr/local/bin/varnishslowlog':
+        source => 'puppet:///modules/varnish/varnishslowlog.py',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0555',
+    }
+
+    systemd::service { 'varnishslowlog':
+        ensure         => 'present',
+        require        => File['/usr/local/bin/varnishslowlog'],
+        service_params => {
+            subscribe => File['/usr/local/bin/varnishslowlog'],
+        },
     }
 
     systemd::service { 'varnish':
