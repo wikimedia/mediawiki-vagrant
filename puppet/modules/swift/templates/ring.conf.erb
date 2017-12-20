@@ -8,22 +8,22 @@ mount_check = false
 bind_port = <%= @ring_port %>
 
 [pipeline:main]
-pipeline = <%= @ring_type %>-server
+pipeline = <%= @title %>-server
 
-[app:<%= @ring_type %>-server]
-use = egg:swift#<%= @ring_type %>
+[app:<%= @title %>-server]
+use = egg:swift#<%= @title %>
 # Only for object-server
 allowed_headers = content-disposition, content-encoding, x-delete-at, x-object-manifest, x-content-duration, x-content-dimensions, xkey
 
-[<%= @ring_type %>-replicator]
+[<%= @title %>-replicator]
 vm_test_mode = yes
 
-[<%= @ring_type %>-updater]
+[<%= @title %>-updater]
 
-[<%= @ring_type %>-auditor]
+[<%= @title %>-auditor]
 
 # Only for container-sync but avoid making more complex template logic
-[<%= @ring_type %>-sync]
+[<%= @title %>-sync]
 
 # Same for account-reaper
-[<%= @ring_type %>-reaper]
+[<%= @title %>-reaper]

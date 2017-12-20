@@ -481,10 +481,6 @@ swift::key: testpwd
 swift::project: testproj
 swift::user: testuser
 swift::cfg_file: /etc/swift/swift.conf
-swift::proxy_cfg_file: /etc/swift/proxy-server.conf
-swift::account_cfg_file: /etc/swift/account-server.conf
-swift::object_cfg_file: /etc/swift/object-server.conf
-swift::container_cfg_file: /etc/swift/container-server.conf
 
 three_d::three_d_2png_dir: /srv/3d2png
 
