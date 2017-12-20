@@ -4,12 +4,12 @@ Requires=mediawiki-ready.service
 After=mediawiki-ready.service
 
 [Service]
-Environment=NODE_PATH=<%= @dir %>/node_modules
+Environment=NODE_PATH=<%= $dir %>/node_modules
 User=www-data
 Group=www-data
 SyslogIdentifier=statsd
-WorkingDirectory=<%= @dir %>
-ExecStart=/bin/sh -c '/usr/bin/nodejs stats.js <%= @dir %>/config.js > <%= @logdir %>/statsd.log'
+WorkingDirectory=<%= $dir %>
+ExecStart=/bin/sh -c '/usr/bin/nodejs stats.js <%= $dir %>/config.js > <%= $logdir %>/statsd.log'
 Restart=always
 
 [Install]
