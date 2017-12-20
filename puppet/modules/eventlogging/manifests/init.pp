@@ -20,7 +20,7 @@ class eventlogging {
 
     # Do the initial pip install into the virtualenv
     exec { 'eventlogging_virtualenv_pip_install':
-        command => "${path}/virtualenv/bin/pip install -e .",
+        command => "${path}/virtualenv/bin/pip install --no-binary mysqlclient -e .",
         cwd     => $path,
         creates => "${path}/virtualenv/local/lib/python2.7/site-packages/eventlogging.egg-link",
         require => [
