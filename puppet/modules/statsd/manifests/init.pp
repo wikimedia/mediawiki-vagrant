@@ -58,7 +58,12 @@ class statsd (
     }
 
     systemd::service { 'statsd':
-        ensure  => 'present',
-        require => Npm::Install[$dir],
+        ensure             => 'present',
+        require            => Npm::Install[$dir],
+        epp_template       => true,
+        template_variables => {
+            'dir'    => $dir,
+            'logdir' => $logdir,
+        },
     }
 }
