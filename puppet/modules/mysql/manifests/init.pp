@@ -5,9 +5,6 @@
 #
 # === Parameters
 #
-# [*root_password*]
-#   Password for the root MySQL account (default: 'vagrant').
-#
 # [*default_db_name*]
 #   If defined, the 'mysql' command-line client will be configured to
 #   use this database by default (default: undefined).
@@ -18,12 +15,10 @@
 # === Examples
 #
 #  class { 'mysql':
-#      root_password   => 'r00tp455w0rd',
 #      default_db_name => 'wiki',
 #  }
 #
 class mysql(
-    $root_password = 'vagrant',
     $default_db_name = undef,
     $grant_host_name = undef,
 ) {
@@ -36,12 +31,14 @@ class mysql(
         require    => Package['mysql-server'],
     }
 
-    exec { 'set_mysql_password':
-        command => "/usr/bin/mysqladmin -u root password \"${root_password}\"",
-        unless  => "/usr/bin/mysqladmin -u root -p\"${root_password}\" status",
-        require => Service['mysql'],
+    # Setup password free auth for VM's vagrant user
+    mysql::user { 'vagrant':
+        ensure   => present,
+        password => 'ignored',
+        grant    => 'ALL PRIVILEGES ON *.*',
+        hostname => 'localhost',
+        socket   => true,
     }
-
     file { '/home/vagrant/.my.cnf':
         ensure  => file,
         owner   => 'vagrant',

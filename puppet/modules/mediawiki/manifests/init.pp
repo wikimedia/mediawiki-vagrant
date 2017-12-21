@@ -129,7 +129,6 @@ class mediawiki(
         server_url   => $server_url,
         primary_wiki => true,
         require      => [
-            Exec['set_mysql_password'],
             Git::Clone['mediawiki/core'],
             Php::Composer::Install[$dir],
         ],
