@@ -101,11 +101,10 @@ Vagrant.configure('2') do |config|
   end
 
   # libvirt (KVM/QEMU) provider.  Enable with `--provider=libvirt`.
-  # config.vm.provider :libvirt do |_libvirt, override|
-  #   override.vm.box = 'trusty-cloud'
-
-  #   override.vm.network :private_network, ip: settings[:static_ip]
-  # end
+  config.vm.provider :libvirt do |_libvirt, override|
+    override.vm.box = 'debian/contrib-jessie64'
+    override.vm.network :private_network, ip: settings[:static_ip]
+  end
 
   config.vm.network :forwarded_port,
     guest: settings[:http_port], host: settings[:http_port], host_ip: settings[:host_ip],

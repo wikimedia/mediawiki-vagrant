@@ -8,26 +8,27 @@ libvirt is a virtualization API.  It supports multiple backends
 ## Setup ##
 
 Running MediaWiki-Vagrant in KVM/QEMU under libvirt requires to
-install the libvirt Vagrant plugin.  In a Fedora system, you can just
-install the package vagrant-libvirt.
+install the libvirt Vagrant plugin. On a Fedora system, you can just
+install the package vagrant-libvirt. For Debian see their wiki page
+https://wiki.debian.org/KVM#Installation
 
-In addition you need convert the Ubuntu Trusty VirtualBox box that
-MediaWiki-Vagrant uses by default for the libvirt provider.  To do
-that:
+At first download the Debian Jessie box:
 
-1. Install the mutate Vagrant plugin by "vagrant plugin install mutate".
-2. Download the Ubuntu Trusty VirtualBox box by "vagrant box add
-   trusty-cloud
-   https://cloud-images.ubuntu.com/vagrant/trusty/current/trusty-server-cloudimg-amd64-vagrant-disk1.box".
-3. Convert the box by "vagrant mutate trusty-cloud libvirt".
+  vagrant box add debian/contrib-jessie64
+  # https://app.vagrantup.com/debian/boxes/contrib-jessie64
 
+You would then need to convert the box to libvirt. Install the mutate plugin
+either from your distribution package 'vagrant-mutate' or if not available:
 
+  vagrant plugin install mutate
+
+Then do the conversion:
+
+  vagrant mutate debian/contrib-jessie64 libvirt
 
 ## Use ##
 
     vagrant up --provider=libvirt
-
-
 
 ## Caveats ##
 
