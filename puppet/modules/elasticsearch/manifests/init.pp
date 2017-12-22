@@ -4,6 +4,8 @@
 # engine, much like Solr, but with a more user-friendly inteface.
 #
 class elasticsearch {
+    require ::elasticsearch::repository
+
     require_package('openjdk-8-jre-headless')
 
     package { 'elasticsearch':

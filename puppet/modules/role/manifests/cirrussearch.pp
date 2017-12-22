@@ -17,13 +17,6 @@ class role::cirrussearch {
     # necessary for CirrusSearch.php.erb to point to service root dir
     include ::service
 
-    apt::repository { 'wikimedia-elastic':
-        uri        => 'http://apt.wikimedia.org/wikimedia',
-        dist       => "${::lsbdistcodename}-wikimedia",
-        components => 'component/elastic55 thirdparty/elastic55',
-        #before     => Class['::elasticsearch'],
-    }
-
     # Elasticsearch plugins (for search)
     package { 'wmf-elasticsearch-search-plugins':
         ensure => latest,
