@@ -167,14 +167,8 @@
   },
   "settings": {
     "index": {
-      "creation_date": "1490215360374",
       "number_of_shards": "1",
-      "number_of_replicas": "1",
-      "uuid": "g5yFFGPuSsGwZHzNSyWKHg",
-      "version": {
-        "created": "5010299"
-      },
-      "provided_name": ".kibana"
+      "number_of_replicas": "1"
     }
   }
 }

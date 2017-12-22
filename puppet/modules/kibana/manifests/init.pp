@@ -46,12 +46,12 @@ class kibana (
 
     exec { 'create-kibana-index':
         command => 'curl -XPUT localhost:9200/.kibana --data-binary @/vagrant/puppet/modules/kibana/files/kibana-mapping.json',
-        unless  => 'curl -sf -XHEAD localhost:9200/.kibana',
+        unless  => 'curl -sf --head localhost:9200/.kibana',
         require => Exec['wait-for-elasticsearch'],
     }
 
     exec { 'preload-kibana-dashboard':
-        command     => 'curl -sf -XPOST localhost:9200/.kibana/_bulk --data-binary @/vagrant/puppet/modules/kibana/files/kibana-dump.json > /dev/null',
+        command     => 'curl -sf -X POST localhost:9200/.kibana/_bulk --data-binary @/vagrant/puppet/modules/kibana/files/kibana-dump.json > /dev/null',
         refreshonly => true,
         subscribe   => Exec['create-kibana-index'],
         require     => Exec['wait-for-elasticsearch'],
