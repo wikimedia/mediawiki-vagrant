@@ -48,6 +48,5 @@ define motd::script(
         mode    => '0555',
         content => $content,
         source  => $source,
-        notify  => Exec['update_motd'],
     }
 }
