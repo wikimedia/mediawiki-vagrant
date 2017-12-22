@@ -8,6 +8,7 @@ group :development do
   gem 'puppet', '~> 4.8.2'
   gem 'puppet-lint', '2.3.3'
   gem 'puppetlabs_spec_helper', '< 2.0.0', require: false
+  gem 'rspec-puppet', '~> 2.6.5', require: false
   gem 'puppet-strings', '~> 1.0.0'
   gem 'safe_yaml', '~> 1.0.4'
   gem 'rake', '~> 12.0.0'
