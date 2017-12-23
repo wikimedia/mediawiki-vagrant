@@ -26,47 +26,75 @@ class ores (
     # revscoring
     require_package('python3-dev', 'g++', 'gfortran', 'liblapack-dev', 'libopenblas-dev', 'libenchant-dev')
 
+    file { $deploy_dir:
+        ensure => directory,
+    }
+
     # ORES (in a venv as it needs Python 3)
-    virtualenv::environment { $deploy_dir:
+    $venv_dir = "${deploy_dir}/venv"
+    virtualenv::environment { $venv_dir:
         ensure  => present,
         owner   => $::share_owner,
         group   => $::share_group,
         python  => 'python3',
-        require => Package['python3-dev', 'g++', 'gfortran', 'liblapack-dev', 'libopenblas-dev', 'libenchant-dev'],
+        require => [
+            Package['python3-dev', 'g++', 'gfortran', 'liblapack-dev', 'libopenblas-dev', 'libenchant-dev'],
+            File[$deploy_dir],
+        ],
     }
-    virtualenv::package { 'ores':
-        package  => 'git+https://github.com/wiki-ai/ores.git#egg=ores',
-        path     => $deploy_dir,
+
+    $sources_dir = "${deploy_dir}/src"
+    file { $sources_dir:
+        ensure => directory,
+    }
+    git::clone { 'revscoring':
+        directory => "${sources_dir}/revscoring",
+        remote    => 'https://github.com/wiki-ai/revscoring',
+        require   => File[$sources_dir],
+    }
+    $ores_root = "${sources_dir}/ores"
+    git::clone { 'ores':
+        directory => $ores_root,
+        remote    => 'https://github.com/wiki-ai/ores',
+        require   => File[$sources_dir],
+    }
+
+    virtualenv::package { 'revscoring':
+        package  => "${sources_dir}/revscoring",
+        path     => $venv_dir,
         editable => true,
+        require  => Git::Clone['revscoring'],
     }
-    #FIXME this should happen as part of normal dependency management but for some reason it doesn't
-    # pylru probably needs to be fixed in the revscoring pakcage, redis in ores
-    exec { 'pip_install_revscoring_dependencies_hack':
-        command     => "curl https://raw.githubusercontent.com/wiki-ai/revscoring/master/requirements.txt | ${deploy_dir}/bin/pip install pylru redis -r /dev/stdin",
-        cwd         => $deploy_dir,
-        subscribe   => Virtualenv::Package['ores'],
-        refreshonly => true,
+
+    virtualenv::package { 'ores':
+        # Tricky syntax to get pip to install ores with the extra "redis"
+        # dependencies specified in setup.py
+        package  => "${ores_root}[redis]",
+        path     => $venv_dir,
+        editable => true,
+        require  => [
+            Virtualenv::Package['revscoring'],
+            Git::Clone['ores'],
+        ],
     }
-    $repo_dir = "${deploy_dir}/src/ores"
 
     apache::reverse_proxy { 'ores':
         port => $port,
     }
 
-    $cfg_file = "${repo_dir}/config/999-vagrant.yaml"
+    $cfg_file = "${ores_root}/config/999-vagrant.yaml"
     file { $cfg_file:
         ensure  => present,
         content => template('ores/ores.yaml.erb'),
-        require => Virtualenv::Package['ores'],
+        require => Git::Clone['ores'],
     }
 
     systemd::service { 'ores-wsgi':
         ensure         => present,
         service_params => {
             require   => [
-                VirtualEnv::Package['ores'],
+                Virtualenv::Package['ores'],
                 Class['mediawiki::ready_service'],
-                Exec['pip_install_revscoring_dependencies_hack'],
                 Apache::Site['ores'],
             ],
             subscribe => [
@@ -78,9 +106,8 @@ class ores (
         ensure         => present,
         service_params => {
             require   => [
-                VirtualEnv::Package['ores'],
+                Virtualenv::Package['ores'],
                 Class['mediawiki::ready_service'],
-                Exec['pip_install_revscoring_dependencies_hack'],
                 Apache::Site['ores'],
             ],
             subscribe => [

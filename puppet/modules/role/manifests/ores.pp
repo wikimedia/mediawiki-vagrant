@@ -10,7 +10,6 @@ class role::ores {
     mediawiki::extension { 'ORES':
         needs_update => true,
         settings     => {
-            # Use the staging server until production supports 'damaging'
             wgOresBaseUrl => 'https://ores.wikimedia.org/',
 
             # Point at some fake data with flat probability distribution.
