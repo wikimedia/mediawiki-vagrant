@@ -9,7 +9,8 @@
 # == Parameters
 # [*path*]
 #   Path to already previously initialized virtualenv.
-#   The package will be available under $path/src/$python_module.
+#   For editable installs, the package will be available under
+#   $path/src/$python_module.
 #
 # [*package*]
 #   Pip package to install.  Default: $title
@@ -20,9 +21,11 @@
 #    already installed in the virtualenv.  Default: $title
 #
 # [*editable*]
-#    Intall package in editable mode (pip -e), ie. does a git clone into the
+#    Install package in editable mode (pip -e), ie. does a git clone into the
 #    main venv folder instead of installing a subset of the files only into
 #    ./lib. You probably need to use the 'package' parameter if you use this.
+#    If the package parameter points to a local path, link to that source
+#    rather than cloning the source into ${path}/src.
 #    Default: false
 #
 define virtualenv::package (
@@ -42,10 +45,10 @@ define virtualenv::package (
             unless  => "${path}/bin/python -c 'import ${python_module}'",
         }
         exec { "pip_install_${python_module}_editable_in_${path}":
-            command   => "${path}/bin/pip install -e ${package}",
-            cwd       => $path,
-            creates   => "${path}/src/${python_module}",
-            subscribe => Exec["pip_install_${python_module}_dependencies_in_${path}"],
+            command     => "${path}/bin/pip install -e ${package}",
+            cwd         => $path,
+            refreshonly => true,
+            subscribe   => Exec["pip_install_${python_module}_dependencies_in_${path}"],
         }
     } else {
         exec { "pip_install_${python_module}_in_${path}":
