@@ -26,7 +26,7 @@ class php::composer (
     file { '/usr/local/bin/composer':
         ensure  => file,
         owner   => 'root',
-        group   => 'root',
+        group   => 'staff',
         mode    => '0755',
         require => Exec['download_composer'],
     }
