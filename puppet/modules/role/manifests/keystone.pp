@@ -61,7 +61,6 @@ class role::keystone (
         'python-pyparsing',
         'python-pysaml2',
         'python-routes',
-        'python-setuptools',
         'python-sqlalchemy',
         'python-unicodecsv',
         'python-warlock',
