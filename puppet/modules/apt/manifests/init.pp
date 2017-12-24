@@ -5,11 +5,35 @@
 # supplementary sources.
 #
 class apt {
+    # Elaborate apt-get update trigger machanism ahead. We want apt-get update
+    # to be run on initial provision of a new VM (easy), once a day
+    # thereafter (not too hard with "schedule => daily"), AND any time that
+    # a new apt::pin or apt::repository define shows up in the Puppet graph.
+    # The first 2 can be handled simply via an Exec with the schedule attribure.
+    # That setup however keeps the 3rd use case from working as desired.
+    #
+    # The more complex replacement is a state file (/etc/apt/.update),
+    # a schedule=>daily exec to update that file, and a refreshonly
+    # Exec['apt-get update'] resource.
+    file { '/etc/apt/.update':
+        ensure  => 'present',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        content => '',
+        replace => false,
+        notify  => Exec['apt-get update'],
+    }
+    exec { 'Daily apt-get update':
+        command  => '/bin/date > /etc/apt/.update',
+        schedule => 'daily',
+    }
     exec { 'apt-get update':
-        command  => '/usr/bin/apt-get update',
-        schedule => daily,
-        timeout  => 240,
-        returns  => [ 0, 100 ],
+        command     => '/usr/bin/apt-get update',
+        timeout     => 240,
+        returns     => [ 0, 100 ],
+        refreshonly => true,
+        subscribe   => File['/etc/apt/.update'],
     }
 
     # Directory used to store keys added with apt::repository
