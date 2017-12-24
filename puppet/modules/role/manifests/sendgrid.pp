@@ -4,5 +4,7 @@
 # use the SendGrid API to send emails on-wiki using a valid API key
 #
 class role::sendgrid {
-    mediawiki::extension { 'SendGrid': }
+    mediawiki::extension { 'SendGrid':
+        composer => true,
+    }
 }
