@@ -43,13 +43,13 @@ class npm (
 
     # Node 6 brings in npm 3 that doesn't work in shared folders due to a bug.
     # See: https://github.com/npm/npm/issues/9953
-    # Although the ticket is closed, the issue is still present, so downgrade to npm 2
+    # Although the ticket is closed, the issue is still present, so downgrade
+    # to the latest npm 2
     exec { 'downgrade_npm':
       command => '/usr/bin/npm install -g npm@latest-2',
       user    => 'root',
-      require => [
-          Package['nodejs'],
-      ],
+      unless  => '/usr/bin/npm --version | /bin/grep -qe ^2',
+      require => Package['nodejs'],
     }
 
     env::var { 'NPM_CONFIG_CACHE':
