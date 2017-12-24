@@ -267,10 +267,6 @@ class mediawiki::multiwiki(
     file { '/usr/local/bin/sql':
         ensure  => link,
         target  => '/usr/bin/mysql',
-        # /usr/bin/mysql is provided by the package
-        # mysql-client-core-5.5, but that is only installed as an
-        # implicit dependency of mysql-server required by
-        # mysql::packages.
-        require => Package['mysql-server'],
+        require => Package['mariadb-server'],
     }
 }

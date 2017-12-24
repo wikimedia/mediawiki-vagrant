@@ -24,11 +24,12 @@ class mysql(
 ) {
     include ::mysql::packages
 
-    service { 'mysql':
+    service { 'mariadb':
         ensure     => running,
         enable     => true,
+        provider   => 'systemd',
         hasrestart => true,
-        require    => Package['mysql-server'],
+        require    => Package['mariadb-server'],
     }
 
     # Setup password free auth for VM's vagrant user

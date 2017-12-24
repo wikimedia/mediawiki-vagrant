@@ -4,7 +4,7 @@
 # class so they can be included from multiple locations.
 #
 class mysql::packages {
-    package { 'mysql-server':
+    package { 'mariadb-server':
         ensure => present,
     }
 }
