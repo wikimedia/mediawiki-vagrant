@@ -50,5 +50,7 @@ class mysql(
 
     # Create databases before creating users. User resources sometime
     # depend on databases for GRANTs, but the reverse is never true.
-    Mysql::Db <| |> -> Mysql::User <| |>
+    # NOTE: Mysql::User['vagrant'] is excluded as it would create a dependency
+    # cycle in classes which require this class.
+    Mysql::Db <| |> -> Mysql::User <| title != 'vagrant' |>
 }
