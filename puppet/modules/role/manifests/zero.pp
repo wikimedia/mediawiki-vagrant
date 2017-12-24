@@ -8,7 +8,6 @@ class role::zero {
     include ::role::parserfunctions
     include ::role::scribunto
     include ::role::thumb_on_404
-    include ::role::zend
 
     mediawiki::extension { 'ZeroBanner':
         priority => $::load_later, # Must be after JsonConfig & MobileFrontEnd
