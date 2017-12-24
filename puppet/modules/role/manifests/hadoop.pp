@@ -33,7 +33,7 @@ class role::hadoop {
         mapreduce_intermediate_compression_codec => 'org.apache.hadoop.io.compress.SnappyCodec',
         mapreduce_output_compression             => true,
         mapreduce_output_compression_codec       => 'org.apache.hadoop.io.compress.SnappyCodec',
-        mapreduce_output_compression_type        => BLOCK,
+        mapreduce_output_compression_type        => 'BLOCK',
         mapreduce_map_tasks_maximum              => 2,
         mapreduce_reduce_tasks_maximum           => 2,
         # mapreduce.shuffle.port defaults to 8080.
