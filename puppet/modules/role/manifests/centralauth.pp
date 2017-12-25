@@ -67,12 +67,16 @@ class role::centralauth(
     }
 
     mysql::db { $shared_db:
-        ensure => present,
+        ensure  => present,
+        options => 'DEFAULT CHARACTER SET binary',
     }
 
     mysql::sql { "GRANT ALL PRIVILEGES ON ${shared_db}.* TO ${db_user}@${db_host}":
         unless  => "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE TABLE_SCHEMA = '${shared_db}' AND GRANTEE = \"'${db_user}'@'${db_host}'\" LIMIT 1",
-        require => Mysql::User[$db_user],
+        require => [
+          Mysql::Db[$shared_db],
+          Mysql::User[$db_user],
+        ],
     }
 
     mysql::sql { 'Create CentralAuth tables':

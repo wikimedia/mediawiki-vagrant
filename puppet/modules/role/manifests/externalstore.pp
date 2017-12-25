@@ -15,7 +15,8 @@ class role::externalstore (
     include ::mediawiki
 
     mysql::db { 'external store db':
-        dbname => 'external',
+        dbname  => 'external',
+        options => 'DEFAULT CHARACTER SET binary',
     }
 
     mysql::sql { "GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}@${grant_db_host}":

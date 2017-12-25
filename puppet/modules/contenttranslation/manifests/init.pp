@@ -108,7 +108,8 @@ class contenttranslation(
     }
 
     mysql::db { $database:
-        ensure => present,
+        ensure  => present,
+        options => 'DEFAULT CHARACTER SET binary',
     }
 
     mysql::sql { "${database_user}_full_priv_${database}":
