@@ -1,6 +1,6 @@
 # == Class: Elasticsearch::Repository
 #
-# Configure an atp repository to fetch elasticsearch packages from.
+# Configure an apt repository to fetch elasticsearch packages from.
 class elasticsearch::repository {
     apt::repository { 'wikimedia-elastic':
         uri        => 'http://apt.wikimedia.org/wikimedia',
