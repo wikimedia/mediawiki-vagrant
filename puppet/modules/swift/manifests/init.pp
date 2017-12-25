@@ -33,19 +33,6 @@ class swift (
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
 
-    $packages = [
-        'python-cryptography',
-        'python-openssl',
-        'python-dnspython',
-        'python-eventlet',
-        'python-pkg-resources',
-        'python-pyasn1',
-        'python-setuptools',
-        'python-swift*',
-        'python-webob',
-        'swift*'
-    ]
-
     package { ['swift', 'swift-account', 'swift-container', 'swift-object', 'swift-proxy', 'python-webob', 'python-swiftclient']:
         ensure  => 'present',
     }
