@@ -13,9 +13,13 @@ require 'cucumber/rake/task'
 require 'puppet-lint/tasks/puppet-lint'
 require 'puppet-syntax/tasks/puppet-syntax'
 require 'puppet-strings/tasks/generate'
+require 'rake/clean'
 require 'rspec/core/rake_task'
 require 'rubocop/rake_task'
 require 'yard'
+
+# Tell `rake clean` to get rid of generated test files
+CLEAN.include('tmp/testenv')
 
 # Work around bug in puppet-lint configuration
 # https://github.com/rodjek/puppet-lint/issues/331
@@ -37,7 +41,7 @@ RuboCop::RakeTask.new(:rubocop)
 task default: [:test]
 
 desc 'Run all build/tests commands (CI entry point)'
-task test: [:syntax, :spec, :rubocop, :cucumber, :lint, :doc]
+task test: [:clean, :syntax, :spec, :rubocop, :cucumber, :lint, :doc]
 
 desc 'Generate all documentations'
 task :doc do
