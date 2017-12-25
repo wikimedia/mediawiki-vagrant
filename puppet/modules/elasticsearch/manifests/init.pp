@@ -33,7 +33,7 @@ class elasticsearch {
 
     exec { 'wait-for-elasticsearch':
         require => Service['elasticsearch'],
-        command => '/usr/bin/wget --tries 20 --retry-connrefused http://localhost:9200/',
+        command => '/usr/bin/wget --tries 20 --retry-connrefused http://127.0.0.1:9200/ -O - >/dev/null',
     }
 
     file { '/etc/default/elasticsearch':
