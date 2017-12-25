@@ -12,6 +12,6 @@ class mysql::large_prefix{
         mode    => '0444',
         source  => 'puppet:///modules/mysql/innodb_large_prefix.cnf',
         require => Package['mariadb-server'],
-        notify  => Service['mysql'],
+        notify  => Service['mariadb'],
     }
 }
