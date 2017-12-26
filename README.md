@@ -1,4 +1,5 @@
-## MediaWiki-Vagrant
+MediaWiki-Vagrant
+=================
 
 https://www.mediawiki.org/wiki/Mediawiki-vagrant
 
@@ -13,7 +14,8 @@ inspecting and interacting with MediaWiki code, including a powerful debugger
 and an interactive interpreter. Best of all, because the configuration is
 automated and contained in a virtual environment, mistakes are easy to undo.
 
-## Install
+Install
+-------
 
 You'll need to install recent versions of Vagrant and VirtualBox.
 
@@ -23,8 +25,8 @@ See `support/README-libvirt.md` `support/README-lxc.md` or
 `support/README-parallels.md` for details on the former three.)
 
  * VirtualBox: https://www.virtualbox.org/wiki/Downloads
- * Vagrant: https://www.vagrantup.com/downloads-archive.html (the version must be
-   1.4.0 or higher). For NFS, use 1.5.4 or higher.
+ * Vagrant: https://www.vagrantup.com/downloads-archive.html (the version must
+   be 1.7.0 or higher).
 
    To check your Vagrant version, run
 
@@ -77,7 +79,8 @@ If it all worked, you should be able to browse to http://127.0.0.1:8080/ and
 see the main page of your MediaWiki instance.
 
 
-## Use
+Use
+---
 
 To access a command shell on your virtual environment, run `vagrant ssh` from
 the root mediawiki-vagrant directory or any of its subdirectories.
@@ -89,7 +92,8 @@ If you have multiple wikis enabled, you can run e.g. `mwrepl frwiki`.
 The admin account on MediaWiki is `admin` / `vagrant`.
 
 
-## Update
+Update
+------
 
 When the vagrant Virtual Machine is running, it will periodically run Puppet
 (an open source configuration management tool) to update its configuration,
@@ -102,7 +106,8 @@ with the vagrant files run `git pull --rebase` and then `vagrant reload`.
 The latter will restart the VM.
 
 
-## Extend
+Extend
+------
 
 You can add roles to MediaWiki-Vagrant! A 'role' represents a set of software
 configurations required for giving this machine some special function.
@@ -115,11 +120,13 @@ by adding a role file to puppet/modules/role/manifests/ and submitting it as a
 patch to the Mediawiki-Vagrant project.
 
 
-## Settings
+Settings
+--------
 
 For information about settings, see settings.d/README.
 
-## Testing
+Testing
+-------
 
 Install dependencies:
 
@@ -130,7 +137,8 @@ Run linter, test and doc generation commands:
 
     bundle exec rake
 
-## Troubleshoot
+Troubleshoot
+------------
 
 Stuck? Here's where to get help.
 
@@ -141,4 +149,5 @@ Please report any bugs on Wikimedia's Phabricator:
  * https://phabricator.wikimedia.org/maniphest/task/create/?projects=MediaWiki-Vagrant
 
 Patches and contributions are welcome!
-See <https://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker> for details.
+See <https://www.mediawiki.org/wiki/How_to_become_a_MediaWiki_hacker> for
+details.
