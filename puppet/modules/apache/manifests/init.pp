@@ -20,7 +20,19 @@ class apache (
     file { '/etc/apache2/ports.conf':
         content => template('apache/ports.conf.erb'),
         require => Package['apache2'],
-        notify  => Service['apache2'],
+        notify  => [
+            Exec['apache2 release ports'],
+            Service['apache2'],
+        ],
+    }
+
+    # T183692: A normal restart of Apache2 will not release bound ports. We
+    # need to trigger a hard restart to fix that.
+    exec { 'apache2 release ports':
+        command     => '/usr/sbin/service apache2 stop',
+        onlyif      => '/usr/sbin/service apache2 status',
+        refreshonly => true,
+        notify      => Service['apache2'],
     }
 
     # Set EnableSendfile to 'Off' to work around a bug with Vagrant.
