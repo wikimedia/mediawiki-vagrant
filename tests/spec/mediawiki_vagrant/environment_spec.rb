@@ -473,7 +473,7 @@ module MediaWikiVagrant
       subject { environment.valid? }
 
       context 'when the environment directory is the project directory' do
-        let(:environment) { Environment.new(File.expand_path('../../../', __FILE__)) }
+        let(:environment) { Environment.new(File.expand_path('../../../../', __FILE__)) }
 
         it { is_expected.to be(true) }
       end

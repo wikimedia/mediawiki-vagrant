@@ -33,9 +33,12 @@ PuppetLint::RakeTask.new(:lint) do |config|
   config.log_format = '%{path}:%{line} %{KIND}: %{message}'
 end
 Cucumber::Rake::Task.new(:cucumber) do |t|
+  t.cucumber_opts = '-r tests/features tests/features'
   t.fork = false
 end
-RSpec::Core::RakeTask.new(:spec)
+RSpec::Core::RakeTask.new(:spec) do |t|
+  t.rspec_opts = '-I tests/spec --default-path tests'
+end
 RuboCop::RakeTask.new(:rubocop)
 
 task default: [:test]
