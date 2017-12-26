@@ -214,6 +214,8 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :mediawiki_reload if mwv.reload?
 
+  config.vm.provision :file_perms
+
   # Ensure that the VM has Puppet installed
   config.vm.provision :shell, path: 'support/puppet-bootstrap.sh'
 
