@@ -17,7 +17,7 @@ cdh::hue::hive_server_host: "%{::fqdn}"
 cdh::oozie::server::db_root_password: "%{hiera('mysql::root_password')}"
 cdh::oozie::server::heapsize: 64
 
-citoid::port: '1970'
+citoid::port: 1970
 citoid::log_level: info
 
 changeprop::port: 7272
