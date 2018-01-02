@@ -1,4 +1,5 @@
 require 'rspec-puppet'
+require 'fileutils'
 
 def puppet_path
   File.expand_path(File.join(__FILE__, '../..'))
@@ -14,6 +15,7 @@ def hiera_config_fixture
   conf = File.read(File.join(puppet_path, 'hiera.yaml'))
   conf.gsub!(%r{/vagrant/puppet}, puppet_path)
 
+  FileUtils.mkdir_p(fixture_path)
   fixture = File.join(fixture_path, 'hiera.yaml')
   File.write(fixture, conf)
 

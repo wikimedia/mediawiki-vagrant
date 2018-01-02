@@ -39,12 +39,25 @@ end
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts = '-I tests/spec --default-path tests'
 end
+
+desc 'Compile default host Puppet catalog'
+RSpec::Core::RakeTask.new(:compile_host) do |t|
+  t.rspec_opts = '--format doc -I puppet/spec --default-path puppet --pattern spec/hosts/\*_spec.rb'
+end
+desc 'Compile Puppet roles'
+RSpec::Core::RakeTask.new(:compile_roles) do |t|
+  t.rspec_opts = '-I puppet/spec --default-path puppet --exclude-pattern spec/hosts/\*_spec.rb'
+end
+# Compile host first since it is fairly fast
+desc 'Compile puppet catalogs'
+task compile: [:compile_host, :compile_roles]
+
 RuboCop::RakeTask.new(:rubocop)
 
 task default: [:test]
 
 desc 'Run all build/tests commands (CI entry point)'
-task test: [:clean, :syntax, :spec, :rubocop, :cucumber, :lint, :doc]
+task test: [:clean, :syntax, :spec, :rubocop, :cucumber, :lint, :doc, :compile_host]
 
 desc 'Generate all documentations'
 task :doc do
