@@ -35,7 +35,6 @@ PuppetLint::RakeTask.new(:lint) do |config|
 end
 Cucumber::Rake::Task.new(:cucumber) do |t|
   t.cucumber_opts = '-r tests/features tests/features'
-  t.fork = false
 end
 RSpec::Core::RakeTask.new(:spec) do |t|
   t.rspec_opts = '-I tests/spec --default-path tests'
