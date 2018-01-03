@@ -4,6 +4,7 @@
 class role::scribunto {
     include ::role::codeeditor
     include ::role::syntaxhighlight
+    include ::mediawiki::extension::scribunto
 
     require_package('php-luasandbox')
 
