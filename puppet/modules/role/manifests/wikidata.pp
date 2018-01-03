@@ -63,10 +63,6 @@ class role::wikidata(
         needs_update => true,
     }
 
-    mediawiki::extension { 'ArticlePlaceholder':
-        needs_update => true,
-    }
-
     mediawiki::maintenance { 'wikidata-populate-site-tables':
         command     => "/usr/local/bin/foreachwikiwithextension Wikibase extensions/Wikibase/lib/maintenance/populateSitesTable.php --load-from http://en${mediawiki::multiwiki::base_domain}${::port_fragment}/w/api.php",
         refreshonly => true,

@@ -6,7 +6,7 @@ class role::articleplaceholder {
     include ::role::scribunto
 
     mediawiki::extension { 'ArticlePlaceholder':
-        composer => true
+        needs_update => true,
     }
 
     mediawiki::settings { 'Wikidata allowEntityImport':
