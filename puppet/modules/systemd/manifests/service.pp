@@ -66,15 +66,16 @@ define systemd::service (
         }
     }
 
+    $unit_content = $epp_template ? {
+        true    => epp($unit_template, $template_variables),
+        default => template($unit_template),
+    }
     file { $unit_path:
         ensure  => $ensure,
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
-        content => $epp_template ? {
-            true    => epp($unit_template, $template_variables),
-            default => template($unit_template),
-        },
+        content => $unit_content,
     }
 
     exec { "systemd reload for ${name}":

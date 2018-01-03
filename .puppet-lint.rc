@@ -1,8 +1,8 @@
 # Long lines are common in Exec and various config blocks.
-# Using templates or lint:ignore:80chars comments to work around that is
+# Using templates or lint:ignore:140chars comments to work around that is
 # painful, so just ignore the automated check and rely on manual checks to see
 # that this is not abused.
---no-80chars-check
+--no-140chars-check
 
 # Be strict.
 --fail-on-warnings

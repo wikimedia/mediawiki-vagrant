@@ -37,8 +37,8 @@ class thumbor (
     }
 
     package { 'python-thumbor-wikimedia':
-        ensure  => 'present',
-        notify  => Exec['stop-and-disable-default-thumbor-service'],
+        ensure => 'present',
+        notify => Exec['stop-and-disable-default-thumbor-service'],
     }
 
     exec { 'stop-and-disable-default-thumbor-service':

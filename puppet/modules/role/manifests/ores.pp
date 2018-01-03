@@ -35,6 +35,5 @@ class role::ores {
     # when ORES is installed locally via role::ores_service.
     # This is pretty horrible but seems to be the only way of avoiding cycles.
     Systemd::Service<| title == 'ores-wsgi' or title == 'ores-celery' |>
-    ->
-    Mediawiki::Maintenance['check ORES model versions']
+    -> Mediawiki::Maintenance['check ORES model versions']
 }

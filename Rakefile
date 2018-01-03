@@ -29,6 +29,7 @@ PuppetLint::RakeTask.new(:lint) do |config|
   config.ignore_paths = IO.readlines(gitmodules).grep(/\s*path\s*=\s*(\S+)/) {
     "#{Regexp.last_match(1)}/**/*.pp"
   }
+  config.ignore_paths += ['puppet/modules/stdlib/**/*.pp']
   config.ignore_paths += ['tmp/**/*.pp']
   config.log_format = '%{path}:%{line} %{KIND}: %{message}'
 end
