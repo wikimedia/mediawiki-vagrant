@@ -11,8 +11,8 @@ After=mediawiki-ready.service
 User=www-data
 Group=www-data
 SyslogIdentifier=wikilabels
-WorkingDirectory=<%= @repo_dir %>
-ExecStart=<%= @deploy_dir %>/bin/wikilabels dev_server --port=<%= @port %>
+WorkingDirectory=<%= scope['::wikilabels::repo_dir'] %>
+ExecStart=<%= scope['::wikilabels::deploy_dir'] %>/bin/wikilabels dev_server --port=<%= scope['::wikilabels::port'] %>
 Restart=always
 
 [Install]

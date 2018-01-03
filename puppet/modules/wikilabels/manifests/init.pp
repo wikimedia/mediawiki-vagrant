@@ -84,7 +84,7 @@ class wikilabels (
         command => "echo y | sudo -u www-data ${deploy_dir}/bin/wikilabels load_schema --reload-test-data",
         unless  => "sudo -u postgres psql -d ${db_name} -c \"SELECT 'campaign'::regclass\"",
         cwd     => $repo_dir,
-        require =>[
+        require => [
           Exec['create wikilabels database'],
           Virtualenv::Package['wikilabels'],
           File[$cfg_file],
