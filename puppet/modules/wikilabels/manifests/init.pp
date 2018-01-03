@@ -67,6 +67,7 @@ class wikilabels (
         unless  => "psql -lqt | cut -d \\| -f 1 | grep -qw ${db_name}",
         user    => 'postgres',
         require => [
+          File[$db_script],
           Package['postgresql'],
           VirtualEnv::Package['wikilabels'],
         ],
