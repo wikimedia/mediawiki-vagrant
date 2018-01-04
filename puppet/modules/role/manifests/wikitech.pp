@@ -3,25 +3,20 @@
 # Provisions a MediaWiki instance similar to https://wikitech.wikimedia.org/.
 #
 class role::wikitech {
+    include ::role::categorytree
+    include ::role::checkuser
     include ::role::cite
     include ::role::codeeditor
     include ::role::echo
     include ::role::gadgets
+    include ::role::nuke
+    include ::role::oathauth
     include ::role::parserfunctions
+    include ::role::renameuser
     include ::role::scribunto
+    include ::role::titleblacklist
     include ::role::wikieditor
     include ::role::wikilove
-
-    # Alas, if only SMW didn't require composer
-    # mediawiki::extension { [ 'SemanticForms', 'SemanticResultFormats' ]:
-    #     needs_update  => true,
-    #     require       => Mediawiki::Extension[ 'SemanticMediaWiki' ],
-    # }
-    #
-    # mediawiki::extension { 'SemanticMediaWiki':
-    #     needs_update  => true,
-    #     require       => Mediawiki::Extension['Validator'],
-    # }
 
     mediawiki::extension { 'LdapAuthentication':
         needs_update => true,
@@ -44,15 +39,9 @@ class role::wikitech {
     }
 
     mediawiki::extension { [
-        'CategoryTree',
-        'CheckUser',
         'Collection',
         'DynamicSidebar',
-        'Nuke',
-        'OATHAuth',
         'OpenStackManager',
-        'Renameuser',
-        'TitleBlacklist',
     ]:
         needs_update  => true,
     }
