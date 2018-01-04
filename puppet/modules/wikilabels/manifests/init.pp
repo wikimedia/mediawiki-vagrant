@@ -52,6 +52,13 @@ class wikilabels (
     }
     $repo_dir = "${deploy_dir}/src/wikilabels"
 
+    $cfg_file = "${repo_dir}/config/999-vagrant.yaml"
+    file { $cfg_file:
+        ensure  => present,
+        content => template('wikilabels/wikilabels.yaml.erb'),
+        require => Virtualenv::Package['wikilabels'],
+    }
+
     $db_script = "${deploy_dir}/bin/create_wikilabels_db.sh"
     file { $db_script:
         ensure  => present,
@@ -80,18 +87,12 @@ class wikilabels (
         require =>[
           Exec['create wikilabels database'],
           Virtualenv::Package['wikilabels'],
+          File[$cfg_file],
         ],
     }
 
     apache::reverse_proxy { 'wikilabels':
         port => $port,
-    }
-
-    $cfg_file = "${repo_dir}/config/999-vagrant.yaml"
-    file { $cfg_file:
-        ensure  => present,
-        content => template('wikilabels/wikilabels.yaml.erb'),
-        require => Virtualenv::Package['wikilabels'],
     }
 
     systemd::service { 'wikilabels':
