@@ -15,6 +15,7 @@ class mwv::packages {
         'gdb',
         'python-dev',
         'ruby-dev',
+        'tzdata',
     )
 
     # Cron resources need a cron provider installed

@@ -259,6 +259,7 @@ mwv::etc_dir: /etc/mw-vagrant
 mwv::services_dir: /vagrant/srv
 mwv::vendor_dir: /srv
 mwv::tld: '.local.wmftest.net'
+mwv::timezone: Etc/UTC
 mwv::cachefilesd::enable: true
 
 nginx::variant: extras
