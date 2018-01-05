@@ -2,7 +2,22 @@ DocumentRoot "<%= scope.lookupvar('smashpig::dir') %>/PublicHttp"
 
 ServerName <%= scope.lookupvar('smashpig::vhost_name') %>
 
+RewriteEngine on
+RewriteRule ^/adyen /smashpig_http_handler.php?p=adyen/listener [L,QSA]
+RewriteRule ^/amazon /smashpig_http_handler.php?p=amazon/listener [L,QSA]
+RewriteRule ^/astropay /smashpig_http_handler.php?p=astropay/listener [L,QSA]
+RewriteRule ^/globalcollect /smashpig_http_handler.php?p=globalcollect/listener [L,QSA]
+RewriteRule ^/paypal /smashpig_http_handler.php?p=paypal/listener [L,QSA]
+
+Alias /amazontest <%= scope.lookupvar('smashpig::dir') %>/PaymentProviders/Amazon/Tests/manual/
+
 <Directory "<%= scope.lookupvar('smashpig::dir') %>/PublicHttp">
+    Options -Indexes
+    AllowOverride all
+    Require all granted
+</Directory>
+
+<Directory "<%= scope.lookupvar('smashpig::dir') %>/PaymentProviders/Amazon/Tests/manual/">
     Options -Indexes
     AllowOverride all
     Require all granted
