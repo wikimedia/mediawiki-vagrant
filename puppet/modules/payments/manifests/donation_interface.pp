@@ -6,10 +6,12 @@ class payments::donation_interface {
   mediawiki::extension { 'payments:DonationInterface':
     settings     => {
       wgGlobalCollectGatewayEnabled             => true,
+      wgIngenicoGatewayEnabled                  => true,
       wgAdyenGatewayEnabled                     => true,
       wgAmazonGatewayEnabled                    => true,
       wgAstroPayGatewayEnabled                  => true,
       wgPaypalGatewayEnabled                    => true,
+      wgPaypalExpressGatewayEnabled             => true,
       wgDonationInterfaceEnableFormChooser      => true,
       wgDonationInterfaceEnableBannerHistoryLog => true,
       wgDonationInterfaceEnableQueue            => true,
@@ -43,23 +45,6 @@ class payments::donation_interface {
 
       wgDonationInterfaceUseSyslog              => true,
 
-      wgDonationInterfaceDefaultQueueServer     => {
-        'type'    => 'PHPQueue\Backend\Predis',
-        'servers' => 'tcp://localhost',
-      },
-
-      wgDonationInterfaceQueues                 => {
-        'complete' => {
-          'queue' => 'donations',
-        },
-      },
-
-      wgDonationInterfaceOrphanCron             => {
-        'enable'                       => true,
-        'max_per_execute'              => '',
-        'override_command_line_params' => true,
-        'target_execute_time'          => 300,
-      },
     },
     needs_update => true,
     require      => [
