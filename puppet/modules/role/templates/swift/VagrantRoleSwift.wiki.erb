@@ -1,0 +1,16 @@
+[https://en.wikipedia.org/wiki/OpenStack OpenStack] Swift is a highly available, distributed, eventually consistent object/blob store, which MediaWiki can use as a storage backend for media files and their derivatives (thumbnails, transcodes etc), together with associated headers and metadata.
+
+== Debugging ==
+The <code>swift</code> command-line client can be used for debugging:
+* <code>swift list</code>: list all containers (the Swift equivalent of directories)
+* <code>swift list --prefix wiki-dev-local-public</code>: list containers for public files
+* <code>swift list <container></code>: list files in a container
+* <code>swift stat <container> <file></code>: show data stored for a file
+
+A log of recent operations is in <code>/vagrant/logs/swift/object-server.log</code>.
+
+== More information ==
+* [https://docs.openstack.org/swift/latest/ Swift docs]
+* [https://developer.openstack.org/api-ref/object-store/index.html Swift API docs]
+* [https://wikitech.wikimedia.org/wiki/Swift Wikimedia instructure docs for Swift]
+* [https://github.com/wikimedia/mediawiki/blob/master/includes/libs/filebackend/SwiftFileBackend.php SwiftFileBackend.php] in MediaWiki
