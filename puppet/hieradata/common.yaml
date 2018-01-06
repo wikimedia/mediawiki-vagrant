@@ -441,8 +441,6 @@ role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
 
 role::wikidata::main_page: "Wiki:Main Page"
 
-role::wikimetrics::dir: "%{hiera('mwv::services_dir')}/wikimetrics"
-
 scholarships::vhost_name: "scholarships%{hiera('mwv::tld')}"
 scholarships::db_name: scholarships
 scholarships::db_user: scholarships
