@@ -1,0 +1,6 @@
+[https://varnish-cache.org/intro/ Varnish] is a reverse proxy that transparently caches responses.
+
+To access the wiki through Varnish, visit it through port 6081 (e.g. [http://<%= @example_url %> <%= @example_url %>]).
+This will work as long as you have no more than one Vagrant instance with the varnish role enabled.
+
+To debug, use the various varnish... commands (<code>varnishtop</code>, <code>varnishncsa</code>, <code>varnishlog</code> etc.)

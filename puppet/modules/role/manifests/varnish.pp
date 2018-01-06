@@ -2,6 +2,7 @@
 #
 # Installs a Varnish instance
 # To go through Varnish, use 127.0.0.1:6081 instead of 127.0.0.1:8080.
+#
 class role::varnish {
     include ::varnish
 
@@ -14,5 +15,10 @@ class role::varnish {
             # Makes X-Forwarded-For header trusted
             'wgUsePrivateIPs' => true,
         }
+    }
+
+    $example_url = "http://${::role::mediawiki::hostname}:6081/"
+    mediawiki::import::text { 'VagrantRoleVarnish':
+        content => template('role/varnish/VagrantRoleVarnish.wiki.erb'),
     }
 }
