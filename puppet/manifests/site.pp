@@ -23,6 +23,10 @@ $load_normal = 10
 $load_later  = 15
 $load_last   = 20
 
+# Declare global '$::realm' for modules that are shared with Wikimedia's
+# operations/puppet.git tree (e.g. nginx).
+$realm = 'vagrant'
+
 # Declares a default search path for executables, allowing the path to
 # be omitted from individual resources. Also configures Puppet to log
 # the command's output if it was unsuccessful. Finally, set timeout to
