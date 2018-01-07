@@ -81,7 +81,7 @@ class mediawiki(
     include ::mediawiki::ready_service
     include ::mediawiki::psysh
 
-    require_package('parallel')
+    require_package('parallel', 'firejail')
 
     $managed_settings_dir = "${settings_dir}/puppet-managed"
 
