@@ -16,9 +16,4 @@ class role::varnish {
             'wgUsePrivateIPs' => true,
         }
     }
-
-    $example_url = "http://${::role::mediawiki::hostname}:6081/"
-    mediawiki::import::text { 'VagrantRoleVarnish':
-        content => template('role/varnish/VagrantRoleVarnish.wiki.erb'),
-    }
 }

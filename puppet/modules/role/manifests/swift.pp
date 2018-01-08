@@ -25,8 +25,4 @@ class role::swift {
     env::var { 'ST_KEY':
         value => $::swift::key,
     }
-
-    mediawiki::import::text { 'VagrantRoleSwift':
-        content => template('role/swift/VagrantRoleSwift.wiki.erb'),
-    }
 }

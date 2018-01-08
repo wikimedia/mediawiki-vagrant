@@ -54,14 +54,6 @@ class thumbor (
         command => '/bin/systemctl stop thumbor'
     }
 
-    package { 'firejail':
-        ensure => 'present',
-    }
-
-    package { 'python-logstash':
-        ensure => 'present',
-    }
-
     $statsd_host = 'localhost'
     $statsd_prefix = 'Thumbor'
 

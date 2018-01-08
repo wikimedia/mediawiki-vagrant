@@ -228,4 +228,8 @@ class swift (
         require   => File['/usr/local/lib/python2.7/dist-packages/wmf/'],
         subscribe => File['/usr/local/lib/python2.7/dist-packages/wmf/'],
     }
+
+    mediawiki::import::text { 'VagrantRoleSwift':
+        content => template('role/swift/VagrantRoleSwift.wiki.erb'),
+    }
 }
