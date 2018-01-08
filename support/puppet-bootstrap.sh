@@ -17,4 +17,4 @@ DEBIAN_FRONTEND=noninteractive apt-get \
     -y \
     -o Dpkg::Options::="--force-confdef" \
     -o Dpkg::Options::="--force-confold" \
-    install puppet >/dev/null 2>&1
+    install puppet=3.\* puppet-common=3.\* >/dev/null 2>&1
