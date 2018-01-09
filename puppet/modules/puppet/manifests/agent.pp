@@ -18,11 +18,4 @@ class puppet::agent(
         ensure => $ensure,
         enable => $enable,
     }
-
-    # T184038: pin puppet to 3.x to prevent accidentally getting Puppet4
-    apt::pin { 'puppet':
-        package  => 'puppet',
-        pin      => 'version 3.*',
-        priority => 1001,
-    }
 }
