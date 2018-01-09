@@ -18,6 +18,15 @@ class mwv::packages {
         'tzdata',
     )
 
+    # T184497: NFS client packages are needed to use NFS shares, and if they
+    # are not already in the VM the auto-provisioning that Vagrant tries to do
+    # will fail after our first Puppet run because of the things we do that
+    # mess with the default apt cache location.
+    require_package(
+        'nfs-common',
+        'portmap',
+    )
+
     # Cron resources need a cron provider installed
     Package['anacron'] -> Cron <| |>
 
