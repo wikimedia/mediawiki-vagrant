@@ -55,6 +55,17 @@ class apt {
     # Trigger before we add any repos that are using HTTPS
     Exec['ins-apt-transport-https'] -> Apt::Repository <| |>
 
+    # T175055: Set a default sources.list to smooth over differences caused by
+    # different base images
+    file { '/etc/apt/sources.list':
+        ensure  => 'present',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        content => template('apt/sources.list.erb'),
+        notify  => Exec['apt-get update'],
+    }
+
     apt::repository { 'wikimedia':
         uri         => 'https://apt.wikimedia.org/wikimedia',
         dist        => "${::lsbdistcodename}-wikimedia",
