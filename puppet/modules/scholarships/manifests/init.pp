@@ -37,6 +37,9 @@ class scholarships(
     $vhost_name,
     $cache_dir,
     $log_file,
+    $oauth_server,
+    $oauth_consumer_token,
+    $oauth_secret_token,
 ){
     include ::php
     include ::apache
