@@ -265,6 +265,8 @@ Vagrant.configure('2') do |config|
 
     if settings[:http_port] != 80 && ENV['MWV_ENVIRONMENT'] != 'labs'
       puppet.facter['port_fragment'] = ":#{settings[:http_port]}"
+    else
+      puppet.facter['port_fragment'] = ''
     end
 
     if settings[:nfs_shares]
