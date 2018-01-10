@@ -1,9 +1,11 @@
 source 'https://rubygems.org'
 
 group :development do
+  # The versions should be kept in sync with the ones provided in Debian
+
   # Upstream no more updates rubygems.org and we need a more recent version
   # https://github.com/mitchellh/vagrant/issues/5546
-  gem 'vagrant', git: 'https://github.com/mitchellh/vagrant.git', tag: 'v1.8.1'
+  gem 'vagrant', git: 'https://github.com/mitchellh/vagrant.git', tag: 'v1.9.1'
   gem 'rubocop', '~> 0.51', require: false
   gem 'puppet', '~> 4.8.2'
   gem 'puppet-lint', '2.3.3'
