@@ -11,12 +11,6 @@ cassandra::max_heap: "64M"
 cassandra::new_size: "10M"
 cassandra::logdir: /vagrant/logs/cassandra
 
-cdh::hue::secret_key: vagrant
-cdh::hue::hive_server_host: "%{::fqdn}"
-
-cdh::oozie::server::db_root_password: "%{hiera('mysql::root_password')}"
-cdh::oozie::server::heapsize: 64
-
 citoid::port: 1970
 citoid::log_level: info
 
