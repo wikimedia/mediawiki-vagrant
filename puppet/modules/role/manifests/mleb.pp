@@ -8,16 +8,10 @@
 class role::mleb {
     include ::role::babel
     include ::role::cldr
+    include ::role::interwiki
+    include ::role::l10nupdate
     include ::role::translate
     include ::role::uls
-
-    mediawiki::extension { 'LocalisationUpdate':
-        settings => { wgLocalisationUpdateDirectory => '$IP/cache' },
-    }
-
-    mediawiki::extension { 'Interwiki':
-        settings => '$wgGroupPermissions["sysop"]["interwiki"] = true',
-    }
 
     mediawiki::extension { 'CleanChanges':
         settings => '$wgDefaultUserOptions["usenewrc"] = 1',

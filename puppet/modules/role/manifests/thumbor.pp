@@ -22,7 +22,7 @@ class role::thumbor (
 
     # This will generate a list of ports starting at 8889, with
     # as many ports as there are CPUs on the machine.
-    $ports = sequence_array(8889, inline_template('<%= `nproc` %>'))
+    $ports = sequence_array(8889, $::processorcount)
 
     file { '/etc/nginx/prometheus.lua':
         ensure => present,

@@ -34,7 +34,7 @@ class crm::dash (
     }
 
     exec { 'dash_schema':
-        command => "cat ${fundraising_dash_dir}/schema/*.sql | /usr/bin/mysql -u root -p${mysql::root_password} fredge -qfsA",
+        command => "cat ${fundraising_dash_dir}/schema/*.sql | /usr/bin/mysql fredge -qfsA",
         require => [
             File['dash_settings_js'],
             Mysql::Db['fredge'],

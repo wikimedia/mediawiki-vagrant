@@ -5,11 +5,35 @@
 # supplementary sources.
 #
 class apt {
+    # Elaborate apt-get update trigger machanism ahead. We want apt-get update
+    # to be run on initial provision of a new VM (easy), once a day
+    # thereafter (not too hard with "schedule => daily"), AND any time that
+    # a new apt::pin or apt::repository define shows up in the Puppet graph.
+    # The first 2 can be handled simply via an Exec with the schedule attribure.
+    # That setup however keeps the 3rd use case from working as desired.
+    #
+    # The more complex replacement is a state file (/etc/apt/.update),
+    # a schedule=>daily exec to update that file, and a refreshonly
+    # Exec['apt-get update'] resource.
+    file { '/etc/apt/.update':
+        ensure  => 'present',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        content => '',
+        replace => false,
+        notify  => Exec['apt-get update'],
+    }
+    exec { 'Daily apt-get update':
+        command  => '/bin/date > /etc/apt/.update',
+        schedule => 'daily',
+    }
     exec { 'apt-get update':
-        command  => '/usr/bin/apt-get update',
-        schedule => daily,
-        timeout  => 240,
-        returns  => [ 0, 100 ],
+        command     => '/usr/bin/apt-get update',
+        timeout     => 240,
+        returns     => [ 0, 100 ],
+        refreshonly => true,
+        subscribe   => File['/etc/apt/.update'],
     }
 
     # Directory used to store keys added with apt::repository
@@ -31,10 +55,21 @@ class apt {
     # Trigger before we add any repos that are using HTTPS
     Exec['ins-apt-transport-https'] -> Apt::Repository <| |>
 
+    # T175055: Set a default sources.list to smooth over differences caused by
+    # different base images
+    file { '/etc/apt/sources.list':
+        ensure  => 'present',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        content => template('apt/sources.list.erb'),
+        notify  => Exec['apt-get update'],
+    }
+
     apt::repository { 'wikimedia':
         uri         => 'https://apt.wikimedia.org/wikimedia',
         dist        => "${::lsbdistcodename}-wikimedia",
-        components  => 'main backports thirdparty',
+        components  => 'main',
         keyfile     => 'puppet:///modules/apt/wikimedia-pubkey.asc',
         comment_old => true,
     }
@@ -51,7 +86,7 @@ class apt {
         uri        => 'https://mwv-apt.wmflabs.org/repo',
         dist       => "${::lsbdistcodename}-mwv-apt",
         components => 'main',
-        trusted    => true,
+        can_trust  => true,
         source     => false,
     }
 
@@ -76,5 +111,5 @@ class apt {
         mode   => '0444',
     }
 
-    Class['Apt'] -> Package <| |>
+    Class['apt'] -> Package <| |>
 }

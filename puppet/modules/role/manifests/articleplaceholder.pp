@@ -6,7 +6,7 @@ class role::articleplaceholder {
     include ::role::scribunto
 
     mediawiki::extension { 'ArticlePlaceholder':
-        composer => true
+        needs_update => true,
     }
 
     mediawiki::settings { 'Wikidata allowEntityImport':
@@ -14,7 +14,7 @@ class role::articleplaceholder {
         values   => {
             "wgWBRepoSettings['allowEntityImport']" => true,
         },
-        priority => $::LOAD_LATER,
+        priority => $::load_later,
     }
 
     mediawiki::import::dump { 'ImportImageProperty':

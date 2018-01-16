@@ -8,10 +8,9 @@ class role::zero {
     include ::role::parserfunctions
     include ::role::scribunto
     include ::role::thumb_on_404
-    include ::role::zend
 
     mediawiki::extension { 'ZeroBanner':
-        priority => $::LOAD_LATER, # Must be after JsonConfig & MobileFrontEnd
+        priority => $::load_later, # Must be after JsonConfig & MobileFrontEnd
         settings => [
             '$wgMobileUrlTemplate = "%h0.m.%h1.%h2"',
             '$wgZeroSiteOverride = array( "wikipedia", "en" )',
@@ -21,7 +20,7 @@ class role::zero {
     }
 
     mediawiki::extension { 'ZeroPortal':
-        priority => $::LOAD_LAST, # Must be after ZeroBanner
+        priority => $::load_last, # Must be after ZeroBanner
         settings => [
             '$wgRawHtml = true',
         ],

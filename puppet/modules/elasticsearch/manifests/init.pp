@@ -4,6 +4,8 @@
 # engine, much like Solr, but with a more user-friendly inteface.
 #
 class elasticsearch {
+    require ::elasticsearch::repository
+
     require_package('openjdk-8-jre-headless')
 
     package { 'elasticsearch':
@@ -31,7 +33,7 @@ class elasticsearch {
 
     exec { 'wait-for-elasticsearch':
         require => Service['elasticsearch'],
-        command => '/usr/bin/wget --tries 20 --retry-connrefused http://localhost:9200/',
+        command => '/usr/bin/wget --tries 20 --retry-connrefused http://127.0.0.1:9200/ -O - >/dev/null',
     }
 
     file { '/etc/default/elasticsearch':

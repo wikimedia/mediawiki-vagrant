@@ -19,14 +19,14 @@ class php::composer (
 
     exec { 'download_composer':
         command => "curl https://getcomposer.org/composer.phar -o ${bin}",
-        unless  => "php5 -r 'try { Phar::loadPhar(\"${bin}\"); exit(0); } catch(Exception \$e) { exit(1); }'",
-        require => Package['curl', 'php5-cli'],
+        unless  => "php -r 'try { Phar::loadPhar(\"${bin}\"); exit(0); } catch(Exception \$e) { exit(1); }'",
+        require => Package['curl', 'php-cli'],
     }
 
     file { '/usr/local/bin/composer':
         ensure  => file,
         owner   => 'root',
-        group   => 'root',
+        group   => 'staff',
         mode    => '0755',
         require => Exec['download_composer'],
     }
@@ -40,7 +40,7 @@ class php::composer (
         ],
         require     => [
             File['/usr/local/bin/composer'],
-            Package['php5'],
+            Package['php'],
         ],
         schedule    => 'weekly',
     }

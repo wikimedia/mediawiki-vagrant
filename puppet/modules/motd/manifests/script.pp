@@ -33,7 +33,7 @@ define motd::script(
 ) {
     include ::motd
 
-    if $priority !~ /^\d?\d$/ {
+    if $priority !~ Integer[0, 99] {
         fail('"priority" must be between 0 - 99')
     }
     if $ensure !~ /^(present|absent)$/ {
@@ -48,6 +48,5 @@ define motd::script(
         mode    => '0555',
         content => $content,
         source  => $source,
-        notify  => Exec['update_motd'],
     }
 }

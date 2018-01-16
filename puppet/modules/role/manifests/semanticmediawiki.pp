@@ -12,7 +12,7 @@ class role::semanticmediawiki {
     }
 
     mediawiki::settings { 'Semantic MediaWiki':
-        priority => $::LOAD_EARLY,
+        priority => $::load_early,
         values   => [
             'enableSemantics($wgSitename)',
         ]

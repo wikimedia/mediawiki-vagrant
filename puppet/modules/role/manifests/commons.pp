@@ -8,13 +8,14 @@
 class role::commons(
     $upload_dir,
 ) {
+    include ::role::globalusage
     require ::role::mediawiki
     include ::role::multimedia
     include ::role::thumb_on_404
 
     mediawiki::wiki { 'commons':
         upload_dir => $upload_dir,
-        priority   => $::LOAD_EARLY,
+        priority   => $::load_early,
     }
     role::thumb_on_404::multiwiki { 'commons': }
 
@@ -29,17 +30,9 @@ class role::commons(
         values => template('role/commons/foreign_repo.php.erb'),
     }
 
-    mediawiki::extension { 'GlobalUsage':
-        needs_update => true,
-        settings     => {
+    mediawiki::settings { 'commons_GlobalUsage':
+        values => {
             wgGlobalUsageDatabase => 'commonswiki',
-        },
-        require      => Mediawiki::Wiki['commons'],
-    }
-
-    mediawiki::maintenance { 'refresh globalusage table':
-        command => '/usr/local/bin/foreachwikiwithextension GlobalUsage extensions/GlobalUsage/maintenance/refreshGlobalimagelinks.php --pages existing,nonexisting',
-        cwd     => $::mediawiki::dir,
-        require => Mediawiki::Extension['GlobalUsage'],
+        }
     }
 }

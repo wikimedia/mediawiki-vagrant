@@ -29,16 +29,28 @@
 # [*service_params*]
 # A hash of parameters to applied to the Service resource. Default: {}
 #
+# [*template_variables*]
+# Variables to be exposed to the template. Default: {}
+#
+# [*epp_template*]
+# Whether or not the service template is EPP rather than ERB. Default: false
+#
 define systemd::service (
-    $ensure          = 'present',
-    $is_override     = false,
-    $refresh         = true,
-    $template_name   = $name,
-    $declare_service = true,
-    $service_params  = {},
+    $ensure             = 'present',
+    $is_override        = false,
+    $refresh            = true,
+    $template_name      = $name,
+    $declare_service    = true,
+    $service_params     = {},
+    $template_variables = {},
+    $epp_template       = false,
 ) {
     validate_ensure($ensure)
-    $unit_template = "${caller_module_name}/systemd/${template_name}.erb"
+    $unit_template = $epp_template ? {
+        true    => "${caller_module_name}/systemd/${template_name}.epp",
+        default => "${caller_module_name}/systemd/${template_name}.erb",
+    }
+
     $unit_path = $is_override ? {
         true    => "/etc/systemd/system/${name}.service.d/puppet-override.conf",
         default => "/lib/systemd/system/${name}.service",
@@ -54,12 +66,16 @@ define systemd::service (
         }
     }
 
+    $unit_content = $epp_template ? {
+        true    => epp($unit_template, $template_variables),
+        default => template($unit_template),
+    }
     file { $unit_path:
         ensure  => $ensure,
         owner   => 'root',
         group   => 'root',
         mode    => '0444',
-        content => template($unit_template),
+        content => $unit_content,
     }
 
     exec { "systemd reload for ${name}":

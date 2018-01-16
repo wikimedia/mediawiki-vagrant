@@ -46,9 +46,8 @@ Lint/RescueWithoutErrorClass:
 Metrics/LineLength:
   Max: 114
 
-# Offense count: 6
-# Configuration parameters: ExpectMatchingDefinition, Regex, IgnoreExecutableScripts, AllowedAcronyms.
-# AllowedAcronyms: CLI, DSL, ACL, API, ASCII, CPU, CSS, DNS, EOF, GUID, HTML, HTTP, HTTPS, ID, IP, JSON, LHS, QPS, RAM, RHS, RPC, SLA, SMTP, SQL, SSH, TCP, TLS, TTL, UDP, UI, UID, UUID, URI, URL, UTF8, VM, XML, XMPP, XSRF, XSS
+# Offense count: 7
+# Configuration parameters: Exclude.
 Naming/FileName:
   Exclude:
     - 'lib/mediawiki-vagrant.rb'
@@ -140,11 +139,47 @@ Style/SymbolArray:
 
 # Offense count: 5
 # Cop supports --auto-correct.
-# Configuration parameters: EnforcedStyleForMultiline, SupportedStylesForMultiline.
-# SupportedStylesForMultiline: comma, consistent_comma, no_comma
-Style/TrailingCommaInLiteral:
+# Configuration parameters: EnforcedStyleForMultiline, SupportedStyles.
+Style/TrailingCommaInArguments:
   Exclude:
     - 'Vagrantfile'
     - 'lib/mediawiki-vagrant/config.rb'
     - 'lib/mediawiki-vagrant/hiera.rb'
     - 'lib/mediawiki-vagrant/roles/change.rb'
+
+# Checks turned off when updating to rubocop 0.51
+Style/SymbolArray:
+  Enabled: false
+
+Style/TrailingCommaInLiteral:
+  Enabled: false
+
+Naming/HeredocDelimiterNaming:
+  Enabled: false
+
+Style/NumericPredicate:
+  Enabled: false
+
+Performance/HashEachMethods:
+  Enabled: false
+
+Style/PercentLiteralDelimiters:
+  Enabled: false
+
+Naming/HeredocDelimiterCase:
+  Enabled: false
+
+Lint/RescueWithoutErrorClass:
+  Enabled: false
+
+Layout/EmptyLines:
+  Enabled: false
+
+Layout/EmptyLinesAroundMethodBody:
+  Enabled: false
+
+Layout/EmptyLinesAroundClassBody:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false

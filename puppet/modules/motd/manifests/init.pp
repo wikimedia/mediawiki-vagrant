@@ -8,11 +8,13 @@ class motd {
         recurse => true,
         ignore  => '9*',
         purge   => true,
-        notify  => Exec['update_motd'],
     }
 
-    exec { 'update_motd':
-        command     => '/bin/run-parts --lsbsysinit /etc/update-motd.d > /etc/motd',
-        refreshonly => true,
+    file { '/etc/motd':
+        ensure  => 'present',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0555',
+        content => '',
     }
 }

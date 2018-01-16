@@ -9,6 +9,11 @@ class eventlogging::devserver(
     $eventlogging_path = $::eventlogging::path
 
     systemd::service { 'eventlogging-devserver':
-        ensure    => 'present',
+        ensure             => 'present',
+        epp_template       => true,
+        template_variables => {
+            'eventlogging_path' => $eventlogging_path,
+            'output_file'       => $output_file,
+        },
     }
 }

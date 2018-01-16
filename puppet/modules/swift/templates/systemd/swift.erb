@@ -5,7 +5,7 @@ After=mediawiki-ready.service
 
 [Service]
 SyslogIdentifier=<%= @title %>
-ExecStart=/usr/bin/<%= @title %> <%= @cfg_file %>
+ExecStart=/usr/bin/<%= @title %> /etc/swift/<%= @title.split('-')[1] %>.conf
 Restart=always
 
 [Install]

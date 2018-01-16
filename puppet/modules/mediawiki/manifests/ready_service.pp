@@ -16,7 +16,6 @@
 #
 class mediawiki::ready_service {
     include ::mediawiki
-    include ::hhvm::fcgi
 
     file { '/usr/local/bin/wait-for-mediawiki.sh':
         ensure  => 'present',

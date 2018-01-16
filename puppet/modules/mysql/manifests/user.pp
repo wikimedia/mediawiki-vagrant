@@ -26,6 +26,11 @@
 #   Defaults to 'usage on *.*'. This allows combining user account
 #   creation with a database permission grant.
 #
+# [*socket*]
+#   Use unix_socket auth rather than a password to identify the user. When
+#   enabled the $password supplied will be ignored.
+#   Defaults to false.
+#
 # === Examples
 #
 # Creates an 'wikiadmin' user with full privileges on 'wiki':
@@ -41,6 +46,7 @@ define mysql::user(
     $username = $title,
     $grant    = 'usage on *.*',
     $hostname = $::mysql::grant_host_name,
+    $socket   = false,
 ) {
     if $ensure == 'absent' {
         $command = 'drop'
@@ -55,8 +61,12 @@ define mysql::user(
             unless => "select not exists(select 1 from mysql.user where user = '${username}')",
         }
     } else {
+        $ident = $socket ? {
+            true    => 'IDENTIFIED VIA unix_socket',
+            default => "IDENTIFIED BY '${password}'",
+        }
         mysql::sql { "create user ${username}":
-            sql    => "grant ${grant} to '${username}'@'${hostname}' identified by '${password}'",
+            sql    => "grant ${grant} to '${username}'@'${hostname}' ${ident}",
             unless => "select exists(select 1 from mysql.user where user = '${username}')",
         }
     }

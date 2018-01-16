@@ -11,8 +11,8 @@ class role::https {
     }
 
     nginx::site { 'devwiki':
-        source => 'puppet:///modules/role/https/nginx.conf',
-        notify => Service['nginx'],
+        content => template('role/https/nginx.conf.erb'),
+        notify  => Service['nginx'],
     }
 
     mediawiki::settings { 'SSL-related settings':

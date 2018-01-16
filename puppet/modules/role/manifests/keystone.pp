@@ -61,22 +61,14 @@ class role::keystone (
         'python-pyparsing',
         'python-pysaml2',
         'python-routes',
-        'python-setuptools',
         'python-sqlalchemy',
         'python-unicodecsv',
         'python-warlock',
         'websockify',
     ]
 
-    apt::pin { 'keystone':
-        package  => join(sort($packages), ' '),
-        pin      => 'release a=jessie-backports',
-        priority => '1001',
-    }
-
     package { $packages:
         ensure  => 'present',
-        require => Apt::Pin['keystone'],
     }
 
     mysql::db { 'keystone':

@@ -1,7 +1,11 @@
 # == Class: mwv::packages
 #
 class mwv::packages {
-    package { 'python-pip': } -> Package <| provider == pip |>
+    package { [
+      'python-pip',
+      'python-setuptools',
+      'python-wheel',
+    ]: } -> Package <| provider == pip |>
 
     # Install common packages
     require_package(
@@ -11,6 +15,16 @@ class mwv::packages {
         'gdb',
         'python-dev',
         'ruby-dev',
+        'tzdata',
+    )
+
+    # T184497: NFS client packages are needed to use NFS shares, and if they
+    # are not already in the VM the auto-provisioning that Vagrant tries to do
+    # will fail after our first Puppet run because of the things we do that
+    # mess with the default apt cache location.
+    require_package(
+        'nfs-common',
+        'portmap',
     )
 
     # Cron resources need a cron provider installed

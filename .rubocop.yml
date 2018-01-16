@@ -8,10 +8,8 @@ AllCops:
     - 'mediawiki/**/*'
     - 'mediawiki-*/**/*'
     - 'puppet/modules/activemq/**/*'
-    - 'puppet/modules/cdh/**/*'
     - 'puppet/modules/nginx/**/*'
     - 'puppet/modules/stdlib/**/*'
-    - 'puppet/modules/wikimetrics/**/*'
     - 'puppet/modules/wmflib/**/*'
     - 'srv/**/*'
     - 'tmp/**/*'
@@ -30,7 +28,7 @@ Style/Alias:
 
 # Ignoring for now as many instances of strictly aligned parameters look
 # strange
-Style/AlignParameters:
+Layout/AlignParameters:
   Enabled: false
 
 Style/NumericLiterals:

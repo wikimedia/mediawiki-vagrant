@@ -24,15 +24,16 @@ define thumbor::service (
     $tmp_dir,
     $cfg_files
 ) {
+    include ::thumbor
     $port = $name
 
     systemd::service { "thumbor-${port}":
-        ensure         => 'present',
-        require        => [
+        ensure             => 'present',
+        require            => [
             Package['python-thumbor-wikimedia'],
             File['/etc/firejail/thumbor.profile'],
         ],
-        service_params => {
+        service_params     => {
             subscribe => [
                 File[
                     '/etc/tinyrgb.icc',
@@ -41,7 +42,13 @@ define thumbor::service (
                 $cfg_files,
             ],
         },
-        template_name  => 'thumbor',
+        template_name      => 'thumbor',
+        epp_template       => true,
+        template_variables => {
+            'port'    => $port,
+            'tmp_dir' => $tmp_dir,
+            'cfg_dir' => $::thumbor::cfg_dir,
+        },
     }
 
     file { "/usr/lib/tmpfiles.d/thumbor@${port}.conf":

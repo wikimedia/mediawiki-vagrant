@@ -1,5 +1,19 @@
 require 'mediawiki-vagrant/settings'
-require 'vagrant/util'
+begin
+  require 'vagrant/util'
+rescue LoadError
+  # This stub module keeps settings :nfs_shares from blowing up when loaded
+  # outside of Vagrant (e.g. the bash-completion helper script)
+  module Vagrant
+    module Util
+      class Platform
+        def self.platform
+          RUBY_PLATFORM
+        end
+      end
+    end
+  end
+end
 
 module MediaWikiVagrant
   Settings.define do

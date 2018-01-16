@@ -71,7 +71,7 @@ class smashpig(
     mysql::db { 'smashpig': }
 
     exec { 'smashpig_schema':
-        command => "cat ${dir}/Schema/mysql/*.sql | /usr/bin/mysql -uroot -p${mysql::root_password} smashpig -qfsA",
+        command => "cat ${dir}/Schema/mysql/*.sql | /usr/bin/mysql smashpig -qfsA",
         require => [
             Git::Clone['wikimedia/fundraising/SmashPig'],
             Mysql::Db['smashpig'],

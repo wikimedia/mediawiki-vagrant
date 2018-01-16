@@ -21,12 +21,16 @@
 #   Top level domain to use when creating hostnames. Value should include
 #   leading '.' (example: '.local.wmftest.net').
 #
+# [*timezone*]
+#   Timezone for the VM. (example: 'Etc/UTC')
+#
 class mwv (
     $files_dir,
     $etc_dir,
     $services_dir,
     $vendor_dir,
     $tld,
+    $timezone,
 ) {
     include ::apt
     include ::env
@@ -65,4 +69,28 @@ class mwv (
         } -> File <| |>
     }
 
+    # Why is this so hard?
+    $tzparts = split($timezone, '/')
+    $tzarea = $tzparts[0]
+    $tzzone = $tzparts[1]
+    exec { 'debconf tzarea':
+        command => "/bin/echo tzdata tzdata/Areas select ${tzarea} | /usr/bin/debconf-set-selections",
+        unless  => "/usr/bin/debconf-get-selections | /bin/grep -q -E \"^tzdata\\s+tzdata/Areas\\s+select\\s+${tzarea}\"",
+        before  => Package['tzdata'],
+    }
+    exec { 'debconf tzzone':
+        command => "/bin/echo tzdata tzdata/Zones/${tzarea} select ${timezone} | /usr/bin/debconf-set-selections",
+        unless  => "/usr/bin/debconf-get-selections | /bin/grep -q -E \"^tzdata\\s+tzdata/Zones/${tzarea}\\s+select\\s+${timezone}\"",
+        before  => Package['tzdata'],
+    }
+    file { '/etc/localtime':
+        ensure  => 'link',
+        target  => "/usr/share/zoneinfo/${timezone}",
+        require => Package['tzdata'],
+    }
+    file { '/etc/timezone':
+        ensure  => 'present',
+        content => $timezone,
+        require => Package['tzdata'],
+    }
 }

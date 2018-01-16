@@ -3,6 +3,7 @@
 # a text in comparison with scanned images.
 class role::proofreadpage {
     include ::role::parserfunctions
+    include ::role::labeledsectiontransclusion
     include ::role::cite
 
     require_package('djvulibre-bin')
@@ -15,8 +16,6 @@ class role::proofreadpage {
             post_max_size       => '50M',
         },
     }
-
-    mediawiki::extension { 'LabeledSectionTransclusion': }
 
     mediawiki::extension { 'ProofreadPage':
         needs_update => true,

@@ -48,10 +48,15 @@ define eventlogging::service(
     }
 
     systemd::service { $service_name:
-        ensure         => 'present',
-        template_name  => 'eventlogging-service',
-        service_params => {
+        ensure             => 'present',
+        template_name      => 'eventlogging-service',
+        service_params     => {
             subscribe => File[$config_file],
+        },
+        epp_template       => true,
+        template_variables => {
+            'eventlogging_path' => $eventlogging_path,
+            'config_file'       => $config_file,
         },
     }
 }

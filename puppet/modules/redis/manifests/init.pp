@@ -78,11 +78,17 @@ class redis(
         require => [ Package['redis-server'], File[$dir] ],
     }
 
-    service { 'redis-server':
-        ensure    => running,
-        enable    => true,
-        provider  => 'debian',
-        subscribe => File['/etc/redis/redis.conf'],
-        require   => File['/etc/redis/redis.conf'],
+    systemd::service { 'redis-server':
+        is_override    => true,
+        service_params => {
+            enable    => true,
+            subscribe => [
+                Package['redis-server'],
+                File['/etc/redis/redis.conf'],
+            ],
+            require   => [
+                File[$dir],
+            ],
+        },
     }
 }

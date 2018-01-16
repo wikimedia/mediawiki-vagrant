@@ -76,7 +76,7 @@ define service::node(
     }
 
     # sanity check since a default port cannot be assigned
-    unless $port and $port =~ /^\d+$/ {
+    unless $port and $port =~ Integer {
         fail('Service port must be specified and must be a number!')
     }
 
@@ -96,9 +96,9 @@ define service::node(
         default => $log_level
     }
     # ensure the RB port is defined for the config
-    $restbase_port = $::restbase::port ? {
-        undef   => 7231,
-        default => $::restbase::port
+    $restbase_port = defined(Class['restbase']) ? {
+        true    => $::restbase::port,
+        default => 7231,
     }
 
     # the repo

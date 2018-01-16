@@ -109,5 +109,10 @@ module MediaWikiVagrant
       LsbCheck::Provisioner
     end
 
+    provisioner :file_perms do
+      require 'mediawiki-vagrant/file_perms'
+      FilePerms
+    end
+
   end
 end

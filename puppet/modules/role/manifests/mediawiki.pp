@@ -16,7 +16,7 @@ class role::mediawiki(
     require ::mysql
     require ::redis
 
-    require_package('php5-tidy')
+    require_package('php-tidy')
     require_package('tidy')
 
     # mailutils depends on default MTA or any MTA.  This way we

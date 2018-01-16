@@ -32,22 +32,13 @@ class thumbor (
         'python-pil',
     ]
 
-    apt::pin { 'thumbor-python-backports':
-        package  => join(sort($packages), ' '),
-        pin      => 'release a=jessie-backports',
-        priority => '1000',
-    }
-
     package { 'raven':
         provider => 'pip',
     }
 
     package { 'python-thumbor-wikimedia':
-        ensure  => 'present',
-        notify  => Exec['stop-and-disable-default-thumbor-service'],
-        require => [
-            Apt::Pin['thumbor-python-backports'],
-        ]
+        ensure => 'present',
+        notify => Exec['stop-and-disable-default-thumbor-service'],
     }
 
     exec { 'stop-and-disable-default-thumbor-service':
@@ -122,7 +113,7 @@ class thumbor (
 
     # This will generate a list of ports starting at 8889, with
     # as many ports as there are CPUs on the machine.
-    $ports = sequence_array(8889, inline_template('<%= `nproc` %>'))
+    $ports = sequence_array(8889, $::processorcount).map |$p| { String($p) }
 
     thumbor::service { $ports:
         tmp_dir   => $tmp_dir,

@@ -3,10 +3,12 @@
 class kafka {
     require ::service
     require ::mediawiki::ready_service
+    require ::kafka::repository
 
-    require_package('openjdk-7-jdk')
+    $kafka_package = 'confluent-kafka-2.11'
+    require_package('openjdk-8-jdk')
     require_package('zookeeperd')
-    require_package('confluent-kafka-2.11.7')
+    require_package($kafka_package)
     require_package('kafkacat')
 
     $logdir = '/var/log/kafka'
@@ -14,7 +16,7 @@ class kafka {
     group { 'kafka':
         ensure  => 'present',
         system  => true,
-        require => Package['confluent-kafka-2.11.7'],
+        require => Package[$kafka_package],
     }
     # Kafka system user
     user { 'kafka':
@@ -44,14 +46,14 @@ class kafka {
         ensure  => 'present',
         source  => 'puppet:///modules/kafka/server.properties',
         mode    => '0444',
-        require => Package['confluent-kafka-2.11.7'],
+        require => Package[$kafka_package],
     }
 
     file { '/etc/kafka/log4j.properties':
       ensure  => 'present',
       content => template('kafka/log4j.properties.erb'),
       mode    => '0444',
-      require => Package['confluent-kafka-2.11.7'],
+      require => Package[$kafka_package],
     }
 
     file { [$logdir, '/var/lib/kafka']:
@@ -59,7 +61,7 @@ class kafka {
         owner   => 'kafka',
         group   => 'kafka',
         mode    => '0755',
-        require => Package['confluent-kafka-2.11.7'],
+        require => Package[$kafka_package],
     }
 
     service { 'zookeeper':
@@ -74,7 +76,7 @@ class kafka {
             require   => [
                 User['kafka'],
                 Service['zookeeper'],
-                Package['confluent-kafka-2.11.7'],
+                Package[$kafka_package],
             ],
             subscribe => [
                 File['/etc/kafka/server.properties'],

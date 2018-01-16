@@ -25,7 +25,8 @@ class role::globalblocking(
     require ::role::mediawiki
 
     mysql::db { $db_name:
-        ensure => present,
+        ensure  => present,
+        options => 'DEFAULT CHARACTER SET binary',
     }
 
     mysql::sql { "GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}@${db_host}":

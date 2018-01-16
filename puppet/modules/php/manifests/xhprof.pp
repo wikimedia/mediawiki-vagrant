@@ -10,20 +10,17 @@ class php::xhprof (
     $profile_storage_dir,
 ) {
 
-    package { 'php5-xhprof':
+    package { 'php-tideways':
         ensure  => present,
     }
 
     php::ini { 'xhprof_enable':
         settings => {
-            # We don't use php5enmod on the packaged ini because the
-            # default config triggers a deprecation warning due to a #
-            # comment.
-            'extension'         => 'xhprof.so',
             # Not used by the extension directly, used by the
             # XHProf_Runs utility class
             'xhprof.output_dir' => $profile_storage_dir,
-        }
+        },
+        require  => Package['php-tideways'],
     }
 
     # Directory used, by default, to store profile runs

@@ -9,7 +9,7 @@ class role::three_d {
     mediawiki::extension { '3D':
         remote   => 'https://phabricator.wikimedia.org/diffusion/ETHR/3d.git',
         settings => [
-            "\$wg3dProcessor = \"${::three_d::three_d_2png_dir}/3d2png.js\"",
+            "\$wg3dProcessor = ['/usr/bin/xvfb-run', '-a', '-s', '-ac -screen 0 1280x1024x24', '${::three_d::three_d_2png_dir}/3d2png.js']",
             '$wg3dProcessEnviron = [ "DISPLAY" => ":99" ]',
             '$wgFileExtensions[] = "stl"',
             '$wgTrustedMediaFormats[] = "application/sla"',

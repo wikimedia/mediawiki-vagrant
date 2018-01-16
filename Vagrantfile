@@ -57,13 +57,13 @@ Vagrant.configure('2') do |config|
 
   # Default VirtualBox provider
   config.vm.provider :virtualbox do |_vb, override|
-    override.vm.box = 'debian/contrib-jessie64'
+    override.vm.box = 'debian/contrib-stretch64'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
   # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
   config.vm.provider :vmware_fusion do |_vw, override|
-    override.vm.box = 'dhoppe/debian-8.8.0-amd64-nocm'
+    override.vm.box = 'generic/debian9'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
@@ -77,14 +77,14 @@ Vagrant.configure('2') do |config|
   # NAT and port redirection are not automatically set up for you.
   #
   config.vm.provider :hyperv do |_hyperv, override|
-    override.vm.box = 'ira/leap'
+    override.vm.box = 'generic/debian9'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
   # LXC provider. Enable wtih `--provider=lxc`
   # Requires vagrant-lxc plugin and Vagrant 1.7+
   config.vm.provider :lxc do |_lxc, override|
-    override.vm.box = 'LEAP/jessie'
+    override.vm.box = 'debian/stretch64'
   end
 
   # Parallels provider. Enable with `--provider=parallels`
@@ -96,13 +96,13 @@ Vagrant.configure('2') do |config|
   # Note that port forwarding works via localhost but not via external
   # interfaces of the host machine by default...
   config.vm.provider :parallels do |_parallels, override|
-    override.vm.box = 'bento/debian-8.9'
+    override.vm.box = 'kolaephant/debian9-amd64'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
   # libvirt (KVM/QEMU) provider.  Enable with `--provider=libvirt`.
   config.vm.provider :libvirt do |_libvirt, override|
-    override.vm.box = 'debian/contrib-jessie64'
+    override.vm.box = 'debian/stretch64'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
@@ -209,10 +209,12 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :lsb_check do |lsb|
     lsb.vendor = 'Debian'
-    lsb.version = '^8'
+    lsb.version = '^9'
   end
 
   config.vm.provision :mediawiki_reload if mwv.reload?
+
+  config.vm.provision :file_perms
 
   # Ensure that the VM has Puppet installed
   config.vm.provision :shell, path: 'support/puppet-bootstrap.sh'
@@ -225,6 +227,9 @@ Vagrant.configure('2') do |config|
     # Tell Vagrant that the manifests are already on the guest
     puppet.manifests_path = [:guest, '/vagrant/puppet/manifests']
     puppet.manifest_file = 'site.pp'
+
+    puppet.environment_path = [:guest, '/vagrant/puppet/environments']
+    puppet.environment = 'vagrant'
 
     puppet.options = [
       '--modulepath', '/vagrant/puppet/modules',
@@ -260,6 +265,8 @@ Vagrant.configure('2') do |config|
 
     if settings[:http_port] != 80 && ENV['MWV_ENVIRONMENT'] != 'labs'
       puppet.facter['port_fragment'] = ":#{settings[:http_port]}"
+    else
+      puppet.facter['port_fragment'] = ''
     end
 
     if settings[:nfs_shares]

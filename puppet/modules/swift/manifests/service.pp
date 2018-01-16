@@ -2,25 +2,19 @@
 #
 # Defines a swift service.
 #
-# === Parameters
-#
-# [*cfg_file*]
-#   Path to the service's config file.
-#
 # === Examples
 #
-#   swift::service { 'swift-account-server':
-#       cfg_file => '/etc/swift/account-server.conf',
-#   }
+#   swift::service { 'swift-account-server' }
 #
-define swift::service(
-    $cfg_file,
-) {
+define swift::service {
+    $split = split($title, '-')
+    $ring_name = $split[0]
+
     systemd::service { "swift-${title}":
         ensure         => 'present',
-        require        => File[$cfg_file],
+        require        => File["/etc/swift/${ring_name}.conf"],
         service_params => {
-            subscribe => File[$cfg_file],
+            subscribe => File["/etc/swift/${ring_name}.conf"],
         },
         template_name  => 'swift',
     }

@@ -6,7 +6,7 @@ OPTIONS=he:w:p
 LONGOPTIONS=help,engine:,wiki:,eval,plain
 
 WIKI='<%= @default_db_name %>'
-ENGINE=hhvm
+ENGINE=php
 ENGINE_FLAGS=
 SCRIPT=shell.php
 
@@ -41,7 +41,7 @@ while true; do
             case "$2" in
                 zend|php)
                     # "php" is not documented but let's be liberal with what we accept
-                    ENGINE=php5
+                    ENGINE=php
                     ;;
                 hhvm)
                     ENGINE=hhvm

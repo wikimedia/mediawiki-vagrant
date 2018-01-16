@@ -34,8 +34,7 @@ define mysql::sql(
     $quoted_unless = regsubst($unless, '"', '\\"', 'G')
 
     exec { $title:
-        command => "/usr/bin/mysql -uroot -p${mysql::root_password} -qfsAe \"${quoted_sql}\"",
-        unless  => "/usr/bin/mysql -uroot -p${mysql::root_password} -qfsANe \"${quoted_unless}\" | /usr/bin/tail -1 | /bin/grep -q 1",
-        require => Exec['set_mysql_password'],
+        command => "/usr/bin/mysql -qfsAe \"${quoted_sql}\"",
+        unless  => "/usr/bin/mysql -qfsANe \"${quoted_unless}\" | /usr/bin/tail -1 | /bin/grep -q 1",
     }
 }
