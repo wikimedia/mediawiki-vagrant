@@ -24,7 +24,7 @@ class mwv::packages {
     # mess with the default apt cache location.
     require_package(
         'nfs-common',
-        'portmap',
+        'rpcbind',
     )
 
     # Cron resources need a cron provider installed
