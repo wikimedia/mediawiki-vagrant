@@ -23,16 +23,4 @@ class role::ores {
             },
         },
     }
-
-    mediawiki::maintenance { 'check ORES model versions':
-        command => '/usr/local/bin/mwscript extensions/ORES/maintenance/CheckModelVersions.php --wiki=wiki',
-        unless  => "/usr/bin/mysql -e 'select * from ores_model' wiki | /bin/grep -q 'damaging'",
-        require => Mediawiki::Extension['ORES'],
-    }
-
-    # Ensure that the maintenance script does not run before the API is alive,
-    # when ORES is installed locally via role::ores_service.
-    # This is pretty horrible but seems to be the only way of avoiding cycles.
-    Systemd::Service<| title == 'ores-wsgi' or title == 'ores-celery' |>
-    -> Mediawiki::Maintenance['check ORES model versions']
 }
