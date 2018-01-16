@@ -4,7 +4,6 @@
 # (To install the ORES service, use the ores_service role instead.)
 #
 class role::ores {
-    include ::role::betafeatures
     include ::mysql
 
     mediawiki::extension { 'ORES':
