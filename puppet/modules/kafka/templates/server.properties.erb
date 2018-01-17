@@ -1,0 +1,133 @@
+# NOTE: This file is managed by Puppet.
+
+############################# Server Basics #############################
+
+# The id of the broker. This must be set to a unique integer for each broker.
+broker.id=0
+
+# Always require a static broker id.
+broker.id.generation.enable=false
+
+
+<% if @ssl_enabled -%>
+listeners=PLAINTEXT://:9092,SSL://:9093
+<% else -%>
+listeners=PLAINTEXT://:9092
+<% end -%>
+
+# Define whether the timestamp in the message is message create time or log append time.
+# The value should be either `CreateTime` or `LogAppendTime`
+log.message.timestamp.type=LogAppendTime
+
+######################### Socket Server Settings ########################
+<% if @ssl_enabled -%>
+security.inter.broker.protocol=SSL
+
+ssl.keystore.location=/etc/kafka/ssl/kafka_broker/kafka_broker.keystore.jks
+ssl.keystore.password=qwerty
+ssl.key.password=qwerty
+ssl.truststore.location=/etc/kafka/ssl/kafka_broker/truststore.jks
+ssl.truststore.password=qwerty
+ssl.enabled.protocols=TLSv1.2
+ssl.cipher.suites=TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384
+
+ssl.client.auth=requested
+
+<% end -%>
+
+# The number of threads doing disk I/O
+num.io.threads=1
+
+# The send buffer (SO_SNDBUF) used by the socket server
+socket.send.buffer.bytes=1048576
+
+# The receive buffer (SO_RCVBUF) used by the socket server
+socket.receive.buffer.bytes=1048576
+
+############################# Log Basics #############################
+
+# A comma seperated list of directories under which to store log files
+log.dirs=/var/lib/kafka
+
+# The default number of log partitions per topic. More partitions allow greater
+# parallelism for consumption, but this will also result in more files across
+# the brokers.
+num.partitions=1
+
+# The default replication factor for automatically created topics.
+# Default to the number of brokers in this cluster.
+default.replication.factor=1
+
+# Enables topic deletion
+delete.topic.enable=true
+
+# The replication factor for the group metadata internal topics "__consumer_offsets" and "__transaction_state"
+# For anything other than development testing, a value greater than 1 is recommended for to ensure availability such as 3.
+offsets.topic.replication.factor=1
+
+# Enable auto creation of topic on the server. If this is set to true
+# then attempts to produce, consume, or fetch metadata for a non-existent
+# topic will automatically create it with the default replication factor
+# and number of partitions.
+auto.create.topics.enable=true
+
+# If this is enabled the controller will automatically try to balance
+# leadership for partitions among the brokers by periodically returning
+# leadership to the "preferred" replica for each partition if it is available.
+auto.leader.rebalance.enable=true
+
+# Number of threads used to replicate messages from leaders. Increasing this
+# value can increase the degree of I/O parallelism in the follower broker.
+# This is useful to temporarily increase if you have a broker that needs
+# to catch up on messages to get back into the ISR.
+num.replica.fetchers=1
+
+############################# Log Retention Policy #############################
+
+# The following configurations control the disposal of log segments. The policy
+# can be set to delete segments after a period of time, or after a given size
+# has accumulated. A segment will be deleted whenever *either* of these
+# criteria are met. Deletion always happens from the end of the log.
+
+# The minimum age of a log file to be eligible for deletion due to age
+log.retention.hours=168
+
+# A size-based retention policy for logs. Segments are pruned from the log as long as the remaining
+# segments don't drop below log.retention.bytes. Functions independently of log.retention.hours.
+log.retention.bytes=268435456
+
+# Log retention window in minutes for offsets topic.  If an offset
+# commit for a consumer group has not been recieved in this amount of
+# time, Kafka will drop the offset commit and consumers in the group
+# will have to start a new.  This can be overridden in an offset commit
+# request.
+offsets.retention.minutes=10080
+
+############################# Zookeeper #############################
+
+# Zookeeper connection string (see zookeeper docs for details).
+# This is a comma separated host:port pairs, each corresponding to a zk
+# server. e.g. "127.0.0.1:3000,127.0.0.1:3001,127.0.0.1:3002".
+# You can also append an optional chroot string to the urls to specify the
+# root directory for all kafka znodes.
+zookeeper.connect=localhost:2181/kafka
+
+
+##################### Confluent Proactive Support ######################
+# If set to true, and confluent-support-metrics package is installed
+# then the feature to collect and report support metrics
+confluent.support.metrics.enable=false
+
+# The customer ID under which support metrics will be collected and
+# reported.
+#
+# When the customer ID is set to "anonymous" (the default), then only a
+# reduced set of metrics is being collected and reported.
+#
+# Confluent customers
+# -------------------
+# If you are a Confluent customer, then you should replace the default
+# value with your actual Confluent customer ID.  Doing so will ensure
+# that additional support metrics will be collected and reported.
+#
+confluent.support.customer.id=anonymous

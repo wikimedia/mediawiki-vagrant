@@ -1,14 +1,15 @@
 # == Class: Kafka
 #
-class kafka {
+class kafka(
+    $ssl_enabled = true,
+) {
     require ::service
     require ::mediawiki::ready_service
-    require ::kafka::repository
+    require kafka::repository
 
-    $kafka_package = 'confluent-kafka-2.11'
-    require_package('openjdk-8-jdk')
+    require_package('openjdk-8-jre')
     require_package('zookeeperd')
-    require_package($kafka_package)
+    require_package('confluent-kafka-2.11')
     require_package('kafkacat')
 
     $logdir = '/var/log/kafka'
@@ -16,7 +17,7 @@ class kafka {
     group { 'kafka':
         ensure  => 'present',
         system  => true,
-        require => Package[$kafka_package],
+        require => Package['confluent-kafka-2.11'],
     }
     # Kafka system user
     user { 'kafka':
@@ -42,18 +43,29 @@ class kafka {
         source => 'puppet:///modules/kafka/kafka.profile.sh',
     }
 
+    if $ssl_enabled {
+        file { '/etc/kafka/ssl':
+            ensure  => 'directory',
+            source  => 'puppet:///modules/kafka/ssl',
+            recurse => true,
+            owner   => 'root',
+            group   => 'root',
+            mode    => '0755',
+        }
+    }
+
     file { '/etc/kafka/server.properties':
         ensure  => 'present',
-        source  => 'puppet:///modules/kafka/server.properties',
+        content => template('kafka/server.properties.erb'),
         mode    => '0444',
-        require => Package[$kafka_package],
+        require => Package['confluent-kafka-2.11'],
     }
 
     file { '/etc/kafka/log4j.properties':
       ensure  => 'present',
       content => template('kafka/log4j.properties.erb'),
       mode    => '0444',
-      require => Package[$kafka_package],
+      require => Package['confluent-kafka-2.11'],
     }
 
     file { [$logdir, '/var/lib/kafka']:
@@ -61,7 +73,7 @@ class kafka {
         owner   => 'kafka',
         group   => 'kafka',
         mode    => '0755',
-        require => Package[$kafka_package],
+        require => Package['confluent-kafka-2.11'],
     }
 
     service { 'zookeeper':
@@ -76,7 +88,7 @@ class kafka {
             require   => [
                 User['kafka'],
                 Service['zookeeper'],
-                Package[$kafka_package],
+                Package['confluent-kafka-2.11'],
             ],
             subscribe => [
                 File['/etc/kafka/server.properties'],

@@ -6,7 +6,7 @@ After=mediawiki-ready.service
 [Service]
 User=kafka
 Group=kafka
-Environment="KAFKA_HEAP_OPTS=-Xmx164m -Xmx164m"
+Environment="JAVA_OPTS=-Djava.awt.headless=true KAFKA_HEAP_OPTS=-Xmx164m -Xmx164m"
 ExecStart=/usr/bin/kafka-server-start /etc/kafka/server.properties
 Restart=always
 
