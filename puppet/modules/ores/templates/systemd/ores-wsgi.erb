@@ -11,8 +11,8 @@ After=mediawiki-ready.service
 User=www-data
 Group=www-data
 SyslogIdentifier=ores-wsgi
-WorkingDirectory=<%= @ores_root %>
-ExecStart=<%= @venv_dir %>/bin/ores applications.wsgi --port=<%= @port %> --processes=1 --logging-config <%= @logging_config %>
+WorkingDirectory=<%= scope['::ores::ores_root'] %>
+ExecStart=<%= scope['::ores::venv_dir'] %>/bin/ores applications.wsgi --port=<%= scope['::ores::port'] %> --processes=1 --logging-config <%= scope['::ores::logging_config'] %>
 Restart=always
 
 [Install]
