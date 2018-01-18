@@ -8,13 +8,13 @@
 #   Path where Wikilabels should be installed (example: '/vagrant/srv/wikilabels').
 #
 # [*db_name*]
-#   Logical MySQL database name (example: 'wikilabels').
+#   Logical PostgreSQL database name (example: 'wikilabels').
 #
 # [*db_user*]
-#   MySQL user to use to connect to the database (example: 'wikidb').
+#   PostgreSQL user to use to connect to the database (example: 'wikidb').
 #
 # [*db_pass*]
-#   Password for MySQL account (example: 'secret123').
+#   Password for PostgreSQL account (example: 'secret123').
 #
 # [*vhost_name*]
 #   Hostname of the Wikilabels server (example: 'wikilabels.local.wmftest.net').
@@ -82,7 +82,7 @@ class wikilabels (
     exec { 'initialize wikilabels database':
         # puppet does not allow specifying separate users for command and unless so sudoing ensues
         command => "echo y | sudo -u www-data ${deploy_dir}/bin/wikilabels load_schema --reload-test-data",
-        unless  => "sudo -u postgres psql -d ${db_name} -c \"SELECT 'campaign'::regclass\"",
+        unless  => "sudo -u postgres psql -d ${db_name} -c \"SELECT 'campaign'::regclass\" >& /dev/null",
         cwd     => $repo_dir,
         require => [
           Exec['create wikilabels database'],
