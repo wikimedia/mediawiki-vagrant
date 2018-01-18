@@ -152,13 +152,21 @@ define service::node(
 
     # the service definition
     systemd::service { $title:
-        template_name  => 'node',
-        service_params => {
+        template_name      => 'node',
+        service_params     => {
             subscribe => [
                 File["${title}_config_yaml"],
                 Npm::Install[$dir],
             ],
         },
-        require        => Git::Clone[$title],
+        epp_template       => true,
+        template_variables => {
+            title   => $title,
+            uptitle => inline_template('<%= @title.gsub(/[^a-zA-Z0-9_]/, "_").upcase %>'),
+            dir     => $dir,
+            port    => $port,
+            script  => $script,
+        },
+        require            => Git::Clone[$title],
     }
 }
