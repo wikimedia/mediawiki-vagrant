@@ -8,12 +8,10 @@ default_project: &default_project
       options: &default_options
         table:
           backend: sqlite
-          dbname: <%= @dbdir %>/mw-vagrant.sqlite3
-        table_ng:
-          backend: sqlite
           dbname: <%= @dbdir %>/mw-vagrant-ng.sqlite3
         parsoid:
           host: http://localhost:<%= scope['::parsoid::port'] %>
+          grace_ttl: 3600
         action:
           apiUriTemplate: "{{'http://localhost<%= scope['::port_fragment'] %>/w/api.php'}}"
           baseUriTemplate: "{{'http://{domain}:7231/{domain}/v1'}}"
@@ -25,6 +23,10 @@ default_project: &default_project
           cache-control: s-maxage=864000, max-age=86400
         mobileapps:
           host: http://localhost:<%= @mobileapps_port %>
+        summary:
+          protocol: http
+          implementation: mw_api # TODO: change to mcs soon
+          host: http://localhost:<%= @mobileapps_port %>
         events:
           eventlogging_service:
             uri: http://localhost:<%= @eventlogging_service_port %>/v1/events
@@ -35,10 +37,15 @@ default_project: &default_project
           host: http://localhost:<%= @citoid_port %>
         transform:
           cx_host: http://localhost:<%= @cxserver_port %>
+        # 10 days Varnish caching, one day client-side
+        purged_cache_control: s-maxage=864000, max-age=86400
+        # Cache control for purged endpoints allowing short-term client caching
+        purged_cache_control_client_cache: s-maxage=1209600, max-age=300
         pdf:
           cache_control: s-maxage=600, max-age=600
           uri: http://localhost:<%= @pdf_service_port %>/
           secret: <%= @pdf_service_secret %>
+          scheme: http
 
 wikimedia.org: &wikimedia
   x-modules:
