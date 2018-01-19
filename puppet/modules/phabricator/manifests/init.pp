@@ -19,6 +19,12 @@
 # [*remote*]
 #   Phabricator git remote.
 #
+# [*dbuser*]
+#   Database user
+#
+# [*dbpass*]
+#   Database password
+#
 # [*branch*]
 #   Phabricator branch to check out. If left undefined the default HEAD of the
 #   remote will be used.
@@ -28,6 +34,8 @@ class phabricator(
     $log_dir,
     $vhost_name,
     $remote,
+    $dbuser,
+    $dbpass,
     $branch = undef,
     $protocol = 'http',
 ){
@@ -70,6 +78,11 @@ class phabricator(
         require  => Class['::apache::mod::rewrite'],
     }
 
+    mysql::user { $dbuser:
+        password => $dbpass,
+        grant    => 'ALL ON \`phabricator\_%\`.*',
+    }
+
     phabricator::config { 'mysql.host':
         value => '127.0.0.1',
     }
@@ -78,8 +91,12 @@ class phabricator(
         value => 3306,
     }
 
+    phabricator::config { 'mysql.user':
+        value => $dbuser,
+    }
+
     phabricator::config { 'mysql.pass':
-        value => $::mysql::root_password,
+        value => $dbpass,
     }
 
     phabricator::config { 'phabricator.base-uri':
@@ -181,8 +198,10 @@ class phabricator(
         require => [
             Class['::mysql'],
             Phabricator::Config['mysql.host'],
+            Phabricator::Config['mysql.user'],
             Phabricator::Config['mysql.pass'],
             Phabricator::Config['mysql.port'],
+            Mysql::User[$dbuser],
         ],
         unless  => "${deploy_dir}/phabricator/bin/storage status > /dev/null",
     }

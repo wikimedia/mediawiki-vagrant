@@ -44,7 +44,7 @@ define mysql::user(
     $password,
     $ensure   = present,
     $username = $title,
-    $grant    = 'usage on *.*',
+    $grant    = 'USAGE ON *.*',
     $hostname = $::mysql::grant_host_name,
     $socket   = false,
 ) {
@@ -57,8 +57,8 @@ define mysql::user(
     }
 
     if $ensure == 'absent' {
-        mysql::sql { "drop user '${username}'":
-            unless => "select not exists(select 1 from mysql.user where user = '${username}')",
+        mysql::sql { "DROP USER '${username}'":
+            unless => "SELECT NOT EXISTS(SELECT 1 FROM mysql.user WHERE user = '${username}')",
         }
     } else {
         $ident = $socket ? {
@@ -66,8 +66,8 @@ define mysql::user(
             default => "IDENTIFIED BY '${password}'",
         }
         mysql::sql { "create user ${username}":
-            sql    => "grant ${grant} to '${username}'@'${hostname}' ${ident}",
-            unless => "select exists(select 1 from mysql.user where user = '${username}')",
+            sql    => "CREATE USER '${username}'@'${hostname}' ${ident}; GRANT ${grant} to '${username}'@'${hostname}'",
+            unless => "SELECT EXISTS(SELECT 1 FROM mysql.user WHERE user = '${username}')",
         }
     }
 }

@@ -278,6 +278,8 @@ phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
 phabricator::log_dir: "/vagrant/logs/phd"
 phabricator::vhost_name: "phabricator%{hiera('mwv::tld')}"
 phabricator::remote: https://secure.phabricator.com/diffusion/P/phabricator.git
+phabricator::dbuser: phabricator
+phabricator::dbpass: phabulous
 
 php::xhprof::profile_storage_dir: /vagrant/profiles
 
