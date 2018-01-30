@@ -16,8 +16,8 @@ foreach ( $dbs as $key => $db ) {
     $databases[$key]['default'] = array(
         'driver' => 'mysql',
         'database' => $db,
-        'username' => '<%= @db_user %>',
-        'password' => '<%= @db_pass %>',
+        'username' => '<%= scope['crm::db_user'] %>',
+        'password' => '<%= scope['crm::db_pass'] %>',
         'host' => '127.0.0.1', // FIXME: Use socket
         'prefix' => '',
     );

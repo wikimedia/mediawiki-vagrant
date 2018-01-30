@@ -30,11 +30,17 @@ class payments(
     branch    => $branch,
   }
 
+  php::composer::install { 'mediawiki-dependencies':
+    directory => $dir,
+    require   => Git::Clone['mediawiki-core-fr'],
+  }
+
   mediawiki::wiki { 'payments':
     src_dir => $dir,
     require => [
       Git::Clone['mediawiki-core-fr'],
       Mediawiki::Wiki[$::mediawiki::wiki_name],
+      Php::Composer::Install['mediawiki-dependencies'],
     ],
   }
 

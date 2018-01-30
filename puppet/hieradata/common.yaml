@@ -47,13 +47,14 @@ crm::dir: "%{hiera('mwv::services_dir')}/org.wikimedia.civicrm"
 crm::site_name: "crm%{hiera('mwv::tld')}"
 crm::drupal_db: drupal
 crm::civicrm_db: civicrm
-crm::db_user: root
-crm::db_pass: "%{hiera('mysql::root_password')}"
+crm::db_user: crm
+crm::db_pass: crm
 
 crm::drupal::dir: "%{hiera('crm::dir')}/drupal"
 crm::drupal::files_dir: "%{hiera('mwv::files_dir')}/org.wikimedia.civicrm-files"
 
 crm::tools::dir: "%{hiera('mwv::services_dir')}/fundraising-tools"
+crm::drush::dir: "%{hiera('mwv::services_dir')}/drush"
 
 electron::port: 8098
 electron::vhost_name: "electron%{hiera('mwv::tld')}"

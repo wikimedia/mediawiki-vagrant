@@ -16,7 +16,8 @@ class crm::tools(
 
     require_package(
         'default-libmysqlclient-dev',
-        'libyaml-dev'
+        'libyaml-dev',
+        'libffi-dev',
     )
 
     git::clone { 'wikimedia/fundraising/tools':
@@ -38,11 +39,12 @@ class crm::tools(
     mysql::db { 'silverpop': }
 
     exec { 'create_silverpop_reference_data':
-        command => "/usr/bin/mysql -u '${::crm::db_user}' -p'${::crm::db_pass}' 'silverpop' < ${dir}/silverpop_export/silverpop_countrylangs.sql",
-        unless  => "/usr/bin/mysql -u '${::crm::db_user}' -p'${::crm::db_pass}' 'silverpop' -e 'select 1 from silverpop_countrylangs'",
+        command => "/usr/bin/mysql -u${::crm::db_user} -p${::crm::db_pass} 'silverpop' < ${dir}/silverpop_export/silverpop_countrylangs.sql",
+        unless  => "/usr/bin/mysql -u${::crm::db_user} -p${::crm::db_pass} 'silverpop' -e 'select 1 from silverpop_countrylangs'",
         require => [
             Git::Clone['wikimedia/fundraising/tools'],
             Mysql::Db['silverpop'],
+            Mysql::User[$crm::db_user]
         ],
     }
 

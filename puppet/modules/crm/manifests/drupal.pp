@@ -81,11 +81,12 @@ class crm::drupal(
 
     exec { 'drupal_db_install':
         command => $install_script,
-        unless  => "/usr/bin/mysql -u '${::crm::db_user}' -p'${::crm::db_pass}' '${::crm::drupal_db}' -e 'select 1 from system'",
+        unless  => "/usr/bin/mysql -u'${::crm::db_user}' -p'${::crm::db_pass}' '${::crm::drupal_db}' -e 'select 1 from system'",
         require => [
             Git::Clone[$::crm::repo],
+            Mysql::User[$crm::db_user],
             Mysql::Db[$databases],
-            Package['drush'],
+            Class['crm::drush'],
             File["${dir}/sites/default/files"],
         ],
     }

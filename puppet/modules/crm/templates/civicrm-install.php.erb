@@ -18,8 +18,8 @@ $config = array(
 );
 
 global $cmsPath, $crmPath, $installType;
-$cmsPath = '<%= @dir %>/drupal';
-$crmPath = '<%= @dir %>/civicrm';
+$cmsPath = '<%= scope['::crm::dir'] %>/drupal';
+$crmPath = '<%= scope['::crm::dir'] %>/civicrm';
 $installType = 'drupal';
 
 define( 'VERSION', '7.0' );
@@ -28,12 +28,12 @@ define( 'DB_PASSWORD', $config['drupal']['password'] );
 define( 'DB_HOST', $config['drupal']['server'] );
 define( 'DB_NAME', $config['drupal']['database'] );
 
-require_once '<%= @dir %>/civicrm/install/civicrm.php';
+require_once '<%= scope['::crm::dir'] %>/civicrm/install/civicrm.php';
 
 civicrm_main( $config );
-$extDir = '<%= @dir %>/sites/default/civicrm/extensions';
+$extDir = '<%= scope['::crm::dir'] %>/sites/default/civicrm/extensions';
 $extUrl = '<%= scope['::crm::base_url'] %>/sites/default/civicrm/extensions';
-file_put_contents('<%= @dir %>/sites/default/civicrm.settings.php', "
+file_put_contents('<%= scope['::crm::dir'] %>/sites/default/civicrm.settings.php', "
     global \$civicrm_setting;
     \$civicrm_setting['Directory Preferences']['extensionsDir'] = '$extDir';
     \$civicrm_setting['URL Preferences']['extensionsURL'] = '$extUrl';",
