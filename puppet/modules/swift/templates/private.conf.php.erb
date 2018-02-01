@@ -1,0 +1,33 @@
+$wgFileBackends[] = array(
+	'name'               => 'swift-backend-private',
+	'class'              => 'SwiftFileBackend',
+	'lockManager'        => 'nullLockManager',
+	'swiftAuthUrl'       => '127.0.0.1:<%= scope['::swift::port'] %>/auth',
+	'swiftUser'          => '<%= scope['::swift::project'] %>:<%= scope['::swift::user'] %>',
+	'swiftKey'           => '<%= scope['::swift::key'] %>',
+	'wikiId'             => 'wiki-private',
+	'shardViaHashLevels' => array(
+		'local-public' => array( 'levels' => 0, 'base' => 16, 'repeat' => 1 ),
+		'local-thumb'  => array( 'levels' => 0, 'base' => 16, 'repeat' => 1 ),
+	),
+);
+
+$wgLocalFileRepo = array(
+	'class'             => 'LocalRepo',
+	'name'              => 'local',
+	'backend'           => 'swift-backend-private',
+	'directory'         => $wgUploadDirectory,
+	'url'               => $wgUploadPath,
+	'scriptDirUrl'      => $wgScriptPath,
+	'scriptExtension'   => $wgScriptExtension,
+	'hashLevels'        => $wgHashedUploadDirectory ? 2 : 0,
+	'thumbScriptUrl'    => $wgThumbnailScriptPath,
+	'transformVia404'   => !$wgGenerateThumbnailOnParse,
+	'deletedDir'        => $wgDeletedDirectory,
+	'deletedHashLevels' => $wgHashedUploadDirectory ? 3 : 0,
+	'wikiId'            => 'wiki-private',
+	'isPrivate'         => true,
+	'zones'             => [ 'thumb' => [ 'url' => "$wgScriptPath/thumb_handler.php" ] ],
+	'thumbProxyUrl'		=> 'http://127.0.0.1:8888/wiki/private/thumb/',
+	'thumbProxySecret'	=> '<%= scope['::swift::private_wikis_secret'] %>',
+);

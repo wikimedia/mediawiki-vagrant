@@ -479,6 +479,7 @@ swift::key: testpwd
 swift::project: testproj
 swift::user: testuser
 swift::cfg_file: /etc/swift/swift.conf
+swift::private_wikis_secret: secret123456789
 
 three_d::three_d_2png_dir: /srv/3d2png
 

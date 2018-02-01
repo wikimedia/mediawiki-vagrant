@@ -43,6 +43,10 @@ SWIFT_SHARDED_CONTAINERS = [
     'wiki-dev-local-public',
     'wiki-dev-local-thumb'
 ]
+SWIFT_PRIVATE_CONTAINERS = [
+    'wiki-private-local-public',
+]
+SWIFT_PRIVATE_SECRET = '<%= scope['::swift::private_wikis_secret'] %>'
 #SWIFT_PATH_PREFIX = 'thumbor/'
 SWIFT_CONNECTION_TIMEOUT = 5
 
