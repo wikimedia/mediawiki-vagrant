@@ -14,6 +14,7 @@ SyslogIdentifier=wikilabels
 WorkingDirectory=<%= scope['::wikilabels::repo_dir'] %>
 ExecStart=<%= scope['::wikilabels::deploy_dir'] %>/bin/wikilabels dev_server --port=<%= scope['::wikilabels::port'] %>
 Restart=always
+RestartSec=120s
 
 [Install]
 WantedBy=multi-user.target

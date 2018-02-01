@@ -14,6 +14,7 @@ SyslogIdentifier=ores-celery
 WorkingDirectory=<%= scope['::ores::ores_root'] %>
 ExecStart=<%= scope['::ores::venv_dir'] %>/bin/ores applications.celery --logging-config <%= scope['::ores::logging_config'] %>
 Restart=always
+RestartSec=120s
 
 [Install]
 WantedBy=multi-user.target
