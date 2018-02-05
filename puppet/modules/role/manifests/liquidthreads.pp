@@ -6,7 +6,8 @@ class role::liquidthreads {
     include ::role::wikieditor
 
     mediawiki::extension { 'LiquidThreads':
-        settings => {
+        needs_update => true,
+        settings     => {
             wgLqtTalkPages => false
         }
     }
