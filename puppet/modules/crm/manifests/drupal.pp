@@ -106,12 +106,24 @@ class crm::drupal(
     }
 
     exec { 'enable_drupal_modules':
-        command   => inline_template('<%= scope["::crm::drush::wrapper"] %> pm-enable `cat <%= @module_list %>` '),
-        subscribe => Exec['drupal_db_install'],
-        require   => [
-            Exec['civicrm_setup'],
-            File['drupal_settings_php'],
-        ],
+      command   => inline_template(
+          '<%= scope["::crm::drush::wrapper"] %> pm-enable `cat <%= @module_list %>` '),
+      subscribe => Exec['drupal_db_install'],
+      require   => [
+          Exec['civicrm_setup'],
+          File['drupal_settings_php'],
+      ],
+    }
+
+    # TODO: When you realise what this is doing, you won't like it (email fr-tech@wikimedia.org with abuse if it lingers)
+    # paymentswiki/donationInterface can't run unit tests without the table `unittest_contribution_tracking`
+    # due to paymentswiki/drupal coupling so we add it here to avoid headache for people trying to work it out.
+    exec { 'add_missing_unittest_contribution_tracking_table':
+      command => "/usr/bin/mysql -u'${::crm::db_user}' -p'${::crm::db_pass}' -e \"show create table contribution_tracking\" -D drupal \
+                  | sed -ne 's/contribution_tracking/unittest_contribution_tracking/g' -Ee 's/^.*(CREATE.*)$/\\1/p' \
+                  | /usr/bin/mysql -u'${::crm::db_user}' -p'${::crm::db_pass}' -D drupal",
+      unless  => "/usr/bin/mysql -u'${::crm::db_user}' -p'${::crm::db_pass}' '${::crm::drupal_db}' -e 'select 1 from unittest_contribution_tracking'",
+      require => Exec['enable_drupal_modules'],
     }
 
     exec { 'update_exchange_rates':
