@@ -169,8 +169,24 @@ class _WMFRewriteContext(WSGIContext):
             last_modified = time.mktime(time.localtime())
 
         resp = webob.Response(app_iter=upcopy, content_type=c_t)
+
+        headers_whitelist = [
+            'Content-Length',
+            'Content-Disposition',
+            'Last-Modified',
+            'Accept-Ranges',
+            'XKey',
+            'Engine',
+            'Server',
+            'Processing-Time',
+            'Processing-Utime',
+            'Request-Date',
+            'Thumbor-Request-Id',
+            'Thumbor-Request-Date'
+        ]
+
         # add in the headers if we've got them
-        for header in ['Content-Length', 'Content-Disposition', 'Last-Modified', 'Accept-Ranges', 'XKey', 'Engine', 'Server', 'Processing-Time', 'Processing-Utime', 'Request-Date', 'Thumbor-Request-Id']:
+        for header in headers_whitelist:
             if(uinfo.getheader(header)):
                 resp.headers.add(header, uinfo.getheader(header))
 
