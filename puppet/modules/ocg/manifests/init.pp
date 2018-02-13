@@ -25,7 +25,7 @@ class ocg(
         'fonts-nafees',
         'fonts-arphic-uming',
         'fonts-arphic-ukai',
-        'fonts-droid',
+        'fonts-droid-fallback',
         'fonts-baekmuk',
         'lmodern',
         'texlive-lang-all',
