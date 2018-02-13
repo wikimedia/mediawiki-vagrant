@@ -3,38 +3,36 @@
 # Fundraising dashboard
 #
 class crm::dash (
+    $dir,
 ) {
     require ::npm
 
-    # FIXME this should be in hieradata
-    $fundraising_dash_dir = '/vagrant/srv/fundraising-dash'
-
     git::clone { 'wikimedia/fundraising/dash':
-        directory => $fundraising_dash_dir
+        directory => $dir
     }
 
     npm::install { 'dash_npm_install':
-        directory => $fundraising_dash_dir,
+        directory => $dir,
         require   => Git::Clone['wikimedia/fundraising/dash']
     }
 
     exec { 'dash_bower_install':
-        command     => "${fundraising_dash_dir}/node_modules/bower/bin/bower install",
-        cwd         => $fundraising_dash_dir,
+        command     => "${dir}/node_modules/bower/bin/bower install",
+        cwd         => $dir,
         require     => Npm::Install['dash_npm_install'],
         user        => 'vagrant',
         environment => 'HOME=/home/vagrant'
     }
 
     file { 'dash_settings_js':
-        path    => "${fundraising_dash_dir}/settings.js",
+        path    => "${dir}/settings.js",
         content => template('crm/dash.js.erb'),
         mode    => '0644',
         require => Exec['dash_bower_install'],
     }
 
     exec { 'dash_schema':
-        command => "cat ${fundraising_dash_dir}/schema/*.sql | /usr/bin/mysql fredge -qfsA",
+        command => "cat ${dir}/schema/*.sql | /usr/bin/mysql fredge -qfsA",
         require => [
             File['dash_settings_js'],
             Mysql::Db['fredge'],

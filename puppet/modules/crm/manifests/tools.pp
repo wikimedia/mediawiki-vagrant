@@ -9,9 +9,10 @@
 #
 class crm::tools(
     $dir,
+    $silverpop_db_name,
+    $silverpop_db_user,
+    $silverpop_db_pass,
 ) {
-    $db_url = "mysql://${::crm::db_user}:${::crm::db_pass}@localhost/${::crm::drupal_db}"
-
     $audit_base = '/var/spool/audit'
 
     require_package(
@@ -36,15 +37,22 @@ class crm::tools(
         require => File['/etc/fundraising'],
     }
 
-    mysql::db { 'silverpop': }
+    mysql::user { $silverpop_db_user:
+      ensure   => present,
+      grant    => 'ALL ON *.*',
+      password => $silverpop_db_pass,
+      require  => Mysql::Db[$silverpop_db_name],
+    }
+
+    mysql::db { $silverpop_db_name: }
 
     exec { 'create_silverpop_reference_data':
-        command => "/usr/bin/mysql -u${::crm::db_user} -p${::crm::db_pass} 'silverpop' < ${dir}/silverpop_export/silverpop_countrylangs.sql",
-        unless  => "/usr/bin/mysql -u${::crm::db_user} -p${::crm::db_pass} 'silverpop' -e 'select 1 from silverpop_countrylangs'",
+        command => "/usr/bin/mysql -u${silverpop_db_user} -p${silverpop_db_pass} '${silverpop_db_name}' < ${dir}/silverpop_export/silverpop_countrylangs.sql",
+        unless  => "/usr/bin/mysql -u${silverpop_db_user} -p${silverpop_db_pass} '${silverpop_db_name}' -e 'select 1 from silverpop_countrylangs'",
         require => [
             Git::Clone['wikimedia/fundraising/tools'],
-            Mysql::Db['silverpop'],
-            Mysql::User[$crm::db_user]
+            Mysql::Db[$silverpop_db_name],
+            Mysql::User[$silverpop_db_user]
         ],
     }
 

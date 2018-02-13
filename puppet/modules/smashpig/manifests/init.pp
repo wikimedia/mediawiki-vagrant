@@ -5,6 +5,8 @@
 class smashpig(
     $vhost_name,
     $dir,
+    $db_name,
+    $db_pass,
 ) {
     include ::php
     include ::apache
@@ -66,6 +68,13 @@ class smashpig(
             File["${dir}/PublicHttp/.htaccess"],
             Class['::apache::mod::rewrite'],
         ],
+    }
+
+    mysql::user { $db_name :
+      ensure   => present,
+      grant    => 'ALL ON *.*',
+      password => $db_pass,
+      require  => Mysql::Db['smashpig'],
     }
 
     mysql::db { 'smashpig': }

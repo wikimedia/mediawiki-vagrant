@@ -7,7 +7,7 @@ Description=fundraising dash service
 User=www-data
 Group=www-data
 SyslogIdentifier=fundraising_dash
-ExecStart=/usr/bin/nodejs <%= @fundraising_dash_dir %>/server.js -d -c <%= @fundraising_dash_dir %>/settings.js
+ExecStart=/usr/bin/nodejs <%= scope['::crm::dash::dir'] %>/server.js -d -c <%= scope['::crm::dash::dir'] %>/settings.js
 Restart=always
 
 [Install]

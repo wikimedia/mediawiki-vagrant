@@ -27,8 +27,8 @@ log_civicrm_db:
 
 silverpop_db:
     host: localhost
-    user: "<%= scope['::crm::db_user'] %>"
-    passwd: "<%= scope['::crm::db_pass'] %>"
-    db: silverpop
+    user: "<%= @silverpop_db_user %>"
+    passwd: "<%= @silverpop_db_pass %>"
+    db: "<%= @silverpop_db_name %>"
     debug: false
 

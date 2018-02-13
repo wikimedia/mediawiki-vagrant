@@ -10,8 +10,8 @@ data-store:
         class: PDO
         constructor-parameters:
             - mysql:host=127.0.0.1;dbname=smashpig
-            - root
-            - "<%= scope.lookupvar('mysql::root_password') %>"
+            - <%= scope.lookupvar('smashpig::db_name') %>
+            - <%= scope.lookupvar('smashpig::db_pass') %>
 
     pending-db:
         <<: *MYSQL
@@ -23,8 +23,8 @@ data-store:
         class: PDO
         constructor-parameters:
             - mysql:host=127.0.0.1;dbname=fredge
-            - root
-            - "<%= scope.lookupvar('mysql::root_password') %>"
+            - <%= scope.lookupvar('smashpig::db_name') %>
+            - <%= scope.lookupvar('smashpig::db_pass') %>
 
     banner-history:
         class: PHPQueue\Backend\Predis

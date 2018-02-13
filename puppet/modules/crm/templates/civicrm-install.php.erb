@@ -4,22 +4,22 @@ $config = array(
     'site_dir' => 'default',
     'base_url' => '<%= scope['::crm::base_url'] %>',
     'mysql' => array(
-        'username' => '<%= scope['::crm::db_user'] %>',
-        'password' => '<%= scope['::crm::db_pass'] %>',
+        'username' => '<%= @db_user %>',
+        'password' => '<%= @db_pass %>',
         'server' => '127.0.0.1',
-        'database' => '<%= scope['::crm::civicrm_db'] %>',
+        'database' => '<%= @db_name %>',
     ),
     'drupal' => array(
-        'username' => '<%= scope['::crm::db_user'] %>',
-        'password' => '<%= scope['::crm::db_pass'] %>',
+        'username' => '<%= @drupal_db_user %>',
+        'password' => '<%= @drupal_db_pass %>',
         'server' => '127.0.0.1',
-        'database' => '<%= scope['::crm::drupal_db'] %>',
+        'database' => '<%= @drupal_db_name %>',
     ),
 );
 
 global $cmsPath, $crmPath, $installType;
-$cmsPath = '<%= scope['::crm::dir'] %>/drupal';
-$crmPath = '<%= scope['::crm::dir'] %>/civicrm';
+$cmsPath = '<%= @drupal_dir %>';
+$crmPath = '<%= @dir %>';
 $installType = 'drupal';
 
 define( 'VERSION', '7.0' );
@@ -28,12 +28,12 @@ define( 'DB_PASSWORD', $config['drupal']['password'] );
 define( 'DB_HOST', $config['drupal']['server'] );
 define( 'DB_NAME', $config['drupal']['database'] );
 
-require_once '<%= scope['::crm::dir'] %>/civicrm/install/civicrm.php';
+require_once '<%= @dir %>/install/civicrm.php';
 
 civicrm_main( $config );
-$extDir = '<%= scope['::crm::dir'] %>/sites/default/civicrm/extensions';
-$extUrl = '<%= scope['::crm::base_url'] %>/sites/default/civicrm/extensions';
-file_put_contents('<%= scope['::crm::dir'] %>/sites/default/civicrm.settings.php', "
+$extDir = '<%= scope['::crm::sites_default_path'] %>/civicrm/extensions';
+$extUrl = '<%= scope['::crm::base_url'] %>sites/default/civicrm/extensions';
+file_put_contents('<%= scope['::crm::sites_default_path'] %>/civicrm.settings.php', "
     global \$civicrm_setting;
     \$civicrm_setting['Directory Preferences']['extensionsDir'] = '$extDir';
     \$civicrm_setting['URL Preferences']['extensionsURL'] = '$extUrl';",

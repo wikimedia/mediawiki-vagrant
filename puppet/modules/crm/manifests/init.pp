@@ -25,13 +25,10 @@
 class crm(
     $dir,
     $site_name,
-    $drupal_db,
-    $civicrm_db,
-    $db_user,
-    $db_pass,
+    $sites_default_path,
+    $repo,
 ) {
-    $repo = 'wikimedia/fundraising/crm'
-    $base_url = "http://${::crm::site_name}${::port_fragment}/"
+    $base_url = "http://${site_name}${::port_fragment}/"
 
     include ::php
     include ::postfix

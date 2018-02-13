@@ -20,6 +20,9 @@
 class payments(
     $branch,
     $dir,
+    $drupal_db,
+    $drupal_db_user,
+    $drupal_db_pass,
 ) {
   include ::payments::donation_interface
   include ::crm
@@ -48,9 +51,9 @@ class payments(
     needs_update => true,
     settings     => {
       'wgContributionTrackingDBserver'   => '127.0.0.1',
-      'wgContributionTrackingDBname'     => $::crm::drupal_db,
-      'wgContributionTrackingDBuser'     => $::crm::db_user,
-      'wgContributionTrackingDBpassword' => $::crm::db_pass,
+      'wgContributionTrackingDBname'     => $drupal_db,
+      'wgContributionTrackingDBuser'     => $drupal_db_user,
+      'wgContributionTrackingDBpassword' => $drupal_db_pass,
     },
   }
 

@@ -5,19 +5,21 @@
 define( 'WMF_UNSUB_SALT', 'vagrant' );
 
 $dbs = array(
-    'civicrm' => 'civicrm',
-    'default' => 'drupal',
+    'civicrm' => array('<%= @civicrm_db_name %>', '<%= @civicrm_db_user %>', '<%= @civicrm_db_pass %>'),
     # FIXME: Separate database not correctly supported by the contribution_tracking installer...
-    'donations' => 'drupal',
-    'fredge' => 'fredge',
-    'smashpig' => 'smashpig',
+    'default' => array('<%= @db_name %>', '<%= @db_user %>', '<%= @db_pass %>'),
+    'donations' => array('<%= @db_name %>', '<%= @db_user %>', '<%= @db_pass %>'),
+    'fredge' => array('<%= @fredge_db_name %>', '<%= @db_user %>', '<%= @db_pass %>'),
+    'smashpig' => array('<%= @smashpig_db_name %>', '<%= @smashpig_db_user %>', '<%= @smashpig_db_pass %>'),
+
 );
-foreach ( $dbs as $key => $db ) {
+foreach ( $dbs as $key => $db_config ) {
+    list($db, $user, $pass) = $db_config;
     $databases[$key]['default'] = array(
         'driver' => 'mysql',
         'database' => $db,
-        'username' => '<%= scope['crm::db_user'] %>',
-        'password' => '<%= scope['crm::db_pass'] %>',
+        'username' => $user,
+        'password' => $pass,
         'host' => '127.0.0.1', // FIXME: Use socket
         'prefix' => '',
     );
@@ -30,7 +32,7 @@ foreach ( $dbs as $key => $db ) {
 
 # TODO: Move to civicrm.settings.php and use CIVICRM_UF_BASEURL constant
 global $civicrm_setting;
-$civicrm_setting['URL Preferences']['userFrameworkResourceURL'] = '<%= scope['::crm::base_url'] %>sites/all/modules/civicrm';
+$civicrm_setting['URL Preferences']['userFrameworkResourceURL'] = '<%= scope['crm::base_url'] %>sites/all/modules/civicrm';
 
 # FIXME: That's annoying.
 require_once __DIR__ . '/../../vendor/autoload.php';

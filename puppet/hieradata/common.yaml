@@ -45,16 +45,44 @@ contenttranslation::cxserver::youdao_api_key: 'null'
 
 crm::dir: "%{hiera('mwv::services_dir')}/org.wikimedia.civicrm"
 crm::site_name: "crm%{hiera('mwv::tld')}"
-crm::drupal_db: drupal
-crm::civicrm_db: civicrm
-crm::db_user: crm
-crm::db_pass: crm
+crm::sites_default_path: "%{hiera('crm::dir')}/sites/default"
+crm::repo: 'wikimedia/fundraising/crm'
 
+crm::drupal::db_name: drupal
+crm::drupal::fredge_db_name: fredge
+crm::drupal::db_user: drupal_user
+crm::drupal::db_pass: drupal_pass
 crm::drupal::dir: "%{hiera('crm::dir')}/drupal"
 crm::drupal::files_dir: "%{hiera('mwv::files_dir')}/org.wikimedia.civicrm-files"
+crm::drupal::install_script: "%{hiera('crm::sites_default_path')}/drupal-install.sh"
+crm::drupal::settings_path: "%{hiera('crm::sites_default_path')}/settings.php"
+crm::drupal::module_list: "%{hiera('crm::sites_default_path')}/enabled_modules"
+crm::drupal::civicrm_db_name:  "%{hiera('crm::civicrm::db_name')}"
+crm::drupal::civicrm_db_user:  "%{hiera('crm::civicrm::db_user')}"
+crm::drupal::civicrm_db_pass:  "%{hiera('crm::civicrm::db_pass')}"
+crm::drupal::civicrm_templates_dir: "%{hiera('crm::sites_default_path')}/files/civicrm/templates_c/"
+crm::drupal::smashpig_db_name:  "%{hiera('smashpig::db_name')}"
+crm::drupal::smashpig_db_user:  "%{hiera('smashpig::db_user')}"
+crm::drupal::smashpig_db_pass:  "%{hiera('smashpig::db_pass')}"
+
+crm::civicrm::db_name: civicrm
+crm::civicrm::db_user: civicrm_user
+crm::civicrm::db_pass: civicrm_pass
+crm::civicrm::drupal_dir: "%{hiera('crm::drupal::dir')}"
+crm::civicrm::drupal_db_name: "%{hiera('crm::drupal::db_name')}"
+crm::civicrm::drupal_db_user:  "%{hiera('crm::drupal::db_user')}"
+crm::civicrm::drupal_db_pass:  "%{hiera('crm::drupal::db_pass')}"
+crm::civicrm::buildkit_repo: 'https://github.com/civicrm/civicrm-buildkit'
+crm::civicrm::buildkit_dir: "%{hiera('mwv::services_dir')}/civicrm-buildkit"
+crm::civicrm::dir: "%{hiera('crm::dir')}/civicrm"
+crm::civicrm::install_script: "%{hiera('crm::sites_default_path')}/civicrm-install.php"
 
 crm::tools::dir: "%{hiera('mwv::services_dir')}/fundraising-tools"
+crm::tools::silverpop_db_name: silverpop
+crm::tools::silverpop_db_user: silverpop_user
+crm::tools::silverpop_db_pass: silverpop_pass
 crm::drush::dir: "%{hiera('mwv::services_dir')}/drush"
+crm::dash::dir: "%{hiera('mwv::services_dir')}/fundraising-dash"
 
 electron::port: 8098
 electron::vhost_name: "electron%{hiera('mwv::tld')}"
@@ -274,6 +302,9 @@ parsoid::allow_cors: '*'
 
 payments::branch: fundraising/REL1_27
 payments::dir: /vagrant/mediawiki-fr
+payments::drupal_db: "%{hiera('crm::drupal::db_name')}"
+payments::drupal_db_user: "%{hiera('crm::drupal::db_user')}"
+payments::drupal_db_pass: "%{hiera('crm::drupal::db_pass')}"
 
 phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
 phabricator::log_dir: "/vagrant/logs/phd"
@@ -471,6 +502,8 @@ service::log_level: info
 
 smashpig::dir: "%{hiera('mwv::services_dir')}/SmashPig"
 smashpig::vhost_name: "payments-listener%{hiera('mwv::tld')}"
+smashpig::db_name: smashpig_user
+smashpig::db_pass: smashpig_pass
 
 statsd::port: '8125'
 
