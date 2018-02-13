@@ -176,11 +176,11 @@ class _WMFRewriteContext(WSGIContext):
             'Last-Modified',
             'Accept-Ranges',
             'XKey',
-            'Engine',
+            'Thumbor-Engine',
             'Server',
-            'Processing-Time',
-            'Processing-Utime',
             'Request-Date',
+            'Thumbor-Processing-Time',
+            'Thumbor-Processing-Utime',
             'Thumbor-Request-Id',
             'Thumbor-Request-Date'
         ]
