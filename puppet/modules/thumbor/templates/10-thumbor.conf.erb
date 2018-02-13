@@ -531,12 +531,12 @@ FILTERS = [
 ## This configuration indicates whether thumbor should use a custom error
 ## handler.
 ## Defaults to: False
-USE_CUSTOM_ERROR_HANDLING = False
+USE_CUSTOM_ERROR_HANDLING = True
 
 ## Error reporting module. Needs to contain a class called ErrorHandler with a
 ## handle_error(context, handler, exception) method.
 ## Defaults to: thumbor.error_handlers.sentry
-ERROR_HANDLER_MODULE = 'thumbor.error_handlers.sentry'
+ERROR_HANDLER_MODULE = 'wikimedia_thumbor.error_handlers.logstash'
 
 ## File of error log as json
 ## Defaults to: None

@@ -1,5 +1,6 @@
 from wikimedia_thumbor.logging.filter.context import ContextFilter
 from wikimedia_thumbor.logging.filter.http404 import Http404Filter
+from wikimedia_thumbor.logging.filter.error import ErrorFilter
 from wikimedia_thumbor.logging.formatter import ThumborFormatter
 
 
@@ -27,6 +28,9 @@ THUMBOR_LOG_CONFIG = {
         },
         'silentcontext': {
             '()': ContextFilter,
+        },
+        'error': {
+            '()': ErrorFilter,
         }
     },
     'handlers': {
@@ -75,7 +79,7 @@ THUMBOR_LOG_CONFIG = {
             'message_type': 'thumbor',
             'fqdn': False,
             'tags': ['thumbor'],
-            'filters': ['context', '404exclude']
+            'filters': ['context', '404exclude', 'error']
         }
     },
     'loggers': {
