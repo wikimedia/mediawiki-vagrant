@@ -86,7 +86,7 @@ define service::gitupdate(
     # descern the update command to use
     $up_cmd = $type ? {
         'php'    => 'composer update --no-interaction --optimize-autoloader',
-        'nodejs' => 'sudo rm -rf node_modules && npm install --no-bin-links --production',
+        'nodejs' => 'sudo rm -rf node_modules && npm install --no-bin-links',
         'python' => './virtualenv/bin/pip install -Ue .',
         default  => 'invalid'
     }
