@@ -74,5 +74,16 @@ if ( $wgEnableWikibaseClient ) {
 		'property' => 'Property'
 	];
 	$wgWBClientSettings['repoUrl'] = '//wikidata<%= scope['::mediawiki::multiwiki::base_domain'] %><%= scope['::port_fragment'] %>';
+	$wgWBClientSettings['repositories'] = [
+		'' => [
+			'repoDatabase' => 'wikidatawiki',
+			'entityNamespaces' => [
+				'item' => 0,
+				'property' => WB_NS_PROPERTY,
+			],
+			'prefixMapping' => [ '' => '' ],
+			'baseUri' => $wgWBClientSettings['repoUrl'] . '/entity',
+		],
+	];
 }
 
