@@ -140,6 +140,23 @@ Start NFS and allow access to it:
     sudo firewall-cmd --permanent --zone=public --add-port=2049/udp
     sudo firewall-cmd --reload
 
+From Fedora 25 on, you need to enable udp for NFS v3, the version Vagrant uses:
+
+    edit /etc/sysconfig/nfs
+    replace line
+        RPCNFSDARGS=""
+    with
+        RPCNFSDARGS="--udp"
+
+Fedora 27 on, maybe earlier: make lxc use virbr interface instead of the lxc one
+which doesn't work:
+
+    edit /etc/lxc/default.conf
+    replace line
+        lxc.network.link = lxcbr0
+    with
+        lxc.network.link = virbr0
+
 Continue installing MediaWiki-Vagrant using normal instructions:
 
     git clone https://gerrit.wikimedia.org/r/mediawiki/vagrant
