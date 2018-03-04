@@ -13,18 +13,8 @@ $wgImportSources[] = "mw";
 
 #enableSemantics('wikitech-test');
 
-require_once ( "$IP/extensions/CheckUser/CheckUser.php" );
-
-require_once( "$IP/extensions/Nuke/Nuke.php" );
-
-require_once( "$IP/extensions/WikiLove/WikiLove.php" );
 $wgWikiLoveGlobal = true;
 
-require_once( "$IP/extensions/LdapAuthentication/LdapAuthentication.php" );
-
-require_once( "$IP/extensions/OATHAuth/OATHAuth.php" );
-
-require_once( "$IP/extensions/OpenStackManager/OpenStackManager.php" );
 $wgOpenStackManagerNovaKeypairStorage = 'ldap';
 $wgOpenStackManagerNovaIdentityURI = 'localhost:35357/v2.0';
 $wgOpenStackManagerLDAPDomain = 'labs';
@@ -106,7 +96,6 @@ $wgNamespacesWithSubpages[NS_NOVA_RESOURCE] = true;
 #$wgNamespacesToBeSearchedDefault[NS_NOVA_RESOURCE] = true;
 $wgNamespacesToBeSearchedDefault[NS_HELP] = true;
 
-#require_once("$IP/extensions/OpenID/OpenID.php");
 $wgOpenIDClientOnly = false;
 $wgHideOpenIDLoginLink = true;
 $wgOpenIDConsumerAllow = '';
