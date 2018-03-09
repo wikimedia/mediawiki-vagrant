@@ -18,40 +18,51 @@ log_by_lua '
 ';
 
 upstream thumbor {
-	least_conn;
+    least_conn;
 
-	<% @ports.each do |port| %>
-	server 127.0.0.1:<%= port %>;
-	<% end %>
+    <% @ports.each do |port| %>
+    server 127.0.0.1:<%= port %>;
+    <% end %>
 }
 
 server {
-	listen 8888;
+    listen 8888;
 
-	keepalive_timeout 60;
+    location / {
+        ssi on;
+        # Nginx uses chunked encoding for 404s, which rewrite.py can't handle properly,
+        # sending a malformed response to Varnish.
+        chunked_transfer_encoding off;
+        # We want swift to rotate between thumbor instances, not stick to one. This disables
+        # keep-alive client connections.
+        keepalive_timeout 0;
+        proxy_redirect off;
+        proxy_buffering off;
+        proxy_pass http://thumbor;
+        # fallback to the next upstream at most once
+        proxy_next_upstream error timeout invalid_header http_502 http_504;
+        proxy_next_upstream_tries 2;
+        # Maximum pause between read operations. Thumbor stays silent while it processes
+        # images, which means that this should be higher than the Thumbor processing total time limit
+        proxy_read_timeout 180s;
+        proxy_send_timeout 65s;
+        proxy_connect_timeout 70s;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Nginx-Request-Date $date_gmt;
+        proxy_set_header Thumbor-Request-Id $request_id;
+        add_header Nginx-Response-Date $date_gmt;
+        add_header X-Upstream $upstream_addr;
+        add_header Thumbor-Request-Id $request_id;
+    }
 
-	location / {
-		ssi on;
-		proxy_redirect off;
-		proxy_buffering off;
-		proxy_set_header Host $http_host;
-		proxy_set_header X-Real-IP $remote_addr;
-		proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-		proxy_set_header Thumbor-Request-Id $request_id;
-		proxy_set_header Nginx-Request-Date $date_gmt;
-		proxy_read_timeout 180s;
-		proxy_pass http://thumbor;
-		add_header Nginx-Response-Date $date_gmt;
-		add_header X-Upstream $upstream_addr;
-		add_header Thumbor-Request-Id $request_id;
-	}
-
-	location /metrics {
-		content_by_lua '
-			metric_connections:set(ngx.var.connections_reading, {"reading"})
-			metric_connections:set(ngx.var.connections_waiting, {"waiting"})
-			metric_connections:set(ngx.var.connections_writing, {"writing"})
-			prometheus:collect()
-		';
-	}
+    location /metrics {
+        content_by_lua '
+            metric_connections:set(ngx.var.connections_reading, {"reading"})
+            metric_connections:set(ngx.var.connections_waiting, {"waiting"})
+            metric_connections:set(ngx.var.connections_writing, {"writing"})
+            prometheus:collect()
+        ';
+    }
 }

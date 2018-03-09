@@ -24,15 +24,20 @@ class role::thumbor (
     # as many ports as there are CPUs on the machine.
     $ports = sequence_array(8889, $::processorcount)
 
-    file { '/etc/nginx/prometheus.lua':
-        ensure => present,
-        source => 'puppet:///modules/role/thumbor/prometheus.lua',
-    }
+# Switch the haproxy section out for this to have nginx front thumbor
+#    file { '/etc/nginx/prometheus.lua':
+#        ensure => present,
+#        source => 'puppet:///modules/role/thumbor/prometheus.lua',
+#    }
+#
+#    nginx::site { 'thumbor':
+#        content => template('role/thumbor/nginx.conf.erb'),
+#        notify  => Service['nginx'],
+#        require => File['/etc/nginx/prometheus.lua'],
+#    }
 
-    nginx::site { 'thumbor':
-        content => template('role/thumbor/nginx.conf.erb'),
-        notify  => Service['nginx'],
-        require => File['/etc/nginx/prometheus.lua'],
+    haproxy::site { 'thumbor':
+        content => template('role/thumbor/haproxy.cfg.erb'),
     }
 
     mediawiki::settings { 'thumbor-repo':
