@@ -10,10 +10,6 @@ class role::swift {
         values => template('swift/conf.php.erb'),
     }
 
-    mediawiki::settings { 'private:swift':
-        values => template('swift/private.conf.php.erb'),
-    }
-
     apache::site_conf { 'swift':
         site    => $::mediawiki::wiki_name,
         content => template('role/swift/apache2.conf.erb'),

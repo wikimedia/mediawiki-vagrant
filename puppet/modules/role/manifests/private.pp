@@ -24,6 +24,9 @@ class role::private {
     mediawiki::settings { 'private:repo':
         values => template('role/private/local_repo.php.erb'),
     }
+    mediawiki::settings { 'private:swift':
+        values => template('swift/private.conf.php.erb'),
+    }
     mediawiki::settings { 'private:rights':
         values => template('role/private/rights.php.erb'),
     }
