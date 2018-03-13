@@ -4,6 +4,7 @@
 #
 class role::private {
     require ::role::mediawiki
+    require ::role::swift
 
     mediawiki::wiki { 'private': }
 
