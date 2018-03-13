@@ -39,6 +39,8 @@ SWIFT_API_PATH = '/v1/AUTH_<%= scope['::swift::project'] %>'
 SWIFT_AUTH_PATH = '/auth/v1.0'
 SWIFT_USER = '<%= scope['::swift::project'] %>:<%= scope['::swift::user'] %>'
 SWIFT_KEY = '<%= scope['::swift::key'] %>'
+SWIFT_PRIVATE_USER = '<%= scope['::swift::project'] %>:<%= scope['::swift::user'] %>'
+SWIFT_PRIVATE_KEY = '<%= scope['::swift::key'] %>'
 SWIFT_SHARDED_CONTAINERS = [
     'wiki-dev-local-public',
     'wiki-dev-local-thumb'
