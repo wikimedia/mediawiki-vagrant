@@ -23,3 +23,15 @@ $wgMWLoggerDefaultSpi['args'][0]['formatters']['logstash'] = [
 	'args'  => [ 'mediawiki', php_uname( 'n' ), null, '', 1 ],
 ];
 
+// The psr-3 role creates custom loggers for each named debug group, need to attach to those.
+foreach ( $wgMWLoggerDefaultSpi['args'][0]['loggers'] as &$handlers ) {
+	if ( isset( $handlers['handlers'] ) ) {
+		$handlers = &$handlers['handlers'];
+	}
+	// ignore disabled and special channels
+	if ( array_intersect( [ 'blackhole', 'profileoutput' ], $handlers ) ) {
+		continue;
+	}
+	$handlers[] = 'what';
+	$handlers = array_unique( $handlers );
+}
