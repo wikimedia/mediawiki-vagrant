@@ -32,7 +32,8 @@
 === Server-side ===
 * [{{fullurl:{{FULLPAGENAME}}|buggy=php-exception}} PHP exception]
 * [{{fullurl:{{FULLPAGENAME}}|buggy=php-mwexception}} PHP MWException]
-* [{{fullurl:{{FULLPAGENAME}}|buggy=missing-class}} PHP fatal (using non-existent class)]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=missing-class}} PHP5 fatal (using non-existent class)]
+* [{{fullurl:{{FULLPAGENAME}}|buggy=incompatible-class}} PHP7 fatal (using incompatible class definition)]
 * [{{fullurl:{{FULLPAGENAME}}|buggy=php-error}} PHP error]
 * [{{fullurl:{{FULLPAGENAME}}|buggy=php-warning}} PHP warning]
 * [{{fullurl:{{FULLPAGENAME}}|buggy=php-notice}} PHP notice]
