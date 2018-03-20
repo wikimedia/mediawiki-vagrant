@@ -48,9 +48,11 @@ end
 mwv = MediaWikiVagrant::Environment.new(File.expand_path('..', __FILE__))
 settings = mwv.load_settings
 
-# T187978: fix the base URL used to download new boxes.
-# See also: https://github.com/hashicorp/vagrant/issues/9442
-Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
+unless Vagrant::DEFAULT_SERVER_URL.frozen?
+  # T187978: fix the base URL used to download new boxes.
+  # See also: https://github.com/hashicorp/vagrant/issues/9442
+  Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
+end
 
 Vagrant.configure('2') do |config|
   config.vm.hostname = mwv.boxname + '.mediawiki-vagrant.dev'
