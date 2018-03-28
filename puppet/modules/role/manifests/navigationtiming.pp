@@ -6,7 +6,9 @@ class role::navigationtiming {
 
     mediawiki::extension { 'NavigationTiming':
         settings => {
-            wgNavigationTimingSamplingFactor => 1,
+            wgNavigationTimingSamplingFactor       => 1,
+            wgNavigationTimingSurveySamplingFactor => 1,
+            wgNavigationTimingSurveyName           => 'internal-survey-perceived-performance-survey',
         },
     }
 }
