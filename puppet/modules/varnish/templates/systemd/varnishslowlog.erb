@@ -5,7 +5,7 @@ After=varnish.service
 [Service]
 User=varnish
 Group=varnish
-ExecStart=/usr/local/bin/varnishslowlog --slow-threshold 0.0 --logstash-server=127.0.0.1:12202 --varnishlog-path=/usr/local/bin/varnishlog
+ExecStart=/usr/local/bin/varnishslowlog --slow-threshold 0.0 --logstash-server=127.0.0.1:11514 --varnishlog-path=/usr/local/bin/varnishlog
 Restart=always
 RestartSec=5s
 

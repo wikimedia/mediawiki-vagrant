@@ -34,6 +34,11 @@ class role::elk (
         port => 12202,
     }
 
+    logstash::input::udp { 'logback':
+        port  => 11514,
+        codec => 'json',
+    }
+
     logstash::input::log4j { 'log4j': }
 
     logstash::conf { 'filter_strip_ansi_color':
