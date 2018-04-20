@@ -20,13 +20,16 @@ ENDOFDOC
 ) do |vals|
   reference, params = vals
   raise(ArgumentError, 'Must specify a reference') unless reference
-  if (!params) || params == ''
+  if (! params) || params == ''
     params = {}
   end
   ret = false
   if resource = findresource(reference.to_s)
     matches = params.collect do |key, value|
-      resource[key] == value
+      # eql? avoids bugs caused by monkeypatching in puppet
+      resource_is_undef = resource[key].eql?(:undef) || resource[key].nil?
+      value_is_undef = value.eql?(:undef) || value.nil?
+      (resource_is_undef && value_is_undef) || (resource[key] == value)
     end
     ret = params.empty? || !matches.include?(false)
   end
