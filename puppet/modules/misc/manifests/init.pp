@@ -24,16 +24,14 @@ class misc {
     }
 
     # Install generally useful packages
-    package { [
+    require_package(
         'ack-grep',
         'curl',
         'htop',
         'jq',
         'nano', # for legoktm and other vi haters
         'vim',
-    ]:
-        ensure => present,
-    }
+    )
 
     file { '/etc/ackrc':
         require => Package['ack-grep'],
