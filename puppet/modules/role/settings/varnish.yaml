@@ -1,4 +1,4 @@
 forward_ports:
   6081: 6081
   6082: 6082 # Admin
-
+  3904: 3904 # mtail

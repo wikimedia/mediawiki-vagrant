@@ -3,4 +3,5 @@ forward_ports:
   8888: 8888 # thumbor
   6081: 6081 # varnish
   6082: 6082 # varnish admin
+  3904: 3904 # varnish mtail
   8040: 8040 # swift

@@ -1,0 +1,5 @@
+# Arguments used by SysV init script, systemd service file uses only EXTRA_ARGS
+#PORT=<%= @port %>
+#LOGS=<%= @logs.join(',') %>
+
+EXTRA_ARGS="-logs <%= @logs.join(',') %> -port <%= @port %>"

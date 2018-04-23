@@ -270,6 +270,9 @@ mediawiki::multiwiki::extension_cluster_db_pass: 'extensionpassword'
 mediawiki::mwrepl::default_db_name: "%{hiera('mediawiki::db_name')}"
 mediawiki::mwrepl::script_dir: "%{hiera('mediawiki::multiwiki::script_dir')}"
 
+mtail::logs:
+  - /var/log/syslog
+
 mysql::host: '127.0.0.1'
 mysql::default_db_name: wiki
 mysql::root_password: vagrant

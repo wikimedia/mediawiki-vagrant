@@ -261,6 +261,42 @@ class varnish {
         },
     }
 
+    file { '/etc/mtail/varnish':
+        ensure => directory,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
+    }
+
+    file { '/usr/local/bin/varnishmtail':
+        ensure => present,
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0555',
+        source => 'puppet:///modules/varnish/varnishmtail',
+        notify => Systemd::Service['varnishmtail'],
+    }
+
+    systemd::service { 'varnishmtail':
+        ensure        => present,
+        template_name => 'varnishmtail',
+        require       => File['/usr/local/bin/varnishmtail'],
+    }
+
+    mtail::program { 'varnishmedia':
+        source      => 'puppet:///modules/mtail/programs/varnishmedia.mtail',
+        notify      => Service['varnishmtail'],
+        destination => '/etc/mtail/varnish',
+        require     => File['/etc/mtail/varnish'],
+    }
+
+    mtail::program { 'varnishrls':
+        source      => 'puppet:///modules/mtail/programs/varnishrls.mtail',
+        notify      => Service['varnishmtail'],
+        destination => '/etc/mtail/varnish',
+        require     => File['/etc/mtail/varnish'],
+    }
+
     systemd::service { 'varnish':
         ensure         => 'present',
         require        => [
