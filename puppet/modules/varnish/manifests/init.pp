@@ -283,6 +283,13 @@ class varnish {
         require       => File['/usr/local/bin/varnishmtail'],
     }
 
+    mtail::program { 'varnishbackendtiming':
+        source      => 'puppet:///modules/mtail/programs/varnishbackendtiming.mtail',
+        notify      => Service['varnishmtail'],
+        destination => '/etc/mtail/varnish',
+        require     => File['/etc/mtail/varnish'],
+    }
+
     mtail::program { 'varnishmedia':
         source      => 'puppet:///modules/mtail/programs/varnishmedia.mtail',
         notify      => Service['varnishmtail'],
