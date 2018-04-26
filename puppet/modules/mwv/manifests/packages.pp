@@ -2,9 +2,9 @@
 #
 class mwv::packages {
     package { [
-      'python-pip',
-      'python-setuptools',
-      'python-wheel',
+        'python-pip',
+        'python-setuptools',
+        'python-wheel',
     ]: } -> Package <| provider == pip |>
 
     # Install common packages
@@ -14,6 +14,10 @@ class mwv::packages {
         'cron',
         'gdb',
         'python-dev',
+        'python3-dev',
+        'python3-pip',
+        'python3-setuptools',
+        'python3-wheel',
         'ruby-dev',
         'tzdata',
     )
@@ -33,6 +37,6 @@ class mwv::packages {
     # Remove chef if it is installed in the base image
     # Bug: 67693
     package { [ 'chef', 'chef-zero' ]:
-      ensure => absent,
+        ensure => absent,
     }
 }
