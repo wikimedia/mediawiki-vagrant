@@ -246,11 +246,25 @@ class varnish {
         user    => 'root',
     }
 
+    file { '/usr/local/bin/varnishlogconsumer.py':
+        source => 'puppet:///modules/varnish/varnishlogconsumer.py',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
+    }
+
     file { '/usr/local/bin/varnishslowlog':
         source => 'puppet:///modules/varnish/varnishslowlog.py',
         owner  => 'root',
         group  => 'root',
-        mode   => '0555',
+        mode   => '0755',
+    }
+
+    file { '/usr/local/bin/varnishospital':
+        source => 'puppet:///modules/varnish/varnishospital.py',
+        owner  => 'root',
+        group  => 'root',
+        mode   => '0755',
     }
 
     systemd::service { 'varnishslowlog':
