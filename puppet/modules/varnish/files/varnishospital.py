@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
   Varnishospital
@@ -25,10 +25,10 @@
 
 import sys
 
-from varnishlogconsumer import VarnishLogConsumer
+from wikimedia_varnishlogconsumer import BaseVarnishLogConsumer
 
 
-class VarnishHospital(VarnishLogConsumer):
+class VarnishHospital(BaseVarnishLogConsumer):
     description = 'Varnish backend health logstash logger'
 
     def varnishlog_args(self):
