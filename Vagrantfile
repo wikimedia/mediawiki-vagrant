@@ -276,8 +276,8 @@ Vagrant.configure('2') do |config|
     end
 
     if settings[:nfs_shares]
-      puppet.facter['share_owner'] = Process.uid
-      puppet.facter['share_group'] = Process.gid
+      puppet.facter['share_owner'] = Process.uid.to_s
+      puppet.facter['share_group'] = Process.gid.to_s
     else
       puppet.facter['share_owner'] = 'vagrant'
       puppet.facter['share_group'] = 'www-data'
