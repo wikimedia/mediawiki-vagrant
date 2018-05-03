@@ -43,7 +43,7 @@ class varnish {
     require_package('libncurses-dev')
     require_package('libpcre3-dev')
     require_package('libedit-dev')
-    require_package('python-logstash')
+    require_package('python3-logstash')
 
     # We need to build from source because the tbf vmod needs the
     # built source, can't rely only on the headers
@@ -246,11 +246,11 @@ class varnish {
         user    => 'root',
     }
 
-    file { '/usr/local/bin/varnishlogconsumer.py':
-        source => 'puppet:///modules/varnish/varnishlogconsumer.py',
+    file { '/usr/local/lib/python3.5/dist-packages/wikimedia_varnishlogconsumer.py':
+        source => 'puppet:///modules/varnish/wikimedia_varnishlogconsumer.py',
         owner  => 'root',
         group  => 'root',
-        mode   => '0755',
+        mode   => '0644',
     }
 
     file { '/usr/local/bin/varnishslowlog':

@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
   VarnishSlowLog
@@ -23,13 +23,24 @@
 
 """
 
+import argparse
 import sys
 
-from varnishlogconsumer import VarnishLogConsumer
+from wikimedia_varnishlogconsumer import BaseVarnishLogConsumer
 
 
-class VarnishSlowLog(VarnishLogConsumer):
+class VarnishSlowLog(BaseVarnishLogConsumer):
     description = 'Varnish slow log logstash logger'
+
+    def get_argument_parser(self):
+        ap = argparse.ArgumentParser(description=self.description)
+        ap.add_argument(
+          '--slow-threshold',
+          help='varnish slow timing threshold',
+          type=float,
+          default=10.0
+        )
+        return ap
 
     def varnishlog_args(self):
         # Note slow 'Resp' is not included in the filter, as normal requests
@@ -52,13 +63,6 @@ class VarnishSlowLog(VarnishLogConsumer):
         query = 'ReqMethod ne "PURGE" and (%s)' % " or ".join(timestamps)
 
         return ['-q', query, '-T', '%d' % self.args.transaction_timeout]
-
-    def add_cmd_args(self):
-        return [
-            (['--slow-threshold'],
-                {'help': 'varnish slow timing threshold',
-                    'type': float, 'default': 10.0})
-        ]
 
     def handle_end(self):
         if 'request-Host' in self.tx and 'http-url' in self.tx:

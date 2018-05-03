@@ -1,4 +1,3 @@
-#!/usr/bin/env python
 # -*- coding: utf-8 -*-
 """
   VarnishLogConsumer
@@ -27,27 +26,25 @@ import logging
 import logstash
 import os
 import sys
-import urlparse
+from urllib.parse import urlparse
 
 from subprocess import PIPE, Popen
 
 
 def parse_logstash_server_string(server_string):
     """Convert logstash server string into (hostname, port) tuple."""
-    parsed = urlparse.urlparse('//' + server_string)
+    parsed = urlparse('//' + server_string)
     return parsed.hostname, parsed.port or 12202
 
 
-class VarnishLogConsumer(object):
+class BaseVarnishLogConsumer(object):
     description = 'Generic varnishlog consumer, must be extended'
 
     def __init__(self, argument_list):
         """Parse CLI arguments.
 
         argument_list is a list such as ['--foo', 'FOO', '--bar', 'BAR']"""
-        ap = argparse.ArgumentParser(
-            description=self.description
-            )
+        ap = self.get_argument_parser()
 
         ap.add_argument('--logstash-server', help='logstash server',
                         type=parse_logstash_server_string, default=None)
@@ -62,9 +59,6 @@ class VarnishLogConsumer(object):
 
         ap.add_argument('--varnishlog-path', help='varnishlog full path',
                         default='/usr/bin/varnishlog')
-
-        for args, kwargs in self.add_cmd_args():
-            ap.add_argument(*args, **kwargs)
 
         self.args = ap.parse_args(argument_list)
 
@@ -97,8 +91,8 @@ class VarnishLogConsumer(object):
 
         self.tx = {}
 
-    def add_cmd_args(self):
-        return []
+    def get_argument_parser(self):
+        return argparse.ArgumentParser(description=self.description)
 
     def varnishlog_args(self):
         return []
@@ -180,8 +174,8 @@ class VarnishLogConsumer(object):
                     pass
 
     def main(self):
-        """Execute the command specified in self.cmd and call handle_record for
-        each output line produced by the command"""
+        """Execute the command specified in self.cmd and handle
+        each line output by the command"""
         p = Popen(self.cmd, stdout=PIPE, bufsize=-1)
 
         try:
