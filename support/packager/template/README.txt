@@ -34,11 +34,11 @@ location where you copied the files from the drive.
    use files from Linux/DEB/ for Debian or Ubuntu and Linux/RPM/ for Red
    Hat, Centos, Fedora, etc.
 
-5. Install the virtual machine (a Debian 8 "Jessie" Linux distribution) that
+5. Install the virtual machine (a Debian 9 "Stretch" Linux distribution) that
    Vagrant uses as a base:
 
     $ cd /USB_DRIVE_PATH
-    $ vagrant box add debian/contrib-jessie64 virtualbox.box
+    $ vagrant box add debian/contrib-stretch64 virtualbox.box
 
 6. Clone MediaWiki-Vagrant from the provided git bundle file:
 

@@ -1,5 +1,5 @@
 Base Box:
-  url: https://atlas.hashicorp.com/debian/boxes/contrib-jessie64/versions/8.7.0/providers/virtualbox.box
+  url: https://app.vagrantup.com/debian/boxes/contrib-stretch64/versions/9.4.0/providers/virtualbox.box
 
 GPLv2:
   url: https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt
@@ -15,63 +15,54 @@ Vagrant License:
 VirtualBox:
   # https://www.virtualbox.org/wiki/Linux_Downloads
   Linux:
+    Ubuntu 18.04 Bionic:
+      url: https://download.virtualbox.org/virtualbox/5.2.10/virtualbox-5.2_5.2.10-122088~Ubuntu~bionic_amd64.deb
+      sha256: 0eb8523af98499142a866333f16c4868dcad05570ac7e3d9e74ee318d74203ac
     Ubuntu 17.04 Zesty:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/virtualbox-5.1_5.1.22-115126~Ubuntu~zesty_amd64.deb
-      sha256: 68f44bb07b8cf9990bb795535e861c9acdecc58a415e7036f7472dd6133107af
+      url: https://download.virtualbox.org/virtualbox/5.2.10/virtualbox-5.2_5.2.10-122088~Ubuntu~zesty_amd64.deb
+      sha256: 11b38f4a5ccf05d5d3bf357d2768acf1406f7110c034437ef7a7f5f61cb7954a
     Ubuntu 16.10 Yakkety:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/virtualbox-5.1_5.1.22-115126~Ubuntu~yakkety_amd64.deb
-      sha256: f8c5184ee9bf2ab88f85afcd39e42cac96869e41bd894392591c4ecb79043cf0
+      url: https://download.virtualbox.org/virtualbox/5.2.10/virtualbox-5.2_5.2.10-122088~Ubuntu~yakkety_amd64.deb
+      sha256: 715f4adbd3a9e41cef85d5c0e0f34fb2b5a0c73b97110bcb396181ddb2bdae1b
     Ubuntu 16.04 Xenial:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/virtualbox-5.1_5.1.22-115126~Ubuntu~xenial_amd64.deb
-      sha256: 4d964bb498284906c359de049c828199f97b6bfb1867005647b61bdffa6bdaf7
-    Ubuntu 15.10 Wily:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/virtualbox-5.1_5.1.22-115126~Ubuntu~wily_amd64.deb
-      sha256: 80247a2d9b20eb9a6d2c746b53d42a3eeb6864c02ea753c4b929d4788f89bbb5
-    Ubuntu 14.04 Trusty, 14.10 Utopic, 15.04 Vivid:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/virtualbox-5.1_5.1.22-115126~Ubuntu~trusty_amd64.deb
-      sha256: e7c42136ff4a3142d123eff303b58fd26ea26c768fd4ca6afdc1a67234f38d28
-    Ubuntu 12.04 Precise:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/virtualbox-5.1_5.1.22-115126~Ubuntu~precise_amd64.deb
-      sha256: 8b39e2dc7744b3bb44d664eca1b66e4d778462fe2c40befafff46743cbca2570
+      url: https://download.virtualbox.org/virtualbox/5.2.10/virtualbox-5.2_5.2.10-122088~Ubuntu~xenial_amd64.deb
+      sha256: e18bfed0cc3e1c669d2790b69ef9a267b12ade2587dd8af9ced45546da65a6a8
+    Ubuntu 14.04 Trusty:
+      url: https://download.virtualbox.org/virtualbox/5.2.10/virtualbox-5.2_5.2.10-122088~Ubuntu~trusty_amd64.deb
+      sha256: f77a461bbb4a0050714d343c963576bf60de288a6669c5f65c7b574dbd182843
     Debian 9 Stretch:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/virtualbox-5.1_5.1.22-115126~Debian~stretch_amd64.deb
-      sha256: 78040b153bee7bd5e9b9af346f0238b068bca63d229e3c3db07cb79fc4953fd7
+      url: https://download.virtualbox.org/virtualbox/5.2.10/virtualbox-5.2_5.2.10-122088~Debian~stretch_amd64.deb
+      sha256: 4bb68f03a499ec5bce53d2ac72afe96fc6bcf705204f9ce2569de8e0b39a0aa0
     Debian 8 Jessie:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/virtualbox-5.1_5.1.22-115126~Debian~jessie_amd64.deb
-      sha256: 8b222262b95600e92005887a677a27296f10be98ccd09b4b58f18808f3952bb0
+      url: https://download.virtualbox.org/virtualbox/5.2.10/virtualbox-5.2_5.2.10-122088~Debian~jessie_amd64.deb
+      sha256: e07d9aad0e965316b9ec4ab142473b4a425d9b50fd1f9a0b90e72d6499c626d2
     Debian 7 Wheezy:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/virtualbox-5.1_5.1.22-115126~Debian~wheezy_amd64.deb
-      sha256: 3561d08c712a2ffbfabc480aa9f64dc5ecde0fee035af00060f41e7468097fca
+      url: https://download.virtualbox.org/virtualbox/5.2.10/virtualbox-5.2_5.2.10-122088~Debian~wheezy_amd64.deb
+      sha256: 68c2d89bce5977ef66bc7f798269ef7408cd8395155691079368c76522697aec
     openSUSE 13.2, Leap 42.1 Malachite:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1-5.1.22_115126_openSUSE132-1.x86_64.rpm
-      sha256: 4f23c773cb557cb03fe896880a3c3a49862d143cdd8df5e25c57e94836f4a4bb
+      url: https://download.virtualbox.org/virtualbox/5.2.10/VirtualBox-5.2-5.2.10_122088_openSUSE132-1.x86_64.rpm
+      sha256: 658166bca33174e2e04f0be5a1ceee073f754ecadc4b2b971ffc06d713433b39
+    Fedora 26, 27:
+      url: https://download.virtualbox.org/virtualbox/5.2.10/VirtualBox-5.2-5.2.10_122088_fedora26-1.x86_64.rpm
+      sha256: 732433f639fa07878d97d0aa5c5e826b1ca12d2f100acd7df37d791bd90a36b6
     Fedora 25:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1-5.1.22_115126_fedora25-1.x86_64.rpm
-      sha256: c112cddf30c3b6f20958f6212fc114c13c8c5ce82caed3d3892d1e6a7bd66a88
-    Fedora 24:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1-5.1.22_115126_fedora24-1.x86_64.rpm
-      sha256: 0f3edccac3aabea3239f5536886df2f34f92c476f75b04d2894415d4ff5ed834
-    Fedora 22, 23:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1-5.1.22_115126_fedora22-1.x86_64.rpm
-      sha256: bdf425fe0799a8894cbd4181515a701d21656791230175a8099756146a80570d
+      url: https://download.virtualbox.org/virtualbox/5.2.10/VirtualBox-5.2-5.2.10_122088_fedora25-1.x86_64.rpm
+      sha256: b1b7e4f700a4b56371794172ea7b1f3be514cc8e5ea155871e10b8f1198ae692
     Red Hat Enterprise Linux and CentOS and Oracle Linux 7:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1-5.1.22_115126_el7-1.x86_64.rpm
-      sha256: 89363694494766b5cf724572883061a9366eb4479300e573922de6c87f4bfc37
-    Red Hat Enterprise Linux and CentOS and Oracle Linux 6:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1-5.1.22_115126_el6-1.x86_64.rpm
-      sha256: 0b49190b0f10c429ec34032d28173219afdea1c0307d01fc9bdd16d91db82da5
+      url: https://download.virtualbox.org/virtualbox/5.2.10/VirtualBox-5.2-5.2.10_122088_el7-1.x86_64.rpm
+      sha256: 75647942f647242ee5e1390de22b441d3a081e85aee6716f5b8b801cd4a3cf11
     Red Hat Enterprise Linux and CentOS and Oracle Linux 5:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1-5.1.22_115126_el5-1.x86_64.rpm
-      sha256: fc8f777055d1bcb14396e9031575e5889c28965612e94c0a1e522a83694ce383
+      url: https://download.virtualbox.org/virtualbox/5.2.10/VirtualBox-5.2-5.2.10_122088_el5-1.x86_64.rpm
+      sha256: 65d323eaac37c242a6fefc8a78610357c9668f85752bafe37f194889cfa7a549
     Other:
-      url: http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1.22-115126-Linux_amd64.run
-      sha256: 8e48de705d5a2a182a5f248c9a6a431e0f26075f28b916c733a6cc3d27bdd95c
+      url: https://download.virtualbox.org/virtualbox/5.2.10/VirtualBox-5.2.10-122088-Linux_amd64.run
+      sha256: bea4fab4f62003cf44a5e20a9696d15d37aff65a870857ec3004389abb67b176
   Mac:
-    url: http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1.22-115126-OSX.dmg
-    sha256: 405cbb3795f95fb74a216293d1160b2adfb264a43476e1366e3c897e0efa36aa
+    url: https://download.virtualbox.org/virtualbox/5.2.10/VirtualBox-5.2.10-122088-OSX.dmg
+    sha256: 7d203d1c65b58abf68e050ec2cb85a67100d7829d72752cae0148b95a04dc889
   Windows:
-    url: http://download.virtualbox.org/virtualbox/5.1.22/VirtualBox-5.1.22-115126-Win.exe
-    sha256: e36883bb27653aabe20ca0cbf140b2aa19573fc989c47e3cce7986dc544b0e93
+    url: https://download.virtualbox.org/virtualbox/5.2.10/VirtualBox-5.2.10-122406-Win.exe
+    sha256: b7c9f34dc64cea3ce4a0e198daba0f8a53082a95af20fb6703f8282b7a3287e8
 
 # https://www.vagrantup.com/downloads.html
 # One package for all .deb, one for all .rpm
@@ -81,24 +72,24 @@ VirtualBox:
 Vagrant:
   Linux:
     DEB:
-      url: https://releases.hashicorp.com/vagrant/1.9.4/vagrant_1.9.4_x86_64.deb
-      sha256: 25cb7803b52db459750ff7f99889f42be789746e9cdbd951af13ba72e2e86063
+      url: https://releases.hashicorp.com/vagrant/2.1.0/vagrant_2.1.0_x86_64.deb
+      sha256: f886f9fdfb9e38cd175e04b7989171037b1182959df35f10bc56e6c2c564ce52
     RPM:
-      url: https://releases.hashicorp.com/vagrant/1.9.4/vagrant_1.9.4_x86_64.rpm
-      sha256: 3b6da60b65d46cde2372361c0441bc865b014f37fb24eaf6d92271c34587a34e
+      url: https://releases.hashicorp.com/vagrant/2.1.0/vagrant_2.1.0_x86_64.rpm
+      sha256: b7d1c44d7555d078c650a51ed8aa3fd3b1c74ce128cdc373028981abc0df86d4
   Mac:
-    url: https://releases.hashicorp.com/vagrant/1.9.4/vagrant_1.9.4_x86_64.dmg
-    sha256: 2ae186e762498c8e018efbf3452a3d368627cb7d518b26f3f445f0a3686e5a07
+    url: https://releases.hashicorp.com/vagrant/2.1.0/vagrant_2.1.0_x86_64.dmg
+    sha256: fbbec9a335ab69b1a2b5535bca59b49034bb38c592c05f0f70fc120e25f71a4d
   Windows:
-    url: https://releases.hashicorp.com/vagrant/1.9.4/vagrant_1.9.4.msi
-    sha256: efe0b24d99cf99f44d3be536ce340062b3cef1e7951da55e2f6a8a33db292cbc
+    url: https://releases.hashicorp.com/vagrant/2.1.0/vagrant_2.1.0_x86_64.msi
+    sha256: de88772fc38b7dec8afb7b3f319cdc6d91fc58bc3a3fc7ee6f1bef4b294d39e5
 
 Git:
   Mac:
-    url: https://downloads.sourceforge.net/project/git-osx-installer/git-2.13.0-intel-universal-mavericks.dmg
-    filename: git-2.13.0-intel-universal-mavericks.dmg
-    sha256: ce114b11da114901db0f737a1c5670ecbe0fdbb9f50df5752a2e2d9adb90ec7d
+    url: https://downloads.sourceforge.net/project/git-osx-installer/git-2.16.3-intel-universal-mavericks.dmg
+    filename: git-2.16.3-intel-universal-mavericks.dmg
+    sha256: 8d4036221fd34dc294a26110aa254459aca92d372136cfb4be6657102ceb7c85
   Windows:
-    url: https://github.com/git-for-windows/git/releases/download/v2.13.0.windows.1/Git-2.13.0-32-bit.exe
-    filename: Git-2.13.0-32-bit.exe
-    sha256: a1b45272f2e30a3545b96086ccf5a56a4154a47898a7d1d6803d51440236b3b5
+    url: https://github.com/git-for-windows/git/releases/download/v2.17.0.windows.1/Git-2.17.0-32-bit.exe
+    filename: Git-2.17.0-32-bit.exe
+    sha256: 65b710e39db3d83b04a8a4bd56f54e929fb0abbab728c0a9abbc0dace8e361d2
