@@ -66,7 +66,7 @@ EOT
 	# Maintenance.php will treat $argv[1] as the wiki if it doesn't start '-'
 	if (
 		!isset( $argv[1] ) ||
-		!preg_match( '/^([^-]|--wiki(=|$))/', $argv[1] )
+		!preg_match( '%^([^-./][^./]*(\s|$)|--wiki(=|$))%', $argv[1] )
 	) {
 		// Insert a `--wiki=...` parameter pointing to the default wiki
 		$argv = array_merge(
@@ -74,6 +74,9 @@ EOT
 			array_slice( $argv, 1 )
 		);
 	}
+
+	# PHPUnit uses $_SERVER['argv']
+	$_SERVER['argv'] = $argv;
 
 	require_once( '<%= @script_dir %>/MWMultiVersion.php' );
 	$file = MWMultiVersion::getMediaWikiCli( $relFile );
