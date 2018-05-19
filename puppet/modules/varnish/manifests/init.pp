@@ -161,7 +161,7 @@ class varnish {
     git::clone { 'libvmod-tbf':
         branch    => 'varnish-4.1',
         directory => '/srv/varnish-build/libvmod-tbf',
-        remote    => 'git://git.gnu.org.ua/vmod-tbf.git',
+        remote    => 'http://git.gnu.org.ua/cgit/vmod-tbf.git',
     }
 
     file { '/srv/varnish-build/build-tbf.sh':

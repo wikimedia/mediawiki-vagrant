@@ -25,12 +25,7 @@ class thumbor (
     $tmp_dir,
     $statsd_port,
 ) {
-
-    $packages = [
-        'gifsicle',
-        'python-tornado',
-        'python-pil',
-    ]
+    require_package('python-logstash')
 
     package { 'raven':
         provider => 'pip',
