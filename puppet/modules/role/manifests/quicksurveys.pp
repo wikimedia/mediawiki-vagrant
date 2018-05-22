@@ -17,7 +17,6 @@ class role::quicksurveys {
                     type            => 'internal',
                     name            => 'perceived-performance-survey',
                     question        => 'ext-quicksurveys-performance-internal-survey-question',
-                    description     => 'ext-quicksurveys-performance-internal-survey-description',
                     answers         => [
                         'ext-quicksurveys-example-internal-survey-answer-positive',
                         'ext-quicksurveys-example-internal-survey-answer-neutral',
