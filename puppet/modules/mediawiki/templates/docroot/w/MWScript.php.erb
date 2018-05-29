@@ -75,15 +75,15 @@ EOT
 		);
 	}
 
-	# PHPUnit uses $_SERVER['argv']
-	$_SERVER['argv'] = $argv;
-
 	require_once( '<%= @script_dir %>/MWMultiVersion.php' );
 	$file = MWMultiVersion::getMediaWikiCli( $relFile );
 	if ( !file_exists( $file ) ) {
 		fwrite( STDERR, "The MediaWiki script file \"{$file}\" does not exist.\n" );
 		exit( 1 );
 	}
+
+	# PHPUnit uses $_SERVER['argv']
+	$_SERVER['argv'] = $argv;
 
 	return $file;
 }
