@@ -1,16 +1,10 @@
 # == Class: role::citoid
-# Provisions Citoid, a MediaWiki extension which adds an auto-
-# filled citation tool to VisualEditor using the citoid service.
+# Provisions Citoid, a MediaWiki service for converting URLs to
+# citations. To expose it to users, enable the visualeditor role.
 class role::citoid(
     $url,
 ) {
     include ::citoid
-
-    mediawiki::extension { 'Citoid':
-        settings => {
-            wgCitoidServiceUrl => $url,
-        }
-    }
 
     mediawiki::import::text { 'VagrantRoleCitoid':
         content => template('role/citoid/VagrantRoleCitoid.wiki.erb'),

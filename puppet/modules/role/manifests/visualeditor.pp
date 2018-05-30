@@ -20,4 +20,12 @@ class role::visualeditor {
         priority      => $::load_early,
         wiki          => $::mediawiki::wiki_name,
     }
+
+
+    mediawiki::extension { 'Citoid':
+        settings => {
+            wgCitoidServiceUrl => $::role::citoid::url,
+        },
+        wiki     => $::mediawiki::wiki_name,
+    }
 }
