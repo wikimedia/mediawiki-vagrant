@@ -9,6 +9,7 @@ class role::flow {
     mediawiki::extension { 'Flow':
         needs_update  => true,
         settings      => template('role/flow/conf.php.erb'),
+        composer      => true,
         priority      => $::load_last,  # load *after* Echo
         browser_tests => '.',
     }
