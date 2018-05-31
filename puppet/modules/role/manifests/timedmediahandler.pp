@@ -6,8 +6,6 @@ class role::timedmediahandler {
 
     require_package('ffmpeg')
 
-    mediawiki::extension { 'MwEmbedSupport': }
-
     mediawiki::extension { 'TimedMediaHandler':
         settings     => {
             wgWaitTimeForTranscodeReset => 1,
@@ -16,8 +14,7 @@ class role::timedmediahandler {
         needs_update => true,
         composer     => true,
         require      => [
-            Package['ffmpeg'],
-            Mediawiki::Extension['MwEmbedSupport']
+            Package['ffmpeg']
         ],
     }
 }
