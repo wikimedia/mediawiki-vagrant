@@ -1,0 +1,62 @@
+sources:
+  # Download tiles on the fly from wiki maps service
+  agen:
+    uri: https://maps.wikimedia.org/osm-pbf/{z}/{x}/{y}.pbf
+    setInfo:
+      vector_layers:
+        - id: landuse
+        - id: waterway
+        - id: water
+        - id: aeroway
+        - id: building
+        - id: road
+        - id: admin
+        - id: country_label
+        - id: place_label
+        - id: poi_label
+        - id: road_label
+
+  babel:
+    uri: babel://
+    params:
+      source: {ref: agen}
+      tag: name
+      combineName: false
+      defaultLanguage: local
+
+  # View tiles as generated directly from the database. Don't view zoom0-5
+  osm-intl:
+    public: true
+    formats: [png,json,headers,svg,jpeg]
+    scales: [1.3, 1.5, 2, 2.6, 3]
+    static: true
+    maxheight: 2048
+    maxwidth: 2048
+    uri: tmstyle://
+    yaml:
+      npm: ["@kartotherian/osm-bright-style", "project.yml"]
+    yamlSetParams:
+      source: {ref: babel}
+    defaultHeaders:
+      Cache-Control: 'no-cache, no-store, must-revalidate'
+      Pragma: no-cache
+      Expires: 0
+
+variables: {}
+
+modules:
+- "tilelive-http"
+- "tilelive-tmstyle"
+- "@kartotherian/autogen"
+- "@kartotherian/babel"
+- "@kartotherian/cassandra"
+- "@kartotherian/layermixer"
+- "@kartotherian/overzoom"
+- "@kartotherian/postgres"
+- "@kartotherian/substantial"
+- "@kartotherian/tilelive-vector"
+- "tilejson"
+
+requestHandlers:
+- "@kartotherian/maki"
+- "@kartotherian/snapshot"
