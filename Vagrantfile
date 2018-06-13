@@ -55,6 +55,7 @@ unless Vagrant::DEFAULT_SERVER_URL.frozen?
 end
 
 Vagrant.configure('2') do |config|
+  config.vm.post_up_message = 'Documentation: https://www.mediawiki.org/wiki/MediaWiki-Vagrant'
   config.vm.hostname = mwv.boxname + '.mediawiki-vagrant.dev'
   config.package.name = 'mediawiki.box'
 
