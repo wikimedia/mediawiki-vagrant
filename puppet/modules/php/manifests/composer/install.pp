@@ -33,10 +33,11 @@ define php::composer::install(
     }
 
     $safe_dir = regsubst($directory, '\W', '-', 'G')
-    $creates = $vendor_dir ? {
+    $vendor_dir_real = $vendor_dir ? {
         undef   => "${directory}/vendor",
         default => $vendor_dir,
     }
+    $creates = "${vendor_dir_real}/composer"
 
     exec { "composer-install-${safe_dir}":
         command     => "/usr/local/bin/composer install --optimize-autoloader --prefer-${prefer}",
