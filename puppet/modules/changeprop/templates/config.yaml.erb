@@ -15,7 +15,7 @@ spec:
           options:
             templates:
               mw_api:
-                uri: 'http://localhost<%= scope['::port_fragment'] %>/w/api.php'
+                uri: 'http://localhost:<%= scope['::forwarded_port'] %>/w/api.php'
                 headers:
                   host: '{{message.meta.domain}}'
                 body:
