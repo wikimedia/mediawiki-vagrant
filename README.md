@@ -1,8 +1,6 @@
 MediaWiki-Vagrant
 =================
 
-https://www.mediawiki.org/wiki/Mediawiki-vagrant
-
 MediaWiki-Vagrant is a portable MediaWiki development environment. It consists
 of a set of configuration scripts that automate the creation of a virtual
 machine that runs MediaWiki.
@@ -13,6 +11,8 @@ displayed by default, and various developer tools are set up specifically for
 inspecting and interacting with MediaWiki code, including a powerful debugger
 and an interactive interpreter. Best of all, because the configuration is
 automated and contained in a virtual environment, mistakes are easy to undo.
+
+See https://www.mediawiki.org/wiki/MediaWiki-Vagrant for more information.
 
 Install
 -------
@@ -32,7 +32,7 @@ See `support/README-libvirt.md` `support/README-lxc.md` or
 
      vagrant --version
 
-   in a directory without a Vagrantfile (e.g. in your home directory).
+   in a directory without a Vagrantfile (for example in your home directory).
  * You must have a 64-bit processor (although your host OS can be 32-bit).
 
    Hardware virtualization extensions must be enabled in your host computer
@@ -65,6 +65,10 @@ submodules with:
 
     git submodule update --init --recursive
 
+You can combine cloning the base repo and its submodules with:
+
+    git clone --recursive https://gerrit.wikimedia.org/r/mediawiki/vagrant
+
 Run the appropriate setup script for your platform. For Windows, run
 `setup.bat`. For Linux and OS X, run `setup.sh`. Some extra Vagrant plugins,
 including the bundled mediawiki-vagrant plugin, will be installed.
@@ -75,8 +79,9 @@ You'll now have to wait a bit, as Vagrant needs to retrieve the base image from
 Canonical, retrieve some additional packages, and install and configure each of
 them in turn.
 
-If it all worked, you should be able to browse to http://127.0.0.1:8080/ and
-see the main page of your MediaWiki instance.
+If it all worked, you should be able to browse to
+http://dev.wiki.local.wmftest.net:8080/ and see the main page of your
+MediaWiki instance.
 
 
 Use
@@ -87,9 +92,11 @@ the root mediawiki-vagrant directory or any of its subdirectories.
 
 From there, run `mwrepl` to interactively evaluate PHP code in a MediaWiki
 context, or `mysql` to get an authenticated SQL shell on your wiki's database.
-If you have multiple wikis enabled, you can run e.g. `mwrepl frwiki`.
+If you have multiple wikis enabled, you can run `mwrepl <dbname>` where
+`<dbname>` is the database name for that wiki (for example `mwrepl frwiki`).
 
-The admin account on MediaWiki is `admin` / `vagrant`.
+The default MediaWiki admin account has the username `admin` and password
+`vagrant`.
 
 
 Update
