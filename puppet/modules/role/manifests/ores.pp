@@ -13,12 +13,22 @@ class role::ores {
 
             # Point at some fake data with flat probability distribution.
             wgOresWikiId  => 'testwiki',
-
             wgOresModels  => {
-                damaging  => true,
-                goodfaith => true,
-                reverted  => false,
-                wp10      => false,
+                damaging     => {
+                    enabled => true,
+                },
+                goodfaith    => {
+                    enabled => true,
+                },
+                reverted     => {
+                    enabled => false,
+                },
+                wp10         => {
+                    enabled => false,
+                },
+                draftquality => {
+                    enabled => false,
+                },
             },
         },
     }

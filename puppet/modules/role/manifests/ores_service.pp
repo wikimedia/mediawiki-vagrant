@@ -12,10 +12,21 @@ class role::ores_service {
             wgOresBaseUrl           => "http://localhost:${::ores::port}/",
             wgOresWikiId            => 'wiki',
             wgOresModels            => {
-                damaging  => true,
-                goodfaith => false,
-                reverted  => false,
-                wp10      => false,
+                damaging     => {
+                    enabled => true,
+                },
+                goodfaith    => {
+                    enabled => true,
+                },
+                reverted     => {
+                    enabled => false,
+                },
+                wp10         => {
+                    enabled => false,
+                },
+                draftquality => {
+                    enabled => false,
+                },
             },
             # Use calculated thresholds.
             wgOresFiltersThresholds => {
