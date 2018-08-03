@@ -18,6 +18,7 @@ class role::mediawiki(
 
     require_package('php-tidy')
     require_package('tidy')
+    require_package('libimage-exiftool-perl')
 
     # mailutils depends on default MTA or any MTA.  This way we
     # explicitly install postfix, not relying on it happening to be the
