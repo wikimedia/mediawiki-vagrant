@@ -49,13 +49,13 @@ class ores (
     }
     git::clone { 'revscoring':
         directory => "${sources_dir}/revscoring",
-        remote    => 'https://github.com/wiki-ai/revscoring',
+        remote    => 'https://github.com/wikimedia/revscoring',
         require   => File[$sources_dir],
     }
     $ores_root = "${sources_dir}/ores"
     git::clone { 'ores':
         directory => $ores_root,
-        remote    => 'https://github.com/wiki-ai/ores',
+        remote    => 'https://github.com/wikimedia/ores',
         require   => File[$sources_dir],
     }
 

@@ -46,7 +46,7 @@ class wikilabels (
         require => Package['postgresql-server-dev-all', 'libffi-dev', 'g++', 'python3-dev', 'libmemcached-dev'],
     }
     virtualenv::package { 'wikilabels':
-        package  => 'git+https://github.com/wiki-ai/wikilabels.git#egg=wikilabels',
+        package  => 'git+https://github.com/wikimedia/wikilabels.git#egg=wikilabels',
         path     => $deploy_dir,
         editable => true,
     }
