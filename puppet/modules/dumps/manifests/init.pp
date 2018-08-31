@@ -132,7 +132,7 @@ class dumps(
         content => file('dumps/feed.xml'),
     }
 
-    file { ["${dumps_dir}/output", "${dumps_dir}/www"]:
+    file { [$output_dir, "${dumps_dir}/www"]:
         ensure  => directory,
         require => Git::Clone['operations/dumps'],
     }
@@ -141,5 +141,20 @@ class dumps(
         ensure  => present,
         content => template('dumps/dumps-apache-site.erb'),
         require => File["${dumps_dir}/www"],
+    }
+
+    file { "${output_dir}/temp":
+        ensure  => directory,
+        owner   => 'vagrant',
+        group   => 'www-data',
+        mode    => '0775',
+        require => File[$output_dir]
+    }
+
+    file { '/var/log/wikidatadump':
+        ensure => directory,
+        owner  => 'vagrant',
+        group  => 'www-data',
+        mode   => '0775',
     }
 }
