@@ -1,11 +1,11 @@
 # This file is managed by Puppet, do not edit!
 
 [wiki]
-dblist=<%= @conf_dir %>/all.dblist
-privatelist=<%= @conf_dir %>/private.dblist
-closedlist=<%= @conf_dir %>/closed.dblist
-skipdblist=<%= @conf_dir %>/skip.dblist
-flowlist=<%= @conf_dir %>/flow.dblist
+dblist=<%= @dblists_dir %>/all.dblist
+privatelist=<%= @dblists_dir %>/private.dblist
+closedlist=<%= @dblists_dir %>/closed.dblist
+skipdblist=<%= @dblists_dir %>/skip.dblist
+flowlist=<%= @dblists_dir %>/flow.dblist
 dir=<%= @mediawiki_dir %>
 # FIXME: Vagrant doesn't have this.
 #adminsettings=private/PrivateSettings.php

@@ -1,0 +1,31 @@
+How to run xml/sql dumps in vagrant
+
+You may apply the wikidata role if you want to have multiple wikis to dump with
+varying content. We recommend it. After this, proceed to the below.
+
+As root:
+
+clear out the contents of <%= scope['mediawiki::cache_dir'] %>:
+rm -rf <%= scope['mediawiki::cache_dir'] %>/*
+
+su - dumpsgen
+
+Now you can run your dumps:
+
+cd <%= @dumps_dir %>/xmldumps-backup
+python worker.py --configfile <%= @conf_dir %>/wikidump.conf.dumps <name_of_wiki_here>
+
+This will run all jobs configured for the given wiki, assuming the wiki exists.
+Output will appear in <%= @output_dir %>/public/<name_of_wiki_here>/<date_here>.
+
+Config files are in <%= @conf_dir %>, dblists are in <%= @dblists_dir %>, and
+temp files are written to <%= @output_dir %>/temp.
+
+By default, dumps commands will use the version of php specified in the config
+file <%= @conf_dir %>/wikidump.conf, which is /usr/bin/php. If you want to change
+it to use hhvm or a different php version, edit the setting accordingly.
+
+NOTE that the dumpsgen user is in the www-data group, which is not true
+in production. We do this so that things like the wikidata rdf dumps script
+won't die when they try to create cache directories under /var/cache/mediawiki,
+since in production those dirs live under /tmp and it's not an issue.
