@@ -5,5 +5,6 @@ class role::pagetriage {
 
     mediawiki::extension { 'PageTriage':
         needs_update => true,
+        settings     => template('role/pagetriage/conf.php.erb'),
     }
 }
