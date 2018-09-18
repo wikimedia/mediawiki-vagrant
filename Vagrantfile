@@ -33,6 +33,11 @@ Vagrant.require_version '>= 1.7.0'
 require 'ipaddr'
 require 'socket'
 
+# workaround for T203145
+if Gem::Version.new(Vagrant::VERSION) >= Gem::Version.new('2.1.3')
+  require 'mediawiki-vagrant/environment'
+end
+
 # T156380: Check to see if the legacy gem version of the plugin is installed
 if Vagrant.has_plugin?('mediawiki-vagrant')
   raise <<-EOS
