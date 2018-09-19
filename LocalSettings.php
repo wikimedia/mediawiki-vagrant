@@ -123,6 +123,7 @@ $wgDisableOutputCompression = true;
 // Allow 'vagrant' password.
 $wgPasswordPolicy['policies']['sysop']['MinimalPasswordLength'] = 7;
 $wgPasswordPolicy['policies']['bureaucrat']['MinimalPasswordLength'] = 7;
+$wgPasswordPolicy['policies']['interface-admin']['MinimalPasswordLength'] = 7;
 
 // Ensure that full LoggerFactory configuration is applied
 MediaWiki\Logger\LoggerFactory::registerProvider(
