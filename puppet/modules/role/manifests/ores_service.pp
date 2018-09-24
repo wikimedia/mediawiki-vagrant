@@ -12,19 +12,19 @@ class role::ores_service {
             wgOresBaseUrl           => "http://localhost:${::ores::port}/",
             wgOresWikiId            => 'wiki',
             wgOresModels            => {
-                damaging     => {
+                damaging       => {
                     enabled => true,
                 },
-                goodfaith    => {
+                goodfaith      => {
                     enabled => true,
                 },
-                reverted     => {
+                reverted       => {
                     enabled => false,
                 },
-                wp10         => {
+                articlequality => {
                     enabled => false,
                 },
-                draftquality => {
+                draftquality   => {
                     enabled => false,
                 },
             },
