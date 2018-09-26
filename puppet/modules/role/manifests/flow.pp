@@ -27,4 +27,28 @@ class role::flow {
         group  => 'root',
         mode   => '0444',
     }
+
+    $db_name = 'flowdb' # same as production
+    $db_host = $::mysql::grant_host_name
+    $db_user = $::mediawiki::multiwiki::db_user
+
+    mysql::db { $db_name:
+        ensure  => present,
+        options => 'DEFAULT CHARACTER SET binary',
+    }
+
+    mysql::sql { "GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}@${db_host}":
+        unless  => "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE TABLE_SCHEMA = '${db_name}' AND GRANTEE = \"'${db_user}'@'${db_host}'\" LIMIT 1",
+        require => [
+          Mysql::Db[$db_name],
+        ],
+    }
+
+    mysql::sql { 'Create Flow tables':
+        sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/Flow/flow.sql;",
+        unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${db_name}' AND table_name = 'flow_revision';",
+        require => [
+          Mysql::Db[$db_name],
+        ],
+    }
 }
