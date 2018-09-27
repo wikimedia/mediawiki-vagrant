@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# set some directory paths many cron jobs need
+confsdir="<%= @conf_dir %>"
+repodir="<%= @dumps_dir %>/xmldumps-backup"
+xmldumpspublicdir="<%= @output_dir %>/public"
+dumpstempdir="<%= @output_dir %>/temp"
+cronsdir="<%= @output_dir %>/otherdumps"
+dumpsdir="<%= @dumps_dir %>"
+dblistsdir="<%= @dumps_dir %>/dblists"
+apachedir="<%= scope['mediawiki::apache::docroot'] %>"

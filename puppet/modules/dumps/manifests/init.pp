@@ -33,6 +33,7 @@
 #
 class dumps(
     $conf_dir,
+    $dblists_dir,
     $db_user,
     $db_pass,
     $dumps_dir,
@@ -46,6 +47,7 @@ class dumps(
     require_package('libbz2-dev')
     require_package('p7zip-full')
     require_package('zlib1g-dev')
+    require_package('php-bz2')
 
     # TODO: pip from requirements.txt once that exists.
     require_package('python-yaml')
@@ -77,38 +79,43 @@ class dumps(
         ],
     }
 
-    file { '/etc/wikidump.conf':
-        ensure  => present,
-        content => template('dumps/wikidump.conf.erb'),
-    }
-
     file { $conf_dir:
         ensure  => directory,
         require => Git::Clone['operations/dumps'],
     }
 
+    file { "${conf_dir}/wikidump.conf.dumps":
+        ensure  => present,
+        content => template('dumps/wikidump.conf.erb'),
+    }
+
     # TODO: Pull actual dblist from multiwiki; provision at least two wikis.
-    file { "${conf_dir}/all.dblist":
-        ensure  => present,
-        content => 'wiki',
+    file { $dblists_dir:
+        ensure  => directory,
+        require => Git::Clone['operations/dumps'],
     }
 
-    file { "${conf_dir}/skip.dblist":
+    file { "${dblists_dir}/all.dblist":
         ensure  => present,
-        content => '',
+        content => "wiki\n",
     }
 
-    file { "${conf_dir}/private.dblist":
-        ensure  => present,
-        content => '',
-    }
-
-    file { "${conf_dir}/closed.dblist":
+    file { "${dblists_dir}/skip.dblist":
         ensure  => present,
         content => '',
     }
 
-    file { "${conf_dir}/flow.dblist":
+    file { "${dblists_dir}/private.dblist":
+        ensure  => present,
+        content => '',
+    }
+
+    file { "${dblists_dir}/closed.dblist":
+        ensure  => present,
+        content => '',
+    }
+
+    file { "${dblists_dir}/flow.dblist":
         ensure  => present,
         content => '',
     }
@@ -132,8 +139,20 @@ class dumps(
         content => file('dumps/feed.xml'),
     }
 
+    user { 'dumpsgen':
+        ensure     => present,
+        home       => '/var/lib/dumpsgen',
+        shell      => '/bin/bash',
+        groups     => 'www-data',
+        system     => true,
+        managehome => true,
+    }
+
     file { [$output_dir, "${dumps_dir}/www"]:
         ensure  => directory,
+        owner   => 'dumpsgen',
+        group   => 'www-data',
+        mode    => '0775',
         require => Git::Clone['operations/dumps'],
     }
 
@@ -145,15 +164,53 @@ class dumps(
 
     file { "${output_dir}/temp":
         ensure  => directory,
-        owner   => 'vagrant',
+        owner   => 'dumpsgen',
         group   => 'www-data',
         mode    => '0775',
-        require => File[$output_dir]
+        require => File[$output_dir],
+    }
+
+    file { "${output_dir}/otherdumps":
+        ensure  => directory,
+        owner   => 'dumpsgen',
+        group   => 'www-data',
+        mode    => '0775',
+        require => File[$output_dir],
+    }
+
+    # these horrid things are because some scripts expect
+    # the MW and multiversion layout to be different than
+    # it is in mw vagrant: python dump scripts want
+    # one location, dumpTextPass.php another, and
+    # wikidata weeklies a third.
+    file { "${mediawiki::apache::docroot}/multiversion":
+        ensure => link,
+        target => "${mediawiki::apache::docroot}/w",
+    }
+
+    file { "${mediawiki::dir}/multiversion":
+        ensure => link,
+        target => "${mediawiki::apache::docroot}/w",
+    }
+
+    file { "${mediawiki::dir}/../multiversion":
+        ensure => link,
+        target => "${mediawiki::apache::docroot}/w",
+    }
+
+    file { '/home/vagrant/README_vagrant_dumps.txt':
+        ensure  => present,
+        content => template('dumps/README_vagrant_dumps.txt.erb'),
+    }
+
+    file { '/usr/local/etc/set_dump_dirs.sh':
+        ensure  => present,
+        content => template('dumps/set_dump_dirs.sh.erb'),
     }
 
     file { '/var/log/wikidatadump':
         ensure => directory,
-        owner  => 'vagrant',
+        owner  => 'dumpsgen',
         group  => 'www-data',
         mode   => '0775',
     }

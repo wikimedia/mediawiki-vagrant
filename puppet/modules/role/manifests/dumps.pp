@@ -8,15 +8,17 @@ class role::dumps {
 
     $dumps_dir = "${::mwv::services_dir}/dumps"
 
-    $conf_dir = "${dumps_dir}/config"
+    $conf_dir = "${dumps_dir}/confs"
+    $dblists_dir = "${dumps_dir}/dblists"
     $mediawiki_dir = $::mediawiki::dir
     $mwbzutils_dir = "${dumps_dir}/mwbzutils"
     $mwbzutils_source_dir = "${mwbzutils_dir}/xmldumps-backup/mwbzutils"
-    $output_dir = "${dumps_dir}/output"
-    $webroot_dir = "${dumps_dir}/www"
+    $output_dir = "${mediawiki::apache::docroot}/dumps"
+    $webroot_dir = "${mediawiki::apache::docroot}/dumps/public"
 
     class { '::dumps':
         conf_dir             => $conf_dir,
+        dblists_dir          => $dblists_dir,
         dumps_dir            => $dumps_dir,
         mediawiki_dir        => $mediawiki_dir,
         mwbzutils_dir        => $mwbzutils_dir,
