@@ -33,10 +33,12 @@ class role::wikidata(
     # shouldnt be issues...
 
     # NOTE: there is always a wikibase_repo role, maybe we should use that?
+    $composer_include = "${::mediawiki::composer_fragment_dir}/wikibase-composer.json"
     mediawiki::extension { 'Wikibase':
         composer     => true,
         needs_update => true,
         settings     => template('role/wikidata/shared.php.erb'),
+        require      => File[$composer_include],
     }
 
     mediawiki::extension { 'Wikidata.org':
@@ -86,5 +88,9 @@ class role::wikidata(
         content => $main_page,
         wiki    => 'wikidata',
         db_name => 'wikidatawiki',
+    }
+
+    file { $composer_include:
+        source => 'puppet:///modules/role/wikibase/wikibase-composer.json',
     }
 }

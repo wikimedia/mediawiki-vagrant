@@ -16,9 +16,11 @@ class role::wikibase_repo {
   include ::role::sitematrix
   include ::role::wikimediamessages
 
+  $composer_include = "${::mediawiki::composer_fragment_dir}/wikibase-composer.json"
   mediawiki::extension { 'Wikibase':
     composer     => true,
     needs_update => true,
+    require      => File[$composer_include],
   }
 
   mediawiki::settings { 'Wikibase-Init':
@@ -28,6 +30,10 @@ class role::wikibase_repo {
   mediawiki::maintenance { 'wikidata-populate-sites-table':
     command     => "/usr/local/bin/foreachwikiwithextension Wikibase extensions/Wikibase/lib/maintenance/populateSitesTable.php --load-from http://en${mediawiki::multiwiki::base_domain}${::port_fragment}/w/api.php",
     refreshonly => true,
+  }
+
+  file { $composer_include:
+      source => 'puppet:///modules/role/wikibase/wikibase-composer.json',
   }
 
   Mediawiki::Wiki<| |> ~> Mediawiki::Maintenance['wikidata-populate-sites-table']
