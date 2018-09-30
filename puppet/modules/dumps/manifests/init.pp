@@ -188,11 +188,6 @@ class dumps(
         target => "${mediawiki::apache::docroot}/w",
     }
 
-    file { "${mediawiki::dir}/multiversion":
-        ensure => link,
-        target => "${mediawiki::apache::docroot}/w",
-    }
-
     file { "${mediawiki::dir}/../multiversion":
         ensure => link,
         target => "${mediawiki::apache::docroot}/w",
