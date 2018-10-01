@@ -148,7 +148,7 @@ class dumps(
         managehome => true,
     }
 
-    file { [$output_dir, "${dumps_dir}/www"]:
+    file { $output_dir:
         ensure  => directory,
         owner   => 'dumpsgen',
         group   => 'www-data',
@@ -159,7 +159,7 @@ class dumps(
     apache::site { $site_name:
         ensure  => present,
         content => template('dumps/dumps-apache-site.erb'),
-        require => File["${dumps_dir}/www"],
+        require => File[$output_dir],
     }
 
     file { "${output_dir}/temp":
