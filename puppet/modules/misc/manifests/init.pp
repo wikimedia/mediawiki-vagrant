@@ -31,6 +31,7 @@ class misc {
         'jq',
         'nano', # for legoktm and other vi haters
         'vim',
+        'ntp', # T189922
     )
 
     file { '/etc/ackrc':
