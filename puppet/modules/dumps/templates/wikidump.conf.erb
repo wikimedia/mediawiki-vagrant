@@ -10,6 +10,7 @@ dir=<%= @mediawiki_dir %>
 # FIXME: Vagrant doesn't have this.
 #adminsettings=private/PrivateSettings.php
 tablejobs=<%= @conf_dir %>/tablejobs.yaml
+multiversion=<%= scope['mediawiki::apache::docroot'] %>/w
 
 [output]
 public=<%= @output_dir %>/public
