@@ -178,16 +178,9 @@ class dumps(
         require => File[$output_dir],
     }
 
-    # these horrid things are because some scripts expect
-    # the MW and multiversion layout to be different than
-    # it is in mw vagrant: python dump scripts want
-    # one location, dumpTextPass.php another, and
-    # wikidata weeklies a third.
-    file { "${mediawiki::apache::docroot}/multiversion":
-        ensure => link,
-        target => "${mediawiki::apache::docroot}/w",
-    }
-
+    # this horrid thing is because the dumpTextPass.php script
+    # expects the MW and multiversion layout to be different than
+    # it is in mw vagrant.
     file { "${mediawiki::dir}/../multiversion":
         ensure => link,
         target => "${mediawiki::apache::docroot}/w",
