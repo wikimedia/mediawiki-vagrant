@@ -1,7 +1,7 @@
 # == Define: php::ini
 #
 # This resource type represents a set of PHP configuration directives
-# that are managed via an ini file in /etc/php/7.0/conf.d. PHP interprets
+# that are managed via an ini file in /etc/php/<version>/conf.d. PHP interprets
 # these files as extensions of the main php.ini configuration file. For
 # more information, see <http://wiki.debian.org/PHP#Configuration_layout>
 # and <http://php.net/manual/en/configuration.file.php>.
@@ -39,11 +39,11 @@ define php::ini( $settings ) {
     # Puppet-managed .ini file names start with an underscore
     # so they can be distinguished from package-provided files.
     $basename = inline_template('_<%= @title.gsub(/\W/, "-").downcase %>')
-    $conffile = "/etc/php/7.0/mods-available/${basename}.ini"
+    $conffile = "/etc/php/7.2/mods-available/${basename}.ini"
 
     file { $conffile:
         content => template('php/conffile.ini.erb'),
-        require => Package['php'],
+        require => Class['php::package'],
         notify  => Service['apache2'],
     }
 
