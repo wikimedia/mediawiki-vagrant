@@ -37,16 +37,16 @@ sub vcl_recv {
 
 sub vcl_deliver {
     # If the client supports WebP and the thumbnail is popular enough, attempt to serve a WebP thumbnail instead of JPG/PNG
-    if (obj.hits > 5 && req.url ~ "(?i)^(.*)/thumb/(.*).(jpg|jpeg|jpe|png)$" && req.http.Accept ~ "(?i)image/webp" && req.restarts == 0) {
+    if (obj.hits > 5 && req.url ~ "(?i)\.(jpg|jpeg|jpe|png)$" && req.url ~ "(?i)/thumb/" && req.http.Accept ~ "(?i)image/webp" && req.restarts == 0) {
         # Revert image URL transformation to ensure this goes to the right varnish
         set req.url = "/images/" + regsub(req.url, "^/wiki/dev/(.*)", "\1");
         # Append .webp to the request URL
-        set req.url = regsub(req.url, "(?i)^(.*).(jpg|jpeg|jpe|png)$", "\1.\2.webp");
+        set req.url = req.url + ".webp";
         return(restart);
     }
 
     # The WebP thumbnail failed, fall back to the JPG/PNG one
-    if (req.url ~ ".webp$" && resp.status >= 400 && req.restarts == 1) {
+    if (resp.status >= 400 && req.restarts >= 1 && req.url ~ ".webp$" && req.url ~ "(?i)/thumb/") {
         # Revert image URL transformation to ensure this goes to the right varnish
         set req.url = "/images/" + regsub(req.url, "^/wiki/dev/(.*)", "\1");
         # Remove .webp from the request URL
