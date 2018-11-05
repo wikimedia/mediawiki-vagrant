@@ -46,11 +46,11 @@ sub vcl_deliver {
     }
 
     # The WebP thumbnail failed, fall back to the JPG/PNG one
-    if (resp.status >= 400 && req.restarts >= 1 && req.url ~ ".webp$" && req.url ~ "(?i)/thumb/") {
+    if (resp.status >= 400 && req.restarts >= 1 && req.url ~ "(?i)\.webp$" && req.url ~ "(?i)/thumb/") {
         # Revert image URL transformation to ensure this goes to the right varnish
         set req.url = "/images/" + regsub(req.url, "^/wiki/dev/(.*)", "\1");
         # Remove .webp from the request URL
-        set req.url = regsub(req.url, "^(.*).webp", "\1");
+        set req.url = regsub(req.url, "(?i)\.webp$", "");
         return(restart);
     }
 }
