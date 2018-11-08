@@ -107,6 +107,8 @@ sub vcl_deliver {
         set resp.http.X-Cache = "miss (0)";
     }
 
+    set resp.http.Server-Timing = {"cache;desc=""} + resp.http.X-Cache + {"""};
+
     # Enforce Age: 0 for ResourceLoader
     if (req.url ~ "^/w/load\.php" ) {
         set resp.http.Age = 0;
