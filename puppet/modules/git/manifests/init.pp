@@ -23,7 +23,7 @@
 #  }
 #
 class git(
-    $urlformat = 'https://gerrit.wikimedia.org/r/p/%s.git',
+    $urlformat = 'https://gerrit.wikimedia.org/r/%s.git',
     $default_depth = undef,
 ) {
     include ::git::gerrit
@@ -38,7 +38,7 @@ class git(
     }
 
     package { 'git-review':
-        ensure   => '1.25.0',
+        ensure   => 'latest',
         provider => 'pip',
     }
 }
