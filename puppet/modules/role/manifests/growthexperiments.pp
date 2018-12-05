@@ -5,8 +5,6 @@ class role::growthexperiments {
     require ::role::mediawiki
 
     mediawiki::extension { 'GrowthExperiments':
-        settings => {
-            'wgWelcomeSurveyEnabled' => true,
-        },
+        settings => template('role/growthexperiments/conf.php.erb'),
     }
 }
