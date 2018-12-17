@@ -244,6 +244,7 @@ mediawiki::composer_fragment_dir: "%{hiera('mediawiki::settings_dir')}/composer"
 mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
 mediawiki::admin_user: Admin
 mediawiki::admin_pass: vagrant
+mediawiki::admin_email: admin@local.wmftest.net
 mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fragment}"
 mediawiki::branch: master
 

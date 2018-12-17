@@ -226,13 +226,6 @@ class role::striker(
         notify   => Service['apache2'],
     }
 
-    # Setup devwiki
-    $admin_email = 'admin@local.wmftest.net'
-    mysql::sql { "USE ${::mediawiki::db_name}; UPDATE user SET user_email = '${admin_email}', user_email_authenticated = '20010115000000' WHERE user_name ='${::mediawiki::admin_user}'":
-        unless  => "USE ${::mediawiki::db_name}; SELECT 1 FROM user WHERE user_name ='${::mediawiki::admin_user}' AND user_email_authenticated IS NOT NULL",
-        require => Exec["${::mediawiki::db_name}_setup"],
-    }
-
     # Setup Phabricator
     class { '::phabricator':
         remote => 'https://gerrit.wikimedia.org/r/phabricator/phabricator',

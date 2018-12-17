@@ -14,6 +14,9 @@
 # [*admin_pass*]
 #   Initial password for admin account (example: 'secret123').
 #
+# [*admin_email*]
+#   Email address for initial admin account.
+#
 # [*db_name*]
 #   Logical MySQL database name (example: 'devwiki').
 #
@@ -52,6 +55,7 @@ class mediawiki(
     $wiki_name,
     $admin_user,
     $admin_pass,
+    $admin_email,
     $db_name,
     $dir,
     $cache_dir,

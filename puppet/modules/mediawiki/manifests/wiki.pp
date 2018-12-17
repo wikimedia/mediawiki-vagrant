@@ -42,6 +42,9 @@
 # [*admin_pass*]
 #   Initial password for admin account (example: 'secret123').
 #
+# [*admin_email*]
+#   Email address for initial admin account.
+#
 # [*src_dir*]
 #   The system path to which MediaWiki files have been installed
 #   (example: '/srv/mediawiki/mediawiki').
@@ -96,6 +99,7 @@ define mediawiki::wiki(
     $db_pass      = $::mediawiki::multiwiki::db_pass,
     $admin_user   = $::mediawiki::admin_user,
     $admin_pass   = $::mediawiki::admin_pass,
+    $admin_email  = $::mediawiki::admin_email,
     $src_dir      = $::mediawiki::dir,
     $cache_dir    = "${::mediawiki::cache_dir}/${title}",
     $upload_dir   = "${::mwv::files_dir}/${title}images",
@@ -152,6 +156,12 @@ define mediawiki::wiki(
             Mysql::Sql["${db_user}_full_priv_${db_name}"],
         ],
         before  => Exec['update_all_databases'],
+    }
+
+    mysql::sql { "${db_name}_setup_email":
+        sql     => "USE ${db_name}; UPDATE user SET user_email='${admin_email}', user_email_authenticated='20010101000000' WHERE user_name='${admin_user}'",
+        unless  => "USE ${db_name}; SELECT 1 FROM user WHERE user_name='${admin_user}' AND user_email_authenticated",
+        require => Exec["${db_name}_setup"],
     }
 
     exec { "${db_name}_include_extra_settings":
