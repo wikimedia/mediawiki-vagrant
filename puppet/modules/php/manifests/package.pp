@@ -2,16 +2,14 @@
 # Installs the PHP package and its dependencies
 class php::package {
     package { [
-        'php',
-        'php-common',
-        'php7.0',
-        'php7.0-common',
         'libapache2-mod-php7.0',
     ]:
         ensure  => absent,
     }
 
     package { [
+        'php',
+        'php-common',
         'php7.2',
         'php7.2-apcu',
         'php7.2-cli',
