@@ -3,5 +3,9 @@
 # (Bureaucrat by default) to merge one Wiki user's account with another Wiki
 # user's account.
 class role::usermerge {
-    mediawiki::extension { 'UserMerge': }
+    mediawiki::extension { 'UserMerge':
+        settings => [
+            '$wgGroupPermissions["sysop"]["usermerge"] = true;',
+        ],
+    }
 }
