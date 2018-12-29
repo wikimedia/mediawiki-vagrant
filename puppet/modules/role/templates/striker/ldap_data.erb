@@ -57,7 +57,7 @@ objectClass: top
 cn: tools
 member: uid=admin,<%= scope['::role::ldapauth::user_base_dn'] %>
 
-dn: ou=sudoers,cn=tools,ou=projects,<%= scope['::role::ldapauth::user_base_dn'] %>
+dn: ou=sudoers,cn=tools,ou=projects,<%= scope['::role::ldapauth::base_dn'] %>
 objectClass: organizationalUnit
 objectClass: top
 ou: sudoers
