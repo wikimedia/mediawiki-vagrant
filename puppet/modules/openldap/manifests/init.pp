@@ -32,7 +32,7 @@ class openldap(
     $admin_password,
     $logging = 'sync stats',
 ) {
-    require_package('slapd', 'ldap-utils', 'python-ldap')
+    require_package('slapd', 'ldap-utils', 'python-pyldap')
 
     # Remove the package provided ldap-based config system so that we can just
     # hardcode the config in /etc/ldap/slapd.conf

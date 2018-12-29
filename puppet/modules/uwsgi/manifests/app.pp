@@ -47,9 +47,14 @@ define uwsgi::app(
             }
 
             systemd::service { "uwsgi-${title}":
-                ensure        => present,
-                template_name => 'uwsgi',
-                subscribe     => File["/etc/uwsgi/apps-available/${basename}.ini"],
+                ensure             => present,
+                template_name      => 'uwsgi',
+                epp_template       => true,
+                template_variables => {
+                    inipath => $inipath,
+                    title   => $title,
+                },
+                subscribe          => File["/etc/uwsgi/apps-available/${basename}.ini"],
             }
         }
     }

@@ -1,14 +1,6 @@
 ServerName <%= @vhost_name %>
 DocumentRoot <%= @app_dir %>
 
-SetEnv DJANGO_SETTINGS_MODULE striker.settings
-# Enable wsgi automatic reload magic
-SetEnv DJANGO_DEBUG True
-
-WSGIDaemonProcess striker python-path=<%= @app_dir %>:<%= @venv %>/lib/<%= @python %>/site-packages home=<%= @app_dir %> display-name=%{GROUP} threads=8
-WSGIProcessGroup striker
-WSGIScriptAlias / <%= @deploy_dir %>/striker/striker/wsgi.py process-group=striker
-
 <Directory />
   Options FollowSymLinks
   AllowOverride None
@@ -20,20 +12,38 @@ WSGIScriptAlias / <%= @deploy_dir %>/striker/striker/wsgi.py process-group=strik
   Require all granted
 </Directory>
 
-Alias /static/ <%= @app_dir %>/staticfiles/
-Alias /favicon.ico <%= @app_dir %>/staticfiles/img/favicon.ico
-Alias /robots.txt <%= @app_dir %>/staticfiles/robots.txt
+ProxyRequests Off
+ProxyVia Off
+ProxyPassInherit Off
+BalancerInherit Off
+ProxyPreserveHost On
+ProxyAddHeaders On
 
-<Directory <%= @app_dir %>/staticfiles>
-  Options -Indexes
-  Require all granted
-</Directory>
+Alias /static/ <%= @app_dir %>/staticfiles/
+<Location /static>
+  ProxyPass !
+</Location>
+
+Alias /favicon.ico <%= @app_dir %>/staticfiles/img/favicon.ico
+<Location /favicon.ico>
+  ProxyPass !
+</Location>
+
+Alias /robots.txt <%= @app_dir %>/staticfiles/robots.txt
+<Location /robots.txt>
+  ProxyPass !
+</Location>
 
 # CORS header required for fonts to work
 # https://davidwalsh.name/cdn-fonts
 <FilesMatch ".+\.(eot|ttf|otf|woff)$">
   Header set Access-Control-Allow-Origin "*"
 </FilesMatch>
+
+ProxyPassMatch "/(.*)" "balancer://uwsgi/$1"
+<Proxy balancer://uwsgi>
+    BalancerMember http://127.0.0.1:<%= @uwsgi_port %>
+</Proxy>
 
 LogLevel info
 ErrorLog <%= @log_dir %>/striker/error.log

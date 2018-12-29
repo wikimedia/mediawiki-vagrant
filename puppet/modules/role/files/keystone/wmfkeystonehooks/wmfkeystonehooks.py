@@ -32,10 +32,10 @@ from keystone.common import controller
 from keystone.common import validation
 from keystone.resource import schema
 from keystone import notifications
-from keystone.i18n import _
 
 
 LOG = logging.getLogger('nova.%s' % __name__)
+LOG.debug('Loaded WMF hooks and monkey patches')
 
 wmfkeystone_opts = [
     cfg.StrOpt('admin_user',
@@ -260,29 +260,31 @@ class KeystoneHooks(notifier.Driver):
 #   that creates the project and modify the ID.
 #
 @controller.protected()
-@validation.validated(schema.project_create, 'project')
-def create_project(self, context, project):
-    LOG.warn("Monkypatch in action!  Hacking the new project id to equal "
-             "the new project name.")
-
+def create_project_patched(self, request, project):
+    validation.lazy_validate(schema.project_create, project)
     ref = self._assign_unique_id(self._normalize_dict(project))
-    ref = self._normalize_domain_id(context, ref)
 
-    # This is the only line that's different
-    ref['id'] = project['name']
+    if not ref.get('is_domain'):
+        ref = self._normalize_domain_id(request, ref)
 
-    if ref.get('is_domain'):
-        msg = _('The creation of projects acting as domains is not '
-                'allowed yet.')
-        raise exception.NotImplemented(msg)
+        LOG.warn(
+            "Monkypatch in action! "
+            "Hacking the new project id to equal the new project name.")
+        ref['id'] = project['name']
 
-    initiator = notifications._get_request_audit_info(context)
+    # Our API requires that you specify the location in the hierarchy
+    # unambiguously. This could be by parent_id or, if it is a top level
+    # project, just by providing a domain_id.
+    if not ref.get('parent_id'):
+        ref['parent_id'] = ref.get('domain_id')
+
+    initiator = notifications._get_request_audit_info(request.context_dict)
     try:
         ref = self.resource_api.create_project(ref['id'], ref,
                                                initiator=initiator)
-    except exception.DomainNotFound as e:
+    except (exception.DomainNotFound, exception.ProjectNotFound) as e:
         raise exception.ValidationError(e)
-    return resource_controllers.ProjectV3.wrap_member(context, ref)
+    return resource_controllers.ProjectV3.wrap_member(request.context_dict, ref)
 
 
-resource_controllers.ProjectV3.create_project = create_project
+resource_controllers.ProjectV3.create_project = create_project_patched

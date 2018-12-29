@@ -83,6 +83,7 @@ class role::striker(
     $phabricator_user,
     $phabricator_token,
     $phabricator_repo_admin_group,
+    $uwsgi_port,
     $wikitech_url,
     $wikitech_consumer_key,
     $wikitech_consumer_secret,
@@ -100,44 +101,53 @@ class role::striker(
     include ::role::oauth
     include ::role::syntaxhighlight
     include ::role::titleblacklist
-    include ::apache::mod::wsgi_py3
+    include ::apache::mod::alias
+    include ::apache::mod::proxy_balancer
+    include ::apache::mod::proxy_http
+    include ::apache::mod::rewrite
     include ::memcached
     include ::mysql::large_prefix
 
-    file { "${log_dir}/striker":
-        ensure => 'directory',
-        mode   => '0777',
-    }
-
-    # Setup Striker
-    $app_dir = "${deploy_dir}/striker"
-    git::clone { 'labs/striker':
-        directory => $app_dir,
-    }
-
-    service::gitupdate { 'striker':
-        dir          => $app_dir,
-        restart      => true,
-        service_name => 'apache2',
-    }
-
     # Add packages needed for virtualenv built python modules
-    $python = 'python3.4'
+    $python = 'python3'
     require_package(
         'libffi-dev',
         'libldap2-dev',
-        'default-libmysqlclient-dev',
+        'libmariadbclient-dev',
         'libsasl2-dev',
         'libssl-dev',
         $python,
         "${python}-dev",
     )
 
+    $app_dir = "${::service::root_dir}/striker"
     $venv = "${app_dir}/.venv"
+
+    service::uwsgi { 'striker':
+        port       => $uwsgi_port,
+        config     => {
+            need-plugins  => 'python3, logfile',
+            chdir         => "${deploy_dir}/striker",
+            venv          => $venv,
+            wsgi          => 'striker.wsgi',
+            vacuum        => true,
+            http-socket   => "127.0.0.1:${uwsgi_port}",
+            py-autoreload => 2,
+            env           => [
+                'LANG=C.UTF-8',
+                'PYTHONENCODING=utf-8',
+            ],
+            req-logger    => "file:${log_dir}/access.log",
+            log-format    => '%(addr) - %(user) [%(ltime)] "%(method) %(uri) (proto)" %(status) %(size) "%(referer)" "%(uagent)" %(micros)',
+        },
+        git_remote => sprintf($::git::urlformat, 'labs/striker'),
+    }
+
     virtualenv::environment { $venv:
-        owner  => $::share_owner,
-        group  => $::share_group,
-        python => $python,
+        owner   => $::share_owner,
+        group   => $::share_group,
+        python  => $python,
+        require => Git::Clone['striker'],
     }
     virtualenv::package { 'striker':
         path          => $venv,
@@ -159,11 +169,11 @@ class role::striker(
         mode    => '0555',
         content => template('role/striker/striker.ini.erb'),
         require => [
-            Git::Clone['labs/striker'],
+            Virtualenv::Package['striker'],
             Class['::phabricator'],
             Class['::role::ldapauth'],
         ],
-        notify  => Service['apache2'],
+        notify  => Service['uwsgi-striker'],
     }
 
     mysql::db { $db_name:
@@ -175,21 +185,6 @@ class role::striker(
         grant    => "ALL ON ${db_name}.*",
         password => $db_pass,
         require  => Mysql::Db[$db_name],
-    }
-
-    # Hack needed because manage.py has trouble creating tables with large
-    # column indices.
-    # TODO: figure out how to fix the django migrations
-    exec { 'striker initial tables':
-      cwd         => '/vagrant/puppet/modules/role/files/striker',
-      command     => "/usr/bin/mysql -u${db_user} -p${db_pass} ${db_name} < 20160916-01-initial.sql",
-      refreshonly => true,
-      before      => Exec['striker manage.py migrate'],
-      require     => [
-          Mysql::User[$db_user],
-          Class['mysql::large_prefix'],
-      ],
-      subscribe   => Mysql::Db[$db_name],
     }
 
     exec { 'striker manage.py migrate':
@@ -213,12 +208,21 @@ class role::striker(
         unless  => "${venv}/bin/python manage.py collectstatic --noinput --dry-run| grep -q '^0 static'",
     }
 
+    $populate_unless = "use ${db_name};select count(*) from tools_softwarelicense"
+    exec { 'striker populate software_license':
+        cwd     => $app_dir,
+        command => "${venv}/bin/python manage.py loaddata software_license.json",
+        require => [
+            Exec['striker manage.py migrate'],
+        ],
+        unless  => "/usr/bin/mysql -qfsANe \"${populate_unless}\" | /usr/bin/tail -1 | /bin/grep -vq 0",
+    }
+
     apache::site { $vhost_name:
         ensure   => present,
         # Load before MediaWiki wildcard vhost for Labs.
         priority => 40,
         content  => template('role/striker/apache.conf.erb'),
-        require  => Class['apache::mod::wsgi_py3'],
         notify   => Service['apache2'],
     }
 
@@ -253,15 +257,15 @@ class role::striker(
         value => false,
     }
     phabricator::config { 'config.ignore-issues':
-        value => {
-            'mysql.max_allowed_packet'                => true,
-            'mysql.mode'                              => true,
-            'mysql.innodb_buffer_pool_size'           => true,
-            'mysql.ft_boolean_syntax'                 => true,
-            'mysql.ft_min_word_len'                   => true,
-            'mysql.ft_stopword_file'                  => true,
-            'security.security.alternate-file-domain' => true
-        }
+        value => [
+            'mysql.max_allowed_packet',
+            'mysql.mode',
+            'mysql.innodb_buffer_pool_size',
+            'mysql.ft_boolean_syntax',
+            'mysql.ft_min_word_len',
+            'mysql.ft_stopword_file',
+            'security.security.alternate-file-domain',
+        ]
     }
     phabricator::config { 'ui.header-color':
         value => 'red',
@@ -279,6 +283,7 @@ class role::striker(
         command => '/usr/local/bin/use-openstack role add --user admin --project tools admin',
         user    => 'keystone',
         require => Exec['bootstrap_keystone'],
+        unless  => '/usr/local/bin/use-openstack role assignment list --user admin --project tools --names | grep admin',
     }
 
     # Setup ldapauthwiki
