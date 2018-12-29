@@ -17,7 +17,7 @@ class role::ldapauth(
     $writer_password,
     $admin_password,
 ) {
-    require_package('php-ldap')
+    require_package('php7.2-ldap')
 
     # This is a lazy short cut so we don't have to pass a bazillion options to
     # create the initial LDIF data.

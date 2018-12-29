@@ -51,13 +51,13 @@ class php {
         settings => {
             'opcache.validate_timestamps' => 'on',
         },
-        require  => Package['php7.2-apcu']
+        require  => Package['php-apcu']
     }
 
     php::ini { 'opcache_revalidate_freq':
         settings => {
             'opcache.revalidate_freq' => 0,
         },
-        require  => Package['php7.2-apcu'],
+        require  => Package['php-apcu'],
     }
 }
