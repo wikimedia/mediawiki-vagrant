@@ -51,6 +51,12 @@ class postfix {
         refreshonly => true,
     }
 
+    exec { 'postmap_aliases':
+        command     => 'postalias /etc/postfix/aliases',
+        subscribe   => File['/etc/postfix/aliases'],
+        refreshonly => true,
+    }
+
     service { 'postfix':
         ensure    => running,
         enable    => true,
