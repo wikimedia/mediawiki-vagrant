@@ -78,8 +78,8 @@ $wgObjectCaches['redis'] = array(
 );
 $wgMainCacheType = 'redis';
 
-// This is equivalent to redis_local in production, since MediaWiki-Vagrant only has one
-// data center.
+// This is equivalent to redis_local in production, since MediaWiki-Vagrant
+// only has one data center.
 $wgMainStash = 'redis';
 
 // Avoid user request serialization and other slowness
@@ -100,10 +100,27 @@ $wgJobQueueAggregator = array(
 	'redisConfig'  => array( 'connectTimeout' => 2 ),
 );
 
+// Execute all jobs via standalone jobrunner service rather than
+// piggybacking them on web requests.
+$wgJobRunRate = 0;
+
 $wgLegacyJavaScriptGlobals = false;
 $wgEnableJavaScriptTest = true;
 
+// Bug 73037: handmade gzipping sometimes makes error messages impossible to
+// see in HHVM
+$wgDisableOutputCompression = true;
+
+// Don't gloss over errors in class name letter-case.
+$wgAutoloadAttemptLowercase = false;
+
+// Process Puppet and user managed settings
 require_once __DIR__ . '/settings.d/wikis/CommonSettings.php';
+
+// ====================================================================
+// NOTE: anything after this point is 'immutable' config that can not be
+// overridden by a role or a user managed file in settings.d
+// ====================================================================
 
 // XXX: Is this a bug in core? (ori-l, 27-Aug-2013)
 $wgHooks['GetIP'][] = function ( &$ip ) {
@@ -113,22 +130,16 @@ $wgHooks['GetIP'][] = function ( &$ip ) {
 	return true;
 };
 
-// Execute all jobs via standalone jobrunner service rather than
-// piggybacking them on web requests.
-$wgJobRunRate = 0;
-
-// Bug 73037: handmade gzipping sometimes makes error messages impossible to see in HHVM
-$wgDisableOutputCompression = true;
-
-// Allow 'vagrant' password.
-$wgPasswordPolicy['policies']['sysop']['MinimalPasswordLength'] = 7;
-$wgPasswordPolicy['policies']['bureaucrat']['MinimalPasswordLength'] = 7;
-$wgPasswordPolicy['policies']['interface-admin']['MinimalPasswordLength'] = 7;
+// Allow 'vagrant' password for the default user reguardless of password
+// policies that are configured.
+$wgHooks['isValidPassword'][] = function ( $password, &$result, $user ) {
+	if ( $password === 'vagrant' && $user->mName === 'Admin' ) {
+		$result = true;
+	}
+	return true;
+};
 
 // Ensure that full LoggerFactory configuration is applied
 MediaWiki\Logger\LoggerFactory::registerProvider(
 	ObjectFactory::getObjectFromSpec( $wgMWLoggerDefaultSpi )
 );
-
-// Don't gloss over errors in class name letter-case.
-$wgAutoloadAttemptLowercase = false;
