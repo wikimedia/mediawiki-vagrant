@@ -48,7 +48,7 @@ class phabricator(
     require_package(
         'python-pygments',
         'python-phabricator',
-        'php7.2-mailparse',
+        'php-mailparse',
         'php7.2-ldap'
     )
 
