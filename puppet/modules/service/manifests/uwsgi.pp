@@ -49,8 +49,9 @@ define service::uwsgi(
         remote    => $remote,
     }
     service::gitupdate { $title:
-        dir     => $dir,
-        restart => true,
+        dir          => $dir,
+        restart      => true,
+        service_name => "uwsgi-${title}",
     }
 
     file { $log_dir:
