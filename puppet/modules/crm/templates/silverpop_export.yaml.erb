@@ -32,3 +32,42 @@ silverpop_db:
     db: "<%= @silverpop_db_name %>"
     debug: false
 
+logging:
+    disable_existing_loggers: false
+    version: 1
+
+    formatters:
+        app_prefixed:
+            # TODO: You need to replace this with each app's name, until we
+            # figure out something better.
+            format: "silverpop-export: %(message)s\n"
+
+    handlers:
+        console:
+            class: logging.StreamHandler
+            stream: ext://sys.stdout
+
+        error:
+            # Defaults to sys.stderr
+            class: logging.StreamHandler
+            level: ERROR
+
+        syslog:
+            class: logging.handlers.SysLogHandler
+            level: DEBUG
+            # The app prefix is required to trigger patterns on the other end
+            # of rsyslogd.
+            formatter: app_prefixed
+
+            # TODO: Custom rsyslogd configurations will require `address` and
+            # `socktype` keys here, for example:
+            address: /dev/log
+
+    # Note that overriding the root logger is rude.
+    root:
+        # Pass through maximum logging, and let syslog sort it out.
+        level: DEBUG
+        handlers:
+            - syslog
+            - console
+            - error
