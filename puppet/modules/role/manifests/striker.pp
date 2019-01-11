@@ -228,14 +228,14 @@ class role::striker(
 
     # Setup Phabricator
     class { '::phabricator':
-        remote => 'https://gerrit.wikimedia.org/r/phabricator/phabricator',
+        remote => 'https://phabricator.wikimedia.org/source/phabricator.git',
         branch => 'wmf/stable',
     }
 
     $ext_dir = "${deploy_dir}/phabricator-extensions"
     git::clone { 'phabricator-extensions':
         directory => $ext_dir,
-        remote    => 'https://gerrit.wikimedia.org/r/p/phabricator/extensions',
+        remote    => 'https://phabricator.wikimedia.org/source/phab-extensions.git',
         branch    => 'wmf/stable',
     }
     phabricator::config { 'load-libraries':
