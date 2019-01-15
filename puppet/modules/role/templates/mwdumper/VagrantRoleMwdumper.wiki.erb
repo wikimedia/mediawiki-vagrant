@@ -1,0 +1,12 @@
+[https://www.mediawiki.org/wiki/Manual:MWDumper MWDumper] is a Java tool for extracting sets of pages from a MediaWiki dump file into MediaWiki's internal SQL format.
+
+To build the tool:
+
+    cd <%= @mwdumper_dir %>
+    mvn package
+
+This will create the jar file in <code><%= @mwdumper_file %></code>.
+
+To run the tool, just use the <code>mwdumper</code> command (which is just a shortcut for <code>java -jar <%= @mwdumper_file %></code>).
+
+See the [https://gerrit.wikimedia.org/r/plugins/gitiles/mediawiki/tools/mwdumper/+/refs/heads/master/README README] for more details.
