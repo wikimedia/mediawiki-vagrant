@@ -61,7 +61,7 @@
 #
 # [*remote*]
 #   Remote URL for the repository. Passed to git::clone if set. See
-#   git::deploy docs for more details.
+#   git::clone docs for more details.
 #
 # === Examples
 #
