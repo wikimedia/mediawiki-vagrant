@@ -4,7 +4,8 @@
 # its users' behalf.
 #
 class role::oauth (
-    $dir,
+    $hello_world_dir,
+    $oauthclient_dir,
     $secret_key,
     $example_consumer_key,
     $example_consumer_secret,
@@ -25,13 +26,13 @@ class role::oauth (
         ]
     }
 
-    file { $dir:
+    file { $hello_world_dir:
         ensure => directory,
     }
-    file { "${dir}/index.php":
+    file { "${hello_world_dir}/index.php":
         content => template('role/oauth/hello_world.php.erb'),
     }
-    file { "${dir}/oauth-hello-world.ini":
+    file { "${hello_world_dir}/oauth-hello-world.ini":
         content => template('role/oauth/oauth-hello-world.ini.erb'),
     }
 
@@ -48,7 +49,11 @@ class role::oauth (
         grants       => ['useoauth', 'editpage', 'createeditmovepage'],
     }
 
-    mediawiki::import::text{ 'VagrantRoleOAuth':
-        source => 'puppet:///modules/role/oauth/VagrantRoleOAuth.wiki',
+    git::clone { 'mediawiki/oauthclient-php':
+        directory => $oauthclient_dir,
+    }
+
+    mediawiki::import::text { 'VagrantRoleOAuth':
+        content => template('role/oauth/VagrantRoleOAuth.wiki.erb'),
     }
 }
