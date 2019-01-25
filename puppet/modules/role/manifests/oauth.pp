@@ -35,12 +35,10 @@ class role::oauth (
     file { "${hello_world_dir}/oauth-hello-world.ini":
         content => template('role/oauth/oauth-hello-world.ini.erb'),
     }
-
     apache::site_conf { 'oauth-hello-world':
         site    => 'devwiki',
         content => template('role/oauth/apache.conf.erb'),
     }
-
     role::oauth::consumer { 'Hello World':
         description  => 'OAuth test for MW-Vagrant',
         consumer_key => $example_consumer_key,
@@ -52,6 +50,10 @@ class role::oauth (
     git::clone { 'mediawiki/oauthclient-php':
         directory => $oauthclient_dir,
     }
+    php::composer::install { $oauthclient_dir:
+        require => Git::Clone['mediawiki/oauthclient-php'],
+    }
+
 
     mediawiki::import::text { 'VagrantRoleOAuth':
         content => template('role/oauth/VagrantRoleOAuth.wiki.erb'),
