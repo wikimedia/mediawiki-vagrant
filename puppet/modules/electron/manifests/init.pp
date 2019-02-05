@@ -9,11 +9,11 @@
 # [*port*]
 #   Port to listen on
 #
-# [*vhost_name*]
-#   Hostname of the electron service (example: 'electron.local.wmftest.net').
-#
 # [*secret*]
 #   Secret needed to access the service
+#
+# [*dir*]
+#   Install directory
 #
 # [*home_dir*]
 #   Homedir for the headless browser used by electron.
@@ -24,8 +24,8 @@
 #
 class electron(
     $port,
-    $vhost_name,
     $secret,
+    $dir,
     $home_dir,
     $log_file,
 ) {
@@ -39,8 +39,6 @@ class electron(
         'libnss3',
         'dbus-x11',
     ])
-
-    $dir = "${::service::root_dir}/electron-render-service"
 
     git::clone { 'electron-render-service':
         directory => $dir,

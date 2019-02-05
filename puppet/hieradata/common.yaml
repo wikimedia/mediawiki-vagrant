@@ -88,8 +88,8 @@ dumps::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 dumps::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 
 electron::port: 8098
-electron::vhost_name: "electron%{hiera('mwv::tld')}"
 electron::secret: secret
+electron::dir: "%{hiera('service::root_dir')}/electron-render-service"
 electron::home_dir: /srv/electron
 electron::log_file: /vagrant/logs/electron.log
 
@@ -323,6 +323,10 @@ phabricator::dbpass: phabulous
 
 php::xhprof::profile_storage_dir: /vagrant/profiles
 
+proton::dir: "%{hiera('service::root_dir')}/proton"
+proton::port: 3030
+proton::log_file: "%{hiera('service::log_dir')}/proton.log"
+
 # We are masterless and have no need to run an agent.
 puppet::agent::ensure: stopped
 puppet::agent::enable: false
@@ -417,7 +421,11 @@ role::mediawiki::hostname: "dev%{hiera('mediawiki::multiwiki::base_domain')}"
 
 role::mobilecontentservice::vhost_name: "mcs%{hiera('mwv::tld')}"
 
+role::offline::electron_hostname: "electron%{hiera('mwv::tld')}"
+
 role::parsoid::public_url: "http://parsoid%{hiera('mwv::tld')}%{::port_fragment}"
+
+role::proton::vhost_name: "proton%{hiera('mwv::tld')}"
 
 role::quips::vhost_name: "quips%{hiera('mwv::tld')}%{::port_fragment}"
 role::quips::dir: "%{hiera('mwv::services_dir')}/quips"

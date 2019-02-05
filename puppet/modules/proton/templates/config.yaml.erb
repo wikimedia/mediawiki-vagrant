@@ -1,0 +1,47 @@
+mw_req:
+  uri: <%= scope['::mediawiki::server_url'] %>/w/index.php
+  query:
+    title: '{{request.params.title}}'
+  headers:
+    host: '{{request.params.domain}}'
+cors: '*'
+# https://github.com/GoogleChrome/puppeteer/blob/v0.13.0/docs/api.md#pagepdfoptions
+# Explicitly override defaults so that we don't have unexected results
+# after puppeteer upgrades
+pdf_options:
+  scale: 1
+  displayHeaderFooter: false
+  printBackground: false
+  landscape: false
+  pageRanges: ''
+  format: 'Letter'
+  margin:
+    top: '0.5in'
+    right: '0.5in'
+    # some room for page numbers
+    bottom: '0.75in'
+    left: '0.5in'
+# https://github.com/GoogleChrome/puppeteer/blob/v0.13.0/docs/api.md#puppeteerlaunchoptions
+puppeteer_options:
+  timeout: 30000
+  headless: true
+  executablePath: '/usr/bin/chromium'
+  args:
+    - '--no-sandbox'
+    - '--disable-setuid-sandbox'
+    - '--font-rendering-hinting=medium'
+    - '--enable-font-antialiasing'
+    - '--hide-scrollbars'
+    - '--disable-gpu'
+    - '--no-first-run'
+# Regexp of domains the browser is not allowed to access during rendering the page.
+# Case-insensitive, gets anchored automatically.
+host_blacklist: '^(?!<%= Regexp.escape( scope['::role::mediawiki::hostname'] + scope['::port_fragment'] ) %>$).*'
+# the maximum number of puppeteer instances that can be launched at a time
+render_concurrency: 1
+# don't wait to render a PDF after this many seconds
+render_queue_timeout: 60
+# the number of seconds before puppeteer terminates the browser instance
+render_execution_timeout: 90
+# maximum allowed number of pending jobs
+max_render_queue_size: 3

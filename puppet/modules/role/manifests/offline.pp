@@ -4,8 +4,11 @@
 # * ElectronPdfService[https://www.mediawiki.org/wiki/Extension:ElectronPdfService]
 # * electron[https://github.com/wikimedia/mediawiki-services-electron-render/blob/master/README.md]
 #
-class role::offline {
+class role::offline(
+    $electron_hostname
+) {
     require ::electron
+    require ::proton
 
     mediawiki::settings { 'Electron-VRS':
         values   => template('role/offline/electron-vrs.php.erb'),
@@ -22,9 +25,7 @@ class role::offline {
         },
     }
 
-    $electron_hostname = $::electron::vhost_name
     mediawiki::import::text { 'VagrantRoleOffline':
         content => template('role/offline/VagrantRoleOffline.wiki.erb'),
     }
 }
-
