@@ -31,6 +31,9 @@ define apache::reverse_proxy(
     $port,
     $hostname = $title,
 ) {
+    include apache::mod::proxy
+    include apache::mod::proxy_http
+    include apache::mod::headers
     include ::mwv
     $base_domain = $::mwv::tld
 
