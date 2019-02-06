@@ -10,7 +10,7 @@ default_project: &default_project
           backend: sqlite
           dbname: <%= @dbdir %>/mw-vagrant-ng.sqlite3
         parsoid:
-          host: http://localhost:<%= scope['::parsoid::port'] %>
+          host: http://localhost:<%= @parsoid_port %>
           grace_ttl: 3600
         action:
           apiUriTemplate: "{{'http://localhost:<%= scope['::forwarded_port'] %>/w/api.php'}}"
