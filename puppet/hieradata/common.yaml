@@ -416,6 +416,8 @@ role::mediawiki::hostname: "dev%{hiera('mediawiki::multiwiki::base_domain')}"
 
 role::mobilecontentservice::vhost_name: "mcs%{hiera('mwv::tld')}"
 
+role::parsoid::public_url: "http://parsoid%{hiera('mwv::tld')}%{::port_fragment}"
+
 role::quips::vhost_name: "quips%{hiera('mwv::tld')}%{::port_fragment}"
 role::quips::dir: "%{hiera('mwv::services_dir')}/quips"
 role::quips::env:
