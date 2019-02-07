@@ -153,6 +153,7 @@ class thumbor (
                 'swift-container-auditor',
                 'swift-object-server',
                 'swift-object-auditor',
+                'swift-object-expirer',
                 'swift-object-replicator',
                 'swift-object-updater',
                 'swift-proxy-server'
