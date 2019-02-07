@@ -35,6 +35,10 @@
 # [*log_level*]
 #   The service's log level. Default: $::service::log_level
 #
+# [*environment*]
+#   Extra environment variables to set in the systemd config template,
+#   in a key-value format.
+#
 # === Examples
 #
 # To set up a service named myservice on port 8520 and with a templated
@@ -57,12 +61,13 @@
 #
 define service::node(
     $port,
-    $config     = {},
-    $module     = './app.js',
-    $entrypoint = '',
-    $script     = 'server.js',
-    $git_remote = undef,
-    $log_level  = undef,
+    $config       = {},
+    $module       = './app.js',
+    $entrypoint   = '',
+    $script       = 'server.js',
+    $git_remote   = undef,
+    $log_level    = undef,
+    $environment  = {},
 ) {
 
     require ::service
@@ -161,11 +166,12 @@ define service::node(
         },
         epp_template       => true,
         template_variables => {
-            title   => $title,
-            uptitle => inline_template('<%= @title.gsub(/[^a-zA-Z0-9_]/, "_").upcase %>'),
-            dir     => $dir,
-            port    => $port,
-            script  => $script,
+            title       => $title,
+            uptitle     => inline_template('<%= @title.gsub(/[^a-zA-Z0-9_]/, "_").upcase %>'),
+            dir         => $dir,
+            port        => $port,
+            script      => $script,
+            environment => $environment
         },
         require            => Git::Clone[$title],
     }
