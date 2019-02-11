@@ -1,7 +1,7 @@
 # == Class: Kafka
 #
 class kafka(
-    $ssl_enabled = true,
+    $ssl_enabled = false,
 ) {
     require ::service
     require ::mediawiki::ready_service
