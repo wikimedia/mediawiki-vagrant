@@ -11,10 +11,20 @@ class role::eventbus {
     require ::eventschemas
     include ::changeprop
 
+    $eventbus_url = 'http://localhost:8085/v1/events'
     mediawiki::extension { 'EventBus':
         priority => $::load_early,
         settings => {
-            wgEventServiceUrl => 'http://localhost:8085/v1/events',
+            'wgEventServiceUrl' => eventbus_url,
+            # Configure EventBusRCFeedEngine to produce
+            # to datacenter1.mediawiki.recentchange topic.
+            'wgRCFeeds'         => {
+                'eventbus' => {
+                    'class'     => 'EventBusRCFeedEngine',
+                    'formatter' => 'EventBusRCFeedFormatter',
+                    'uri'       => $eventbus_url,
+                },
+            },
         },
     }
 
