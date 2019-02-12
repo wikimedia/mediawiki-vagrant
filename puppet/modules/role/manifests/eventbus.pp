@@ -15,7 +15,7 @@ class role::eventbus {
     mediawiki::extension { 'EventBus':
         priority => $::load_early,
         settings => {
-            'wgEventServiceUrl' => eventbus_url,
+            'wgEventServiceUrl' => $eventbus_url,
             # Configure EventBusRCFeedEngine to produce
             # to datacenter1.mediawiki.recentchange topic.
             'wgRCFeeds'         => {
