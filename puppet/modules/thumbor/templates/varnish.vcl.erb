@@ -15,6 +15,47 @@ sub vcl_recv {
     # Swift expects /lang/project/foo
     if (req.url ~ "^/images/") {
         set req.url = "/wiki/dev/" + regsub(req.url, "^/images/(.*)", "\1");
+
+        // Strip away all query parameters
+        set req.url = regsub(req.url, "\?.*$", "");
+
+        // Replace double slashes
+        set req.url = regsuball(req.url, "/{2,}", "/");
+
+        if (req.url ~ "(?i)/thumb/") {
+            // Whitelist allowed thumbnail filetypes
+            if (req.url !~ "(?i)\.(jpg|jpeg|jpe|gif|png|webp)$") {
+                return (synth(400, "Bad Request"));
+            }
+
+            // Normalize end of thumbnail URL (redundant filename)
+
+            // http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-Little_kitten_.jpg
+            // becomes http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-Little_kitten_.jpg.jpg
+
+            // http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-foo.jpg
+            // becomes http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-Little_kitten_.jpg.jpg
+
+            // http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-foo.JPG
+            // becomes http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-Little_kitten_.jpg.jpg
+
+            // http://127.0.0.1:6081/images/thumb/a/ae/Wikiqoe-www.pdf/page1-93px-foo.pdf.jpg
+            // becomes http://127.0.0.1:6081/images/thumb/a/ae/Wikiqoe-www.pdf/page1-93px-Wikiqoe-www.pdf.jpg
+
+            // Lowercase last part of the URL, to avoid case variations on extension or thumbnail parameters
+            set req.url = regsub(req.url, "^(.+/)[^/]+$", "\1") + std.tolower(regsub(req.url, "^.+/([^/]+)$", "\1"));
+
+            // In the abbreviated case, where MediaWiki turns the end of the thumbnail URL into -thumbnail.ext
+            // (see abbrvThreshold in FileRepo), there is no need to copy over the canonical filename
+            // However, we filter out potentially abusive use of -thumbnail.ext on short filenames (<= 160 characters), where the
+            // normalization is warranted.
+
+            if (!req.url ~ "-thumbnail\.[a-z0-9.]+$" || !req.url ~ "[^/]{161,}/[^/]+$") {
+                // Copy canonical filename from beginning of URL to thumbnail parameters at the end
+
+                set req.url = regsub(req.url, "(?i)/([^/]+)/((?:qlow-)?(?:lossy-)?(?:lossless-)?(?:page\d+-)?(?:lang[0-9a-z-]+-)?\d+px-(?:(?:seek=|seek%3D)\d+-)?)[^/]+\.(\w+)$", "/\1/\2\1.\3");
+            }
+        }
     }
 
     # This uses the ACL action called "purge". Basically if a request to
