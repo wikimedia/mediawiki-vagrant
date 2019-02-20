@@ -11,23 +11,37 @@ class role::eventbus {
     require ::eventschemas
     include ::changeprop
 
+    # eventgate is intended to replace eventlogging-serivce-eventbus.
+    # Run them side by side for now.
+    require ::eventgate
+
     $eventbus_url = 'http://localhost:8085/v1/events'
+    $eventgate_url = "http://localhost:${::eventgate::port}/v1/events"
     mediawiki::extension { 'EventBus':
         priority => $::load_early,
         settings => {
-            'wgEventServiceUrl' => $eventbus_url,
+            'wgEventServices' => {
+                'eventbus'  => {
+                    'url' => $eventbus_url,
+                },
+                'eventgate' => {
+                    'url' => $eventgate_url,
+                },
+            },
             # Configure EventBusRCFeedEngine to produce
             # to datacenter1.mediawiki.recentchange topic.
-            'wgRCFeeds'         => {
+            'wgRCFeeds'       => {
                 'eventbus' => {
-                    'class'     => 'EventBusRCFeedEngine',
-                    'formatter' => 'EventBusRCFeedFormatter',
-                    'uri'       => $eventbus_url,
+                    'class'            => 'EventBusRCFeedEngine',
+                    'formatter'        => 'EventBusRCFeedFormatter',
+                    'eventServiceName' => 'eventbus',
                 },
             },
         },
     }
 
+    # TODO: This will be deprecated in favor of eventgate service
+    #       once schemas and events are compatible.
     $outputs = [
         # Output to Kafka.  All messages will produced to topics prefixed
         # with a datacenter name.
