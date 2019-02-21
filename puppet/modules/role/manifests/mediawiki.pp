@@ -16,8 +16,6 @@ class role::mediawiki(
     require ::mysql
     require ::redis
 
-    require_package('php-tidy')
-    require_package('tidy')
     require_package('libimage-exiftool-perl')
 
     # mailutils depends on default MTA or any MTA.  This way we

@@ -3,6 +3,10 @@
 # more similar to that of Wikipedia.
 #
 class role::tidy {
+
+    require_package('php-tidy')
+    require_package('tidy')
+
     mediawiki::settings { 'Tidy':
         values => {
             wgUseTidy => true,
