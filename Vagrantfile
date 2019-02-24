@@ -190,7 +190,7 @@ Vagrant.configure('2') do |config|
 
     # The most recent versions of VirtualBox (5.1.x) seem to start the NAT
     # interface as disconnected (preventing startup), so we need to turn it
-    # on explicitly. https://github.com/mitchellh/vagrant/issues/7648
+    # on explicitly. https://github.com/hashicorp/vagrant/issues/7648
     vb.customize ['modifyvm', :id, '--cableconnected1', 'on']
 
     # Speed up dns resolution in some cases

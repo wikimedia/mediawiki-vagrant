@@ -36,7 +36,7 @@ class apache (
     }
 
     # Set EnableSendfile to 'Off' to work around a bug with Vagrant.
-    # See <https://github.com/mitchellh/vagrant/issues/351>.
+    # See <https://github.com/hashicorp/vagrant/issues/351>.
     apache::conf { 'disable sendfile':
         content => 'EnableSendfile Off',
     }

@@ -7,7 +7,7 @@ GPLv2:
   filename: GPL-2.0.txt
 
 Vagrant License:
-  url: https://raw.githubusercontent.com/mitchellh/vagrant/master/LICENSE
+  url: https://raw.githubusercontent.com/hashicorp/vagrant/master/LICENSE
   sha256: 744ee0da778d31bda9391e50776285ca223b3a3d27130ed3978d1f29382f15bc
   filename: Vagrant_MIT.txt
 

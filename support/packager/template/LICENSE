@@ -3,7 +3,7 @@ VirtualBox is released under the GNU General Public License v2
 https://www.virtualbox.org/browser .
 
 Vagrant is released under the MIT License (VAGRANT_MIT.txt). Source
-code is available at https://github.com/mitchellh/vagrant .
+code is available at https://github.com/hashicorp/vagrant.
 
 MediaWiki-Vagrant is released under the MIT License. Source code and
 license are available in the MediaWiki-Vagrant repository by cloning

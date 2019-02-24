@@ -1,5 +1,5 @@
 GIT
-  remote: https://github.com/mitchellh/vagrant.git
+  remote: https://github.com/hashicorp/vagrant.git
   revision: d8c2b2e5ababcdecc65b62b91e5dec21a4bc2d96
   tag: v1.9.1
   specs:

@@ -28,7 +28,7 @@ as described by http://bridge.grumpy-troll.org/2014/03/lxc-routed-on-ubuntu/
 Install the latest version of Vagrant (1.7+ required).
 There is no official PPA for Vagrant and the version shipped in Ubuntu 14.04
 is too old to support the latest vagrant-lxc plugin. See
-https://github.com/mitchellh/vagrant-installers/issues/12 for discussion of an
+https://github.com/hashicorp/vagrant-installers/issues/12 for discussion of an
 official PPA.
 Check https://www.vagrantup.com/downloads.html for current version URL.
 
