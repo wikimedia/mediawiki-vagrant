@@ -5,6 +5,6 @@ class php::repository {
     apt::repository { 'wikimedia-php':
         uri        => 'http://apt.wikimedia.org/wikimedia',
         dist       => "${::lsbdistcodename}-wikimedia",
-        components => 'thirdparty/php72',
+        components => 'component/php72',
     }
 }
