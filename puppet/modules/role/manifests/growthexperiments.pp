@@ -3,7 +3,7 @@
 #
 class role::growthexperiments {
     require ::role::mediawiki
-    require ::role::pageviewinfo
+    include ::role::pageviewinfo
 
     mediawiki::extension { 'GrowthExperiments':
         settings => template('role/growthexperiments/conf.php.erb'),
