@@ -4,6 +4,9 @@
 # https://www.mediawiki.org/wiki/Extension:WikimediaEditorTasks
 #
 class role::wikimediaeditortasks {
+
+  include ::role::wikidata
+
   mediawiki::extension { 'WikimediaEditorTasks':
     needs_update => true,
   }
