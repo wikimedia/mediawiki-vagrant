@@ -20,6 +20,8 @@ class logstash(
     $heap_memory_mb,
     $pipeline_workers,
 ) {
+    require ::elasticsearch::repository
+
     require_package('openjdk-8-jre-headless')
 
     package { 'logstash':
