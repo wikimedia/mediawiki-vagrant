@@ -30,18 +30,6 @@ sub vcl_recv {
 
             // Normalize end of thumbnail URL (redundant filename)
 
-            // http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-Little_kitten_.jpg
-            // becomes http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-Little_kitten_.jpg.jpg
-
-            // http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-foo.jpg
-            // becomes http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-Little_kitten_.jpg.jpg
-
-            // http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-foo.JPG
-            // becomes http://127.0.0.1:6081/images/thumb/a/a2/Little_kitten_.jpg/330px-Little_kitten_.jpg.jpg
-
-            // http://127.0.0.1:6081/images/thumb/a/ae/Wikiqoe-www.pdf/page1-93px-foo.pdf.jpg
-            // becomes http://127.0.0.1:6081/images/thumb/a/ae/Wikiqoe-www.pdf/page1-93px-Wikiqoe-www.pdf.jpg
-
             // Lowercase last part of the URL, to avoid case variations on extension or thumbnail parameters
             set req.url = regsub(req.url, "^(.+/)[^/]+$", "\1") + std.tolower(regsub(req.url, "^.+/([^/]+)$", "\1"));
 
@@ -50,10 +38,19 @@ sub vcl_recv {
             // However, we filter out potentially abusive use of -thumbnail.ext on short filenames (<= 160 characters), where the
             // normalization is warranted.
 
-            if (!req.url ~ "-thumbnail\.[a-z0-9.]+$" || !req.url ~ "[^/]{161,}/[^/]+$") {
+            if ( req.url ~ "[^/]{161,}/[^/]+$" ) {
+                // Abbreviated case, ensure that the end of the URL is thumbnail.ext
+
+                set req.url = regsub(req.url, "/([^/]+)/((?:qlow-)?(?:lossy-)?(?:lossless-)?(?:page\d+-)?(?:lang[0-9a-z-]+-)?\d+px-(?:(?:seek=|seek%3d)\d+-)?)[^/]+\.(\w+)$", "/\1/\2thumbnail.\3");
+            } else {
                 // Copy canonical filename from beginning of URL to thumbnail parameters at the end
 
-                set req.url = regsub(req.url, "(?i)/([^/]+)/((?:qlow-)?(?:lossy-)?(?:lossless-)?(?:page\d+-)?(?:lang[0-9a-z-]+-)?\d+px-(?:(?:seek=|seek%3D)\d+-)?)[^/]+\.(\w+)$", "/\1/\2\1.\3");
+                set req.url = regsub(req.url, "/([^/]+)/((?:qlow-)?(?:lossy-)?(?:lossless-)?(?:page\d+-)?(?:lang[0-9a-z-]+-)?\d+px-(?:(?:seek=|seek%3d)\d+-)?)[^/]+\.(\w+)$", "/\1/\2\1.\3");
+
+                // Last pass, clean up any redundant extension (eg. .jpg.jpg or .png.png)
+                if (req.url ~ "(?i)(.*)(\.\w+)\2$") {
+                    set req.url = regsub(req.url, "(?i)(.*)(\.\w+)\2$", "\1\2");
+                }
             }
         }
     }
