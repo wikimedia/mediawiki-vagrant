@@ -29,8 +29,4 @@ class role::vipsscaler {
             wgMaxShellTime   => 50,
         },
     }
-
-    mediawiki::settings { 'VipsTest':
-        values => template('vipsscaler/vipstest.php.erb'),
-    }
 }
