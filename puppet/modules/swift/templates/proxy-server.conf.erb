@@ -49,3 +49,7 @@ paste.filter_factory = wmf.rewrite:filter_factory
 # thumbor integration
 thumborhost = 127.0.0.1:8888
 thumbor_wiki_list = wiki-dev
+# thumbnail expiry, in seconds
+thumbnail_expiry = 60
+thumbnail_user = <%= @project %>:<%= @user %>
+thumbnail_key = <%= @key %>

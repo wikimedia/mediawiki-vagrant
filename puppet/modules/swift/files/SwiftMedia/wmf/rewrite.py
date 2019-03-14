@@ -8,10 +8,12 @@ import webob
 import webob.exc
 import re
 from eventlet.green import urllib2
+import eventlet
 import time
 import urlparse
+import monotonic
 from swift.common.utils import get_logger
-from swift.common.wsgi import WSGIContext
+from swift.common.wsgi import WSGIContext, make_subrequest
 
 
 class DumbRedirectHandler(urllib2.HTTPRedirectHandler):
@@ -23,6 +25,9 @@ class DumbRedirectHandler(urllib2.HTTPRedirectHandler):
 
 
 class _WMFRewriteContext(WSGIContext):
+    auth_token = False
+    auth_token_expiry = 0
+
     """
     Rewrite Media Store URLs so that swift knows how to deal with them.
     """
@@ -42,6 +47,9 @@ class _WMFRewriteContext(WSGIContext):
         # this parameter controls whether URLs sent to the thumbhost are sent as is (eg. upload/proj/lang/) or with the site/lang
         # converted  and only the path sent back (eg en.wikipedia/thumb).
         self.backend_url_format = conf['backend_url_format'].strip()  # asis, sitelang
+        self.thumbnail_expiry = conf['thumbnail_expiry'].strip()
+        self.thumbnail_user = conf['thumbnail_user'].strip()
+        self.thumbnail_key = conf['thumbnail_key'].strip()
 
     def handle404(self, reqorig, url, container, obj):
         """
@@ -195,6 +203,61 @@ class _WMFRewriteContext(WSGIContext):
         resp.headers.add('Access-Control-Allow-Origin', '*')
 
         return resp
+
+    def get_auth_token(self, env):
+        if _WMFRewriteContext.auth_token and _WMFRewriteContext.auth_token_expiry > monotonic.monotonic():
+            self.logger.debug('Reusing existing auth token for thumbnail expiry update')
+            return _WMFRewriteContext.auth_token
+
+        headers = {
+            'X-Auth-User': self.thumbnail_user,
+            'X-Auth-Key': self.thumbnail_key,
+        }
+
+        sub = make_subrequest(env, path='/auth/v1.0', headers=headers)
+        resp = sub.get_response(self.app)
+
+        if resp.status_int != 200:
+            self.logger.error('Could not acquire auth token while updating thumbnail expiry')
+            return False
+
+        _WMFRewriteContext.auth_token = resp.headers['X-Auth-Token']
+        _WMFRewriteContext.auth_token_expiry = monotonic.monotonic() + int(resp.headers['X-Auth-Token-Expires'])
+
+        return _WMFRewriteContext.auth_token
+
+    def post_expiry(self, env):
+        # Since the request to the swift proxy can be unauthenticated, we need to
+        # get au auth token for the POST to update the X-Delete- header
+        auth_token = self.get_auth_token(env)
+
+        if not auth_token:
+            self.logger.error('Could not acquire auth token, cannot update thumbnail expiry')
+            return False
+
+        headers = {
+            'X-Delete-After': self.thumbnail_expiry,
+            'X-Auth-Token': auth_token,
+        }
+
+        sub = make_subrequest(env, method='POST', headers=headers)
+        return sub.get_response(self.app)
+
+    def update_expiry(self, env):
+        resp = self.post_expiry(env)
+
+        if not resp:
+            return
+
+        if resp.status_int == 401:
+            # Reset the auth token, since it's probably expired, and try again
+            _WMFRewriteContext.auth_token = False
+            resp = self.post_expiry(env)
+
+        if resp and resp.status_int != 202:
+            self.logger.error('Could not set expiry header on path %s, HTTP status: %d' % (env['PATH_INFO'], resp.status_int))
+        elif resp:
+            self.logger.debug('Successfully updated expiry header on path %s' % env['PATH_INFO'])
 
     def handle_request(self, env, start_response):
         req = webob.Request(env)
@@ -359,7 +422,15 @@ class _WMFRewriteContext(WSGIContext):
 
             if 200 <= status < 300 or status == 304:
                 # We have it! Just return it as usual.
-                #headers['X-Swift-Proxy']= `headers`
+
+                # If the object has an expiry header, bump its value
+                # "headers" is a list of tuples
+                for key, value in headers:
+                    if key == 'X-Delete-At':
+                        # Update expiry header asynchronously
+                        eventlet.spawn(self.update_expiry, env)
+                        break
+
                 return webob.Response(status=status, headers=headers,
                                       app_iter=app_iter)(env, start_response)
             elif status == 404:

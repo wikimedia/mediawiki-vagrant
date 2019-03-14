@@ -37,7 +37,11 @@ class swift (
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
 
-    package { ['swift', 'swift-account', 'swift-container', 'swift-object', 'swift-proxy', 'python-webob', 'python-swiftclient']:
+    package { [
+            'swift', 'swift-account', 'swift-container', 'swift-object',
+            'swift-object-expirer', 'swift-proxy', 'python-webob', 'python-swiftclient',
+            'python-monotonic'
+        ]:
         ensure  => 'present',
     }
 
@@ -153,6 +157,10 @@ class swift (
     }
 
     swift::service { 'object-auditor':
+        require  => Swift::Ring['object'],
+    }
+
+    swift::service { 'object-expirer':
         require  => Swift::Ring['object'],
     }
 

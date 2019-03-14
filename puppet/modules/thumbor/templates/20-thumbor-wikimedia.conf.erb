@@ -57,6 +57,12 @@ SWIFT_CONNECTION_TIMEOUT = 5
 # Needs to be at least 1 due to bug in python-swiftclient < 3.1.0 https://bugs.launchpad.net/gnocchi/+bug/1589926
 SWIFT_RETRIES = 1
 
+# Thumbnail expiry, in seconds
+SWIFT_THUMBNAIL_EXPIRY_SECONDS = 60
+# Set this to a value greater than 1 if you don't want every thumbnail to have an expiry header
+# Only one in X thumbnails will get it, where X is this config value.
+SWIFT_THUMBNAIL_EXPIRY_SAMPLING_FACTOR = 1
+
 PROXY_ENGINE_ENGINES = [
     ('wikimedia_thumbor.engine.svg', ['svg']),
     ('wikimedia_thumbor.engine.gif', ['gif']),
