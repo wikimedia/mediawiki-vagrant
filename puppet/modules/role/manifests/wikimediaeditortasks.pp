@@ -6,6 +6,7 @@
 class role::wikimediaeditortasks {
 
   include ::role::wikidata
+  include ::role::centralauth
 
   mediawiki::extension { 'WikimediaEditorTasks':
     needs_update => true,
