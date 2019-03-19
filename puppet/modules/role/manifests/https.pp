@@ -1,11 +1,11 @@
 # == Class: role::https
 # Configures HTTPS support
 class role::https {
-    $subject = '/CN=cn.local.wmftest.org/O=MediaWiki-Vagrant/C=US'
+    $subject = '/CN=cn.local.wmftest.net/O=MediaWiki-Vagrant/C=US'
     $keyname = 'devwiki'
 
     exec { 'generate_ssl_key':
-        command => "/usr/bin/openssl req -subj ${subject} -nodes -new -x509 -newkey rsa:1024 -keyout /etc/ssl/certs/${keyname}.key -out /etc/ssl/certs/${keyname}.pem -days 1095",
+        command => "sed -i 's/^# subjectAltName=email:copy/subjectAltName=DNS:dev.wiki.local.wmftest.net/g' /etc/ssl/openssl.cnf && /usr/bin/openssl req -subj ${subject} -nodes -new -x509 -newkey rsa:1024 -keyout /etc/ssl/certs/${keyname}.key -out /etc/ssl/certs/${keyname}.pem -days 1095",
         creates => '/etc/ssl/certs/devwiki.pem',
         before  => Nginx::Site['devwiki'],
     }
