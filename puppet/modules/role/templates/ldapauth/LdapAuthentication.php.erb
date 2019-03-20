@@ -40,6 +40,11 @@ $wgLDAPUseFetchedUsername = array( 'ldap' => true );
 $wgLDAPLowerCaseUsernameScheme = array( 'ldap' => false, 'invaliddomain' => false );
 $wgLDAPLowerCaseUsername = array( 'ldap' => false, 'invaliddomain' => false );
 
+$wgLDAPLockOnBlock = true;
+
+// Log all the things!
+$wgLDAPDebug = 3;
+
 // Shortest password a user is allowed to login using. Notice that 1 is the
 // minimum so that when using a local domain, local users cannot login as
 // domain users (as domain user's passwords are not stored)

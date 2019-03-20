@@ -76,6 +76,10 @@ index uid         eq,pres,sub
 lastmod         on
 checkpoint      512 30
 
+# Password policy
+overlay ppolicy
+ppolicy_default cn=default,ou=pwpolicies,<%= @suffix %>
+
 # ACLs
 # Allow everybody to try to bind
 access to attrs=userPassword,shadowLastChange
