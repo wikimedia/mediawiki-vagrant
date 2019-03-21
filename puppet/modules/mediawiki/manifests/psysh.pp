@@ -7,15 +7,18 @@ class mediawiki::psysh {
     # make sure PsySH can write the history file
     file { '/home/vagrant/.config':
         ensure => directory,
-        mode   => 'a+rx',
+        mode   => 'a+rx,u+rwx',
         owner  => 'vagrant',
         group  => 'vagrant',
     }
     file { '/home/vagrant/.config/psysh':
         ensure => directory,
-        mode   => 'a+rx',
+        mode   => 'a+rx,u+rwx',
         owner  => 'www-data',
         group  => 'www-data',
+    }
+    file { '/home/vagrant/.config/psysh/config.php':
+        source => 'puppet:///modules/mediawiki/psysh_config.php',
     }
 
     file { '/usr/local/share/psysh/':
@@ -32,6 +35,9 @@ class mediawiki::psysh {
         ],
     }
 
+    env::profile_script { 'psysh':
+        content => "alias psysh=\"sudo --preserve-env -u www-data ${mediawiki::dir}/vendor/bin/psysh\"",
+    }
     env::profile_script { 'phpsh to psysh':
         content => 'alias phpsh="mwscript shell.php --wiki=wiki"',
     }
