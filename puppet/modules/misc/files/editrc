@@ -1,0 +1,7 @@
+# editline (libedit) bindings for PHP
+# this file is maintained by Puppet
+
+# make PgUp/PgDown work, sort of
+# editline has no prefix search fo use fulltext search
+bind "\e[5~" ed-search-prev-history
+bind "\e[6~" ed-search-next-history

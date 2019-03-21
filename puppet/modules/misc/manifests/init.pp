@@ -48,6 +48,11 @@ class misc {
         replace => false,
     }
 
+    file { '/home/vagrant/.editrc':
+        source  => 'puppet:///modules/misc/editrc',
+        replace => false,
+    }
+
     # fix for 'stdin: not a tty'
     # <https://github.com/hashicorp/vagrant/issues/1673>
     exec { 'fix_root_profile':
