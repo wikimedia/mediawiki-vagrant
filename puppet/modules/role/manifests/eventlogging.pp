@@ -20,6 +20,7 @@ class role::eventlogging {
         priority => $::load_early,
         settings => {
             wgEventLoggingBaseUri => '/event.gif',
+            wgEventLoggingDBname  => 'wiki',
         }
     }
 }
