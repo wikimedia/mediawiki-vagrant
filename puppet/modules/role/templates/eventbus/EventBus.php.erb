@@ -1,0 +1,34 @@
+# <?php
+
+    //NOTE: EventGate will eventually replace eventlogging-service-eventbus
+
+    // Each active event service backend is configured here.
+    $wgEventServices = [
+        "eventbus"            => [ "url" => "<%= @eventbus_url %>" ],
+        // eventgate main will block HTTP request until events are persisted.
+        "eventgate-main"      => [ "url" => "<%= @eventgate_url %>" ],
+        // eventgate-analytics will respond to HTTP request ASAP.
+        "eventgate-analytics" => [ "url" => "<%= @eventgate_url %>?hasty=true" ],
+    ];
+
+    // Produce recentchange events via eventlogging-service-eventbus
+    $wgRCFeeds = [
+        'eventbus' => [
+            'class'            => 'EventBusRCFeedEngine',
+            'formatter'        => 'EventBusRCFeedFormatter',
+            'eventServiceName' => 'eventbus',
+        ]
+    ];
+
+<% if @enable_eventgate -%>
+    // Enable EventBus extension monolog handler via eventgate-analytics endpoint.
+    $wgMWLoggerDefaultSpi['args'][0]['handlers']['eventgate-analytics'] = array(
+        "class" => "EventBusMonologHandler",
+        "args" => array( "eventgate-analytics" ),
+    );
+
+    // Log api-requests via eventgate-analytics service.
+    $wgMWLoggerDefaultSpi['args'][0]['loggers']['api-request'] = array(
+        'handlers' => array( 'eventgate-analytics' ),
+    );
+<% end -%>
