@@ -1,5 +1,0 @@
-# For running tests on 2014-08-21's master, ~2.1 GB RAM are needed
-vagrant_ram: 1536
-# Wikimetrics web frontend is on port 5000
-forward_ports:
-  5000: 5000
