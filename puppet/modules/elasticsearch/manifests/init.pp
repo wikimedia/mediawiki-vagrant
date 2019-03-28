@@ -9,7 +9,8 @@ class elasticsearch {
     require_package('openjdk-8-jre-headless')
 
     package { 'elasticsearch':
-        ensure  => latest,
+        ensure => latest,
+        name   => 'elasticsearch-oss'
     }
 
     # This is needed when upgrading from 2.x to 5.x, the directory
