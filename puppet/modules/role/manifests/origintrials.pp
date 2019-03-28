@@ -4,7 +4,7 @@
 class role::origintrials {
     mediawiki::settings { 'origintrials':
         values => {
-            wgOriginTrials => [
+            wgOriginTrials            => [
                 # Priority hints: Chrome 73-74, expires 2019-04-03 (renewable, trial ends 2019-05-29)
 
                 'AhmgH5nrTnUNfg+JFm18dpkfm66m+iK/ueB8LPegI+RYQKhvGCtJcF9AGYlVL8LXg9eMQ83KBaz7SqgTPI0I+g8AAAB1eyJvcmlnaW4iOiJodHRwczovL2Rldi53aWtpLmxvY2FsLndtZnRlc3QubmV0OjQ0MzAiLCJmZWF0dXJlIjoiUHJpb3JpdHlIaW50cyIsImV4cGlyeSI6MTU1NDI5NDAxNCwiaXNTdWJkb21haW4iOnRydWV9',
@@ -28,7 +28,16 @@ class role::origintrials {
                 # Shape Detection API, expires 2019-03-06 (non-renewable, trial ends 2019-03-06)
 
                 'AuTQbZFyhF6J7E62t7hkG/V7Gx2ANYFtrk1TbioE3p7Mrz7NfDOAKJKhG0exqmGZ8pgh9dTnhd3tnFi66xs8UQ0AAAB2eyJvcmlnaW4iOiJodHRwczovL2Rldi53aWtpLmxvY2FsLndtZnRlc3QubmV0OjQ0MzAiLCJmZWF0dXJlIjoiU2hhcGVEZXRlY3Rpb24iLCJleHBpcnkiOjE1NTE4MzAzOTksImlzU3ViZG9tYWluIjp0cnVlfQ=='
-            ]
+            ],
+            wgReportToExpiry          => 60,
+            wgReportToEndpoints       => [
+                'https://reportingapi.tools/public/submit'
+            ],
+            wgFeaturePolicyReportOnly => [
+                "sync-xhr 'none'"
+            ],
+            wgElementTiming           => true,
+            wgPriorityHints           => true,
         }
     }
 }
