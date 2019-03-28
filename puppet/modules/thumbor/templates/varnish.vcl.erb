@@ -95,4 +95,5 @@ sub vcl_deliver {
 
 sub vcl_backend_response {
     set beresp.http.Access-Control-Allow-Origin = "*";
+    set beresp.http.Timing-Allow-Origin = "*";
 }
