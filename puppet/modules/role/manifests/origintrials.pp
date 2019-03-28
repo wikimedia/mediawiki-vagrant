@@ -21,9 +21,9 @@ class role::origintrials {
 
                 'AqjZKHUo2M8HsZKfmsBpdLKsO+wwMLL/9hwS4aAdiNlkP7g95eRBBCI4Ax1IMkZT6PQv4HYusQTwphwt6HkxxQ8AAAB+eyJvcmlnaW4iOiJodHRwczovL2Rldi53aWtpLmxvY2FsLndtZnRlc3QubmV0OjQ0MzAiLCJmZWF0dXJlIjoiRmVhdHVyZVBvbGljeVJlcG9ydGluZyIsImV4cGlyeSI6MTU1NzM4NDkxMSwiaXNTdWJkb21haW4iOnRydWV9',
 
-                # Layout Stability API: Chrome 73-76, expires 2019-04-03 (renewable, trial ends 2019-09-04)
+                # Layout Stability API: Chrome 73-76, expires 2019-05-09 (renewable, trial ends 2019-09-04)
 
-                'AvLeOZtM3CEnULsc/RQgAos1beakf4baZYAvvUjBNcQwloLdxSjT13BrBpcqgYVt/mbazBPDqQhhCmuu3VuzYw4AAAB1eyJvcmlnaW4iOiJodHRwczovL2Rldi53aWtpLmxvY2FsLndtZnRlc3QubmV0OjQ0MzAiLCJmZWF0dXJlIjoiTGF5b3V0SmFua0FQSSIsImV4cGlyeSI6MTU1NDI5NDg3MywiaXNTdWJkb21haW4iOnRydWV9'
+                'AusYYaNce2fQGXeV+V5qol8JMZEDpSkQjABLnYYX6pgOtgR0ofTZBdtMnKPLyCwtmLia6CkB1Qy8G54mOGemxg4AAAB1eyJvcmlnaW4iOiJodHRwczovL2Rldi53aWtpLmxvY2FsLndtZnRlc3QubmV0OjQ0MzAiLCJmZWF0dXJlIjoiTGF5b3V0SmFua0FQSSIsImV4cGlyeSI6MTU1NzQwOTE5OSwiaXNTdWJkb21haW4iOnRydWV9'
             ],
             wgReportToExpiry          => 60,
             wgReportToEndpoints       => [
