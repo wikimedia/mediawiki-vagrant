@@ -5,6 +5,6 @@ class elasticsearch::repository {
     apt::repository { 'wikimedia-elastic':
         uri        => 'http://apt.wikimedia.org/wikimedia',
         dist       => "${::lsbdistcodename}-wikimedia",
-        components => 'component/elastic56 thirdparty/elastic56',
+        components => 'component/elastic65 thirdparty/elastic65',
     }
 }
