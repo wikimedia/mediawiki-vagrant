@@ -13,6 +13,16 @@ class elasticsearch {
         name   => 'elasticsearch-oss'
     }
 
+    # Install a customized elasticsearch.yml
+    file { '/etc/elasticsearch/elasticsearch.yml':
+        ensure  => present,
+        source  => 'puppet:///modules/elasticsearch/elasticsearch.yml',
+        owner   => 'root',
+        group   => 'elasticsearch',
+        mode    => '0444',
+        require => Package['elasticsearch'],
+    }
+
     # This is needed when upgrading from 2.x to 5.x, the directory
     # ends up owned by root and elasticsearch refuses to start
     file { '/var/run/elasticsearch':
