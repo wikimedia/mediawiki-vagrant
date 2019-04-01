@@ -86,3 +86,8 @@ path.logs: /var/log/elasticsearch
 # Require explicit names when deleting indices:
 #
 #action.destructive_requires_name: true
+#
+# Only auto create indices that are expected to be autocreated.
+#  logstash - via the elk role
+#  apifeatureusage - via the apifeatureusage role
+action.auto_create_index: +logstash-*,+apifeatureusage-*,-*
