@@ -307,7 +307,7 @@ parsoid::use_php_preprocessor: true
 parsoid::use_selser: true
 parsoid::allow_cors: '*'
 
-payments::branch: fundraising/REL1_27
+payments::branch: fundraising/REL1_31
 payments::dir: /vagrant/mediawiki-fr
 payments::drupal_db: "%{hiera('crm::drupal::db_name')}"
 payments::drupal_db_user: "%{hiera('crm::drupal::db_user')}"
