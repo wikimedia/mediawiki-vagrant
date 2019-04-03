@@ -42,4 +42,18 @@ objectClass: simpleSecurityObject
 cn: writer
 description: Account for editing LDAP data
 userPassword: <%= @writer_password %>
+
+dn: ou=ppolicies,<%= @base_dn %>
+objectClass: organizationalUnit
+objectClass: top
+ou: ppolicies
+
+dn: cn=disabled,ou=ppolicies,<%= @base_dn %>
+objectClass: organizationalRole
+objectclass: top
+objectClass: pwdPolicy
+cn: disabled
+pwdAttribute: userPassword
+pwdLockout: TRUE
+pwdMaxAge: 1
 LIDF

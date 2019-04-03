@@ -41,6 +41,7 @@ $wgLDAPLowerCaseUsernameScheme = array( 'ldap' => false, 'invaliddomain' => fals
 $wgLDAPLowerCaseUsername = array( 'ldap' => false, 'invaliddomain' => false );
 
 $wgLDAPLockOnBlock = true;
+$wgLDAPLockPasswordPolicy = 'cn=disabled,ou=ppolicies,<%= @base_dn %>';
 
 // Log all the things!
 $wgLDAPDebug = 3;
