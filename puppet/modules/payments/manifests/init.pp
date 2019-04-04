@@ -59,8 +59,29 @@ class payments(
 
   mediawiki::extension { [
     'payments:ParserFunctions',
-    'payments:FundraisingEmailUnsubscribe',
   ]: }
+
+  mediawiki::extension { 'payments:FundraisingEmailUnsubscribe':
+    needs_update => true,
+    settings     => {
+      'wgFundraisingEmailUnsubscribeQueueParameters' => {
+        'unsubscribe' => {
+          'servers' => {
+            'scheme' => 'tcp',
+            'host'   => 'localhost',
+            'port'   => 6379,
+          },
+        },
+        'opt-in'      => {
+          'servers' => {
+            'scheme' => 'tcp',
+            'host'   => 'localhost',
+            'port'   => 6379,
+          },
+        },
+      },
+    },
+  }
 
   mediawiki::import::text { 'payments:Main_Page':
       # N.b. - Creepy abnormal multiwiki syntax
