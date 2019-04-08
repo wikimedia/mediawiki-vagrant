@@ -15,18 +15,20 @@ class haproxy(
 
     if $socket == '/run/haproxy/haproxy.sock' or $socket == '/run/haproxy/haproxy.pid' {
         file { '/run/haproxy':
-            ensure => directory,
-            mode   => '0775',
-            owner  => 'root',
-            group  => 'haproxy',
+            ensure  => directory,
+            mode    => '0775',
+            owner   => 'root',
+            group   => 'haproxy',
+            require => Package['haproxy']
         }
     }
 
     file { '/etc/haproxy/conf.d':
-        ensure => directory,
-        owner  => 'root',
-        group  => 'root',
-        mode   => '0755',
+        ensure  => directory,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0755',
+        require => Package['haproxy']
     }
 
     file { '/etc/haproxy/haproxy.cfg':
@@ -35,7 +37,8 @@ class haproxy(
         owner   => 'root',
         group   => 'root',
         content => template($template),
-        notify  => Exec['restart-haproxy']
+        notify  => Exec['restart-haproxy'],
+        require => Package['haproxy']
     }
 
     exec { 'restart-haproxy':
