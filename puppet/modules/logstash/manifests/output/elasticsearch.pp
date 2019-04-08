@@ -6,9 +6,6 @@
 #
 # == Parameters:
 # - $host: Elasticsearch server. Default '127.0.0.1'.
-# - $flush_size: Maximum number of events to buffer before sending.
-#       Default 100.
-# - $idle_flush_time: Maxmimum seconds to wait between sends. Default 1.
 # - $index: Index to write events to. Default 'logstash-%{+YYYY.MM.dd}'.
 # - $port: Elasticsearch server port. Default 9200.
 # - $require_tag: Tag to require on events. Default undef.
@@ -28,8 +25,6 @@
 class logstash::output::elasticsearch(
     $ensure              = present,
     $host                = '127.0.0.1',
-    $flush_size          = 100,
-    $idle_flush_time     = 1,
     $index               = 'logstash-%{+YYYY.MM.dd}',
     $port                = 9200,
     $require_tag         = undef,

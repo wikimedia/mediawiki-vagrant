@@ -39,7 +39,8 @@ class role::elk (
         codec => 'json',
     }
 
-    logstash::input::log4j { 'log4j': }
+# log4j logstash input has been deprecated: https://www.elastic.co/blog/log4j-input-logstash
+#    logstash::input::log4j { 'log4j': }
 
     logstash::conf { 'filter_strip_ansi_color':
         source   => 'puppet:///modules/role/elk/filter-strip-ansi-color.conf',

@@ -4,9 +4,13 @@
 # types of time-stamped data. It integrates with ElasticSearch and LogStash.
 #
 class kibana {
-    package { 'kibana':
+    require ::elasticsearch::repository
+
+    package { 'kibana-oss':
         ensure => latest,
     }
+
+    npm::global { 'elasticdump': }
 
     file { '/etc/kibana/kibana.yml':
         ensure  => file,
@@ -18,28 +22,35 @@ class kibana {
             'logging.quiet'       => true,
             'server.host'         => '0.0.0.0',
         }),
-        require => Package['kibana']
+        require => Package['kibana-oss']
     }
 
     service { 'kibana':
         ensure  => running,
         enable  => true,
         require => [
-            Package['kibana'],
+            Package['kibana-oss'],
             File['/etc/kibana/kibana.yml'],
         ],
     }
 
-    exec { 'create-kibana-index':
-        command => 'curl -XPUT localhost:9200/.kibana --data-binary @/vagrant/puppet/modules/kibana/files/kibana-mapping.json',
-        unless  => 'curl -sf --head 127.0.0.1:9200/.kibana',
-        require => Exec['wait-for-elasticsearch'],
+    exec { 'import-kibana-index-mapping':
+        command     => 'elasticdump --input=/vagrant/puppet/modules/kibana/files/kibana-mapping.json --output=http://127.0.0.1:9200/.kibana_1 --type=mapping',
+        refreshonly => true,
+        subscribe   => Service['kibana'],
+        require     => [
+            Exec['wait-for-elasticsearch'],
+            Npm::Global['elasticdump'],
+        ],
     }
 
-    exec { 'preload-kibana-dashboard':
-        command     => 'curl -sf -X POST 127.0.0.1:9200/.kibana/_bulk --data-binary @/vagrant/puppet/modules/kibana/files/kibana-dump.json > /dev/null',
+    exec { 'import-kibana-index-data':
+        command     => 'elasticdump --input=/vagrant/puppet/modules/kibana/files/kibana-data.json --output=http://127.0.0.1:9200/.kibana_1 --type=data',
         refreshonly => true,
-        subscribe   => Exec['create-kibana-index'],
-        require     => Exec['wait-for-elasticsearch'],
+        subscribe   => Exec['import-kibana-index-mapping'],
+        require     => [
+            Exec['wait-for-elasticsearch'],
+            Npm::Global['elasticdump'],
+        ],
     }
 }

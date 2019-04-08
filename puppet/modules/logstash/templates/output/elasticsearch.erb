@@ -1,9 +1,7 @@
 output {
 <%- if @require_tag %>if "<%= @require_tag %>" in [tags] {<% end -%>
     elasticsearch {
-        flush_size         => <%= @flush_size %>
         hosts              => ["<%= @host %>:<%= @port %>"]
-        idle_flush_time    => <%= @idle_flush_time %>
         index              => "<%= @index %>"
     }
 <% if @require_tag %>}<% end %>
