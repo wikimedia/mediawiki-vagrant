@@ -8,11 +8,11 @@ class php {
     include ::apache
     include ::apache::mod::php
 
-    include ::php::remote_debug
     include ::php::composer
     include ::php::xhprof
     include ::php::repository
     include ::php::package
+    include ::php::xdebug
 
     file { '/etc/php/7.2/mods-available':
         ensure  => directory,
