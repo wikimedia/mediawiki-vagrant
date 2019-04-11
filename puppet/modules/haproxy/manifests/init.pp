@@ -71,4 +71,14 @@ class haproxy(
         user        => 'root',
         refreshonly => true,
     }
+
+    rsyslog::conf { 'haproxy':
+        source   => 'puppet:///modules/haproxy/rsyslog.conf',
+        priority => 40,
+    }
+
+    mtail::program { 'haproxy':
+        ensure => present,
+        source => 'puppet:///modules/mtail/programs/haproxy.mtail',
+    }
 }

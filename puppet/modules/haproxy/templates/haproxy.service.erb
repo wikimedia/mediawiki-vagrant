@@ -17,6 +17,9 @@ ExecReload=/usr/sbin/haproxy -f ${CONFIG} -c -q $EXTRAOPTS
 ExecReload=/bin/kill -USR2 $MAINPID
 KillMode=mixed
 Restart=always
+StandardOutput=syslog
+StandardError=syslog
+SyslogIdentifier=haproxy
 
 [Install]
 WantedBy=multi-user.target
