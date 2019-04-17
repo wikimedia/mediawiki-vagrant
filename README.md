@@ -111,6 +111,8 @@ MediaWiki.
 To pick up other changes to the install, on the host computer in the directory
 with the vagrant files run `git pull --rebase` and then `vagrant reload`.
 The latter will restart the VM.
+If you see a “no wiki found” error afterwards, try running
+`sudo systemctl restart apache2` in the VM (i. e. inside a `vagrant ssh` shell).
 
 
 Extend
