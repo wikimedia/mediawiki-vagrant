@@ -42,3 +42,9 @@ $wgMWLoggerDefaultSpi['args'][0]['formatters']['avro'] = array(
 		),
 	),
 );
+
+$wgCirrusSearchRequestEventSampling = 1.0;
+// Log api-requests via eventgate-analytics service.
+$wgMWLoggerDefaultSpi['args'][0]['loggers']['cirrussearch-request'] = array(
+    'handlers' => array( 'eventgate-analytics' ),
+);
