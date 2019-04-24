@@ -20,7 +20,7 @@ $wgLDAPEncryptionType = array( 'ldap' => 'clear' );
 $wgLDAPProxyAgent =  array( 'ldap' => '<%= @proxy_agent_dn %>' );
 $wgLDAPProxyAgentPassword =  array( 'ldap' => '<%= @proxy_agent_password %>' );
 
-$wgLDAPSearchAttributes = array( 'ldap' => 'cn' );
+$wgLDAPSearchAttributes = array( 'ldap' => 'cn:caseExactMatch:' );
 $wgLDAPBaseDNs = array( 'ldap' => '<%= @base_dn %>' );
 $wgLDAPUserBaseDNs = array( 'ldap' => '<%= @user_base_dn %>' );
 
