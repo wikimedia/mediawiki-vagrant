@@ -63,7 +63,6 @@ class role::wikimediaproduction {
     include ::role::nuke
     include ::role::oathauth
     include ::role::oauth
-    include ::role::oauthauthentication
     include ::role::ores
     include ::role::pageassessments
     include ::role::pagedtiffhandler
