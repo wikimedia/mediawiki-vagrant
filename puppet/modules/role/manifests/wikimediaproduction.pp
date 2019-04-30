@@ -29,7 +29,6 @@ class role::wikimediaproduction {
     include ::role::eventbus
     include ::role::eventlogging
     include ::role::featuredfeeds
-    include ::role::fileannotations
     include ::role::flaggedrevs
     include ::role::flow
     include ::role::gadgets
