@@ -25,7 +25,6 @@ class role::wikimediaproduction {
     include ::role::disambiguator
     include ::role::easytimeline
     include ::role::echo
-    include ::role::education
     include ::role::eventbus
     include ::role::eventlogging
     include ::role::featuredfeeds
