@@ -79,7 +79,6 @@ class role::wikimediaproduction {
     include ::role::poolcounter
     include ::role::popups
     include ::role::proofreadpage
-    include ::role::questycaptcha
     include ::role::quicksurveys
     include ::role::relatedarticles
     include ::role::renameuser
