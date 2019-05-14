@@ -13,7 +13,7 @@ su - dumpsgen
 Now you can run your dumps:
 
 cd <%= @dumps_dir %>/xmldumps-backup
-python worker.py --configfile <%= @conf_dir %>/wikidump.conf.dumps <name_of_wiki_here>
+python3 worker.py --configfile <%= @conf_dir %>/wikidump.conf.dumps <name_of_wiki_here>
 
 This will run all jobs configured for the given wiki, assuming the wiki exists.
 Output will appear in <%= @output_dir %>/public/<name_of_wiki_here>/<date_here>.

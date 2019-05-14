@@ -7,8 +7,6 @@ closedlist=<%= @dblists_dir %>/closed.dblist
 skipdblist=<%= @dblists_dir %>/skip.dblist
 flowlist=<%= @dblists_dir %>/flow.dblist
 dir=<%= @mediawiki_dir %>
-# FIXME: Vagrant doesn't have this.
-#adminsettings=private/PrivateSettings.php
 tablejobs=<%= @conf_dir %>/tablejobs.yaml
 multiversion=<%= scope['mediawiki::apache::docroot'] %>/w
 
@@ -19,7 +17,7 @@ temp=<%= @output_dir %>/temp
 templatedir=<%= @conf_dir %>/templs
 index=backup-index.html
 webroot=http://<%= @site_name %>
-fileperms=0644
+fileperms=0o644
 
 [reporting]
 # set this to 'nomail' to disable email notification on dump failure
@@ -59,6 +57,8 @@ pagesPerChunkAbstract=10,10
 #retryWait=
 #maxRetries=
 #revsMargin=
+lbzip2forhistory=1
+lbzip2threads=1
 
 [otherformats]
 multistream=1
