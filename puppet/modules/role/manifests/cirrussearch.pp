@@ -7,16 +7,21 @@ class role::cirrussearch {
     include ::role::pdfhandler
     include ::role::cite
     include ::elasticsearch
-    include ::eventschemas
     # Utilized as part of cirrus logging infrastructure
     include ::role::psr3
-    include ::role::kafka
     # not strictly required for cirrussearch, but used in the tests
     include ::role::svg
     include ::role::sitematrix
-    # necessary for CirrusSearch.php.erb to point to service root dir
-    include ::service
     include ::role::langwikis
+
+    # eventbus role sets up the EventGate service, which
+    # Monolog + the EventBus extension use to log to Kafka.
+    include ::role::eventbus
+    # This is only needed until EventGate can be included
+    # by default, which is until all other MW Vagrant
+    # NodeJS services are on NodeJS 10.
+    # This var is used in CirrusSearch.php.erb
+    $enable_eventgate = $::role::eventbus::enable_eventgate
 
     # Elasticsearch plugins (for search)
     package { 'wmf-elasticsearch-search-plugins':
