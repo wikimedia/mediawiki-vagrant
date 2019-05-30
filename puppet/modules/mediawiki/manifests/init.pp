@@ -269,4 +269,11 @@ class mediawiki(
         group  => 'root',
         mode   => '0444',
     }
+
+    # Enable the REST API. Only needed while the API is still in development.
+    mediawiki::settings { 'REST API':
+        values => {
+            wgEnableRestAPI => true,
+        },
+    }
 }
