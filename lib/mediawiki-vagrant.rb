@@ -15,6 +15,11 @@ module MediaWikiVagrant
 
     name 'MediaWiki-Vagrant'
 
+    command 'open' do
+      require 'mediawiki-vagrant/open'
+      Open
+    end
+
     command 'roles' do
       require 'mediawiki-vagrant/roles/root'
       Roles::Root
