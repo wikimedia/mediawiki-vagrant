@@ -9,8 +9,9 @@ class elasticsearch {
     require_package('openjdk-8-jre-headless')
 
     package { 'elasticsearch':
-        ensure => latest,
-        name   => 'elasticsearch-oss'
+        ensure  => latest,
+        name    => 'elasticsearch-oss',
+        require => File['/etc/default/elasticsearch'],
     }
 
     # Install a customized elasticsearch.yml
@@ -48,9 +49,8 @@ class elasticsearch {
     }
 
     file { '/etc/default/elasticsearch':
-        source  => 'puppet:///modules/elasticsearch/defaults',
-        require => Package['elasticsearch'],
-        notify  => Service['elasticsearch'],
+        source => 'puppet:///modules/elasticsearch/defaults',
+        notify => Service['elasticsearch'],
     }
 
     file { '/etc/elasticsearch/jvm.options':

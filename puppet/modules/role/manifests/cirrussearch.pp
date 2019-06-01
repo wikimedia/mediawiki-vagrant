@@ -24,6 +24,16 @@ class role::cirrussearch {
         before => Service['elasticsearch'],
     }
 
+    # TODO: remove hack once elasticsearch 6 is well establshed
+    # The reason we need this is that when we migrate from elasticsearch 5
+    # to elasticsearch-oss 6 the plugin directory is emptied
+    # call apt --reinstall to make sure the plugins are reinstalled
+    exec { 'fix-plugins':
+        command => 'apt-get install --reinstall wmf-elasticsearch-search-plugins',
+        creates => '/usr/share/elasticsearch/plugins/extra',
+        require => Package['wmf-elasticsearch-search-plugins']
+    }
+
     mediawiki::wiki { 'cirrustest': }
 
     mediawiki::extension { 'Elastica':
