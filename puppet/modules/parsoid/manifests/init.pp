@@ -57,7 +57,7 @@ class parsoid (
     # repo (the source one) checked out
     exec { 'parsoid-check-deploy-repo':
         command => "/bin/rm -rf ${::service::root_dir}/parsoid",
-        onlyif  => "/usr/bin/test -d ${::service::root_dir}/parsoid/src",
+        onlyif  => "/usr/bin/test -d ${::service::root_dir}/parsoid/scap",
         before  => Service::Node['parsoid'],
     }
 
