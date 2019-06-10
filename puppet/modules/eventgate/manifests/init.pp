@@ -35,18 +35,18 @@ class eventgate(
         # (possibly relative) schema uri.  The default is $schema.
         # An array of field names will cause EventGate to search for
         # fields by these names in each event, using the first match.
-        'schema_uri_field' => ['$schema', 'meta.schema_uri'],
+        'schema_uri_field' => '$schema',
 
         # If set, this URI will be prepended to any relative schema URI
         # extracted from each event's schema_field./
         # This should be the path to the local checkout of
         # https://github.com/wikimedia/mediawiki-event-schemas
-        'schema_base_uris' =>  ["${::eventschemas::path}/jsonschema/"],
+        'schema_base_uris' =>  "${::eventschemas::path}/jsonschema/",
 
         # This field in each event will be used to extract a destination 'stream' name.
         # This will equal the destination Kafka topic, unless a topic prefix
         # is also configured.
-        'stream_field' => ['meta.stream', 'meta.topic'],
+        'stream_field' => 'meta.stream',
         'topic_prefix' => 'datacenter1.',
 
         # This field will be used in log messages to uniquely ID each event.
