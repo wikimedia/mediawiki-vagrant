@@ -5,6 +5,8 @@
 <Directory <%= @upload_dir %>>
     Require all granted
     Header set Access-Control-Allow-Origin "*"
+    Header set Access-Control-Allow-Headers "Range"
+    Header set Access-Control-Expose-Headers "Content-Range"
 </Directory>
 
 Alias <%= @upload_path %> <%= @upload_dir %>
