@@ -70,87 +70,89 @@ Also note that you'll need to use the WMF's "full" VPN tunnel, see https://offic
 = Some donation forms =
 Donate links:
 * Adyen
-** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=en&language=en&currency_code=USD&amount=10&country=US&ffname=adyen}} Credit card in US, English, USD]
-** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=fr&language=fr&currency_code=EUR&amount=10&country=FR&ffname=adyen}} Credit card in FR, French, EUR]
-** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=ja&language=ja&currency_code=JPY&amount=250&country=JP&ffname=adyen}} Credit card in JP, Japanese, JPY]
-** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=he&language=he&currency_code=ILS&amount=100&country=IL&ffname=adyen}} Credit card in IL, Hebrew, ILS]
-** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=uk&language=uk&currency_code=UAH&amount=100&country=UA&ffname=adyen}} Credit card in UA, Ukrainian, UAH]
+** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=en&language=en&currency=USD&amount=10&country=US&ffname=adyen}} Credit card in US, English, USD]
+** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=fr&language=fr&currency=EUR&amount=10&country=FR&ffname=adyen}} Credit card in FR, French, EUR]
+** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=ja&language=ja&currency=JPY&amount=250&country=JP&ffname=adyen}} Credit card in JP, Japanese, JPY]
+** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=he&language=he&currency=ILS&amount=100&country=IL&ffname=adyen}} Credit card in IL, Hebrew, ILS]
+** [{{fullurl:Special:AdyenGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=uk&language=uk&currency=UAH&amount=100&country=UA&ffname=adyen}} Credit card in UA, Ukrainian, UAH]
 
 * Amazon
-** [{{fullurl:Special:AmazonGateway|currency_code=USD&country=US&amount=1&ffname=amazon}} In US, no language specified, USD]
+** [{{fullurl:Special:AmazonGateway|currency=USD&country=US&amount=1&ffname=amazon}} In US, no language specified, USD]
 
 * AstroPay
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=en&language=en&currency_code=BRL&amount=100&country=BR&ffname=astropay}} Credit card in BR, English, BRL]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cash&recurring=&uselang=en&language=en&currency_code=BRL&amount=100&country=BR&ffname=astropay}} Cash (Boletos) in BR, English, BRL]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=bt&recurring=&uselang=en&language=en&currency_code=BRL&amount=100&country=BR&ffname=astropay}} Bank transfer in BR, English, BRL]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=es&language=es&currency_code=MXN&amount=100&country=MX&ffname=astropay-mx}} Credit card in MX, Spanish, MXN]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cash&recurring=&uselang=es&language=es&currency_code=MXN&amount=100&country=MX&ffname=astropay-mx}} Cash in MX, Spanish, MXN]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=es&language=es&currency_code=ARS&amount=100&country=AR&ffname=astropay-ar}} Credit card in AR, Spanish, ARS]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=bt&recurring=&uselang=es&language=es&currency_code=ARS&amount=100&country=AR&ffname=astropay-ar}} Bank Transfer in AR, Spanish, ARS]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cash&recurring=&uselang=es&language=es&currency_code=ARS&amount=100&country=AR&ffname=astropay-ar}} Cash in AR, Spanish, ARS]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=es&language=es&currency_code=CLP&amount=5000&country=CL&ffname=astropay-cl}} Credit card in CL, Spanish, CLP]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=bt&recurring=&uselang=es&language=es&currency_code=CLP&amount=5000&country=CL&ffname=astropay-cl}} Bank Transfer in CL, Spanish, CLP]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=es&language=es&currency_code=COP&amount=5000&country=CO&ffname=astropay-co}} Credit card in CO, Spanish, COP]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=bt&recurring=&uselang=es&language=es&currency_code=COP&amount=5000&country=CO&ffname=astropay-co}} Bank transfer in CO, Spanish, COP]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cash&recurring=&uselang=es&language=es&currency_code=COP&amount=5000&country=CO&ffname=astropay-co}} Cash in CO, Spanish, COP]
-** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cash&recurring=&uselang=es&language=es&currency_code=UYU&amount=5000&country=UY&ffname=astropay-uy}} Cash in UY, Spanish, UYU]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=en&language=en&currency=BRL&amount=100&country=BR&ffname=astropay}} Credit card in BR, English, BRL]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cash&recurring=&uselang=en&language=en&currency=BRL&amount=100&country=BR&ffname=astropay}} Cash (Boletos) in BR, English, BRL]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=bt&recurring=&uselang=en&language=en&currency=BRL&amount=100&country=BR&ffname=astropay}} Bank transfer in BR, English, BRL]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=es&language=es&currency=MXN&amount=100&country=MX&ffname=astropay-mx}} Credit card in MX, Spanish, MXN]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cash&recurring=&uselang=es&language=es&currency=MXN&amount=100&country=MX&ffname=astropay-mx}} Cash in MX, Spanish, MXN]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=es&language=es&currency=ARS&amount=100&country=AR&ffname=astropay-ar}} Credit card in AR, Spanish, ARS]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=bt&recurring=&uselang=es&language=es&currency=ARS&amount=100&country=AR&ffname=astropay-ar}} Bank Transfer in AR, Spanish, ARS]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cash&recurring=&uselang=es&language=es&currency=ARS&amount=100&country=AR&ffname=astropay-ar}} Cash in AR, Spanish, ARS]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=es&language=es&currency=CLP&amount=5000&country=CL&ffname=astropay-cl}} Credit card in CL, Spanish, CLP]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=bt&recurring=&uselang=es&language=es&currency=CLP&amount=5000&country=CL&ffname=astropay-cl}} Bank Transfer in CL, Spanish, CLP]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=es&language=es&currency=COP&amount=5000&country=CO&ffname=astropay-co}} Credit card in CO, Spanish, COP]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=bt&recurring=&uselang=es&language=es&currency=COP&amount=5000&country=CO&ffname=astropay-co}} Bank transfer in CO, Spanish, COP]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cash&recurring=&uselang=es&language=es&currency=COP&amount=5000&country=CO&ffname=astropay-co}} Cash in CO, Spanish, COP]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cc&recurring=&uselang=en&language=en&currency=INR&amount=500&country=IN&ffname=astropay-in}} Credit card in IN, English, INR]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=bt&recurring=&uselang=en&language=en&currency=INR&amount=500&country=IN&ffname=astropay-in}} Bank transfer in IN, English, INR]
+** [{{fullurl:Special:AstroPayGateway|appeal=JimmyQuote&payment_method=cash&recurring=&uselang=es&language=es&currency=UYU&amount=5000&country=UY&ffname=astropay-uy}} Cash in UY, Spanish, UYU]
 
 * Ingenico legacy API
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency_code=USD&amount=10&country=US}} Credit card in US, English, USD]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency_code=GBP&country=GB&amount=2.01}} Credit card in GB, English, GBP]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rcc-vmad&payment_method=cc&recurring=1&uselang=en&language=en&currency_code=EUR&country=US&amount=2.01}} Recurring credit card in US, English, EUR]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency_code=ILS&country=IL&amount=20.01}} Credit card in IL, English, ILS]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=he&language=he&currency_code=ILS&country=IL&amount=20.01}} Credit card in IL, Hebrew, ILS]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&recurring=&payment_method=obt&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=AU&returnto=Thank_You%2Fen&amountGiven=&currency_code=AUD&frequency=onetime&amount=3&uselang=en}} Online bank transfer in AU, English, AUD]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency=USD&amount=10&country=US}} Credit card in US, English, USD]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency=GBP&country=GB&amount=2.01}} Credit card in GB, English, GBP]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rcc-vmad&payment_method=cc&recurring=1&uselang=en&language=en&currency=EUR&country=US&amount=2.01}} Recurring credit card in US, English, EUR]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency=ILS&country=IL&amount=20.01}} Credit card in IL, English, ILS]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=he&language=he&currency=ILS&country=IL&amount=20.01}} Credit card in IL, Hebrew, ILS]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&recurring=&payment_method=obt&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=AU&returnto=Thank_You%2Fen&amountGiven=&currency=AUD&frequency=onetime&amount=3&uselang=en}} Online bank transfer in AU, English, AUD]
 
 * Ingenico legacy API - iDEAL (use ING or Rabobank for testing)
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency_code=EUR&frequency=onetime&amount=1&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, success]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency_code=EUR&frequency=onetime&amount=2&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, cancelled]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency_code=EUR&frequency=onetime&amount=3&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, expired]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency_code=EUR&frequency=onetime&amount=4&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, pending]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency_code=EUR&frequency=onetime&amount=5&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, failure]
-** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency_code=EUR&frequency=onetime&amount=7&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, error]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency=EUR&frequency=onetime&amount=1&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, success]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency=EUR&frequency=onetime&amount=2&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, cancelled]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency=EUR&frequency=onetime&amount=3&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, expired]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency=EUR&frequency=onetime&amount=4&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, pending]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency=EUR&frequency=onetime&amount=5&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, failure]
+** [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency=EUR&frequency=onetime&amount=7&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR, error]
 
 * Ingenico Connect
-** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency_code=USD&amount=35&country=US}} Credit card in US, English, USD]
-** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency_code=CAD&amount=11.44&country=CA}} Credit card in CA, English, CAD]
-** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency_code=GBP&country=GB&amount=2.01}} Credit card in GB, English, GBP]
-** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=rcc-vmad&payment_method=cc&recurring=1&uselang=en&language=en&currency_code=EUR&country=US&amount=2.01}} Recurring credit card in US, English, EUR]
-** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency_code=ILS&country=IL&amount=20.01}} Credit card in IL, English, ILS]
-** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=he&language=he&currency_code=ILS&country=IL&amount=20.01}} Credit card in IL, Hebrew, ILS]
-** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&recurring=&payment_method=obt&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=AU&returnto=Thank_You%2Fen&amountGiven=&currency_code=AUD&frequency=onetime&amount=3&uselang=en}} Online bank transfer in AU, English, AUD]
-** [{{fullurl:Special:IngenicoGateway|country=CN&amount=30&currency_code=CNY&ffname=ew-alipay}} Alipay e-wallet in CN, English, CNY]
-** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency_code=EUR&frequency=onetime&amount=3&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR]
-** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&recurring=&payment_method=bt&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency_code=EUR&frequency=onetime&amount=3&uselang=en}} Bank Transfer in NL, English, EUR]
+** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency=USD&amount=35&country=US}} Credit card in US, English, USD]
+** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency=CAD&amount=11.44&country=CA}} Credit card in CA, English, CAD]
+** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency=GBP&country=GB&amount=2.01}} Credit card in GB, English, GBP]
+** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=rcc-vmad&payment_method=cc&recurring=1&uselang=en&language=en&currency=EUR&country=US&amount=2.01}} Recurring credit card in US, English, EUR]
+** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=en&language=en&currency=ILS&country=IL&amount=20.01}} Credit card in IL, English, ILS]
+** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=cc-vmad&payment_method=cc&recurring=&uselang=he&language=he&currency=ILS&country=IL&amount=20.01}} Credit card in IL, Hebrew, ILS]
+** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&recurring=&payment_method=obt&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=AU&returnto=Thank_You%2Fen&amountGiven=&currency=AUD&frequency=onetime&amount=3&uselang=en}} Online bank transfer in AU, English, AUD]
+** [{{fullurl:Special:IngenicoGateway|country=CN&amount=30&currency=CNY&ffname=ew-alipay}} Alipay e-wallet in CN, English, CNY]
+** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&ffname=rtbt-ideal-noadd&recurring=&payment_method=rtbt&payment_submethod=rtbt_ideal&utm_source=Waystogive.default%7Edefault%7Edefault%7Edefault%7Econtrol.rtbt.rtbt_ideal&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency=EUR&frequency=onetime&amount=3&uselang=en}} Real-time bank transfer (IDEAL) in NL, English, EUR]
+** [{{fullurl:Special:IngenicoGateway|appeal=JimmyQuote&recurring=&payment_method=bt&utm_medium=Waystogive&utm_campaign=C11_Waystogive&utm_key=&language=en&country=NL&returnto=Thank_You%2Fen&amountGiven=&currency=EUR&frequency=onetime&amount=3&uselang=en}} Bank Transfer in NL, English, EUR]
 
 * PayPal (Legacy integration)
-** [{{fullurl:Special:PaypalLegacyGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=USD&uselang=en}} In US, English, USD - no amount specified]
-** [{{fullurl:Special:PaypalLegacyGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=AMD&amount=1000&uselang=en}} In US, English, AMD - currency conversion required.]
+** [{{fullurl:Special:PaypalLegacyGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency=USD&uselang=en}} In US, English, USD - no amount specified]
+** [{{fullurl:Special:PaypalLegacyGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency=AMD&amount=1000&uselang=en}} In US, English, AMD - currency conversion required.]
 
 * PayPal Express Checkout
-** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=USD&uselang=en}} In US, English, USD - no amount specified]
-** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=1&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=USD&uselang=en}} Recurring, in US, English, USD - no amount specified]
-** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency_code=AMD&amount=1000&uselang=en}} In US, English, AMD - currency conversion required.]
+** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency=USD&uselang=en}} In US, English, USD - no amount specified]
+** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=1&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency=USD&uselang=en}} Recurring, in US, English, USD - no amount specified]
+** [{{fullurl:Special:PaypalExpressGateway|appeal=JimmyQuote&ffname=paypal&recurring=&language=en&utm_source=Waystogive&utm_medium=sitenotice&utm_campaign=C11_Waystogive&gateway=paypal&returnto=Thank_You%2Fen&currency=AMD&amount=1000&uselang=en}} In US, English, AMD - currency conversion required.]
 
 * Gateway form chooser
-** [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency_code=USD&amount=10&country=US&payment_method=cc}} Credit card in US, English, USD]
-** [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency_code=EEK&country=US&amount=2500&payment_method=paypal}} Paypal in US, English, EEK]
-** [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency_code=CAD&country=CA&amount=250&payment_method=amazon}} Amazon in CA, English, CAD]
+** [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency=USD&amount=10&country=US&payment_method=cc}} Credit card in US, English, USD]
+** [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency=EEK&country=US&amount=2500&payment_method=paypal}} Paypal in US, English, EEK]
+** [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency=CAD&country=CA&amount=250&payment_method=amazon}} Amazon in CA, English, CAD]
 
 See also [https://phabricator.wikimedia.org/T86247 T86247], this would be a good use of a Special page, to build a payments query out of adjustable parameters.
 
 == Errors ==
-* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency_code=USD&country=US&amount=.01&payment_method=cc}} Donation amount too low (GlobalCollect)]
-* [{{fullurl:Special:AmazonGateway|uselang=en&language=en&currency_code=USD&country=US&amount=992500&payment_method=amazon}} Donation amount too high (Amazon)]
-* [{{fullurl:Special:PaypalLegacyGateway|appeal=JimmyQuote&ffname=paypal&recurring=&uselang=en&language=en&currency_code=INR&country=US&amount=200.01}} Correcting currency (PayPal)]
-* [{{fullurl:Special:PaypalLegacyGateway|ffname=paypal&recurring=&payment_method=paypal&utm_source=fr-redir.default%7Edefault%7Edefault%7Edefault%7Econtrol.paypal&utm_medium=spontaneous&utm_campaign=spontaneous&utm_key=&referrer=&language=en&country=US&returnto=Thank_You%2Fen&amountGiven=&currency_code=EEK&frequency=onetime&amount=30000000&uselang=en}} Amount too high and currency correction (PayPal)]
-* [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency_code=USD&amount=10&country=US&payment_method=blarg}} Nonsense payment method]
-* [{{fullurl:Special:PaypalLegacyGateway|ffname=badname&recurring=&payment_method=paypal&language=en&country=NO&returnto=Thank_You%2Fen&amountGiven=&currency_code=NKD&frequency=onetime&amount=3000&uselang=en}} Bad form name (PayPal)]
-* [{{fullurl:Special:GlobalCollectGateway|ffname=badname&recurring=&payment_method=aa&language=en&country=NO&returnto=Thank_You%2Fen&amountGiven=&currency_code=ABC&frequency=onetime&amount=3000&uselang=en}} Bad form name, method, and currency (GlobalCollect)]
+* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=en&language=en&currency=USD&country=US&amount=.01&payment_method=cc}} Donation amount too low (GlobalCollect)]
+* [{{fullurl:Special:AmazonGateway|uselang=en&language=en&currency=USD&country=US&amount=992500&payment_method=amazon}} Donation amount too high (Amazon)]
+* [{{fullurl:Special:PaypalLegacyGateway|appeal=JimmyQuote&ffname=paypal&recurring=&uselang=en&language=en&currency=INR&country=US&amount=200.01}} Correcting currency (PayPal)]
+* [{{fullurl:Special:PaypalLegacyGateway|ffname=paypal&recurring=&payment_method=paypal&utm_source=fr-redir.default%7Edefault%7Edefault%7Edefault%7Econtrol.paypal&utm_medium=spontaneous&utm_campaign=spontaneous&utm_key=&referrer=&language=en&country=US&returnto=Thank_You%2Fen&amountGiven=&currency=EEK&frequency=onetime&amount=30000000&uselang=en}} Amount too high and currency correction (PayPal)]
+* [{{fullurl:Special:GatewayFormChooser|uselang=en&language=en&currency=USD&amount=10&country=US&payment_method=blarg}} Nonsense payment method]
+* [{{fullurl:Special:PaypalLegacyGateway|ffname=badname&recurring=&payment_method=paypal&language=en&country=NO&returnto=Thank_You%2Fen&amountGiven=&currency=NKD&frequency=onetime&amount=3000&uselang=en}} Bad form name (PayPal)]
+* [{{fullurl:Special:GlobalCollectGateway|ffname=badname&recurring=&payment_method=aa&language=en&country=NO&returnto=Thank_You%2Fen&amountGiven=&currency=ABC&frequency=onetime&amount=3000&uselang=en}} Bad form name, method, and currency (GlobalCollect)]
 
 == Debugging ==
 * [{{fullurl:Special:GatewayFormChooser|testGetAll=1}} Dump gateway form choices]
-* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=qqx&language=qqx&currency_code=USD&country=US&amount=1.01}} Payment form with message labels (GlobalCollect)]
+* [{{fullurl:Special:GlobalCollectGateway|appeal=JimmyQuote&ffname=cc-vmad&recurring=&uselang=qqx&language=qqx&currency=USD&country=US&amount=1.01}} Payment form with message labels (GlobalCollect)]
 
 = Orphan slayer =
 
