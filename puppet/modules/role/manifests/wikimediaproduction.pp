@@ -106,5 +106,4 @@ class role::wikimediaproduction {
     include ::role::wikimediaincubator
     include ::role::wikimediamaintenance
     include ::role::wikimediamessages
-    include ::role::zero
 }
