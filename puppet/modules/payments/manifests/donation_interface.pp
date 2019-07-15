@@ -45,7 +45,7 @@ class payments::donation_interface {
 
       wgDonationInterfaceUseSyslog                     => true,
 
-      wgDonationInterfaceVariantConfigurationDirectory => '/vagrant/mediawiki-fr/form_variants',
+      wgDonationInterfaceVariantConfigurationDirectory => '/vagrant/mediawiki-fr/extensions/DonationInterface/form_variants',
       wgIngenicoGatewayHostedFormVariants              => {
         'iframe'   => 102,
         'redirect' => 101,
