@@ -122,6 +122,7 @@ class mediawiki::multiwiki(
             "${script_dir}/index.php",
             "${script_dir}/load.php",
             "${script_dir}/opensearch_desc.php",
+            "${script_dir}/rest.php",
             "${script_dir}/thumb.php",
             "${script_dir}/thumb_handler.php",
         ]:
