@@ -1,5 +1,0 @@
-{
-	"project.name": "mediawiki-vagrant",
-	"phabricator.uri": "https://phabricator.wikimedia.org",
-	"repository.callsign": "MWVA"
-}
