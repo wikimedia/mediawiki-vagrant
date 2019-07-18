@@ -1,11 +1,8 @@
 /*<?php*/
 
-// NOTE: do *not* define WB_NS_ITEM and WB_NS_ITEM_TALK when using a core
-// namespace for items!
-define( 'WB_NS_PROPERTY', 122 );
-define( 'WB_NS_PROPERTY_TALK', 123 );
-define( 'WB_NS_QUERY', 124 );
-define( 'WB_NS_QUERY_TALK', 125 );
+// Shared settings for WikibaseRepo and WikibaseClient.
+// $wgWBSharedSettings is defined by us so it is safe to set before loading
+// the extension. It will be reused in client.php.erb and repo.php.erb.
 
 require_once "<%= scope['::mediawiki::multiwiki::script_dir'] %>/dblist.php";
 
@@ -20,70 +17,3 @@ $wgWBSharedSettings['entityNamespaces'] = [
 ];
 
 $wgWBSharedSettings['specialSiteLinkGroups'][] = 'wikidata';
-
-if ( $wgEnableWikibaseRepo ) {
-	// Setup and alias for the main namespace
-	$wgNamespaceAliases['Item'] = NS_MAIN;
-	$wgNamespaceAliases['Item_talk'] = NS_TALK;
-
-	// Register extra namespaces.
-	$wgExtraNamespaces[WB_NS_PROPERTY] = 'Property';
-	$wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'Property_talk';
-	$wgExtraNamespaces[WB_NS_QUERY] = 'Query';
-	$wgExtraNamespaces[WB_NS_QUERY_TALK] = 'Query_talk';
-
-	$wgWBRepoSettings = $wgWBSharedSettings + $wgWBRepoSettings;
-
-	$wgWBRepoSettings['statementSections'] = [
-		'item' => [
-			'statements' => null,
-			'identifiers' => [
-				'type' => 'dataType',
-				'dataTypes' => [ 'external-id' ],
-			],
-		],
-	];
-
-	$wgWBRepoSettings['normalizeItemByTitlePageNames'] = true;
-
-	$wgWBRepoSettings['localClientDatabases'] = [];
-	foreach ( $wgLocalDatabases as $db ) {
-		if ( $db !== 'wikidatawiki' ) {
-			$wgWBRepoSettings['localClientDatabases'][] = $db;
-		}
-	}
-
-	$wgPropertySuggesterMinProbability = 0.069;
-
-	require_once "<%= scope['::mediawiki::multiwiki::script_dir'] %>/dblist.php";
-	$wgWBRepoSettings['localClientDatabases'] = [];
-	foreach ( $wgLocalDatabases as $db ) {
-		if ( $db !== 'wikidatawiki' ) {
-			$wgWBRepoSettings['localClientDatabases'][] = $db;
-		}
-	}
-}
-
-if ( $wgEnableWikibaseClient ) {
-	$wgWBClientSettings = $wgWBSharedSettings + $wgWBClientSettings;
-	$wgWBClientSettings['siteGlobalID'] = 'enwiki';
-	$wgWBClientSettings['changesDatabase'] = 'wikidatawiki';
-	$wgWBClientSettings['repoDatabase'] = 'wikidatawiki';
-	$wgWBClientSettings['repoNamespaces'] = [
-		'item' => '',
-		'property' => 'Property'
-	];
-	$wgWBClientSettings['repoUrl'] = '//wikidata<%= scope['::mediawiki::multiwiki::base_domain'] %><%= scope['::port_fragment'] %>';
-	$wgWBClientSettings['repositories'] = [
-		'' => [
-			'repoDatabase' => 'wikidatawiki',
-			'entityNamespaces' => [
-				'item' => 0,
-				'property' => WB_NS_PROPERTY,
-			],
-			'prefixMapping' => [ '' => '' ],
-			'baseUri' => $wgWBClientSettings['repoUrl'] . '/entity',
-		],
-	];
-}
-

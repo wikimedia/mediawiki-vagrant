@@ -9,8 +9,10 @@ class role::wikidata(
     $main_page
 ) {
     require ::role::mediawiki
+    include ::wikibase
     include ::role::sitematrix
     include ::role::langwikis
+
 
     mediawiki::wiki { 'wikidata':
         wgconf => {
@@ -20,30 +22,36 @@ class role::wikidata(
         },
     }
 
-    # Bootstrapping settings
+    # Bootstrapping settings to be run before loading the extension.
+    # Global settings/extension loads always precede per-wiki ones
+    # in Vagrant so we have to pretend this is a global one and use
+    # hackier means to bind to a specific wiki.
     mediawiki::settings { 'WikiData-Init':
         priority => $::load_early,
-        values   => template('role/wikidata/init.php.erb'),
+        header   => 'if ( $wgDBname === "wikidatawiki" ) {',
+        values   => {
+            'wgEnableWikibaseRepo'            => true,
+            'wmgUseWikibasePropertySuggester' => true,
+        },
+        footer   => '}',
     }
-
-    # mediawiki::extension runs composer install on the extension, putting libs in
-    # the extension's vendor subdirectory, and expects the autoloader in that
-    # directory to be loaded; Wikibase intentionally doesn't load it (see T201615). So
-    # we install it under mediawiki/vendor via a composer-merge-plugin fragment instead,
-    # and make sure a composer update happens between installing Wikibase and running
-    # populateSitesTable.php.
-    $composer_include = "${::mediawiki::composer_fragment_dir}/wikibase-composer.json"
-    file { $composer_include:
-      source  => 'puppet:///modules/role/wikibase/wikibase-composer.json',
-      require => Mediawiki::Extension['Wikibase'],
-      notify  => Exec["composer update ${::mediawiki::dir}"],
-      before  => Mediawiki::Maintenance['wikidata-populate-site-tables'],
+    # Shared settings for WikibaseRepo and WikibaseClient.
+    # This can run before or after the extension has been loaded, but
+    # must be run before the other two settings below.
+    mediawiki::settings { 'WikiData-Shared':
+      values   => template('role/wikidata/shared.php.erb'),
     }
-
-    mediawiki::extension { 'Wikibase':
-        composer     => true,
-        needs_update => true,
-        settings     => template('role/wikidata/shared.php.erb'),
+    # Generic settings for WikibaseClient that should apply to all wikis.
+    # Must run after the extension has been loaded. 
+    mediawiki::settings { 'WikiData-Client':
+      priority => $::load_later,
+      values   => template('role/wikidata/client.php.erb'),
+    }
+    # Settings for the wikidata wiki.
+    # This uses the 'wiki' option so no point in setting priority.
+    mediawiki::settings { 'WikiData-Repo':
+      wiki   => 'wikidata',
+      values => template('role/wikidata/repo.php.erb'),
     }
 
     mediawiki::extension { 'Wikidata.org':
@@ -70,19 +78,12 @@ class role::wikidata(
         needs_update => true,
     }
 
-    mediawiki::maintenance { 'wikidata-populate-site-tables':
-        command     => "/usr/local/bin/foreachwikiwithextension Wikibase extensions/Wikibase/lib/maintenance/populateSitesTable.php --load-from http://en${mediawiki::multiwiki::base_domain}${::port_fragment}/w/api.php",
-        refreshonly => true,
-    }
-
-    Mediawiki::Wiki<| |> ~> Mediawiki::Maintenance['wikidata-populate-site-tables']
-
     # TODO: Going to http://wikidata.wiki.local.wmftest.net:8080/
     # will work, but if you explicitly visit Main_Page in the main
     # namespace (created by the installer), it will still throw an
     # error.  Could add an option to installer to choose main page
     # title, or have Puppet delete the old main page using
-    # deleteBatch.php.  The deletion option requires I19f2d1685.
+    # deleteBatch.php.
     mediawiki::import::text { $main_page:
         content => 'Welcome to Wikidata',
         wiki    => 'wikidata',
