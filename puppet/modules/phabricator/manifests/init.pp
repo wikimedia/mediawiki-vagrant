@@ -212,10 +212,6 @@ class phabricator(
         group  => 'phd',
         mode   => '0775',
     }
-    phabricator::config { 'phd.pid-directory':
-        value   => '/var/run/phd',
-        require => File['/var/run/phd'],
-    }
     file { $log_dir:
         ensure => 'directory',
         mode   => '0777',
