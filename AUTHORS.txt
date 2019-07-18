@@ -1,6 +1,6 @@
 Aaron Schulz <aschulz@wikimedia.org>
 Adam Basso <abaso@wikimedia.org>
-Adam Roses Wight <awight@wikimedia.org>
+Adam Roses Wight <adam.wight@wikimedia.de>
 Alangi Derick <alangiderick@gmail.com>
 Alex Monk <amonk@wikimedia.org>
 Amir E. Aharoni <amir.aharoni@mail.huji.ac.il>
@@ -9,7 +9,7 @@ Andre Klapper <a9016009@gmx.de>
 Andrew Bogott <abogott@wikimedia.org>
 Andrew Garrett <agarrett@wikimedia.org>
 Andrew Haberlandt <crazy4sb@gmail.com>
-Andrew Otto <acotto@gmail.com>
+Andrew Otto <aotto@wikimedia.org>
 André Costa <lokal.profil@gmail.com>
 Antoine Musso <hashar@free.fr>
 Ariel T. Glenn <ariel@wikimedia.org>
@@ -23,6 +23,7 @@ Chase Pettet <rush@wikimedia.org>
 Chris McMahon <cmcmahon@wikimedia.org>
 Chris Steipp <csteipp@wikimedia.org>
 Christian Aistleitner <christian@quelltextlich.at>
+Christine Stone <cstone@wikimedia.org>
 Cindy Cicalese <cicalese@mitre.org>
 Dan Andreescu <dandreescu@wikimedia.org>
 Dan Duvall <dduvall@wikimedia.org>
@@ -63,6 +64,7 @@ Katie Filbert <aude.wiki@gmail.com>
 Kosta Harlan <kharlan@wikimedia.org>
 Krzysztof Zbudniewek <krzysztof.zbudniewek@gmail.com>
 Kunal Mehta <legoktm@gmail.com>
+Lucas Werkmeister <lucas.werkmeister@wikimedia.de>
 Lucie Kaffee <lucie.kaffee@wikimedia.de>
 Luke Faraone <luke@faraone.cc>
 Mainframe98 <k.s.werf@hotmail.com>
