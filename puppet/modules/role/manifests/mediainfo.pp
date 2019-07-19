@@ -6,6 +6,8 @@
 #
 class role::mediainfo {
   include ::role::wikibase_repo
+  include ::role::wikibasecirrussearch
+  include ::role::uls
 
   mediawiki::extension { 'WikibaseMediaInfo':
     composer     => true,
