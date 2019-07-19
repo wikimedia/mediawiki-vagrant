@@ -25,7 +25,17 @@ if [[ "$EXT" == "-h" || "$EXT" == "--help" ]]; then
 fi
 
 for db in $(alldbs); do
-    echo "if (in_array('${EXT}',\$wmvActiveExtensions)){echo \"${db}\n\";}" |
-    /usr/local/bin/mwscript eval.php --wiki=${db} |
-    /bin/sed '/^\s*$/d'
+    # The output of this script will be used as a dblist; outputting an error
+    # would meant that whatever command needed the dblist will be executed for
+    # every word of the error, resulting in an unreadable mess of secondary
+    # errors. Try hard not to output anything unwanted on stdout.
+    $OUTPUT=$(
+        echo "if (in_array('${EXT}',\$wmvActiveExtensions)){echo \"${db}\n\";}" |
+        /usr/local/bin/mwscript eval.php --wiki=${db}
+    );
+    if [ $? -eq 0 ]; then
+        echo "$db"
+    else
+        echo "$OUTPUT" >&2
+    fi
 done
