@@ -1,5 +1,6 @@
 // Welcome survey
 $wgWelcomeSurveyEnabled = true;
+$wgWelcomeSurveyExperimentalGroups['exp2_target_popup']['range'] = '0-9';
 
 // Help panel
 $wgGEHelpPanelEnabled = true;
@@ -14,7 +15,7 @@ $wgGEHelpPanelLinks = [
     'text' => 'Another great resource'
   ]
 ];
-$wgGEHelpPanelHelpDeskTitle = 'Talk:Main_Page';
+$wgGEHelpPanelHelpDeskTitle = 'Project:Help_Desk';
 $wgGEHelpPanelViewMoreTitle = 'Main_Page';
 $wgGEHelpPanelSearchEnabled = true;
 $wgGEHelpPanelSearchForeignAPI = 'https://en.wikipedia.org/w/api.php';
@@ -22,6 +23,8 @@ $wgGEHelpPanelSearchForeignAPI = 'https://en.wikipedia.org/w/api.php';
 // Homepage
 $wgGEHomepageEnabled = true;
 $wgGEHomepageNewAccountEnablePercentage = 100;
+$wgGEHomepageTutorialTitle = 'Tutorial';
+$wgGEHomepageMentorsList = 'Mentors';
 
 // Emailability
 $wgGEConfirmEmailEnabled = true;
