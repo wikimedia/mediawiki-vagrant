@@ -26,19 +26,24 @@ class role::wikidata(
         values   => template('role/wikidata/init.php.erb'),
     }
 
-    # Note composer installing all of the extensions will run into duplicate
-    # libs being installed. The first one that is loaded will actually be
-    # used, in theory we could run into issues here but as long as each
-    # extension is checked out at the same time / to the same version there
-    # shouldnt be issues...
-
-    # NOTE: there is always a wikibase_repo role, maybe we should use that?
+    # mediawiki::extension runs composer install on the extension, putting libs in
+    # the extension's vendor subdirectory, and expects the autoloader in that
+    # directory to be loaded; Wikibase intentionally doesn't load it (see T201615). So
+    # we install it under mediawiki/vendor via a composer-merge-plugin fragment instead,
+    # and make sure a composer update happens between installing Wikibase and running
+    # populateSitesTable.php.
     $composer_include = "${::mediawiki::composer_fragment_dir}/wikibase-composer.json"
+    file { $composer_include:
+      source  => 'puppet:///modules/role/wikibase/wikibase-composer.json',
+      require => Mediawiki::Extension['Wikibase'],
+      notify  => Exec["composer update ${::mediawiki::dir}"],
+      before  => Mediawiki::Maintenance['wikidata-populate-site-tables'],
+    }
+
     mediawiki::extension { 'Wikibase':
         composer     => true,
         needs_update => true,
         settings     => template('role/wikidata/shared.php.erb'),
-        require      => File[$composer_include],
     }
 
     mediawiki::extension { 'Wikidata.org':
@@ -88,9 +93,5 @@ class role::wikidata(
         content => $main_page,
         wiki    => 'wikidata',
         db_name => 'wikidatawiki',
-    }
-
-    file { $composer_include:
-        source => 'puppet:///modules/role/wikibase/wikibase-composer.json',
     }
 }
