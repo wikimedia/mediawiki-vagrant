@@ -8,6 +8,5 @@ class role::wikibasecirrussearch {
 
     mediawiki::extension { 'WikibaseCirrusSearch':
         needs_update => true,
-        wiki         => 'wikidata',
     }
 }
