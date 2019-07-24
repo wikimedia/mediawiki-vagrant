@@ -9,6 +9,9 @@ default_project: &default_project
         table:
           backend: sqlite
           dbname: <%= @dbdir %>/mw-vagrant-ng.sqlite3
+          storage_groups:
+            - name: local
+              domains: /./
         parsoid:
           host: http://localhost:<%= @parsoid_port %>
           grace_ttl: 3600
