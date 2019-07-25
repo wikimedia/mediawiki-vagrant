@@ -4,59 +4,108 @@
 # in the root_spec further down.
 default_project: &default_project
   x-modules:
-    - path: projects/wmf_default.yaml
-      options: &default_options
-        table:
-          backend: sqlite
-          dbname: <%= @dbdir %>/mw-vagrant-ng.sqlite3
-          storage_groups:
-            - name: local
-              domains: /./
-        parsoid:
-          host: http://localhost:<%= @parsoid_port %>
-          grace_ttl: 3600
-        action:
-          apiUriTemplate: "{{'http://localhost:<%= scope['::forwarded_port'] %>/w/api.php'}}"
-          baseUriTemplate: "{{'http://{domain}:7231/{domain}/v1'}}"
-        graphoid:
-          host: http://localhost:<%= @graphoid_port %>
-        mathoid:
-          host: http://localhost:<%= @mathoid_port %>
-          # 10 days Varnish caching, one day client-side
-          cache-control: s-maxage=864000, max-age=86400
-        mobileapps:
-          host: http://localhost:<%= @mobileapps_port %>
-        summary:
-          protocol: http
-          implementation: mw_api # TODO: change to mcs soon
-          host: http://localhost:<%= @mobileapps_port %>
-        events:
-          eventlogging_service:
-            uri: http://localhost:<%= @eventlogging_service_port %>/v1/events
-            topic: resource_change
-        related:
-          cache_control: s-maxage=86400, max-age=86400
-        citoid:
-          host: http://localhost:<%= @citoid_port %>
-        transform:
-          cx_host: http://localhost:<%= @cxserver_port %>
-        # 10 days Varnish caching, one day client-side
-        purged_cache_control: s-maxage=864000, max-age=86400
-        # Cache control for purged endpoints allowing short-term client caching
-        purged_cache_control_client_cache: s-maxage=1209600, max-age=300
-        pdf:
-          cache_control: s-maxage=600, max-age=600
-          uri: http://localhost:<%= @pdf_service_port %>/
-          secret: <%= @pdf_service_secret %>
-          scheme: http
+    - spec:
+        paths:
+          /{api:v1}:
+            x-modules:
+              - path: projects/v1/default.wmf.yaml
+                options: &default_options
+                  parsoid:
+                    host: http://localhost:<%= @parsoid_port %>
+                    grace_ttl: 3600
+                  action:
+                    apiUriTemplate: "{{'http://localhost:<%= scope['::forwarded_port'] %>/w/api.php'}}"
+                    baseUriTemplate: "{{'http://{domain}:7231/{domain}/v1'}}"
+                  graphoid:
+                    host: http://localhost:<%= @graphoid_port %>
+                  mathoid: &mathoid_options
+                    host: http://localhost:<%= @mathoid_port %>
+                    # 10 days Varnish caching, one day client-side
+                    cache-control: s-maxage=864000, max-age=86400
+                  mobileapps:
+                    host: http://localhost:<%= @mobileapps_port %>
+                  summary:
+                    protocol: http
+                    implementation: mw_api # TODO: change to mcs soon
+                    host: http://localhost:<%= @mobileapps_port %>
+                  events:
+                    uri: http://localhost:<%= @eventlogging_service_port %>/v1/events
+                    topic: resource_change
+                    transcludes_topic: change-prop.transcludes.resource-change
+                  related:
+                    cache_control: s-maxage=86400, max-age=86400
+                  citoid:
+                    host: http://localhost:<%= @citoid_port %>
+                  transform:
+                    cx_host: http://localhost:<%= @cxserver_port %>
+                  # 10 days Varnish caching, one day client-side
+                  purged_cache_control: s-maxage=864000, max-age=86400
+                  # Cache control for purged endpoints allowing short-term client caching
+                  purged_cache_control_client_cache: s-maxage=1209600, max-age=300
+                  pdf:
+                    cache_control: s-maxage=600, max-age=600
+                    uri: http://localhost:<%= @pdf_service_port %>/
+                    secret: <%= @pdf_service_secret %>
+                    scheme: http
+          /{api:sys}: &default_sys
+            x-modules:
+              - path: projects/sys/default.wmf.yaml
+                options: *default_options
+              - path: projects/proxy.yaml
+                options: &proxy_options
+                  backend_host_template: '{{"/{domain}/sys/legacy"}}'
+              - spec:
+                  paths:
+                    /legacy/key_value:
+                      x-modules:
+                        - path: sys/key_value.js
+                    /legacy/page_revisions:
+                      x-modules:
+                        - path: sys/page_revisions.js
+                    /table: &table_spec
+                      x-modules:
+                        - path: sys/table.js
+                          options:
+                            conf:
+                              backend: sqlite
+                              dbname: <%= @dbdir %>/mw-vagrant-ng.sqlite3
+                              storage_groups:
+                                - name: local
+                                  domains: /./
 
-wikimedia.org: &wikimedia
+wikimedia_project: &wikimedia_project
   x-modules:
-    - path: projects/wikimedia.org.yaml
-      options:
-        <<: *default_options
-        pageviews:
-          host: https://wikimedia.org/api/rest_v1/metrics
+    - spec:
+        paths:
+          /{api:v1}:
+            x-modules:
+              - path: projects/v1/wikimedia.wmf.yaml
+                options:
+                  <<: *default_options
+                  pageviews:
+                    host: https://wikimedia.org/api/rest_v1/metrics
+          /{api:sys}:
+            x-modules:
+              - path: projects/proxy.yaml
+                options:
+                  <<: *proxy_options
+                  block_external_reqs: false
+              - spec:
+                  paths:
+                    /legacy/key_value:
+                      x-modules:
+                        - path: sys/key_value.js
+                    /table: *table_spec
+                    /mathoid:
+                      x-modules:
+                        - path: sys/mathoid.js
+                          options: *mathoid_options
+                    /post_data:
+                      x-modules:
+                        - path: sys/post_data.js
+                    /events:
+                      x-modules:
+                        - path: sys/events.js
 
 
 # The root of the spec tree. Domains tend to share specs by referencing them
@@ -76,7 +125,7 @@ spec:
     /{domain:<%= @domain %>}: *default_project
 
     # global domain
-    /{domain:wikimedia.org}: *wikimedia
+    /{domain:wikimedia.org}: *wikimedia_project
 
 salt: secret
 default_page_size: 100
