@@ -10,7 +10,10 @@ class kibana {
         ensure => latest,
     }
 
-    npm::global { 'elasticdump': }
+    npm::global { 'elasticdump':
+        # from 5.0.0 it requires node 8+
+        version => '4.7.0',
+    }
 
     file { '/etc/kibana/kibana.yml':
         ensure  => file,
