@@ -2,11 +2,23 @@
 #
 # Resource for installing node.js modules globally
 #
-define npm::global {
+# === Parameters
+#
+# [*version*]
+#   Specific package version to install
+#
+define npm::global (
+    $version = undef,
+) {
     require ::npm
 
+    $package = $version ? {
+        undef   => $title,
+        default => "${title}@${version}",
+    }
+
     exec { "npm_global_${title}":
-        command     => "/usr/bin/npm install -g ${title}",
+        command     => "/usr/bin/npm install -g ${package}",
         user        => 'root',
         group       => 'root',
         creates     => "/usr/lib/node_modules/${title}",
