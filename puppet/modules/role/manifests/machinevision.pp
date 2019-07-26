@@ -8,6 +8,7 @@
 class role::machinevision {
     mediawiki::extension { 'MachineVision':
         needs_update => true,
+        settings     => template('role/machinevision/settings.php.erb'),
     }
 
     mediawiki::import::text { 'VagrantRoleMachineVision':
