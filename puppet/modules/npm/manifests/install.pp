@@ -7,8 +7,11 @@
 # [*directory*]
 #   Name of the directory where to execute the install command
 #
+# [*environment*]
+#   Extra environment variables to set when running npm install
 define npm::install(
     $directory,
+    $environment = [],
 ) {
     require ::npm
 
@@ -21,7 +24,7 @@ define npm::install(
             'NPM_CONFIG_GLOBAL=false',
             'LINK=g++',
             'HOME=/home/vagrant',
-        ],
+        ] + $environment,
         creates     => "${directory}/node_modules",
         logoutput   => true,
     }

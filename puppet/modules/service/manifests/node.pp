@@ -39,6 +39,10 @@
 #   Extra environment variables to set in the systemd config template,
 #   in a key-value format.
 #
+# [*npm_environment*]
+#   Extra environment variables to set when running npm install
+#   as array of KEY=value strings.  Default: []
+
 # === Examples
 #
 # To set up a service named myservice on port 8520 and with a templated
@@ -61,13 +65,14 @@
 #
 define service::node(
     $port,
-    $config       = {},
-    $module       = './app.js',
-    $entrypoint   = '',
-    $script       = 'server.js',
-    $git_remote   = undef,
-    $log_level    = undef,
-    $environment  = {},
+    $config          = {},
+    $module          = './app.js',
+    $entrypoint      = '',
+    $script          = 'server.js',
+    $git_remote      = undef,
+    $log_level       = undef,
+    $environment     = {},
+    $npm_environment = [],
 ) {
 
     require ::service
@@ -114,8 +119,9 @@ define service::node(
 
     # install the dependencies
     npm::install { $dir:
-        directory => $dir,
-        require   => Git::Clone[$title],
+        directory   => $dir,
+        environment => $npm_environment,
+        require     => Git::Clone[$title],
     }
 
     # the service's configuration file
