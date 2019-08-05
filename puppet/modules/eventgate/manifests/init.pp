@@ -1,10 +1,7 @@
 # == Class eventgate
 #
 # Installs an EventGate service listening on port 8192 and
-# producing to Kafka. This EventGate service will accept
-# older 'eventbus' style events as well as new JSONSchema draft 7
-# ones being developed for the Modern Event Platform program.
-# EventGate is meant to replace the EventBus service.
+# producing to Kafka.
 #
 # This class does not set up any stream configs to enforce schemas
 # in topics.
@@ -26,10 +23,12 @@ class eventgate(
     require ::kafka
     require ::eventschemas
 
+    require_package('librdkafka1', 'librdkafka++1', 'librdkafka-dev')
+
     # A simple config suitable for producing valid events to to Kafka.
     $config = {
         'user_agent' => 'eventgate',
-        'eventgate_factory_module' => '../lib/factories/wikimedia-eventgate',
+        'eventgate_factory_module' => 'eventgate-wikimedia.js',
 
         # This field in each event will be used to extract a
         # (possibly relative) schema uri.  The default is $schema.
@@ -64,10 +63,26 @@ class eventgate(
           },
     }
 
-    service::node { 'eventgate':
-        port       => $port,
-        log_level  => $log_level,
-        git_remote => 'https://github.com/wikimedia/eventgate.git',
-        config     => $config,
+    # eventgate-wikimedia has the WMF specific implementation of EventGate.
+    # It specifies the eventgate (service-runner) package as a dependency
+    # and runs the eventgate from it.
+    service::node { 'eventgate-wikimedia':
+        git_remote      => 'https://gerrit.wikimedia.org/r/eventgate-wikimedia',
+        port            => $port,
+        log_level       => $log_level,
+        module          => 'eventgate',
+        entrypoint      => 'app',
+        script          => 'node_modules/eventgate/server.js',
+        config          => $config,
+        # Use debian librdkafka package
+        npm_environment => ['BUILD_LIBRDKAFKA=0']
+    }
+
+    # make a symlink from srv/eventgate -> eventgate-wikimedia/node_modules/eventgate for
+    # easier access to the EventGate package code for development purposes.
+    file { '/vagrant/srv/eventgate':
+        ensure  => 'link',
+        target  => 'eventgate-wikimedia/node_modules/eventgate',
+        require => Service::Node['eventgate-wikimedia'],
     }
 }
