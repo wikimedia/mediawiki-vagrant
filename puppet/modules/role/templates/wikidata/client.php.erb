@@ -1,0 +1,26 @@
+/*<?php*/
+
+// Client settings shared by all wikis. The extension must be loaded
+// before running this as it overwrites $wgWBClientSettings.
+if ( $wgEnableWikibaseClient ) {
+	$wgWBClientSettings = $wgWBSharedSettings + $wgWBClientSettings;
+	$wgWBClientSettings['siteGlobalID'] = 'enwiki';
+	$wgWBClientSettings['changesDatabase'] = 'wikidatawiki';
+	$wgWBClientSettings['repoDatabase'] = 'wikidatawiki';
+	$wgWBClientSettings['repoNamespaces'] = [
+		'item' => '',
+		'property' => 'Property'
+	];
+	$wgWBClientSettings['repoUrl'] = '//wikidata<%= scope['::mediawiki::multiwiki::base_domain'] %><%= scope['::port_fragment'] %>';
+	$wgWBClientSettings['repositories'] = [
+		'' => [
+			'repoDatabase' => 'wikidatawiki',
+			'entityNamespaces' => [
+				'item' => 0,
+				'property' => WB_NS_PROPERTY,
+			],
+			'prefixMapping' => [ '' => '' ],
+			'baseUri' => $wgWBClientSettings['repoUrl'] . '/entity',
+		],
+	];
+}
