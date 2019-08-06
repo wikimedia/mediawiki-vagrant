@@ -29,12 +29,14 @@ for db in $(alldbs); do
     # would meant that whatever command needed the dblist will be executed for
     # every word of the error, resulting in an unreadable mess of secondary
     # errors. Try hard not to output anything unwanted on stdout.
-    $OUTPUT=$(
+    OUTPUT=$(
         echo "if (in_array('${EXT}',\$wmvActiveExtensions)){echo \"${db}\n\";}" |
         /usr/local/bin/mwscript eval.php --wiki=${db}
     );
     if [ $? -eq 0 ]; then
-        echo "$db"
+        if [ "$OUTPUT" != "" ]; then
+            echo "$OUTPUT"
+        fi
     else
         echo "$OUTPUT" >&2
     fi
