@@ -1,3 +1,4 @@
+//<?php
 // This is the default in InitialiseSettings.php and triggers special
 // behavior in WikimediaMessagesHooks::onSkinCopyrightFooter.
 $wgRightsUrl = '//creativecommons.org/licenses/by-sa/3.0/';
@@ -5,3 +6,13 @@ $wgRightsUrl = '//creativecommons.org/licenses/by-sa/3.0/';
 // These are also defaults in InitialiseSettings.php.
 $wgRightsText = 'Creative Commons Attribution-Share Alike 3.0';
 $wgRightsIcon = '//creativecommons.org/images/public/somerights20.png';
+
+// Remove an annoying hook which would prevent upload when MediaWiki::Licenses
+// does not exist, making testing more cumbersome.
+$wgExtensionFunctions[] = function() {
+	global $wgHooks;
+	$index = array_search( 'WikimediaMessagesHooks::onUploadFormInitial', $wgHooks['UploadForm:initial'], true );
+	if ( $index !== false ) {
+		unset( $wgHooks['UploadForm:initial'][$index] );
+	}
+};
