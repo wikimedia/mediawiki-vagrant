@@ -87,6 +87,9 @@ crm::dash::dir: "%{hiera('mwv::services_dir')}/fundraising-dash"
 dumps::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 dumps::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 
+elasticsearch::repository::es_package: elastic65
+elasticsearch::repository::es_version: 6.5
+
 electron::port: 8098
 electron::secret: secret
 electron::dir: "%{hiera('service::root_dir')}/electron-render-service"
@@ -343,6 +346,8 @@ role::centralauth::db_host: "%{hiera('mysql::grant_host_name')}"
 role::centralauth::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 role::centralauth::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 role::centralauth::wiki_admin_user: "%{hiera('mediawiki::admin_user')}"
+
+role::cirrussearch::public_url: "http://elasticsearch%{hiera('mwv::tld')}%{::port_fragment}"
 
 role::citoid::url: "//%{hiera('role::mediawiki::hostname')}:%{hiera('citoid::port')}/api"
 

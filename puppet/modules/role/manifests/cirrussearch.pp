@@ -1,7 +1,9 @@
 # == Class: role::cirrussearch
 # The CirrusSearch extension implements searching for MediaWiki using
 # Elasticsearch.
-class role::cirrussearch {
+class role::cirrussearch (
+    $public_url,
+) {
     include ::role::commons
     include ::role::timedmediahandler
     include ::role::pdfhandler
@@ -74,5 +76,10 @@ class role::cirrussearch {
         command => template('role/cirrussearch/build_search_index.erb'),
         onlyif  => '/usr/local/bin/is-cirrussearch-forceindex-needed',
         require => File['/usr/local/bin/is-cirrussearch-forceindex-needed'],
+    }
+
+    $es_version = $::elasticsearch::repository::es_version
+    mediawiki::import::text { 'VagrantRoleCirrusSearch':
+        content => template('role/cirrussearch/VagrantRoleCirrusSearch.wiki.erb'),
     }
 }

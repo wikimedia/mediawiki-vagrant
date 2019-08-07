@@ -90,4 +90,8 @@ class elasticsearch {
         target  => '/etc/cron.daily/logrotate',
         require => File['/etc/cron.hourly'],
     }
+
+    apache::reverse_proxy { 'elasticsearch':
+        port => 9200,
+    }
 }
