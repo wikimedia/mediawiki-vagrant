@@ -33,4 +33,12 @@ class role::mediainfo (
             content => template("role/mediainfo/${id}.json.erb"),
         }
     }
+
+    mediawiki::settings { 'WikibaseMediaInfo-UploadWizard':
+        priority => $::load_later,
+        values   => [
+            '$wgUploadWizardConfig["wikibase"]["enabled"] = true;',
+            '$wgUploadWizardConfig["wikibase"]["statements"] = true;',
+        ],
+    }
 }
