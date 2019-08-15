@@ -114,6 +114,10 @@ $wgDisableOutputCompression = true;
 // Don't gloss over errors in class name letter-case.
 $wgAutoloadAttemptLowercase = false;
 
+// Enable CORS between wikis. Ideally we'd limit this to wikis in the farm,
+// but iterating resource names is super cumbersome in Puppet.
+$wgCrossSiteAJAXdomains = [ '*' ];
+
 // Process Puppet and user managed settings
 require_once __DIR__ . '/settings.d/wikis/CommonSettings.php';
 
