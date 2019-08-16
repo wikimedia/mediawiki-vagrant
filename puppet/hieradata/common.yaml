@@ -422,6 +422,8 @@ role::ldapauth::proxy_agent_password: vagrant_agent
 role::ldapauth::writer_password: vagrant_writer
 role::ldapauth::admin_password: vagrant_admin
 
+role::mediainfo::central_repo_domain: "http://wikidata%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
+
 role::mediawiki::hostname: "dev%{hiera('mediawiki::multiwiki::base_domain')}"
 
 role::mobilecontentservice::vhost_name: "mcs%{hiera('mwv::tld')}"
