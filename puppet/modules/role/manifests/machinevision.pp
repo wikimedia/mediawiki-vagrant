@@ -6,6 +6,8 @@
 # [1] https://www.mediawiki.org/wiki/Extension:MachineVision
 #
 class role::machinevision {
+    require_package('php7.2-bcmath')
+
     mediawiki::extension { 'MachineVision':
         needs_update => true,
         settings     => template('role/machinevision/settings.php.erb'),
@@ -13,6 +15,11 @@ class role::machinevision {
 
     mediawiki::import::text { 'VagrantRoleMachineVision':
         content => template('role/machinevision/VagrantRoleMachineVision.wiki.erb'),
+    }
+
+    apache::site_conf { 'Google Cloud Vision API credentials':
+        site    => $::mediawiki::wiki_name,
+        content => template('role/machinevision/apache2.conf.erb'),
     }
 }
 
