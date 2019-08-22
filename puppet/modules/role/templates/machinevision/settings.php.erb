@@ -1,7 +1,0 @@
-$wgMachineVisionHandlers['random'] = [
-	'class' => 'MediaWiki\\Extension\\MachineVision\\Handler\\WikidataIdHandler',
-	'services' => [ 'MachineVisionClient', 'MachineVisionRepository' ],
-	'args' => [
-		'http://visionoid.wmflabs.org/labels?title=$1', // apiUrlTemplate
-	],
-];
