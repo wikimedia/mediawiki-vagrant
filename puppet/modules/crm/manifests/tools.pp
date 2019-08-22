@@ -57,7 +57,7 @@ class crm::tools(
     }
 
     exec { 'frtools_python_requirements':
-        command => "pip install --upgrade setuptools; pip install -r ${dir}/requirements.txt",
+        command => "pip3 install --upgrade setuptools; pip3 install -r ${dir}/requirements.txt",
         require => [
             Git::Clone['wikimedia/fundraising/tools'],
             Package['default-libmysqlclient-dev'],
