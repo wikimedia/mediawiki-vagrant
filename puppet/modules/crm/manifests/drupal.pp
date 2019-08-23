@@ -21,7 +21,6 @@ class crm::drupal(
     $civicrm_db_name,
     $civicrm_db_user,
     $civicrm_db_pass,
-    $civicrm_templates_dir,
     $smashpig_db_name,
     $smashpig_db_user,
     $smashpig_db_pass,
@@ -49,7 +48,8 @@ class crm::drupal(
 
     file { $files_dir:
         ensure    => directory,
-        group     => 'www-data',
+        owner     => 'www-data',
+        group     => 'vagrant',
         mode      => '2775',
         recurse   => true,
         subscribe => Exec['civicrm_setup'],
@@ -136,15 +136,6 @@ class crm::drupal(
         require => [
             Exec['drupal_db_install'],
         ],
-    }
-
-    # drupal sets project-wide recursive perms which we have to update to allow unit tests to run as vagrant
-    file { 'set civicrm template file permissions':
-        path      => $civicrm_templates_dir,
-        group     => 'vagrant',
-        recurse   => true,
-        require   => Exec['drupal_db_install'],
-        subscribe => File[$files_dir],
     }
 
     # paymentswiki/donationInterface can't run unit tests without the table `unittest_contribution_tracking`
