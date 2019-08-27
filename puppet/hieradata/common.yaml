@@ -90,12 +90,6 @@ dumps::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
 elasticsearch::repository::es_package: elastic65
 elasticsearch::repository::es_version: 6.5
 
-electron::port: 8098
-electron::secret: secret
-electron::dir: "%{hiera('service::root_dir')}/electron-render-service"
-electron::home_dir: /srv/electron
-electron::log_file: /vagrant/logs/electron.log
-
 hhvm::common_settings:
   date:
     timezone: UTC

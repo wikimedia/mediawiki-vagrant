@@ -61,15 +61,6 @@ class restbase (
         default => 8090,
     }
 
-    $pdf_service_port = defined(Class['electron']) ? {
-        true    => $::electron::port,
-        default => 8098,
-    }
-    $pdf_service_secret = defined(Class['electron']) ? {
-        true    => $::electron::secret,
-        default => 'secret',
-    }
-
     file { $dbdir:
         ensure => directory,
         owner  => 'www-data',

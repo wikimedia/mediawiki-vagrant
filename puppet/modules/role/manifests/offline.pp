@@ -1,28 +1,13 @@
 # == Class: role::offline
 # Installs offline-related extensions/services:
 # * Collection[https://www.mediawiki.org/wiki/Extension:Collection]
-# * ElectronPdfService[https://www.mediawiki.org/wiki/Extension:ElectronPdfService]
-# * electron[https://github.com/wikimedia/mediawiki-services-electron-render/blob/master/README.md]
+# * proton[https://www.mediawiki.org/wiki/Proton]
 #
-class role::offline(
-    $electron_hostname
-) {
-    require ::electron
+class role::offline {
     require ::proton
-
-    mediawiki::settings { 'Electron-VRS':
-        values   => template('role/offline/electron-vrs.php.erb'),
-        priority => $::load_first,
-    }
 
     mediawiki::extension { 'Collection':
         settings => template('role/offline/Collection.php.erb'),
-    }
-
-    mediawiki::extension { 'ElectronPdfService':
-        settings => {
-            wgElectronPdfServiceRESTbaseURL => '/api/rest_v1/page/pdf/',
-        },
     }
 
     mediawiki::import::text { 'VagrantRoleOffline':

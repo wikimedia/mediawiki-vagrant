@@ -12,7 +12,7 @@
 #   Service directory
 #
 # [*log_file*]
-#   Log file for electron and xvfb.
+#   Log file.
 #
 class proton(
     $port,
