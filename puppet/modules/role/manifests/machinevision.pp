@@ -8,11 +8,6 @@
 class role::machinevision {
     require_package('php7.2-bcmath')
 
-    mediawiki::extension { 'MachineVision':
-        needs_update => true,
-        settings     => template('role/machinevision/settings.php.erb'),
-    }
-
     mediawiki::import::text { 'VagrantRoleMachineVision':
         content => template('role/machinevision/VagrantRoleMachineVision.wiki.erb'),
     }
