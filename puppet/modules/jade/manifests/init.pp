@@ -1,6 +1,6 @@
 # == Class: jade
 #
-# Installs Extension:JADE which can be accessed through the JADE: namespace.
+# Installs Extension:Jade which can be accessed through the Jade: namespace.
 #
 class jade() {
     require ::jade::extension

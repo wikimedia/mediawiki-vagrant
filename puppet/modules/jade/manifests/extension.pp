@@ -1,9 +1,9 @@
 # == Class: jade::extension
 #
-# Install the MediaWiki JADE extension and configure to point at the local JADE
+# Install the MediaWiki Jade extension and configure to point at the local Jade
 # service.
 #
 class jade::extension {
-    mediawiki::extension { 'JADE':
+    mediawiki::extension { 'Jade':
     }
 }
