@@ -1,6 +1,6 @@
 //<?php
 $wgEnableUploads = true;
-      
+
 $wgMediaInfoProperties = [
     'depicts' => 'P1',
 ];
@@ -14,3 +14,5 @@ $wgWBRepoSettings['enableEntitySearchUI'] = false;
 $wgWBRepoSettings['searchIndexProperties'] = [ 'P1', 'P2' ];
 $wgWBRepoSettings['searchIndexTypes'] = [ 'string', 'external-id', 'wikibase-item', 'wikibase-property' ];
 
+# WikibaseCirrusSearch must be enabled T230018
+$wgWBCSUseCirrus = true;
