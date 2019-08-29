@@ -3,7 +3,10 @@
 # Elasticsearch is a powerful open source search and analytics
 # engine, much like Solr, but with a more user-friendly inteface.
 #
-class elasticsearch {
+class elasticsearch(
+    $max_heap,
+    $min_heap
+) {
     require ::elasticsearch::repository
 
     require_package('openjdk-8-jre-headless')
@@ -45,7 +48,7 @@ class elasticsearch {
 
     exec { 'wait-for-elasticsearch':
         require => Service['elasticsearch'],
-        command => '/usr/bin/wget --tries 20 --retry-connrefused http://127.0.0.1:9200/ -O - >/dev/null',
+        command => 'curl --connect-timeout 5 --retry-connrefuse --retry-delay 10 --retry-max-time 60 --retry 10  http://localhost:9200 -s -o /dev/null'
     }
 
     file { '/etc/default/elasticsearch':
@@ -54,7 +57,7 @@ class elasticsearch {
     }
 
     file { '/etc/elasticsearch/jvm.options':
-        source  => 'puppet:///modules/elasticsearch/jvm.options',
+        content => template('elasticsearch/jvm.options.erb'),
         require => Package['elasticsearch'],
         notify  => Service['elasticsearch'],
         owner   => 'root',

@@ -551,3 +551,6 @@ wikilabels::vhost_name: "wikilabels%{hiera('mwv::tld')}"
 wikilabels::port: 18881
 
 xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
+
+elasticsearch::min_heap: '256m'
+elasticsearch::max_heap: '512m'
