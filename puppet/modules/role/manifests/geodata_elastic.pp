@@ -14,7 +14,7 @@ class role::geodata_elastic {
     }
 
     mediawiki::maintenance { 'force geodata index':
-        command     => '/usr/local/bin/foreachwikiwithextension CirrusSearch extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php',
+        command     => '/usr/local/bin/foreachwikiwithextension CirrusSearch extensions/CirrusSearch/maintenance/updateSearchIndexConfig.php --reindexAndRemoveOk --indexIdentifier now',
         refreshonly => true,
     }
 }
