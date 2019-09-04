@@ -104,4 +104,18 @@ class payments(
       page_title => 'Donate-thanks',
       source     => 'puppet:///modules/payments/Donate-thanks.wiki',
   }
+
+  mediawiki::import::text { 'payments:Template:LanguageSwitch':
+      wiki       => 'payments',
+      db_name    => 'paymentswiki',
+      page_title => 'Template:LanguageSwitch',
+      source     => 'puppet:///modules/payments/LanguageSwitch.wiki',
+  }
+
+  mediawiki::import::text { 'payments:Template:2011FR/JimmyQuote/text/en':
+      wiki       => 'payments',
+      db_name    => 'paymentswiki',
+      page_title => 'Template:2011FR/JimmyQuote/text/en',
+      source     => 'puppet:///modules/payments/Appeal.wiki',
+  }
 }

@@ -1,0 +1,15 @@
+<div style="margin:9em 0;">
+<table class="quote" role="presentation" style="margin: auto; border-collapse: collapse; border: 0; background-color: transparent; width: auto;">
+<tr>
+<td style="width: 20px; line-height: .6em; vertical-align: top; color: #B2B7F2; font-size: 40px; font-family: 'Times New Roman',serif; font-weight: bold; text-align: left; padding: 10px;">“</td>
+<td style="vertical-align: top; padding: 4px 10px; font-size: 26px; line-height: 30px;">Imagine a world in which every single person on the planet has free access to the sum of all human knowledge.</td>
+<td style="width: 20px; line-height: .6em; vertical-align: bottom; color: #B2B7F2; font-size: 40px; font-family: 'Times New Roman',serif; font-weight: bold; text-align: right; padding: 10px;">”</td>
+</tr>
+<tr>
+<td style="padding-right: 4%;" colspan="3">
+<p style="font-size: 18px; text-align: right;"><cite style="font-style: normal;">—Jimmy Wales, Founder of Wikipedia</cite></p>
+</td>
+</tr>
+</table>
+</div>
+

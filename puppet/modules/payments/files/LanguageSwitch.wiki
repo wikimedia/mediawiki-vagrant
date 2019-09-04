@@ -1,0 +1,15 @@
+{{#ifexist: Template:{{{1}}}/{{{2}}}/{{{3}}}
+|{{{{{1}}}/{{{2}}}/{{{3}}}|{{{2}}}|country={{{3}}}|sitename={{{sitename}}}}}
+|{{#ifexist: Template:{{{1}}}/{{{2}}}
+|{{{{{1}}}/{{{2}}}|{{{2}}}|country={{{3}}}|sitename={{{sitename}}}}}
+|{{{{{1}}}/en|en|country={{{3}}}|sitename={{{sitename}}}}}
+}}
+}}<noinclude>
+----
+Automatically selects the best localized subpage for various fundraiser templates, based on the language and country passes to the template. This template also passes the language code along as a template parameter.
+e.g. <nowiki>{{LanguageSwitch|appeal-title}}</nowiki> when passed uselang=fr and country=CA
+* Will display Template:appeal-title/fr/CA and sends fr if it exists, else
+* Will display Template:appeal-title/fr and sends fr if it exists, else
+* Falls back to Template:appeal-title/en and sends en
+</noinclude>
+
