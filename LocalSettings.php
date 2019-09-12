@@ -33,7 +33,7 @@ if ( !empty( $_REQUEST['debug'] ) ) {
 $wgShowExceptionDetails = true;
 
 $logDir = '/vagrant/logs';
-foreach ( array( 'exception', 'runJobs', 'JobQueueRedis' ) as $logGroup ) {
+foreach ( [ 'exception', 'runJobs', 'JobQueueRedis' ] as $logGroup ) {
 	$wgDebugLogGroups[$logGroup] = "{$logDir}/mediawiki-{$logGroup}.log";
 }
 
@@ -71,11 +71,11 @@ $wgAutoConfirmAge = 3600 * 24; // one day
 $wgAutoConfirmCount = 5; // five edits
 
 // Caching
-$wgObjectCaches['redis'] = array(
+$wgObjectCaches['redis'] = [
     'class' => 'RedisBagOStuff',
-    'servers' => array( '127.0.0.1:6379' ),
+    'servers' => [ '127.0.0.1:6379' ],
     'persistent' => true,
-);
+];
 $wgMainCacheType = 'redis';
 
 // This is equivalent to redis_local in production, since MediaWiki-Vagrant
@@ -87,18 +87,18 @@ $wgSessionCacheType = 'redis';
 $wgSessionsInObjectCache = true;
 
 // Jobqueue
-$wgJobTypeConf['default'] = array(
+$wgJobTypeConf['default'] = [
 	'class'       => 'JobQueueRedis',
 	'daemonized'  => true,
 	'redisServer' => '127.0.0.1',
-	'redisConfig' => array( 'connectTimeout' => 2, 'compression' => 'gzip' ),
-);
+	'redisConfig' => [ 'connectTimeout' => 2, 'compression' => 'gzip' ],
+];
 
-$wgJobQueueAggregator = array(
+$wgJobQueueAggregator = [
 	'class'        => 'JobQueueAggregatorRedis',
-	'redisServers' => array( '127.0.0.1' ),
-	'redisConfig'  => array( 'connectTimeout' => 2 ),
-);
+	'redisServers' => [ '127.0.0.1' )]
+	'redisConfig'  => [ 'connectTimeout' => 2 ],
+];
 
 // Execute all jobs via standalone jobrunner service rather than
 // piggybacking them on web requests.
