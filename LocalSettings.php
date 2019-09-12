@@ -96,7 +96,7 @@ $wgJobTypeConf['default'] = [
 
 $wgJobQueueAggregator = [
 	'class'        => 'JobQueueAggregatorRedis',
-	'redisServers' => [ '127.0.0.1' )]
+	'redisServers' => [ '127.0.0.1' ],
 	'redisConfig'  => [ 'connectTimeout' => 2 ],
 ];
 
