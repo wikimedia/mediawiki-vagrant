@@ -113,9 +113,12 @@ Vagrant.configure('2') do |config|
   end
 
   # libvirt (KVM/QEMU) provider.  Enable with `--provider=libvirt`.
-  config.vm.provider :libvirt do |_libvirt, override|
+  config.vm.provider :libvirt do |libvirt, override|
     override.vm.box = 'debian/stretch64'
     override.vm.network :private_network, ip: settings[:static_ip]
+    # Required on Fedora 30/31 to fix private networking
+    # https://bugzilla.redhat.com/show_bug.cgi?id=1697773
+    libvirt.qemu_use_session = false
   end
 
   config.vm.network :forwarded_port,
