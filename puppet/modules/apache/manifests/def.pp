@@ -11,7 +11,7 @@
 #
 # === Example
 #
-#  apache::def { 'HHVM':
+#  apache::def { 'PHP7':
 #    ensure => present,
 #  }
 #

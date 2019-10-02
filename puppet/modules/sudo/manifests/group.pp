@@ -18,8 +18,8 @@
 # sudo::group { 'mwdeploy' :
 #     privileges => [
 #         'ALL = (apache,mwdeploy,l10nupdate) NOPASSWD: ALL',
-#         'ALL = (root) NOPASSWD: /sbin/restart hhvm',
-#         'ALL = (root) NOPASSWD: /sbin/start hhvm',
+#         'ALL = (root) NOPASSWD: /sbin/restart apache2',
+#         'ALL = (root) NOPASSWD: /sbin/start apache2',
 #     ]
 # }
 #

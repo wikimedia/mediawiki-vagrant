@@ -26,13 +26,6 @@ LogLevel error
 AllowEncodedSlashes on
 RewriteEngine On
 
-<IfDefine HHVM>
-    ProxyPass       /wiki                fcgi://127.0.0.1:9000<%= @docroot %>/w/index.php retry=0
-    ProxyPass       /w/extensions        !
-    ProxyPassMatch  ^/w/(.*\.(php|hh))$  fcgi://127.0.0.1:9000<%= @docroot %>/w/$1 retry=0
-    RewriteRule     ^/$                  fcgi://127.0.0.1:9000<%= @docroot %>/w/index.php  [P]
-</IfDefine>
-
 RewriteRule ^/$ /w/index.php [R=301]
 Alias /wiki <%= @docroot %>/w/index.php
 
