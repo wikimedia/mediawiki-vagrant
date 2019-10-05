@@ -1,0 +1,11 @@
+'''BCmath''' is an extension that provides arbitrary-precision arithmetic for Lua modules. The module call [https://www.php.net/manual/en/book.bc.php BCMath Arbitrary Precision Mathematics] for PHP through a minimal interface layer.
+
+For a full Vagrant setup, see [https://jeblad.github.io/BCmath/topics/vagrant.md.html the documentation].
+
+== See also ==
+
+* [[mw:Extension:BCmath]] (Information)
+* [[mw:Extension:BCmath/Glossary]] (Terms and concepts)
+* [https://github.com/jeblad/BCmath Github: jeblad/BCmath] (Code repository)
+* [https://jeblad.github.io/BCmath/ Jeblad: BCmath] (Lua documentation)
+* [https://translatewiki.net/wiki/Special:Translate/mwgithub-bcmath Translatewiki: mwgithub-bcmath] (Localization)

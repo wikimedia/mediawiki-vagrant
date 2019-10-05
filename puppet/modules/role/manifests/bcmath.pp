@@ -11,4 +11,8 @@ class role::bcmath {
         require  => Mediawiki::Extension['Scribunto'],
         composer => true,
     }
+
+    mediawiki::import::text { 'VagrantRoleBCmath':
+        source => 'puppet:///modules/role/bcmath/VagrantRoleBCmath.wiki',
+    }
 }
