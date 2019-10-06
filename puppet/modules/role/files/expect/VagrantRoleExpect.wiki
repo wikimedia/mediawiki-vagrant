@@ -1,0 +1,11 @@
+'''Expect''' is an extension that provides extended assertions to Lua modules. An integral part is to report failures clearly and visible to facilitate interactive and collaborative fault fixing.
+
+For a full Vagrant setup, see [https://jeblad.github.io/Expect/topics/vagrant.md.html the documentation].
+
+== See also ==
+
+* [[mw:Extension:Expect]] (Information)
+* [[mw:Extension:Expect/Glossary]] (Terms and concepts)
+* [https://github.com/jeblad/Expect Github: jeblad/Expect] (Code repository)
+* [https://jeblad.github.io/Expect/ Jeblad: Expect] (Lua documentation)
+* [https://translatewiki.net/wiki/Special:Translate/mwgithub-expect Translatewiki: mwgithub-expect] (Localization)

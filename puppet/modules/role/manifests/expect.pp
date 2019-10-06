@@ -10,4 +10,8 @@ class role::expect {
         require  => Mediawiki::Extension['Scribunto'],
         composer => true,
     }
+
+    mediawiki::import::text { 'VagrantRoleExpect':
+        source => 'puppet:///modules/role/expect/VagrantRoleExpect.wiki',
+    }
 }
