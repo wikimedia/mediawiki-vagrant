@@ -1,0 +1,12 @@
+'''Katsa''' is an extension that provides spies for injection into code for Lua modules. This makes it possible to report actions clearly and visible, to facilitate interactive and collaborative debugging.
+
+For a full Vagrant setup, see [https://jeblad.github.io/Katsa/topics/vagrant.md.html the documentation].
+
+== See also ==
+
+* [[mw:Extension:Katsa]] (Information)
+* [[mw:Extension:Katsa/Glossary]] (Terms and concepts)
+* [https://github.com/jeblad/Katsa Github: jeblad/Katsa] (Code repository)
+* [https://jeblad.github.io/Katsa/ Jeblad: Katsa] (Lua documentation)
+* [https://translatewiki.net/wiki/Special:Translate/mwgithub-katsa Translatewiki: mwgithub-katsa] (Localization)
+
