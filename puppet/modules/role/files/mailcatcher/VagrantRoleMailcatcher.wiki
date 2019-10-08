@@ -1,0 +1,3 @@
+'''Mailcatcher''' is an SMTP server which catches any message sent to it and makes it readable through a web interface.
+
+Visit http://127.0.0.1:1080 to see the web interface of mailcatcher.

@@ -1,0 +1,10 @@
+[Unit]
+Description=mailcatcher service
+
+[Service]
+SyslogIdentifier=mailcatcher
+ExecStart=/usr/local/bin/mailcatcher -f --ip=0.0.0.0 --verbose
+Restart=yes
+
+[Install]
+WantedBy=multi-user.target

@@ -45,15 +45,28 @@ class postfix {
         mode    => '0444',
     }
 
+    file { '/etc/postfix/transport':
+        content => '',
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+    }
+
     exec { 'postmap_virtual':
         command     => 'postmap /etc/postfix/virtual',
         subscribe   => File['/etc/postfix/virtual'],
         refreshonly => true,
     }
 
-    exec { 'postmap_aliases':
+    exec { 'postalias_aliases':
         command     => 'postalias /etc/postfix/aliases',
         subscribe   => File['/etc/postfix/aliases'],
+        refreshonly => true,
+    }
+
+    exec { 'postmap_transports':
+        command     => 'postmap /etc/postfix/transport',
+        subscribe   => File['/etc/postfix/transport'],
         refreshonly => true,
     }
 
