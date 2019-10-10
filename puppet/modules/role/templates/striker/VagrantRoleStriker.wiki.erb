@@ -1,4 +1,4 @@
-'''Striker''' is a dashboard for managing Tool Lab tools.
+'''Striker''' is a dashboard for managing Toolforge tools.
 
 * Striker testing interface: http://<%= @vhost_name %><%= scope['::port_fragment'] %>/
 * OAuth wiki for Striker testing (pretend its meta): <%= scope['::mediawiki::server_url'] %>/
@@ -61,7 +61,7 @@ Q("wpagreement").checked = true;
 
 * [<%= @phabricator_url %>/people/new/bot/ Create a "striker" bot account]
 ** Username: <kbd>striker</kbd>
-** Real Name: <kbd>Tool Labs helper</kbd>
+** Real Name: <kbd>Toolforge helper</kbd>
 ** Email: <kbd>striker@local.wmftest.net</kbd>
 *:<syntaxhighlight lang="javascript">
 Q = function(s){return document.querySelector('[name="' + s + '"]')};
@@ -101,7 +101,7 @@ Q("policy.join").value = "admin";
 
 ===Setup Striker===
 * [<%= scope['::mediawiki::server_url'] %>/wiki/Special:OAuthConsumerRegistration/propose Register an OAuth consumer for Striker]
-** Application Name: <kbd>Tool Labs console</kbd>
+** Application Name: <kbd>Toolforge console</kbd>
 ** OAuth callback URL: <kbd><nowiki>http:</nowiki>//<%= @vhost_name %><%= scope['::port_fragment'] %></kbd>
 ** Check the ''Allow consumer to specify a callback in requests and use "callback" URL above as a required prefix.'' checkbox.
 ** Contact email address: <kbd><%= scope['::mediawiki::admin_email'] %></kbd>
