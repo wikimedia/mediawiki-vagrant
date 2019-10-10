@@ -31,4 +31,15 @@ class php::package {
         priority    => 10,
         require     => Package['php7.2'],
     }
+
+    # Clean up HHVM leftovers
+    package { [
+        'hhvm',
+        'hhvm-dev',
+        'hhvm-luasandbox',
+        'hhvm-tidy',
+        'hhvm-wikidiff2'
+    ]:
+        ensure => absent,
+    }
 }

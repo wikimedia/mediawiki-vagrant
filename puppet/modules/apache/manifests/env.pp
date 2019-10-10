@@ -25,9 +25,9 @@
 #  (via the -D command-line option). You can branch on its presence
 #  via <IfDefine> directives:
 #
-#  apache::env { 'hhvm':
+#  apache::env { 'PHP7':
 #    ensure  => present,
-#    content => 'export APACHE_ARGUMENTS="$APACHE_ARGUMENTS -D HHVM"'
+#    content => 'export APACHE_ARGUMENTS="$APACHE_ARGUMENTS -D PHP7"'
 #  }
 #
 define apache::env(

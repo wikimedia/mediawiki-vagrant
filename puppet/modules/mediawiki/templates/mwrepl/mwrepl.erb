@@ -15,7 +15,7 @@ usage() {
 	echo -e "\t$0 [options]"
     echo -e "Options:"
     echo -e "\t-h|--help:     Show this message"
-    echo -e "\t-e|--engine:   Which PHP engine to use ('zend' or 'hhvm')"
+    echo -e "\t-e|--engine:   Which PHP engine to use"
     echo -e "\t-w|--wiki:     ID of the wiki to run on"
     echo -e "\t--eval:        Use eval.php instead of shell.php"
     echo -e "\t-p|--plain:    use native interactive prompt instead of PsySH"
@@ -38,19 +38,7 @@ while true; do
             usage
             ;;
         -e|--engine)
-            case "$2" in
-                zend|php)
-                    # "php" is not documented but let's be liberal with what we accept
-                    ENGINE=php
-                    ;;
-                hhvm)
-                    ENGINE=hhvm
-                    ;;
-                *)
-                    echo "Valid parameters for --engine are 'zend' and 'hhvm'"
-                    exit 2
-                    ;;
-            esac
+            ENGINE="$2"
             shift 2
             ;;
         -w|--wiki)
