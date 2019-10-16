@@ -32,20 +32,14 @@ class role::centralauth(
     include ::role::antispoof
     include ::role::renameuser
     include ::role::usermerge
-    include ::browsertests
 
     $shared_db = 'centralauth'
-
     $loginwiki = 'login'
     $alt_testwiki = 'centralauthtest'
-    $selenium_user = regsubst($::browsertests::selenium_user, '_', ' ')
-
-    $canonical_admin_user = inline_template('<%= @wiki_admin_user[0].capitalize + @wiki_admin_user[1..-1] %>')
 
     mediawiki::extension { 'CentralAuth':
-        needs_update  => true,
-        browser_tests => true,
-        settings      => {
+        needs_update => true,
+        settings     => {
             wgCentralAuthCookies         => true,
             wgCentralAuthAutoNew         => true,
             wgCentralAuthDatabase        => $shared_db,
@@ -123,14 +117,4 @@ class role::centralauth(
         ]
     }
 
-    role::centralauth::migrate_user { [ 'Admin', $selenium_user ]: }
-
-    # Environment variables used by browser tests
-    env::var { 'MEDIAWIKI_CENTRALAUTH_LOGINWIKI_URL':
-        value => "http://${loginwiki}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
-    }
-
-    env::var { 'MEDIAWIKI_CENTRALAUTH_ALTWIKI_URL':
-        value => "http://${alt_testwiki}${::mediawiki::multiwiki::base_domain}${::port_fragment}",
-    }
 }
