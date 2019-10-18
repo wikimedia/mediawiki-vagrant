@@ -6,7 +6,13 @@ Beware that you are using a '''beta''' version of the WMF Fundraising Paymentswi
 
 To contribute to development or for more help, please visit the [https://www.mediawiki.org/wiki/Extension:DonationInterface help page] of the DonationInterface extension, or join the IRC channel #wikimedia-fundraising on Freenode.
 
-== Configuration ==
+== CentralNotice ==
+
+CetralNotice is installed over on dev.wiki which you should be able to access using one of the below links (https if you're using the https role)
+* https://dev.wiki.local.wmftest.net:4430/w/index.php?title=Special:CentralNotice
+* http://dev.wiki.local.wmftest.net:8080/w/index.php?title=Special:CentralNotice
+
+== DonationInterface Configuration ==
 
 Some minimum configuration is "non-free", meaning you will have to be oathed to WMF NDA in order to use our credentials.  Alternatively, you may make your own arrangements for a development account with the payment processor.  We are committed to eliminating this barrier by [https://phabricator.wikimedia.org/T89188 providing mock API responses], but in the meantime please add a file to settings.d/wikis/paymentswiki/settings.d/ with your own account info. '''The file must start with a number greater than 10 so it is included after puppet-managed/10-DonationInterface.php.''' An abbreviated example is shown below and more details are available in mediawiki-fr/extensions/DonationInterface/DonationInterface.php.
 
