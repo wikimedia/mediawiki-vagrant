@@ -4,6 +4,7 @@
 # Such spies can be complex, yet easily reused.
 class role::katsa {
     include ::role::scribunto
+    include ::role::luacollections
 
     mediawiki::extension { 'Katsa':
         remote   => 'https://github.com/jeblad/Katsa.git',
