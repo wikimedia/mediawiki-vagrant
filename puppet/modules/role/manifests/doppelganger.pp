@@ -4,6 +4,7 @@
 # is the Scribunto extension in Mediawiki.
 class role::doppelganger {
     include ::role::scribunto
+    include ::role::luacollections
 
     mediawiki::extension { 'Doppelganger':
         remote   => 'https://github.com/jeblad/Doppelganger.git',
