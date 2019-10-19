@@ -1,0 +1,12 @@
+'''LuaCollections''' is an extension that provides some basic Lua collections and a few tools for Lua modules. This makes it somewhat easier to manage collections in Lua code.
+
+For a full Vagrant setup, see [https://jeblad.github.io/LuaCollections/topics/vagrant.md.html the documentation].
+
+== See also ==
+
+* [[mw:Extension:LuaCollections]] (Information)
+* [[mw:Extension:LuaCollections/Glossary]] (Terms and concepts)
+* [https://github.com/jeblad/LuaCollections Github: jeblad/LuaCollections] (Code repository)
+* [https://jeblad.github.io/LuaCollections/ Jeblad: LuaCollections] (Lua documentation)
+* [https://translatewiki.net/wiki/Special:Translate/mwgithub-luacollections Translatewiki: mwgithub-luacollections] (Localization)
+
