@@ -4,6 +4,7 @@
 # Such assertions can be complex, yet easily reused.
 class role::expect {
     include ::role::scribunto
+    include ::role::luacollections
 
     mediawiki::extension { 'Expect':
         remote   => 'https://github.com/jeblad/Expect.git',
