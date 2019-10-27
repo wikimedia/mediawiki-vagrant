@@ -284,7 +284,7 @@ module MediaWikiVagrant
     #
     def boxname
       @path.basename.to_s.downcase
-        .gsub(/[^a-z0-9-]+/, '-')[0..62].gsub(/^-|-/, '')
+        .gsub(/[^a-z0-9-]+/, '-')[0..62].gsub(/^-|-$/, '')
     end
 
     private

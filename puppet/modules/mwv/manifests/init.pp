@@ -93,4 +93,11 @@ class mwv (
         content => $timezone,
         require => Package['tzdata'],
     }
+
+    # T236455: set hostname
+    class { '::mwv::hostname':
+        stage    => 'first',
+        hostname => $::hostname,
+        fqdn     => $::fqdn,
+    }
 }

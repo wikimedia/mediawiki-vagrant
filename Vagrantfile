@@ -61,7 +61,6 @@ end
 
 Vagrant.configure('2') do |config|
   config.vm.post_up_message = 'Documentation: https://www.mediawiki.org/wiki/MediaWiki-Vagrant'
-  config.vm.hostname = mwv.boxname + '.mediawiki-vagrant.dev'
   config.package.name = 'mediawiki.box'
 
   config.ssh.forward_agent = settings[:forward_agent]
@@ -273,7 +272,8 @@ Vagrant.configure('2') do |config|
     puppet.options << '--color=false' if Vagrant::Util::Platform.windows?
 
     puppet.facter = {
-      'fqdn'                   => config.vm.hostname,
+      'hostname'               => mwv.boxname,
+      'fqdn'                   => mwv.boxname + '.mediawiki-vagrant.dev',
       'git_user'               => settings[:git_user],
       'forwarded_port'         => settings[:http_port],
       'forwarded_https_port'   => settings[:https_port],
