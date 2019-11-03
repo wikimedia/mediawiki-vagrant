@@ -26,7 +26,10 @@ LogLevel error
 AllowEncodedSlashes on
 RewriteEngine On
 
-RewriteRule ^/$ /w/index.php [R=301]
+RewriteCond %{HTTP:X-Forwarded-Proto} =https
+RewriteRule ^/$ "%{HTTP:X-Forwarded-Proto}://%{HTTP_HOST}/w/index.php" [R=301,L]
+RewriteRule ^/$ /w/index.php [R=301,L]
+
 Alias /wiki <%= @docroot %>/w/index.php
 
 # Reverse proxy for eventlogging devserver
