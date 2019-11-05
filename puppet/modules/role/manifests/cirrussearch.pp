@@ -19,11 +19,6 @@ class role::cirrussearch (
     # eventbus role sets up the EventGate service, which
     # Monolog + the EventBus extension use to log to Kafka.
     include ::role::eventbus
-    # This is only needed until EventGate can be included
-    # by default, which is until all other MW Vagrant
-    # NodeJS services are on NodeJS 10.
-    # This var is used in CirrusSearch.php.erb
-    $enable_eventgate = $::role::eventbus::enable_eventgate
 
     # Elasticsearch plugins (for search)
     package { 'wmf-elasticsearch-search-plugins':
