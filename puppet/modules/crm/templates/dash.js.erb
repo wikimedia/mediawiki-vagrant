@@ -1,7 +1,9 @@
 module.exports = {
-    dblogin: '<%= @db_user %>',
-    dbpwd: '<%= @db_pass %>',
-    userDbLogin: '<%= @db_user %>',
-    userDbPwd: '<%= @db_pass %>',
-    listen: 8880
+    dblogin: '<%= scope['::crm::civicrm::db_user'] %>',
+    dbpwd: '<%= scope['::crm::civicrm::db_pass'] %>',
+    userDbLogin: '<%= scope['::crm::civicrm::drupal_db_user'] %>',
+    userDbPwd: '<%= scope['::crm::civicrm::drupal_db_pass'] %>',
+    providerURL: 'http://crm.local.wmftest.net:8080/civicrm',
+    providerBackendURL: 'http://crm.local.wmftest.net:8080/civicrm',
+    listen: 8081
 };
