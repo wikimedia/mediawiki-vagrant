@@ -280,6 +280,16 @@ class role::striker(
     }
 
     # Setup ldapauthwiki
+    mediawiki::extension { 'OpenStackManager':
+        wiki         => 'ldapauth',
+        settings     => {
+            wgOpenStackManagerLDAPDomain       => 'ldap',
+            wgOpenStackManagerLDAPUser         => 'cn=writer,dc=wmftest,dc=net',
+            wgOpenStackManagerLDAPUserPassword =>
+                lookup('role::ldapauth::writer_password'),
+        },
+        needs_update => true,
+    }
     mediawiki::settings { 'ldapauth:oath-group':
         values => [
             '$wgGroupPermissions["oathauth"]["oathauth-api-all"] = true;',
