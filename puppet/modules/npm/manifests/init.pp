@@ -31,8 +31,9 @@ class npm (
     }
 
     package { 'nodejs':
-        ensure  => latest,
-        require => [
+        ensure          => latest,
+        install_options => ['--allow-downgrades'],
+        require         => [
             Apt::Repository['nodesource'],
             Apt::Pin['nodejs'],
         ],
