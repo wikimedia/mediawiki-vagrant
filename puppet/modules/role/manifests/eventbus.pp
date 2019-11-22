@@ -12,7 +12,7 @@ class role::eventbus {
     # NOTE: Set npm::node_version: 10 in hiera
     $node_version = hiera('npm::node_version', undef)
     if (!$node_version or $node_version < 10) {
-        fail('EventBus role requires the EventGate service, which requires NodeJS 10. Please set npm::node_version: 10 in hiera to install it.')
+        warning('EventBus role requires the EventGate service, which requires NodeJS 10. To use it, set npm::node_version: 10 in hiera. (Might break other services.)')
     }
 
     require ::eventgate

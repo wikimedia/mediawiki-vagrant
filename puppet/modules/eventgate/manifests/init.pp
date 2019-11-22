@@ -17,7 +17,7 @@ class eventgate(
 ) {
     $node_version = hiera('npm::node_version', '6')
     if $node_version != 10 {
-        fail("eventgate requires NodeJS version 10 but was ${node_version}. Set npm::node_version: 10 in hieradata/common.yaml")
+        warning("eventgate requires NodeJS version 10 but was ${node_version}. To use it, set npm::node_version: 10 in hieradata/common.yaml. (Might break other services.)")
     }
 
     require ::kafka
