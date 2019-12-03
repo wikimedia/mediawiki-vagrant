@@ -6,7 +6,6 @@
 # [1] https://www.mediawiki.org/wiki/Extension:MachineVision
 #
 class role::machinevision {
-    require_package('php7.2-bcmath')
     include ::role::mediainfo
 
     mediawiki::extension { 'MachineVision':
