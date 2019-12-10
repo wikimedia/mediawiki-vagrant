@@ -1,7 +1,10 @@
 # == Class: changeprop
 #
-# Change propagation is a Node.JS service reacting to messages emitted to the
-# EventBus Kafka cluster and propagating them onto declared dependencies.
+# Change propagation is a Node.JS service reacting to messages in Kafka.
+# This is just the changeprop service.  Enable role::changeprop
+# to get the full
+#   EventBus extension -> eventgate -> Kafka -> changeprop
+# pipeline.
 #
 # === Parameters
 #
@@ -15,7 +18,6 @@ class changeprop(
     $port,
     $log_level = undef,
 ) {
-
     require_package('libsasl2-dev')
 
     $restbase_port = defined(Class['restbase']) ? {

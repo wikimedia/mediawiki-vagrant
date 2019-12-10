@@ -1,6 +1,5 @@
 # <?php
 
-<% if @enable_eventgate -%>
     // Each active event service backend is configured here.
     $wgEventServices = [
         // eventgate-main will block the HTTP POST until events are persisted.
@@ -27,34 +26,10 @@
         ]
     ];
 
-    // Default EventBus event streams to send events to
-    // eventgate-main
+    // Default EventBus event streams to send events to eventgate-main.
+    // TODO: Refactor EventBus configuration: https://phabricator.wikimedia.org/T229863
     $wgEventServiceStreamConfig = [
         'default' => [
             'EventServiceName' => 'eventgate-main',
         ],
     ];
-
-<% else -%>
-    // Each active event service backend is configured here.
-    $wgEventServices = [
-        "eventbus"            => [ "url" => "<%= @eventbus_url %>" ],
-    ];
-
-    // Produce recentchange events using the EventBus extension
-    // to eventlogging-service-eventbus
-    $wgRCFeeds = [
-        'eventbus' => [
-            'class'            => 'EventBusRCFeedEngine',
-            'formatter'        => 'EventBusRCFeedFormatter',
-            'eventServiceName' => 'eventbus',
-        ]
-    ];
-
-    // Default EventBus event streams to send events to eventlogging-service-eventbus.
-    $wgEventServiceStreamConfig = [
-        'default' => [
-            'EventServiceName' => 'eventbus',
-        ],
-    ];
-<% end -%>

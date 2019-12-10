@@ -23,6 +23,8 @@ class eventgate(
     require ::kafka
     require ::eventschemas
 
+    $url = "http://dev.wiki.local.wmftest.net:${port}/v1/events"
+
     require_package('librdkafka1', 'librdkafka++1', 'librdkafka-dev')
 
     # A simple config suitable for producing valid events to to Kafka.
@@ -38,9 +40,10 @@ class eventgate(
 
         # If set, this URI will be prepended to any relative schema URI
         # extracted from each event's schema_field./
-        # This should be the path to the local checkout of
-        # https://github.com/wikimedia/mediawiki-event-schemas
-        'schema_base_uris' =>  "${::eventschemas::path}/jsonschema/",
+        'schema_base_uris' =>  [
+            "${::eventschemas::path}/primary/jsonschema/",
+            "${::eventschemas::path}/secondary/jsonschema/",
+        ],
 
         # This field in each event will be used to extract a destination 'stream' name.
         # This will equal the destination Kafka topic, unless a topic prefix
@@ -58,9 +61,9 @@ class eventgate(
         # kafka configs go here.
         'kafka' => {
               'conf' => {
-                  'metadata.broker.list' => 'localhost:9092',
-              },
-          },
+                    'metadata.broker.list' => 'localhost:9092',
+            },
+        },
     }
 
     # eventgate-wikimedia has the WMF specific implementation of EventGate.

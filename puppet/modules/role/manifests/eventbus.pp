@@ -5,10 +5,6 @@
 # and produces valid events to Kafka.
 #
 class role::eventbus {
-    require ::kafka
-    require ::eventschemas
-    include ::changeprop
-
     # NOTE: Set npm::node_version: 10 in hiera
     $node_version = hiera('npm::node_version', undef)
     if (!$node_version or $node_version < 10) {
@@ -16,7 +12,11 @@ class role::eventbus {
     }
 
     require ::eventgate
-    $eventgate_url = "http://localhost:${::eventgate::port}/v1/events"
+    $eventgate_url = $::eventgate::url # Used in EventBus.php.erb template.
+
+    # TODO:
+    # Refactor EventBus Configuration
+    # https://phabricator.wikimedia.org/T229863
 
     # Configure EventBus extension to produce events to EventGate
     mediawiki::extension { 'EventBus':

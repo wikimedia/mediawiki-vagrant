@@ -16,7 +16,7 @@ class role::cirrussearch (
     include ::role::sitematrix
     include ::role::langwikis
 
-    # eventbus role sets up the EventGate service, which
+    # The eventbus role sets up the EventGate service, to which
     # Monolog + the EventBus extension use to log to Kafka.
     include ::role::eventbus
 

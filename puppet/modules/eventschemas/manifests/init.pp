@@ -1,11 +1,25 @@
 # == Class eventschemas
 #
-class eventschemas {
-    $path = "${::service::root_dir}/event-schemas"
+class eventschemas(
+    $service_root_dir = hiera('service::root_dir')
+) {
+    $path = "${service_root_dir}/schemas/event"
 
-    git::clone { 'mediawiki/event-schemas':
-        directory => $path,
+    file { ["${service_root_dir}/schemas", $path]:
+        ensure => 'directory',
     }
 
-    service::gitupdate { 'event-schemas': }
+    git::clone { 'schemas/event/primary':
+        directory => "${path}/primary",
+    }
+    git::clone { 'schemas/event/secondary':
+        directory => "${path}/secondary",
+    }
+
+    service::gitupdate { 'schemas-event-primary':
+        dir => "${path}/primary",
+    }
+    service::gitupdate { 'schemas-event-secondary':
+        dir => "${path}/secondary",
+    }
 }
