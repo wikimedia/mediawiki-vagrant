@@ -23,5 +23,16 @@ $wgGEHomepageTutorialTitle = 'Tutorial';
 $wgGEHomepageMentorsList = 'Mentors';
 $wgGEHomepageSuggestedEditsEnabled = true;
 
+$wgPageViewInfoWikimediaDomain = 'cs.wikipedia.org';
+$wgGERestbaseUrl = 'https://cs.wikipedia.org/api/rest_v1';
+$wgGENewcomerTasksRemoteApiUrl = 'https://cs.wikipedia.org/w/api.php';
+$wgGENewcomerTasksRemoteConfigTitle = 'mw:Growth/Personalized_first_day/Newcomer_tasks/Prototype/templates/cs.json';
+$wgHooks['MediaWikiServices'][] = function ( \MediaWiki\MediaWikiServices $services ) {
+	if ( !$services->has( 'GrowthExperimentsEditInfoService' ) ) return;
+	$services->redefineService( 'GrowthExperimentsEditInfoService', function ( \MediaWiki\MediaWikiServices $services ) {
+		return new \GrowthExperiments\AqsEditInfoService( $services->getHttpRequestFactory(), 'cs.wikipedia' );
+	} );
+};
+
 // Misc
 $wgAllowHTMLEmail = true;
