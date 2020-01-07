@@ -26,4 +26,8 @@ class role::growthexperiments {
     mediawiki::import::text { 'Mentors':
         source => 'puppet:///modules/role/growthexperiments/Mentors.wiki',
     }
+
+    mediawiki::import::text { 'VagrantRoleGrowthExperiments':
+        content => template( 'role/growthexperiments/VagrantRoleGrowthExperiments.wiki.erb' ),
+    }
 }
