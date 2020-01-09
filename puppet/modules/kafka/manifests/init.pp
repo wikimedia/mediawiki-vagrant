@@ -3,8 +3,6 @@
 class kafka(
     $ssl_enabled = false,
 ) {
-    require ::service
-    require ::mediawiki::ready_service
     require kafka::repository
 
     require_package('openjdk-8-jre')

@@ -1,4 +1,4 @@
-vagrant_ram: 128
+vagrant_ram: 1024
 forward_ports:
   9092: 9092
   9093: 9093
