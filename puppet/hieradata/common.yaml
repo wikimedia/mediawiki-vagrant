@@ -398,23 +398,9 @@ role::phragile::debug: true
 role::phragile::install_dir: "%{hiera('mwv::services_dir')}/phragile"
 role::phragile::vhost_name: "phragile%{hiera('mwv::tld')}"
 
-role::scholarships::oauth_consumer_key: b7228f20b437989dbfc09178085df71a
-role::scholarships::oauth_secret_key: 3f01bf19915f3a56d9f6e5b5b7729593
-
 role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
 
 role::wikidata::main_page: "Wiki:Main Page"
-
-scholarships::vhost_name: "scholarships%{hiera('mwv::tld')}"
-scholarships::db_name: scholarships
-scholarships::db_user: scholarships
-scholarships::db_pass: scholarships
-scholarships::deploy_dir: "%{hiera('mwv::services_dir')}/scholarships"
-scholarships::cache_dir: /var/cache/scholarships
-scholarships::log_file: /vagrant/logs/scholarships.log
-scholarships::oauth_server: "http://dev.wiki.local.wmftest.net%{::port_fragment}"
-scholarships::oauth_consumer_token: b7228f20b437989dbfc09178085df71a
-scholarships::oauth_secret_token: f7841ded67f3f290360c67d347f9a62c85f171e5
 
 sentry::db_name: sentry
 sentry::db_user: sentry
