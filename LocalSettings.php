@@ -134,10 +134,10 @@ $wgHooks['GetIP'][] = function ( &$ip ) {
 	return true;
 };
 
-// Allow 'vagrant' password for the default user reguardless of password
+// Allow 'vagrant' password for all users regardless of password
 // policies that are configured.
 $wgHooks['isValidPassword'][] = function ( $password, &$result, $user ) {
-	if ( $password === 'vagrant' && $user->mName === 'Admin' ) {
+	if ( $password === 'vagrant' ) {
 		$result = true;
 	}
 	return true;
