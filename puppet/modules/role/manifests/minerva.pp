@@ -5,5 +5,7 @@ class role::minerva {
     require ::role::mediawiki
     include ::role::mobilefrontend
 
-    mediawiki::skin { 'MinervaNeue': }
+    mediawiki::skin { 'MinervaNeue':
+        require => Mediawiki::Extension['MobileFrontend'],
+    }
 }
