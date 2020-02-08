@@ -177,6 +177,14 @@ define mediawiki::wiki(
         require => Exec["${db_name}_include_extra_settings"],
     }
 
+    # T232354: the installer should set the password but fails to do so
+    exec { "${db_name}_change_admin_password":
+        command     => "/usr/local/bin/mwscript changePassword.php --wiki ${db_name} --user ${admin_user} --password ${admin_pass}",
+        refreshonly => true,
+        user        => 'www-data',
+        subscribe   => Exec["${db_name}_copy_LocalSettings"],
+    }
+
     exec { "update_${db_name}_database":
         command     => "/usr/local/bin/mwscript update.php --wiki ${db_name} --quick",
         refreshonly => true,
