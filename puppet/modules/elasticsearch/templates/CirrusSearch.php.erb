@@ -13,3 +13,9 @@ $wgMWLoggerDefaultSpi['args'][0]['loggers']['cirrussearch-request'] = array(
     'handlers' => array( 'eventgate-analytics' ),
 );
 <% end -%>
+
+$wgCirrusSearchWMFExtraFeatures = [
+	'ores_articletopics' => [
+		'build' => true,
+	],
+];
