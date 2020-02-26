@@ -40,7 +40,8 @@ class role::flow {
     mysql::sql { "GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}@${db_host}":
         unless  => "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE TABLE_SCHEMA = '${db_name}' AND GRANTEE = \"'${db_user}'@'${db_host}'\" LIMIT 1",
         require => [
-          Mysql::Db[$db_name],
+            Mysql::Db[$db_name],
+            Mediawiki::Extension['Flow'],
         ],
     }
 
@@ -48,7 +49,8 @@ class role::flow {
         sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/Flow/flow.sql;",
         unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${db_name}' AND table_name = 'flow_revision';",
         require => [
-          Mysql::Db[$db_name],
+            Mysql::Db[$db_name],
+            Mediawiki::Extension['Flow'],
         ],
     }
 }
