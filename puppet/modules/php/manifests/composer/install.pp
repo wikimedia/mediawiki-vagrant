@@ -15,6 +15,9 @@
 #   Specify preferred source for composer install ('dist' or 'source').
 #   Default 'dist'.
 #
+# [*timeout*]
+#   Max allowed time in seconds. Default 600.
+#
 # === Examples
 #
 #  php::composer::install { $::mediawiki::dir:
@@ -25,6 +28,7 @@ define php::composer::install(
     $directory  = $title,
     $vendor_dir = undef,
     $prefer     = 'dist',
+    $timeout    = 600,
 ) {
     require ::php::composer
 
@@ -46,11 +50,12 @@ define php::composer::install(
           "COMPOSER_HOME=${::php::composer::home}",
           "COMPOSER_CACHE_DIR=${::php::composer::cache_dir}",
           'COMPOSER_NO_INTERACTION=1',
-          'COMPOSER_PROCESS_TIMEOUT=600',
+          "COMPOSER_PROCESS_TIMEOUT=${timeout}",
         ],
         user        => 'vagrant',
         onlyif      => "/usr/bin/test -f ${directory}/composer.json",
         creates     => $creates,
         require     => Class['::php::composer'],
+        timeout     => $timeout,
     }
 }
