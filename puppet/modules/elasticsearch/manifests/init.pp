@@ -37,12 +37,18 @@ class elasticsearch(
         require => Package['elasticsearch'],
     }
 
+    systemd::service { 'elasticsearch':
+        is_override     => true,
+        declare_service => false,
+    }
+
     service { 'elasticsearch':
         ensure  => running,
         enable  => true,
         require => [
             Package['elasticsearch'],
             Package['openjdk-8-jre-headless'],
+            Systemd::Service['elasticsearch'],
         ]
     }
 
