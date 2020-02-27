@@ -28,6 +28,7 @@ class role::parsoid(
         # which includes launching the daemon, running update scripts
         # etc. and would probably introduce a cycle somewhere.
         require => Git::Clone['parsoid'],
+        timeout => 1200,
     }
 
     mediawiki::import::text { 'VagrantRoleParsoid':
