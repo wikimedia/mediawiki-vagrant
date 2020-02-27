@@ -50,8 +50,8 @@ $wgShowSQLErrors = true;
 $wgDebugProfiling = false;
 
 // Images
-$wgLogo = '/mediawiki-vagrant.png';
 $wgLogos = [
+	'1x'   => '/mediawiki-vagrant.png',
 	'1.5x' => '/mediawiki-vagrant-1.5x.png',
 	'2x'   => '/mediawiki-vagrant-2x.png'
 ];
