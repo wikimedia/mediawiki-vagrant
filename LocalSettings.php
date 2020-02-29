@@ -46,6 +46,9 @@ $wgDebugDumpSql = true;
 $wgShowDBErrorBacktrace = true;
 $wgShowSQLErrors = true;
 
+// Disable RL caching that interferes with debugging
+$wgResourceLoaderStorageEnabled = false;
+
 // Profiling
 $wgDebugProfiling = false;
 
