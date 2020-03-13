@@ -6,7 +6,6 @@
 class role::wikimediaeditortasks {
 
   include ::role::centralauth
-  include ::role::wikibasecirrussearch
 
   mediawiki::extension { 'WikimediaEditorTasks':
     needs_update => true,
