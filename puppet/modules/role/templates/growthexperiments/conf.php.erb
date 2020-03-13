@@ -23,14 +23,17 @@ $wgGEHomepageTutorialTitle = 'Tutorial';
 $wgGEHomepageMentorsList = 'Mentors';
 $wgGEHomepageSuggestedEditsEnabled = true;
 
-$wgPageViewInfoWikimediaDomain = 'cs.wikipedia.org';
-$wgGERestbaseUrl = 'https://cs.wikipedia.org/api/rest_v1';
-$wgGENewcomerTasksRemoteApiUrl = 'https://cs.wikipedia.org/w/api.php';
-$wgGENewcomerTasksConfigTitle = 'mw:Growth/Personalized_first_day/Newcomer_tasks/Prototype/templates/cs.json';
+$wgPageViewInfoWikimediaDomain = 'en.wikipedia.org';
+$wgGERestbaseUrl = 'https://en.wikipedia.org/api/rest_v1';
+$wgGENewcomerTasksRemoteApiUrl = 'https://en.wikipedia.org/w/api.php';
+$wgGENewcomerTasksConfigTitle = 'mw:Growth/Personalized_first_day/Newcomer_tasks/Prototype/templates/en.json';
+$wgGENewcomerTasksOresTopicConfigTitle = 'mw:MediaWiki:NewcomerTopicsOres.json';
+$wgGENewcomerTasksTopicType = 'ores';
+
 $wgHooks['MediaWikiServices'][] = function ( \MediaWiki\MediaWikiServices $services ) {
 	if ( !$services->has( 'GrowthExperimentsEditInfoService' ) ) return;
 	$services->redefineService( 'GrowthExperimentsEditInfoService', function ( \MediaWiki\MediaWikiServices $services ) {
-		return new \GrowthExperiments\AqsEditInfoService( $services->getHttpRequestFactory(), 'cs.wikipedia' );
+		return new \GrowthExperiments\AqsEditInfoService( $services->getHttpRequestFactory(), 'en.wikipedia' );
 	} );
 };
 
