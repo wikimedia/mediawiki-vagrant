@@ -23,12 +23,22 @@
 class php::remote_debug {
     package { 'php-xdebug': }
 
+    # T247587 putting this in a shared folder causes performance issues
+    $logfile = '/var/log/xdebug.log';
+
+    file { $logfile:
+        ensure => present,
+        owner  => $::share_owner,
+        group  => $::share_group,
+        mode   => '0664',
+    }
+
     php::ini { 'remote_debug':
         settings => {
             'xdebug.remote_connect_back' => 1,
             'xdebug.remote_enable'       => 1,
             'xdebug.max_nesting_level'   => 200,
-            'xdebug.remote_log'          => '/vagrant/logs/xdebug.log',
+            'xdebug.remote_log'          => $logfile,
         },
         require  => Package['php-xdebug'],
     }
