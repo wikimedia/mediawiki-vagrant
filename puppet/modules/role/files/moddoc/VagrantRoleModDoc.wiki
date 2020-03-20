@@ -1,0 +1,12 @@
+'''ModDoc''' is an extension that provides code documentation for Lua modules. This makes it possible to document code in a standardized reference format, to facilitate interactive and collaborative programming.
+
+For a full Vagrant setup, see [https://jeblad.github.io/ModDoc/topics/vagrant.md.html the documentation].
+
+== See also ==
+
+* [[mw:Extension:ModDoc]] (Information)
+* [[mw:Extension:ModDoc/Glossary]] (Terms and concepts)
+* [https://github.com/jeblad/ModDoc Github: jeblad/ModDoc] (Code repository)
+* [https://jeblad.github.io/ModDoc/ Jeblad: ModDoc] (Lua documentation)
+* [https://translatewiki.net/wiki/Special:Translate/mwgithub-moddoc Translatewiki: mwgithub-moddoc] (Localization)
+
