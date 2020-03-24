@@ -421,7 +421,8 @@ service::log_level: info
 
 smashpig::dir: "%{hiera('mwv::services_dir')}/SmashPig"
 smashpig::vhost_name: "payments-listener%{hiera('mwv::tld')}"
-smashpig::db_name: smashpig_user
+smashpig::db_name: smashpig
+smashpig::db_user: smashpig_user
 smashpig::db_pass: smashpig_pass
 
 statsd::port: '8125'
