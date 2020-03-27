@@ -1,0 +1,15 @@
+# <?php
+
+    # This is the Legacy EventLogging server side URL.
+    # It is being deprecated in favor of EventGate based service,
+    # listening at wgEventLoggingServiceUri.
+    $wgEventLoggingBaseUri = '/event.gif';
+    $wgEventLoggingDBname = 'wiki';
+
+    # New EventLogging client will POST events to this URL.
+    $wgEventLoggingServiceUri = '<%= @eventgate_url %>';
+
+    # Always enable EventLogging debugMode in MW Vagrant.
+    $wgUserDefaultOptions['eventlogging-display-web'] = 1;
+    # EventLogging client side should send events ASAP.
+    $wgEventLoggingQueueLingerSeconds = 1;
