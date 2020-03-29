@@ -1,0 +1,1 @@
+[[mw:Extension:WSOAuth|WSOAuth]] lets you authenticate via another wiki.
