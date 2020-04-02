@@ -11,7 +11,7 @@ class role::eventbus {
         warning('EventBus role requires the EventGate service, which requires NodeJS 10. To use it, set npm::node_version: 10 in hiera. (Might break other services.)')
     }
 
-    require ::eventgate
+    include ::eventgate
     $eventgate_url = $::eventgate::url # Used in EventBus.php.erb template.
 
     # TODO:

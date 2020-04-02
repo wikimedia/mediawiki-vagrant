@@ -26,7 +26,7 @@ class role::eventlogging {
     }
 
     # EventLogging will produce to EventGate at wgEventLoggingServiceUri.
-    require ::eventgate
+    include ::eventgate
     $eventgate_url = $::eventgate::url # Used in EventLogging.php.erb template.s
 
     mediawiki::extension { 'EventLogging':

@@ -1,7 +1,14 @@
 # == Class eventgate
 #
-# Installs an EventGate service listening on port 8192 and
+# Installs an EventGate service listening on internally port 8192 and
 # producing to Kafka.
+#
+# EventGate is made available to POST events publicly at
+#
+#   http://eventgate.local.wmftest.net:8080/v1/events
+#
+# You can reference this URL in other puppet configs
+# via the $::eventgate::url variable.
 #
 # This class does not set up any stream configs to enforce schemas
 # in topics.
@@ -22,8 +29,7 @@ class eventgate(
 
     require ::kafka
     require ::eventschemas
-
-    $url = "http://dev.wiki.local.wmftest.net:${port}/v1/events"
+    include ::mwv # to get $::mwv::tld
 
     require_package('librdkafka1', 'librdkafka++1', 'librdkafka-dev')
 
@@ -80,6 +86,15 @@ class eventgate(
         # Use debian librdkafka package
         npm_environment => ['BUILD_LIBRDKAFKA=0']
     }
+
+    # Add a reverse proxy from eventgate.local.wmftest.net to the
+    # eventgate-wikimedia service.
+    apache::reverse_proxy { 'eventgate':
+        port => $port,
+    }
+    # The reverse_proxy will make this URL publicly addressable.
+    # This is used by event clients (EventBus, EventLogging, etc.) to POST event data.
+    $url = "http://eventgate${::mwv::tld}${::port_fragment}/v1/events"
 
     # make a symlink from srv/eventgate -> eventgate-wikimedia/node_modules/eventgate for
     # easier access to the EventGate package code for development purposes.
