@@ -31,7 +31,7 @@ class role::eventlogging {
 
     mediawiki::extension { 'EventLogging':
         priority => $::load_early,
-        settings => template('role/EventLogging/EventLogging.php.erb'),
+        settings => template('role/eventlogging/EventLogging.php.erb'),
     }
 
     mediawiki::extension { 'EventStreamConfig':
