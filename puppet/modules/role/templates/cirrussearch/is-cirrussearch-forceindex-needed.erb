@@ -2,7 +2,7 @@
 # Exits with status 0 if CirrusSearch isn't setup for a wiki.
 # Designed to be used as an 'onlyif' command in a Puppet exec.
 
-CHECK=extensions/CirrusSearch/maintenance/cirrusNeedsToBeBuilt.php
+CHECK=extensions/CirrusSearch/maintenance/CirrusNeedsToBeBuilt.php
 
 for db in $(/usr/local/bin/wikihasextension CirrusSearch); do
     # When cirrusNeedsToBeBuilt.php exits successsfully it means that the wiki
