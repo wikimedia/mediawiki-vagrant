@@ -15,10 +15,22 @@ class role::labs_initial_content {
         ensure => present,
         source => 'puppet:///modules/labs/labs_vagrant_logo.png',
     }
+    file { "${::mediawiki::apache::docroot}/labs_mediawiki_logo-1.5x.png":
+        ensure => present,
+        source => 'puppet:///modules/labs/labs_vagrant_logo-1.5x.png',
+    }
+    file { "${::mediawiki::apache::docroot}/labs_mediawiki_logo-2x.png":
+        ensure => present,
+        source => 'puppet:///modules/labs/labs_vagrant_logo-2x.png',
+    }
 
     mediawiki::settings { 'labs-vagrant logo':
         values => {
-            wgLogo          => '/labs_mediawiki_logo.png',
+            wgLogos         => {
+                '1x'   => '/labs_mediawiki_logo.png',
+                '1.5x' => '/labs_mediawiki_logo-1.5x.png',
+                '2x'   => '/labs_mediawiki_logo-2x.png',
+            },
             wgMetaNamespace => 'Testwiki',
         },
     }
