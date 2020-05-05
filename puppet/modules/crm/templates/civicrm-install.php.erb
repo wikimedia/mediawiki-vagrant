@@ -36,6 +36,7 @@ $extUrl = '<%= scope['::crm::base_url'] %>sites/default/civicrm/extensions';
 file_put_contents('<%= scope['::crm::sites_default_path'] %>/civicrm.settings.php', "
     global \$civicrm_setting;
     \$civicrm_setting['Directory Preferences']['extensionsDir'] = '$extDir';
-    \$civicrm_setting['URL Preferences']['extensionsURL'] = '$extUrl';",
+    \$civicrm_setting['URL Preferences']['extensionsURL'] = '$extUrl';
+    \$civicrm_root = '$cmsPath/sites/all/modules/civicrm';",
     FILE_APPEND
 );
