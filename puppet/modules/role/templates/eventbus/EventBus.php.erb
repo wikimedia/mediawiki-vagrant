@@ -10,7 +10,7 @@
 
     // Enable EventBus extension monolog handler via eventgate-analytics endpoint.
     $wgMWLoggerDefaultSpi['args'][0]['handlers']['eventgate-analytics'] = array(
-        "class" => "EventBusMonologHandler",
+        "class" => MediaWiki\Extension\EventBus\Adapters\Monolog\EventBusMonologHandler::class,
         "args" => array( "eventgate-analytics" ),
     );
     // Log api-requests via eventgate-analytics service.
