@@ -95,7 +95,13 @@ class mediawiki(
         depth       => $git_depth,
     }
 
-    mediawiki::skin { 'Vector': }
+    mediawiki::skin { 'Vector':
+        settings => {
+            wgVectorDefaultSkinVersion                    => '2',
+            wgVectorDefaultSkinVersionForExistingAccounts => '2',
+            wgVectorDefaultSkinVersionForNewAccounts      => '2',
+        },
+    }
 
     file { $settings_dir:
         ensure => directory,
