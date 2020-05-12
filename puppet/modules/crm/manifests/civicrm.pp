@@ -80,4 +80,12 @@ class crm::civicrm (
         mode    => '0644',
         require => Git::Clone[$::crm::repo],
     }
+
+    file { '/etc/cron.d/crm':
+        content => template('crm/crm.cron.d.erb'),
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0644'
+    }
+
 }

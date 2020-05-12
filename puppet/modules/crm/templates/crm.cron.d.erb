@@ -1,0 +1,22 @@
+# Contribution tracking queue consumer runs every minute
+* * * * *	www-data	php <%= scope.lookupvar('crm::dir') %>/vendor/drush/drush/drush -v -r <%= scope.lookupvar('crm::dir') %>/drupal ctqc
+# Donations queue consumer runs every three minutes
+0-59/3 * * * *	www-data	php <%= scope.lookupvar('crm::dir') %>/vendor/drush/drush/drush -v -r <%= scope.lookupvar('crm::dir') %>/drupal qc
+# Thank you mailer does too, but a bit staggered
+2-59/3 * * * *	www-data	php <%= scope.lookupvar('crm::dir') %>/vendor/drush/drush/drush -v -r <%= scope.lookupvar('crm::dir') %>/drupal thank-you-send 
+# Recurring queue consumer runs every 20 minutes
+*/20 * * * *	www-data	php <%= scope.lookupvar('crm::dir') %>/vendor/drush/drush/drush -v -r <%= scope.lookupvar('crm::dir') %>/drupal rqc
+# Refund queue consumer runs every 8 minutes
+0-50/8 * * * *	www-data	php <%= scope.lookupvar('crm::dir') %>/vendor/drush/drush/drush -v -r <%= scope.lookupvar('crm::dir') %>/drupal rfdqc
+# Antifraud queue consumer runs every minute
+* * * * *	www-data	php <%= scope.lookupvar('crm::dir') %>/vendor/drush/drush/drush -v -r <%= scope.lookupvar('crm::dir') %>/drupal afqc
+# Payments-init queue consumer runs every other minute
+1-59/2 * * * *	www-data	php <%= scope.lookupvar('crm::dir') %>/vendor/drush/drush/drush -v -r <%= scope.lookupvar('crm::dir') %>/drupal piqc
+# Banner history queue consumer runs every five minutes
+0-55/5 * * * *	www-data	php <%= scope.lookupvar('crm::dir') %>/vendor/drush/drush/drush -v -r <%= scope.lookupvar('crm::dir') %>/drupal bhqc
+# Opt-in queue consumer runs every five minutes
+2-59/5 * * * *	www-data	php <%= scope.lookupvar('crm::dir') %>/vendor/drush/drush/drush -v -r <%= scope.lookupvar('crm::dir') %>/drupal oqc
+# Unsubscribe queue consumer runs every hour
+0 * * * *	www-data	php <%= scope.lookupvar('crm::dir') %>/vendor/drush/drush/drush -v -r <%= scope.lookupvar('crm::dir') %>/drupal unsubqc
+
+
