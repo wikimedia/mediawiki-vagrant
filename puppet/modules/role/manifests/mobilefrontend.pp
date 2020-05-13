@@ -12,6 +12,7 @@ class role::mobilefrontend {
     include ::role::pageimages
     include ::role::textextracts
     include ::role::minerva
+    include ::role::wikidiff2
 
     mediawiki::extension { 'MobileFrontend':
         settings      => {
