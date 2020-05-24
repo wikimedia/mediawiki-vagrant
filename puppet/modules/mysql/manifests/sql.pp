@@ -30,11 +30,19 @@ define mysql::sql(
     $unless,
     $sql = $title,
 ) {
-    $quoted_sql    = regsubst($sql,    '"', '\\"', 'G')
-    $quoted_unless = regsubst($unless, '"', '\\"', 'G')
-
     exec { $title:
-        command => "/usr/bin/mysql -qfsAe \"${quoted_sql}\"",
-        unless  => "/usr/bin/mysql -qfsANe \"${quoted_unless}\" | /usr/bin/tail -1 | /bin/grep -q 1",
+        # Passing input to a shell command in Puppet without it undergoing shell expansion is nasty.
+        command => @("PUPPETCOMMAND")
+           /usr/bin/mysql -qfsA <<'SQLCOMMAND'
+           ${sql}
+           SQLCOMMAND
+           | PUPPETCOMMAND
+        ,
+        unless  => @("PUPPETCOMMAND")
+           /usr/bin/mysql -qfsAN <<'SQLCOMMAND' | /usr/bin/tail -1 | /bin/grep -q 1
+           ${unless}
+           SQLCOMMAND
+           | PUPPETCOMMAND
+        ,
     }
 }
