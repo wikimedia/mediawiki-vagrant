@@ -20,8 +20,8 @@
     // Produce recentchange events using the EventBus extension to eventgate-main
     $wgRCFeeds = [
         'eventbus' => [
-            'class'            => 'EventBusRCFeedEngine',
-            'formatter'        => 'EventBusRCFeedFormatter',
+            'class'            => MediaWiki\Extension\EventBus\Adapters\RCFeed\EventBusRCFeedEngine::class,
+            'formatter'        => MediaWiki\Extension\EventBus\Adapters\RCFeed\EventBusRCFeedFormatter::class,
             'eventServiceName' => 'eventgate-main',
         ]
     ];
