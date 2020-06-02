@@ -168,7 +168,7 @@ for DIR in $MW_INSTALL_PATH \
     echo $DIR
   fi
 done |
-parallel --verbose --noswap --load "100%" --keep-order mwv_composer
+parallel --verbose --noswap --load "100%" --memfree 200M --retries 1 --keep-order mwv_composer
 
 echo -e "\e[36m==> Updating database ...\e[0m"
 /usr/local/bin/foreachwiki update.php --quick --doshared
