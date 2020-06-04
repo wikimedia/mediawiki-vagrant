@@ -32,10 +32,9 @@ RewriteRule ^/$ /w/index.php [R=301,L]
 
 Alias /wiki <%= @docroot %>/w/index.php
 
-# Reverse proxy for eventlogging devserver
+# eventlogging devserver
 <IfDefine ELDevServer>
-    ProxyPass /event.gif http://127.0.0.1:8100/event.gif
-    ProxyPassReverse /event.gif http://127.0.0.1:8100/event.gif
+    RedirectMatch 204 ^/event\.gif$
 </IfDefine>
 
 # Add a response header with the following format:
