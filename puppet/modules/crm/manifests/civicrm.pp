@@ -44,6 +44,16 @@ class crm::civicrm (
         ],
     }
 
+    # This makes life easier by not requiring folks to manually run db trigger updates
+    # after each CiviCRM upgrade.
+    exec { 'give_civicrm_upgrade_process_mysql_trigger_permissions':
+      command => "/usr/bin/mysql -u'${db_user}' -p'${db_pass}' '${db_name}' -e \"UPDATE civicrm_setting
+      SET value='i:0;' WHERE name='logging_no_trigger_permission'\"",
+      unless  => "/usr/bin/mysql -u ${db_user} -p${db_pass} ${db_name} -e \"SELECT value
+      FROM civicrm_setting WHERE name='logging_no_trigger_permission';\" | grep 'i:0;'",
+      require => Exec['civicrm_setup'],
+    }
+
     exec { 'civicrm_buildkit_setup':
         command     => "${buildkit_dir}/bin/civi-download-tools",
         environment => [
