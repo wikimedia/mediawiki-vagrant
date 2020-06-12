@@ -54,10 +54,5 @@ class payments::donation_interface {
 
     },
     needs_update => true,
-    require      => [
-      Mediawiki::Extension[
-        'payments:ContributionTracking'
-      ],
-    ],
   }
 }

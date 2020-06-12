@@ -47,16 +47,6 @@ class payments(
     ],
   }
 
-  mediawiki::extension { 'payments:ContributionTracking':
-    needs_update => true,
-    settings     => {
-      'wgContributionTrackingDBserver'   => '127.0.0.1',
-      'wgContributionTrackingDBname'     => $drupal_db,
-      'wgContributionTrackingDBuser'     => $drupal_db_user,
-      'wgContributionTrackingDBpassword' => $drupal_db_pass,
-    },
-  }
-
   mediawiki::extension { [
     'payments:ParserFunctions',
   ]: }
