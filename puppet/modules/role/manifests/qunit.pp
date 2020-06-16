@@ -1,0 +1,25 @@
+# == Class: role::qunit
+#
+# Sets up command-line QUnit testing.
+#
+class role::qunit {
+    include ::role::mediawiki
+
+    $node_version = hiera('npm::node_version', undef)
+    if (!$node_version or $node_version < 10) {
+        warning('Running QUnit from the command line requires NodeJS 10. To use it, set npm::node_version: 10 in hiera. (Might break other services.)')
+    }
+
+
+    require_package( 'chromium' )
+
+    env::var { 'MW_SERVER':
+        value => $::mediawiki::server_url,
+    }
+    env::var { 'MW_SCRIPT_PATH':
+        value => '/w',
+    }
+    env::var { 'CHROME_BIN':
+        value => '/usr/bin/chromium',
+    }
+}
