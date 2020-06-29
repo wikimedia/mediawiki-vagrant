@@ -126,7 +126,8 @@ define mediawiki::wiki(
         dbname     => $db_name,
         dbpass     => $db_pass,
         dbuser     => $db_user,
-        pass       => $admin_pass,
+        # temporary password that passes validity checks, will be overridden later
+        pass       => 'very-long-and-unique-password-to-work-around-T232354',
         scriptpath => '/w',
         server     => $server_url,
         confpath   => $settings_root,
@@ -177,7 +178,7 @@ define mediawiki::wiki(
         require => Exec["${db_name}_include_extra_settings"],
     }
 
-    # T232354: the installer should set the password but fails to do so
+    # T232354: set the real password that the installer could not because config overrides were not in place yet
     exec { "${db_name}_change_admin_password":
         command     => "/usr/local/bin/mwscript changePassword.php --wiki ${db_name} --user ${admin_user} --password ${admin_pass}",
         refreshonly => true,
