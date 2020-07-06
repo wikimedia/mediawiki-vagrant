@@ -1,5 +1,13 @@
 /*<?php*/
 
+// Settings shared between WikibaseRepo and WikibaseClient –
+// keep this section in sync with client.php.erb
+$wgWBRepoSettings['entityNamespaces'] = [
+	'item' => NS_MAIN,
+	'property' => WB_NS_PROPERTY
+];
+$wgWBRepoSettings['specialSiteLinkGroups'][] = 'wikidata';
+
 // Settings specific to the wikidata wiki
 
 // Setup and alias for the main namespace
@@ -11,8 +19,6 @@ $wgExtraNamespaces[WB_NS_PROPERTY] = 'Property';
 $wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'Property_talk';
 $wgExtraNamespaces[WB_NS_QUERY] = 'Query';
 $wgExtraNamespaces[WB_NS_QUERY_TALK] = 'Query_talk';
-
-$wgWBRepoSettings = $wgWBSharedSettings + $wgWBRepoSettings;
 
 $wgWBRepoSettings['statementSections'] = [
 	'item' => [

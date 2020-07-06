@@ -35,14 +35,7 @@ class role::wikidata(
         },
         footer   => '}',
     }
-    # Shared settings for WikibaseRepo and WikibaseClient.
-    # This can run before or after the extension has been loaded, but
-    # must be run before the other two settings below.
-    mediawiki::settings { 'WikiData-Shared':
-      values   => template('role/wikidata/shared.php.erb'),
-    }
     # Generic settings for WikibaseClient that should apply to all wikis.
-    # Must run after the extension has been loaded. 
     mediawiki::settings { 'WikiData-Client':
       priority => $::load_later,
       values   => template('role/wikidata/client.php.erb'),

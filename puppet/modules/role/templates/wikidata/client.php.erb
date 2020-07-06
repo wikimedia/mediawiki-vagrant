@@ -3,7 +3,17 @@
 // Client settings shared by all wikis. The extension must be loaded
 // before running this as it overwrites $wgWBClientSettings.
 if ( $wgEnableWikibaseClient ) {
-	$wgWBClientSettings = $wgWBSharedSettings + $wgWBClientSettings;
+
+	// Settings shared between WikibaseRepo and WikibaseClient –
+	// keep this section in sync with repo.php.erb
+	$wgWBClientSettings['entityNamespaces'] = [
+		'item' => NS_MAIN,
+		'property' => WB_NS_PROPERTY
+	];
+	$wgWBClientSettings['specialSiteLinkGroups'][] = 'wikidata';
+
+	// Setting specific to WikibaseClient
+
 	$wgWBClientSettings['siteGlobalID'] = 'enwiki';
 	$wgWBClientSettings['changesDatabase'] = 'wikidatawiki';
 	$wgWBClientSettings['repoDatabase'] = 'wikidatawiki';
