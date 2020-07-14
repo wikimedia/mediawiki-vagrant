@@ -76,6 +76,12 @@ module MediaWikiVagrant
       default: false,
       coercion: ->(_setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
 
+    setting :nfs_force_v4,
+      description: 'Use NFS version 4',
+      help: "Enter 'yes' or 'no'.",
+      default: false,
+      coercion: ->(_setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
+
     setting :nfs_cache,
       description: 'Use cachefilesd to speed up NFS file access (EXPERIMENTAL)',
       help: "Enter 'yes' or 'no'. If your VM is currently running, reload it after changing this setting.",

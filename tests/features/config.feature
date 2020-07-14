@@ -28,8 +28,12 @@ Feature: Command line configuration
       | static_ip     |
       | http_port     |
       | https_port    |
+      | host_ip       |
+      | smb_shares    |
       | nfs_shares    |
       | nfs_force_v3  |
+      | nfs_force_v4  |
+      | nfs_cache     |
       | forward_agent |
       | forward_x11   |
 
@@ -80,6 +84,7 @@ Feature: Command line configuration
       | smb_shares    | yes     |
       | nfs_shares    | no      |
       | nfs_force_v3  | no      |
+      | nfs_force_v4  | no      |
       | nfs_cache     | yes     |
       | forward_agent | yes     |
       | forward_x11   | no      |
@@ -95,6 +100,7 @@ Feature: Command line configuration
       | smb_shares    | yes     |
       | nfs_shares    | no      |
       | nfs_force_v3  | no      |
+      | nfs_force_v4  | no      |
       | nfs_cache     | yes     |
       | forward_agent | yes     |
       | forward_x11   | no      |
