@@ -43,12 +43,11 @@ class role::cirrussearch (
     }
 
     mediawiki::extension { 'CirrusSearch':
-        settings      => template('elasticsearch/CirrusSearch.php.erb'),
-        require       => [
+        settings => template('elasticsearch/CirrusSearch.php.erb'),
+        require  => [
             Service['elasticsearch'],
             Class['eventschemas'],
         ],
-        browser_tests => 'tests/browser',
     }
 
     mediawiki::settings { 'cirrustest:cirrussearch test suite':

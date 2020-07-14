@@ -48,13 +48,6 @@
 #   Settings may be specified as a hash, array, or string. See examples
 #   below. Empty by default.
 #
-# [*browser_tests*]
-#   Whether or not to install the dependencies necessary to execute browser
-#   tests. Specifying true will bundle the tests in the default
-#   'tests/browser' subdirectory of the extension directory. You may otherwise
-#   provide a different subdirectory, or false to skip installation of
-#   browser-test dependencies altogether. Default: false.
-#
 # [*composer*]
 #   Whether this extension has dependencies that need to be installed via
 #   Composer. Default: false.
@@ -120,7 +113,6 @@ define mediawiki::extension(
     $needs_update   = false,
     $branch         = undef,
     $settings       = {},
-    $browser_tests  = false,
     $composer       = false,
     $remote         = undef,
 ) {
@@ -189,11 +181,5 @@ define mediawiki::extension(
         # If the extension requires a schema migration, set up the
         # settings file resource to notify update.php.
         Mediawiki::Settings[$title] ~> Exec['update_all_databases']
-    }
-
-    if $browser_tests {
-        mediawiki::extension::browsertests { $ext_name:
-            path => $browser_tests,
-        }
     }
 }

@@ -7,6 +7,5 @@ class role::math {
 
     mediawiki::extension { 'Math':
         needs_update  => true,
-        browser_tests => true,
     }
 }

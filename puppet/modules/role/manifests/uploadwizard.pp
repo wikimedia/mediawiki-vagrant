@@ -15,7 +15,6 @@ class role::uploadwizard {
     require_package('python-poster')
 
     mediawiki::extension { 'UploadWizard':
-        browser_tests => true,
         settings      => {
             wgAllowCopyUploads    => true,
             wgEnableUploads       => true,

@@ -12,7 +12,6 @@ class role::gettingstarted {
     include ::role::pageimages
 
     mediawiki::extension { 'GettingStarted':
-        browser_tests => true,
         settings      => {
             wgGettingStartedRedis                  => '127.0.0.1',
             # A sample category configuration for local testing.

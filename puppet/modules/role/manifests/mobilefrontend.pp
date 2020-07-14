@@ -21,7 +21,6 @@ class role::mobilefrontend {
             wgMFNearby               => true,
             wgMFEnableBeta           => true,
         },
-        browser_tests => true,
     }
 
     mediawiki::wiki{ 'mobile': }

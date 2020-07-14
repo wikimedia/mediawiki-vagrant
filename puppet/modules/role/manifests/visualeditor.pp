@@ -15,10 +15,9 @@ class role::visualeditor {
     include ::role::uls
 
     mediawiki::extension { 'VisualEditor':
-        settings      => template('role/visualeditor/conf.php.erb'),
-        browser_tests => 'modules/ve-mw/tests/browser',
-        priority      => $::load_early,
-        wiki          => $::mediawiki::wiki_name,
+        settings => template('role/visualeditor/conf.php.erb'),
+        priority => $::load_early,
+        wiki     => $::mediawiki::wiki_name,
     }
 
 
