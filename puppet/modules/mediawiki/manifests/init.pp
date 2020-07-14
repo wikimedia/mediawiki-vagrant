@@ -224,6 +224,7 @@ class mediawiki(
 
     php::composer::install { $dir:
         require => Git::Clone['mediawiki/core'],
+        timeout => 900,
     }
 
     # Needed by mediawiki::composer::require
