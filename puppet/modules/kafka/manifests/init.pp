@@ -87,6 +87,7 @@ class kafka(
                 User['kafka'],
                 Service['zookeeper'],
                 Package['confluent-kafka-2.11'],
+                Class['mediawiki::ready_service'],
             ],
             subscribe => [
                 File['/etc/kafka/server.properties'],

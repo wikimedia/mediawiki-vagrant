@@ -27,8 +27,8 @@ class eventgate(
         warning("eventgate requires NodeJS version 10 but was ${node_version}. To use it, set npm::node_version: 10 in hieradata/common.yaml. (Might break other services.)")
     }
 
-    require ::kafka
     require ::eventschemas
+    include ::kafka
     include ::mwv # to get $::mwv::tld
 
     require_package('librdkafka1', 'librdkafka++1', 'librdkafka-dev')
@@ -84,7 +84,8 @@ class eventgate(
         script          => 'node_modules/eventgate/server.js',
         config          => $config,
         # Use debian librdkafka package
-        npm_environment => ['BUILD_LIBRDKAFKA=0']
+        npm_environment => ['BUILD_LIBRDKAFKA=0'],
+        require         => Systemd::Service['kafka'],
     }
 
     # Add a reverse proxy from eventgate.local.wmftest.net to the
