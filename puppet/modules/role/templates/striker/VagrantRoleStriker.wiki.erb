@@ -99,6 +99,27 @@ Q("policy.join").value = "admin";
 *** Names: <kbd>["Repository-Admins"]</kbd>
 *** Copy the <code>"phid"</code> value for use later in [[#Setup_Striker|configuring the Striker app]]
 
+* [<%= @phabricator_url %>/project/edit/form/default/ Create a "Tools" project]
+** Name: <kbd>Tools</kbd>
+** Icon: <kbd>Umbrella</kbd>
+** Color: <kbd>Blue</kbd>
+** Editable By: <kbd>All User</kbd>
+** Joinable By: <kbd>All User</kbd>
+*:<syntaxhighlight lang="javascript">
+Q = function(s){return document.querySelector('[name="' + s + '"]')};
+Q("name").value = "Tools";
+Q("icon").value = "umbrella";
+Q("color").value = "blue";
+Q("policy.edit").value = "users";
+Q("policy.join").value = "users";
+</syntaxhighlight>
+
+* Lookup PHID of "Tools" group
+** Option 1: On <%= @phabricator_url %>/project/profile/2/ , click "View All" and copy the PHID- identifier from the URL.
+** Option 2: [<%= @phabricator_url %>/conduit/method/project.query/ Using the API console ]
+*** Names: <kbd>["Tools"]</kbd>
+*** Copy the <code>"phid"</code> value for use later in [[#Setup_Striker|configuring the Striker app]]
+
 ===Setup Striker===
 * [<%= scope['::mediawiki::server_url'] %>/wiki/Special:OAuthConsumerRegistration/propose Register an OAuth consumer for Striker]
 ** Application Name: <kbd>Toolforge console</kbd>
@@ -126,6 +147,7 @@ role::striker::oauth_consumer_key: <32 char consumer token>
 role::striker::oauth_consumer_secret: <40 char secret token>
 role::striker::phabricator_token: api-<28 chars>
 role::striker::phabricator_repo_admin_group: PHID-PROJ-<20 chars>
+role::striker::phabricator_project_parent_project: PHID-PROJ-<20 chars>
 </syntaxhighlight>
 * Run <code>vagrant provision</code> to update Striker's configuration.
 

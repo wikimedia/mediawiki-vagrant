@@ -43,6 +43,9 @@
 # [*phabricator_repo_admin_group*]
 #   PHID of git repository administrators group
 #
+# [*phabricator_project_parent_project*]
+#   PHID of parent project for new Phabricator projects
+#
 # [*wikitech_url*]
 #   URL to Wikitech instance.
 #
@@ -83,6 +86,7 @@ class role::striker(
     $phabricator_user,
     $phabricator_token,
     $phabricator_repo_admin_group,
+    $phabricator_project_parent_project,
     $uwsgi_port,
     $wikitech_url,
     $wikitech_consumer_key,

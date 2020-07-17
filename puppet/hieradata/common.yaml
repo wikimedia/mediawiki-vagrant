@@ -372,6 +372,7 @@ role::striker::phabricator_url: "http://%{hiera('phabricator::vhost_name')}%{::p
 role::striker::phabricator_user: striker
 role::striker::phabricator_token: "!Set in local.yaml after creating bot!"
 role::striker::phabricator_repo_admin_group: "!Set in local.yaml after creating group!"
+role::striker::phabricator_project_parent_project: "!Set in local.yaml after creating group!"
 role::striker::uwsgi_port: 8081
 role::striker::wikitech_url: "http://ldapauth%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
 role::striker::wikitech_consumer_key: 621c0e27ecb5316720a859f7d34b6728
