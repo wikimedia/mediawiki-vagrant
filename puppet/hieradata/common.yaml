@@ -248,6 +248,10 @@ restbase::port: 7231
 restbase::domain: "%{hiera('role::mediawiki::hostname')}"
 restbase::dbdir: /var/lib/restbase
 
+role::cargo::db_name: cargo_db
+role::cargo::db_user: cargo_user
+role::cargo::db_pass: Rm3mjs6q8zVa3U7JhdmH
+
 role::centralauth::db_host: "%{hiera('mysql::grant_host_name')}"
 role::centralauth::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
 role::centralauth::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
