@@ -13,10 +13,9 @@
 # This class does not set up any stream configs to enforce schemas
 # in topics.
 #
-# NOTE: to use this class, you must set npm::node_version: 10 in
-# hieradata/common.yaml. Doing so will install NodeJS 10 instead
-# of 6 and may break other NodeJS services if they are not compatible
-# NodeJS 10.
+# NOTE: to use this class, you must set the npm::node_version hiera key to 10.
+# Doing so will install NodeJS 10 instead of 6 and may break other NodeJS
+# services if they are not compatible NodeJS 10.
 #
 class eventgate(
     $port      = 8192,
@@ -24,7 +23,7 @@ class eventgate(
 ) {
     $node_version = hiera('npm::node_version', '6')
     if $node_version != 10 {
-        warning("eventgate requires NodeJS version 10 but was ${node_version}. To use it, set npm::node_version: 10 in hieradata/common.yaml. (Might break other services.)")
+        warning("eventgate requires NodeJS version 10 but was ${node_version}. To use it, run `vagrant hiera npm::node_version 10 && vagrant provision`. (Might break other services.)")
     }
 
     require ::eventschemas

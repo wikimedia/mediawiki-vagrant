@@ -7,7 +7,7 @@ class role::qunit {
 
     $node_version = hiera('npm::node_version', undef)
     if (!$node_version or $node_version < 10) {
-        warning('Running QUnit from the command line requires NodeJS 10. To use it, set npm::node_version: 10 in hiera. (Might break other services.)')
+        warning('Running QUnit from the command line requires NodeJS 10. To use it, run `vagrant hiera npm::node_version 10 && vagrant provision`. (Might break other services.)')
     }
 
 
