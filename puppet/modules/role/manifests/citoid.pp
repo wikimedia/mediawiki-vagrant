@@ -1,6 +1,6 @@
 # == Class: role::citoid
 # Provisions Citoid, a MediaWiki service for converting URLs to
-# citations. To expose it to users, enable the visualeditor role.
+# citations. To expose it to users, enable the visualeditor_wikimedia role.
 class role::citoid(
     $url,
 ) {

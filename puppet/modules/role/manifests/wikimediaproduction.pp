@@ -97,7 +97,7 @@ class role::wikimediaproduction {
     include ::role::uls
     include ::role::uploadwizard
     include ::role::vipsscaler
-    include ::role::visualeditor
+    include ::role::visualeditor_wikimedia
     include ::role::wikieditor
     include ::role::wikihiero
     include ::role::wikilove
