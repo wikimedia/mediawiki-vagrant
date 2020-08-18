@@ -37,6 +37,7 @@ class role::contenttranslation {
   include ::role::eventlogging
   include ::role::cldr
   include ::role::uls
+  include ::role::visualeditor
   include ::role::parsoid
   include ::role::echo
   include ::contenttranslation::cxserver

@@ -4,6 +4,8 @@
 # [1] https://www.mediawiki.org/wiki/Extension:DiscussionTools
 #
 class role::discussiontools {
+    include role::visualeditor
+
     mediawiki::extension { 'Linter':
         needs_update => true,
     }
