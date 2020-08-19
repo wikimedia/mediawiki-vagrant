@@ -4,6 +4,8 @@
 class role::growthexperiments {
     require ::role::mediawiki
     include ::role::pageviewinfo
+    include ::role::visualeditor
+    include ::role::uls
     include ::role::guidedtour
     include ::role::echo
     include ::role::eventlogging
