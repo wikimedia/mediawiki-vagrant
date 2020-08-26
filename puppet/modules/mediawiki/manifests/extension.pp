@@ -25,7 +25,9 @@
 # [*entrypoint*]
 #   The path to the extension's entry point relative to the extension's
 #   root directory. Defaults to '<Extension name>.php'. The default
-#   value works for the vast majority of MediaWiki extensions.
+#   value works for the vast majority of MediaWiki extensions. Only
+#   used if the file exists. If an extension lacks a php entry point,
+#   ignore this parameter.
 #
 # [*priority*]
 #   This parameter takes a numeric value, which is used to generate a
