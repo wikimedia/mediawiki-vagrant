@@ -2,6 +2,11 @@
 # This file is managed by Puppet.
 
 xdebug_on() {
+    # XXX: xdebug 2.7.0 is currently broken (T247587). warn the user
+    if [[ "$(php -r 'print(phpversion("xdebug"));')" == "2.7.0" ]]; then
+        echo "WARNING: xdebug 2.7.0 is broken. see https://phabricator.wikimedia.org/T247587 for more information and workarounds"
+    fi
+
     # http://xdebug.org/docs/remote#starting
     export XDEBUG_CONFIG='idekey=xdebug remote_host=<%= scope['host_ip'] %>'
     # http://blog.jetbrains.com/webide/2012/03/new-in-4-0-easier-debugging-of-remote-php-command-line-scripts/
