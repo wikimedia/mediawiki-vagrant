@@ -88,4 +88,15 @@ class role::wikidata(
         wiki    => 'wikidata',
         db_name => 'wikidatawiki',
     }
+
+    # Set up GlobalWatchlist extension, see T261259
+    # Since the GlobalWatchlist extension is only enabled on
+    # The default wiki ($::mediawiki::wiki_name), the setting
+    # is only needed there as well
+    mediawiki::settings { 'GlobalWatchlist Wikibase':
+        wiki   => $::mediawiki::wiki_name,
+        values => {
+            'wgGlobalWatchlistWikibaseSite' => "wikidata${::mediawiki::multiwiki::base_domain}${::port_fragment}"
+        },
+    }
 }
