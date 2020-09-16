@@ -2,34 +2,33 @@
 
     // Each active event service backend is configured here.
     $wgEventServices = [
-        // eventgate-main will block the HTTP POST until events are persisted.
-        "eventgate-main"      => [ "url" => "<%= @eventgate_url %>" ],
-        // eventgate-analytics will respond to HTTP POST request ASAP.
-        "eventgate-analytics" => [ "url" => "<%= @eventgate_url %>?hasty=true" ],
+        // eventgate will block the HTTP POST until events are persisted.
+        "eventgate"      => [ "url" => "<%= @eventgate_url %>" ],
+        // eventgate-hasty will respond to HTTP POST request ASAP.
+        "eventgate-hasty" => [ "url" => "<%= @eventgate_url %>?hasty=true" ],
     ];
 
-    // Enable EventBus extension monolog handler via eventgate-analytics endpoint.
-    $wgMWLoggerDefaultSpi['args'][0]['handlers']['eventgate-analytics'] = array(
+    // Used to look up the event service URL in ProductionServices to which
+    // the EventBus (and possibly other) extension will produce an event
+    // stream to by default.  (If the event stream has an stream config in
+    // wgEventStreams with the 'destination_event_service' setting, EventBus
+    // will used that as the destination event service for the event stream instead.)
+    $wgEventServiceDefault = 'eventgate';
+
+    // Enable EventBus extension monolog handler via eventgate-hasty endpoint.
+    $wgMWLoggerDefaultSpi['args'][0]['handlers']['eventgate-hasty'] = array(
         "class" => MediaWiki\Extension\EventBus\Adapters\Monolog\EventBusMonologHandler::class,
-        "args" => array( "eventgate-analytics" ),
+        "args" => array( "eventgate-hasty" ),
     );
-    // Log api-requests via eventgate-analytics service.
+    // Log api-requests via eventgate-hasty service.
     $wgMWLoggerDefaultSpi['args'][0]['loggers']['api-request'] = array(
-        'handlers' => array( 'eventgate-analytics' ),
+        'handlers' => array( 'eventgate-hasty' ),
     );
-    // Produce recentchange events using the EventBus extension to eventgate-main
+    // Produce recentchange events using the EventBus extension to eventgate
     $wgRCFeeds = [
         'eventbus' => [
             'class'            => MediaWiki\Extension\EventBus\Adapters\RCFeed\EventBusRCFeedEngine::class,
             'formatter'        => MediaWiki\Extension\EventBus\Adapters\RCFeed\EventBusRCFeedFormatter::class,
-            'eventServiceName' => 'eventgate-main',
+            'eventServiceName' => 'eventgate',
         ]
-    ];
-
-    // Default EventBus event streams to send events to eventgate-main.
-    // TODO: Refactor EventBus configuration: https://phabricator.wikimedia.org/T229863
-    $wgEventServiceStreamConfig = [
-        'default' => [
-            'EventServiceName' => 'eventgate-main',
-        ],
     ];
