@@ -6,6 +6,7 @@
 #
 class role::globalwatchlist {
     require ::role::mediawiki
+    include ::role::guidedtour
 
     mediawiki::extension { 'GlobalWatchlist':
         settings => {
