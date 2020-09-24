@@ -7,9 +7,9 @@ $wgCirrusSearchExtraIndexes[ NS_FILE ] = array( 'commonswiki_file' );
 $wgCirrusSearchDevelOptions['allow_nuke'] = true;
 
 $wgCirrusSearchRequestEventSampling = 1.0;
-// Log api-requests via eventgate-analytics service.
+// Log api-requests via eventgate-hasty service.
 $wgMWLoggerDefaultSpi['args'][0]['loggers']['cirrussearch-request'] = array(
-    'handlers' => array( 'eventgate-analytics' ),
+    'handlers' => array( 'eventgate-hasty' ),
 );
 
 $wgCirrusSearchWMFExtraFeatures = [
