@@ -346,7 +346,7 @@ role::mobilecontentservice::vhost_name: "mcs%{hiera('mwv::tld')}"
 
 role::offline::electron_hostname: "electron%{hiera('mwv::tld')}"
 
-role::parsoid::public_url: "http://parsoid%{hiera('mwv::tld')}%{::port_fragment}"
+role::parsoid_js::public_url: "http://parsoid%{hiera('mwv::tld')}%{::port_fragment}"
 
 role::proton::vhost_name: "proton%{hiera('mwv::tld')}"
 

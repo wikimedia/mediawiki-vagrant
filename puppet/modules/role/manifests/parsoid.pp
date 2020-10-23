@@ -1,13 +1,9 @@
 # == Class: role::parsoid
-# Configures Parsoid, a wikitext parsing service
-class role::parsoid(
-    $public_url,
-) {
-    include ::parsoid
+# Configures Parsoid/PHP, a wikitext parsing service.
+class role::parsoid {
+    include ::mediawiki
 
-    apache::reverse_proxy { 'parsoid':
-        port => $::parsoid::port,
-    }
+    $parsoid_dir = "${::mediawiki::dir}/vendor/wikimedia/parsoid";
 
     # register the PHP Virtual REST Service connector
     mediawiki::settings { 'parsoid-vrs':
@@ -15,20 +11,15 @@ class role::parsoid(
         priority => 4,
     }
 
-    # As a temporary hack, register Parsoid as an extension
-    # (can't use mediawiki::extension as it gets installed as a service
-    # and the git declarations would conflict).
     mediawiki::settings { 'parsoid-extension':
-        values => "wfLoadExtension( 'Parsoid', '${::service::root_dir}/parsoid/extension.json' );",
+        values => "wfLoadExtension( 'Parsoid', '${parsoid_dir}/extension.json' );",
     }
-    php::composer::install{ "${::service::root_dir}/parsoid":
-        prefer  => 'source',
-        # This is defined in ::Parsoid -> Service::Node['parsoid'].
-        # Better than depending on the entire service definition
-        # which includes launching the daemon, running update scripts
-        # etc. and would probably introduce a cycle somewhere.
-        require => Git::Clone['parsoid'],
-        timeout => 1200,
+
+    # Make the Parsoid directory into a proper checkout for developer convenience
+    php::composer::prefer_source { 'parsoid':
+        app_dir    => $::mediawiki::dir,
+        library    => 'wikimedia/parsoid',
+        git_remote => 'https://gerrit.wikimedia.org/r/mediawiki/services/parsoid',
     }
 
     mediawiki::import::text { 'VagrantRoleParsoid':
