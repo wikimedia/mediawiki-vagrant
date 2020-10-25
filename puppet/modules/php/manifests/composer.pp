@@ -18,7 +18,8 @@ class php::composer (
     $bin = '/usr/local/bin/composer'
 
     exec { 'download_composer':
-        command => "curl https://getcomposer.org/composer.phar -o ${bin}",
+        # composer-1.phar is "Latest 1.x"
+        command => "curl https://getcomposer.org/composer-1.phar -o ${bin}",
         unless  => "php -r 'try { Phar::loadPhar(\"${bin}\"); exit(0); } catch(Exception \$e) { exit(1); }'",
         require => [
             Package['curl'],
