@@ -36,7 +36,7 @@ class php::composer (
     }
 
     exec { 'update_composer':
-        command     => '/usr/local/bin/composer self-update',
+        command     => '/usr/local/bin/composer self-update --1',
         environment => [
           "COMPOSER_HOME=${home}",
           "COMPOSER_CACHE_DIR=${cache_dir}",
