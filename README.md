@@ -30,7 +30,7 @@ See `support/README-libvirt.md` `support/README-lxc.md` or
 
    To check your Vagrant version, run
 
-     vagrant --version
+     `vagrant --version`
 
    in a directory without a Vagrantfile (for example in your home directory).
  * You must have a 64-bit processor (although your host OS can be 32-bit).
@@ -43,7 +43,7 @@ See `support/README-libvirt.md` `support/README-lxc.md` or
  * (Optional) For better performance on non-Windows hosts, install NFS.  For
    Debian-based systems (including Ubuntu), run:
 
-    sudo apt-get install nfs-kernel-server portmap
+    `sudo apt-get install nfs-kernel-server portmap`
 
    You can optionally configure sudo not to prompt you for the password when
    doing operations related to this NFS service.  See
