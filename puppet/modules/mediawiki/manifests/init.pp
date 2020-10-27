@@ -221,6 +221,7 @@ class mediawiki(
 
     # Ensure that vendor directory exists before db updates run.
     Php::Composer::Install <| |> -> Exec['update_all_databases']
+    Php::Composer::Prefer_source <| |> -> Exec['update_all_databases']
 
     php::composer::install { $dir:
         require => Git::Clone['mediawiki/core'],
