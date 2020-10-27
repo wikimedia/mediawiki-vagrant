@@ -248,6 +248,12 @@ restbase::port: 7231
 restbase::domain: "%{hiera('role::mediawiki::hostname')}"
 restbase::dbdir: /var/lib/restbase
 
+role::addlink::db_name: addlink
+role::addlink::db_user: addlink_user
+role::addlink::db_pass: secret123
+role::addlink::service_dir: "%{hiera('mwv::services_dir')}/mwaddlink"
+role::addlink::service_port: 8001
+
 role::cargo::db_name: cargo_db
 role::cargo::db_user: cargo_user
 role::cargo::db_pass: Rm3mjs6q8zVa3U7JhdmH

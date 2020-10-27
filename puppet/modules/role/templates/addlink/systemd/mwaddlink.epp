@@ -1,0 +1,26 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+[Unit]
+Description=mwaddlink service for the Add Link pipeline
+Requires=mediawiki-ready.service
+After=mediawiki-ready.service
+
+[Service]
+User=www-data
+Group=www-data
+SyslogIdentifier=mwaddlink
+Environment=PYTHONPATH=<%= $service_dir %>
+Environment=NLTK_DATA=/home/vagrant/nltk_data
+Environment=FLASK_APP=api
+Environment=FLASK_DEBUG=1
+Environment=MWADDLINK_DB_NAME=<%= $db_name %>
+Environment=MWADDLINK_DB_USER=<%= $db_user %>
+Environment=MWADDLINK_DB_PASS=<%= $db_pass %>
+WorkingDirectory=<%= $service_dir %>
+ExecStart=<%= $venv_dir %>/bin/flask run --port <%= $service_port %>
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

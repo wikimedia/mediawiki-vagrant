@@ -19,16 +19,13 @@
 #   The type of the service, can be 'php', 'nodejs' or 'python'.
 #   This parameter is relevant only if a dependencies update should be
 #   scheduled as well (cf. the 'update' parameter below). Default: undef
-#   NOTE:  python packages are installed into a virtualenv in 'editible'
-#   mode.  That is, you can edit their checked out locations and still
-#   see the effects in code run out of the virtualenv.
 #
 # [*pull*]
 #   Whether to perform a git pull. Default: true
 #
 # [*update*]
-#   Whether to perform a dependencies update. If set to true, the 'type'
-#   parameter is obligatory. Default: false
+#   Whether to perform a dependencies update (composer, npm or virtualenv).
+#   If set to true, the 'type' parameter is obligatory. Default: false
 #
 # [*restart*]
 #   Whether the service should also be restarted after the update process.
@@ -37,6 +34,10 @@
 # [*service_name*]
 #   If the service needs to be restarted, but its service name differs from
 #   $title, use this instead. Default: undef
+#
+# [*virtualenv_dir*]
+#   Only with update=true and type=python, the virtualenv directory.
+#   Default: $dir/.venv
 #
 # === Examples
 #
@@ -73,45 +74,35 @@
 # restart'.
 #
 define service::gitupdate(
-    $dir          = undef,
-    $type         = undef,
-    $pull         = true,
-    $update       = false,
-    $restart      = false,
-    $service_name = undef,
+    $dir            = undef,
+    $type           = undef,
+    $pull           = true,
+    $update         = false,
+    $restart        = false,
+    $service_name   = undef,
+    $virtualenv_dir = undef,
 ) {
 
     require ::service
-
-    # descern the update command to use
-    $up_cmd = $type ? {
-        'php'    => 'composer update --no-interaction --optimize-autoloader',
-        'nodejs' => 'sudo rm -rf node_modules && npm install --no-bin-links',
-        'python' => './virtualenv/bin/pip install -Ue .',
-        default  => 'invalid'
-    }
-    if $update and $up_cmd == 'invalid' {
-        fail("Invalid service type ${type} given, valid values are php, nodejs, python")
-    }
 
     $srv_dir = $dir ? {
         undef   => "${::service::root_dir}/${title}",
         default => $dir
     }
+    $real_virtualenv_dir = $virtualenv_dir ? {
+        undef   => "${srv_dir}/.venv",
+        default => $virtualenv_dir,
+    }
 
-    # Create a virtualenv in $srv_dir
-    if $update and $type == 'python' {
-        virtualenv::environment { "${srv_dir}/virtualenv":
-            ensure   => 'present',
-            # Packages will be installed by the $up_cmd
-            # during vagrant git-update.
-            packages => undef,
-            timeout  => 600, # This can take a while
-            # Most likely the $srv_dir will be in /vagrant,
-            # so use $::share_owner.
-            owner    => $::share_owner,
-            group    => $::share_group,
-        }
+    # discern the update command to use
+    $up_cmd = $type ? {
+        'php'    => 'composer update --no-interaction --optimize-autoloader',
+        'nodejs' => 'sudo rm -rf node_modules && npm install --no-bin-links',
+        'python' => "${real_virtualenv_dir}/bin/pip install -Ue .",
+        default  => 'invalid'
+    }
+    if $update and $up_cmd == 'invalid' {
+        fail("Invalid service type ${type} given, valid values are php, nodejs, python")
     }
 
     $restart_name = $service_name ? {
