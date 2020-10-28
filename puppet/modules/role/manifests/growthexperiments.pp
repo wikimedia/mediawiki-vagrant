@@ -11,7 +11,8 @@ class role::growthexperiments {
     include ::role::eventlogging
 
     mediawiki::extension { 'GrowthExperiments':
-        settings => template('role/growthexperiments/conf.php.erb'),
+        needs_update => true,
+        settings     => template('role/growthexperiments/conf.php.erb'),
     }
 
     mediawiki::import::text { 'Tutorial':
