@@ -262,8 +262,10 @@ Vagrant.configure('2') do |config|
       '--hiera_config', '/vagrant/puppet/hiera.yaml',
       '--verbose',
       '--config_version', '/vagrant/puppet/extra/config-version',
-      '--logdest', "/vagrant/logs/puppet/puppet.#{mwv.commit || 'unknown'}.log",
       '--logdest', 'console',
+      # NOTE: setting multiple --logdest destinations is broken in Puppet
+      # >=5.5.7,<5.5.14. See https://tickets.puppetlabs.com/browse/PUP-9565
+      '--logdest', "/vagrant/logs/puppet/puppet.#{mwv.commit || 'unknown'}.log",
       '--write-catalog-summary',
       '--detailed-exitcodes',
       '--ordering manifest',
