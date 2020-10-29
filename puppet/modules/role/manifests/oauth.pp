@@ -25,6 +25,9 @@ class role::oauth (
             '$wgOAuthGroupsToNotify = [ "sysop" ]',
         ]
     }
+    mediawiki::settings { 'OAuth2':
+        values => template('role/oauth/oauth2_settings.php.erb'),
+    }
 
     file { $hello_world_dir:
         ensure => directory,
