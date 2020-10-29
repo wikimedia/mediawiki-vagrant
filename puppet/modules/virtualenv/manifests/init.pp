@@ -7,5 +7,13 @@ class virtualenv {
         ensure   => present,
         provider => pip,
     }
+
+    # https://people.debian.org/~paravoid/python-all/
+    apt::repository { 'wikimedia-pyall':
+        uri        => 'https://apt.wikimedia.org/wikimedia',
+        dist       => "${::lsbdistcodename}-wikimedia",
+        components => 'component/pyall',
+        keyfile    => 'puppet:///modules/apt/wikimedia-pubkey.asc',
+    }
 }
 

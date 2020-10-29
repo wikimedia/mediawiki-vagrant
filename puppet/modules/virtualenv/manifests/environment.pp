@@ -46,6 +46,8 @@ define virtualenv::environment (
 ) {
     require ::virtualenv
 
+    require_package([$python, "${python}-dev"])
+
     if $ensure == 'present' {
         file { $dir:
             ensure => directory,
@@ -59,7 +61,10 @@ define virtualenv::environment (
             creates => "${dir}/lib",
             user    => $owner,
             group   => $group,
-            require => File[$dir],
+            require => [
+                File[$dir],
+                Package[$python],
+            ],
             timeout => $timeout,
         }
     } elsif $ensure == 'absent' {
