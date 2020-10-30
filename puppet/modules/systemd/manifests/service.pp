@@ -29,6 +29,10 @@
 # [*service_params*]
 # A hash of parameters to applied to the Service resource. Default: {}
 #
+# [*template_dir*]
+# The directory containing the systemd template, in the format expected by the
+# template() function. Defaults to '<module>/systemd'.
+
 # [*template_variables*]
 # Variables to be exposed to the template. Default: {}
 #
@@ -42,13 +46,18 @@ define systemd::service (
     $template_name      = $name,
     $declare_service    = true,
     $service_params     = {},
+    $template_dir       = undef,
     $template_variables = {},
     $epp_template       = false,
 ) {
     validate_ensure($ensure)
+    $template_dir_real = $template_dir ? {
+        undef   => "${caller_module_name}/systemd",
+        default => $template_dir,
+    }
     $unit_template = $epp_template ? {
-        true    => "${caller_module_name}/systemd/${template_name}.epp",
-        default => "${caller_module_name}/systemd/${template_name}.erb",
+        true    => "${template_dir_real}/${template_name}.epp",
+        default => "${template_dir_real}/${template_name}.erb",
     }
 
     $unit_path = $is_override ? {
