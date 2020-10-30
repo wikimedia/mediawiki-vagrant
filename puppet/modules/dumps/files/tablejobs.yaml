@@ -109,10 +109,6 @@ tables:
       job: wbitemspersite
       description: For each Wikidata item, this contains rows with the corresponding page name on a given wiki project.
       type: public
-    wb_terms:
-      job: wbterms
-      description: For each Wikidata item, this contains rows with a label, an alias and a description of the item in a given language.
-      type: public
     wb_entity_per_page:
       job: wbentityperpage
       description: Contains a mapping of page ids and entity ids, with an additional entity type column.
