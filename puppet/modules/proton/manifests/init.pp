@@ -1,7 +1,6 @@
 # == Class: proton
-# Sets up the Proton[1] service which renders PDF files from web pages.
-#
-# [1] https://www.mediawiki.org/wiki/Proton
+# Sets up the Proton[https://www.mediawiki.org/wiki/Proton]
+# service which renders PDF files from web pages.
 #
 # === Parameters
 #

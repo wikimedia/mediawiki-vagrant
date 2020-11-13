@@ -1,9 +1,8 @@
 # == Class: role::wikidatapagebanner
 #
-# Installs the WikidataPageBanner[1] extension which adds banners on the top
-# of some wiki pages (taking file names from Wikidata, or a parser tag).
-#
-# [1] https://www.mediawiki.org/wiki/Extension:WikidataPageBanner
+# Installs the WikidataPageBanner[https://www.mediawiki.org/wiki/Extension:WikidataPageBanner]
+# extension which adds banners on the top of some wiki pages
+# (taking file names from Wikidata, or a parser tag).
 #
 class role::wikidatapagebanner {
     mediawiki::extension { 'WikidataPageBanner':

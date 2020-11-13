@@ -1,9 +1,7 @@
 # == Class: role::invitesignup
-# Provisions the InviteSignup[1] extension which allows
-# restricting account creation on a closed wiki to
-# invited users only.
-#
-# [1]: https://www.mediawiki.org/wiki/Extension:InviteSignup
+# Provisions the InviteSignup[https://www.mediawiki.org/wiki/Extension:InviteSignup]
+# extension which allows restricting account creation on a closed
+# wiki to invited users only.
 #
 class role::invitesignup {
     mediawiki::extension { 'InviteSignup':

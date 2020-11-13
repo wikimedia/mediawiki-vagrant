@@ -1,8 +1,6 @@
 # == Class: role::disableaccount
-# Installs the [DisableAccount][1] extension which allows locking
-# down user accounts.
-#
-# [1] https://www.mediawiki.org/wiki/Extension:DisableAccount
+# Installs the DisableAccount[https://www.mediawiki.org/wiki/Extension:DisableAccount]
+# extension which allows locking down user accounts.
 #
 class role::disableaccount {
     mediawiki::extension { 'DisableAccount':

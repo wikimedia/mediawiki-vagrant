@@ -1,8 +1,6 @@
 # == Class: role::wsoauth
-# Provisions the WSOAuth[1] extension, which allows login
-# via OAuth, using accounts at a remote wiki.
-#
-# [1] https://www.mediawiki.org/wiki/Extension:WSOAuth
+# Provisions the WSOAuth[https://www.mediawiki.org/wiki/Extension:WSOAuth]
+# extension, which allows login via OAuth, using accounts at a remote wiki.
 #
 class role::wsoauth (
     $oauth_uri,

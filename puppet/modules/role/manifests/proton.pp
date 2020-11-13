@@ -1,7 +1,6 @@
 # == Class: role::proton
-# Installs the Proton[1] PDF renderer
-#
-# [1]: https://www.mediawiki.org/wiki/Proton
+# Installs the Proton[https://www.mediawiki.org/wiki/Proton]
+# PDF renderer
 #
 class role::proton(
     $vhost_name,

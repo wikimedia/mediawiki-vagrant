@@ -1,9 +1,8 @@
 # == Class: role::machinevision
-# Installs the MachineVision[1] extension which supports collecting data about
-# Commons images from internal and external machine vision services and storing
-# it for on-wiki usage.
-#
-# [1] https://www.mediawiki.org/wiki/Extension:MachineVision
+# Installs the MachineVision[https://www.mediawiki.org/wiki/Extension:MachineVision]
+# extension which supports collecting data about Commons images from
+# internal and external machine vision services and storing it for
+# on-wiki usage.
 #
 class role::machinevision {
     include ::role::mediainfo

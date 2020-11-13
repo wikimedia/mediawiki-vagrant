@@ -1,8 +1,6 @@
 # == Class: role::oauthauthentication
-# Provisions the OAuthAuthentication[1] extension, which allows login
-# via OAuth, using accounts at a remote wiki.
-#
-# [1] https://www.mediawiki.org/wiki/Extension:OAuthAuthentication
+# Provisions the OAuthAuthentication[https://www.mediawiki.org/wiki/Extension:OAuthAuthentication]
+# extension, which allows login via OAuth, using accounts at a remote wiki.
 #
 class role::oauthauthentication (
     $consumer_key,

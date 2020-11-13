@@ -1,8 +1,8 @@
 # == Class: role::gwtoolset
-# Provisions the GWToolset[1] extension, which does mass mediafile and metadata
-# uploading based on an XML description.
+# Provisions the GWToolset[https://www.mediawiki.org/wiki/Extension:GWToolset]
+# extension, which does mass mediafile and metadata uploading based
+# on an XML description.
 #
-# [1] https://www.mediawiki.org/wiki/Extension:GWToolset
 class role::gwtoolset {
     # required by gwtoolset
     require ::role::multimedia

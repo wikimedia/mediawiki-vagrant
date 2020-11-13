@@ -1,8 +1,6 @@
 # == Class: role::bouncehandler
-# Installs the [BounceHandler][1] extension which allows wikis to handle
-# bounce emails efficiently.
-#
-# [1] https://www.mediawiki.org/wiki/Extension:BounceHandler
+# Installs the BounceHandler[https://www.mediawiki.org/wiki/Extension:BounceHandler]
+# extension which allows wikis to handle bounce emails efficiently.
 #
 class role::bouncehandler {
     include ::postfix

@@ -1,8 +1,6 @@
 # == Class: role::emailauth
-# Provisions the EmailAuth[1] extension, which allows
-# account verification via email.
-#
-# [1] https://www.mediawiki.org/wiki/Extension:EmailAuth
+# Provisions the EmailAuth[https://www.mediawiki.org/wiki/Extension:EmailAuth]
+# extension, which allows account verification via email.
 #
 class role::emailauth {
     mediawiki::extension { 'EmailAuth':

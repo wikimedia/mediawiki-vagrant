@@ -1,8 +1,7 @@
 # == Class: role::mwdumper
 #
-# Install the mwdumper[1] command line tool for importing MediaWiki dumps.
-#
-# [1]: https://www.mediawiki.org/wiki/Manual:MWDumper
+# Install the mwdumper[https://www.mediawiki.org/wiki/Manual:MWDumper]
+# command line tool for importing MediaWiki dumps.
 #
 class role::mwdumper {
     require ::role::mediawiki
