@@ -35,6 +35,7 @@
 
 # [*template_variables*]
 # Variables to be exposed to the template. Default: {}
+# Only works for epp templates (see below). Use hiera vars and scope[] for erb.
 #
 # [*epp_template*]
 # Whether or not the service template is EPP rather than ERB. Default: false
@@ -51,6 +52,9 @@ define systemd::service (
     $epp_template       = false,
 ) {
     validate_ensure($ensure)
+    if !$template_variables.empty and !$epp_template {
+        fail("The 'template_variables' option of systemd::service can only be used when 'epp_template' is true")
+    }
     $template_dir_real = $template_dir ? {
         undef   => "${caller_module_name}/systemd",
         default => $template_dir,
