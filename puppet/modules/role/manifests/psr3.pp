@@ -4,7 +4,7 @@
 class role::psr3 {
     mediawiki::composer::require { 'monolog/monolog for psr3 role':
         package => 'monolog/monolog',
-        version => '^1.22',
+        version => '^1.22||^2.0.0',
     }
 
     mediawiki::settings { 'psr3': # the elk role depends on this
