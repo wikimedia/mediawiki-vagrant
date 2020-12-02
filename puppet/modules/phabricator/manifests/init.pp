@@ -107,16 +107,28 @@ class phabricator(
         value => true,
     }
 
-    phabricator::config { 'metamta.mail-adapter':
-        value => 'PhabricatorMailImplementationTestAdapter',
-    }
-
     phabricator::config { 'phabricator.developer-mode':
         value => true,
     }
 
     phabricator::config { 'storage.mysql-engine.max-size':
         value => 0,
+    }
+
+    # HACK! set mailer config differently
+    $phab_dir = "${deploy_dir}/phabricator"
+    $conf_dir = "${phab_dir}/conf"
+    file { "${conf_dir}/mailers.json":
+        ensure  => present,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0600',
+        content => '[{"key": "test-mailer", "type": "test"}]',
+    }
+    exec { 'phab_set_cluster_mailers':
+        command => "${phab_dir}/bin/config set --stdin cluster.mailers < ${conf_dir}/mailers.json",
+        unless  => "/bin/grep -q test-mailer ${conf_dir}/local/local.json",
+        require => File["${conf_dir}/mailers.json"],
     }
 
     group { 'phd':
