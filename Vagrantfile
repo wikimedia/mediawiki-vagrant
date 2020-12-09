@@ -107,7 +107,7 @@ Vagrant.configure('2') do |config|
   # Note that port forwarding works via localhost but not via external
   # interfaces of the host machine by default...
   config.vm.provider :parallels do |_parallels, override|
-    override.vm.box = 'kolaephant/debian9-amd64'
+    override.vm.box = 'koalephant/debian9-amd64'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
