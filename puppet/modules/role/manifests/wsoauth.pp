@@ -26,7 +26,7 @@ class role::wsoauth (
         }
     }
 
-    mediawiki::import::text { 'VagrantRoleOWSOAuth':
+    mediawiki::import::text { 'VagrantRoleWSOAuth':
         source => 'puppet:///modules/role/wsoauth/VagrantRoleWSOAuth.wiki',
     }
 }
