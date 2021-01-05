@@ -56,7 +56,9 @@ $wgDebugProfiling = false;
 $wgLogos = [
 	'1x'   => '/mediawiki-vagrant.png',
 	'1.5x' => '/mediawiki-vagrant-1.5x.png',
-	'2x'   => '/mediawiki-vagrant-2x.png'
+	'2x'   => '/mediawiki-vagrant-2x.png',
+	'svg'  => '/mediawiki-vagrant.svg',
+	'icon' => '/mediawiki-vagrant.50px.png',
 ];
 
 $wgUseInstantCommons = true;
