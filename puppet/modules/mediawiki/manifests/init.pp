@@ -172,16 +172,16 @@ class mediawiki(
         value => $dir,
     }
 
-    file { "${mediawiki::apache::docroot}/mediawiki-vagrant.png":
-        source => 'puppet:///modules/mediawiki/mediawiki-vagrant.png',
-    }
-
-    file { "${mediawiki::apache::docroot}/mediawiki-vagrant-1.5x.png":
-        source => 'puppet:///modules/mediawiki/mediawiki-vagrant-1.5x.png',
-    }
-
-    file { "${mediawiki::apache::docroot}/mediawiki-vagrant-2x.png":
-        source => 'puppet:///modules/mediawiki/mediawiki-vagrant-2x.png',
+    [
+        'mediawiki-vagrant.png',
+        'mediawiki-vagrant-1.5x.png',
+        'mediawiki-vagrant-2x.png',
+        'mediawiki-vagrant.svg',
+        'mediawiki-vagrant.50px.png',
+    ].each |$file| {
+        file { "${mediawiki::apache::docroot}/${file}":
+            source => "puppet:///modules/mediawiki/${file}",
+        }
     }
 
     file { '/usr/local/bin/run-mediawiki-tests':
