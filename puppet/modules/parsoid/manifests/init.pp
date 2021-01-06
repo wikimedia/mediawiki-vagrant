@@ -5,6 +5,11 @@
 # better support for automated processing and visual editing. Its main user
 # currently is the visual editor project.
 #
+# This Puppet module installs the deprecated Parsoid/JS service. Parsoid has
+# been migrated into PHP, bundled with MediaWiki and made available via the
+# standard MediaWiki REST API; for installing its currently recommended version,
+# no extra module is needed. (role::parsoid is still needed to enable it, though.)
+#
 # === Parameters
 #
 # [*port*]

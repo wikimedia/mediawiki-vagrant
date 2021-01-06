@@ -70,7 +70,7 @@ class role::wikimediaproduction {
     include ::role::pagetriage
     include ::role::pageviewinfo
     include ::role::parserfunctions
-    include ::role::parsoid
+    include ::role::parsoid_js
     include ::role::pdfhandler
     include ::role::poem
     include ::role::poolcounter
