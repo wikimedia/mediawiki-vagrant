@@ -68,15 +68,16 @@ Vagrant.configure('2') do |config|
 
   # Default VirtualBox provider
   config.vm.provider :virtualbox do |_vb, override|
-    override.vm.box = 'debian/contrib-stretch64'
+    override.vm.box = 'debian/contrib-buster64'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
   # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
-  config.vm.provider :vmware_fusion do |_vw, override|
-    override.vm.box = 'generic/debian9'
-    override.vm.network :private_network, ip: settings[:static_ip]
-  end
+  ## FIXME: T271649 - need a Debian 10 (Buster) base image
+  ## config.vm.provider :vmware_fusion do |_vw, override|
+  ##   override.vm.box = 'generic/debian9'
+  ##   override.vm.network :private_network, ip: settings[:static_ip]
+  ## end
 
   # Microsoft Hyper-V provider. Enable with `--provider=hyperv`
   # Not quite in 'just works' shape yet.
@@ -88,14 +89,14 @@ Vagrant.configure('2') do |config|
   # NAT and port redirection are not automatically set up for you.
   #
   config.vm.provider :hyperv do |_hyperv, override|
-    override.vm.box = 'generic/debian9'
+    override.vm.box = 'generic/debian10'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
   # LXC provider. Enable wtih `--provider=lxc`
   # Requires vagrant-lxc plugin and Vagrant 1.7+
   config.vm.provider :lxc do |_lxc, override|
-    override.vm.box = 'debian/stretch64'
+    override.vm.box = 'debian/buster64'
   end
 
   # Parallels provider. Enable with `--provider=parallels`
@@ -107,13 +108,13 @@ Vagrant.configure('2') do |config|
   # Note that port forwarding works via localhost but not via external
   # interfaces of the host machine by default...
   config.vm.provider :parallels do |_parallels, override|
-    override.vm.box = 'koalephant/debian9-amd64'
+    override.vm.box = 'generic/debian10'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
   # libvirt (KVM/QEMU) provider.  Enable with `--provider=libvirt`.
   config.vm.provider :libvirt do |libvirt, override|
-    override.vm.box = 'debian/stretch64'
+    override.vm.box = 'generic/debian10'
     override.vm.network :private_network, ip: settings[:static_ip]
     # Required on Fedora 30/31 to fix private networking
     # https://bugzilla.redhat.com/show_bug.cgi?id=1697773
@@ -235,7 +236,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :lsb_check do |lsb|
     lsb.vendor = 'Debian'
-    lsb.version = '^9'
+    lsb.version = '^10'
   end
 
   config.vm.provision :mediawiki_reload if mwv.reload?
