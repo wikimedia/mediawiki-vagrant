@@ -11,7 +11,7 @@ class role::uploadwizard {
     include ::role::titleblacklist
 
     # API smoke test dependencies
-    require_package('python-imaging')
+    require_package('python3-pil')
     require_package('python-poster')
 
     mediawiki::extension { 'UploadWizard':
