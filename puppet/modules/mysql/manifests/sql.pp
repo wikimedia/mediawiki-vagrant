@@ -30,6 +30,8 @@ define mysql::sql(
     $unless,
     $sql = $title,
 ) {
+    require ::mysql::packages
+
     exec { $title:
         # Passing input to a shell command in Puppet without it undergoing shell expansion is nasty.
         command => @("PUPPETCOMMAND")
