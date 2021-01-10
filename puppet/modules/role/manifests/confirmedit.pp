@@ -7,7 +7,7 @@ class role::confirmedit {
     require ::role::mediawiki
 
     require_package('fonts-dejavu')
-    require_package('python-imaging')
+    require_package('python3-pil')
     require_package('wbritish-small')
 
     $font     = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf'
@@ -42,7 +42,7 @@ class role::confirmedit {
     }
 
     exec { 'generate_captchas':
-        command     => "/usr/bin/python captcha.py --font=${font} --wordlist=${wordlist} --key=${key} --output=${output}",
+        command     => "/usr/bin/python3 captcha.py --font=${font} --wordlist=${wordlist} --key=${key} --output=${output}",
         cwd         => "${::mediawiki::dir}/extensions/ConfirmEdit",
         require     => [
             Package['wbritish-small'],
