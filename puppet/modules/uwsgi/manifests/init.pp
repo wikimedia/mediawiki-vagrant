@@ -8,7 +8,7 @@ class uwsgi {
     $plugins = [
         'uwsgi-plugin-python',
         'uwsgi-plugin-python3',
-        'uwsgi-plugin-rack-ruby2.3',
+        'uwsgi-plugin-rack-ruby2.5',
     ]
 
     package { [ 'uwsgi', 'uwsgi-dbg' ]: }
