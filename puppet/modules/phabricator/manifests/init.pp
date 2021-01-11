@@ -80,7 +80,7 @@ class phabricator(
 
     mysql::user { $dbuser:
         password => $dbpass,
-        grant    => 'ALL ON \`phabricator\_%\`.*',
+        grant    => 'ALL ON `phabricator\\_%`.*',
     }
 
     phabricator::config { 'mysql.host':
