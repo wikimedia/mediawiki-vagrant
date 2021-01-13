@@ -1,13 +1,18 @@
 # <?php
 
+    # Disable event submission by default when running PHPUnit tests, in order to avoid unexpected
+    # HTTP requests caused by unexpected event creation and submission (e.g., in
+    # WikimediaEventsHooks) causing confusing test failures in unrelated extensions (T270801)
+    $testMode = defined( "MW_PHPUNIT_TEST" );
+
     # This is the Legacy EventLogging server side URL.
     # It is being deprecated in favor of EventGate based service,
     # listening at wgEventLoggingServiceUri.
-    $wgEventLoggingBaseUri = '/event.gif';
+    $wgEventLoggingBaseUri = $testMode ? false : '/event.gif';
     $wgEventLoggingDBname = 'wiki';
 
     # New EventLogging client will POST events to this URL.
-    $wgEventLoggingServiceUri = '<%= @eventgate_url %>';
+    $wgEventLoggingServiceUri = $testMode ? false : '<%= @eventgate_url %>';
 
     # Always enable EventLogging debugMode in MW Vagrant.
     $wgUserDefaultOptions['eventlogging-display-web'] = 1;
