@@ -30,14 +30,8 @@ class role::simple_performant {
             wgEnableSidebarCache    => true,
             wgParserCacheExpireTime => 30 * $day,
             wgResourceLoaderMaxage  => {
-                'unversioned' => {
-                    'server' => $day,
-                    'client' => $day,
-                },
-                'versioned'   => {
-                    'server' => 30 * $day,
-                    'client' => 30 * $day,
-                },
+                'unversioned' => $day,
+                'versioned'   => 30 * $day,
             },
         },
         notify => Mediawiki::Maintenance['rebuild_localisation_cache'],
