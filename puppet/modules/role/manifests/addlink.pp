@@ -81,6 +81,20 @@ class role::addlink (
         password => $db_pass,
         require  => Mysql::Db[$db_name],
     }
+    exec { 'load mwaddlink data':
+        command     => "${venv_dir}/bin/python load-datasets.py --download --wiki-id simplewiki --path=/tmp/mwaddlink",
+        environment => [
+          'DB_BACKEND=mysql',
+          "DB_DATABASE=${db_name}",
+          "DB_USER=${db_user}",
+          "DB_PASSWORD=${db_pass}",
+        ],
+        cwd         => $service_dir,
+        user        => 'vagrant',
+        subscribe   => Mysql::User[$db_user],
+        refreshonly => true,
+        require     => Systemd::Service['mwaddlink'],
+    }
 
     systemd::service { 'mwaddlink':
         ensure             => 'present',
@@ -108,9 +122,7 @@ class role::addlink (
         port => $service_port,
     }
     mediawiki::settings { 'GrowthExperiments-Mwaddlink':
-        values => {
-            'wgGELinkRecommendationServiceUrl' => $service_url,
-        },
+        values => template('role/addlink/settings.php.erb'),
     }
     mediawiki::import::text { 'VagrantRoleAddLink':
         content => template('role/addlink/VagrantRoleAddLink.wiki.erb'),

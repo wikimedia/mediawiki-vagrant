@@ -1,2 +1,4 @@
 [https://wikitech.wikimedia.org/wiki/Add_Link Add Link] pipeline.
 * API: <%= @service_url %>
+
+Use <code>DB_BACKEND=mysql DB_DATABASE="<%= @db_name %>" DB_USER="<%= @db_user %>" DB_PASSWORD="<%= @db_pass %>" <%= @venv_dir %>/bin/python load-datasets.py --download --wiki-id simplewiki</code> to update the dataset for the mwaddlink service.
