@@ -95,36 +95,6 @@ logstash::output::elasticsearch::host: 127.0.0.1
 logstash::output::elasticsearch::manage_indices: true
 logstash::output::elasticsearch::priority: 90
 
-graphoid::port: 11042
-graphoid::headers:
-  'Cache-Control': 'public, s-maxage=3600, max-age=3600'
-graphoid::error_headers:
-  'Cache-Control': 'public, s-maxage=300, max-age=300'
-# These settings should match the puppet/modules/role/manifests/graph.pp (ideally they should be the same)
-graphoid::allowed_domains:
-  http:
-    - wmflabs.org
-    - vega.github.io
-  https:
-    - mediawiki.org
-    - wikibooks.org
-    - wikidata.org
-    - wikimedia.org
-    - wikimediafoundation.org
-    - wikinews.org
-    - wikipedia.org
-    - wikiquote.org
-    - wikisource.org
-    - wikiversity.org
-    - wikivoyage.org
-    - wiktionary.org
-  wikirawupload:
-    - upload.wikimedia.org
-    - upload.beta.wmflabs.org
-  wikidatasparql:
-    - query.wikidata.org
-    - wdqs-test.wmflabs.org
-
 iegreview::vhost_name: "iegreview%{hiera('mwv::tld')}"
 iegreview::db_name: iegreview
 iegreview::db_user: iegreview

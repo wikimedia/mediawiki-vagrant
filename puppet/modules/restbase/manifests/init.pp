@@ -35,11 +35,6 @@ class restbase (
         default => 8000,
     }
 
-    $graphoid_port = defined(Class['graphoid']) ? {
-        true    => $::graphoid::port,
-        default => 11042,
-    }
-
     $mathoid_port = defined(Class['mathoid']) ? {
         true    => $::mathoid::port,
         default => 10042,

@@ -16,8 +16,6 @@ default_project: &default_project
                   action:
                     apiUriTemplate: "{{'http://localhost:<%= scope['::forwarded_port'] %>/w/api.php'}}"
                     baseUriTemplate: "{{'http://{domain}:7231/{domain}/v1'}}"
-                  graphoid:
-                    host: http://localhost:<%= @graphoid_port %>
                   mathoid: &mathoid_options
                     host: http://localhost:<%= @mathoid_port %>
                     # 10 days Varnish caching, one day client-side

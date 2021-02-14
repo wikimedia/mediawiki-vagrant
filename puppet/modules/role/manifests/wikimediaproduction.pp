@@ -39,7 +39,6 @@ class role::wikimediaproduction {
     include ::role::globalusage
     include ::role::globaluserpage
     include ::role::graph
-    include ::role::graphoid
     include ::role::guidedtour
     include ::role::https
     include ::role::inputbox
