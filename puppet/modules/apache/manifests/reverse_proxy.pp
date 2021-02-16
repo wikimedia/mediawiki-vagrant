@@ -11,15 +11,19 @@
 #
 # === Parameters
 #
+# [*port*]
+#   Internal port used by the service. All requests sent to the proxy will be
+#   redirected here.
+#
 # [*hostname*]
 #   Domain name prefix. E.g. 'restbase' will result in the service being
 #   reachable at restbase.local.wmftest.net:<port> (where <port> is
 #   whatever was set via `vagrant config http_port`). Defaults to the
 #   resource name.
 #
-# [*port*]
-#   Internal port used by the service. All requests sent to the proxy will be
-#   redirected here.
+# [*headers*]
+#   Custom headers to override the real response headers with. Can be used e.g.
+#   to allow CORS. Should be formatted as a hash of header name => value.
 #
 # === Examples
 #
@@ -30,6 +34,7 @@
 define apache::reverse_proxy(
     $port,
     $hostname = $title,
+    $headers = {},
 ) {
     include apache::mod::proxy
     include apache::mod::proxy_http
