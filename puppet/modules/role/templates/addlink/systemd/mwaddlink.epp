@@ -15,9 +15,10 @@ Environment=PYTHONPATH=<%= $service_dir %>
 Environment=NLTK_DATA=/home/vagrant/nltk_data
 Environment=FLASK_APP=api
 Environment=FLASK_DEBUG=1
-Environment=MWADDLINK_DB_NAME=<%= $db_name %>
-Environment=MWADDLINK_DB_USER=<%= $db_user %>
-Environment=MWADDLINK_DB_PASS=<%= $db_pass %>
+Environment=DB_BACKEND='mysql'
+Environment=DB_DATABASE=<%= $db_name %>
+Environment=DB_USER=<%= $db_user %>
+Environment=DB_PASSWORDS=<%= $db_pass %>
 WorkingDirectory=<%= $service_dir %>
 ExecStart=<%= $venv_dir %>/bin/flask run --port <%= $service_port %>
 Restart=always
