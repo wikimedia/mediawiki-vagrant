@@ -4,6 +4,36 @@ call_user_func( function() {
 
 	$wgMWLoggerDefaultSpi = array(
 		'class' => '\\MediaWiki\\Logger\\MonologSpi',
+		'factory' => function ( ...$args ) {
+			global $wgDebugLogFile, $wgDebugLogGroups;
+
+			foreach ( $wgDebugLogGroups as $group => $target ) {
+				$level = null;
+				if ( is_array( $target ) ) {
+					// some advanced settings like sample rate are ignored
+					$level = $target['level'] ?? null;
+					$target = $target['destination'] ?? null;
+					if ( !$target ) {
+						throw new Exception( '$wgDebugLogGroups: destination field is required' );
+					}
+				}
+				if ( !$target ) {
+					$args[0]['loggers'][$group] = array( 'blackhole' );
+					continue;
+				}
+				$args[0]['loggers'][$group] = array(
+					'processors' => array( 'wiki', 'psr', 'pid', 'uid', 'web' ),
+					'handlers' => array( $group ),
+				);
+				$args[0]['handlers'][$group] = array(
+					'class' => '\\Monolog\\Handler\\StreamHandler',
+					'args' => array_filter( array( $target, $level ) ),
+					'formatter' => 'line',
+				);
+			}
+
+			return new \MediaWiki\Logger\MonologSpi( ...$args );
+		},
 		'args' => array( array(
 			'loggers' => array(
 				'@default' => array(
@@ -78,25 +108,5 @@ call_user_func( function() {
 			),
 		) ),
 	);
-
-	foreach ( $wgDebugLogGroups as $group => $target ) {
-		if ( is_array( $target ) ) {
-			// advanced settings like sample rate are ignored
-			$target = $target['destination'];
-		}
-		if ( !$target ) {
-			$wgMWLoggerDefaultSpi['args'][0]['loggers'][$group] = array( 'blackhole' );
-			continue;
-		}
-		$wgMWLoggerDefaultSpi['args'][0]['loggers'][$group] = array(
-			'processors' => array( 'wiki', 'psr', 'pid', 'uid', 'web' ),
-			'handlers' => array( $group ),
-		);
-		$wgMWLoggerDefaultSpi['args'][0]['handlers'][$group] = array(
-			'class' => '\\Monolog\\Handler\\StreamHandler',
-			'args' => array( $target ),
-			'formatter' => 'line',
-		);
-	}
 
 } );
