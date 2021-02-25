@@ -117,7 +117,7 @@ class role::addlink (
         template_dir       => 'role/addlink/systemd',
     }
 
-    $service_url = "http://mwaddlink${::mwv::tld}${::port_fragment}/"
+    $service_url = "http://mwaddlink${::mwv::tld}${::port_fragment}"
     apache::reverse_proxy { 'mwaddlink':
         port => $service_port,
     }
