@@ -1,42 +1,4 @@
 //<?php
-# copy of GrowthExperimentsLinkRecommendationProviderUncached in ServiceWiring.php
-# with the wiki ID remapped
-
-if ( !isset( $wvgWikiIdMap ) ) {
-	$wvgWikiIdMap = [
-		'wiki' => 'simplewiki',
-	];
-}
 
 $wgGELinkRecommendationServiceUrl = '<%= @service_url %>';
-
-use GrowthExperiments\GrowthExperimentsServices;
-use GrowthExperiments\NewcomerTasks\AddLink\LinkRecommendationProvider;
-use GrowthExperiments\NewcomerTasks\AddLink\ServiceLinkRecommendationProvider;
-use GrowthExperiments\NewcomerTasks\AddLink\StaticLinkRecommendationProvider;
-use MediaWiki\MediaWikiServices;
-
-$wgHooks['MediaWikiServices'][] = function ( MediaWikiServices $services ) {
-    $services->redefineService( 'GrowthExperimentsLinkRecommendationProviderUncached',
-        function ( MediaWikiServices $services ): LinkRecommendationProvider {
-			global $wvgWikiIdMap;
-			$wikiId = WikiMap::getCurrentWikiId();
-			$wikiId = $wvgWikiIdMap[$wikiId] ?? $wikiId;
-
-			$growthServices = GrowthExperimentsServices::wrap( $services );
-			$serviceUrl = $growthServices->getConfig()->get( 'GELinkRecommendationServiceUrl' );
-			if ( $serviceUrl ) {
-				return new ServiceLinkRecommendationProvider(
-					$services->getTitleFactory(),
-					$services->getRevisionLookup(),
-					$services->getHttpRequestFactory(),
-					$serviceUrl,
-					$wikiId
-				);
-			} else {
-				return new StaticLinkRecommendationProvider( [],
-					StatusValue::newFatal( 'rawmessage', '$wgGELinkRecommendationServiceUrl not set!' ) );
-			}
-        } );
-};
-
+$wgGELinkRecommendationServiceWikiIdMasquerade = 'simplewiki';
