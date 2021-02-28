@@ -8,3 +8,6 @@ ProxyPass / http://localhost:<%= @port %>/
 ProxyPassReverse / http://localhost:<%= @port %>/
 ProxyPreserveHost On
 RequestHeader set X-Forwarded-Proto "https" env=HTTPS
+<% @headers.each do |header,value| -%>
+Header set <%= header %> "<%= value %>"
+<% end -%>
