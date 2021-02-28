@@ -101,6 +101,13 @@ class elasticsearch(
     }
 
     apache::reverse_proxy { 'elasticsearch':
-        port => 9200,
+        port    => 9200,
+        # allow using https://dejavu.appbase.io/ as a management interface
+        headers => {
+            'Access-Control-Allow-Origin'      => 'https://dejavu.appbase.io',
+            'Access-Control-Allow-Headers'     => 'X-Requested-With,X-Auth-Token,Content-Type,Content-Length,Authorization',
+            'Access-Control-Allow-Methods'     => 'GET,POST,PUT,DELETE',
+            'Access-Control-Allow-Credentials' => 'true', # lint:ignore:quoted_booleans
+        },
     }
 }
