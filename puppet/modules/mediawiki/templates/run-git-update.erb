@@ -163,7 +163,8 @@ parallel --verbose --noswap --load "100%" --keep-order mwv_git_pull
 
 # Update composer dependencies in parallel
 for DIR in $MW_INSTALL_PATH \
-    ${MW_INSTALL_PATH}/extensions/*; do
+    ${MW_INSTALL_PATH}/extensions/* \
+    ${MW_INSTALL_PATH}/skins/*; do
   if [[ -d $DIR ]] && [[ -f ${DIR}/composer.json ]]; then
     echo $DIR
   fi
