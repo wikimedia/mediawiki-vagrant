@@ -32,7 +32,7 @@ require_once '<%= @dir %>/install/civicrm.php';
 
 civicrm_main( $config );
 $extDir = '<%= scope['::crm::sites_default_path'] %>/civicrm/extensions';
-$extUrl = '<%= scope['::crm::base_url'] %>sites/default/civicrm/extensions';
+$extUrl = '<%= scope['::crm::base_url'] %>/drupal/sites/default/civicrm/extensions';
 file_put_contents('<%= scope['::crm::sites_default_path'] %>/civicrm.settings.php', "
     global \$civicrm_setting;
     \$civicrm_setting['Directory Preferences']['extensionsDir'] = '$extDir';
