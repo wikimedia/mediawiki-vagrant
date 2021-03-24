@@ -15,10 +15,10 @@ Environment=PYTHONPATH=<%= $service_dir %>
 Environment=NLTK_DATA=/home/vagrant/nltk_data
 Environment=FLASK_APP=api
 Environment=FLASK_DEBUG=1
-Environment=DB_BACKEND='mysql'
+Environment=DB_BACKEND=mysql
 Environment=DB_DATABASE=<%= $db_name %>
 Environment=DB_USER=<%= $db_user %>
-Environment=DB_PASSWORDS=<%= $db_pass %>
+Environment=DB_PASSWORD=<%= $db_pass %>
 Environment=MEDIAWIKI_API_URL=<%= $action_api_url %>/w/api.php
 Environment=SWAGGER_UI_ENABLED=1
 WorkingDirectory=<%= $service_dir %>
