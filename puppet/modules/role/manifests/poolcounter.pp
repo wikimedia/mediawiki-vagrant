@@ -17,7 +17,7 @@ class role::poolcounter {
         settings => [
             '$wgPoolCountClientConf["servers"][] = "127.0.0.1";',
             '$wgPoolCountClientConf["timeout"] = 0.5;',
-            '$wgPoolCounterConf["ArticleView"]["class"] = "PoolCounter_Client";',
+            '$wgPoolCounterConf["ArticleView"]["class"] = MediaWiki\Extension\PoolCounter\Client::class;',
             '$wgPoolCounterConf["ArticleView"]["timeout"] = 15;',
             '$wgPoolCounterConf["ArticleView"]["workers"] = 2;',
             '$wgPoolCounterConf["ArticleView"]["maxqueue"] = 100;',
