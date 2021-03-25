@@ -20,7 +20,6 @@ Environment=DB_DATABASE=<%= $db_name %>
 Environment=DB_USER=<%= $db_user %>
 Environment=DB_PASSWORD=<%= $db_pass %>
 Environment=MEDIAWIKI_API_URL=<%= $action_api_url %>/w/api.php
-Environment=SWAGGER_UI_ENABLED=1
 WorkingDirectory=<%= $service_dir %>
 ExecStart=<%= $venv_dir %>/bin/flask run --port <%= $service_port %>
 Restart=always
