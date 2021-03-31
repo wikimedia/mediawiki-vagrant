@@ -4,9 +4,10 @@
 
 ServerName <%= @hostname %><%= @base_domain %>
 
-ProxyPass / http://localhost:<%= @port %>/
+ProxyPass / http://localhost:<%= @port %>/ nocanon
 ProxyPassReverse / http://localhost:<%= @port %>/
 ProxyPreserveHost On
+AllowEncodedSlashes NoDecode
 RequestHeader set X-Forwarded-Proto "https" env=HTTPS
 <% @headers.each do |header,value| -%>
 Header set <%= header %> "<%= value %>"
