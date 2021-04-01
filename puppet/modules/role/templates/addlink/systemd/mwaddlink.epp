@@ -13,7 +13,7 @@ Group=www-data
 SyslogIdentifier=mwaddlink
 Environment=PYTHONPATH=<%= $service_dir %>
 Environment=NLTK_DATA=/home/vagrant/nltk_data
-Environment=FLASK_APP=api
+Environment=FLASK_APP=app
 Environment=FLASK_DEBUG=1
 Environment=DB_BACKEND=mysql
 Environment=DB_DATABASE=<%= $db_name %>
