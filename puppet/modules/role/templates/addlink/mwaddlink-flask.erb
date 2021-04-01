@@ -1,0 +1,10 @@
+#!/bin/bash
+# THIS FILE IS MANAGED BY PUPPET
+DB_BACKEND=mysql \
+    DB_DATABASE=<%= @db_name %> \
+    DB_USER=<%= @db_user %> \
+    DB_PASSWORD=<%= @db_pass %> \
+    MEDIAWIKI_API_URL=<%= @server_url %>/w/rest.php \
+    FLASK_APP=<%= @service_dir %>/app \
+    FLASK_DEBUG=1 \
+    <%= @venv_dir %>/bin/flask "$@"

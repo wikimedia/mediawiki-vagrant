@@ -29,10 +29,13 @@ class role::addlink (
     require ::mysql
     require ::virtualenv
     require ::mwv
+    include ::mediawiki
 
     include ::role::growthexperiments
 
     $venv_dir = "${service_dir}/.venv"
+    $server_url = $::mediawiki::server_url
+
     git::clone { 'research/mwaddlink':
         directory => $service_dir,
         branch    => 'main',
@@ -59,7 +62,7 @@ class role::addlink (
     file { "${venv_dir}/bin/download-punkt.py":
         content => template('role/addlink/download-punkt.py.erb'),
         owner   => 'vagrant',
-        mode    => 'o+rx',
+        mode    => 'a+rx',
         require => Virtualenv::Environment[$venv_dir],
     }
     exec { 'nltk-punkt':
@@ -107,15 +110,22 @@ class role::addlink (
         },
         epp_template       => true,
         template_variables => {
-            db_name        => $db_name,
-            db_user        => $db_user,
-            db_pass        => $db_pass,
-            service_dir    => $service_dir,
-            venv_dir       => $venv_dir,
-            service_port   => $service_port,
-            action_api_url => hiera('mediawiki::server_url', ''),
+            db_name      => $db_name,
+            db_user      => $db_user,
+            db_pass      => $db_pass,
+            service_dir  => $service_dir,
+            venv_dir     => $venv_dir,
+            service_port => $service_port,
+            server_url   => $server_url,
         },
         template_dir       => 'role/addlink/systemd',
+    }
+
+    file { "${venv_dir}/bin/mwaddlink-flask":
+        content => template('role/addlink/mwaddlink-flask.erb'),
+        owner   => 'vagrant',
+        mode    => 'a+rx',
+        require => Virtualenv::Environment[$venv_dir],
     }
 
     $service_url = "http://mwaddlink${::mwv::tld}${::port_fragment}"
