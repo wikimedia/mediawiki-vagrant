@@ -375,10 +375,6 @@ role::oauthauthentication::consumer_key: d04a305e7583058451ded04cd4767839
 role::oauthauthentication::consumer_secret: 7ea2979b6742b4085d8443ff345e1397afd831eb
 role::oauthauthentication::callback_url: "http://dev.wiki.local.wmftest.net%{::port_fragment}/wiki/Special:OAuthLogin/finish"
 
-role::phragile::debug: true
-role::phragile::install_dir: "%{hiera('mwv::services_dir')}/phragile"
-role::phragile::vhost_name: "phragile%{hiera('mwv::tld')}"
-
 role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
 
 role::wikidata::main_page: "Wiki:Main Page"
