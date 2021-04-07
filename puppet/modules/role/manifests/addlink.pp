@@ -33,6 +33,9 @@ class role::addlink (
 
     include ::role::growthexperiments
 
+    # needed by PyMySQL
+    require_package('libmariadbclient-dev')
+
     $venv_dir = "${service_dir}/.venv"
     $server_url = $::mediawiki::server_url
 
