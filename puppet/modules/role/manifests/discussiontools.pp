@@ -4,10 +4,7 @@
 #
 class role::discussiontools {
     include role::visualeditor
-
-    mediawiki::extension { 'Linter':
-        needs_update => true,
-    }
+    include role::linter
 
     mediawiki::extension { 'DiscussionTools':
         settings => {
