@@ -1,3 +1,4 @@
+require 'ipaddr'
 require 'mediawiki-vagrant/settings'
 begin
   require 'vagrant/util'
@@ -39,7 +40,8 @@ module MediaWikiVagrant
 
     setting :static_ip,
       description: 'IP address assigned to the guest VM',
-      default: '10.11.12.13'
+      default: '10.11.12.13',
+      coercion: ->(_setting, new) { new && IPAddr.new(new).to_s }
 
     setting :http_port,
       description: "Host port forwarded to the guest VM's HTTP port (80)",
