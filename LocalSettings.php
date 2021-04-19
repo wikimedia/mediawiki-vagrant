@@ -109,7 +109,6 @@ $wgJobQueueAggregator = [
 // piggybacking them on web requests.
 $wgJobRunRate = 0;
 
-$wgLegacyJavaScriptGlobals = false;
 $wgEnableJavaScriptTest = true;
 
 // Bug 73037: handmade gzipping sometimes makes error messages impossible to
