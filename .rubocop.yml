@@ -28,7 +28,7 @@ Style/Alias:
 
 # Ignoring for now as many instances of strictly aligned parameters look
 # strange
-Layout/AlignParameters:
+Layout/ParameterAlignment:
   Enabled: false
 
 Style/NumericLiterals:
