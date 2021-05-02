@@ -126,6 +126,7 @@ mediawiki::admin_pass: vagrant
 mediawiki::admin_email: admin@local.wmftest.net
 mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fragment}"
 mediawiki::branch: master
+mediawiki::parallel_composer_jobs: 100%
 
 mediawiki::apache::docroot: "%{hiera('apache::docroot')}"
 

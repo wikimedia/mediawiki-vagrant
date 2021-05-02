@@ -63,6 +63,7 @@ class mediawiki(
     $upload_dir,
     $page_dir,
     $composer_fragment_dir,
+    $parallel_composer_jobs,
     $branch     = undef,
     $git_depth  = undef,
     $server_url = undef,

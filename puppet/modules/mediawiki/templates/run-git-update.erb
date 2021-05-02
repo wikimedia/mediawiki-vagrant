@@ -12,6 +12,7 @@ declare -a UPDATE_ERRORS
 : ${SHARE_GROUP=<%= scope['::share_group'] %>}
 : ${NPM_CONFIG_CACHE=<%= scope['::npm::cache_dir'] %>}
 : ${SERVICE_CONF_DIR=<%= scope['::service::conf_dir'] %>}
+: ${PARALLEL_COMPOSER_JOBS=<%= @parallel_composer_jobs %>}
 
 export SHARE_OWNER SHARE_GROUP NPM_CONFIG_CACHE SERVICE_CONF_DIR
 UPDATE_ERRORS=( )
@@ -169,7 +170,7 @@ for DIR in $MW_INSTALL_PATH \
     echo $DIR
   fi
 done |
-parallel --verbose --noswap --load "100%" --memfree 200M --retries 1 --keep-order mwv_composer
+parallel --verbose --noswap --load "100%" --memfree 200M --retries 1 --jobs $PARALLEL_COMPOSER_JOBS --keep-order mwv_composer
 
 echo -e "\e[36m==> Updating database ...\e[0m"
 /usr/local/bin/foreachwiki update.php --quick --doshared
