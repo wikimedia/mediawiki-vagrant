@@ -8,7 +8,7 @@ module MediaWikiVagrant
     include PluginEnvironment
 
     def self.synopsis
-      'configures hiera settings'
+      'sets and displays hiera overrides'
     end
 
     def execute
@@ -34,6 +34,8 @@ module MediaWikiVagrant
         unset_key(options[:unset])
       elsif argv.length == 2
         set_key(*argv)
+      elsif argv.length == 1
+        get_key(*argv)
       else
         @env.ui.error opts
         return 1
@@ -43,6 +45,12 @@ module MediaWikiVagrant
     end
 
     private
+
+    # Print the value of the given key
+    #
+    def get_key(name)
+      @env.ui.info @mwv.hiera_get(name)
+    end
 
     # Configures the given key with the given value.
     #
