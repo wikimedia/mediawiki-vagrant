@@ -152,7 +152,7 @@ Troubleshoot
 Stuck? Here's where to get help.
 
  * https://www.mediawiki.org/wiki/Mediawiki-Vagrant#Troubleshooting
- * irc://chat.freenode.net/#mediawiki
+ * irc://irc.libera.chat/#mediawiki
 
 Please report any bugs on Wikimedia's Phabricator:
  * https://phabricator.wikimedia.org/maniphest/task/create/?projects=MediaWiki-Vagrant
