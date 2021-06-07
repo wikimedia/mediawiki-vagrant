@@ -57,11 +57,6 @@ class role::wikidata(
         wiki         => 'wikidata',
     }
 
-    mediawiki::extension { 'WikibaseQuality':
-        needs_update => true,
-        wiki         => 'wikidata',
-    }
-
     mediawiki::extension { 'WikibaseQualityConstraints':
         needs_update => true,
         wiki         => 'wikidata',
