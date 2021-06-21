@@ -90,4 +90,5 @@ path.logs: /var/log/elasticsearch
 # Only auto create indices that are expected to be autocreated.
 #  logstash - via the elk role
 #  apifeatureusage - via the apifeatureusage role
-action.auto_create_index: +logstash-*,+apifeatureusage-*,-*
+#  querycomp - query completion suggester indices
+action.auto_create_index: +logstash-*,+apifeatureusage-*,+querycomp-*,-*
