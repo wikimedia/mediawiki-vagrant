@@ -1,0 +1,9 @@
+//<?php
+// If WikibaseMediaInfo exists and has been configured with an external
+// repository for looking up structured data entities for use with multimedia,
+// then use that same repository in here; otherwise disable autocomplete
+$wgMediaSearchExternalEntitySearchBaseUri = $wgMediaInfoExternalEntitySearchBaseUri ?? false;
+
+// Allow MediaSearch to be default on commonswiki, but only there;
+// all other should continue to default to Special:Search
+$wgDefaultUserOptions['sdms-specialsearch-default'] = $wgDBname !== 'commonswiki';
