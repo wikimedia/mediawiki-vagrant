@@ -75,10 +75,11 @@ define mediawiki::user(
         # eval.php requires each command to be a single line
         # double-escape $ against puppet + shell
         $eval_unless = "
-            \\\$u = User::newFromName( '${username}' );
+            \\\$services = \\\\MediaWiki\\\\MediaWikiServices::getInstance();
+            \\\$u = \\\$services->getUserFactory()->newFromName( '${username}' );
             \\\$u->load( User::READ_LATEST );
-            \\\$expected_groups = array_intersect( [ '${comma_groups_php}' ], User::GetAllGroups() );
-            \\\$actual_groups = \\\$u->getGroups();
+            \\\$expected_groups = array_intersect( [ '${comma_groups_php}' ], \\\$services->getUserGroupManager()->listAllGroups() );
+            \\\$actual_groups = \\\$services->getUserGroupManager()->getUserGroups( \\\$u );
             echo array_diff( \\\$expected_groups, \\\$actual_groups ) ? 'Bad' : 'Good';
         "
 
