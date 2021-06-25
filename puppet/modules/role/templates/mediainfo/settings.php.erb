@@ -1,18 +1,65 @@
 //<?php
 $wgEnableUploads = true;
 
-$wgMediaInfoProperties = [
-    'depicts' => 'P1',
-];
-$wgDepictsQualifierProperties = [
-    'colour' => 'P2',
-];
-$wgMediaInfoEnableOtherStatements = true;
+# MediaInfo
+$wgMediaInfoProperties = [ 'depicts' => 'P1' ];
+$wgMediaInfoEnableSearch = true;
+$wgMediaInfoSearchProperties = [ 'P1' => 1 ];
 $wgMediaInfoExternalEntitySearchBaseUri = '<%= @central_repo_domain %>/w/api.php';
+$wgMediaInfoMediaSearchHasLtrPlugin = true;
 
+# Wikibase settings
+$wgWBRepoSettings['conceptBaseUri'] = '<%= @multimedia_domain %>/wiki/Special:EntityData/';
+$wgWBRepoSettings['useTermsTableSearchFields'] = false;
 $wgWBRepoSettings['enableEntitySearchUI'] = false;
 $wgWBRepoSettings['searchIndexProperties'] = [ 'P1', 'P2' ];
-$wgWBRepoSettings['searchIndexTypes'] = [ 'string', 'external-id', 'wikibase-item', 'wikibase-property' ];
+$wgWBRepoSettings['searchIndexTypes'] = [
+    'string',
+    'external-id',
+    'wikibase-item',
+    'wikibase-property',
+    'globe-coordinate',
+    'wikibase-lexeme',
+    'wikibase-form',
+    'wikibase-sense'
+];
+$wgWBRepoSettings['sparqlEndpoint'] = 'https://query.wikidata.org/sparql';
 
-# WikibaseCirrusSearch must be enabled T230018
-$wgWBCSUseCirrus = true;
+# Federation
+$wgWBRepoSettings['useEntitySourceBasedFederation'] = true;
+$entitySources = [
+    'wikidata' => [
+        'entityNamespaces' => [
+            'item' => 0,
+            'property' => 122,
+            'lexeme' => 146,
+        ],
+        'repoDatabase' => 'wikidatawiki',
+        'baseUri' => '<%= @central_repo_domain %>/wiki/Special:EntityData/',
+        'rdfNodeNamespacePrefix' => 'wd',
+        'rdfPredicateNamespacePrefix' => '',
+        'interwikiPrefix' => 'd',
+    ],
+    'commons' => [
+        'entityNamespaces' => [
+            'mediainfo' => '6/mediainfo',
+        ],
+        'repoDatabase' => 'commonswiki',
+        'baseUri' => '<%= @multimedia_domain %>/entity/',
+        'rdfNodeNamespacePrefix' => 'sdc',
+        'rdfPredicateNamespacePrefix' => 'sdc',
+        'interwikiPrefix' => 'c',
+    ],
+    'local' => [
+        'entityNamespaces' => [],
+        'repoDatabase' => 'commonswiki',
+        'baseUri' => '<%= @central_repo_domain %>/wiki/Special:EntityData/',
+        'rdfNodeNamespacePrefix' => 'sdc',
+        'rdfPredicateNamespacePrefix' => 'sdc',
+        'interwikiPrefix' => 'd',
+    ],
+];
+$wgWBRepoSettings['entitySources'] = $entitySources;
+$wgWBRepoSettings['localEntitySourceName'] = 'commons';
+$wgWBClientSettings['entitySources'] = $entitySources;
+$wgWBClientSettings['localEntitySourceName'] = 'commons';
