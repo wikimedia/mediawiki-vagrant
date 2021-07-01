@@ -12,6 +12,7 @@ class role::visualeditor_wikimedia {
     include ::role::parserfunctions
     include ::role::restbase
     include ::role::scribunto
+    include ::role::templatestyles
     include ::role::uls
 
     mediawiki::settings { 'VisualEditor-Parsoid':
