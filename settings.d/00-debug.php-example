@@ -26,10 +26,8 @@ $wgDebugToolbar = false;
 $wgShowDebug = false;
 $wgShowExceptionDetails = true;
 // $wgDebugRedirects = false;
-// $wgShowSQLErrors = true;
 // $wgDebugDumpSql  = true;
 // $wgMemCachedDebug = false;
-// $wgShowDBErrorBacktrace = false;
 
 
 //

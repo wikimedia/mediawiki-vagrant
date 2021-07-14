@@ -43,8 +43,6 @@ $wgDevelopmentWarnings = true;
 
 // Expose debug info for SQL errors.
 $wgDebugDumpSql = true;
-$wgShowDBErrorBacktrace = true;
-$wgShowSQLErrors = true;
 
 // Disable RL caching that interferes with debugging
 $wgResourceLoaderStorageEnabled = false;

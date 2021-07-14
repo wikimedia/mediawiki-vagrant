@@ -42,9 +42,7 @@
 #
 #   mediawiki::settings { 'database debug':
 #     values => {
-#       'wgShowSQLErrors'        => true,
 #       'wgDebugDumpSql'         => true,
-#       'wgShowDBErrorBacktrace' => false,
 #     },
 #   }
 #
@@ -54,9 +52,7 @@
 #
 #   mediawiki::settings { 'database debug':
 #     values => [
-#       '$wgShowSQLErrors = true;',
 #       '$wgDebugDumpSql = true;',
-#       '$wgShowDBErrorBacktrace = false;',
 #     ],
 #   }
 #
