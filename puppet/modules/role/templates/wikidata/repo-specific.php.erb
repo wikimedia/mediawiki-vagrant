@@ -1,0 +1,38 @@
+/*<?php*/
+
+// Settings specific to the wikidata wiki
+
+// Setup and alias for the main namespace
+$wgNamespaceAliases['Item'] = NS_MAIN;
+$wgNamespaceAliases['Item_talk'] = NS_TALK;
+
+// Register extra namespaces.
+$wgExtraNamespaces[WB_NS_PROPERTY] = 'Property';
+$wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'Property_talk';
+
+$wgWBRepoSettings['statementSections'] = [
+	'item' => [
+		'statements' => null,
+		'identifiers' => [
+			'type' => 'dataType',
+			'dataTypes' => [ 'external-id' ],
+		],
+	],
+];
+
+$wgWBRepoSettings['localClientDatabases'] = [];
+foreach ( $wgLocalDatabases as $db ) {
+	if ( $db !== 'wikidatawiki' ) {
+		$wgWBRepoSettings['localClientDatabases'][] = $db;
+	}
+}
+
+$wgPropertySuggesterMinProbability = 0.069;
+
+require_once "<%= scope['::mediawiki::multiwiki::script_dir'] %>/dblist.php";
+$wgWBRepoSettings['localClientDatabases'] = [];
+foreach ( $wgLocalDatabases as $db ) {
+	if ( $db !== 'wikidatawiki' ) {
+		$wgWBRepoSettings['localClientDatabases'][] = $db;
+	}
+}

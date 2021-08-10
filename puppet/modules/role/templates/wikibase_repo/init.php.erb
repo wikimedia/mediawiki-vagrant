@@ -8,22 +8,11 @@ call_user_func( function() {
 
 	$wgContentHandlerUseDB = true;
 
-	$baseNs = 120;
-
-	// Define custom namespaces. Use these exact constant names.
-	define( 'WB_NS_ITEM', $baseNs );
-	define( 'WB_NS_ITEM_TALK', $baseNs + 1 );
-	// WB_NS_PROPERTY already set up in puppet/modules/wikibase/templates/shared.php.erb
-
 	// Register extra namespaces.
 	$wgExtraNamespaces[WB_NS_ITEM] = 'Item';
 	$wgExtraNamespaces[WB_NS_ITEM_TALK] = 'Item_talk';
 	$wgExtraNamespaces[WB_NS_PROPERTY] = 'Property';
 	$wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'Property_talk';
-
-	// Tell Wikibase which namespace to use for which kind of entity
-	$wgWBRepoSettings['entityNamespaces']['item'] = WB_NS_ITEM;
-	$wgWBRepoSettings['entityNamespaces']['property'] = WB_NS_PROPERTY;
 
 	// Make sure we use the same keys on repo and clients, so we can share cached objects.
 	$wgWBRepoSettings['sharedCacheKeyPrefix'] = $wgDBname . ':WBL';

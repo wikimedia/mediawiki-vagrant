@@ -1,6 +1,7 @@
 /*<?php*/
 
-// do not define WB_NS_ITEM and WB_NS_ITEM_TALK, that's different for Wikidata and Commons.
+define( 'WB_NS_ITEM', 120 );
+define( 'WB_NS_ITEM_TALK', 121 );
 define( 'WB_NS_PROPERTY', 122 );
 define( 'WB_NS_PROPERTY_TALK', 123 );
 define( 'WB_NS_QUERY', 124 );
@@ -8,3 +9,18 @@ define( 'WB_NS_QUERY_TALK', 125 );
 
 $wgEnableWikibaseRepo = false;
 $wgEnableWikibaseClient = true;
+
+// Tell Wikibase which namespace to use for which kind of entity
+$entitySource = [
+	'entityNamespaces' => [
+		'item' => WB_NS_ITEM,
+		'property' => WB_NS_PROPERTY,
+	],
+	'repoDatabase' => false,
+	'baseUri' => $wgServer . '/entity/',
+	'rdfNodeNamespacePrefix' => 'd',
+	'rdfPredicateNamespacePrefix' => '',
+	'interwikiPrefix' => '',
+];
+$wgWBRepoSettings['entitySources']['local'] = $entitySource;
+$wgWBClientSettings['entitySources']['local'] = $entitySource;

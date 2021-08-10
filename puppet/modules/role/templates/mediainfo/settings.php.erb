@@ -27,39 +27,17 @@ $wgWBRepoSettings['sparqlEndpoint'] = 'https://query.wikidata.org/sparql';
 
 # Federation
 $wgWBRepoSettings['useEntitySourceBasedFederation'] = true;
-$entitySources = [
-    'wikidata' => [
-        'entityNamespaces' => [
-            'item' => 0,
-            'property' => 122,
-            'lexeme' => 146,
-        ],
-        'repoDatabase' => 'wikidatawiki',
-        'baseUri' => '<%= @central_repo_domain %>/wiki/Special:EntityData/',
-        'rdfNodeNamespacePrefix' => 'wd',
-        'rdfPredicateNamespacePrefix' => '',
-        'interwikiPrefix' => 'd',
-    ],
-    'commons' => [
-        'entityNamespaces' => [
-            'mediainfo' => '6/mediainfo',
-        ],
-        'repoDatabase' => 'commonswiki',
-        'baseUri' => '<%= @multimedia_domain %>/entity/',
-        'rdfNodeNamespacePrefix' => 'sdc',
-        'rdfPredicateNamespacePrefix' => 'sdc',
-        'interwikiPrefix' => 'c',
-    ],
-    'local' => [
-        'entityNamespaces' => [],
-        'repoDatabase' => 'commonswiki',
-        'baseUri' => '<%= @central_repo_domain %>/wiki/Special:EntityData/',
-        'rdfNodeNamespacePrefix' => 'sdc',
-        'rdfPredicateNamespacePrefix' => 'sdc',
-        'interwikiPrefix' => 'd',
-    ],
+$entitySource = [
+	'entityNamespaces' => [
+		'mediainfo' => '6/mediainfo',
+	],
+	'repoDatabase' => 'commonswiki',
+	'baseUri' => '<%= @multimedia_domain %>/entity/',
+	'rdfNodeNamespacePrefix' => 'sdc',
+	'rdfPredicateNamespacePrefix' => 'sdc',
+	'interwikiPrefix' => 'c',
 ];
-$wgWBRepoSettings['entitySources'] = $entitySources;
+$wgWBRepoSettings['entitySources']['commons'] = $entitySource;
 $wgWBRepoSettings['localEntitySourceName'] = 'commons';
-$wgWBClientSettings['entitySources'] = $entitySources;
+$wgWBClientSettings['entitySources']['commons'] = $entitySource;
 $wgWBClientSettings['localEntitySourceName'] = 'commons';

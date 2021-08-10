@@ -2,49 +2,18 @@
 
 // Settings shared between WikibaseRepo and WikibaseClient –
 // keep this section in sync with client.php.erb
-$wgWBRepoSettings['entityNamespaces'] = [
-	'item' => NS_MAIN,
-	'property' => WB_NS_PROPERTY
-];
-$wgWBRepoSettings['specialSiteLinkGroups'][] = 'wikidata';
-
-// Settings specific to the wikidata wiki
-
-// Setup and alias for the main namespace
-$wgNamespaceAliases['Item'] = NS_MAIN;
-$wgNamespaceAliases['Item_talk'] = NS_TALK;
-
-// Register extra namespaces.
-$wgExtraNamespaces[WB_NS_PROPERTY] = 'Property';
-$wgExtraNamespaces[WB_NS_PROPERTY_TALK] = 'Property_talk';
-$wgExtraNamespaces[WB_NS_QUERY] = 'Query';
-$wgExtraNamespaces[WB_NS_QUERY_TALK] = 'Query_talk';
-
-$wgWBRepoSettings['statementSections'] = [
-	'item' => [
-		'statements' => null,
-		'identifiers' => [
-			'type' => 'dataType',
-			'dataTypes' => [ 'external-id' ],
-		],
+$wgWBRepoSettings['entitySources']['wikidata'] = [
+	'entityNamespaces' => [
+		'item' => NS_MAIN,
+		'property' => WB_NS_PROPERTY
 	],
+	'repoDatabase' => 'wikidatawiki',
+	'baseUri' => '<%= @repo_domain %>/entity/',
+	'rdfNodeNamespacePrefix' => 'wd',
+	'rdfPredicateNamespacePrefix' => '',
+	'interwikiPrefix' => 'wd',
 ];
-
-$wgWBRepoSettings['normalizeItemByTitlePageNames'] = true;
-
-$wgWBRepoSettings['localClientDatabases'] = [];
-foreach ( $wgLocalDatabases as $db ) {
-	if ( $db !== 'wikidatawiki' ) {
-		$wgWBRepoSettings['localClientDatabases'][] = $db;
-	}
-}
-
-$wgPropertySuggesterMinProbability = 0.069;
-
-require_once "<%= scope['::mediawiki::multiwiki::script_dir'] %>/dblist.php";
-$wgWBRepoSettings['localClientDatabases'] = [];
-foreach ( $wgLocalDatabases as $db ) {
-	if ( $db !== 'wikidatawiki' ) {
-		$wgWBRepoSettings['localClientDatabases'][] = $db;
-	}
-}
+$wgWBRepoSettings['localEntitySourceName'] = 'wikidata';
+$wgWBRepoSettings['specialSiteLinkGroups'][] = 'wikidata';
+// since 'wikidata' entitysource will be serving item & property, remove them from 'local'
+$wgWBRepoSettings['entitySources']['local']['entityNamespaces'] = [];

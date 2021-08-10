@@ -9,7 +9,7 @@ class role::mediainfo (
     $multimedia_domain,
 ) {
     include ::role::commons
-    include ::role::wikibase_repo
+    include ::role::wikidata
     include ::role::wikibasecirrussearch
     include ::role::uls
 

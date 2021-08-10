@@ -380,6 +380,7 @@ role::oauthauthentication::callback_url: "http://dev.wiki.local.wmftest.net%{::p
 role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
 
 role::wikidata::main_page: "Wiki:Main Page"
+role::wikidata::repo_domain: "http://wikidata%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
 
 role::wsoauth::oauth_uri: "https://meta.wikimedia.org/w/index.php?title=Special:OAuth"
 role::wsoauth::oauth_key: "20c96d141c4ac5bea4fadd6824f6ebda"

@@ -6,6 +6,7 @@
 # [*main_page*]
 #   Title of main page
 class role::wikidata(
+    $repo_domain,
     $main_page
 ) {
     require ::role::mediawiki
@@ -35,16 +36,20 @@ class role::wikidata(
         },
         footer   => '}',
     }
-    # Generic settings for WikibaseClient that should apply to all wikis.
+    # Generic settings for WikibaseClient & -Repo that should apply to all wikis.
     mediawiki::settings { 'WikiData-Client':
       priority => $::load_later,
       values   => template('role/wikidata/client.php.erb'),
     }
     # Settings for the wikidata wiki.
-    # This uses the 'wiki' option so no point in setting priority.
     mediawiki::settings { 'WikiData-Repo':
+      priority => $::load_later,
+      values   => template('role/wikidata/repo.php.erb'),
+    }
+    # This uses the 'wiki' option so no point in setting priority.
+    mediawiki::settings { 'WikiData-Repo-Specific':
       wiki   => 'wikidata',
-      values => template('role/wikidata/repo.php.erb'),
+      values => template('role/wikidata/repo-specific.php.erb'),
     }
 
     mediawiki::extension { 'Wikidata.org':
