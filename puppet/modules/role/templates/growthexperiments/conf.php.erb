@@ -25,12 +25,14 @@ $wgGEHomepageTutorialTitle = 'Tutorial';
 $wgGEHomepageMentorsList = 'Mentors';
 $wgGEHomepageSuggestedEditsEnabled = true;
 
+// Tasks
 $wgPageViewInfoWikimediaDomain = 'en.wikipedia.org';
 $wgGERestbaseUrl = 'https://en.wikipedia.org/api/rest_v1';
 $wgGENewcomerTasksRemoteApiUrl = 'https://en.wikipedia.org/w/api.php';
 $wgGENewcomerTasksConfigTitle = 'mw:Growth/Personalized_first_day/Newcomer_tasks/Prototype/templates/en.json';
 $wgGENewcomerTasksOresTopicConfigTitle = 'mw:MediaWiki:NewcomerTopicsOres.json';
 $wgGENewcomerTasksTopicType = 'ores';
+$wgGENewcomerTasksImageRecommendationsEnabled = true;
 
 $wgHooks['MediaWikiServices'][] = function ( \MediaWiki\MediaWikiServices $services ) {
 	if ( !$services->has( 'GrowthExperimentsEditInfoService' ) ) return;
