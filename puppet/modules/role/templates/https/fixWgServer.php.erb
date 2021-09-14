@@ -14,7 +14,7 @@ call_user_func(function () {
 	// Actual //host:port the current web request used, without http/https.
 	$currentRequestServer = preg_replace( '#^[^\/]+#', '', $detectedServer );
 
-	$currentRequestHostAndPort = IP::splitHostAndPort( $currentRequestServer );
+	$currentRequestHostAndPort = \Wikimedia\IPUtils::splitHostAndPort( $currentRequestServer );
 
 	if ( $currentRequestHostAndPort === false ) {
 		// Failure to parse current request, change nothing
@@ -25,7 +25,7 @@ call_user_func(function () {
 		// URL this wgConf is about
 		$protocolRelativeCanonical = $wgConfWgServer;
 
-		$canonicalHostAndPort = IP::splitHostAndPort( $protocolRelativeCanonical );
+		$canonicalHostAndPort = \Wikimedia\IPUtils::splitHostAndPort( $protocolRelativeCanonical );
 
 		if ( $canonicalHostAndPort === false ) {
 			// Failure to parse this particular wiki, skip it;
@@ -37,7 +37,7 @@ call_user_func(function () {
 		$currentPort = $currentRequestHostAndPort[1];
 
 		if ( $currentPort !== false ) {
-			$combined = IP::combineHostAndPort( $canonicalHost, $currentPort );
+			$combined = \Wikimedia\IPUtils::combineHostAndPort( $canonicalHost, $currentPort );
 			$wgConfWgServer = $combined;
 		} else {
 			// currentPort false just means we were accessed on default port
