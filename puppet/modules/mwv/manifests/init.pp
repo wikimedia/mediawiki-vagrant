@@ -38,6 +38,11 @@ class mwv (
     include ::mwv::packages
     include ::mwv::cachefilesd
 
+    # FIXME bandaid for T292324 until upgrading to buster
+    class { 'mwv::hack':
+        stage => 'first',
+    }
+
     file { $etc_dir:
         ensure => directory,
         owner  => 'root',
