@@ -21,7 +21,7 @@
 #   Components to install from this repo
 #
 # [*source*]
-#   Add deb-src line? Default false.
+#   Add deb-src line? Default true.
 #
 # [*keyfile*]
 #   GPG key used to sign packages in this repo. Default undef.
