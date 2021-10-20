@@ -1,0 +1,24 @@
+#####################################################################
+### THIS FILE IS MANAGED BY PUPPET
+#####################################################################
+
+[Unit]
+Description=image-suggestion-api service for the Add Image pipeline
+Requires=mediawiki-ready.service
+After=mediawiki-ready.service
+
+[Service]
+User=www-data
+Group=www-data
+SyslogIdentifier=image-suggestion-api
+WorkingDirectory=<%= $service_dir %>
+ExecStartPre=/bin/bash -c '/usr/bin/blubber "<%= $service_dir %>/.pipeline/blubber.dev.yaml" development | docker build --tag img-sugg-api --file - .'
+ExecStart=/usr/bin/docker run --rm --name img-sugg-api-sysd -p 127.0.0.1:<%= $service_port %>:8000 img-sugg-api:latest
+ExecStop=/usr/bin/docker stop img-sugg-api-sysd
+ExecStopPost=/bin/bash -c '/usr/bin/docker image ls -q --filter "reference=img-sugg-api" --filter "dangling=true" | /usr/bin/xargs -rn1 docker image rm -f'
+# FIXME also prune the unnamed images that get created
+
+Restart=on-success
+
+[Install]
+WantedBy=multi-user.target

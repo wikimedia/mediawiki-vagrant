@@ -1,0 +1,25 @@
+################################################################
+# THIS FILE IS MANAGED BY PUPPET. MANUAL CHANGES WILL BE LOST. #
+################################################################
+
+# Same as the original blubber.yaml, except it doesn't download a
+# 1GB database file over the internet on every instance creation.
+
+version: v4
+base: docker-registry.wikimedia.org/buster-nodejs10-slim
+lives:
+  in: /srv/service
+runs:
+  environment: { APP_BASE_PATH: /srv/service }
+variants:
+  build:
+    base: docker-registry.wikimedia.org/buster-nodejs10-devel
+    copies: [local]
+    apt: { packages: [git, build-essential, python-pkgconfig, curl] }
+    node: { requirements: [package.json, static/] }
+    runs: { environment: { LINK: g++ } }
+  development:
+    includes: [build]
+    apt: { packages: [ca-certificates] }
+    entrypoint: [node, server.js]
+    runs: { environment: { APP_CONFIG_PATH: ./config.dev.yaml } }
