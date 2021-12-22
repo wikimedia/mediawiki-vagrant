@@ -78,7 +78,7 @@ call_user_func( function() {
 			'handlers' => array(
 				'default' => array(
 					'class' => '\\Monolog\\Handler\\StreamHandler',
-					'args' => array( $wgDebugLogFile ?: '/vagrant/logs/mediawiki-' . wfWikiID() . '-debug.log' ),
+					'args' => array( $wgDebugLogFile ?: '/vagrant/logs/mediawiki-' . \WikiMap::getCurrentWikiId() . '-debug.log' ),
 					'formatter' => 'line',
 				),
 				'blackhole' => array(
@@ -86,7 +86,7 @@ call_user_func( function() {
 				),
 				'profiler' => array(
 					'class' => '\\Monolog\\Handler\\StreamHandler',
-					'args' => array( '/vagrant/logs/mediawiki-' . wfWikiID() . '-profiler.log' ),
+					'args' => array( '/vagrant/logs/mediawiki-' . \WikiMap::getCurrentWikiId() . '-profiler.log' ),
 					'formatter' => 'profiler',
 				),
 			),

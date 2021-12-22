@@ -190,7 +190,7 @@ class MWMultiVersion {
 		if ( strpos( $script, "{$IP}/" ) === 0 ) {
 			$script = substr( $script, strlen( "{$IP}/" ) );
 			if ( strpos( $params[0], '--wiki' ) !== 0 ) {
-				$wiki = wfWikiId();
+				$wiki = WikiMap::getCurrentWikiId();
 				array_unshift( $params, "--wiki=$wiki" );
 			}
 			$options['wrapper'] = __DIR__ . '/MWScript.php';
