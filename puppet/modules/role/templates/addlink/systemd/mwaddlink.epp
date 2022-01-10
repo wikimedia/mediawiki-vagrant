@@ -20,6 +20,7 @@ Environment=DB_DATABASE=<%= $db_name %>
 Environment=DB_USER=<%= $db_user %>
 Environment=DB_PASSWORD=<%= $db_pass %>
 Environment=MEDIAWIKI_API_URL=<%= $server_url %>/w/rest.php
+Environment=MEDIAWIKI_API_BASE_URL=<%= $server_url %>/w/
 WorkingDirectory=<%= $service_dir %>
 ExecStart=<%= $venv_dir %>/bin/flask run --port <%= $service_port %>
 Restart=always
