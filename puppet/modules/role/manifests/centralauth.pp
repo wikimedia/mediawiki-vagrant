@@ -54,7 +54,7 @@ class role::centralauth(
     mediawiki::settings { 'CentralAuthPermissions':
         values => [
             '$wgGroupPermissions["sysop"]["centralauth-lock"] = true;',
-            '$wgGroupPermissions["bureaucrat"]["centralauth-oversight"] = true;',
+            '$wgGroupPermissions["bureaucrat"]["centralauth-suppress"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-unmerge"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-rename"] = true;',
         ]
