@@ -90,7 +90,7 @@ module MediaWikiVagrant
       describe 'static_ip' do
         subject { definitions[:static_ip] }
 
-        it { is_expected.to have_attributes(default: '10.11.12.13') }
+        it { is_expected.to have_attributes(default: '192.168.56.2') }
       end
 
       describe 'http_port' do

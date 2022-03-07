@@ -42,7 +42,7 @@ module MediaWikiVagrant
       description: 'IP address assigned to the guest VM',
       help: 'For Virtualbox 6.1.28+ you might need to edit /etc/vbox/networks.conf, see ' +
         'https://www.virtualbox.org/manual/ch06.html#network_hostonly',
-      default: '10.11.12.13',
+      default: '192.168.56.2',
       coercion: ->(_setting, new) { new && IPAddr.new(new).to_s }
 
     setting :http_port,
