@@ -147,5 +147,5 @@ $wgHooks['isValidPassword'][] = function ( $password, &$result, $user ) {
 
 // Ensure that full LoggerFactory configuration is applied
 MediaWiki\Logger\LoggerFactory::registerProvider(
-	\Wikimedia\ObjectFactory::getObjectFromSpec( $wgMWLoggerDefaultSpi )
+	\Wikimedia\ObjectFactory\ObjectFactory::getObjectFromSpec( $wgMWLoggerDefaultSpi )
 );
