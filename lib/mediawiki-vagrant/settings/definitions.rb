@@ -40,6 +40,8 @@ module MediaWikiVagrant
 
     setting :static_ip,
       description: 'IP address assigned to the guest VM',
+      help: 'For Virtualbox 6.1.28+ you might need to edit /etc/vbox/networks.conf, see ' +
+        'https://www.virtualbox.org/manual/ch06.html#network_hostonly',
       default: '10.11.12.13',
       coercion: ->(_setting, new) { new && IPAddr.new(new).to_s }
 
