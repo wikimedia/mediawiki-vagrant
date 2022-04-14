@@ -74,7 +74,7 @@ class role::centralauth(
     }
 
     mysql::sql { 'Create CentralAuth tables':
-        sql     => "USE ${shared_db}; SOURCE ${::mediawiki::dir}/extensions/CentralAuth/central-auth.sql;",
+        sql     => "USE ${shared_db}; SOURCE ${::mediawiki::dir}/extensions/CentralAuth/schema/mysql/tables-generated.sql;",
         unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${shared_db}' AND table_name = 'globalnames';",
         require => [
             Mysql::Db[$shared_db],
