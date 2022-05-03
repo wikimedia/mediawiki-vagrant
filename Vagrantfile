@@ -316,7 +316,7 @@ Vagrant.configure('2') do |config|
 end
 
 # Load custom Vagrantfile overrides from 'Vagrantfile-extra.rb'
-# See 'support/Vagrantfile-extra.rb' for an example but make sure to folow
+# See 'support/Vagrantfile-extra.rb' for an example but make sure to follow
 # the instructions in that file.  In particular it is important to copy it
 # to the parent directory.  Editing it without copying it will only cause
 # sadness.
