@@ -33,7 +33,7 @@ define mysql::sql(
     exec { $title:
         # Passing input to a shell command in Puppet without it undergoing shell expansion is nasty.
         command => @("PUPPETCOMMAND")
-           /usr/bin/mysql -qfsA <<'SQLCOMMAND'
+           /usr/bin/mysql -qsA <<'SQLCOMMAND'
            ${sql}
            SQLCOMMAND
            | PUPPETCOMMAND
