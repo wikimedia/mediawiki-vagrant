@@ -35,8 +35,8 @@ class role::globalblocking(
     }
 
     mysql::sql { 'Create global_block_whitelist table':
-        sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/GlobalBlocking/sql/global_block_whitelist.sql;",
-        unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${db_name}' AND table_name = 'global_block_whitelist';",
+        sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/GlobalBlocking/sql/mysql/tables-generated-global_block_whitelist.sql;",
+        unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${db_name}' AND table_name = 'global_block_whitelist';",
         require => [
             Mysql::Db[$db_name],
             Mediawiki::Extension['GlobalBlocking']
@@ -45,8 +45,8 @@ class role::globalblocking(
     }
 
     mysql::sql { 'Create globalblocks table':
-        sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/GlobalBlocking/sql/globalblocks.sql;",
-        unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${db_name}' AND table_name = 'globalblocks';",
+        sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/GlobalBlocking/sql/mysql/tables-generated-globalblocks.sql;",
+        unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${db_name}' AND table_name = 'globalblocks';",
         require => [
             Mysql::Db[$db_name],
             Mediawiki::Extension['GlobalBlocking']
