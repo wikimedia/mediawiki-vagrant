@@ -40,7 +40,11 @@ $wgGENewcomerTasksImageRecommendationsEnabled = true;
 $wgHooks['MediaWikiServices'][] = function ( \MediaWiki\MediaWikiServices $services ) {
 	if ( !$services->has( 'GrowthExperimentsEditInfoService' ) ) return;
 	$services->redefineService( 'GrowthExperimentsEditInfoService', function ( \MediaWiki\MediaWikiServices $services ) {
-		return new \GrowthExperiments\AqsEditInfoService( $services->getHttpRequestFactory(), 'en.wikipedia' );
+		return new \GrowthExperiments\AqsEditInfoService(
+			$services->getHttpRequestFactory(),
+			$services->getMainWANObjectCache(),
+			'en.wikipedia'
+		);
 	} );
 };
 
