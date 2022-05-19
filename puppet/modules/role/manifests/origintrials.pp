@@ -5,14 +5,6 @@ class role::origintrials {
     mediawiki::settings { 'origintrials':
         values => {
             wgOriginTrials            => [
-                # Priority hints: Chrome 73-76, expires 2019-06-23 (renewable, trial ends 2019-09-04)
-
-                'ApOdp2cC5d/eRBFoDu9d0RUj71QUvXlBJ8ItzyE5bot75FnWQDr+vnOeRRTxNxqooTloH8DA9uCIznmHDeZkXQYAAAB1eyJvcmlnaW4iOiJodHRwczovL2Rldi53aWtpLmxvY2FsLndtZnRlc3QubmV0OjQ0MzAiLCJmZWF0dXJlIjoiUHJpb3JpdHlIaW50cyIsImV4cGlyeSI6MTU2MTI5MzY5OSwiaXNTdWJkb21haW4iOnRydWV9',
-
-                # Element Timing for Images: Chrome 73-76, expires 2019-06-23 (renewable, trial ends 2019-09-04)
-
-                'Al+C0/IkhHWWdx+Ibmms2HSVNDMo35sEa1H8cN1tK0PG1FMbLSOw77qTBweenVCvFIrB1rnOfvMYUjSsosSqOgMAAAB7eyJvcmlnaW4iOiJodHRwczovL2Rldi53aWtpLmxvY2FsLndtZnRlc3QubmV0OjQ0MzAiLCJmZWF0dXJlIjoiRWxlbWVudFRpbWluZ0ltYWdlcyIsImV4cGlyeSI6MTU2MTI5MzMzNSwiaXNTdWJkb21haW4iOnRydWV9',
-
                 # Event Timing: Chrome 68-75, expires 2019-06-23 (renewable, trial ends 2019-07-24)
 
                 'Av00Dl155RJppzkab8TAvOblf9+lb4rwogba148hyvJ1SZSHOZGPlEMTCyYpO2C4jAajg1XdWRBrjrDilArDEgsAAABzeyJvcmlnaW4iOiJodHRwczovL2Rldi53aWtpLmxvY2FsLndtZnRlc3QubmV0OjQ0MzAiLCJmZWF0dXJlIjoiRXZlbnRUaW1pbmciLCJleHBpcnkiOjE1NjEyOTMzOTksImlzU3ViZG9tYWluIjp0cnVlfQ==',
@@ -32,8 +24,6 @@ class role::origintrials {
             wgFeaturePolicyReportOnly => [
                 "sync-xhr 'none'"
             ],
-            wgElementTiming           => true,
-            wgPriorityHints           => true,
         }
     }
 }
