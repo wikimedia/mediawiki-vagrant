@@ -21,7 +21,6 @@ class role::wikimediaproduction {
     include ::role::confirmedit
     include ::role::contactpage
     include ::role::contenttranslation
-    include ::role::disableaccount
     include ::role::disambiguator
     include ::role::easytimeline
     include ::role::echo
