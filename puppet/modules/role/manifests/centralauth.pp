@@ -41,7 +41,6 @@ class role::centralauth(
         needs_update => true,
         settings     => {
             wgCentralAuthCookies         => true,
-            wgCentralAuthAutoNew         => true,
             wgCentralAuthDatabase        => $shared_db,
             wgCentralAuthAutoMigrate     => true,
             wgCentralAuthCreateOnView    => true,
