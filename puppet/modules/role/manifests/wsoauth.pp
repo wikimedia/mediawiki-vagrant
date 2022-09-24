@@ -12,7 +12,6 @@ class role::wsoauth (
     $mediawiki_url = hiera('mediawiki::server_url', '')
 
     mediawiki::extension { 'WSOAuth':
-        remote       => 'https://github.com/WikibaseSolutions/WSOAuth.git',
         needs_update => true,
         composer     => true,
         settings     => {
