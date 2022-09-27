@@ -110,6 +110,8 @@ Vagrant.configure('2') do |config|
   config.vm.provider :parallels do |_parallels, override|
     override.vm.box = 'generic/debian10'
     override.vm.network :private_network, ip: settings[:static_ip]
+    _parallels.memory = settings[:vagrant_ram]
+    _parallels.cpus = [settings[:vagrant_cores], 8].min
   end
 
   # libvirt (KVM/QEMU) provider.  Enable with `--provider=libvirt`.
