@@ -24,7 +24,7 @@ class role::echo(
     include ::role::langwikis
 
     mysql::sql { 'create echo_unread_wikis':
-        sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/db_patches/echo_unread_wikis.sql;",
+        sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/sql/mysql/tables-sharedtracking-generated.sql;",
         unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='${shared_tracking_db}' AND TABLE_NAME = 'echo_unread_wikis'",
         require => [
             Mysql::Db[$shared_tracking_db],
@@ -34,7 +34,7 @@ class role::echo(
     }
 
     mysql::sql { 'create echo_push_topic':
-      sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/db_patches/echo_push_topic.sql;",
+      sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/sql/echo_push_topic.sql;",
       unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='${shared_tracking_db}' AND TABLE_NAME = 'echo_push_topic'",
       require => [
           Mysql::Db[$shared_tracking_db],
@@ -43,7 +43,7 @@ class role::echo(
     }
 
     mysql::sql { 'create echo_push_provider':
-      sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/db_patches/echo_push_provider.sql;",
+      sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/sql/echo_push_provider.sql;",
       unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='${shared_tracking_db}' AND TABLE_NAME = 'echo_push_provider'",
       require => [
           Mysql::Db[$shared_tracking_db],
@@ -52,7 +52,7 @@ class role::echo(
     }
 
     mysql::sql { 'create echo_push_subscription':
-      sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/db_patches/echo_push_subscription.sql;",
+      sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/sql/echo_push_subscription.sql;",
       unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='${shared_tracking_db}' AND TABLE_NAME = 'echo_push_subscription'",
       require => [
           Mysql::Db[$shared_tracking_db],
