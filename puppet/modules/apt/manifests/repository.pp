@@ -57,15 +57,6 @@ define apt::repository (
         default => '',
     }
 
-    file { "/etc/apt/sources.list.d/${name}.list":
-        ensure  => $ensure,
-        owner   => 'root',
-        group   => 'root',
-        mode    => '0444',
-        content => "${binline}${srcline}",
-        notify  => Exec['apt-get update'],
-    }
-
     if $keyfile {
         file { "/var/lib/apt/keys/${name}.gpg":
             ensure => present,
@@ -80,6 +71,15 @@ define apt::repository (
             subscribe   => File["/var/lib/apt/keys/${name}.gpg"],
             refreshonly => true,
         }
+    }
+
+    file { "/etc/apt/sources.list.d/${name}.list":
+        ensure  => $ensure,
+        owner   => 'root',
+        group   => 'root',
+        mode    => '0444',
+        content => "${binline}${srcline}",
+        notify  => Exec['apt-get update'],
     }
 
     if $comment_old {

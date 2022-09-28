@@ -9,10 +9,8 @@ class elasticsearch(
 ) {
     require ::elasticsearch::repository
 
-    require_package('openjdk-8-jre-headless')
-
     package { 'elasticsearch':
-        ensure  => latest,
+        ensure  => $::elasticsearch::repository::es_version,
         name    => 'elasticsearch-oss',
         require => File['/etc/default/elasticsearch'],
     }
@@ -27,16 +25,6 @@ class elasticsearch(
         require => Package['elasticsearch'],
     }
 
-    # This is needed when upgrading from 2.x to 5.x, the directory
-    # ends up owned by root and elasticsearch refuses to start
-    file { '/var/run/elasticsearch':
-        ensure  => directory,
-        owner   => 'elasticsearch',
-        group   => 'elasticsearch',
-        mode    => '0755',
-        require => Package['elasticsearch'],
-    }
-
     systemd::service { 'elasticsearch':
         is_override     => true,
         declare_service => false,
@@ -47,7 +35,6 @@ class elasticsearch(
         enable  => true,
         require => [
             Package['elasticsearch'],
-            Package['openjdk-8-jre-headless'],
             Systemd::Service['elasticsearch'],
         ]
     }
