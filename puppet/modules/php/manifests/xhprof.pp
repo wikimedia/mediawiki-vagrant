@@ -10,7 +10,7 @@ class php::xhprof (
     $profile_storage_dir,
 ) {
 
-    package { 'php-tideways':
+    package { 'php7.4-tideways':
         ensure  => present,
     }
 
@@ -20,7 +20,7 @@ class php::xhprof (
             # XHProf_Runs utility class
             'xhprof.output_dir' => $profile_storage_dir,
         },
-        require  => Package['php-tideways'],
+        require  => Package['php7.4-tideways'],
     }
 
     # Directory used, by default, to store profile runs

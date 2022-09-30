@@ -1,6 +1,6 @@
 # == Class: php
 #
-# This module configures the PHP 5 scripting language and some of its
+# This module configures the PHP scripting language and some of its
 # popular extensions. PHP is the primary language in which MediaWiki is
 # implemented.
 #
@@ -14,7 +14,7 @@ class php {
     include ::php::repository
     include ::php::package
 
-    file { '/etc/php/7.2/mods-available':
+    file { '/etc/php/7.4/mods-available':
         ensure  => directory,
         owner   => 'root',
         group   => 'root',
@@ -23,7 +23,7 @@ class php {
         purge   => true,
         ignore  => '[^_]*',  # puppet-managed files start w/an underscore
         notify  => Exec['prune_php_ini_files'],
-        require => Package['php7.2'],
+        require => Package['php7.4'],
     }
 
     exec { 'prune_php_ini_files':
@@ -51,13 +51,13 @@ class php {
         settings => {
             'opcache.validate_timestamps' => 'on',
         },
-        require  => Package['php-apcu']
+        require  => Package['php7.4-apcu']
     }
 
     php::ini { 'opcache_revalidate_freq':
         settings => {
             'opcache.revalidate_freq' => 0,
         },
-        require  => Package['php-apcu'],
+        require  => Package['php7.4-apcu'],
     }
 }

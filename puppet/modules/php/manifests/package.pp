@@ -2,21 +2,20 @@
 # Installs the PHP package and its dependencies
 class php::package {
     package { [
-        'php',
-        'php-common',
-        'php7.2',
-        'php-apcu',
-        'php7.2-cli',
-        'php7.2-curl',
-        'php7.2-dev',
-        'php7.2-gd',
-        'php7.2-intl',
-        'php7.2-json',
-        'php7.2-mbstring',
-        'php7.2-mysql',
-        'php7.2-readline',
-        'php7.2-sqlite3',
-        'php7.2-xml',
+        'php7.4-common',
+        'php7.4',
+        'php7.4-apcu',
+        'php7.4-cli',
+        'php7.4-curl',
+        'php7.4-dev',
+        'php7.4-gd',
+        'php7.4-intl',
+        'php7.4-json',
+        'php7.4-mbstring',
+        'php7.4-mysql',
+        'php7.4-readline',
+        'php7.4-sqlite3',
+        'php7.4-xml',
     ]:
         ensure  => present,
         require => [
@@ -25,11 +24,11 @@ class php::package {
         ]
     }
 
-    env::alternative { 'default_php_to_7.2':
+    env::alternative { 'default_php_to_7.4':
         alternative => 'php',
-        target      => '/usr/bin/php7.2',
+        target      => '/usr/bin/php7.4',
         priority    => 10,
-        require     => Package['php7.2'],
+        require     => Package['php7.4'],
     }
 
     # Clean up HHVM leftovers

@@ -18,9 +18,9 @@
 #
 # === Examples
 #
-#  env::alternative { 'set_default_php_to_7.2':
+#  env::alternative { 'set_default_php_to_7.4':
 #    alternative => 'php',
-#    target      => '/usr/bin/php7.2',
+#    target      => '/usr/bin/php7.4',
 #    priority    => 20,
 #  }
 #

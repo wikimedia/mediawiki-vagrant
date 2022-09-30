@@ -21,15 +21,17 @@
 # See https://www.mediawiki.org/wiki/MediaWiki-Vagrant/Advanced_usage#MediaWiki_debugging_using_Xdebug_and_an_IDE_in_your_host
 # for more information.
 class php::remote_debug {
-    package { 'php-xdebug': }
+    package { 'php7.4-xdebug': }
 
     php::ini { 'remote_debug':
         settings => {
-            'xdebug.remote_connect_back' => 1,
-            'xdebug.remote_enable'       => 1,
-            'xdebug.max_nesting_level'   => 200,
-            'xdebug.remote_log'          => '/vagrant/logs/xdebug.log',
+            'xdebug.discover_client_host' => true,
+            'xdebug.log'                  => '/vagrant/logs/xdebug.log',
+            'xdebug.max_nesting_level'    => 200,
+            # Is cover expected to be the default?
+            # That is significantly slower, especially running tests
+            'xdebug.mode'                 => 'debug',
         },
-        require  => Package['php-xdebug'],
+        require  => Package['php7.4-xdebug'],
     }
 }
