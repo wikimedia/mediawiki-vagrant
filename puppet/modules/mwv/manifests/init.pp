@@ -38,6 +38,10 @@ class mwv (
     include ::mwv::packages
     include ::mwv::cachefilesd
 
+    class { 'mwv::lang':
+        stage => 'first',
+    }
+
     file { $etc_dir:
         ensure => directory,
         owner  => 'root',
