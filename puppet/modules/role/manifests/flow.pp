@@ -46,7 +46,7 @@ class role::flow {
     }
 
     mysql::sql { 'Create Flow tables':
-        sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/Flow/flow.sql;",
+        sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/Flow/sql/mysql/tables-generated.sql;",
         unless  => "SELECT COUNT(*) FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${db_name}' AND table_name = 'flow_revision';",
         require => [
             Mysql::Db[$db_name],
