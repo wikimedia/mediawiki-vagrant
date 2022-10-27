@@ -5,6 +5,7 @@ class php::package {
         'php7.4-common',
         'php7.4',
         'php7.4-apcu',
+        'php7.4-ast',
         'php7.4-cli',
         'php7.4-curl',
         'php7.4-dev',
