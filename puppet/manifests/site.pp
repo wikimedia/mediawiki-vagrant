@@ -53,4 +53,4 @@ File {
 
 # Assign classes to nodes via hiera
 # See hiera.yaml and hieradata/*.yaml
-hiera_include('classes')
+lookup('classes', {merge => unique}).include

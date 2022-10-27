@@ -1,12 +1,16 @@
 ---
-:backends:
-  - yaml
-:yaml:
-  :datadir: /vagrant/puppet/hieradata
-:hierarchy:
-  - local
-  - vagrant-managed
-  - "environment/%{::environment}"
-  - "provider/%{::provider_name}"
-  - common
-:logger: console
+version: 5
+defaults:
+  datadir: /vagrant/puppet/hieradata
+  data_hash: yaml_data
+hierarchy:
+  - name: User customizations
+    path: local.yaml
+  - name: Vagrant settings (from vagrant roles and vagrant hiera commands)
+    path: vagrant-managed.yaml
+  - name: Environment (used by Cloud-Vagrant)
+    path: "environment/%{::environment}.yaml"
+  - name: Provider-specific (e.g. Virtualbox, LXC)
+    path: "provider/%{::provider_name}.yaml"
+  - name: Common settings
+    path: common.yaml
