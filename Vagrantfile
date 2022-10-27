@@ -258,7 +258,7 @@ Vagrant.configure('2') do |config|
     puppet.manifest_file = 'site.pp'
 
     puppet.environment_path = [:guest, '/vagrant/puppet/environments']
-    puppet.environment = 'vagrant'
+    puppet.environment = ENV['MWV_ENVIRONMENT'] || 'vagrant'
 
     puppet.options = [
       '--modulepath', '/vagrant/puppet/modules',
@@ -288,7 +288,6 @@ Vagrant.configure('2') do |config|
       'forwarded_port'         => settings[:http_port],
       'forwarded_https_port'   => settings[:https_port],
       'shared_apt_cache'       => '/vagrant/cache/apt/',
-      'environment'            => ENV['MWV_ENVIRONMENT'] || 'vagrant',
       'vmhost'                 => Socket.gethostname,
     }
 
