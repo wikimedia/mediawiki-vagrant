@@ -9,7 +9,7 @@ if [ "`id -u`" != "0" ]; then
 fi
 
 if ! which puppet >/dev/null 2>&1; then
-    apt-get update >/dev/null 2>&1
+    apt-get update --allow-releaseinfo-change >/dev/null 2>&1
     DEBIAN_FRONTEND=noninteractive apt-get \
         -y \
         -o Dpkg::Options::="--force-confdef" \
