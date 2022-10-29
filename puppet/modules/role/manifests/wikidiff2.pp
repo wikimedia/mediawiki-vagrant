@@ -4,5 +4,5 @@
 
 class role::wikidiff2 {
     include ::mediawiki::extension::wikidiff2
-    require_package('php-wikidiff2')
+    require_package('php7.4-wikidiff2')
 }
