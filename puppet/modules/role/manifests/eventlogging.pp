@@ -13,7 +13,7 @@ class role::eventlogging {
     include ::role::syntaxhighlight
 
     # NOTE: Set npm::node_version: 10 in hiera
-    $node_version = hiera('npm::node_version', undef)
+    $node_version = lookup('npm::node_version', {default_value => undef})
     if (!$node_version or $node_version < 10) {
         warning('EventLogging role requires the EventGate service, which requires NodeJS 10. To use it, vagrant hiera npm::node_version 10 && vagrant provision (Might break other services.)')
     }

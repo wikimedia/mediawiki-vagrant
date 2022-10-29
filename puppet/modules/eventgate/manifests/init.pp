@@ -23,7 +23,7 @@ class eventgate(
     $log_level = undef,
     $output    = '/vagrant/logs/eventgate-events.json'
 ) {
-    $node_version = hiera('npm::node_version', '6')
+    $node_version = lookup('npm::node_version', {'default_value' => '6'})
     if $node_version != 10 {
         warning("eventgate requires NodeJS version 10 but was ${node_version}. To use it, run `vagrant hiera npm::node_version 10 && vagrant provision`. (Might break other services.)")
     }

@@ -40,7 +40,7 @@
 #
 # node /pinkunicorn.wikimedia.org/ {
 #      role foo::bar, fizzbuzz
-#      notice(hiera('admin::groups'))
+#      notice(lookup('admin::groups'))
 # }
 #
 # Give the hierarchy from before, the final hiera lookup will result

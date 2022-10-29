@@ -8,7 +8,7 @@ class role::discussiontools {
 
     mediawiki::extension { 'DiscussionTools':
         settings => {
-            'wgLocaltimezone' => hiera('mwv::timezone', 'UTC'),
+            'wgLocaltimezone' => lookup('mwv::timezone', {default_value => 'UTC'}),
         },
     }
 }

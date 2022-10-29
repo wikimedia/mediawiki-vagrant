@@ -9,7 +9,7 @@ class role::wsoauth (
 ) {
     ensure_resource('mediawiki::extension', 'PluggableAuth')
 
-    $mediawiki_url = hiera('mediawiki::server_url', '')
+    $mediawiki_url = lookup('mediawiki::server_url', {default_value => ''})
 
     mediawiki::extension { 'WSOAuth':
         needs_update => true,

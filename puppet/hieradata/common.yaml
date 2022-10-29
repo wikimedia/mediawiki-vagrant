@@ -5,7 +5,7 @@ classes:
   - '::puppet::agent'
 
 apache::docroot: /var/www
-arcanist::deploy_dir: "%{hiera('mwv::services_dir')}"
+arcanist::deploy_dir: "%{lookup('mwv::services_dir')}"
 
 cassandra::max_heap: "64M"
 cassandra::new_size: "10M"
@@ -16,15 +16,15 @@ citoid::log_level: info
 
 changeprop::port: 7272
 
-contenttranslation::dir: "%{hiera('mediawiki::dir')}/extensions/ContentTranslation"
-contenttranslation::view_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/wiki/$2"
-contenttranslation::action_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/index.php?title=$2"
-contenttranslation::api_template: "//$1%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/api.php"
+contenttranslation::dir: "%{lookup('mediawiki::dir')}/extensions/ContentTranslation"
+contenttranslation::view_template: "//$1%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}/wiki/$2"
+contenttranslation::action_template: "//$1%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/index.php?title=$2"
+contenttranslation::api_template: "//$1%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/api.php"
 contenttranslation::cx_template: "//127.0.0.1:%{::contenttranslation::cxserver::port}/v1"
-contenttranslation::database_host: "%{hiera('mysql::grant_host_name')}"
+contenttranslation::database_host: "%{lookup('mysql::grant_host_name')}"
 contenttranslation::database: 'contenttranslation'
-contenttranslation::database_user: "%{hiera('mediawiki::multiwiki::db_user')}"
-contenttranslation::database_password: "%{hiera('mysql::root_password')}"
+contenttranslation::database_user: "%{lookup('mediawiki::multiwiki::db_user')}"
+contenttranslation::database_password: "%{lookup('mysql::root_password')}"
 contenttranslation::eventlogging: false
 contenttranslation::betafeature: false
 contenttranslation::intarget: false
@@ -35,7 +35,7 @@ contenttranslation::wikis:
     category_keyword: 'Category'
     high_mt_category: 'MT'
 
-contenttranslation::cxserver::dir: "%{hiera('mwv::services_dir')}/cxserver"
+contenttranslation::cxserver::dir: "%{lookup('mwv::services_dir')}/cxserver"
 contenttranslation::cxserver::port: 8090
 contenttranslation::cxserver::apertium: 'http://apertium.wmflabs.org'
 contenttranslation::cxserver::yandex_url: 'https://translate.yandex.net'
@@ -43,48 +43,48 @@ contenttranslation::cxserver::yandex_api_key: 'null'
 contenttranslation::cxserver::youdao_url: 'https://fanyi.youdao.com/paidapi/fanyiapi'
 contenttranslation::cxserver::youdao_api_key: 'null'
 
-crm::dir: "%{hiera('mwv::services_dir')}/org.wikimedia.civicrm"
-crm::site_name: "crm%{hiera('mwv::tld')}"
-crm::sites_default_path: "%{hiera('crm::dir')}/sites/default"
+crm::dir: "%{lookup('mwv::services_dir')}/org.wikimedia.civicrm"
+crm::site_name: "crm%{lookup('mwv::tld')}"
+crm::sites_default_path: "%{lookup('crm::dir')}/sites/default"
 crm::repo: 'wikimedia/fundraising/crm'
 
 crm::drupal::db_name: drupal
 crm::drupal::fredge_db_name: fredge
 crm::drupal::db_user: drupal_user
 crm::drupal::db_pass: drupal_pass
-crm::drupal::dir: "%{hiera('crm::dir')}/drupal"
-crm::drupal::files_dir: "%{hiera('mwv::files_dir')}/org.wikimedia.civicrm-files"
-crm::drupal::install_script: "%{hiera('crm::sites_default_path')}/drupal-install.sh"
-crm::drupal::settings_path: "%{hiera('crm::sites_default_path')}/settings.php"
-crm::drupal::module_list: "%{hiera('crm::sites_default_path')}/enabled_modules"
-crm::drupal::civicrm_db_name:  "%{hiera('crm::civicrm::db_name')}"
-crm::drupal::civicrm_db_user:  "%{hiera('crm::civicrm::db_user')}"
-crm::drupal::civicrm_db_pass:  "%{hiera('crm::civicrm::db_pass')}"
-crm::drupal::smashpig_db_name:  "%{hiera('smashpig::db_name')}"
-crm::drupal::smashpig_db_user:  "%{hiera('smashpig::db_user')}"
-crm::drupal::smashpig_db_pass:  "%{hiera('smashpig::db_pass')}"
+crm::drupal::dir: "%{lookup('crm::dir')}/drupal"
+crm::drupal::files_dir: "%{lookup('mwv::files_dir')}/org.wikimedia.civicrm-files"
+crm::drupal::install_script: "%{lookup('crm::sites_default_path')}/drupal-install.sh"
+crm::drupal::settings_path: "%{lookup('crm::sites_default_path')}/settings.php"
+crm::drupal::module_list: "%{lookup('crm::sites_default_path')}/enabled_modules"
+crm::drupal::civicrm_db_name:  "%{lookup('crm::civicrm::db_name')}"
+crm::drupal::civicrm_db_user:  "%{lookup('crm::civicrm::db_user')}"
+crm::drupal::civicrm_db_pass:  "%{lookup('crm::civicrm::db_pass')}"
+crm::drupal::smashpig_db_name:  "%{lookup('smashpig::db_name')}"
+crm::drupal::smashpig_db_user:  "%{lookup('smashpig::db_user')}"
+crm::drupal::smashpig_db_pass:  "%{lookup('smashpig::db_pass')}"
 
 crm::civicrm::db_name: civicrm
 crm::civicrm::db_user: civicrm_user
 crm::civicrm::db_pass: civicrm_pass
-crm::civicrm::drupal_dir: "%{hiera('crm::drupal::dir')}"
-crm::civicrm::drupal_db_name: "%{hiera('crm::drupal::db_name')}"
-crm::civicrm::drupal_db_user:  "%{hiera('crm::drupal::db_user')}"
-crm::civicrm::drupal_db_pass:  "%{hiera('crm::drupal::db_pass')}"
+crm::civicrm::drupal_dir: "%{lookup('crm::drupal::dir')}"
+crm::civicrm::drupal_db_name: "%{lookup('crm::drupal::db_name')}"
+crm::civicrm::drupal_db_user:  "%{lookup('crm::drupal::db_user')}"
+crm::civicrm::drupal_db_pass:  "%{lookup('crm::drupal::db_pass')}"
 crm::civicrm::buildkit_repo: 'https://github.com/civicrm/civicrm-buildkit'
-crm::civicrm::buildkit_dir: "%{hiera('mwv::services_dir')}/civicrm-buildkit"
-crm::civicrm::dir: "%{hiera('crm::dir')}/civicrm"
-crm::civicrm::install_script: "%{hiera('crm::sites_default_path')}/civicrm-install.php"
+crm::civicrm::buildkit_dir: "%{lookup('mwv::services_dir')}/civicrm-buildkit"
+crm::civicrm::dir: "%{lookup('crm::dir')}/civicrm"
+crm::civicrm::install_script: "%{lookup('crm::sites_default_path')}/civicrm-install.php"
 
-crm::tools::dir: "%{hiera('mwv::services_dir')}/fundraising-tools"
+crm::tools::dir: "%{lookup('mwv::services_dir')}/fundraising-tools"
 crm::tools::silverpop_db_name: silverpop
 crm::tools::silverpop_db_user: silverpop_user
 crm::tools::silverpop_db_pass: silverpop_pass
-crm::drush::dir: "%{hiera('mwv::services_dir')}/drush"
-crm::dash::dir: "%{hiera('mwv::services_dir')}/fundraising-dash"
+crm::drush::dir: "%{lookup('mwv::services_dir')}/drush"
+crm::dash::dir: "%{lookup('mwv::services_dir')}/fundraising-dash"
 
-dumps::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
-dumps::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
+dumps::db_user: "%{lookup('mediawiki::multiwiki::db_user')}"
+dumps::db_pass: "%{lookup('mediawiki::multiwiki::db_pass')}"
 
 elasticsearch::repository::es_package: elastic68
 elasticsearch::repository::es_version: 6.8
@@ -95,11 +95,11 @@ logstash::output::elasticsearch::host: 127.0.0.1
 logstash::output::elasticsearch::manage_indices: true
 logstash::output::elasticsearch::priority: 90
 
-iegreview::vhost_name: "iegreview%{hiera('mwv::tld')}"
+iegreview::vhost_name: "iegreview%{lookup('mwv::tld')}"
 iegreview::db_name: iegreview
 iegreview::db_user: iegreview
 iegreview::db_pass: iegreview
-iegreview::deploy_dir: "%{hiera('mwv::services_dir')}/iegreview"
+iegreview::deploy_dir: "%{lookup('mwv::services_dir')}/iegreview"
 iegreview::cache_dir: /var/cache/iegreview
 iegreview::log_file: /vagrant/logs/iegreview.log
 iegreview::smtp_server: 127.0.0.1
@@ -117,33 +117,33 @@ mediawiki::wiki_name: devwiki
 mediawiki::dir: /vagrant/mediawiki
 mediawiki::cache_dir: /var/cache/mediawiki
 mediawiki::settings_dir: /vagrant/settings.d
-mediawiki::upload_dir: "%{hiera('mwv::files_dir')}/images"
-mediawiki::page_dir: "%{hiera('mwv::files_dir')}/pages"
-mediawiki::composer_fragment_dir: "%{hiera('mediawiki::settings_dir')}/composer"
-mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
+mediawiki::upload_dir: "%{lookup('mwv::files_dir')}/images"
+mediawiki::page_dir: "%{lookup('mwv::files_dir')}/pages"
+mediawiki::composer_fragment_dir: "%{lookup('mediawiki::settings_dir')}/composer"
+mediawiki::db_name: "%{lookup('mysql::default_db_name')}"
 mediawiki::admin_user: Admin
 mediawiki::admin_pass: vagrant
 mediawiki::admin_email: admin@local.wmftest.net
 mediawiki::server_protocol: http
-mediawiki::server_url: "%{hiera('mediawiki::server_protocol')}://%{hiera('role::mediawiki::hostname')}%{::port_fragment}"
+mediawiki::server_url: "%{lookup('mediawiki::server_protocol')}://%{lookup('role::mediawiki::hostname')}%{::port_fragment}"
 mediawiki::branch: master
 mediawiki::parallel_composer_jobs: 100%
 
-mediawiki::apache::docroot: "%{hiera('apache::docroot')}"
+mediawiki::apache::docroot: "%{lookup('apache::docroot')}"
 
 mediawiki::jobrunner::enable: true
-mediawiki::jobrunner::dir: "%{hiera('mwv::services_dir')}/jobrunner"
+mediawiki::jobrunner::dir: "%{lookup('mwv::services_dir')}/jobrunner"
 mediawiki::jobrunner::verbose: false
 mediawiki::jobrunner::groups:
   basic:
     include: [ "*" ]
     runners: 1
 
-mediawiki::multiwiki::default_wiki: "%{hiera('role::mediawiki::hostname')}"
-mediawiki::multiwiki::base_domain: ".wiki%{hiera('mwv::tld')}"
-mediawiki::multiwiki::script_dir: "%{hiera('mediawiki::apache::docroot')}/w"
-mediawiki::multiwiki::wiki_priority_dir: "%{hiera('mediawiki::multiwiki::settings_root')}/dbConf"
-mediawiki::multiwiki::settings_root: "%{hiera('mediawiki::settings_dir')}/wikis"
+mediawiki::multiwiki::default_wiki: "%{lookup('role::mediawiki::hostname')}"
+mediawiki::multiwiki::base_domain: ".wiki%{lookup('mwv::tld')}"
+mediawiki::multiwiki::script_dir: "%{lookup('mediawiki::apache::docroot')}/w"
+mediawiki::multiwiki::wiki_priority_dir: "%{lookup('mediawiki::multiwiki::settings_root')}/dbConf"
+mediawiki::multiwiki::settings_root: "%{lookup('mediawiki::settings_dir')}/wikis"
 mediawiki::multiwiki::db_host: '127.0.0.1'
 mediawiki::multiwiki::db_user: 'wikiadmin'
 mediawiki::multiwiki::db_pass: 'wikipassword'
@@ -152,8 +152,8 @@ mediawiki::multiwiki::extension_cluster_shared_db_name: 'wikishared'
 mediawiki::multiwiki::extension_cluster_db_user: 'extensionadmin'
 mediawiki::multiwiki::extension_cluster_db_pass: 'extensionpassword'
 
-mediawiki::mwrepl::default_db_name: "%{hiera('mediawiki::db_name')}"
-mediawiki::mwrepl::script_dir: "%{hiera('mediawiki::multiwiki::script_dir')}"
+mediawiki::mwrepl::default_db_name: "%{lookup('mediawiki::db_name')}"
+mediawiki::mwrepl::script_dir: "%{lookup('mediawiki::multiwiki::script_dir')}"
 
 mtail::logs:
   - /var/log/syslog
@@ -178,12 +178,12 @@ nginx::variant: extras
 
 ocg::port: 8099
 
-ores::deploy_dir: "%{hiera('mwv::services_dir')}/ores"
-ores::vhost_name: "ores%{hiera('mwv::tld')}"
+ores::deploy_dir: "%{lookup('mwv::services_dir')}/ores"
+ores::vhost_name: "ores%{lookup('mwv::tld')}"
 ores::port: 18880
 
 parsoid::port: 8000
-parsoid::domain: "%{hiera('role::mediawiki::hostname')}"
+parsoid::domain: "%{lookup('role::mediawiki::hostname')}"
 parsoid::uri: "http://localhost:%{::forwarded_port}/w/api.php"
 parsoid::use_php_preprocessor: true
 parsoid::use_selser: true
@@ -191,82 +191,82 @@ parsoid::allow_cors: '*'
 
 payments::branch: fundraising/REL1_31
 payments::dir: /vagrant/mediawiki-fr
-payments::drupal_db: "%{hiera('crm::drupal::db_name')}"
-payments::drupal_db_user: "%{hiera('crm::drupal::db_user')}"
-payments::drupal_db_pass: "%{hiera('crm::drupal::db_pass')}"
+payments::drupal_db: "%{lookup('crm::drupal::db_name')}"
+payments::drupal_db_user: "%{lookup('crm::drupal::db_user')}"
+payments::drupal_db_pass: "%{lookup('crm::drupal::db_pass')}"
 
-phabricator::deploy_dir: "%{hiera('mwv::services_dir')}"
+phabricator::deploy_dir: "%{lookup('mwv::services_dir')}"
 phabricator::log_dir: "/vagrant/logs/phd"
-phabricator::vhost_name: "phabricator%{hiera('mwv::tld')}"
+phabricator::vhost_name: "phabricator%{lookup('mwv::tld')}"
 phabricator::remote: https://secure.phabricator.com/diffusion/P/phabricator.git
 phabricator::dbuser: phabricator
 phabricator::dbpass: phabulous
 
 php::xhprof::profile_storage_dir: /vagrant/profiles
 
-proton::dir: "%{hiera('service::root_dir')}/proton"
+proton::dir: "%{lookup('service::root_dir')}/proton"
 proton::port: 3030
-proton::log_file: "%{hiera('service::log_dir')}/proton.log"
+proton::log_file: "%{lookup('service::log_dir')}/proton.log"
 
 # We are masterless and have no need to run an agent.
 puppet::agent::ensure: stopped
 puppet::agent::enable: false
 
-redis::dir: "%{hiera('mwv::vendor_dir')}/redis"
+redis::dir: "%{lookup('mwv::vendor_dir')}/redis"
 redis::persist: true
 redis::max_memory: 256M
 
 restbase::port: 7231
-restbase::domain: "%{hiera('role::mediawiki::hostname')}"
+restbase::domain: "%{lookup('role::mediawiki::hostname')}"
 restbase::dbdir: /var/lib/restbase
 
-role::addimage::service_dir: "%{hiera('mwv::services_dir')}/image-suggestion-api"
+role::addimage::service_dir: "%{lookup('mwv::services_dir')}/image-suggestion-api"
 role::addimage::service_port: 8002
 
 role::addlink::db_name: addlink
 role::addlink::db_user: addlink_user
 role::addlink::db_pass: secret123
-role::addlink::service_dir: "%{hiera('mwv::services_dir')}/mwaddlink"
+role::addlink::service_dir: "%{lookup('mwv::services_dir')}/mwaddlink"
 role::addlink::service_port: 8001
 
 role::cargo::db_name: cargo_db
 role::cargo::db_user: cargo_user
 role::cargo::db_pass: Rm3mjs6q8zVa3U7JhdmH
 
-role::centralauth::db_host: "%{hiera('mysql::grant_host_name')}"
-role::centralauth::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
-role::centralauth::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
-role::centralauth::wiki_admin_user: "%{hiera('mediawiki::admin_user')}"
+role::centralauth::db_host: "%{lookup('mysql::grant_host_name')}"
+role::centralauth::db_user: "%{lookup('mediawiki::multiwiki::db_user')}"
+role::centralauth::db_pass: "%{lookup('mediawiki::multiwiki::db_pass')}"
+role::centralauth::wiki_admin_user: "%{lookup('mediawiki::admin_user')}"
 
-role::cirrussearch::public_url: "http://elasticsearch%{hiera('mwv::tld')}%{::port_fragment}"
+role::cirrussearch::public_url: "http://elasticsearch%{lookup('mwv::tld')}%{::port_fragment}"
 
-role::citoid::url: "//%{hiera('role::mediawiki::hostname')}:%{hiera('citoid::port')}/api"
+role::citoid::url: "//%{lookup('role::mediawiki::hostname')}:%{hiera('citoid::port')}/api"
 
-role::commons::upload_dir: "%{hiera('mwv::files_dir')}/commonsimages"
+role::commons::upload_dir: "%{lookup('mwv::files_dir')}/commonsimages"
 
-role::commons_datasets::commons_url: "http://commons%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/api.php"
+role::commons_datasets::commons_url: "http://commons%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}/w/api.php"
 
-role::echo::shared_tracking_cluster: "%{hiera('mediawiki::multiwiki::extension_db_cluster')}"
-role::echo::shared_tracking_db: "%{hiera('mediawiki::multiwiki::extension_cluster_shared_db_name')}"
-role::echo::echo_dir: "%{hiera('mediawiki::dir')}/extensions/Echo"
+role::echo::shared_tracking_cluster: "%{lookup('mediawiki::multiwiki::extension_db_cluster')}"
+role::echo::shared_tracking_db: "%{lookup('mediawiki::multiwiki::extension_cluster_shared_db_name')}"
+role::echo::echo_dir: "%{lookup('mediawiki::dir')}/extensions/Echo"
 
-role::elk::vhost_name: "logstash%{hiera('mwv::tld')}"
+role::elk::vhost_name: "logstash%{lookup('mwv::tld')}"
 
-role::externalstore::grant_db_host: "%{hiera('mysql::grant_host_name')}"
-role::externalstore::db_host: "%{hiera('mediawiki::multiwiki::db_host')}"
-role::externalstore::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
-role::externalstore::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
+role::externalstore::grant_db_host: "%{lookup('mysql::grant_host_name')}"
+role::externalstore::db_host: "%{lookup('mediawiki::multiwiki::db_host')}"
+role::externalstore::db_user: "%{lookup('mediawiki::multiwiki::db_user')}"
+role::externalstore::db_pass: "%{lookup('mediawiki::multiwiki::db_pass')}"
 role::externalstore::db_name: 'external'
 
-role::globalblocking::db_host: "%{hiera('mysql::grant_host_name')}"
-role::globalblocking::db_user: "%{hiera('mediawiki::multiwiki::db_user')}"
-role::globalblocking::db_pass: "%{hiera('mediawiki::multiwiki::db_pass')}"
+role::globalblocking::db_host: "%{lookup('mysql::grant_host_name')}"
+role::globalblocking::db_user: "%{lookup('mediawiki::multiwiki::db_user')}"
+role::globalblocking::db_pass: "%{lookup('mediawiki::multiwiki::db_pass')}"
 role::globalblocking::db_name: globalblocking
 
-role::horizon::vhost_name: "horizon%{hiera('mwv::tld')}"
+role::horizon::vhost_name: "horizon%{lookup('mwv::tld')}"
 role::horizon::log_dir: /vagrant/logs
 
-role::iabot::deploy_dir: "%{hiera('mwv::services_dir')}"
+role::iabot::deploy_dir: "%{lookup('mwv::services_dir')}"
 role::iabot::remote: https://github.com/cyberpower678/Cyberbot_II
 role::iabot::branch: test
 role::iabot::user: VagrantInternetArchiveBot
@@ -313,54 +313,54 @@ role::ldapauth::proxy_agent_password: vagrant_agent
 role::ldapauth::writer_password: vagrant_writer
 role::ldapauth::admin_password: vagrant_admin
 
-role::mediainfo::central_repo_domain: "http://wikidata%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
-role::mediainfo::multimedia_domain: "http://commons%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
+role::mediainfo::central_repo_domain: "http://wikidata%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
+role::mediainfo::multimedia_domain: "http://commons%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
 
-role::mediawiki::hostname: "dev%{hiera('mediawiki::multiwiki::base_domain')}"
+role::mediawiki::hostname: "dev%{lookup('mediawiki::multiwiki::base_domain')}"
 
-role::mobilecontentservice::vhost_name: "mcs%{hiera('mwv::tld')}"
+role::mobilecontentservice::vhost_name: "mcs%{lookup('mwv::tld')}"
 
-role::offline::electron_hostname: "electron%{hiera('mwv::tld')}"
+role::offline::electron_hostname: "electron%{lookup('mwv::tld')}"
 
-role::parsoid_js::public_url: "http://parsoid%{hiera('mwv::tld')}%{::port_fragment}"
+role::parsoid_js::public_url: "http://parsoid%{lookup('mwv::tld')}%{::port_fragment}"
 
-role::proton::vhost_name: "proton%{hiera('mwv::tld')}"
+role::proton::vhost_name: "proton%{lookup('mwv::tld')}"
 
-role::quips::vhost_name: "quips%{hiera('mwv::tld')}%{::port_fragment}"
-role::quips::dir: "%{hiera('mwv::services_dir')}/quips"
+role::quips::vhost_name: "quips%{lookup('mwv::tld')}%{::port_fragment}"
+role::quips::dir: "%{lookup('mwv::services_dir')}/quips"
 role::quips::env:
   CACHE_DIR: /var/cache/quips
   SLIM_MODE: development
 
-role::raita::dir: "%{hiera('mwv::services_dir')}/raita"
-role::raita::vhost_name: "raita%{hiera('mwv::tld')}"
+role::raita::dir: "%{lookup('mwv::services_dir')}/raita"
+role::raita::vhost_name: "raita%{lookup('mwv::tld')}"
 
-role::restbase::base_url: "//%{hiera('role::mediawiki::hostname')}%{::port_fragment}/api/rest_"
-role::restbase::domain: "%{hiera('restbase::domain')}"
-role::restbase::public_url: "%{hiera('mediawiki::server_url')}/api/rest_v1/"
+role::restbase::base_url: "//%{lookup('role::mediawiki::hostname')}%{::port_fragment}/api/rest_"
+role::restbase::domain: "%{lookup('restbase::domain')}"
+role::restbase::public_url: "%{lookup('mediawiki::server_url')}/api/rest_v1/"
 role::restbase::ve_url: "/api/rest_v1/page/html/"
 
-role::sal::vhost_name: "sal%{hiera('mwv::tld')}%{::port_fragment}"
-role::sal::dir: "%{hiera('mwv::services_dir')}/sal"
+role::sal::vhost_name: "sal%{lookup('mwv::tld')}%{::port_fragment}"
+role::sal::dir: "%{lookup('mwv::services_dir')}/sal"
 role::sal::env:
   CACHE_DIR: /var/cache/sal
   SLIM_MODE: development
 
-role::striker::deploy_dir: "%{hiera('mwv::services_dir')}"
+role::striker::deploy_dir: "%{lookup('mwv::services_dir')}"
 role::striker::log_dir: /vagrant/logs
 role::striker::db_name: striker
 role::striker::db_user: striker
 role::striker::db_pass: striker
-role::striker::vhost_name: "striker%{hiera('mwv::tld')}"
+role::striker::vhost_name: "striker%{lookup('mwv::tld')}"
 role::striker::oauth_consumer_key: "!Set in local.yaml after creating grant!"
 role::striker::oauth_consumer_secret: "!Set in local.yaml after creating grant!"
-role::striker::phabricator_url: "http://%{hiera('phabricator::vhost_name')}%{::port_fragment}"
+role::striker::phabricator_url: "http://%{lookup('phabricator::vhost_name')}%{::port_fragment}"
 role::striker::phabricator_user: striker
 role::striker::phabricator_token: "!Set in local.yaml after creating bot!"
 role::striker::phabricator_repo_admin_group: "!Set in local.yaml after creating group!"
 role::striker::phabricator_project_parent_project: "!Set in local.yaml after creating group!"
 role::striker::uwsgi_port: 8081
-role::striker::wikitech_url: "http://ldapauth%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
+role::striker::wikitech_url: "http://ldapauth%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
 role::striker::wikitech_consumer_key: 621c0e27ecb5316720a859f7d34b6728
 role::striker::wikitech_consumer_secret: dd44dbcca3cd0dfe2a504fe201f8c999e7ad3f56
 role::striker::wikitech_srv_secret_key: 8a15fc34bb0779c4c103c48b69b0325f
@@ -369,8 +369,8 @@ role::striker::wikitech_access_secret: 02a8a95723f373e9a4cee68b1d5313c397190892
 role::striker::wikitech_srv_access_secret: 478fc0fc9d5059b2ae343252ca48ef90
 role::striker::use_xff: false
 
-role::oauth::hello_world_dir: "%{hiera('mwv::services_dir')}/oauth-hello-world"
-role::oauth::oauthclient_dir: "%{hiera('mwv::services_dir')}/oauthclient-php"
+role::oauth::hello_world_dir: "%{lookup('mwv::services_dir')}/oauth-hello-world"
+role::oauth::oauthclient_dir: "%{lookup('mwv::services_dir')}/oauthclient-php"
 role::oauth::secret_key: 292ed299345a01c1c0520b60f628c01ea817a0b3372b89dbb7637a2f678d018a
 role::oauth::example_consumer_key: 81cf4c1f885de4ed6b475c05c408c9b4
 role::oauth::example_secret_key: c48030f26a76eeb800f9a8df20de4f0f
@@ -381,10 +381,10 @@ role::oauthauthentication::consumer_key: d04a305e7583058451ded04cd4767839
 role::oauthauthentication::consumer_secret: 7ea2979b6742b4085d8443ff345e1397afd831eb
 role::oauthauthentication::callback_url: "http://dev.wiki.local.wmftest.net%{::port_fragment}/wiki/Special:OAuthLogin/finish"
 
-role::sentry::dsn: "%{hiera('sentry::dsn_file')}"
+role::sentry::dsn: "%{lookup('sentry::dsn_file')}"
 
 role::wikidata::main_page: "Wiki:Main Page"
-role::wikidata::repo_domain: "http://wikidata%{hiera('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
+role::wikidata::repo_domain: "http://wikidata%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
 
 role::wsoauth::oauth_uri: "https://meta.wikimedia.org/w/index.php?title=Special:OAuth"
 role::wsoauth::oauth_key: "20c96d141c4ac5bea4fadd6824f6ebda"
@@ -393,29 +393,29 @@ role::wsoauth::oauth_secret: "dadc1d1c38407aafee845fb608d321c51be38848"
 sentry::db_name: sentry
 sentry::db_user: sentry
 sentry::db_pass: vagrant
-sentry::vhost_name: "sentry%{hiera('mwv::tld')}"
-sentry::deploy_dir: "%{hiera('mwv::vendor_dir')}/sentry"
+sentry::vhost_name: "sentry%{lookup('mwv::tld')}"
+sentry::deploy_dir: "%{lookup('mwv::vendor_dir')}/sentry"
 sentry::cfg_file: /etc/sentry.conf.py
 sentry::mail_log_dir: /vagrant/logs/sentry-mail
 sentry::secret_key: s0F2ybS8jPLvzadqVudo7VykVWT1JO9FoErhc6gkJj6/KNWeFUbUiQ==
-sentry::dsn_file: "%{hiera('sentry::deploy_dir')}/sentry_dsn.txt"
+sentry::dsn_file: "%{lookup('sentry::deploy_dir')}/sentry_dsn.txt"
 sentry::admin_user: admin
 sentry::admin_pass: vagrant
 
-service::root_dir: "%{hiera('mwv::services_dir')}"
-service::conf_dir: "%{hiera('mwv::etc_dir')}/services"
+service::root_dir: "%{lookup('mwv::services_dir')}"
+service::conf_dir: "%{lookup('mwv::etc_dir')}/services"
 service::log_dir: /vagrant/logs
 service::log_level: info
 
-smashpig::dir: "%{hiera('mwv::services_dir')}/SmashPig"
-smashpig::vhost_name: "payments-listener%{hiera('mwv::tld')}"
+smashpig::dir: "%{lookup('mwv::services_dir')}/SmashPig"
+smashpig::vhost_name: "payments-listener%{lookup('mwv::tld')}"
 smashpig::db_name: smashpig
 smashpig::db_user: smashpig_user
 smashpig::db_pass: smashpig_pass
 
 statsd::port: '8125'
 
-swift::storage_dir: "%{hiera('mwv::files_dir')}/swift"
+swift::storage_dir: "%{lookup('mwv::files_dir')}/swift"
 swift::port: 8040
 swift::key: testpwd
 swift::project: testproj
@@ -428,16 +428,16 @@ three_d::three_d_2png_dir: /srv/3d2png
 thumbor::cfg_dir: /etc/thumbor.d
 thumbor::log_dir: /srv/thumbor
 thumbor::tmp_dir: /tmp/thumbor
-thumbor::statsd_port: "%{hiera('statsd::port')}"
+thumbor::statsd_port: "%{lookup('statsd::port')}"
 
-wikilabels::deploy_dir: "%{hiera('mwv::services_dir')}/wikilabels"
+wikilabels::deploy_dir: "%{lookup('mwv::services_dir')}/wikilabels"
 wikilabels::db_name: 'wikilabels'
 wikilabels::db_user: 'wikilabels'
 wikilabels::db_pass: 'vagrant'
-wikilabels::vhost_name: "wikilabels%{hiera('mwv::tld')}"
+wikilabels::vhost_name: "wikilabels%{lookup('mwv::tld')}"
 wikilabels::port: 18881
 
-xhprofgui::dir: "%{hiera('mwv::vendor_dir')}/xhprof"
+xhprofgui::dir: "%{lookup('mwv::vendor_dir')}/xhprof"
 
 elasticsearch::min_heap: '256m'
 elasticsearch::max_heap: '512m'

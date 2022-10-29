@@ -5,7 +5,7 @@
 class role::qunit {
     include ::role::mediawiki
 
-    $node_version = hiera('npm::node_version', undef)
+    $node_version = lookup('npm::node_version', {default_value => undef})
     if (!$node_version or $node_version < 10) {
         warning('Running QUnit from the command line requires NodeJS 10. To use it, run `vagrant hiera npm::node_version 10 && vagrant provision`. (Might break other services.)')
     }

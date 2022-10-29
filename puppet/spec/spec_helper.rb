@@ -24,7 +24,7 @@ end
 
 RSpec.configure do |c|
   c.manifest_dir = File.join(puppet_path, 'manifests')
-  # We really want site.pp to be loaded to get hiera('classes') applied
+  # We really want site.pp to be loaded to get lookup('classes') applied
   c.manifest = File.join(puppet_path, 'manifests', 'site.pp')
   c.module_path = File.join(puppet_path, 'modules')
   c.hiera_config = hiera_config_fixture

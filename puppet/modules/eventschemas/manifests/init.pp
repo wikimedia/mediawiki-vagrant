@@ -1,7 +1,7 @@
 # == Class eventschemas
 #
 class eventschemas(
-    $service_root_dir = hiera('service::root_dir')
+    $service_root_dir = lookup('service::root_dir')
 ) {
     $path = "${service_root_dir}/schemas/event"
 
