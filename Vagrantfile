@@ -96,7 +96,7 @@ Vagrant.configure('2') do |config|
   # LXC provider. Enable wtih `--provider=lxc`
   # Requires vagrant-lxc plugin and Vagrant 1.7+
   config.vm.provider :lxc do |_lxc, override|
-    override.vm.box = 'debian/buster64'
+    override.vm.box = 'sagiru/buster-amd64'
   end
 
   # Parallels provider. Enable with `--provider=parallels`

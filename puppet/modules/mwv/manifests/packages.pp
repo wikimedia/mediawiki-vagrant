@@ -32,7 +32,7 @@ class mwv::packages {
     )
 
     # Cron resources need a cron provider installed
-    Package['anacron'] -> Cron <| |>
+    Package['anacron', 'cron'] -> Cron <| |>
 
     # Remove chef if it is installed in the base image
     # Bug: 67693
