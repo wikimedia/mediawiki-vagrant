@@ -15,12 +15,19 @@ class role::wsoauth (
         needs_update => true,
         composer     => true,
         settings     => {
-            wgOAuthAuthProvider => 'mediawiki',
-            wgOAuthUri          => $oauth_uri,
-            wgOAuthClientId     => $oauth_key,
-            wgOAuthClientSecret => $oauth_secret,
-            wgOAuthRedirectUri  => "${mediawiki_url}/w/index.php?title=Special:PluggableAuthLogin",
-        }
+            wgPluggableAuth_Config => {
+                mediawiki => {
+                    plugin => 'WSOAuth',
+                    data   => {
+                        type         => 'mediawiki',
+                        uri          => $oauth_uri,
+                        clientId     => $oauth_key,
+                        clientSecret => $oauth_secret,
+                        redirectUri  => "${mediawiki_url}/w/index.php?title=Special:PluggableAuthLogin",
+                    },
+                },
+            },
+        },
     }
 
     mediawiki::import::text { 'VagrantRoleWSOAuth':
