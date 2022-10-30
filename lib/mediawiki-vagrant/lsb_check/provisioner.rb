@@ -6,7 +6,7 @@ module MediaWikiVagrant
       def provision
         execute_inline <<-end_
           set -e
-          which lsb_release || echo 'lsb_release must be installed' && false
+          which lsb_release > /dev/null || { echo 'lsb_release must be installed' >&2 && false; }
           REQUIRED_VENDOR=#{config.vendor}
           REQUIRED_VERSION=#{config.version}
           VENDOR=$(lsb_release -is)
