@@ -124,7 +124,8 @@ mediawiki::db_name: "%{hiera('mysql::default_db_name')}"
 mediawiki::admin_user: Admin
 mediawiki::admin_pass: vagrant
 mediawiki::admin_email: admin@local.wmftest.net
-mediawiki::server_url: "http://%{hiera('role::mediawiki::hostname')}%{::port_fragment}"
+mediawiki::server_protocol: http
+mediawiki::server_url: "%{hiera('mediawiki::server_protocol')}://%{hiera('role::mediawiki::hostname')}%{::port_fragment}"
 mediawiki::branch: master
 mediawiki::parallel_composer_jobs: 100%
 
