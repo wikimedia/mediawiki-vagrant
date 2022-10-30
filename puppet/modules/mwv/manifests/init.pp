@@ -41,6 +41,11 @@ class mwv (
     class { 'mwv::lang':
         stage => 'first',
     }
+    # FIXME bandaid for T292324 until upgrading to buster and ensuring that
+    # all base boxes are sufficiently recent
+    class { 'mwv::hack':
+        stage => 'first',
+    }
 
     file { $etc_dir:
         ensure => directory,
