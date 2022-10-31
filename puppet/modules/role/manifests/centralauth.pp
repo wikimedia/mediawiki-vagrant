@@ -116,4 +116,6 @@ class role::centralauth(
         ]
     }
 
+    role::centralauth::migrate_user { 'Admin': }
+
 }
