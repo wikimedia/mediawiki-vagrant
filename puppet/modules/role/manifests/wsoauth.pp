@@ -6,6 +6,7 @@ class role::wsoauth (
     $oauth_uri,
     $oauth_key,
     $oauth_secret,
+    $login_button_message_key,
 ) {
     ensure_resource('mediawiki::extension', 'PluggableAuth')
 
@@ -17,14 +18,15 @@ class role::wsoauth (
         settings     => {
             wgPluggableAuth_Config => {
                 mediawiki => {
-                    plugin => 'WSOAuth',
-                    data   => {
+                    plugin             => 'WSOAuth',
+                    data               => {
                         type         => 'mediawiki',
                         uri          => $oauth_uri,
                         clientId     => $oauth_key,
                         clientSecret => $oauth_secret,
                         redirectUri  => "${mediawiki_url}/w/index.php?title=Special:PluggableAuthLogin",
                     },
+                    buttonLabelMessage => $login_button_message_key,
                 },
             },
         },

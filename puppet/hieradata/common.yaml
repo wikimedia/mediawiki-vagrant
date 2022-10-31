@@ -389,6 +389,7 @@ role::wikidata::repo_domain: "http://wikidata%{lookup('mediawiki::multiwiki::bas
 role::wsoauth::oauth_uri: "https://meta.wikimedia.org/w/index.php?title=Special:OAuth"
 role::wsoauth::oauth_key: "20c96d141c4ac5bea4fadd6824f6ebda"
 role::wsoauth::oauth_secret: "dadc1d1c38407aafee845fb608d321c51be38848"
+role::wsoauth::login_button_message_key: 'wsoauth-login-button-label-wikimedia'
 
 sentry::db_name: sentry
 sentry::db_user: sentry
