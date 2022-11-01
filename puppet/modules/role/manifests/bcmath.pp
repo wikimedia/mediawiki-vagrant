@@ -4,7 +4,7 @@
 class role::bcmath {
     include ::role::scribunto
 
-    require_package('php-bcmath')
+    require_package('php7.4-bcmath')
 
     mediawiki::extension { 'BCmath':
         remote   => 'https://github.com/jeblad/BCmath.git',

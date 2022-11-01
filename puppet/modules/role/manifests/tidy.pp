@@ -4,7 +4,7 @@
 #
 class role::tidy {
 
-    require_package('php-tidy')
+    require_package('php7.4-tidy')
     require_package('tidy')
 
     mediawiki::settings { 'Tidy':
