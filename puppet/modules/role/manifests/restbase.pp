@@ -26,7 +26,6 @@ class role::restbase (
     $ve_url,
 ) {
     require ::role::mediawiki
-    include ::role::parsoid_js
     include ::role::eventbus
     include ::restbase
     include ::apache::mod::proxy

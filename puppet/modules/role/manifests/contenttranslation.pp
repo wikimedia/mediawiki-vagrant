@@ -38,7 +38,6 @@ class role::contenttranslation {
   include ::role::cldr
   include ::role::uls
   include ::role::visualeditor
-  include ::role::parsoid_js
   include ::role::echo
   include ::contenttranslation::cxserver
   include ::contenttranslation

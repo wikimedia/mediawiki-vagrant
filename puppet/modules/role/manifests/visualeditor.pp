@@ -4,7 +4,6 @@
 #
 class role::visualeditor {
     require ::role::mediawiki
-    include ::role::parsoid
 
     mediawiki::extension { 'VisualEditor':
         settings => template('role/visualeditor/conf.php.erb'),

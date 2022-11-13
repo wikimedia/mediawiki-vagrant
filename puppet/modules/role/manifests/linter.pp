@@ -3,8 +3,6 @@
 # extension and its dependencies.
 #
 class role::linter {
-    include role::parsoid
-
     mediawiki::extension { 'Linter':
         needs_update => true,
     }
