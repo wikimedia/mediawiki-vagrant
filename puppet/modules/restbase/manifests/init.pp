@@ -30,11 +30,6 @@ class restbase (
 
     require_package('libsqlite3-dev')
 
-    $parsoid_port = defined(Class['parsoid']) ? {
-        true    => $::parsoid::port,
-        default => 8000,
-    }
-
     $mathoid_port = defined(Class['mathoid']) ? {
         true    => $::mathoid::port,
         default => 10042,

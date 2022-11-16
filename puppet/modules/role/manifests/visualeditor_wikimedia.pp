@@ -18,7 +18,7 @@ class role::visualeditor_wikimedia {
     mediawiki::settings { 'VisualEditor-Parsoid':
         priority => $::load_early,
         values   => {
-            'wgVisualEditorParsoidURL' => $::parsoid::port,
+            'wgVisualEditorParsoidURL' => $::parsoid::uri,
         },
         wiki     => $::mediawiki::wiki_name,
     }

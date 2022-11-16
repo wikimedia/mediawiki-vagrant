@@ -10,9 +10,6 @@ default_project: &default_project
             x-modules:
               - path: projects/v1/default.wmf.yaml
                 options: &default_options
-                  parsoid:
-                    host: http://localhost:<%= @parsoid_port %>
-                    grace_ttl: 3600
                   action:
                     apiUriTemplate: "{{'http://localhost:<%= scope['::forwarded_port'] %>/w/api.php'}}"
                     baseUriTemplate: "{{'http://{domain}:7231/{domain}/v1'}}"

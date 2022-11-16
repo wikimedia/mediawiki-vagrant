@@ -1,4 +1,3 @@
 forward_ports:
   1970: 1970  # Citoid
   7231: 7231  # RESTBase
-  8000: 8000  # Parsoid

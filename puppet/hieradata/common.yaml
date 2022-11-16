@@ -183,7 +183,6 @@ ores::deploy_dir: "%{lookup('mwv::services_dir')}/ores"
 ores::vhost_name: "ores%{lookup('mwv::tld')}"
 ores::port: 18880
 
-parsoid::port: 8000
 parsoid::domain: "%{lookup('role::mediawiki::hostname')}"
 parsoid::uri: "http://localhost:%{::forwarded_port}/w/api.php"
 parsoid::use_php_preprocessor: true
@@ -322,8 +321,6 @@ role::mediawiki::hostname: "dev%{lookup('mediawiki::multiwiki::base_domain')}"
 role::mobilecontentservice::vhost_name: "mcs%{lookup('mwv::tld')}"
 
 role::offline::electron_hostname: "electron%{lookup('mwv::tld')}"
-
-role::parsoid_js::public_url: "http://parsoid%{lookup('mwv::tld')}%{::port_fragment}"
 
 role::proton::vhost_name: "proton%{lookup('mwv::tld')}"
 
