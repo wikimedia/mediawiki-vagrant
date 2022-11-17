@@ -3,7 +3,7 @@
 
 xdebug_on() {
     # http://xdebug.org/docs/remote#starting
-    export XDEBUG_CONFIG='idekey=xdebug remote_host=<%= scope['host_ip'] %>'
+    export XDEBUG_CONFIG='idekey=xdebug client_host=<%= scope['host_ip'] %>'
     # http://blog.jetbrains.com/webide/2012/03/new-in-4-0-easier-debugging-of-remote-php-command-line-scripts/
     export PHP_IDE_CONFIG='serverName=<%= scope['::role::mediawiki::hostname'] %>'
 }
