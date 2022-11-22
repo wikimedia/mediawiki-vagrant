@@ -3,7 +3,6 @@
 # wikitext mode.
 class role::codemirror {
     include ::role::wikieditor
-    include ::role::visualeditor
 
     mediawiki::extension { 'CodeMirror': }
 }
