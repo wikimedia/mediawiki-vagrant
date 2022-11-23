@@ -3,8 +3,5 @@ class role::fileimporter {
     include ::role::wikieditor
 
     mediawiki::extension { 'FileImporter':
-        settings => {
-            wgFileImporterInBeta => false,
-        }
     }
 }
