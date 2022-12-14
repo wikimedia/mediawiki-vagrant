@@ -21,17 +21,21 @@ module MediaWikiVagrant
     private
 
     def open
-      # Only supports Unix now. Probably Mac could use 'open' instead of
-      # 'xdg-open' and Windows could use 'start' but somebody needs to test it.
-      unless Vagrant::Util::Platform.linux?
-        @env.ui.warn "'vagrant open' is only implemented for Linux at the moment."
+      if Vagrant::Util::Platform.linux?
+        open_command = 'xdg-open'
+      elsif Vagrant::Util::Platform.darwin?
+        open_command = 'open'
+      elsif Vagrant::Util::Platform.windows?
+        open_command = 'start'
+      else
+        @env.ui.warn "'vagrant open' is not implemented for your platform."
         return 1
       end
       with_target_vms(nil, single_target: true) do |vm|
         vm.action :up, provision_enabled: true if vm.state.id != :running
         configure do |settings|
           fork do
-            exec 'xdg-open', "http://dev.wiki.local.wmftest.net:#{settings[:http_port]}",
+            exec open_command, "http://dev.wiki.local.wmftest.net:#{settings[:http_port]}",
               out: File::NULL, err: File::NULL
           end
         end
