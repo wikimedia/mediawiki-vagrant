@@ -5,5 +5,5 @@ export ACLOCAL_PATH=$PREFIX/share/aclocal
 cd /srv/varnish-build/varnish-modules
 ./bootstrap
 ./configure
-make check
-make install
+make CFLAGS="-g -O2 -Wno-pointer-compare" check
+make CFLAGS="-g -O2 -Wno-pointer-compare" install
