@@ -246,7 +246,7 @@ class varnish {
         user    => 'root',
     }
 
-    file { '/usr/local/lib/python3.5/dist-packages/wikimedia_varnishlogconsumer.py':
+    file { '/usr/local/lib/python3.7/dist-packages/wikimedia_varnishlogconsumer.py':
         source => 'puppet:///modules/varnish/wikimedia_varnishlogconsumer.py',
         owner  => 'root',
         group  => 'root',
