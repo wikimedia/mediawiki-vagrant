@@ -1,0 +1,15 @@
+//<?php
+
+// set up sandbox
+$wgTranslateUseSandbox = true;
+$wgGroupPermissions['sysop']['translate-sandboxmanage'] = true;
+$wgTranslatePermissionUrl = 'Project:Translator';
+$wgTranslateSecondaryPermissionUrl = 'Project:Translator';
+$wgTranslateSandboxPromotedGroup = 'translator';
+
+// create translator group, disallow translation for normal users
+$wgGroupPermissions['*']['translate'] = false;
+$wgGroupPermissions['user']['translate'] = false;
+$wgGroupPermissions['translator']['translate'] = true;
+$wgGroupPermissions['sysop']['translate'] = true;
+
