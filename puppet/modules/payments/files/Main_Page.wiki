@@ -4,7 +4,7 @@ __NOTOC__
 
 Beware that you are using a '''beta''' version of the WMF Fundraising Paymentswiki development puppet module, and there are many rough edges.
 
-To contribute to development or for more help, please visit the [https://www.mediawiki.org/wiki/Extension:DonationInterface help page] of the DonationInterface extension, or join the IRC channel #wikimedia-fundraising on Freenode.
+To contribute to development or for more help, please visit the [https://www.mediawiki.org/wiki/Extension:DonationInterface help page] of the DonationInterface extension, or join the IRC channel #wikimedia-fundraising on Libera Chat.
 
 == CentralNotice ==
 
