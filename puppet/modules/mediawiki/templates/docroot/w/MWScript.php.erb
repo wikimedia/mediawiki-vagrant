@@ -49,43 +49,44 @@ EOT
 		}
 	}
 
+	// FIXME run.php guesses directories differently
 	$relFile = $argv[1]; // the script file to run
-	# If no MW directory is given then assume this is a /maintenance script
-	if ( strpos( $relFile, '/' ) === false ) {
+    if ( strpos( $relFile, '/' ) === 0
+		|| strpos( $relFile, './' ) === 0
+		|| strpos( $relFile, '../' ) === 0
+		|| strpos( $relFile, ':' ) !== false
+		|| substr( $relFile, -4 ) !== '.php'
+	) {
+		// absolute URL, relative URL, or run.php special syntax, don't pass
+		// to MWMultiVersion::getMediaWikiCli
+		$relFile = null;
+	} elseif ( strpos( $relFile, '/' ) === false ) {
+		// If no MW directory is given then assume this is a /maintenance script
 		$relFile = "maintenance/$relFile"; // convenience
-	}
-
-	# Remove effects of this wrapper from $argv...
-	array_shift( $argv ); // remove this file's name from args
-	# Code stolen from wfBasename() in GlobalFunctions.php :)
-	if ( preg_match( "#([^/\\\\]*?)[/\\\\]*$#", $argv[0], $matches ) ) {
-		$argv[0] = $matches[1]; // make first arg the script file name
 	}
 
 	# Check if a --wiki param was given...
 	# Maintenance.php will treat $argv[1] as the wiki if it doesn't start '-'
 	if (
-		!isset( $argv[1] ) ||
-		!preg_match( '%^([^-./][^./]*(\s|$)|--wiki(=|$))%', $argv[1] )
+		!isset( $argv[2] ) ||
+		!preg_match( '%^([^-./][^./]*(\s|$)|--wiki(=|$))%', $argv[2] )
 	) {
 		// Insert a `--wiki=...` parameter pointing to the default wiki
-		$argv = array_merge(
-			array( $argv[0], "--wiki=<%= scope['::mediawiki::db_name'] %>" ),
-			array_slice( $argv, 1 )
-		);
+		array_splice( $argv, 2, 0, "--wiki=<%= scope['::mediawiki::db_name'] %>" );
 	}
 
 	require_once( '<%= @script_dir %>/MWMultiVersion.php' );
-	$file = MWMultiVersion::getMediaWikiCli( $relFile );
-	if ( !file_exists( $file ) ) {
-		fwrite( STDERR, "The MediaWiki script file \"{$file}\" does not exist.\n" );
-		exit( 1 );
+	array_shift( $argv ); // MWMultiVersion does not expect a wrapper
+	$runPhp = MWMultiVersion::getMediaWikiCli( 'maintenance/run.php' );
+	if ( $relFile ) {
+		$argv[0] = MWMultiVersion::getMediaWikiCli( $relFile ) ;
 	}
+	array_unshift( $argv, $runPhp ); // run.php does expect itself as the wrapper
 
 	# PHPUnit uses $_SERVER['argv']
 	$_SERVER['argv'] = $argv;
 
-	return $file;
+	return $runPhp;
 }
 
 // Run the script!
