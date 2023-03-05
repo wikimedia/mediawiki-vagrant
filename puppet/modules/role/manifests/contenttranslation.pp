@@ -39,6 +39,7 @@ class role::contenttranslation {
   include ::role::uls
   include ::role::visualeditor
   include ::role::echo
+  include ::role::globalpreferences
   include ::contenttranslation::cxserver
   include ::contenttranslation
 }
