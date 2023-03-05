@@ -119,7 +119,7 @@ class contenttranslation(
     }
 
     mysql::sql { 'Load ContentTranslation schema':
-        sql     => "USE ${database}; SOURCE ${::mediawiki::dir}/extensions/ContentTranslation/sql/contenttranslation.sql;",
+        sql     => "USE ${database}; SOURCE ${::mediawiki::dir}/extensions/ContentTranslation/sql/mysql/tables-generated.sql;",
         unless  => template('contenttranslation/load_unless.sql.erb'),
         require => Git::Clone['mediawiki/extensions/ContentTranslation'],
     }
