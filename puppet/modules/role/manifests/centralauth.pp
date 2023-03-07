@@ -95,6 +95,7 @@ class role::centralauth(
 
     mediawiki::wiki{ [ $loginwiki, $alt_testwiki ]: }
 
+    $canonical_admin_user = inline_template('<%= @wiki_admin_user[0].capitalize + @wiki_admin_user[1..-1] %>')
     file { '/usr/local/bin/is-centralauth-migratePass0-needed':
         ensure  => present,
         owner   => 'root',
