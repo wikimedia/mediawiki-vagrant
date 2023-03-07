@@ -1,6 +1,7 @@
 # logrotate config for MediaWiki Jobrunner logs
 # This file is managed by Puppet
-/var/log/mediawiki/jobrunner.log {
+/vagrant/logs/jobrunner.log {
+    su vagrant vagrant
     daily
     missingok
     rotate 7
