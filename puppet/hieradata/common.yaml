@@ -370,10 +370,13 @@ role::striker::use_xff: false
 role::oauth::hello_world_dir: "%{lookup('mwv::services_dir')}/oauth-hello-world"
 role::oauth::oauthclient_dir: "%{lookup('mwv::services_dir')}/oauthclient-php"
 role::oauth::secret_key: 292ed299345a01c1c0520b60f628c01ea817a0b3372b89dbb7637a2f678d018a
-role::oauth::example_consumer_key: 81cf4c1f885de4ed6b475c05c408c9b4
-role::oauth::example_secret_key: c48030f26a76eeb800f9a8df20de4f0f
-# result of MediaWiki\Extensions\OAuth\MWOAuthUtils::hmacDBSecret(role::oauth::example_secret_key);
-role::oauth::example_consumer_secret: b7cd84d1c419c8e62c1cd106afc4bc959fcf48c8
+role::oauth::helloworld_consumer_key: 81cf4c1f885de4ed6b475c05c408c9b4
+role::oauth::helloworld_secret_key: c48030f26a76eeb800f9a8df20de4f0f
+# result of MediaWiki\Extension\OAuth\Backend\Utils::hmacDBSecret(role::oauth::example_secret_key);
+role::oauth::helloworld_consumer_secret: b7cd84d1c419c8e62c1cd106afc4bc959fcf48c8
+role::oauth::oauthclientphp_consumer_key: 89d9339fd88a92c8c514538a60edfb74
+role::oauth::oauthclientphp_secret_key: 22232e7f6d54d40cf107bcf642936247
+role::oauth::oauthclientphp_consumer_secret: 7f53c44f661fc0d2d0d0b844e8edae23b058552f
 
 role::oauthauthentication::consumer_key: d04a305e7583058451ded04cd4767839
 role::oauthauthentication::consumer_secret: 7ea2979b6742b4085d8443ff345e1397afd831eb
