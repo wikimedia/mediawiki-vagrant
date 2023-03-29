@@ -20,11 +20,16 @@ if ( defined( 'MW_PHPUNIT_TEST' ) ) {
 	MWMultiVersion::initializeForMaintenance();
 }
 
-if ( !class_exists( 'MWMultiVersion' ) && count( $wgLocalDatabases ) > 1 ) {
+if ( !class_exists( 'MWMultiVersion' ) && count( $wgLocalDatabases ) > 1
+	&& !getenv('NO_MWSCRIPT')
+) {
 	// T123143: Require mwscript for running scripts on wikifarm
 	echo "The mwscript command must be used in multiwiki setups.\n\n";
 	echo "Try: mwscript {$argv[0]} --wiki=wiki " .
 		implode( ' ', array_slice( $argv, 1 ) ) . "\n";
+	echo "If you are sure you know what you are doing and don't want to use mwscript, " .
+		"prefix the command with NO_MWSCRIPT=1:\n";
+	echo "NO_MWSCRIPT=1 {$argv[0]}\n";
 	exit(1);
 }
 
