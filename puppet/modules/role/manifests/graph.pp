@@ -42,6 +42,7 @@ class role::graph {
                     'maps.wikimedia.org',
                 ],
             },
+            wgGraphAllowHttp      => true,
         },
     }
 }
