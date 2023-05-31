@@ -1,14 +1,12 @@
 # == Class: role::navigationtiming
-# Configures NavigationTiming, a MediaWiki extension that logs
-# client-side page load latency measurements via the EventLogging API.
+# Configure the NavigationTiming MediaWiki extension, which logs
+# client-side performance measurements via EventLogging.
 class role::navigationtiming {
     include ::role::eventlogging
 
     mediawiki::extension { 'NavigationTiming':
         settings => {
             wgNavigationTimingSamplingFactor       => 1,
-            wgNavigationTimingSurveySamplingFactor => 1,
-            wgNavigationTimingSurveyName           => 'internal-survey-perceived-performance-survey',
         },
     }
 }
