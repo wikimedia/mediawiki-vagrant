@@ -17,6 +17,8 @@ module MediaWikiVagrant
             lsb_release -irc | sed 's/^/    /'
             echo 'Please rebuild using `vagrant destroy -f; vagrant up`'
             echo 'NOTE: this will cause you to lose any data saved in the VM.'
+            echo 'If you nee to preserve the data, see'
+            echo 'https://www.mediawiki.org/wiki/MediaWiki-Vagrant/OS_upgrade'
             exit 1
           fi
         end_
