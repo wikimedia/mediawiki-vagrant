@@ -5,7 +5,7 @@ class role::scribunto {
     include ::role::codeeditor
     include ::role::syntaxhighlight
 
-    require_package('php7.4-luasandbox')
+    require_package('php-luasandbox')
 
     mediawiki::extension { 'Scribunto':
         settings => [
@@ -18,7 +18,7 @@ class role::scribunto {
         require  => [
             Mediawiki::Extension['CodeEditor'],
             Mediawiki::Extension['SyntaxHighlight_GeSHi'],
-            Package['php7.4-luasandbox'],
+            Package['php-luasandbox'],
         ],
     }
 }

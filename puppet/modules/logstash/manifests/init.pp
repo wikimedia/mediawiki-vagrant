@@ -22,11 +22,11 @@ class logstash(
 ) {
     require ::elasticsearch::repository
 
-    require_package('openjdk-8-jre-headless')
+    require_package('openjdk-11-jre-headless')
 
     package { 'logstash':
         ensure  => latest,
-        require => Package['openjdk-8-jre-headless'],
+        require => Package['openjdk-11-jre-headless'],
     }
 
     # JRuby waits for enough entropy from /dev/random when starting up. Especially

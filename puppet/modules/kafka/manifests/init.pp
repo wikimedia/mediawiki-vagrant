@@ -5,7 +5,7 @@ class kafka(
 ) {
     require kafka::repository
 
-    require_package('openjdk-8-jre')
+    require_package('openjdk-11-jre')
     require_package('zookeeperd')
     require_package('confluent-kafka-2.11')
     require_package('kafkacat')

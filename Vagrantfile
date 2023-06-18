@@ -59,20 +59,21 @@ unless Vagrant::DEFAULT_SERVER_URL.frozen?
   Vagrant::DEFAULT_SERVER_URL.replace('https://vagrantcloud.com')
 end
 
-def aarch64?
-  # Windows explicitly not supported because I don't have such
-  # machine to test things on; could probably simply compare
-  # %PROCESSOR_ARCHITECTURE% to ARM64, but will require someone
-  # else to confirm & implement
-  return false if Vagrant::Util::Platform.windows?
-
-  system = `uname -sm`.chomp.split
-  # detect arm64/aarch64 directly,
-  system[1] == 'arm64' || system[1] == 'aarch64' ||
-    # or the ability to run aarch64 untranslated
-    # (for Apple Silicon running under Rosetta, posing as x86_64)
-    (system[0] == 'Darwin' && `arch -64 sh -c 'sysctl -in sysctl.proc_translated'`.strip == '0')
-end
+## FIXME: T271649 - need a Debian 11 (Bullseye) base image
+## def aarch64?
+##   # Windows explicitly not supported because I don't have such
+##   # machine to test things on; could probably simply compare
+##   # %PROCESSOR_ARCHITECTURE% to ARM64, but will require someone
+##   # else to confirm & implement
+##   return false if Vagrant::Util::Platform.windows?
+##
+##   system = `uname -sm`.chomp.split
+##   # detect arm64/aarch64 directly,
+##   system[1] == 'arm64' || system[1] == 'aarch64' ||
+##     # or the ability to run aarch64 untranslated
+##     # (for Apple Silicon running under Rosetta, posing as x86_64)
+##     (system[0] == 'Darwin' && `arch -64 sh -c 'sysctl -in sysctl.proc_translated'`.strip == '0')
+## end
 
 Vagrant.configure('2') do |config|
   config.vm.post_up_message = 'Documentation: https://www.mediawiki.org/wiki/MediaWiki-Vagrant'
@@ -83,12 +84,12 @@ Vagrant.configure('2') do |config|
 
   # Default VirtualBox provider
   config.vm.provider :virtualbox do |_vb, override|
-    override.vm.box = 'debian/contrib-buster64'
+    override.vm.box = 'debian/bullseye64'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
   # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
-  ## FIXME: T271649 - need a Debian 10 (Buster) base image
+  ## FIXME: T271649 - need a Debian 11 (Bullseye) base image
   ## config.vm.provider :vmware_fusion do |_vw, override|
   ##   override.vm.box = 'generic/debian9'
   ##   override.vm.network :private_network, ip: settings[:static_ip]
@@ -104,15 +105,16 @@ Vagrant.configure('2') do |config|
   # NAT and port redirection are not automatically set up for you.
   #
   config.vm.provider :hyperv do |_hyperv, override|
-    override.vm.box = 'generic/debian10'
+    override.vm.box = 'generic/debian11'
     override.vm.network :private_network, ip: settings[:static_ip]
   end
 
-  # LXC provider. Enable wtih `--provider=lxc`
+  # LXC provider. Enable with `--provider=lxc`
   # Requires vagrant-lxc plugin and Vagrant 1.7+
-  config.vm.provider :lxc do |_lxc, override|
-    override.vm.box = 'sagiru/buster-amd64'
-  end
+  ## FIXME: T271649 - need a Debian 11 (Bullseye) base image
+  ## config.vm.provider :lxc do |_lxc, override|
+  ##   override.vm.box = 'sagiru/buster-amd64'
+  ## end
 
   # Parallels provider. Enable with `--provider=parallels`
   #
@@ -123,11 +125,12 @@ Vagrant.configure('2') do |config|
   # Note that port forwarding works via localhost but not via external
   # interfaces of the host machine by default...
   config.vm.provider :parallels do |_parallels, override|
-    if aarch64?
-      override.vm.box = 'bstorm/debian-10-arm64'
-    else
-      override.vm.box = 'generic/debian10'
-    end
+    ## FIXME: T271649 - need a Debian 11 (Bullseye) base image
+    ## if aarch64?
+    ##   override.vm.box = 'bstorm/debian-10-arm64'
+    ## else
+    override.vm.box = 'generic/debian11'
+    ## end
     override.vm.network :private_network, ip: settings[:static_ip]
     _parallels.memory = settings[:vagrant_ram]
     _parallels.cpus = [settings[:vagrant_cores], 8].min
@@ -135,7 +138,7 @@ Vagrant.configure('2') do |config|
 
   # libvirt (KVM/QEMU) provider.  Enable with `--provider=libvirt`.
   config.vm.provider :libvirt do |libvirt, override|
-    override.vm.box = 'generic/debian10'
+    override.vm.box = 'debian/bullseye64'
     override.vm.network :private_network, ip: settings[:static_ip]
     # Required on Fedora 30/31 to fix private networking
     # https://bugzilla.redhat.com/show_bug.cgi?id=1697773
@@ -259,7 +262,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :lsb_check do |lsb|
     lsb.vendor = 'Debian'
-    lsb.version = '^10'
+    lsb.version = '^11'
   end
 
   config.vm.provision :mediawiki_reload if mwv.reload?
