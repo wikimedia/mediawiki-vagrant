@@ -2,9 +2,9 @@
 #
 class mwv::packages {
     package { [
-        'python-pip',
-        'python-setuptools',
-        'python-wheel',
+        'python3-pip',
+        'python3-setuptools',
+        'python3-wheel',
     ]: } -> Package <| provider == pip |>
 
     # Install common packages
@@ -13,7 +13,6 @@ class mwv::packages {
         'build-essential',
         'cron',
         'gdb',
-        'python-dev',
         'python3-dev',
         'python3-pip',
         'python3-setuptools',

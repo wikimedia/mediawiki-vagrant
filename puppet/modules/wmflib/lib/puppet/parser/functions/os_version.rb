@@ -49,6 +49,8 @@ module Puppet::Parser::Functions
       'jessie'  => '8',
       'stretch' => '9',
       'buster'  => '10',
+      'bullseye'  => '11',
+      'bookworm'  => '12',
     }
   }
 
