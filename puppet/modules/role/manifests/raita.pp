@@ -19,8 +19,7 @@ class role::raita(
     include ::apache::mod::headers
     include ::apache::mod::proxy
     include ::apache::mod::proxy_http
-
-    require_package('nodejs')
+    require ::npm
 
     $index_url = 'http://127.0.0.1:9200/raita'
     $index = template('role/raita/index.json.erb')
