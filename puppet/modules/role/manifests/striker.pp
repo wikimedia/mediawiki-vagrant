@@ -117,7 +117,7 @@ class role::striker(
     require_package(
         'libffi-dev',
         'libldap2-dev',
-        'libmariadbclient-dev',
+        'libmariadb-dev',
         'libsasl2-dev',
         'libssl-dev',
         $python,

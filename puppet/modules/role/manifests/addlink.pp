@@ -34,7 +34,7 @@ class role::addlink (
     include ::role::growthexperiments
 
     # needed by PyMySQL
-    require_package('libmariadbclient-dev')
+    require_package('libmariadb-dev')
 
     $venv_dir = "${service_dir}/.venv"
     $server_url = $::mediawiki::server_url
@@ -46,7 +46,7 @@ class role::addlink (
     virtualenv::environment { $venv_dir:
         owner   => $::share_owner,
         group   => $::share_group,
-        python  => 'python3.7',
+        python  => 'python3.9',
         require => Git::Clone['research/mwaddlink'],
     }
     virtualenv::package { 'mwaddlink':
@@ -142,4 +142,3 @@ class role::addlink (
         content => template('role/addlink/VagrantRoleAddLink.wiki.erb'),
     }
 }
-
