@@ -9,11 +9,6 @@
 # be produced to Kafka.
 #
 class role::eventbus {
-    $node_version = lookup('npm::node_version')
-    if $node_version < 16 {
-        warning('EventBus role requires the EventGate service, which requires NodeJS 16. To use it, run `vagrant hiera npm::node_version 16 && vagrant provision`.')
-    }
-
     include ::eventgate
     $eventgate_url = $::eventgate::url # Used in EventBus.php.erb template.
 

@@ -5,12 +5,6 @@
 class role::qunit {
     include ::role::mediawiki
 
-    $node_version = lookup('npm::node_version')
-    if $node_version < 16 {
-        warning('Running QUnit from the command line requires NodeJS 16. To use it, run `vagrant hiera npm::node_version 16 && vagrant provision`.')
-    }
-
-
     require_package( 'chromium' )
 
     env::var { 'MW_SERVER':

@@ -12,11 +12,6 @@
 class role::eventlogging {
     include ::role::syntaxhighlight
 
-    $node_version = lookup('npm::node_version')
-    if $node_version < 16 {
-        warning('EventLogging role requires the EventGate service, which requires NodeJS 16. To use it, vagrant hiera npm::node_version 16 && vagrant provision.')
-    }
-
     # EventLogging will produce to EventGate at wgEventLoggingServiceUri.
     include ::eventgate
     $eventgate_url = $::eventgate::url # Used in EventLogging.php.erb template.s

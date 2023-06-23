@@ -19,11 +19,6 @@ class eventgate(
     $log_level = undef,
     $output    = '/vagrant/logs/eventgate-events.json'
 ) {
-    $node_version = lookup('npm::node_version')
-    if $node_version < 16 {
-        warning('EventGate requires NodeJS version 16. To use it, run `vagrant hiera npm::node_version 16 && vagrant provision`.')
-    }
-
     require ::eventschemas
     include ::mwv # to get $::mwv::tld
 
