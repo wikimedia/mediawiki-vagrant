@@ -50,7 +50,7 @@ class role::oauth (
         consumer_key => $helloworld_consumer_key,
         secret_key   => $helloworld_secret_key,
         callback_url => "${::mediawiki::server_url}/oauth-hello-world/",
-        grants       => ['editpage'],
+        grants       => ['basic', 'editpage'],
     }
 
     git::clone { 'mediawiki/oauthclient-php':

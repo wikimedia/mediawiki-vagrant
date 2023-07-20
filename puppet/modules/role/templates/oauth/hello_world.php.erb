@@ -391,15 +391,15 @@ function doEdit() {
 	// Next fetch the edit token
 	$res = doApiQuery( array(
 		'format' => 'json',
-		'action' => 'tokens',
-		'type' => 'edit',
+		'action' => 'query',
+        'meta' => 'tokens',
 	) );
-	if ( !isset( $res->tokens->edittoken ) ) {
+	if ( !isset( $res->query->tokens->csrftoken ) ) {
 		header( "HTTP/1.1 $errorCode Internal Server Error" );
 		echo 'Bad API response: <pre>' . htmlspecialchars( var_export( $res, 1 ) ) . '</pre>';
 		exit(0);
 	}
-	$token = $res->tokens->edittoken;
+	$token = $res->query->tokens->csrftoken;
 
 	// Now perform the edit
 	$res = doApiQuery( array(
