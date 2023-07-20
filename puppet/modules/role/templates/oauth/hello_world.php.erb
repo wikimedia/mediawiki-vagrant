@@ -139,7 +139,7 @@ function make_curl_request( string $url, array $options = [] ) {
 	// The IDE needs to support two simultaneous debugging sessions for this to work.
 	if ( isset( $_COOKIE['XDEBUG_SESSION'] ) ) {
 		$ip = $_SERVER['REMOTE_ADDR'];
-		$options[CURLOPT_COOKIE] = 'XDEBUG_SESSION=' . $_GET['xdebug'];
+		$options[CURLOPT_COOKIE] = 'XDEBUG_SESSION=' . $_COOKIE['XDEBUG_SESSION'];
 		$options[CURLOPT_HTTPHEADER][] = "X-Forwarded-For: $ip";
 	}
 	$ch = curl_init();
