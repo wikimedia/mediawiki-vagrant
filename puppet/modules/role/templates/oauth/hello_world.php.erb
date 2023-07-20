@@ -121,6 +121,40 @@ switch ( isset( $_GET['action'] ) ? $_GET['action'] : '' ) {
 
 // ******************** CODE ********************
 
+/**
+ * @param string $url
+ * @param array $options curl_setopt options and values
+ * @return string HTTP response
+ */
+function make_curl_request( string $url, array $options = [] ) {
+    global $gUserAgent, $errorCode;
+    $options += [
+		CURLOPT_URL => $url,
+		CURLOPT_HTTPHEADER => [],
+		CURLOPT_USERAGENT => $gUserAgent,
+		//CURLOPT_SSL_VERIFYPEER => false,
+		CURLOPT_HEADER => 0,
+		CURLOPT_RETURNTRANSFER => 1,
+    ];
+	// The IDE needs to support two simultaneous debugging sessions for this to work.
+	if ( isset( $_COOKIE['XDEBUG_SESSION'] ) ) {
+		$ip = $_SERVER['REMOTE_ADDR'];
+		$options[CURLOPT_COOKIE] = 'XDEBUG_SESSION=' . $_GET['xdebug'];
+		$options[CURLOPT_HTTPHEADER][] = "X-Forwarded-For: $ip";
+	}
+	$ch = curl_init();
+    foreach ( $options as $option => $value ) {
+        curl_setopt( $ch, $option, $value );
+    }
+	$data = curl_exec( $ch );
+	if ( !$data ) {
+		header( "HTTP/1.1 $errorCode Internal Server Error" );
+		echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
+		exit(0);
+	}
+	curl_close( $ch );
+    return $data;
+}
 
 /**
  * Utility function to sign a request
@@ -180,7 +214,7 @@ function sign_request( $method, $url, $params = array() ) {
  * @return void
  */
 function doAuthorizationRedirect() {
-	global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gUserAgent, $gConsumerKey, $gTokenSecret, $errorCode;
+	global $mwOAuthUrl, $mwOAuthAuthorizeUrl, $gConsumerKey, $gTokenSecret, $errorCode;
 
 	// First, we need to fetch a request token.
 	// The request is signed with an empty token secret and no token key.
@@ -202,19 +236,7 @@ function doAuthorizationRedirect() {
 	) );
 	$signature = sign_request( 'GET', $url );
 	$url .= "&oauth_signature=" . urlencode( $signature );
-	$ch = curl_init();
-	curl_setopt( $ch, CURLOPT_URL, $url );
-	//curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-	curl_setopt( $ch, CURLOPT_USERAGENT, $gUserAgent );
-	curl_setopt( $ch, CURLOPT_HEADER, 0 );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-	$data = curl_exec( $ch );
-	if ( !$data ) {
-		header( "HTTP/1.1 $errorCode Internal Server Error" );
-		echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
-		exit(0);
-	}
-	curl_close( $ch );
+	$data = make_curl_request( $url );
 	$token = json_decode( $data );
 	if ( is_object( $token ) && isset( $token->error ) ) {
 		header( "HTTP/1.1 $errorCode Internal Server Error" );
@@ -249,7 +271,7 @@ function doAuthorizationRedirect() {
  * @return void
  */
 function fetchAccessToken() {
-	global $mwOAuthUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $gTokenSecret, $errorCode;
+	global $mwOAuthUrl, $gConsumerKey, $gTokenKey, $gTokenSecret, $errorCode;
 
 	$url = $mwOAuthUrl . '/token';
 	$url .= strpos( $url, '?' ) ? '&' : '?';
@@ -269,19 +291,7 @@ function fetchAccessToken() {
 	) );
 	$signature = sign_request( 'GET', $url );
 	$url .= "&oauth_signature=" . urlencode( $signature );
-	$ch = curl_init();
-	curl_setopt( $ch, CURLOPT_URL, $url );
-	//curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-	curl_setopt( $ch, CURLOPT_USERAGENT, $gUserAgent );
-	curl_setopt( $ch, CURLOPT_HEADER, 0 );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-	$data = curl_exec( $ch );
-	if ( !$data ) {
-		header( "HTTP/1.1 $errorCode Internal Server Error" );
-		echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
-		exit(0);
-	}
-	curl_close( $ch );
+	$data = make_curl_request( $url );
 	$token = json_decode( $data );
 	if ( is_object( $token ) && isset( $token->error ) ) {
 		header( "HTTP/1.1 $errorCode Internal Server Error" );
@@ -306,11 +316,10 @@ function fetchAccessToken() {
  * Send an API query with OAuth authorization
  *
  * @param array $post Post data
- * @param object $ch Curl handle
  * @return array API results
  */
-function doApiQuery( $post, &$ch = null ) {
-	global $apiUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $errorCode;
+function doApiQuery( $post ) {
+	global $apiUrl, $gConsumerKey, $gTokenKey, $errorCode;
 
 	$headerArr = array(
 		// OAuth information
@@ -332,23 +341,11 @@ function doApiQuery( $post, &$ch = null ) {
 	}
 	$header = 'Authorization: OAuth ' . join( ', ', $header );
 
-	if ( !$ch ) {
-		$ch = curl_init();
-	}
-	curl_setopt( $ch, CURLOPT_POST, true );
-	curl_setopt( $ch, CURLOPT_URL, $apiUrl );
-	curl_setopt( $ch, CURLOPT_POSTFIELDS, http_build_query( $post ) );
-	curl_setopt( $ch, CURLOPT_HTTPHEADER, array( $header ) );
-	//curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-	curl_setopt( $ch, CURLOPT_USERAGENT, $gUserAgent );
-	curl_setopt( $ch, CURLOPT_HEADER, 0 );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-	$data = curl_exec( $ch );
-	if ( !$data ) {
-		header( "HTTP/1.1 $errorCode Internal Server Error" );
-		echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
-		exit(0);
-	}
+	$data = make_curl_request( $apiUrl, [
+		CURLOPT_POST => true,
+		CURLOPT_POSTFIELDS => http_build_query( $post ),
+		CURLOPT_HTTPHEADER => [ $header ],
+    ] );
 	$ret = json_decode( $data );
 	if ( $ret === null ) {
 		header( "HTTP/1.1 $errorCode Internal Server Error" );
@@ -365,14 +362,12 @@ function doApiQuery( $post, &$ch = null ) {
 function doEdit() {
 	global $errorCode;
 
-	$ch = null;
-
 	// First fetch the username
 	$res = doApiQuery( array(
 		'format' => 'json',
 		'action' => 'query',
 		'meta' => 'userinfo',
-	), $ch );
+	) );
 
 	if ( isset( $res->error->code ) && $res->error->code === 'mwoauth-invalid-authorization' ) {
 		// We're not authorized!
@@ -398,7 +393,7 @@ function doEdit() {
 		'format' => 'json',
 		'action' => 'tokens',
 		'type' => 'edit',
-	), $ch );
+	) );
 	if ( !isset( $res->tokens->edittoken ) ) {
 		header( "HTTP/1.1 $errorCode Internal Server Error" );
 		echo 'Bad API response: <pre>' . htmlspecialchars( var_export( $res, 1 ) ) . '</pre>';
@@ -417,7 +412,7 @@ function doEdit() {
 		'summary' => '/* Hello, world */ Hello from OAuth!',
 		'watchlist' => 'nochange',
 		'token' => $token,
-	), $ch );
+	) );
 
 	echo 'API edit result: <pre>' . htmlspecialchars( var_export( $res, 1 ) ) . '</pre>';
 	echo '<hr>';
@@ -428,7 +423,7 @@ function doEdit() {
  * @return void
  */
 function doIdentify() {
-	global $mwOAuthUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $gConsumerSecret, $errorCode;
+	global $mwOAuthUrl, $gConsumerKey, $gTokenKey, $gConsumerSecret, $errorCode;
 
 	$url = $mwOAuthUrl . '/identify';
 	$headerArr = array(
@@ -451,19 +446,9 @@ function doIdentify() {
 	}
 	$header = 'Authorization: OAuth ' . join( ', ', $header );
 
-	$ch = curl_init();
-	curl_setopt( $ch, CURLOPT_URL, $url );
-	curl_setopt( $ch, CURLOPT_HTTPHEADER, array( $header ) );
-	//curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-	curl_setopt( $ch, CURLOPT_USERAGENT, $gUserAgent );
-	curl_setopt( $ch, CURLOPT_HEADER, 0 );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-	$data = curl_exec( $ch );
-	if ( !$data ) {
-		header( "HTTP/1.1 $errorCode Internal Server Error" );
-		echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
-		exit(0);
-	}
+	$data = make_curl_request( $url, [
+		CURLOPT_HTTPHEADER => [ $header ],
+    ] );
 	$err = json_decode( $data );
 	if ( is_object( $err ) && isset( $err->error ) && $err->error === 'mwoauthdatastore-access-token-not-found' ) {
 		// We're not authorized!
@@ -517,7 +502,7 @@ function doIdentify() {
 }
 
 function doTestSpecial() {
-	global $mwOAuthUrl, $gUserAgent, $gConsumerKey, $gTokenKey, $gConsumerSecret, $errorCode;
+	global $mwOAuthUrl, $gConsumerKey, $gTokenKey, $gConsumerSecret;
 
 	$url = str_replace( 'Special:OAuth', 'Special:MyPage', $mwOAuthUrl );
 	$headerArr = array(
@@ -540,20 +525,11 @@ function doTestSpecial() {
 	}
 	$header = 'Authorization: OAuth ' . join( ', ', $header );
 
-	$ch = curl_init();
-	curl_setopt( $ch, CURLOPT_URL, $url );
-	curl_setopt( $ch, CURLOPT_HTTPHEADER, array( $header ) );
-	//curl_setopt( $ch, CURLOPT_SSL_VERIFYPEER, false );
-	curl_setopt( $ch, CURLOPT_USERAGENT, $gUserAgent );
-	curl_setopt( $ch, CURLOPT_HEADER, 1 );
-	curl_setopt( $ch, CURLOPT_RETURNTRANSFER, 1 );
-	curl_setopt( $ch, CURLOPT_FOLLOWLOCATION, 0 );
-	$data = curl_exec( $ch );
-	if ( !$data ) {
-		header( "HTTP/1.1 $errorCode Internal Server Error" );
-		echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
-		exit(0);
-	}
+	$data = make_curl_request( $url, [
+		CURLOPT_HTTPHEADER => [ $header ],
+		CURLOPT_HEADER => 1,
+		CURLOPT_FOLLOWLOCATION => 0,
+    ] );
 
 	echo 'Redirect response from Special:MyPage: <pre>' . htmlspecialchars( $data ) . '</pre>';
 	echo '<hr>';
