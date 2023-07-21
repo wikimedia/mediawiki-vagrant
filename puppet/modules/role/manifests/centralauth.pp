@@ -33,6 +33,8 @@ class role::centralauth(
     include ::role::renameuser
     include ::role::usermerge
 
+    require_package('php-bcmath') # needed for tempuser scramble setting
+
     $shared_db = 'centralauth'
     $loginwiki = 'login'
     $alt_testwiki = 'centralauthtest'
@@ -56,6 +58,13 @@ class role::centralauth(
             '$wgGroupPermissions["bureaucrat"]["centralauth-suppress"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-unmerge"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-rename"] = true;',
+        ]
+    }
+
+    mediawiki::settings { 'CentralAuthIpMasking':
+        values => [
+            '$wgAutoCreateTempUser["serialProvider"] = [ "type" => "centralauth", "numShards" => 8 ];',
+            '$wgAutoCreateTempUser["serialMapping"] = [ "type" => "scramble" ];',
         ]
     }
 
