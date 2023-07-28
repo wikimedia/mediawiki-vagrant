@@ -1,6 +1,10 @@
 # == Class: role::https
 # Configures HTTPS support
 class role::https {
+    if Integer($::forwarded_https_port) == 0 {
+        fail("You must configure the HTTPS port to use the 'https' role. (Use 'vagrant config https_port <port>'.)")
+    }
+
     $subject = '/CN=cn.local.wmftest.net/O=MediaWiki-Vagrant/C=US'
     $keyname = 'devwiki'
 

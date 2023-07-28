@@ -2,13 +2,15 @@ $wgCrossSiteAJAXdomains = array_merge( array(
 	// HTTP
 	'127.0.0.1:<%= @forwarded_port %>',
 	'localhost:<%= @forwarded_port %>',
-  '*<%= scope['::mediawiki::multiwiki::base_domain'] %><%= @port_fragment %>',
+	'*<%= scope['::mediawiki::multiwiki::base_domain'] %><%= @port_fragment %>',
+<% if @forwarded_https_port.to_i > 0 -%>
 	// HTTPS
 	'127.0.0.1:<%= @forwarded_https_port %>',
 	'localhost:<%= @forwarded_https_port %>',
-  '*<%= scope['::mediawiki::multiwiki::base_domain'] %>:<%= @forwarded_https_port %>',
+	'*<%= scope['::mediawiki::multiwiki::base_domain'] %>:<%= @forwarded_https_port %>',
+<% end -%>
 	// Varnish
 	'127.0.0.1:6081',
 	'localhost:6081',
-  '*<%= scope['::mediawiki::multiwiki::base_domain'] %>:6081'
+	'*<%= scope['::mediawiki::multiwiki::base_domain'] %>:6081'
 ), $wgCrossSiteAJAXdomains );

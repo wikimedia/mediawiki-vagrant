@@ -51,8 +51,9 @@ module MediaWikiVagrant
       coercion: ->(_setting, new) { new && new.to_i }
 
     setting :https_port,
-      description: "Host port forwarded to the guest VM's HTTPS port (443), for use with the https role",
-      default: 4430,
+      description: "Host port forwarded to the guest VM's HTTPS port (443), for use with the https role. " +
+        '0 to disable.',
+      default: 0,
       coercion: ->(_setting, new) { new && new.to_i }
 
     setting :host_ip,
