@@ -88,7 +88,7 @@ dumps::db_pass: "%{lookup('mediawiki::multiwiki::db_pass')}"
 
 elasticsearch::repository::es_package: elastic710
 elasticsearch::repository::es_version: 7.10.2
-elasticsearch::repository::es_plugins_version: 7.10.2-1~stretch
+elasticsearch::repository::es_plugins_version: 7.10.2-5~bullseye
 
 logstash::heap_memory_mb: 192
 logstash::pipeline_workers: 1
