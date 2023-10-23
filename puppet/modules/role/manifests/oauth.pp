@@ -1,7 +1,9 @@
 # == Class: role::oauth
-# This role sets up the OAuth extension for MediaWiki. Other OAuth
-# enabled applications can then edit this instance of MediaWiki on
-# its users' behalf.
+# This role sets up the OAuth[https://www.mediawiki.org/wiki/Extension:OAuth]
+# extension for MediaWiki. Other OAuth enabled applications can then edit this
+# instance of MediaWiki on its users' behalf.
+# It also installs the OAuthRateLimiter[https://www.mediawiki.org/wiki/Extension:OAuthRateLimiter]
+# companion extension.
 #
 class role::oauth (
     $hello_world_dir,
@@ -73,6 +75,10 @@ class role::oauth (
       secret_key   => $oauthclientphp_secret_key,
       callback_url => "${::mediawiki::server_url}/oauthclient-demo/callback.php",
       grants       => ['editpage'],
+    }
+
+    mediawiki::extension { 'OAuthRateLimiter':
+      needs_update => true,
     }
 
     mediawiki::import::text { 'VagrantRoleOAuth':
