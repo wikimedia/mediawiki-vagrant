@@ -99,6 +99,11 @@ class apache (
         source_permissions => ignore,
         recurse            => remote,
     }
+    file { '/vagrant/srv/composer':
+        ensure             => present,
+        source             => '/usr/local/bin/composer',
+        source_permissions => ignore,
+    }
 
     Apache::Env <| |> -> Apache::Mod_conf <| |> -> Apache::Conf <| |>
     Apache::Site <| |> -> Apache::Site_conf <| |>
