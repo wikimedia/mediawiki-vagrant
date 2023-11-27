@@ -30,7 +30,6 @@ class role::mobilefrontend {
         values => {
             wgMFAutodetectMobileView => false,
             wgMFMobileHeader         => 'Host',
-            wgMobileUrlTemplate      => "mobile${::mediawiki::multiwiki::base_domain}",
         },
     }
 }
