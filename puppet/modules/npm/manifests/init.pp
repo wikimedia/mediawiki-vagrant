@@ -10,11 +10,10 @@
 #
 # [*node_version*]
 #   NodeJS major version number, used in deb.nodesource.com URI.
-#   Default: '6'
 #
 class npm (
+    $node_version,
     $cache_dir   = '/tmp/cache/npm',
-    $node_version = '6',
 ) {
     apt::repository { 'nodesource':
         uri        => "https://deb.nodesource.com/node_${node_version}.x",

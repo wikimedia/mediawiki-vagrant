@@ -177,6 +177,8 @@ mwv::cachefilesd::enable: true
 
 nginx::variant: extras
 
+npm::node_version: 16
+
 ocg::port: 8099
 
 ores::deploy_dir: "%{lookup('mwv::services_dir')}/ores"
