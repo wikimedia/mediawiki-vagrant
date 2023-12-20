@@ -103,6 +103,7 @@ class apache (
         ensure             => present,
         source             => '/usr/local/bin/composer',
         source_permissions => ignore,
+        require            => Class['php::composer'],
     }
 
     Apache::Env <| |> -> Apache::Mod_conf <| |> -> Apache::Conf <| |>
