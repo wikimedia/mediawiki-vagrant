@@ -84,7 +84,7 @@ module MediaWikiVagrant
     setting :nfs_force_v4,
       description: 'Use NFS version 4',
       help: "Enter 'yes' or 'no'.",
-      default: false,
+      default: true,
       coercion: ->(_setting, new) { !!(new.to_s =~ /^(true|t|yes|y|1)$/i) }
 
     setting :nfs_cache,
