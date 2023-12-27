@@ -41,4 +41,12 @@ class git(
         ensure   => 'latest',
         provider => 'pip',
     }
+
+    exec { 'configure_git_user':
+        command     => "git config --global user.name '${::git_user}'; git config --global user.email vagrant@localhost",
+        unless      => 'git config --get user.name',
+        user        => 'vagrant',
+        environment => [ 'HOME=/home/vagrant' ],
+        require     => Package['git'],
+    }
 }
