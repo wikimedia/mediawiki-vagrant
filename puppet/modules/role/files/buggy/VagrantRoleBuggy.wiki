@@ -1,5 +1,5 @@
 <noinclude>
-'''Buggy''' is an extension that is intentionally buggy. This is useful when you want to test functionality related to bug handling or error reporting. Buggy has originally been created to help with the testing of [[:mw:Extension:Sentry|]]
+'''Buggy''' is an extension that is intentionally buggy. This is useful when you want to test functionality related to bug handling or error reporting.
 </noinclude>
 
 == Trigger errors ==

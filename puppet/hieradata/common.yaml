@@ -384,8 +384,6 @@ role::oauthauthentication::consumer_key: d04a305e7583058451ded04cd4767839
 role::oauthauthentication::consumer_secret: 7ea2979b6742b4085d8443ff345e1397afd831eb
 role::oauthauthentication::callback_url: "http://dev.wiki.local.wmftest.net%{::port_fragment}/wiki/Special:OAuthLogin/finish"
 
-role::sentry::dsn: "%{lookup('sentry::dsn_file')}"
-
 role::wikidata::main_page: "Wiki:Main Page"
 role::wikidata::repo_domain: "http://wikidata%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
 
@@ -393,18 +391,6 @@ role::wsoauth::oauth_uri: "https://meta.wikimedia.org/w/index.php?title=Special:
 role::wsoauth::oauth_key: "20c96d141c4ac5bea4fadd6824f6ebda"
 role::wsoauth::oauth_secret: "dadc1d1c38407aafee845fb608d321c51be38848"
 role::wsoauth::login_button_message_key: 'wsoauth-login-button-label-wikimedia'
-
-sentry::db_name: sentry
-sentry::db_user: sentry
-sentry::db_pass: vagrant
-sentry::vhost_name: "sentry%{lookup('mwv::tld')}"
-sentry::deploy_dir: "%{lookup('mwv::vendor_dir')}/sentry"
-sentry::cfg_file: /etc/sentry.conf.py
-sentry::mail_log_dir: /vagrant/logs/sentry-mail
-sentry::secret_key: s0F2ybS8jPLvzadqVudo7VykVWT1JO9FoErhc6gkJj6/KNWeFUbUiQ==
-sentry::dsn_file: "%{lookup('sentry::deploy_dir')}/sentry_dsn.txt"
-sentry::admin_user: admin
-sentry::admin_pass: vagrant
 
 service::root_dir: "%{lookup('mwv::services_dir')}"
 service::conf_dir: "%{lookup('mwv::etc_dir')}/services"
