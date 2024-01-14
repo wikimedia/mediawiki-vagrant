@@ -1,4 +1,15 @@
 //<?php
+
+$wgMWOAuthSecureTokenTransfer = false;
+$wgOAuthSecretKey = '<%= @secret_key %>';
+$wgGroupPermissions['sysop']['mwoauthmanageconsumer'] = true;
+$wgGroupPermissions['user']['mwoauthproposeconsumer'] = true;
+$wgGroupPermissions['user']['mwoauthupdateownconsumer'] = true;
+$wgOAuthGroupsToNotify = [ 'sysop' ];
+$wgOAuthAutoApprove = [
+	[ 'grants' => [ 'mwoauth-authonly', 'mwoauth-authonlyprivate', 'basic' ] ],
+];
+
 $wgOAuth2PrivateKey = <<<EOK
 -----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEAraLb9UGlKxhKpfsW/DLjiFG/gHkywfcdpTDxpHgGi3q8ZZHl

@@ -21,17 +21,7 @@ class role::oauth (
     mediawiki::extension { 'OAuth':
         needs_update => true,
         composer     => true,
-        settings     => [
-            '$wgMWOAuthSecureTokenTransfer = false',
-            "\$wgOAuthSecretKey = '${secret_key}'",
-            '$wgGroupPermissions["sysop"]["mwoauthmanageconsumer"] = true',
-            '$wgGroupPermissions["user"]["mwoauthproposeconsumer"] = true',
-            '$wgGroupPermissions["user"]["mwoauthupdateownconsumer"] = true',
-            '$wgOAuthGroupsToNotify = [ "sysop" ]',
-        ]
-    }
-    mediawiki::settings { 'OAuth2':
-        values => template('role/oauth/oauth2_settings.php.erb'),
+        settings     => template('role/oauth/settings.php.erb'),
     }
 
     file { $hello_world_dir:
