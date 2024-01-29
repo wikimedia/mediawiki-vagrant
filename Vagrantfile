@@ -1,9 +1,9 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 #
-# Vagrantfile for Mediawiki-Vagrant
+# Vagrantfile for MediaWiki-Vagrant
 # ---------------------------------
-# http://www.mediawiki.org/wiki/Mediawiki-Vagrant
+# http://www.mediawiki.org/wiki/MediaWiki-Vagrant
 #
 # This file contains the Vagrant configurations for provisioning a MediaWiki
 # development instance. Vagrant file uses Ruby as a configuration language.

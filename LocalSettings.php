@@ -6,7 +6,7 @@
  * file. See settings.d/README for an alternate way of managing small snippets
  * of configuration data, such as extension invocations.
  *
- * This file is part of Mediawiki-Vagrant.
+ * This file is part of MediaWiki-Vagrant.
  */
 
 // Enable error reporting

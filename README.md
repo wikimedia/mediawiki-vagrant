@@ -49,10 +49,10 @@ See `support/README-libvirt.md` `support/README-lxc.md` or
    doing operations related to this NFS service.  See
    https://www.vagrantup.com/docs/synced-folders/nfs.html#root-privilege-requirement
 
-Next, you'll need a copy of the mediawiki-vagrant project files.
+Next, you'll need a copy of the MediaWiki-vagrant project files.
 
- * zip: https://github.com/wikimedia/mediawiki-vagrant/archive/master.zip
- * tar.gz: https://github.com/wikimedia/mediawiki-vagrant/archive/master.tar.gz
+ * zip: https://github.com/wikimedia/MediaWiki-vagrant/archive/master.zip
+ * tar.gz: https://github.com/wikimedia/MediaWiki-vagrant/archive/master.tar.gz
  * Git: `git clone https://gerrit.wikimedia.org/r/mediawiki/vagrant`
 
 If you've downloaded the zip file or tarball, you will need to extract it to a
@@ -71,7 +71,7 @@ You can combine cloning the base repo and its submodules with:
 
 Run the appropriate setup script for your platform. For Windows, run
 `setup.bat`. For Linux and OS X, run `setup.sh`. Some extra Vagrant plugins,
-including the bundled mediawiki-vagrant plugin, will be installed.
+including the bundled MediaWiki-vagrant plugin, will be installed.
 
 From there, run `vagrant up` to provision and boot the virtual machine.
 
@@ -88,7 +88,7 @@ Use
 ---
 
 To access a command shell on your virtual environment, run `vagrant ssh` from
-the root mediawiki-vagrant directory or any of its subdirectories.
+the root MediaWiki-vagrant directory or any of its subdirectories.
 
 From there, run `mwrepl` to interactively evaluate PHP code in a MediaWiki
 context, or `mysql` to get an authenticated SQL shell on your wiki's database.
@@ -120,13 +120,13 @@ Extend
 
 You can add roles to MediaWiki-Vagrant! A 'role' represents a set of software
 configurations required for giving this machine some special function.
-Mediawiki-Vagrant has several commands to manage enabled roles.
+MediaWiki-Vagrant has several commands to manage enabled roles.
 See `vagrant roles -h` for help on usage.
 
-If you'd like to use the Mediawiki-Vagrant codebase to describe a development
+If you'd like to use the MediaWiki-Vagrant codebase to describe a development
 environment that you could then share with other developers, you should do so
 by adding a role file to puppet/modules/role/manifests/ and submitting it as a
-patch to the Mediawiki-Vagrant project.
+patch to the MediaWiki-Vagrant project.
 
 
 Settings
@@ -151,7 +151,7 @@ Troubleshoot
 
 Stuck? Here's where to get help.
 
- * https://www.mediawiki.org/wiki/Mediawiki-Vagrant#Troubleshooting
+ * https://www.mediawiki.org/wiki/MediaWiki-Vagrant#Troubleshooting
  * irc://irc.libera.chat/#mediawiki
 
 Please report any bugs on Wikimedia's Phabricator:

@@ -1,4 +1,4 @@
-# == Mediawiki-Vagrant Puppet Manifest
+# == MediaWiki-Vagrant Puppet Manifest
 #
 # This manifest is the main entrypoint for Puppet, the configuration
 # management tool that sets up this machine to run MediaWiki. The
