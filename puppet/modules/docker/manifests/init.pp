@@ -1,6 +1,6 @@
 # == Class: docker
 #
-# Install Docker, and the Blubber microservice wrapper.
+# Install Docker.
 #
 class docker {
     apt::repository { 'docker':
@@ -11,7 +11,7 @@ class docker {
         source     => false,
     }
 
-    package { 'docker-ce':
+    package { ['docker-ce', 'docker-buildx-plugin']:
         ensure  => present,
         require => Apt::Repository['docker'],
     }
@@ -30,10 +30,5 @@ class docker {
         command => '/usr/sbin/usermod -aG docker vagrant',
         user    => 'root',
         require => Group['docker'],
-    }
-
-    file { '/usr/bin/blubber':
-        source => 'puppet:///modules/docker/blubber.sh',
-        mode   => 'a+rx',
     }
 }

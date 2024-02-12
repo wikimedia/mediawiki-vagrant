@@ -12,7 +12,10 @@ User=www-data
 Group=www-data
 SyslogIdentifier=image-suggestion-api
 WorkingDirectory=<%= $service_dir %>
-ExecStartPre=/bin/bash -c '/usr/bin/blubber "<%= $service_dir %>/.pipeline/blubber.dev.yaml" development | docker build --tag img-sugg-api --file - .'
+
+# Note that docker buildx requires a writable docker config directory
+Environment=DOCKER_CONFIG=/tmp/www-data-docker
+ExecStartPre=/bin/bash -c '/usr/bin/docker buildx build --tag img-sugg-api --target development --file .pipeline/blubber.dev.yaml .'
 ExecStart=/usr/bin/docker run --rm --name img-sugg-api-sysd -p 127.0.0.1:<%= $service_port %>:8000 img-sugg-api:latest
 ExecStop=/usr/bin/docker stop img-sugg-api-sysd
 ExecStopPost=/bin/bash -c '/usr/bin/docker image ls -q --filter "reference=img-sugg-api" --filter "dangling=true" | /usr/bin/xargs -rn1 docker image rm -f'
