@@ -52,17 +52,15 @@ class role::centralauth(
         }
     }
 
-    mediawiki::settings { 'CentralAuthPermissions':
+    mediawiki::settings { 'CentralAuthSettings':
         values => [
+            '$wgVirtualDomainsMapping["virtual-centralauth"] = [ "db" => "centralauth" ];',
+            # permissions
             '$wgGroupPermissions["sysop"]["centralauth-lock"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-suppress"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-unmerge"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-rename"] = true;',
-        ]
-    }
-
-    mediawiki::settings { 'CentralAuthIpMasking':
-        values => [
+            # temporary accounts
             '$wgAutoCreateTempUser["serialProvider"] = [ "type" => "centralauth", "numShards" => 8 ];',
             '$wgAutoCreateTempUser["serialMapping"] = [ "type" => "scramble" ];',
         ]
