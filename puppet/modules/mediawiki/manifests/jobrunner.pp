@@ -79,8 +79,15 @@ class mediawiki::jobrunner(
     service::gitupdate { 'jobrunner':
         dir     => $dir,
         restart => $restart,
+        update  => true,
+        type    => 'php',
     }
 
+    # jobchron also lives in mediawiki/services/jobrunner, we just use this fake
+    # service to restart it after updates.
+    # FIXME since updates are in alphabetical order, jobchron will actually be
+    #   restarted before the directory is updated. Should probably be replaced
+    #   with a systemd dependency.
     service::gitupdate { 'jobchron':
         dir     => $dir,
         pull    => false,
