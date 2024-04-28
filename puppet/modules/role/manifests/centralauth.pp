@@ -55,6 +55,7 @@ class role::centralauth(
     mediawiki::settings { 'CentralAuthSettings':
         values => [
             '$wgVirtualDomainsMapping["virtual-centralauth"] = [ "db" => "centralauth" ];',
+            '$wgVirtualDomainsMapping["virtual-oathauth"] = [ "db" => "centralauth" ];',
             # permissions
             '$wgGroupPermissions["sysop"]["centralauth-lock"] = true;',
             '$wgGroupPermissions["bureaucrat"]["centralauth-suppress"] = true;',
