@@ -9,7 +9,7 @@ class role::https {
     $keyname = 'devwiki'
 
     exec { 'generate_ssl_key':
-        command => "sed -i 's/^# subjectAltName=email:copy/subjectAltName=DNS:dev.wiki.local.wmftest.net/g' /etc/ssl/openssl.cnf && /usr/bin/openssl req -subj ${subject} -nodes -new -x509 -newkey rsa:1024 -keyout /etc/ssl/certs/${keyname}.key -out /etc/ssl/certs/${keyname}.pem -days 1095",
+        command => "sed -i 's/^# subjectAltName=email:copy/subjectAltName=DNS:dev.wiki.local.wmftest.net/g' /etc/ssl/openssl.cnf && /usr/bin/openssl req -subj ${subject} -nodes -new -x509 -newkey rsa:2048 -keyout /etc/ssl/certs/${keyname}.key -out /etc/ssl/certs/${keyname}.pem -days 1095",
         creates => '/etc/ssl/certs/devwiki.pem',
         before  => Nginx::Site['devwiki'],
     }
