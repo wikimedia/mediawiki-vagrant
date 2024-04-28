@@ -28,7 +28,7 @@ class role::https {
     }
 
     # Horrible hack to tell CommonSettings.php that it is safe to use
-    # a protocol-relative URL for wgServer.
+    # a HTTPS URL for wgServer.
     # See modules/mediawiki/templates/multiwiki/CommonSettings.php.erb
     mediawiki::settings { 'Vagrant HTTPS support flag':
         values   => {

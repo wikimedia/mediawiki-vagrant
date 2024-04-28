@@ -84,7 +84,10 @@ if ( PHP_SAPI !== 'cli' ) {
 	// T68399: set wgServer from inbound request
 	$wgServer = WebRequest::detectServer();
 	if ( isset( $mwvSupportsHttps ) && $mwvSupportsHttps ) {
-		// Create protocol-relative URL when the HTTPS role is active
-		$wgServer = preg_replace( '#^https?:#', '', $wgServer );
+		// Use HTTPS URL when the HTTPS role is active
+		$wgServer = preg_replace( '#^(http:)?//#', 'https://', $wgServer );
+		$httpPort = '<%= scope['forwarded_port'] %>';
+		$httpsPort = '<%= scope['forwarded_https_port'] %>';
+		$wgServer = str_replace( ":$httpPort", ":$httpsPort", $wgServer );
 	}
 }
