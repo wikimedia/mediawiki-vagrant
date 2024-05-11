@@ -83,11 +83,13 @@ foreach(
 if ( PHP_SAPI !== 'cli' ) {
 	// T68399: set wgServer from inbound request
 	$wgServer = WebRequest::detectServer();
-	if ( isset( $mwvSupportsHttps ) && $mwvSupportsHttps ) {
-		// Use HTTPS URL when the HTTPS role is active
-		$wgServer = preg_replace( '#^(http:)?//#', 'https://', $wgServer );
-		$httpPort = '<%= scope['forwarded_port'] %>';
-		$httpsPort = '<%= scope['forwarded_https_port'] %>';
-		$wgServer = str_replace( ":$httpPort", ":$httpsPort", $wgServer );
-	}
+}
+// Ugly hack to update $wgServer to use HTTPS URL when the HTTPS role is active.
+// This is needed in both web and CLI, especially for mediawiki::import::text which
+// parses wikitext in a CLI context.
+if ( isset( $mwvSupportsHttps ) && $mwvSupportsHttps ) {
+	$wgServer = preg_replace( '#^(http:)?//#', 'https://', $wgServer );
+	$httpPort = '<%= scope['forwarded_port'] %>';
+	$httpsPort = '<%= scope['forwarded_https_port'] %>';
+	$wgServer = str_replace( ":$httpPort", ":$httpsPort", $wgServer );
 }
