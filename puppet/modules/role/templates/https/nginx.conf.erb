@@ -1,7 +1,7 @@
 server {
 	listen 443 ssl;
-	ssl_certificate /etc/ssl/certs/devwiki.pem;
-	ssl_certificate_key /etc/ssl/certs/devwiki.key;
+	ssl_certificate /etc/ssl/certs/<%= @keyname %>.pem;
+	ssl_certificate_key /etc/ssl/certs/<%= @keyname %>.key;
 
 	keepalive_timeout 60;
 
