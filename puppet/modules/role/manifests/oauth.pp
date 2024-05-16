@@ -16,12 +16,20 @@ class role::oauth (
     $oauthclientphp_consumer_secret,
     $oauthclientphp_secret_key,
 ) {
+    include ::mediawiki
     require ::role::mediawiki
 
     mediawiki::extension { 'OAuth':
         needs_update => true,
         composer     => true,
         settings     => template('role/oauth/settings.php.erb'),
+    }
+
+    # horrible hack to avoid breaking curl when in hello-world
+    if defined(Class['role::https']) {
+        $server_url = lookup('mediawiki::server_url_https')
+    } else {
+        $server_url = lookup('mediawiki::server_url')
     }
 
     file { $hello_world_dir:

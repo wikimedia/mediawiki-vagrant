@@ -25,24 +25,24 @@ $inifile = '<%= @hello_world_dir %>/oauth-hello-world.ini';
  * Set this to the Special:OAuth/authorize URL.
  * To work around MobileFrontend redirection, use /wiki/ rather than /w/index.php.
  */
-$mwOAuthAuthorizeUrl = '<%= scope['::mediawiki::server_url'] %>/wiki/Special:OAuth/authorize';
+$mwOAuthAuthorizeUrl = '<%= @server_url %>/wiki/Special:OAuth/authorize';
 
 /**
  * Set this to the Special:OAuth URL.
  * Note that /wiki/Special:OAuth fails when checking the signature, while
  * index.php?title=Special:OAuth works fine.
  */
-$mwOAuthUrl = '<%= scope['::mediawiki::server_url'] %>/w/index.php?title=Special:OAuth';
+$mwOAuthUrl = '<%= @server_url %>/w/index.php?title=Special:OAuth';
 
 /**
  * Set this to the API endpoint
  */
-$apiUrl = '<%= scope['::mediawiki::server_url'] %>/w/api.php';
+$apiUrl = '<%= @server_url %>/w/api.php';
 
 /**
  * Set this to Special:MyTalk on the above wiki
  */
-$mytalkUrl = '<%= scope['::mediawiki::server_url'] %>/wiki/Special:MyTalk#Hello.2C_world';
+$mytalkUrl = '<%= @server_url %>/wiki/Special:MyTalk#Hello.2C_world';
 
 /**
  * This should normally be "500".

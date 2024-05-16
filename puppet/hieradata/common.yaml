@@ -127,6 +127,7 @@ mediawiki::admin_pass: vagrant
 mediawiki::admin_email: admin@local.wmftest.net
 mediawiki::server_protocol: http
 mediawiki::server_url: "%{lookup('mediawiki::server_protocol')}://%{lookup('role::mediawiki::hostname')}%{::port_fragment}"
+mediawiki::server_url_https: "https://%{lookup('role::mediawiki::hostname')}:%{::forwarded_https_port}"
 mediawiki::branch: master
 mediawiki::parallel_composer_jobs: 100%
 
