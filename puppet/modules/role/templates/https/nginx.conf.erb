@@ -1,5 +1,5 @@
 server {
-	listen 443 ssl;
+	listen <%= scope['::forwarded_https_port'] %> ssl;
 	ssl_certificate /etc/ssl/certs/<%= @keyname %>.pem;
 	ssl_certificate_key /etc/ssl/certs/<%= @keyname %>.key;
 

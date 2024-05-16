@@ -151,7 +151,7 @@ Vagrant.configure('2') do |config|
 
   if (settings[:https_port]).positive?
     config.vm.network :forwarded_port,
-      guest: 443, host: settings[:https_port], host_ip: settings[:host_ip],
+      guest: settings[:https_port], host: settings[:https_port], host_ip: settings[:host_ip],
       id: 'https'
   end
 
