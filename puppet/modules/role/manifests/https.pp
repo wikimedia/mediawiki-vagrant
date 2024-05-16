@@ -1,5 +1,9 @@
 # == Class: role::https
 # Configures HTTPS support
+#
+# NOTE: This will probably break on Labs-Vagrant (Cloud VPS), which sets ports in a different way.
+# But Labs has default HTTPS via web proxies so there is not point in enabling this role there anyway.
+#
 class role::https {
     if Integer($::forwarded_https_port) == 0 {
         fail("You must configure the HTTPS port to use the 'https' role. (Use 'vagrant config https_port <port>'.)")

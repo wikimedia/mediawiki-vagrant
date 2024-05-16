@@ -92,4 +92,5 @@ if ( isset( $mwvSupportsHttps ) && $mwvSupportsHttps ) {
 	$httpPort = '<%= scope['forwarded_port'] %>';
 	$httpsPort = '<%= scope['forwarded_https_port'] %>';
 	$wgServer = str_replace( ":$httpPort", ":$httpsPort", $wgServer );
+	$wgCanonicalServer = $wgServer;
 }

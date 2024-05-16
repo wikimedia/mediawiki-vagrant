@@ -1,12 +1,12 @@
+// <?php
 // This file is managed by Puppet.
 
-// Fix wgServer in wgConf.  The $wgServer global will be fixed
+// Fix wgServer in wgConf. The $wgServer and $wgCanonicalServer globals will be fixed
 // in CommonSettings.php, which runs after the settings.d settings.
 //
-// It changes the wgConf wgServer to use the same port as the current request,
-// so they will be accessed on the forwarded HTTPS port (if the current request is HTTPS).
+// It changes the wgConf wgServer/wgCanonicalServer to use the HTTPS port.
 call_user_func(function () {
-	global $wgConf, $wgServer;
+	global $wgConf;
 
 	$detectedServer = WebRequest::detectServer();
 
@@ -21,28 +21,13 @@ call_user_func(function () {
 		return;
 	}
 
-	foreach ( $wgConf->settings['wgServer'] as $dbname => &$wgConfWgServer ) {
-		// URL this wgConf is about
-		$protocolRelativeCanonical = $wgConfWgServer;
-
-		$canonicalHostAndPort = \Wikimedia\IPUtils::splitHostAndPort( $protocolRelativeCanonical );
-
-		if ( $canonicalHostAndPort === false ) {
-			// Failure to parse this particular wiki, skip it;
-			continue;
-		}
-
-		$canonicalHost = $canonicalHostAndPort[0];
-
-		$currentPort = $currentRequestHostAndPort[1];
-
-		if ( $currentPort !== false ) {
-			$combined = \Wikimedia\IPUtils::combineHostAndPort( $canonicalHost, $currentPort );
-			$wgConfWgServer = $combined;
-		} else {
-			// currentPort false just means we were accessed on default port
-			// for protocol, so do the same when pointing to other wiki.
-			$wgConfWgServer = $canonicalHost;
+    foreach ( [ 'wgServer', 'wgCanonicalServer' ] as $setting ) {
+		// settings might be empty during PHPUnit tests
+		foreach ( $wgConf->settings[$setting] ?? [] as $dbname => &$server ) {
+			$server = preg_replace( '#^(http:)?//#', 'https://', $server );
+			$httpPort = '<%= scope['forwarded_port'] %>';
+			$httpsPort = '<%= scope['forwarded_https_port'] %>';
+			$server = str_replace( ":$httpPort", ":$httpsPort", $server );
 		}
 	}
 } );
