@@ -347,29 +347,6 @@ role::sal::env:
   CACHE_DIR: /var/cache/sal
   SLIM_MODE: development
 
-role::striker::deploy_dir: "%{lookup('mwv::services_dir')}"
-role::striker::log_dir: /vagrant/logs
-role::striker::db_name: striker
-role::striker::db_user: striker
-role::striker::db_pass: striker
-role::striker::vhost_name: "striker%{lookup('mwv::tld')}"
-role::striker::oauth_consumer_key: "!Set in local.yaml after creating grant!"
-role::striker::oauth_consumer_secret: "!Set in local.yaml after creating grant!"
-role::striker::phabricator_url: "http://%{lookup('phabricator::vhost_name')}%{::port_fragment}"
-role::striker::phabricator_user: striker
-role::striker::phabricator_token: "!Set in local.yaml after creating bot!"
-role::striker::phabricator_repo_admin_group: "!Set in local.yaml after creating group!"
-role::striker::phabricator_project_parent_project: "!Set in local.yaml after creating group!"
-role::striker::uwsgi_port: 8081
-role::striker::wikitech_url: "http://ldapauth%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
-role::striker::wikitech_consumer_key: 621c0e27ecb5316720a859f7d34b6728
-role::striker::wikitech_consumer_secret: dd44dbcca3cd0dfe2a504fe201f8c999e7ad3f56
-role::striker::wikitech_srv_secret_key: 8a15fc34bb0779c4c103c48b69b0325f
-role::striker::wikitech_access_token: 41e42e26966db11c7f9ba131e335c996
-role::striker::wikitech_access_secret: 02a8a95723f373e9a4cee68b1d5313c397190892
-role::striker::wikitech_srv_access_secret: 478fc0fc9d5059b2ae343252ca48ef90
-role::striker::use_xff: false
-
 role::oauth::hello_world_dir: "%{lookup('mwv::services_dir')}/oauth-hello-world"
 role::oauth::oauthclient_dir: "%{lookup('mwv::services_dir')}/oauthclient-php"
 role::oauth::secret_key: 292ed299345a01c1c0520b60f628c01ea817a0b3372b89dbb7637a2f678d018a

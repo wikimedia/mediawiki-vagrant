@@ -8,7 +8,7 @@
 #   A 'horizon' subdirectory will be created.
 #
 # [*vhost_name*]
-#   Apache vhost name. (example: 'striker.local.wmftest.net')
+#   Apache vhost name. (example: 'horizon.local.wmftest.net')
 class role::horizon (
     $log_dir,
     $vhost_name,
