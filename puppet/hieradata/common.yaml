@@ -306,10 +306,6 @@ role::langwikis::langwiki_list:
         language: zh
         sitename: 维基导游
 
-role::ldapauth::proxy_agent_password: vagrant_agent
-role::ldapauth::writer_password: vagrant_writer
-role::ldapauth::admin_password: vagrant_admin
-
 role::mediainfo::central_repo_domain: "http://wikidata%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
 role::mediainfo::multimedia_domain: "http://commons%{lookup('mediawiki::multiwiki::base_domain')}%{::port_fragment}"
 
