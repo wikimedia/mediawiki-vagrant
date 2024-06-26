@@ -266,9 +266,6 @@ role::globalblocking::db_user: "%{lookup('mediawiki::multiwiki::db_user')}"
 role::globalblocking::db_pass: "%{lookup('mediawiki::multiwiki::db_pass')}"
 role::globalblocking::db_name: globalblocking
 
-role::horizon::vhost_name: "horizon%{lookup('mwv::tld')}"
-role::horizon::log_dir: /vagrant/logs
-
 role::iabot::deploy_dir: "%{lookup('mwv::services_dir')}"
 role::iabot::remote: https://github.com/cyberpower678/Cyberbot_II
 role::iabot::branch: test
