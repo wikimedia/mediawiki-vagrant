@@ -278,9 +278,6 @@ role::iabot::access_token: d031340ccade6e3cd24964b7b35c6644
 role::iabot::access_secret: 628a771b7076c72ce63bb6b6a9349d94c5330ecf
 role::iabot::srv_access_secret: 3c40e3b0d2b7d640ebddf57c27ec128f
 
-role::keystone::admin_password: vagrant
-role::keystone::db_password: vagrant
-
 role::langwikis::langwiki_list:
     en:
         language: en

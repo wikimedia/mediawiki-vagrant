@@ -1,3 +1,0 @@
-#!/usr/bin/env bash
-. /etc/keystone/admin-openrc
-exec /usr/bin/openstack "$@"

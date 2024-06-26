@@ -1,2 +1,0 @@
-[oslo.messaging.notify.drivers]
-wmfkeystonehooks = wmfkeystonehooks.wmfkeystonehooks:KeystoneHooks
