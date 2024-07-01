@@ -88,9 +88,19 @@ if ( PHP_SAPI !== 'cli' ) {
 // This is needed in both web and CLI, especially for mediawiki::import::text which
 // parses wikitext in a CLI context.
 if ( isset( $mwvSupportsHttps ) && $mwvSupportsHttps ) {
-	$wgServer = preg_replace( '#^(http:)?//#', 'https://', $wgServer );
-	$httpPort = '<%= scope['forwarded_port'] %>';
-	$httpsPort = '<%= scope['forwarded_https_port'] %>';
-	$wgServer = str_replace( ":$httpPort", ":$httpsPort", $wgServer );
-	$wgCanonicalServer = $wgServer;
+	call_user_func( function () {
+		global $wgServer, $wgCanonicalServer, $wgConf;
+		$fixWgServerCallback = function ( $server ) {
+			$server = preg_replace( '#^(http:)?//#', 'https://', $server );
+			$httpPort = '<%= scope['forwarded_port'] %>';
+			$httpsPort = '<%= scope['forwarded_https_port'] %>';
+			return str_replace( ":$httpPort", ":$httpsPort", $server );
+		};
+		$wgServer = $fixWgServerCallback( $wgServer );
+		$wgCanonicalServer = $wgServer;
+		foreach ( $wgConf->settings['wgServer'] ?? [] as $dbname => $_ ) {
+			$wgConf->settings['wgServer'][$dbname] = $fixWgServerCallback( $wgConf->settings['wgServer'][$dbname] );
+			$wgConf->settings['wgCanonicalServer'][$dbname] = $wgConf->settings['wgServer'][$dbname];
+		}
+	} );
 }

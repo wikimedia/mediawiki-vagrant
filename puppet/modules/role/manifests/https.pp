@@ -64,20 +64,6 @@ class role::https {
         priority => 1,
     }
 
-    # Fix wgServer in wgConf to take
-    # wgAssumeProxiesUseDefaultProtocolPorts and preserving the port
-    # when referencing other wikis into account.
-    #
-    # We don't need to change $wgServer, because CommonSettings.php
-    # changes it anyway after the settings.d are handled.
-    mediawiki::settings { 'Fix wgServer in wgConf':
-        # This doesn't really have any variables.  T127552
-        values   => template('role/https/fixWgServer.php.erb'),
-
-        # Load after Mediawiki::Settings['SSL-related settings']
-        priority => 20,
-    }
-
     file { "${::apache::docroot}/${keyname}.pem":
         ensure  => file,
         source  => "/etc/ssl/certs/${keyname}.pem",
