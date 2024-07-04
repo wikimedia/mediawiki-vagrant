@@ -96,16 +96,6 @@ logstash::output::elasticsearch::host: 127.0.0.1
 logstash::output::elasticsearch::manage_indices: true
 logstash::output::elasticsearch::priority: 90
 
-iegreview::vhost_name: "iegreview%{lookup('mwv::tld')}"
-iegreview::db_name: iegreview
-iegreview::db_user: iegreview
-iegreview::db_pass: iegreview
-iegreview::deploy_dir: "%{lookup('mwv::services_dir')}/iegreview"
-iegreview::cache_dir: /var/cache/iegreview
-iegreview::log_file: /vagrant/logs/iegreview.log
-iegreview::smtp_server: 127.0.0.1
-iegreview::parsoid_url: "http://127.0.0.1:%{::parsoid::port}/localhost/"
-
 mathoid::port: 10042
 mathoid::svg: true
 mathoid::img: true
