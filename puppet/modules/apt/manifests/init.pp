@@ -81,15 +81,6 @@ class apt {
         comment_old => true,
     }
 
-    # T125760 - mw-vagrant only apt repo
-    apt::repository { 'mwv-apt':
-        uri        => 'https://mwv-apt.wmflabs.org/repo',
-        dist       => "${::lsbdistcodename}-mwv-apt",
-        components => 'main',
-        can_trust  => true,
-        source     => false,
-    }
-
     # Prefer Wikimedia APT repository packages in all cases
     apt::pin { 'wikimedia':
         package  => '*',
