@@ -18,6 +18,7 @@ if ( $wgEnableWikibaseClient ) {
 		'interwikiPrefix' => 'wd',
 	];
 	$wgWBClientSettings['localEntitySourceName'] = 'wikidata';
+	$wgWBClientSettings['itemAndPropertySourceName'] = 'wikidata';
 	$wgWBClientSettings['specialSiteLinkGroups'][] = 'wikidata';
 	// since 'wikidata' entitysource will be serving item & property, remove them from 'local'
 	$wgWBClientSettings['entitySources']['local']['entityNamespaces'] = [];
