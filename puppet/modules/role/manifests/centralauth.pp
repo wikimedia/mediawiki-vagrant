@@ -128,4 +128,9 @@ class role::centralauth(
 
     role::centralauth::migrate_user { 'Admin': }
 
+    mediawiki::import::text { 'VagrantRoleCentralAuth':
+        content => template('role/centralauth/VagrantRoleCentralAuth.wiki.erb'),
+    }
+
+
 }
