@@ -77,7 +77,7 @@ define mediawiki::user(
         $eval_unless = "
             \\\$services = \\\\MediaWiki\\\\MediaWikiServices::getInstance();
             \\\$u = \\\$services->getUserFactory()->newFromName( '${username}' );
-            \\\$u->load( User::READ_LATEST );
+            \\\$u->load( \\\\IDBAccessObject::READ_LATEST );
             \\\$expected_groups = array_intersect( [ '${comma_groups_php}' ], \\\$services->getUserGroupManager()->listAllGroups() );
             \\\$actual_groups = \\\$services->getUserGroupManager()->getUserGroups( \\\$u );
             echo array_diff( \\\$expected_groups, \\\$actual_groups ) ? 'Bad' : 'Good';
