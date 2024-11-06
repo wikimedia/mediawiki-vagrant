@@ -25,7 +25,7 @@ class role::confirmedit {
     mediawiki::settings { 'ConfirmEdit FancyCaptcha':
         header   => 'wfLoadExtension( "ConfirmEdit/FancyCaptcha" ); $wmvActiveExtensions[] = "FancyCaptcha";',
         values   => {
-            wgCaptchaClass           => 'FancyCaptcha',
+            wgCaptchaClass           => 'MediaWiki\\Extension\\ConfirmEdit\\FancyCaptcha\\FancyCaptcha',
             wgCaptchaDirectory       => '$IP/images/temp/captcha',
             wgCaptchaDirectoryLevels => 0,
             wgCaptchaSecret          => $key,

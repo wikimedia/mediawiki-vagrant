@@ -3,7 +3,7 @@ wfLoadExtension( 'ConfirmEdit/QuestyCaptcha' );
 $wmvActiveExtensions[] = 'QuestyCaptcha';
 
 // Set QuestyCaptcha as the active captcha
-$wgCaptchaClass = 'QuestyCaptcha';
+$wgCaptchaClass = 'MediaWiki\\Extension\\ConfirmEdit\\QuestyCaptcha\\QuestyCaptcha';
 
 $wgCaptchaQuestions = array();
 $wgCaptchaQuestions[] = array(
