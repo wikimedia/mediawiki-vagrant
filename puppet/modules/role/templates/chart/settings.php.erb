@@ -1,0 +1,18 @@
+$wgChartServiceUrl = "http://localhost:6284/v1/chart/render";
+
+$wgJsonConfigModels['Chart.JsonConfig'] = 'MediaWiki\Extension\Chart\JCChartContent';
+$wgJsonConfigs['Chart.JsonConfig'] = [
+    'namespace' => 486,
+    'nsName' => 'Data',
+    'pattern' => '/.\.chart$/',
+    'license' => 'CC0-1.0',
+    'isLocal' => false,
+];
+
+if ( $wgDBname === 'commonswiki' ) {
+    $wgJsonConfigs['Chart.JsonConfig']['store'] = true;
+} else {
+    $wgJsonConfigs['Chart.JsonConfig']['remote'] = [
+        'url' => '<%= @commons_url %>'
+    ];
+}

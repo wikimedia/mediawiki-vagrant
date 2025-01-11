@@ -26,7 +26,7 @@ define npm::install(
     }
 
     exec { "${title}_npm_install":
-        command     => "/bin/bash -c 'source ${nvm_dir}/nvm.sh && nvm use ${use_version} && npm install --no-bin-links'",#
+        command     => "/bin/bash -c 'source ${nvm_dir}/nvm.sh && nvm use ${use_version} && npm install'",#
         user        => 'vagrant',
         cwd         => $directory,
         environment => [
