@@ -21,7 +21,10 @@ RestartSec=2s
 # wait 60 seconds for a graceful restart before killing the master
 TimeoutStopSec=60
 WorkingDirectory=<%= $dir %>
-ExecStart=/usr/bin/nodejs <%= $script %> -c <%= $dir %>/config.vagrant.yaml
+<% if $build { -%>
+ExecStartPre=/bin/bash -c 'source /usr/local/nvm/nvm.sh && nvm use <%= $node_version %> && npm run build'
+<% } -%>
+ExecStart=/bin/bash -c 'source /usr/local/nvm/nvm.sh && nvm use <%= $node_version %> && node <%= $script %> -c <%= $dir %>/config.vagrant.yaml'
 
 [Install]
 WantedBy=multi-user.target

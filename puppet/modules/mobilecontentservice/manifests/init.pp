@@ -19,8 +19,9 @@ class mobilecontentservice(
     include ::restbase
 
     service::node { 'mobileapps':
-        port      => $port,
-        log_level => $log_level,
+        port         => $port,
+        log_level    => $log_level,
+        node_version => '18',
     }
 
     apache::reverse_proxy { 'mcs':

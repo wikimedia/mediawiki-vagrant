@@ -42,7 +42,13 @@
 # [*npm_environment*]
 #   Extra environment variables to set when running npm install
 #   as array of KEY=value strings.  Default: []
-
+#
+# [*node_version*]
+#   The Node version to use.
+#
+# [*build*]
+#   Whether to run npm build. Default: false
+#
 # === Examples
 #
 # To set up a service named myservice on port 8520 and with a templated
@@ -65,6 +71,7 @@
 #
 define service::node(
     $port,
+    $node_version,
     $config          = {},
     $module          = './app.js',
     $entrypoint      = '',
@@ -73,6 +80,7 @@ define service::node(
     $log_level       = undef,
     $environment     = {},
     $npm_environment = [],
+    $build           = false,
 ) {
 
     require ::service
@@ -117,11 +125,17 @@ define service::node(
         remote    => $remote,
     }
 
+    nvm::install { "${title}_node_${node_version}":
+        version => $node_version,
+        before  => Npm::Install[$dir],
+    }
+
     # install the dependencies
     npm::install { $dir:
-        directory   => $dir,
-        environment => $npm_environment,
-        require     => Git::Clone[$title],
+        directory    => $dir,
+        environment  => $npm_environment,
+        node_version => $node_version,
+        require      => Git::Clone[$title],
     }
 
     # the service's configuration file
@@ -172,12 +186,14 @@ define service::node(
         },
         epp_template       => true,
         template_variables => {
-            title       => $title,
-            uptitle     => inline_template('<%= @title.gsub(/[^a-zA-Z0-9_]/, "_").upcase %>'),
-            dir         => $dir,
-            port        => $port,
-            script      => $script,
-            environment => $environment
+            title        => $title,
+            uptitle      => inline_template('<%= @title.gsub(/[^a-zA-Z0-9_]/, "_").upcase %>'),
+            dir          => $dir,
+            port         => $port,
+            script       => $script,
+            environment  => $environment,
+            node_version => $node_version,
+            build        => $build,
         },
         require            => Git::Clone[$title],
     }

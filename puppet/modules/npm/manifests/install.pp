@@ -9,17 +9,28 @@
 #
 # [*environment*]
 #   Extra environment variables to set when running npm install
+#
+# [*node_version*]
+#   The Node version to use. Default: '12'
 define npm::install(
     $directory,
     $environment = [],
+    $node_version = '12',
 ) {
     require ::npm
 
+    $nvm_dir = $::nvm::nvm_dir
+    $use_version = $node_version ? {
+        undef   => $::nvm::node_version,
+        default => $node_version,
+    }
+
     exec { "${title}_npm_install":
-        command     => '/usr/bin/npm install --no-bin-links',
-        cwd         => $directory,
+        command     => "/bin/bash -c 'source ${nvm_dir}/nvm.sh && nvm use ${use_version} && npm install --no-bin-links'",#
         user        => 'vagrant',
+        cwd         => $directory,
         environment => [
+            "NVM_DIR=${nvm_dir}",
             "NPM_CONFIG_CACHE=${::npm::cache_dir}",
             'NPM_CONFIG_GLOBAL=false',
             'LINK=g++',

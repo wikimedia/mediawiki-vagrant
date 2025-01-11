@@ -28,11 +28,12 @@ class changeprop(
     $restbase_uri = "http://localhost:${restbase_port}"
 
     service::node { 'changeprop':
-        port       => $port,
-        module     => 'hyperswitch',
-        log_level  => $log_level,
-        git_remote => 'https://github.com/wikimedia/change-propagation.git',
-        config     => template('changeprop/config.yaml.erb'),
+        port         => $port,
+        module       => 'hyperswitch',
+        log_level    => $log_level,
+        git_remote   => 'https://github.com/wikimedia/change-propagation.git',
+        config       => template('changeprop/config.yaml.erb'),
+        node_version => '18',
     }
 
 }

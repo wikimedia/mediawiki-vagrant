@@ -1,6 +1,6 @@
 # == Class: npm
 #
-# Provision npm dependency manager.
+# Provision npm dependency manager via NVM.
 #
 # === Parameters
 #
@@ -9,9 +9,10 @@
 #   Default '/tmp/cache/npm'
 #
 class npm (
-    $cache_dir   = '/tmp/cache/npm'
+    $cache_dir = '/tmp/cache/npm'
 ) {
     require_package('npm')
+    require ::nvm
 
     exec { 'npm_set_cache_dir':
         command => "/bin/mkdir -p ${cache_dir} && /bin/chmod -R 0777 ${cache_dir} && /bin/chown -R 1000:1000 ${cache_dir}",

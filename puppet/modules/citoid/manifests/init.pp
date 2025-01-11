@@ -16,11 +16,12 @@ class citoid (
 ) {
 
     service::node { 'citoid':
-        port      => $port,
-        log_level => $log_level,
-        config    => {
+        port         => $port,
+        log_level    => $log_level,
+        config       => {
             userAgent => undef,
             zotero    => false,
         },
+        node_version => '20',
     }
 }

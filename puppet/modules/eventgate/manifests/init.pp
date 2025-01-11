@@ -101,13 +101,14 @@ class eventgate(
     # It specifies the eventgate (service-runner) package as a dependency
     # and runs the eventgate from it.
     service::node { 'eventgate-wikimedia':
-        git_remote => 'https://gerrit.wikimedia.org/r/eventgate-wikimedia',
-        port       => $port,
-        log_level  => $log_level,
-        module     => 'eventgate',
-        entrypoint => 'app',
-        script     => 'node_modules/eventgate/server.js',
-        config     => $config,
+        git_remote   => 'https://gerrit.wikimedia.org/r/eventgate-wikimedia',
+        port         => $port,
+        log_level    => $log_level,
+        module       => 'eventgate',
+        entrypoint   => 'app',
+        script       => 'node_modules/eventgate/server.js',
+        config       => $config,
+        node_version => '16',
     }
 
     # Add a reverse proxy from eventgate.local.wmftest.net to the

@@ -28,11 +28,6 @@ class restbase (
     $eventlogging_service_port = 8085
 ) {
 
-    $node_version = lookup('npm::node_version')
-    if $node_version > 6 {
-        warning('RESTBase requires NodeJS 6. To use it, run `vagrant hiera npm::node_version 6 && vagrant provision`. (Might break other services.)')
-    }
-
     require_package('libsqlite3-dev')
 
     $mathoid_port = defined(Class['mathoid']) ? {
@@ -65,12 +60,13 @@ class restbase (
     }
 
     service::node { 'restbase':
-        port       => $port,
-        module     => 'hyperswitch',
-        git_remote => 'https://github.com/wikimedia/restbase.git',
-        log_level  => $log_level,
-        config     => template('restbase/config.yaml.erb'),
-        require    => Package['libsqlite3-dev'],
+        port         => $port,
+        module       => 'hyperswitch',
+        git_remote   => 'https://github.com/wikimedia/restbase.git',
+        log_level    => $log_level,
+        config       => template('restbase/config.yaml.erb'),
+        require      => Package['libsqlite3-dev'],
+        node_version => '10',
     }
 
 }

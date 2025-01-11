@@ -43,9 +43,9 @@ class mathoid(
     require_package('librsvg2-2', 'librsvg2-dev')
 
     service::node { 'mathoid':
-        port      => $port,
-        log_level => $log_level,
-        config    => {
+        port         => $port,
+        log_level    => $log_level,
+        config       => {
             svg       => $svg,
             img       => $img,
             png       => $png,
@@ -53,6 +53,7 @@ class mathoid(
             speech_on => $speak_text,
             no_check  => $render_no_check,
         },
+        node_version => '16',
     }
 
 }
