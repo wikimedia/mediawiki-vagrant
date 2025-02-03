@@ -56,10 +56,10 @@ class role::globalblocking(
 
     mediawiki::extension { 'GlobalBlocking':
         needs_update => true,
-        settings     => {
+        settings     => [
             # We're not changing it, but this causes them all to get
             # the name from the same place.
-            wgGlobalBlockingDatabase => $db_name,
-        }
+            "\$wgVirtualDomainsMapping['virtual-globalblocking'] = [ 'db' => '${db_name}' ];",
+        ],
     }
 }
