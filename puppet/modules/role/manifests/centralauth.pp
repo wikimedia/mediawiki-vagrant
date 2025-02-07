@@ -30,7 +30,6 @@ class role::centralauth(
 ){
     require ::role::mediawiki
     include ::role::antispoof
-    include ::role::renameuser
     include ::role::usermerge
 
     require_package('php-bcmath') # needed for tempuser scramble setting

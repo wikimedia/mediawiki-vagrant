@@ -6,9 +6,6 @@
 # remote article will not be reflected (unless the local one is manually
 # deleted).
 #
-# If you import from a Wikimedia project, you'll probably want to
-# enable the tidy role, otherwise templates get all messed up.
-#
 # See also mediawiki::import::text (for importing manually defined,
 # version-controlled content) and mediawiki::import::dump (for importing
 # many pages).

@@ -75,7 +75,6 @@ class role::wikimediaproduction {
     include ::role::proofreadpage
     include ::role::quicksurveys
     include ::role::relatedarticles
-    include ::role::renameuser
     include ::role::restbase
     include ::role::revisionslider
     include ::role::sandboxlink

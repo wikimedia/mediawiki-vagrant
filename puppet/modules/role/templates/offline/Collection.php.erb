@@ -1,18 +1,9 @@
-# per https://wikitech.wikimedia.org/wiki/OCG#Installing_a_development_instance
-$wgCollectionFormatToServeURL['rdf2latex'] =  'http://localhost:17080';
-$wgCollectionFormatToServeURL['rdf2text'] = 'http://localhost:17080';
-
-$wgCommunityCollectionNamespace = NS_PROJECT;
-
-$wgEnableSidebarCache = false;
-
 $wgCollectionFormats = [
 	'rdf2latex' => 'PDF',
-	'rdf2text' => 'Plain text',
+	'rdf2text' => 'TXT',
 ];
 
-$wgLicenseURL = "http://creativecommons.org/licenses/by-sa/3.0/";
-$wgCollectionPortletFormats = [ 'rdf2latex', 'rdf2text' ];
+$wgCommunityCollectionNamespace = NS_PROJECT;
 
 $wgGroupPermissions['user']['collectionsaveasuserpage'] = true;
 $wgGroupPermissions['*']['collectionsaveascommunitypage'] = true;

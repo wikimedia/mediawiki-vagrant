@@ -168,9 +168,6 @@ mwv::cachefilesd::enable: true
 
 nginx::variant: extras
 
-
-ocg::port: 8099
-
 ores::deploy_dir: "%{lookup('mwv::services_dir')}/ores"
 ores::vhost_name: "ores%{lookup('mwv::tld')}"
 ores::port: 18880
