@@ -28,8 +28,6 @@ class role::dumps {
         webroot_dir          => $webroot_dir,
     }
 
-    mediawiki::extension { 'ActiveAbstract': }
-
     mediawiki::import::dump { 'seed_content':
         xml_dump           => '/vagrant/puppet/modules/dumps/files/initial-pages.xml',
         dump_sentinel_page => 'Shell_Request/Testme1234',
