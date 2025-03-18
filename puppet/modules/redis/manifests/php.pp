@@ -7,7 +7,7 @@ class redis::php {
     include ::redis
     include ::apache
 
-    package { ['php7.4-redis', 'php7.4-igbinary']:
+    package { ['php8.1-redis', 'php8.1-igbinary']:
         ensure  => present,
         require => Service['redis-server'],
         notify  => Service['apache2'],

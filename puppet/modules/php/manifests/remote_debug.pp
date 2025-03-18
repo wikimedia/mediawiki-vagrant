@@ -21,7 +21,7 @@
 # See https://www.mediawiki.org/wiki/MediaWiki-Vagrant/Advanced_usage#MediaWiki_debugging_using_Xdebug_and_an_IDE_in_your_host
 # for more information.
 class php::remote_debug {
-    package { 'php7.4-xdebug': }
+    package { 'php8.1-xdebug': }
 
     php::ini { 'remote_debug':
         settings => {
@@ -32,6 +32,6 @@ class php::remote_debug {
             # That is significantly slower, especially running tests
             'xdebug.mode'                 => 'debug',
         },
-        require  => Package['php7.4-xdebug'],
+        require  => Package['php8.1-xdebug'],
     }
 }

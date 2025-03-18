@@ -47,7 +47,7 @@ class dumps(
     require_package('libbz2-dev')
     require_package('p7zip-full')
     require_package('zlib1g-dev')
-    require_package('php7.4-bz2')
+    require_package('php8.1-bz2')
 
     # TODO: pip from requirements.txt once that exists.
     require_package('python-yaml')

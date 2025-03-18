@@ -69,7 +69,7 @@ class apt {
     apt::repository { 'wikimedia':
         uri         => 'https://apt.wikimedia.org/wikimedia',
         dist        => "${::lsbdistcodename}-wikimedia",
-        components  => 'main',
+        components  => 'main component/php81',
         keyfile     => 'puppet:///modules/apt/wikimedia-pubkey.asc',
         comment_old => true,
     }
