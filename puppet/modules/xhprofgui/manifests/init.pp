@@ -12,9 +12,9 @@ class xhprofgui (
 ) {
     require ::php::xhprof
 
-    git::install { 'phacility/xhprof':
+    git::install { 'longxinH/xhprof':
         directory => $dir,
-        remote    => 'https://github.com/phacility/xhprof',
+        remote    => 'https://github.com/longxinH/xhprof',
         commit    => 'HEAD',
     }
 
