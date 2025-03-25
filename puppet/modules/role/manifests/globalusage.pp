@@ -9,8 +9,12 @@ class role::globalusage {
     }
 
     mediawiki::maintenance { 'refresh globalusage table':
-        command => '/usr/local/bin/foreachwikiwithextension GlobalUsage extensions/GlobalUsage/maintenance/refreshGlobalimagelinks.php --pages existing,nonexisting',
-        cwd     => $::mediawiki::dir,
-        require => Mediawiki::Extension['GlobalUsage'],
+        command     => '/usr/local/bin/foreachwikiwithextension GlobalUsage extensions/GlobalUsage/maintenance/refreshGlobalimagelinks.php --pages existing,nonexisting',
+        cwd         => $::mediawiki::dir,
+        refreshonly => true,
+        require     => Mediawiki::Extension['GlobalUsage'],
     }
+
+    Mediawiki::Extension['GlobalUsage'] ~> Mediawiki::Maintenance['refresh globalusage table']
+    Mediawiki::Wiki<| |> ~> Mediawiki::Maintenance['refresh globalusage table']
 }
