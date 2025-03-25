@@ -52,10 +52,6 @@ class role::cirrussearch (
         ],
     }
 
-    mediawiki::settings { 'cirrustest:cirrussearch test suite':
-        values => template('elasticsearch/CirrusSearchTest.php.erb'),
-    }
-
     mediawiki::settings { 'commons:cirrussearch':
         values => template('elasticsearch/CirrusSearch-commons.php.erb'),
     }
