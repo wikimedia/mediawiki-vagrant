@@ -25,7 +25,7 @@ call_user_func( function() {
 					continue;
 				}
 				$args[0]['loggers'][$group] = array(
-					'processors' => array( 'wiki', 'psr', 'pid', 'uid', 'web' ),
+					'processors' => array( 'wiki', 'psr', 'pid', 'uid', 'web', 'context' ),
 					'handlers' => array( $group ),
 				);
 				$args[0]['handlers'][$group] = array(
@@ -40,11 +40,11 @@ call_user_func( function() {
 		'args' => array( array(
 			'loggers' => array(
 				'@default' => array(
-					'processors' => array( 'wiki', 'psr', 'pid', 'uid', 'web' ),
+					'processors' => array( 'wiki', 'psr', 'pid', 'uid', 'web', 'context' ),
 					'handlers' => array( 'default' ),
 				),
 				'runJobs' => array(
-					'processors' => array( 'wiki', 'psr', 'pid' ),
+					'processors' => array( 'wiki', 'psr', 'pid', 'context' ),
 					'handlers' => array( 'default' ),
 				),
 				'profileoutput' => array(
@@ -67,6 +67,9 @@ call_user_func( function() {
 				),
 				'web' => array(
 					'class' => '\\Monolog\\Processor\\WebProcessor',
+				),
+				'context' => array(
+					'class' => '\\MediaWiki\\Logger\\Monolog\\ContextProcessor',
 				),
 			),
 			'handlers' => array(
