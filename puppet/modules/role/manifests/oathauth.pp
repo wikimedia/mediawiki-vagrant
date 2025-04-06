@@ -4,6 +4,7 @@
 # which allow two-factor authentication.
 #
 class role::oathauth {
+    require_package('php8.1-bcmath') # needed for WebAuthn signatures
     mediawiki::extension { 'OATHAuth':
         needs_update => true,
         composer     => true,
