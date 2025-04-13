@@ -27,6 +27,7 @@ class php::remote_debug {
         settings => {
             'xdebug.discover_client_host' => true,
             'xdebug.log'                  => '/vagrant/logs/xdebug.log',
+            'xdebug.log_level'            => 1,
             'xdebug.max_nesting_level'    => 200,
             # Is cover expected to be the default?
             # That is significantly slower, especially running tests
