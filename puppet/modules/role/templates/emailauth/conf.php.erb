@@ -1,15 +1,11 @@
+//<?php
+
 $wgHooks['EmailAuthRequireToken'][] = function (
 	$user, &$verificationRequired, &$formMessage, &$subjectMessage, &$bodyMessage
 ) {
-	if (
-        class_exists( OATHAuthUtils::class ) &&
-        OATHAuthUtils::isEnabledFor( $user )
-    ) {
-        return;
-    }
-
-	if ( $user->isAllowed( 'delete' ) ) {
+	$request = $user->getRequest();
+	if ( $request->getCookie( 'forceEmailAuth', '' ) ) {
 		$verificationRequired = true;
-		return false;
+		return true;
 	}
 };

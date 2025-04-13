@@ -1,4 +1,4 @@
 [https://www.mediawiki.org/wiki/Extension:EmailAuth EmailAuth] can request email-based verification on login.
 It can be activated with the [https://www.mediawiki.org/wiki/Extension:EmailAuth/EmailAuthRequireToken EmailAuthRequireToken] hook.
-The vagrant role enables it for admins who do not have OATH authentication enabled.
 
+The vagrant role sets up a test hook which enables it when the <code>forceEmailAuth</code> cookie is set to a truthy value.
