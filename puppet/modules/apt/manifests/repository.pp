@@ -84,7 +84,9 @@ define apt::repository (
 
     if $comment_old {
         $escuri = regsubst(regsubst($uri, '/', '\/', 'G'), '\.', '\.', 'G')
-        $binre = "deb(-src)?\s+${escuri}\s+${dist}\s+${components}"
+        $escdist = regsubst($dist, '/', '\/', 'G')
+        $esccomponents = regsubst($components, '/', '\/', 'G')
+        $binre = "deb(-src)?\s+${escuri}\s+${escdist}\s+${esccomponents}"
 
         # comment out the old entries in /etc/apt/sources.list
         exec { "apt-${name}-sources":
