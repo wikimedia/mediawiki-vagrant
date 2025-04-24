@@ -31,8 +31,16 @@ class misc {
         'jq',
         'nano', # for legoktm and other vi haters
         'vim',
-        'ntp', # T189922
     )
+    # T189922
+    package { 'systemd-timesyncd':
+        ensure  => present,
+        require => Package['ntp'],
+    }
+    # B/C for the NTP package change
+    package { 'ntp':
+        ensure => absent,
+    }
 
     file { '/etc/ackrc':
         require => Package['ack-grep'],
