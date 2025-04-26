@@ -1,7 +1,9 @@
 //<?php
 
+$wgAllowHTMLEmail = true;
+
 $wgHooks['EmailAuthRequireToken'][] = function (
-	$user, &$verificationRequired, &$formMessage, &$subjectMessage, &$bodyMessage
+	$user, &$verificationRequired, &$formMessage, &$subjectMessage, &$bodyMessage, &$bodyMessageHtml
 ) {
 	$request = $user->getRequest();
 	if ( $request->getCookie( 'forceEmailAuth', '' ) ) {
