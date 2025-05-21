@@ -39,10 +39,6 @@ class crm::dash (
         ],
     }
 
-    file { '/etc/init/fundraising_dash.conf':
-        content => template('crm/fundraising_dash.conf.erb'),
-    }
-
     systemd::service { 'fundraising_dash':
       ensure  => present,
       require => Exec['dash_schema'],

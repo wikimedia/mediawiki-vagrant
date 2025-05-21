@@ -1,9 +1,0 @@
-description "fundraising-dash nodejs service"
-
-start on web
-respawn
-
-setuid www-data
-setgid www-data
-
-exec nodejs <%= scope['::crm::dash::dir'] %>/server.js -d -c <%= scope['::crm::dash::dir'] %>/settings.js

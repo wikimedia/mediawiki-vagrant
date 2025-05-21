@@ -1,0 +1,15 @@
+[Unit]
+Description=fundraising_dash nodejs service
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+WorkingDirectory=<%= scope['::crm::dash::dir'] %>
+ExecStart=/usr/bin/nodejs <%= scope['::crm::dash::dir'] %>/server.js -d -c <%= scope['::crm::dash::dir'] %>/settings.js
+Restart=always
+Environment=NODE_ENV=production
+
+[Install]
+WantedBy=multi-user.target
