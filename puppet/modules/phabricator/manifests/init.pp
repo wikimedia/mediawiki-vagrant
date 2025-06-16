@@ -39,7 +39,6 @@ class phabricator(
     $branch = undef,
     $protocol = 'http',
 ){
-    require ::arcanist
     include ::apache
     include ::apache::mod::rewrite
     include ::mysql

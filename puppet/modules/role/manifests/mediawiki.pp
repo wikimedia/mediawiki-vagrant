@@ -8,7 +8,6 @@
 class role::mediawiki(
     $hostname,
 ){
-    include ::arcanist
     include ::mediawiki
     include ::postfix
     require ::misc

@@ -5,7 +5,6 @@ classes:
   - '::puppet::agent'
 
 apache::docroot: /var/www
-arcanist::deploy_dir: "%{lookup('mwv::services_dir')}"
 
 cassandra::max_heap: "64M"
 cassandra::new_size: "10M"
