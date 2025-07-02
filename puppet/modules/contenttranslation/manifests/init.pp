@@ -98,12 +98,12 @@ class contenttranslation(
             'wgContentTranslationSiteTemplates["action"]' => $action_template,
             'wgContentTranslationSiteTemplates["api"]'    => $api_template,
             'wgContentTranslationSiteTemplates["cx"]'     => $cx_template,
-            'wgContentTranslationDatabase'                => $database,
             'wgContentTranslationEventLogging'            => $eventlogging,
             'wgContentTranslationTranslateInTarget'       => $intarget,
             'wgContentTranslationAsBetaFeature'           => $betafeature,
             'wgContentTranslationTargetNamespace'         => $namespace,
             'wgContentTranslationEnableSuggestions'       => $suggestions,
+            'wgVirtualDomainsMapping["virtual-cx"]'       => { 'db' => $database },
         }
     }
 
