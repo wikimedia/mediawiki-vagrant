@@ -12,8 +12,4 @@ class role::mleb {
     include ::role::l10nupdate
     include ::role::translate
     include ::role::uls
-
-    mediawiki::extension { 'CleanChanges':
-        settings => '$wgDefaultUserOptions["usenewrc"] = 1',
-    }
 }
