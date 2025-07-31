@@ -31,8 +31,8 @@ class role::commons(
     }
 
     mediawiki::settings { 'commons_GlobalUsage':
-        values => {
-            wgGlobalUsageDatabase => 'commonswiki',
-        }
+        values => [
+            '$wgVirtualDomainsMapping["virtual-globalusage"] => [ "db" => "commonswiki" ];',
+        ]
     }
 }
