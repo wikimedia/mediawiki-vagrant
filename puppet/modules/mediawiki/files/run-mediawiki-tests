@@ -1,4 +1,4 @@
 #!/bin/bash
 . /etc/profile.d/set_MW_INSTALL_PATH.sh
 cd "$MW_INSTALL_PATH"
-php tests/phpunit/phpunit.php --testdox "$@"
+vendor/bin/phpunit --testdox "$@"
