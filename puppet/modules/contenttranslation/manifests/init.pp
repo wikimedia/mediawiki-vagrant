@@ -98,7 +98,6 @@ class contenttranslation(
             'wgContentTranslationSiteTemplates["action"]' => $action_template,
             'wgContentTranslationSiteTemplates["api"]'    => $api_template,
             'wgContentTranslationSiteTemplates["cx"]'     => $cx_template,
-            'wgContentTranslationEventLogging'            => $eventlogging,
             'wgContentTranslationTranslateInTarget'       => $intarget,
             'wgContentTranslationAsBetaFeature'           => $betafeature,
             'wgContentTranslationTargetNamespace'         => $namespace,
