@@ -28,7 +28,6 @@ contenttranslation::eventlogging: false
 contenttranslation::betafeature: false
 contenttranslation::intarget: false
 contenttranslation::namespace: 0
-contenttranslation::suggestions: true
 contenttranslation::wikis:
   en:
     category_keyword: 'Category'

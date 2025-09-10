@@ -47,9 +47,6 @@
 # [*namespace*]
 #   Namespace to publish translations to.
 #
-# [*suggestions*]
-#   Whether or not enable suggestions.
-#
 # [*wikis*]
 #   A hash containing the settings for the different language wikis.
 #   The key for each entry is the wiki's language and name (eg 'en', 'fr', ...).
@@ -83,7 +80,6 @@ class contenttranslation(
     $betafeature,
     $intarget,
     $namespace,
-    $suggestions,
     $wikis,
 ) {
     include ::mediawiki
@@ -101,7 +97,6 @@ class contenttranslation(
             'wgContentTranslationTranslateInTarget'       => $intarget,
             'wgContentTranslationAsBetaFeature'           => $betafeature,
             'wgContentTranslationTargetNamespace'         => $namespace,
-            'wgContentTranslationEnableSuggestions'       => $suggestions,
             'wgVirtualDomainsMapping["virtual-cx"]'       => { 'db' => $database },
         }
     }
