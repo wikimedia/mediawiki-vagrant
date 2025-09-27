@@ -265,6 +265,8 @@ Vagrant.configure('2') do |config|
     lsb.version = '^11'
   end
 
+  config.vm.provision :apt_fix
+
   config.vm.provision :mediawiki_reload if mwv.reload?
 
   config.vm.provision :file_perms

@@ -114,6 +114,11 @@ module MediaWikiVagrant
       LsbCheck::Provisioner
     end
 
+    provisioner :apt_fix do
+      require 'mediawiki-vagrant/apt_fix'
+      AptFix::Provisioner
+    end
+
     provisioner :file_perms do
       require 'mediawiki-vagrant/file_perms'
       FilePerms
