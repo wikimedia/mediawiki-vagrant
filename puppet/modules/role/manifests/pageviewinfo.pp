@@ -6,8 +6,6 @@
 # Also installs a simple fake pageview service for testing.
 #
 class role::pageviewinfo {
-    include role::graph
-
     mediawiki::extension { 'PageViewInfo':
         settings => {
             wgPageViewInfoWikimediaDomain => 'en.wikipedia.org',
