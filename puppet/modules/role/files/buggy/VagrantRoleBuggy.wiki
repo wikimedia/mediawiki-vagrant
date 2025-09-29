@@ -17,17 +17,17 @@
 * [{{fullurl:{{FULLPAGENAME}}|buggy&#91;0&#93;=startup&buggy&#91;1&#93;=setTimeout&buggy&#91;2&#93;=onready&buggy&#91;3&#93;=click}} Multiple errors (startup + setTimeout + $.ready + click)]
 
 === Debug mode ===
-* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=css}} Syntax error in CSS]
-* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=less}} LESS error]
-* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=startup}} Error in module initialization code]
-* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=setTimeout}} Error in setTimeout callback]
-* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=onready}} Error in $.ready callback]
-* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=click}} Error in jQuery click handler]
-* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=ajax}} Error in jQuery AJAX success handler]
-* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=misc-cb}} Other (unwrapped) callback]
-* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=mwload}} Error in mw.loader.using callback]
-* [{{fullurl:{{FULLPAGENAME}}|debug=1&buggy=logError}} Manual error reporting]
-* [{{fullurl:{{FULLPAGENAME}}|<nowiki>debug=1&buggy&#91;0&#93;=startup&buggy&#91;1&#93;=setTimeout&buggy&#91;2&#93;=onready&buggy&#91;3&#93;=click</nowiki>}} Multiple errors (startup + setTimeout + $.ready + click)]
+* [{{fullurl:{{FULLPAGENAME}}|debug=true&buggy=css}} Syntax error in CSS]
+* [{{fullurl:{{FULLPAGENAME}}|debug=true&buggy=less}} LESS error]
+* [{{fullurl:{{FULLPAGENAME}}|debug=true&buggy=startup}} Error in module initialization code]
+* [{{fullurl:{{FULLPAGENAME}}|debug=true&buggy=setTimeout}} Error in setTimeout callback]
+* [{{fullurl:{{FULLPAGENAME}}|debug=true&buggy=onready}} Error in $.ready callback]
+* [{{fullurl:{{FULLPAGENAME}}|debug=true&buggy=click}} Error in jQuery click handler]
+* [{{fullurl:{{FULLPAGENAME}}|debug=true&buggy=ajax}} Error in jQuery AJAX success handler]
+* [{{fullurl:{{FULLPAGENAME}}|debug=true&buggy=misc-cb}} Other (unwrapped) callback]
+* [{{fullurl:{{FULLPAGENAME}}|debug=true&buggy=mwload}} Error in mw.loader.using callback]
+* [{{fullurl:{{FULLPAGENAME}}|debug=true&buggy=logError}} Manual error reporting]
+* [{{fullurl:{{FULLPAGENAME}}|<nowiki>debug=true&buggy&#91;0&#93;=startup&buggy&#91;1&#93;=setTimeout&buggy&#91;2&#93;=onready&buggy&#91;3&#93;=click</nowiki>}} Multiple errors (startup + setTimeout + $.ready + click)]
 
 === Server-side ===
 * [{{fullurl:{{FULLPAGENAME}}|buggy=php-exception}} PHP exception]
