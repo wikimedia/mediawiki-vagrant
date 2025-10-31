@@ -21,12 +21,13 @@ class mediawiki::psysh {
         source => 'puppet:///modules/mediawiki/psysh_config.php',
     }
 
+    $manual_url = 'https://psysh.org/manual/en/php_manual.sqlite'
     file { '/usr/local/share/psysh/':
         ensure => directory,
         mode   => 'a+rx',
     }
     exec { 'download PHP docs':
-        command => 'curl -sO "http://psysh.org/manual/en/php_manual.sqlite"',
+        command => "curl -sLO '${manual_url}'",
         cwd     => '/usr/local/share/psysh',
         creates => '/usr/local/share/psysh/php_manual.sqlite',
         require => [
