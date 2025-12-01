@@ -32,7 +32,7 @@ class role::centralauth(
     include ::role::antispoof
     include ::role::usermerge
 
-    require_package('php8.1-bcmath') # needed for tempuser scramble setting
+    require_package('php8.3-bcmath') # needed for tempuser scramble setting
 
     $shared_db = 'centralauth'
     $loginwiki = 'login'

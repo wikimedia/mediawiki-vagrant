@@ -3,7 +3,7 @@
 # of structured data to and from the wiki.
 class role::datatransfer {
 
-    require_package( 'php8.1-zip' )
+    require_package( 'php8.3-zip' )
 
     mediawiki::extension { 'DataTransfer':
         needs_update => true,

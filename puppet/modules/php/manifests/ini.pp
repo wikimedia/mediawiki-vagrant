@@ -39,7 +39,7 @@ define php::ini( $settings ) {
     # Puppet-managed .ini file names start with an underscore
     # so they can be distinguished from package-provided files.
     $basename = inline_template('_<%= @title.gsub(/\W/, "-").downcase %>')
-    $conffile = "/etc/php/8.1/mods-available/${basename}.ini"
+    $conffile = "/etc/php/8.3/mods-available/${basename}.ini"
 
     file { $conffile:
         content => template('php/conffile.ini.erb'),

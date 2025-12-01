@@ -13,7 +13,7 @@ class smashpig(
     include ::git
 
     # This is needed for the SmashPig Adyen payment listener
-    package { 'php8.1-soap': }
+    package { 'php8.3-soap': }
 
     git::clone { 'wikimedia/fundraising/SmashPig':
         directory => $dir,

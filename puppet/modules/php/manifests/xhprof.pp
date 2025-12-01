@@ -10,7 +10,7 @@ class php::xhprof (
     $profile_storage_dir,
 ) {
 
-    package { 'php8.1-xhprof':
+    package { 'php8.3-xhprof':
         ensure  => present,
     }
 
@@ -20,7 +20,7 @@ class php::xhprof (
             # XHProf_Runs utility class
             'xhprof.output_dir' => $profile_storage_dir,
         },
-        require  => Package['php8.1-xhprof'],
+        require  => Package['php8.3-xhprof'],
     }
 
     # Directory used, by default, to store profile runs

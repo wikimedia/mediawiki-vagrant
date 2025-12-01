@@ -2,19 +2,19 @@
 # Installs the PHP package and its dependencies
 class php::package {
     package { [
-        'php8.1-common',
-        'php8.1',
-        'php8.1-apcu',
-        'php8.1-cli',
-        'php8.1-curl',
-        'php8.1-dev',
-        'php8.1-gd',
-        'php8.1-intl',
-        'php8.1-mbstring',
-        'php8.1-mysql',
-        'php8.1-readline',
-        'php8.1-sqlite3',
-        'php8.1-xml',
+        'php8.3-common',
+        'php8.3',
+        'php8.3-apcu',
+        'php8.3-cli',
+        'php8.3-curl',
+        'php8.3-dev',
+        'php8.3-gd',
+        'php8.3-intl',
+        'php8.3-mbstring',
+        'php8.3-mysql',
+        'php8.3-readline',
+        'php8.3-sqlite3',
+        'php8.3-xml',
     ]:
         ensure  => present,
         require => [
@@ -23,10 +23,10 @@ class php::package {
         ]
     }
 
-    env::alternative { 'default_php_to_8.1':
+    env::alternative { 'default_php_to_8.3':
         alternative => 'php',
-        target      => '/usr/bin/php8.1',
+        target      => '/usr/bin/php8.3',
         priority    => 10,
-        require     => Package['php8.1'],
+        require     => Package['php8.3'],
     }
 }

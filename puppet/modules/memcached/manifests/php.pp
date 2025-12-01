@@ -6,7 +6,7 @@
 class memcached::php {
     include ::apache
 
-    package { 'php8.1-memcached':
+    package { 'php8.3-memcached':
         ensure => present,
         notify => Service['apache2'],
     }

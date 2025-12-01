@@ -14,7 +14,7 @@ class php {
     include ::php::repository
     include ::php::package
 
-    file { '/etc/php/8.1/mods-available':
+    file { '/etc/php/8.3/mods-available':
         ensure  => directory,
         owner   => 'root',
         group   => 'root',
@@ -23,7 +23,7 @@ class php {
         purge   => true,
         ignore  => '[^_]*',  # puppet-managed files start w/an underscore
         notify  => Exec['prune_php_ini_files'],
-        require => Package['php8.1'],
+        require => Package['php8.3'],
     }
 
     exec { 'prune_php_ini_files':
@@ -51,13 +51,13 @@ class php {
         settings => {
             'opcache.validate_timestamps' => 'on',
         },
-        require  => Package['php8.1-apcu']
+        require  => Package['php8.3-apcu']
     }
 
     php::ini { 'opcache_revalidate_freq':
         settings => {
             'opcache.revalidate_freq' => 0,
         },
-        require  => Package['php8.1-apcu'],
+        require  => Package['php8.3-apcu'],
     }
 }
