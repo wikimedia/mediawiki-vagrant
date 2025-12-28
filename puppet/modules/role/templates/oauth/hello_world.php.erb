@@ -127,15 +127,15 @@ switch ( isset( $_GET['action'] ) ? $_GET['action'] : '' ) {
  * @return string HTTP response
  */
 function make_curl_request( string $url, array $options = [] ) {
-    global $gUserAgent, $errorCode;
-    $options += [
+	global $gUserAgent, $errorCode;
+	$options += [
 		CURLOPT_URL => $url,
 		CURLOPT_HTTPHEADER => [],
 		CURLOPT_USERAGENT => $gUserAgent,
 		//CURLOPT_SSL_VERIFYPEER => false,
 		CURLOPT_HEADER => 0,
 		CURLOPT_RETURNTRANSFER => 1,
-    ];
+	];
 	// The IDE needs to support two simultaneous debugging sessions for this to work.
 	if ( isset( $_COOKIE['XDEBUG_SESSION'] ) ) {
 		$ip = $_SERVER['REMOTE_ADDR'];
@@ -143,17 +143,16 @@ function make_curl_request( string $url, array $options = [] ) {
 		$options[CURLOPT_HTTPHEADER][] = "X-Forwarded-For: $ip";
 	}
 	$ch = curl_init();
-    foreach ( $options as $option => $value ) {
-        curl_setopt( $ch, $option, $value );
-    }
+	foreach ( $options as $option => $value ) {
+		curl_setopt( $ch, $option, $value );
+	}
 	$data = curl_exec( $ch );
 	if ( !$data ) {
 		header( "HTTP/1.1 $errorCode Internal Server Error" );
 		echo 'Curl error: ' . htmlspecialchars( curl_error( $ch ) );
 		exit(0);
 	}
-	curl_close( $ch );
-    return $data;
+	return $data;
 }
 
 /**
