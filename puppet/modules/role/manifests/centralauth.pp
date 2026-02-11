@@ -45,6 +45,7 @@ class role::centralauth(
             wgCentralAuthDatabase        => $shared_db,
             wgCentralAuthAutoMigrate     => true,
             wgCentralAuthCreateOnView    => true,
+            wgCentralAuthCentralWiki     => 'wiki',
             wgCentralAuthLoginWiki       => "${loginwiki}wiki",
             wgCentralAuthSilentLogin     => true,
             wgCentralAuthUseOldAutoLogin => false,
