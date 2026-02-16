@@ -64,6 +64,8 @@ class role::centralauth(
             # temporary accounts
             '$wgAutoCreateTempUser["serialProvider"] = [ "type" => "centralauth", "numShards" => 8 ];',
             '$wgAutoCreateTempUser["serialMapping"] = [ "type" => "scramble" ];',
+			# REST CA tokens
+			'$wgAllowCrossOrigin = true;',
         ]
     }
 
