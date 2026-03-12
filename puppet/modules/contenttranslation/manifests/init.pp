@@ -50,10 +50,6 @@
 # [*wikis*]
 #   A hash containing the settings for the different language wikis.
 #   The key for each entry is the wiki's language and name (eg 'en', 'fr', ...).
-#   The value for each entry is settings for a ::contenttranslation::wiki:
-#     * 'category_keyword': the word for 'category'in the language of the wiki
-#     * 'high_mt_category': the name of the category to use for
-#       translations published with a high amount of machine translation.
 #
 # == Examples
 #
