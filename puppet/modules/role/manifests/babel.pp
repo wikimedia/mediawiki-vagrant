@@ -8,6 +8,7 @@ class role::babel {
     include ::role::cldr
 
     mediawiki::extension { 'Babel':
+        needs_update => true,
         require  => Mediawiki::Extension['cldr'],
     }
 }
