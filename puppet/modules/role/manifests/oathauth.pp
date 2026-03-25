@@ -8,7 +8,6 @@ class role::oathauth {
     mediawiki::extension { 'OATHAuth':
         needs_update => true,
         composer     => true,
-        settings     => template('role/oathauth/conf.php.erb'),
     }
     mediawiki::extension { 'WebAuthn':
       composer     => true,
