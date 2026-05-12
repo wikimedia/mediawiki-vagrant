@@ -11,4 +11,11 @@ class role::wikimediaevents {
             'wgWMEStatsdBaseUri' => '/beacon/statsv',
         }
     }
+
+    mediawiki::extension { 'TestKitchen':
+        settings => {
+            'wgTestKitchenInstrumentConfiguratorBaseUrl' => 'https://test-kitchen.wikimedia.org',
+            'wgTestKitchenEnableExperiments' => true,
+        }
+    }
 }
