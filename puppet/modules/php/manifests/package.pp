@@ -26,7 +26,7 @@ class php::package {
     env::alternative { 'default_php_to_8.3':
         alternative => 'php',
         target      => '/usr/bin/php8.3',
-        priority    => 10,
+        priority    => 1000,
         require     => Package['php8.3'],
     }
 }
