@@ -11,4 +11,7 @@ class apache::mod::php {
     apache::mod_conf { 'php8.1':
         ensure => absent,
     }
+    apache::mod_conf { 'php7.4':
+        ensure => absent,
+    }
 }

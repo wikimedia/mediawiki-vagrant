@@ -29,4 +29,11 @@ class php::package {
         priority    => 1000,
         require     => Package['php8.3'],
     }
+
+    package { [
+        'php8.1',
+        'php7.4',
+    ]:
+        ensure => absent,
+    }
 }

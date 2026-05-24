@@ -47,8 +47,8 @@ class phabricator(
     require_package(
         'python-pygments',
         'python-phabricator',
-        'php7.4-mailparse',
-        'php7.4-ldap'
+        'php8.3-mailparse',
+        'php8.3-ldap'
     )
 
     php::ini { 'phab_post_max_size':
