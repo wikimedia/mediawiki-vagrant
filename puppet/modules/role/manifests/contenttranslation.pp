@@ -14,24 +14,6 @@
 # in the same location and include entries for the settings you want
 # to override.
 #
-#
-# == Example local.yaml file
-#
-# The following snippet sets up ContentTranslation on 'en' and 'es' wikis.
-# English page: http://en.local.wmftest.net:8080/wiki/Special:ContentTranslation
-# Spanish page: http://es.local.wmftest.net:8080/wiki/Special:ContentTranslation
-#
-# contenttranslation::wikis:
-#   en:
-#     category_keyword: 'Category'
-#     high_mt_category: 'MT'
-#   es:
-#     category_keyword: 'Categoría'
-#     high_mt_category: 'MT'
-#
-# Note: The language wikis (keys) must also exist in the
-# role::langwikis::langwiki_list hiera configuration.
-#
 class role::contenttranslation {
   include ::role::betafeatures
   include ::role::eventlogging

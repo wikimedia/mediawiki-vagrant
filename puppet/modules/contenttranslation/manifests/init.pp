@@ -47,10 +47,6 @@
 # [*namespace*]
 #   Namespace to publish translations to.
 #
-# [*wikis*]
-#   A hash containing the settings for the different language wikis.
-#   The key for each entry is the wiki's language and name (eg 'en', 'fr', ...).
-#
 # == Examples
 #
 #   class { 'contenttranslation':
@@ -76,13 +72,10 @@ class contenttranslation(
     $betafeature,
     $intarget,
     $namespace,
-    $wikis,
 ) {
     include ::mediawiki
     include ::mysql
     include ::role::langwikis
-
-    create_resources(contenttranslation::wiki, $wikis)
 
     mediawiki::extension { 'ContentTranslation':
         settings => {
