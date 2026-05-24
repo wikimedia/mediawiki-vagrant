@@ -30,6 +30,9 @@ class role::growthexperiments {
         source => 'puppet:///modules/role/growthexperiments/Mentors.wiki',
     }
 
+    mediawiki::extension { 'CommunityConfiguration':
+    }
+
     mediawiki::import::text { 'VagrantRoleGrowthExperiments':
         content => template( 'role/growthexperiments/VagrantRoleGrowthExperiments.wiki.erb' ),
     }
