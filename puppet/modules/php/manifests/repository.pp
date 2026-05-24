@@ -8,6 +8,6 @@ class php::repository {
         uri        => 'https://packages.sury.org/php/',
         dist       => $::lsbdistcodename,
         components => 'main',
-        keyfile    => 'puppet:///modules/php/ondrej-php-pubkey.asc',
+        keyfile    => 'puppet:///modules/php/deb.sury.org-php.asc',
     }
 }

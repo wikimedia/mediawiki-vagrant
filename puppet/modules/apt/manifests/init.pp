@@ -75,7 +75,9 @@ class apt {
     }
 
     apt::repository { 'debian-backports':
-        uri         => 'https://mirrors.wikimedia.org/debian/',
+        # mirrors.wikimedia.org does not have bullseye-backports anymore
+        # uri         => 'https://mirrors.wikimedia.org/debian/',
+        uri         => 'https://archive.debian.org/debian/',
         dist        => "${::lsbdistcodename}-backports",
         components  => 'main contrib non-free',
         comment_old => true,

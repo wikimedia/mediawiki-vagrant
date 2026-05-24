@@ -19,6 +19,7 @@ class elasticsearch::repository (
         uri        => "https://artifacts.elastic.co/packages/oss-${es_major_version}.x/apt",
         dist       => 'stable',
         components => 'main',
+        source     => false,
         keyfile    => 'puppet:///modules/elasticsearch/elasticsearch-pubkey.asc',
     }
 }

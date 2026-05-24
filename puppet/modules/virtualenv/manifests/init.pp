@@ -8,9 +8,10 @@ class virtualenv {
         provider => pip,
     }
 
-    # https://people.debian.org/~paravoid/python-all/
+    # cleanup old workaround for T266737
     apt::repository { 'wikimedia-pyall':
-        uri        => 'https://apt.wikimedia.org/wikimedia',
+        ensure => absent,
+        uri        => 'htdtps://apt.wikimedia.org/wikimedia',
         dist       => "${::lsbdistcodename}-wikimedia",
         components => 'component/pyall',
         keyfile    => 'puppet:///modules/apt/wikimedia-pubkey.asc',
