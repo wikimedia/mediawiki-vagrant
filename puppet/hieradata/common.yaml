@@ -317,6 +317,11 @@ role::sal::env:
   CACHE_DIR: /var/cache/sal
   SLIM_MODE: development
 
+role::oauth::db_host: "%{lookup('mysql::grant_host_name')}"
+role::oauth::db_user: "%{lookup('mediawiki::multiwiki::db_user')}"
+role::oauth::db_pass: "%{lookup('mediawiki::multiwiki::db_pass')}"
+role::oauth::db_name: oauth
+role::oauth::central_wiki: "%{lookup('mediawiki::db_name')}"
 role::oauth::hello_world_dir: "%{lookup('mwv::services_dir')}/oauth-hello-world"
 role::oauth::oauthclient_dir: "%{lookup('mwv::services_dir')}/oauthclient-php"
 role::oauth::secret_key: 292ed299345a01c1c0520b60f628c01ea817a0b3372b89dbb7637a2f678d018a

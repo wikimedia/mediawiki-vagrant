@@ -5,7 +5,26 @@
 # It also installs the OAuthRateLimiter[https://www.mediawiki.org/wiki/Extension:OAuthRateLimiter]
 # companion extension.
 #
+# === Parameters
+# [*db_host*]
+#   Database host used to connect to the OAuth database
+#
+# [*db_user*]
+#   Database user used for the OAuth database
+#
+# [*db_pass*]
+#   Database password used for the OAuth database
+#
+# [*db_name*]
+#   Database password used for the OAuth database
+#
+
 class role::oauth (
+    $db_host,
+    $db_user,
+    $db_pass,
+    $db_name,
+    $central_wiki,
     $hello_world_dir,
     $oauthclient_dir,
     $secret_key,
@@ -18,6 +37,24 @@ class role::oauth (
 ) {
     include ::mediawiki
     require ::role::mediawiki
+
+    mysql::db { $db_name:
+        ensure  => present,
+        options => 'DEFAULT CHARACTER SET binary',
+    }
+    mysql::sql { "GRANT ALL PRIVILEGES ON ${db_name}.* TO ${db_user}@${db_host}":
+        unless  => "SELECT 1 FROM INFORMATION_SCHEMA.SCHEMA_PRIVILEGES WHERE TABLE_SCHEMA = '${db_name}' AND GRANTEE = \"'${db_user}'@'${db_host}'\" LIMIT 1",
+        require => Mysql::User[$db_user],
+    }
+    mysql::sql { 'Create OAuth tables':
+        sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/OAuth/schema/mysql/tables-generated.sql;",
+        unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${db_name}' AND table_name = 'oauth_registered_consumer';",
+        require => [
+            Mysql::Db[$db_name],
+            Mediawiki::Extension['OAuth']
+        ],
+        before  => Exec['update_all_databases'],
+    }
 
     mediawiki::extension { 'OAuth':
         needs_update => true,

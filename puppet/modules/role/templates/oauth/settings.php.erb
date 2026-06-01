@@ -1,7 +1,12 @@
 //<?php
 
+// Use main wiki as central domain
+$wgVirtualDomainsMapping['virtual-oauth'] = [ 'db' => 'oauth' ];
+$wgMWOAuthCentralWiki = '<%= @central_wiki %>';
+
+// do not require HTTPS since it's not set up by default in Vagrant
 $wgMWOAuthSecureTokenTransfer = false;
-$wgOAuthSecretKey = '<%= @secret_key %>';
+
 $wgGroupPermissions['sysop']['mwoauthmanageconsumer'] = true;
 $wgGroupPermissions['user']['mwoauthproposeconsumer'] = true;
 $wgGroupPermissions['user']['mwoauthupdateownconsumer'] = true;
@@ -10,6 +15,11 @@ $wgOAuthAutoApprove = [
 	[ 'grants' => [ 'mwoauth-authonly', 'mwoauth-authonlyprivate', 'basic' ] ],
 ];
 
+// Wikimedia-like JWT settings
+$wgOAuth2UsePrefixedSub = true;
+$wgOAuthUseJwtCookie = true;
+
+$wgOAuthSecretKey = '<%= @secret_key %>';
 $wgOAuth2PrivateKey = <<<EOK
 -----BEGIN RSA PRIVATE KEY-----
 MIIEpAIBAAKCAQEAraLb9UGlKxhKpfsW/DLjiFG/gHkywfcdpTDxpHgGi3q8ZZHl
