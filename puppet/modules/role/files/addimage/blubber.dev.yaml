@@ -1,4 +1,4 @@
-# syntax = docker-registry.wikimedia.org/repos/releng/blubber/buildkit:v0.21.1
+# syntax = docker-registry.wikimedia.org/repos/releng/blubber/buildkit:v1.8.0
 ################################################################
 # THIS FILE IS MANAGED BY PUPPET. MANUAL CHANGES WILL BE LOST. #
 ################################################################
