@@ -117,6 +117,12 @@ $wgDisableOutputCompression = true;
 // but iterating resource names is super cumbersome in Puppet.
 $wgCrossSiteAJAXdomains = [ '*' ];
 
+$wgVirtualDomainsMapping += [
+	'virtual-botpasswords' => [
+		'db' => 'wiki',
+	],
+];
+
 // Process Puppet and user managed settings
 require_once __DIR__ . '/settings.d/wikis/CommonSettings.php';
 
