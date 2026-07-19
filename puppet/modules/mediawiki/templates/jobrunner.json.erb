@@ -1,7 +1,7 @@
 // Configuration file for MediaWiki Jobrunner
 // This file is managed by Puppet
 {
-    "groups": <%= scope.function_ordered_json([@groups]) %>,
+    "groups": <%= scope.call_function('ordered_json', [@groups]) %>,
 
     "redis": {
         // Ready queue trackers

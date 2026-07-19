@@ -39,7 +39,6 @@ class git(
 
     package { 'git-review':
         ensure   => 'latest',
-        provider => 'pip',
     }
 
     exec { 'configure_git_user':

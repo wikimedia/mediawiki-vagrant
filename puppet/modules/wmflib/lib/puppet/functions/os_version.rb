@@ -1,0 +1,133 @@
+# == Function: os_version( string $version_predicate )
+#
+# Performs semantic OS version comparison.
+#
+# Takes one or more string arguments, each containing one or more predicate
+# expressions. Each expression consts of a distribution name, followed by a
+# comparison operator, followed by a release name or number. Multiple clauses
+# are OR'd together. The arguments are case-insensitive.
+#
+# The host's OS version will be compared to to the comparison target
+# using the specified operator, returning a boolean. If no operator is
+# present, the equality operator is assumed.
+#
+# === Examples
+#
+#  # True if Ubuntu Trusty or newer or Debian jessie or newer
+#  os_version('ubuntu >= trusty || debian >= jessie')
+#
+#  # True if exactly Debian jessie
+#  os_version('debian jessie')
+#
+require 'puppet/util/package'
+
+OS_VERSION_RELEASES = {
+  'Ubuntu' => {
+    'hardy'    => '8.04',
+    'intrepid' => '8.10',
+    'jaunty'   => '9.04',
+    'karmic'   => '9.10',
+    'lucid'    => '10.04',
+    'maverick' => '10.10',
+    'natty'    => '11.04',
+    'oneiric'  => '11.10',
+    'precise'  => '12.04',
+    'quantal'  => '12.10',
+    'raring'   => '13.04',
+    'saucy'    => '13.10',
+    'trusty'   => '14.04',
+    'utopic'   => '14.10',
+    'vivid'    => '15.04',
+    'wily'     => '15.10',
+    'xenial'   => '16.04',
+    'yakkety'  => '16.10',
+    'zesty'    => '17.04',
+  },
+  'Debian' => {
+    'wheezy'   => '7',
+    'jessie'   => '8',
+    'stretch'  => '9',
+    'buster'   => '10',
+    'bullseye' => '11',
+    'bookworm' => '12',
+    'trixie'   => '13',
+  },
+}.freeze
+
+# minimum supported version per OS; a warning will be emitted if a comparison
+# is made against a version lower than these
+OS_VERSION_MIN_SUPPORTED = {
+  'Debian' => '8',
+  'Ubuntu' => '14.04',
+}.freeze
+
+Puppet::Functions.create_function(:os_version) do
+  dispatch :os_version do
+    param 'String', :version_predicate
+  end
+
+  def os_version(version_predicate)
+    self_release = closure_scope.lookupvar('lsbdistrelease')
+    self_id = closure_scope.lookupvar('lsbdistid')
+
+    if self_release.nil? || self_id.nil?
+      fail('os_version(): LSB facts are not set; is lsb-release installed?')
+    end
+
+    clauses = version_predicate.split('||').map(&:strip)
+    clauses.any? do |clause|
+      unless /^(?<id>\w+) *(?<operator>[<>=]*) *(?<release>[\w\.]+)$/ =~ clause
+        fail(ArgumentError, "os_version(): invalid expression '#{clause}'")
+      end
+
+      # OS names are in caps, distributions in lowercase
+      other_id = id.capitalize
+      other_release = release.downcase
+      other_was_codename = false
+
+      # if a codename was passed, get the numeric release
+      if OS_VERSION_RELEASES[other_id] && OS_VERSION_RELEASES[other_id].key?(other_release)
+        other_release = OS_VERSION_RELEASES[other_id][other_release]
+        other_was_codename = true
+      elsif /^[\d.]+$/ !~ other_release
+        fail(ArgumentError, "os_version(): unknown #{other_id} release '#{other_release}'")
+      end
+
+      # emit a warning if the release given to compare with is not supported
+      min_version = OS_VERSION_MIN_SUPPORTED[other_id]
+      if Puppet::Util::Package.versioncmp(other_release, min_version) < 0 ||
+         (Puppet::Util::Package.versioncmp(other_release, min_version) == 0 &&
+             (operator == '<=' || operator == '<'))
+        message = "os_version(): obsolete distribution check in #{clause}"
+
+        if defined? Puppet::Pops::PuppetStack.stacktrace
+          stacktrace = Puppet::Pops::PuppetStack.stacktrace()[0]
+          file = stacktrace[0]
+          line = stacktrace[1]
+          message = "#{message} at #{file}:#{line}"
+        end
+
+        Puppet.warning(message)
+      end
+
+      # skip this clause unless it's matching our operating system
+      next unless self_id == other_id
+
+      # special-case Debian point-releases, as e.g. jessie is all of 8.x
+      if other_id == 'Debian' && other_was_codename
+        self_release = self_release.split('.')[0]
+      end
+
+      cmp = Puppet::Util::Package.versioncmp(self_release, other_release)
+      case operator
+      when '', '==' then cmp == 0
+      when '!=' then cmp != 0
+      when '>'  then cmp == 1
+      when '<'  then cmp == -1
+      when '>=' then cmp >= 0
+      when '<=' then cmp <= 0
+      else fail(ArgumentError, "os_version(): unknown comparison operator '#{operator}'")
+      end
+    end
+  end
+end

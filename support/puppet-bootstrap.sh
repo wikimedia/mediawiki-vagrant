@@ -9,6 +9,10 @@ if [ "`id -u`" != "0" ]; then
 fi
 
 /vagrant/support/package-bootstrap.sh puppet puppet
+/vagrant/support/puppet-module-bootstrap.sh puppetlabs-stdlib
+/vagrant/support/puppet-module-bootstrap.sh puppetlabs-host_core
+/vagrant/support/puppet-module-bootstrap.sh puppetlabs-cron_core
+/vagrant/support/puppet-module-bootstrap.sh puppetlabs-sshkeys_core
 # Puppet wants to run APT rules before installing packages,
 # but that means apt::* cannot depend on any package,
 # otherwise we'd get a circular dependency. So handle any

@@ -31,21 +31,21 @@ describe 'proxy_backend' do
   end
 
   it "lookup returns the role-specific value if a role is defined" do
-    @scope.function_role(['test'])
+    @scope.call_function('role', ['test'])
     expect(
       @backend.lookup('mysql::innodb_threads', @topscope, nil, nil)
     ).to eq(50)
   end
 
   it "return the host-overridden value for a role-defined variable" do
-    @scope.function_role(['test'])
+    @scope.call_function('role', ['test'])
     expect(
       @backend.lookup('admin::groups', @topscope, nil, nil)
     ).to eq(['go-spurs'])
   end
 
   it "merges values when using an array lookup" do
-    @scope.function_role(['test'])
+    @scope.call_function('role', ['test'])
     expect(@backend.lookup('admin::groups', @topscope, nil, :array)).to eq([['go-spurs'], ['FooBar']])
   end
 end

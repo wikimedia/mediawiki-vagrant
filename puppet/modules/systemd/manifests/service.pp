@@ -118,7 +118,7 @@ define systemd::service (
             provider => 'systemd',
             enable   => $enable,
         }
-        $params = merge($base_params, $service_params)
+        $params = stdlib::merge($base_params, $service_params)
         ensure_resource('service', $name, $params)
     }
 }

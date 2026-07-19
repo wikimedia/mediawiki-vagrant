@@ -94,7 +94,7 @@ class eventgate(
         }
     }
 
-    $config = merge($base_config, $extra_config)
+    $config = stdlib::merge($base_config, $extra_config)
 
 
     # eventgate-wikimedia has the WMF specific implementation of EventGate.

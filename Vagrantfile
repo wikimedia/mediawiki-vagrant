@@ -82,64 +82,28 @@ Vagrant.configure('2') do |config|
   config.ssh.forward_agent = settings[:forward_agent]
   config.ssh.forward_x11 = settings[:forward_x11]
 
-  # Default VirtualBox provider
-  config.vm.provider :virtualbox do |_vb, override|
-    override.vm.box = 'debian/bullseye64'
-    override.vm.network :private_network, ip: settings[:static_ip]
-  end
+  # Default provider
+  # Supports docker, hyperv, libvirt, parallels, qemu, virtualbox, vmware_desktop (use `--provider=...`)
+  config.vm.box = 'generic/debian12'
+  config.vm.network :private_network, ip: settings[:static_ip]
 
-  # VMWare Fusion provider. Enable with `--provider=vmware_fusion`
-  ## FIXME: T271649 - need a Debian 11 (Bullseye) base image
-  ## config.vm.provider :vmware_fusion do |_vw, override|
-  ##   override.vm.box = 'generic/debian9'
-  ##   override.vm.network :private_network, ip: settings[:static_ip]
-  ## end
+  # Note for Hyper-V provider:
+  # * You must run vagrant from an administrator shell to interact
+  #   with the Hyper-V virtual machines.
+  # * You must configure networking manually in Hyper-V Manager.
+  #   NAT and port redirection are not automatically set up for you.
 
-  # Microsoft Hyper-V provider. Enable with `--provider=hyperv`
-  # Not quite in 'just works' shape yet.
-  #
-  # You must run vagrant from an administrator shell to interact
-  # with the Hyper-V virtual machines...
-  #
-  # Note you must configure networking manually in Hyper-V Manager!
-  # NAT and port redirection are not automatically set up for you.
-  #
-  config.vm.provider :hyperv do |_hyperv, override|
-    override.vm.box = 'generic/debian11'
-    override.vm.network :private_network, ip: settings[:static_ip]
-  end
+  # LXC provider - FIXME: T271649 - need a Debian 11 (Bullseye) base image
 
-  # LXC provider. Enable with `--provider=lxc`
-  # Requires vagrant-lxc plugin and Vagrant 1.7+
-  ## FIXME: T271649 - need a Debian 11 (Bullseye) base image
-  ## config.vm.provider :lxc do |_lxc, override|
-  ##   override.vm.box = 'sagiru/buster-amd64'
-  ## end
-
-  # Parallels provider. Enable with `--provider=parallels`
-  #
-  # Requires plugins:
-  #   * Parallels provider - http://parallels.github.io/vagrant-parallels/
-  #     $ vagrant plugin install vagrant-parallels
-  #
-  # Note that port forwarding works via localhost but not via external
-  # interfaces of the host machine by default...
+  # Note for Parallels provider:
+  # * Port forwarding works via localhost but not via external
+  #   interfaces of the host machine by default...
   config.vm.provider :parallels do |_parallels, override|
-    ## FIXME: T271649 - need a Debian 11 (Bullseye) base image
-    ## if aarch64?
-    ##   override.vm.box = 'bstorm/debian-10-arm64'
-    ## else
-    override.vm.box = 'generic/debian11'
-    ## end
-    override.vm.network :private_network, ip: settings[:static_ip]
     _parallels.memory = settings[:vagrant_ram]
     _parallels.cpus = [settings[:vagrant_cores], 8].min
   end
 
-  # libvirt (KVM/QEMU) provider.  Enable with `--provider=libvirt`.
   config.vm.provider :libvirt do |libvirt, override|
-    override.vm.box = 'debian/bullseye64'
-    override.vm.network :private_network, ip: settings[:static_ip]
     # Required on Fedora 30/31 to fix private networking
     # https://bugzilla.redhat.com/show_bug.cgi?id=1697773
     libvirt.qemu_use_session = false
@@ -262,7 +226,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.provision :lsb_check do |lsb|
     lsb.vendor = 'Debian'
-    lsb.version = '^11'
+    lsb.version = '^12'
   end
 
   config.vm.provision :apt_fix
@@ -287,7 +251,7 @@ Vagrant.configure('2') do |config|
     puppet.environment = ENV['MWV_ENVIRONMENT'] || 'vagrant'
 
     puppet.options = [
-      '--modulepath', '/vagrant/puppet/modules',
+      '--modulepath', '/usr/share/puppet/modules:/vagrant/puppet/modules',
       '--hiera_config', '/vagrant/puppet/hiera.yaml',
       '--verbose',
       '--config_version', '/vagrant/puppet/extra/config-version',
@@ -297,7 +261,6 @@ Vagrant.configure('2') do |config|
       '--logdest', "/vagrant/logs/puppet/puppet.#{mwv.commit || 'unknown'}.log",
       '--write-catalog-summary',
       '--detailed-exitcodes',
-      '--ordering manifest',
     ]
 
     # Handy debugging commands for Puppet runs

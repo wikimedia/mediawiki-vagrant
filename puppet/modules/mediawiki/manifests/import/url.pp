@@ -61,7 +61,7 @@ define mediawiki::import::url(
         action => 'raw',
         templates => $expand_param,
     }
-    $query_string = make_url(merge($base_query, $query))
+    $query_string = make_url(stdlib::merge($base_query, $query))
     $safe_title = shellescape($page_title)
 
     $curl_command = "/usr/bin/curl --fail --silent '${script_path}?${query_string}'"

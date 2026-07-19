@@ -26,7 +26,7 @@ class nginx(
     $managed = true,
     $variant = 'full',
 ) {
-    validate_re($ensure, ['^present$', '^absent$'])
+    validate_ensure($ensure)
 
     if $variant !~ /^(full|extras|light$)/ {
         fail("'variant' must be 'full', 'extras', or 'light' (got: '${variant}').")
@@ -53,7 +53,6 @@ class nginx(
     service { 'nginx':
         ensure     => ensure_service($ensure),
         enable     => ($ensure == 'present'),
-        provider   => 'debian',
         hasrestart => true,
     }
 
