@@ -1,3 +1,0 @@
-[submodule "puppet/modules/nginx"]
-	path = puppet/modules/nginx
-	url = https://gerrit.wikimedia.org/r/operations/puppet/nginx
