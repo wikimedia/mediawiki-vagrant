@@ -66,6 +66,10 @@ class role::centralauth(
             '$wgAutoCreateTempUser["serialMapping"] = [ "type" => "scramble" ];',
 			# REST CA tokens
 			'$wgAllowCrossOrigin = true;',
+            # global rename + vanishing
+            '$wgCentralAuthEnableGlobalRenameRequest = true;',
+            '$wgCentralAuthAutomaticVanishPerformer = "Admin";',
+            '$wgCentralAuthAutomaticVanishWiki = "wiki";',
         ]
     }
 
