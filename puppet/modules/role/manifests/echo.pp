@@ -33,27 +33,9 @@ class role::echo(
         notify  => Mediawiki::Maintenance['backfill echo_unread_wikis'],
     }
 
-    mysql::sql { 'create echo_push_topic':
-      sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/sql/echo_push_topic.sql;",
+    mysql::sql { 'create echo_push_tables':
+      sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/sql/mysql/tables-push-generated.sql;",
       unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='${shared_tracking_db}' AND TABLE_NAME = 'echo_push_topic'",
-      require => [
-          Mysql::Db[$shared_tracking_db],
-          Mediawiki::Extension['Echo'],
-      ]
-    }
-
-    mysql::sql { 'create echo_push_provider':
-      sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/sql/echo_push_provider.sql;",
-      unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='${shared_tracking_db}' AND TABLE_NAME = 'echo_push_provider'",
-      require => [
-          Mysql::Db[$shared_tracking_db],
-          Mediawiki::Extension['Echo'],
-      ]
-    }
-
-    mysql::sql { 'create echo_push_subscription':
-      sql     => "USE ${shared_tracking_db}; SOURCE ${echo_dir}/sql/echo_push_subscription.sql;",
-      unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_SCHEMA='${shared_tracking_db}' AND TABLE_NAME = 'echo_push_subscription'",
       require => [
           Mysql::Db[$shared_tracking_db],
           Mediawiki::Extension['Echo'],
