@@ -45,7 +45,7 @@ class role::globalblocking(
     }
 
     mysql::sql { 'Create globalblocks table':
-        sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/GlobalBlocking/sql/mysql/tables-generated-globalblocks.sql;",
+        sql     => "USE ${db_name}; SOURCE ${::mediawiki::dir}/extensions/GlobalBlocking/sql/mysql/tables-generated.sql;",
         unless  => "SELECT 1 FROM INFORMATION_SCHEMA.TABLES WHERE table_schema = '${db_name}' AND table_name = 'globalblocks';",
         require => [
             Mysql::Db[$db_name],
